@@ -1,0 +1,1011 @@
+﻿
+
+
+
+<div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+
+    <md-toolbar>
+        <div class="md-toolbar-tools"> Organizations</div>
+
+
+
+    </md-toolbar>
+
+
+    <md-content>
+
+
+
+        <md-tabs md-dynamic-height md-border-bottom>
+
+            <md-tab label="Details">
+                <form name="myForm">
+                    <md-content class="md-padding">
+
+
+
+
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+
+                                <label for="Region:_"> Organization Level</label>
+                            </div>
+
+                            <div flex flex-sm="100">
+
+
+
+
+                                <select name="Installation Level" ng-model="data.lgu_level_id" id="lgu_level_id" class="form-control"
+                                        ng-disabled="status"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in lgu_level_id_options">
+                                    <option value="">[Select Organization Level]</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+
+                                <label for="Region:_">Region</label>
+                            </div>
+
+                            <div flex flex-sm="100">
+
+
+
+
+                                <select name="Region" ng-model="data.region_code" id="region_code" class="form-control"
+                                        ng-required="true"
+                                        ng-disabled="status"
+                                        ng-options="option.Id as option.Name for option in region_code_options">
+                                    <option value="">[Select Region]</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+
+                                <label for="Region:_">Province</label>
+                            </div>
+
+                            <div flex flex-sm="100">
+
+
+
+
+                                <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                        ng-disabled="data.region_code == null || status"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in prov_code_options">
+                                    <option value="">[Select Province]</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+
+
+                            <div flex flex-sm="100">
+
+                                <label for="Region:_">Municipality</label>
+                            </div>
+
+                            <div flex flex-sm="100">
+
+
+
+                                <select name="Municipality" ng-model="data.city_code" id="city_code" class="form-control"
+                                        ng-required="true"
+                                        ng-disabled="data.prov_code == null || status"
+                                        ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+
+
+                            </div>
+
+                        </div>
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row" ng-show="data.lgu_level_id ==1">
+
+                            <div flex flex-sm="100">
+
+                                <label for="Region:_">Barangay</label>
+                            </div>
+
+                            <div flex flex-sm="100">
+
+
+
+                                <select name="Barangay" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                        ng-required="data.lgu_level_id ==1"
+                                        ng-disabled="data.city_code == null || status"
+                                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                                    <option value="">[Select Barangay]</option>
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+
+                            <div flex flex-sm="100">
+
+                                <label for="Region:_">Fund Source</label>
+                            </div>
+
+                            <div flex flex-sm="100">
+
+
+
+                                <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
+                                        ng-disabled="status"
+                                        required
+                                        ng-options="option.Id as option.Name for option in fund_source_id_options">
+                                    <option value="">[Select Fund Source]</option>
+                                </select>
+
+
+
+
+
+                            </div>
+                        </div>
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+
+                            <div flex flex-sm="100">
+
+                                <label for="Region:_">Cycle</label>
+                            </div>
+
+                            <div flex flex-sm="100">
+
+                                <select name="Cycle" ng-model="data.cycle_id" id="cycle_id" class="form-control"
+                                        ng-disabled="status"
+                                        required
+                                        ng-options="option.Id as option.Name for option in cycle_id_options">
+                                    <option value="">[Select Cycle]</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+
+                            <div flex flex-sm="100">
+
+                                <label for="Region:_">KC Mode</label>
+                            </div>
+
+                            <div flex flex-sm="100">
+
+                                <select name="KC Mode" ng-model="data.enrollment_id" id="KC Mode" class="form-control"
+                                        ng-disabled="status"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in enrollment_id_options">
+                                    <option value="">[Select KC Mode]</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+
+                            <div flex flex-sm="100">
+
+                                <label for="Region:_">Name</label>
+                            </div>
+
+                            <div flex flex-sm="100">
+
+                                <input type="text" name="Name" required ng-model="data.name" class="form-control" />
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label> Type of Organization </label>
+                            </div>
+                            <div flex flex-sm="100">
+
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label> Is Operation and Maintainance? </label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <md-radio-group name="Is Operation and Maintainance" ng-required="true" ng-model="data.is_onm">
+                                    <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                                    <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                                </md-radio-group>
+
+
+                            </div>
+                        </div>
+
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label> Formal? (Registered) </label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <md-radio-group name="Registered?" ng-required="true" ng-model="data.is_formal">
+                                    <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                                    <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                                </md-radio-group>
+
+
+                            </div>
+                        </div>
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label> Is LGU Accredited?</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <md-radio-group name="Is LGU Accredited" ng-required="true" ng-model="data.is_lgu_accredited">
+                                    <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                                    <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                                </md-radio-group>
+
+
+                            </div>
+                        </div>
+
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label> Years Operating in the Area?</label>
+                            </div>
+                            <div flex flex-sm="100">
+                         <input type="number" name="Years" min="0" required class="form-control" ng-model="data.years_operating" />
+
+
+                            </div>
+                        </div>
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label> Active or Inactive Organization?</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <md-radio-group name="Is Active?" ng-required="true" ng-model="data.is_active">
+                                    <md-radio-button data-ng-value="true" class="md-primary">Active</md-radio-button>
+                                    <md-radio-button data-ng-value="false"> Inactive </md-radio-button>
+
+                                </md-radio-group>
+
+
+                            </div>
+                        </div>
+
+
+
+                    </md-content>
+                </form>
+
+
+            </md-tab>
+
+
+            <md-tab label="Advocacy">
+
+
+
+                <div flex="100" class="md-whiteframe-1dp">
+
+
+
+                    <div class="panel panel-success">
+
+                        <div class="panel-heading">
+                            <h4>Advocacy</h4>
+                            <p>Tick Box on the Corresponding Advocacy</p>
+                        </div>
+
+
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_academe" aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                Academe
+                            </div>
+                        </div>
+
+                        <md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_business " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                Business
+                            </div>
+                        </div><md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_pwd " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                Differently Abled
+                            </div>
+                        </div>
+                        <md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_farmer " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                Farmer
+                            </div>
+                        </div><md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_fisherfolks " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                Fisherfolks
+                            </div>
+                        </div><md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_government " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                Government
+                            </div>
+                        </div><md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_ip " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                IP
+                            </div>
+                        </div><md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_ngo " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                NGO
+                            </div>
+                        </div><md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_po " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                PO
+                            </div>
+                        </div><md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_religios " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                Religious
+                            </div>
+                        </div><md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_senior" aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                Senior
+                            </div>
+                        </div><md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_women " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                Women
+                            </div>
+                        </div><md-divider></md-divider>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <md-checkbox ng-model="data.is_sector_youth " aria-label="Checkbox 1">
+                                </md-checkbox>
+                            </div>
+                            <div flex>
+                                Youth
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </md-tab>
+
+
+            <md-tab label="Activities">
+
+                <div class="panel panel-success">
+
+                    <div class="panel panel-heading">
+                        <h3>Major Activities</h3>
+
+                    </div>
+
+
+                    <div class="layout-row" layout-margin flex>
+                        <div flex>
+
+                        </div>
+                        <div flex>
+                            Activity
+                        </div>
+                       
+                    </div>
+
+
+                    <div class="layout-row" layout-margin flex ng-repeat="equip in data.list_activity">
+
+                        <div flex>
+                            <a class="btn btn-danger" ng-click="removeActivity($index)"><i class="fa fa-trash"></i></a>
+                        </div>
+                        <div flex>
+                            {{equip.name}}
+                        </div>
+                        
+                    </div>
+
+                    <form name="activityForm">
+                        <div class="layout-row" layout-margin flex md-padding>
+                            <div flex>
+                                <a class="btn btn-success" ng-click="addActivity()" ng-disabled="!activityForm.$valid"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <div flex>
+
+                                <md-input-container class="md-block" flex="100">
+
+                                    <textarea placeholder="Enter Activity Details Here" name="access_details" ng-model="activity.name" md-maxlength="2000" rows="5"
+                                              cols="100"
+                                              md-select-on-focus="" flex="100"></textarea>
+
+                                </md-input-container>
+                            </div>
+                            
+                           
+
+                        </div>
+                    </form>
+
+
+                </div>
+
+  
+
+            </md-tab>
+
+            @Html.Partial("~/Views/Entry/Common/_attachment.cshtml")
+
+        </md-tabs>
+
+
+    </md-content>
+
+
+        <md-content>
+
+
+                <ul>
+                    <li ng-repeat="(key, errors) in myForm.$error track by $index">
+                        <strong>{{ key }}</strong> errors
+                        <ul>
+                            <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+
+                <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid">
+                    Save Record
+                </md-button>
+
+                <md-button class="md-warn md-raised" ng-click="cancel()">
+                    Cancel
+                </md-button>
+
+
+            </md-content>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+@section Scripts
+{
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+
+            .controller('AppCtrl', function ($scope, $mdDialog, $http, $mdToast) {
+
+
+                $http.get('/Api/lib_lgu_level/')
+                    .then(function (response) { $scope.lgu_level_id_options = response.data; });
+
+
+
+                $scope.data;
+
+
+
+
+                $http.get('/api/offline/v1/community_organization/get?id=@ViewBag.id')
+          .then(function (response) {
+
+
+              $scope.loading = true;
+
+              $scope.data = response.data;
+
+
+              $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
+              $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
+              $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
+              $scope.data.brgy_code = $scope.data.brgy_code == 0 ? "" : $scope.data.brgy_code;
+
+              $scope.data.fund_source_id = $scope.data.fund_source_id == 0 ? "" : $scope.data.fund_source_id;
+
+              $scope.data.cycle_id = $scope.data.cycle_id == 0 ? "" : $scope.data.cycle_id;
+
+              $scope.data.enrollment_id = $scope.data.enrollment_id == 0 ? "" : $scope.data.enrollment_id;
+
+              $scope.data.lgu_level_id = $scope.data.lgu_level_id == 0 ? "" : $scope.data.lgu_level_id;
+
+
+
+
+              $scope.data.list_activity = [];
+
+
+
+              if ($scope.data.list_activities != null) {
+                  $scope.data.list_activity = JSON.parse($scope.data.list_activities);
+              }
+
+
+
+              $scope.check_status = function () {
+
+                  $http.get('/api/exists/community_organization?id=@ViewBag.id')
+                      .then(function (result) {
+
+
+                          if (result.data == true) {
+                              $scope.status = true;
+                          } else {
+                              $scope.status = false;
+
+                          }
+                      });
+
+              }
+
+              $scope.check_status();
+
+
+
+              $scope.minDate = new Date("01/01/2014");
+
+
+              $scope.today = new Date();
+
+
+              $scope.dt_date_organized = $scope.data.date_organized == undefined ? null : new Date(response.data.date_organized);
+
+
+              $http.get('/api/online/lib_region')
+         .then(function (response) { $scope.region_code_options = response.data; });
+
+              $http.get('/Api/lib_fund_source/')
+      .then(function (response) { $scope.fund_source_id_options = response.data; });
+
+
+              $http.get('/api/lib_enrollment')
+                            .then(function (response) { $scope.enrollment_id_options = response.data; });
+
+
+
+
+
+              $scope.loading = false;
+
+              $scope.edit = function () {
+                  this.editMode = !this.editMode;
+              };
+
+
+              $scope.cancel = function () {
+
+                  window.location.href = "/View/Organizations";
+              }
+
+              $scope.activity = {};
+              $scope.addActivity = function () {
+
+
+
+
+                  $scope.data.list_activity.push($scope.activity);
+
+
+
+                  $scope.activity = {};
+              }
+
+              $scope.removeActivity = function (index) {
+
+                  $scope.data.list_activity.splice(index, 1);
+
+              }
+
+
+              //ATTACHMENTS
+
+
+              $http.get('/api/attachment_list?id=80')
+              .then(function (response) {
+
+                  $scope.attachment_list = response.data;
+              });
+
+
+              $scope.attached_documents = [];
+              $scope.attachment = {};
+              $scope.attachment.mov_list_id = null;
+
+              $scope.uploadAttachment = function () {
+
+
+
+                  var fileUpload = $("#files").get(0);
+                  var files = fileUpload.files;
+                  var data = new FormData();
+                  for (var i = 0; i < files.length ; i++) {
+                      data.append(files[i].name, files[i]);
+                  }
+
+
+
+
+                  $.ajax({
+                      type: "POST",
+                      url: "/Mov/UploadFilesAjax?id="
+                          + '@ViewBag.id'
+                          + "&mov_list_id=" + $scope.attachment.mov_list_id
+
+
+                         + "&region_code=" + $scope.data.region_code
+                         + "&prov_code=" + $scope.data.prov_code
+                              + "&city_code=" + $scope.data.city_code
+                              + "&brgy_code=" + $scope.data.brgy_code
+
+                         + "&fund_source_id=" + $scope.data.fund_source_id
+                              + "&cycle_id=" + $scope.data.cycle_id
+                           + "&enrollment_id=" + $scope.data.enrollment_id,
+
+
+
+                      contentType: false,
+                      processData: false,
+                      data: data,
+                      success: function (message) {
+                          var base = window.location.origin;
+
+                          message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+
+
+
+                          $scope.attached_documents.push(message);
+
+                          //    alert(JSON.stringify(message));
+
+                      },
+                      error: function (message) {
+                          alert(JSON.stringify(message.responseText));
+                      }
+                  });
+
+
+              }
+
+              $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
+                 .success(function (value) {
+
+
+                     $scope.attached_documents = value;
+
+                     angular.forEach($scope.attached_documents, function (item) {
+                         var base = window.location.origin;
+
+                         item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
+
+
+                     })
+
+                 });
+
+
+
+
+              $scope.deleteMov = function (removeitem) {
+
+
+
+                  var ask = confirm("Are you sure you want to Delete this?");
+
+
+                  if (ask == true) {
+                      $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
+                          $scope.loading = false;
+
+
+
+                          var index = $scope.attached_documents.indexOf(removeitem);
+                          $scope.attached_documents.splice(index, 1);
+
+
+                          alert("Record removed!")
+
+                      }).error(function (data) {
+
+                          alert(JSON.stringify(data));
+
+
+                          $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                          $scope.loading = false;
+                      });
+
+                  }
+
+              }
+              //END ATTACHMENTS
+
+
+              $scope.save = function () {
+                  $scope.data.list_activities = JSON.stringify($scope.data.list_activity);
+                  $scope.$broadcast('show-errors-check-validity');
+                  $scope.loading = true;
+                  //       alert(JSON.stringify($scope.data));
+
+                  //'/api/v1/grievances/save'
+
+
+                  $.post('/api/offline/v1/community_organization/save', $scope.data).success(function (data) {
+                      $scope.loading = false;
+
+
+                      $('html, body').animate({
+                          scrollTop: '0px'
+                      }, 1500);
+
+                      $mdToast.show(
+                      $mdToast.simple()
+                        .textContent('Record Saved!')
+                        .position("top right")
+                        .hideDelay(3000)
+                    );
+
+                      $scope.check_status();
+
+                  }).error(function (data) {
+
+                      alert(JSON.stringify(data));
+
+
+                      $scope.error = "An Error has occured while Saving! " + data.statusText;
+                      $scope.loading = false;
+                  });
+              };
+          });
+
+
+
+
+
+
+
+                $scope.$watch('data.region_code', function (newValue, oldValue) {
+
+
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+                        record.prov_code = '';
+                        record.city_code = '';
+                        record.brgy_code = '';
+
+
+                        record.prov_code_options = [];
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+                    else {
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_province?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.prov_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.prov_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = '';
+                        record.city_code = '';
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_city?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.city_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+                $scope.$watch('data.city_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = '';
+
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_brgy?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.brgy_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+                $scope.$watch('data.fund_source_id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.cycle_id = null;
+
+                        record.cycle_id_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_cycle?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.cycle_id_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+
+
+            })
+
+
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+}
+
+

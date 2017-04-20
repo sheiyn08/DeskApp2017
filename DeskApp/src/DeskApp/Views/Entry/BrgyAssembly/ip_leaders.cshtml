@@ -1,0 +1,100 @@
+﻿
+<div class="panel panel-success">
+
+    <div class="panel panel-heading">
+        <h3>Indigenous People Leaders</h3>
+
+       <p>IP Leaders Present during the BA</p>
+    </div>
+
+
+    <div class="layout-row" layout-margin flex>
+        <div flex>
+
+        </div>
+        <div flex>
+            IP Group
+        </div>
+        <div flex>
+            Sitio
+        </div>
+        <div flex>
+            First Name
+        </div>
+        <div flex>
+            Middle Name
+        </div>
+        <div flex>
+            Last Name
+        </div>
+        <div flex>
+            Birthdate
+        </div>
+
+    </div>
+
+
+    <div class="layout-row" layout-margin flex ng-repeat="equip in data.ip_leaders">
+
+        <div flex>
+            <a class="btn btn-danger" ng-click="removeIpGroup($index)"><i class="fa fa-trash"></i></a>
+        </div>
+        <div flex>
+            {{equip.lib_ip_group.Name}}
+        </div>
+        <div flex>
+            {{equip.sitio}}
+        </div>
+        <div flex>
+            {{equip.first_name}}
+        </div>
+        <div flex>
+            {{equip.middle_name}}
+        </div>
+
+        <div flex>
+            {{equip.last_name}}
+        </div>
+        <div flex>
+            {{equip.birth_date | date:'MM/dd/yyyy'}}
+        </div>
+    
+    </div>
+
+    <form name="othersTrainingForm">
+        <div class="layout-row" layout-margin flex md-padding>
+            <div flex>
+                <a class="btn btn-success" ng-click="addIpGroup()" ng-disabled="!othersTrainingForm.$valid"><i class="fa fa-plus"></i></a>
+            </div>
+            <div flex>
+
+                <select ng-model="groups.lib_ip_group" class="form-control"
+                        ng-options="option as option.Name for option in ip_group_id_options">
+                    <option value="">[Select IP Group]</option>
+                </select>
+
+            </div>
+            <div flex>
+                <input type="text" required name="Sitio" ng-model="groups.sitio" class="form-control" />
+            </div>
+ 
+            <div flex>
+                <input type="text" required name="Total Families" ng-model="groups.first_name" class="form-control" />
+            </div>
+            <div flex>
+                <input type="text" required name="Total Households" ng-model="groups.middle_name" class="form-control" />
+            </div>
+            <div flex>
+                <input type="text" required name="Total Households" ng-model="groups.last_name" class="form-control" />
+            </div>
+            <div flex>
+
+                <md-datepicker ng-required="true" name="Date Provided" ng-model="groups.birth_date" md-placeholder="Enter date"
+                               md-max-date="today" class="form-control"></md-datepicker>
+            </div>
+        </div>
+    </form>
+
+
+</div>
+

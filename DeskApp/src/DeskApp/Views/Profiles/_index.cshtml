@@ -1,0 +1,162 @@
+﻿<style>
+    .zui-table {
+        border: solid 1px #DDEEEE;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font: normal 13px Arial, sans-serif;
+    }
+
+        .zui-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .zui-table tbody td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+    .zui-table-highlight tbody tr:hover {
+        background-color: lightgray;
+    }
+
+    .zui-table-horizontal tbody td {
+        border-left: none;
+        border-right: none;
+    }
+</style>
+
+
+<md-content>
+
+    <md-button class="md-primary md-raised" ng-click="open_merge()">
+        Merge Mode
+    </md-button>
+
+    <div class="panel panel-body" ng-show="isMergeMode">
+        <table class="table zui-table zui-table-horizontal zui-table-highlight">
+            <tr>
+                <td>Name</td>
+            </tr>
+
+
+
+
+            <tr ng-repeat="dups in mergeList">
+                <td class="btn btn-danger" ng-click="RemoveMergeList(dups)">
+                    <a><i class="fa fa-remove"></i></a>
+                </td>
+                <td>{{dups.first_name}} {{dup.last_name}}</td>
+            </tr>
+        </table>
+    </div>
+
+</md-content>
+
+<div class="panel panel-body" ng-show="!isSearching">
+    <table class="table zui-table zui-table-horizontal zui-table-highlight">
+        <thead class="thead-inverse">
+            <tr>
+                <th></th>
+
+                <th>
+                    Region
+                </th>
+
+                <th>
+                    Province
+                </th>
+                <th>
+                    City
+                </th>
+                <th>
+                    Barangay
+                </th>
+
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Middle Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+
+                <th ng-show="isMergeMode">
+
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in Items">
+
+                <td>
+                    <a ng-href="/Entry/Profiles?id={{item.person_profile_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+
+                </td>
+
+
+                <td>
+
+                    {{item.lib_region_region_name}}
+
+                </td>
+                <td>
+
+                    {{item.lib_province_prov_name}}
+
+                </td>
+                <td>
+
+                    {{item.lib_city_city_name}}
+
+                </td>
+
+                <td>
+
+                    {{item.lib_brgy_brgy_name}}
+
+                </td>
+
+                <td>
+
+                    {{item.first_name}}
+
+                </td>
+
+
+                <td>
+
+                    {{item.middle_name}}
+
+                </td>
+
+                <td>
+
+                    {{item.last_name}}
+
+                </td>
+
+                <td ng-show="isMergeMode">
+                    <md-checkbox ng-model="item.is_merged" ng-click="AddMergeList(item)" aria-label="false">
+
+                    </md-checkbox>
+                </td>
+
+
+
+
+            </tr>
+        </tbody>
+
+    </table>
+</div>

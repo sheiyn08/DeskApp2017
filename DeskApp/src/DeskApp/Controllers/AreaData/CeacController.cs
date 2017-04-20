@@ -29,9 +29,90 @@ namespace DeskApp.Controllers
         public CeacController(ApplicationDbContext context)
         {
             db = context;
+        }
+        
+        //ACT Monthly Report: --- AS OF
+        [Route("api/export/report/ceac_conducted/as_of")]
+        public IActionResult export_actreport_asof(AngularFilterModel item)
+        {
+            DateTime? as_of = item.as_of;
+            int? selected_fund_source = item.fund_source_id;
 
+            var items = db.ceac_tracking
+                .Include(x => x.lib_city)
+                .Include(x => x.lib_lgu_level)
+                .Include(x => x.lib_training_category)
+                .Include(x => x.lib_fund_source)
+
+                .Select(x => new
+                {
+                    ceac_tracking_id = x.ceac_tracking_id,
+                    ceac_list_id = x.ceac_list_id,
+                    old_id = x.old_id,
+                    ceac_activity_id = x.ceac_activity_id,
+
+                    plan_start = x.plan_start,
+                    plan_end = x.plan_end,
+                    actual_start = x.actual_start,
+                    actual_end = x.actual_end,
+                    fund_source_id = x.fund_source_id,
+
+                    max7days = x.plan_start.HasValue ? x.plan_start.Value.AddDays(7) : (DateTime?)null,
+
+                    catch_start = x.catch_start,
+                    catch_end = x.catch_end,
+                    training_category_id = x.training_category_id,
+                    lib_training_category_name = x.lib_training_category.name,
+                    implementation_status_id = x.implementation_status_id,
+                })
+                .Where(x => x.actual_start <= as_of && x.fund_source_id == selected_fund_source)
+                .OrderBy(x => x.actual_start);
+            
+            return Ok(items);
         }
 
+        //ACT Monthly Report: --- FOR THE PERIOD OF
+        [Route("api/export/report/ceac_conducted/for_the_period_of")]
+        public IActionResult export_actreport_fortheperiodof(AngularFilterModel item)
+        {
+            DateTime? fortheperiodof_from = item.fortheperiodof_from;
+            DateTime? fortheperiodof_to = item.fortheperiodof_to;
+            int? selected_fund_source = item.fund_source_id;
+
+            var items = db.ceac_tracking
+                .Include(x => x.lib_implementation_status)
+                .Include(x => x.lib_city)
+                .Include(x => x.lib_lgu_level)
+                .Include(x => x.lib_training_category)
+                .Include(x => x.lib_fund_source)
+
+                .Select(x => new
+                {
+                    ceac_tracking_id = x.ceac_tracking_id,
+                    ceac_list_id = x.ceac_list_id,
+                    old_id = x.old_id,
+                    ceac_activity_id = x.ceac_activity_id,
+
+                    plan_start = x.plan_start,
+                    plan_end = x.plan_end,
+                    actual_start = x.actual_start,
+                    actual_end = x.actual_end,
+                    fund_source_id = x.fund_source_id,
+
+                    max7days = x.plan_start.HasValue ? x.plan_start.Value.AddDays(7) : (DateTime?)null,
+
+                    catch_start = x.catch_start,
+                    catch_end = x.catch_end,
+                    training_category_id = x.training_category_id,
+                    lib_implementation_status_name = x.lib_implementation_status.name,
+                    lib_training_category_name = x.lib_training_category.name,
+                    implementation_status_id = x.implementation_status_id,
+
+                }).Where(x => x.fund_source_id == selected_fund_source && (x.actual_start >= fortheperiodof_from && x.actual_start <= fortheperiodof_to))
+                .OrderBy(x => x.actual_start);
+
+            return Ok(items);
+        }
 
         [Route("api/export/report/ceac_tracking")]
         public IActionResult export_report(AngularFilterModel item)
@@ -43,6 +124,7 @@ namespace DeskApp.Controllers
            .Include(x => x.lib_city)
            .Include(x => x.lib_lgu_level)
             .Include(x => x.lib_training_category)
+            .Include(x => x.lib_fund_source)
 
         .Select(x =>
                new
@@ -69,6 +151,7 @@ namespace DeskApp.Controllers
                        //lib_city_city_name = x.lib_city.city_name,
                        lib_training_category_name = x.lib_training_category.name,
                    implementation_status_id = x.implementation_status_id,
+                   lib_fund_source_name = x.lib_fund_source.name,
 
                    lgu_level_id = x.lgu_level_id,
 
@@ -266,7 +349,77 @@ namespace DeskApp.Controllers
 
             return model;
         }
-        
+
+        private IQueryable<ceac_tracking> GetCEACTrackingData(DataLayer.AngularFilterModel item)
+        {
+            var model = db.ceac_tracking
+                .Include(x => x.lib_city)
+                .Include(x => x.lib_lgu_level)
+                .Include(x => x.lib_training_category)
+                .Include(x => x.lib_fund_source)
+                .Where(x => x.is_deleted != true).AsQueryable();
+
+            #region query
+
+            if (item.record_id != null)
+            {
+                model = model.Where(x => x.ceac_tracking_id == item.record_id);
+            }
+            if (item.region_code != null)
+            {
+                model = model.Where(m => m.region_code == item.region_code);
+            }
+            if (item.prov_code != null)
+            {
+                model = model.Where(m => m.prov_code == item.prov_code);
+            }
+            if (item.city_code != null)
+            {
+                model = model.Where(m => m.city_code == item.city_code);
+            }
+            if (item.brgy_code != null)
+            {
+                model = model.Where(m => m.brgy_code == item.brgy_code);
+            }
+            if (item.fund_source_id != null)
+            {
+                model = model.Where(m => m.fund_source_id == item.fund_source_id);
+            }
+            if (item.actual_start != null)
+            {
+                model = model.Where(x => x.actual_start == item.actual_start);
+            }
+            if (item.actual_end != null)
+            {
+                model = model.Where(m => m.actual_end == item.actual_end);
+            }
+            if (item.plan_start != null)
+            {
+                model = model.Where(m => m.plan_start == item.plan_start);
+            }            
+            if (item.plan_end != null)
+            {
+                model = model.Where(m => m.plan_end == item.plan_end);
+            }
+            if (item.implementation_status_id != null)
+            {
+                model = model.Where(m => m.implementation_status_id == item.implementation_status_id);
+            }
+            if (item.training_category_id != null)
+            {
+                model = model.Where(m => m.training_category_id == item.training_category_id);
+            }
+            if (item.cycle_id != null)
+            {
+                model = model.Where(m => m.cycle_id == item.cycle_id);
+            }
+
+            #endregion
+
+            return model;
+        }
+
+
         [Route("api/offline/v1/main/ceac")]
         public IActionResult getmain(Guid id)
         {
@@ -304,7 +457,9 @@ namespace DeskApp.Controllers
                                lib_region_region_name = x.lib_region.region_nick,
                                lib_enrollment_name = x.lib_enrollment.name,
                                ceac_list_id = x.ceac_list_id,
-                               push_status_id = x.push_status_id
+                               push_status_id = x.push_status_id,
+                               push_date = x.push_date,
+                               last_modified_date = x.last_modified_date
                                //status = x.implementation_status_id == null ? ""
                                //: db.lib_implementation_status.Find(x.implementation_status_id).name
                            })

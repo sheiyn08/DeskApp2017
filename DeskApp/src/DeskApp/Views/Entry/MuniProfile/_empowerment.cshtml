@@ -1,0 +1,130 @@
+﻿
+@{Layout = null; }
+
+
+<form name="empowermentForm" flex="100">
+    <md-container layout="row">
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="25" flex-sm="100">
+                <label>Name</label>
+                <input class="form-control" required ng-model="empowerment.name" name="name"/>
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Type of Organization</label>
+                <input class="form-control" required ng-model="empowerment.organization_type_id"  name="Type"/>
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Formal?</label>
+                <select name="Formal or Informal" required ng-model="empowerment.is_formal" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Formal'},{'value':false,'text':'Informal'}]" ng-selected="empowerment.is_formal" class="form-control"></select>
+
+
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>LGU-accredited?</label>
+                <select name="LGU accredited" required ng-model="empowerment.is_lgu_accredited" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Accredited'},{'value':false,'text':'Not Accredited'}]" ng-selected="empowerment.is_lgu_accredited" class="form-control"></select>
+
+
+            </div>
+
+        </div>
+    </md-container>
+
+    <md-container layout="row">
+
+
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="25" flex-sm="100">
+                <label>Advocacy</label>
+                <input class="form-control" required ng-model="empowerment.advocacy"/>
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Area of Operation</label>
+                <input class="form-control" />
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Years operation</label>
+                <input class="form-control" type="number" name="Years of Operation" required ng-model="empowerment.years_operation" />
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Years operating in municipality</label>
+                <input class="form-control" required ng-model="empowerment.years_operation_municipality"/>
+            </div>
+
+        </div>
+    </md-container>
+
+    <md-container layout="row">
+
+
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="25" flex-sm="100">
+                <label>Facility/establishments/Services</label>
+                <input class="form-control"required ng-model="empowerment.services"  name="Services"/>
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Active or inactive organization</label>
+                <select name="Active or Inactive" required ng-model="empowerment.is_active" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Active'},{'value':false,'text':'Not Active'}]" ng-selected="empowerment.is_active" class="form-control"></select>
+
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Activities or Services</label>
+                <input class="form-control" required ng-model="empowerment.activities" name="activities"/>
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Total male members from municipality</label>
+                <input class="form-control" />
+            </div>
+
+        </div>
+
+    </md-container>
+
+    <md-container layout="row">
+
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="25" flex-sm="100">
+                <label>Male IP members from municipality</label>
+                <input class="form-control" />
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Active or inactive organization</label>
+                <input class="form-control" />
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Female IP members from municipality</label>
+                <input class="form-control" />
+            </div>
+
+            <div flex="25" flex-sm="100">
+                <label>Marginalized sectors represented</label>
+                <input class="form-control" />
+            </div>
+
+        </div>
+    </md-container>
+</form>
+
+<md-content>
+    <md-button class="md-primary md-raised" ng-click="save_empowerment()" ng-disabled="!empowermentForm.$valid">
+        Add Organization
+    </md-button>
+</md-content>

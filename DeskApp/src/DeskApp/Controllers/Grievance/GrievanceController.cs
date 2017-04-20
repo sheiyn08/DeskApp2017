@@ -483,7 +483,8 @@ namespace DeskApp.Controllers
                     //lib_enrollment_name = x.lib_enrollment.name,
                     lib_grs_resolution_status_name = x.lib_grs_resolution_status.name,
                     lib_grs_category_name = x.lib_grs_category.name,
-                    push_status_id = x.push_status_id
+                    push_date = x.push_date,
+                    last_modified_date = x.last_modified_date
 
                 }).Skip(currPages * size).Take(size).ToList(),
                 

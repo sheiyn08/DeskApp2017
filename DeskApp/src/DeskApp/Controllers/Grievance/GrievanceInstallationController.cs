@@ -118,9 +118,9 @@ namespace DeskApp.Controllers
                 model = model.Where(m => m.brgy_code == item.brgy_code);
             }
 
-            if (item.push_status_id != null)
+            if (item.push_date != null)
             {
-                model = model.Where(m => m.push_status_id == item.push_status_id);
+                model = model.Where(m => m.push_date == item.push_date);
             }
             if (item.approval_id != null)
             {
@@ -181,7 +181,9 @@ namespace DeskApp.Controllers
                     lib_fund_source_name = x.lib_fund_source.name,
                     lib_lgu_level_name = x.lib_lgu_level.name,
                     lib_cycle_name = x.lib_cycle.name,
-                    push_status_id = x.push_status_id
+                    push_date = x.push_date,
+                    last_modified_date = x.last_modified_date
+
                 }).Skip(currPages * size).Take(size).ToList(),
             };
         }

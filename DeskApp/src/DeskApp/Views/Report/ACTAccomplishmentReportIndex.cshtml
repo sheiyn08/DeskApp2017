@@ -1,0 +1,862 @@
+﻿
+
+<link href="~/css/print.css" rel="stylesheet" media="print" />
+
+<body>
+
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+        <div class="panel panel-info">
+            <div class="panel panel-heading">
+                <h4>Area Coordinating Team Monthly Accomplishment Report</h4>
+            </div>
+            <div class="panel-body" style="margin:25px">
+                <div>
+                    <a class="btn btn-success" ng-click="newACTreport()">
+                        <i class="fa fa-file-text fa-lg"></i> &nbsp; Generate New Report
+                    </a>
+                </div>
+                <br /><br />
+
+                <form>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                            <input type="text" class="form-control" placeholder="Search Report..." ng-model="searchReport">
+                        </div>
+                    </div>
+                </form>
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <td>
+                                Actions
+                            </td>
+                            <td>
+                                <a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                                    Report Created
+                                    <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" ng-click="sortType = 'fish'; sortReverse = !sortReverse">
+                                    For the period of (from and to)
+                                    <span ng-show="sortType == 'fish' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'fish' && sortReverse" class="fa fa-caret-up"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" ng-click="sortType = 'tastiness'; sortReverse = !sortReverse">
+                                    As of
+                                    <span ng-show="sortType == 'tastiness' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'tastiness' && sortReverse" class="fa fa-caret-up"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="roll in sushi | orderBy:sortType:sortReverse | filter:searchReport">
+                            <td>
+                                <a ng-href="/Report/act_accomplishment_report" class="btn btn-info" title="View Report"><i class="fa fa-eye"></i></a>
+                                <a ng-click="delete(item)" class="btn btn-warning" title="Delete Report"><span data-toggle='tooltip' class='glyphicon glyphicon-trash'></span></a>
+                            </td>
+                            <td style="vertical-align:middle">{{ roll.name }}</td>
+                            <td style="vertical-align:middle">{{ roll.fish }}</td>
+                            <td style="vertical-align:middle">{{ roll.tastiness }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    @section Scripts
+{
+
+
+        <script>
+
+            $("#btnExport").click(function (e) {
+                window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
+                e.preventDefault();
+            });
+
+            angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']).controller('AppCtrl', function ($scope, $http, $mdDialog, $mdMedia) {
+                $scope.data = {};
+
+                $scope.newACTreport = function () {
+                    window.location.href = "/Report/ACTAccomplishmentReport";
+                };
+
+
+                $scope.sortType = 'name'; // set the default sort type
+                $scope.sortReverse = false;  // set the default sort order
+                $scope.searchReport = '';     // set the default search/filter term
+
+                // create the list of sushi rolls 
+                $scope.sushi = [
+                  { name: 'Sample data 1', fish: 'aaa', tastiness: 1 },
+                  { name: 'Sample data 2', fish: 'bbb', tastiness: 2 },
+                  { name: 'Sample data 3', fish: 'ccc', tastiness: 3 },
+                  { name: 'Sample data 4', fish: 'ddd', tastiness: 4 }
+                ];
+
+
+
+
+
+
+                $scope.report_list = [
+
+                    {
+                        "id": "1",
+                        "url": "/api/export/barangay_assembly/summary",
+                        "name": "BA Breakdown of Attendees",
+                        "placeholder": "print_ba_breakdown_of_attendees",
+                        "export_btn": "export_ba_breakdown_of_attendees",
+                    },
+                    {
+                        "id": "2",
+                        "url": "/api/export/barangay_assembly/summary",
+                        "name": "BA Household and Family Representation",
+                        "placeholder": "print_ba_hhs_fam_representation",
+                        "export_btn": "export_ba_hhs_fam_representation",
+                    },
+                    {
+                        "id": "3",
+                        "url": "/api/export/community_training/list",
+                        "name": "Training Participants",
+                        "placeholder": "print_training_participants",
+                        "export_btn": "export_training_participants",
+                    },
+
+                           {
+                               "id": "4",
+                               "url": "/api/export/community_training/list",
+                               "name": "Training Provided to Barangays",
+                               "placeholder": "print_training_barangay",
+                               "export_btn": "export_training_barangay",
+                           },
+
+                                         {
+                                             "id": "5",
+                                             "url": "/api/export/person_profile/volunteer/barangay/list",
+                                             "name": "Summary of Male and Female CVs",
+                                             "placeholder": "print_male_female_cvs",
+                                             "export_btn": "export_male_female_cvs",
+                                         },
+                                              {
+                                                  "id": "6",
+                                                  "url": "/api/export/person_profile/list",
+                                                  "name": "List of Community Volunteers",
+                                                  "placeholder": "print_community_volunteers",
+                                                  "export_btn": "export_community_volunteers",
+                                              },
+      {
+          "id": "7",
+          "url": "/api/offline/v1/trainings/pra/export/list",
+          "name": "Proposed and Prioritized Sub-Projects",
+          "placeholder": "print_mibf_projects",
+          "export_btn": "export_mibf_projects",
+      },
+             {
+                 "id": "8",
+                 "url": "/api/offline/v1/trainings/pra/export/list",
+                 "name": "Status of Filed Grievances",
+                 "placeholder": "print_grs_repost",
+                 "export_btn": "export_grs_report",
+             },
+
+
+                     {
+                         "id": "9",
+                         "url": "/api/offline/v1/trainings/pra/export/list",
+                         "name": "Status of Grievance Installation at the Barangay",
+                         "placeholder": "print_grs_repost",
+                         "export_btn": "export_grs_report",
+                     },
+
+
+                     {
+                         "id": "10",
+                         "url": "/api/offline/v1/trainings/pra/export/list",
+                         "name": "Environmental and Social Safeguard Information",
+                         "placeholder": "print_safe_repost",
+                         "export_btn": "export_safe_report",
+                     },
+
+                ]
+
+                $scope.selected_report = {};
+
+                $scope.list = [];
+
+
+                $scope.selected_region = {};
+                $scope.selected_province = {};
+                $scope.selected_city = {};
+                $scope.selected_brgy = {};
+                $scope.selected_fund = {};
+                $scope.selected_cycle = {};
+                $scope.selected_enrollment = {};
+
+
+                $scope.data.region_code = '';
+                $scope.data.prov_code = '';
+                $scope.data.city_code = '';
+                $scope.data.brgy_code = '';
+                $scope.data.fund_source_id = '';
+                $scope.data.cycle_id = '';
+                $scope.data.enrollment_id = '';
+                $scope.data.is_male = '';
+                $scope.data.is_ip = '';
+                $scope.data.ip_group_id = '';
+                $scope.data.occupation_id = '';
+                $scope.data.is_lguofficial = '';
+                $scope.data.lgu_position_id = '';
+                $scope.data.education_attainment_id = '';
+                $scope.data.civil_status_id = '';
+                $scope.data.pageSize = '';
+                $scope.data.currPage = '';
+                $scope.data.push_status_id = '';
+                $scope.data.approval_id = '';
+                $scope.data.is_volunteer = '';
+                $scope.data.volunteer_committee_position_id = '';
+                $scope.data.volunteer_committee_id = '';
+                $scope.data.is_worker = '';
+                $scope.data.is_trained = '';
+                $scope.data.training_category_id = '';
+                $scope.data.community_training_id = '';
+                $scope.data.grs_intake_level_id = '';
+                $scope.data.grs_form_id = '';
+                $scope.data.grs_filling_mode_id = '';
+                $scope.data.grs_complainant_position_id = '';
+                $scope.data.grs_resolution_status_id = '';
+                $scope.data.grs_feedback_id = '';
+                $scope.data.grs_category_id = '';
+                $scope.data.grs_complaint_subject_id = '';
+                $scope.data.grs_nature_id = '';
+                $scope.data.spi_nature_work_id = '';
+
+                $scope.grs_resolution_status_id;
+
+                $scope.printContent = function () {
+                    //var restorepage = $('body').html();
+                    //var printcontent = $('#printDiv').clone();
+                    //$('body').empty().html(printcontent);
+                    //window.print();
+                    //$('body').html(restorepage);
+
+                    Popup($('#' + $scope.selected_report.id).html());
+                }
+
+
+                //function PrintElem(elem) {
+                //    Popup($(elem).html());
+                //}
+
+                function Popup(data) {
+                    var mywindow = window.open('', 'new div', 'height=400,width=600');
+                    mywindow.document.write('<html><head><title>my div</title>');
+                    mywindow.document.write('<link href="/content/lte/bootstrap/css/bootstrap.css" media="all"  type="text/css"  rel="stylesheet" />');
+
+
+                    mywindow.document.write('<link href="/css/print.css" type="text/css" rel="stylesheet" media="print"  />');
+
+                    mywindow.document.write('</head><body >');
+                    mywindow.document.write(data);
+                    mywindow.document.write('</body></html>');
+                    mywindow.print();
+                    mywindow.close();
+                    return true;
+                }
+
+
+                $http.get('/api/online/lib_region')
+            .then(function (response) { $scope.region_code_options = response.data; });
+
+                $http.get('/Api/lib_fund_source/')
+            .then(function (response) { $scope.fund_source_id_options = response.data; });
+
+                $http.get('/api/all_lib_enrollment')
+            .then(function (response) { $scope.enrollment_id_options = response.data; });
+
+
+                $http.get('/Api/lib_lgu_level/')
+                .then(function (response) { $scope.lgu_level_id_options = response.data; });
+
+
+                $http.get('/Api/lib_training_category?lgu_level_id=' + $scope.lgu_level_id)
+            .then(function (response) { $scope.training_category_id_options = response.data; });
+
+
+
+
+                $scope.$watch('selected_region.Id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+                        record.selected_province.Id = null;
+                        record.selected_city.Id = null;
+                        record.selected_brgy.Id = null;
+
+                        record.prov_code_options = [];
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+                    else {
+
+
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_province?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.prov_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('selected_province.Id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.selected_brgy.Id = null;
+                        record.selected_city.Id = null;
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_city?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.city_code_options = data;
+
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('selected_city.Id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.selected_brgy.Id = null;
+
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_brgy?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.brgy_code_options = data;
+
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+
+
+
+
+
+
+                $scope.$watch('selected_fund.Id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.selected_cycle.Id = null;
+
+                        record.cycle_id_options = [];
+                    }
+
+                    else {
+
+                        if (newValue != "") {
+                            $http({
+                                method: 'GET',
+                                url: '/api/lib_cycle?id=' + $scope.selected_fund.Id,
+
+                            }).success(function (data, status, headers, config) {
+
+                                $scope.cycle_id_options = data;
+                            }).error(function (data, status, headers, config) {
+
+                                $scope.message = 'Unexpected Error';
+                            });
+                        }
+                        else {
+                            record.cycle_id = null;
+
+                            record.cycle_id_options = [];
+                        }
+                    }
+
+                });
+
+
+
+
+                $scope.search = function () {
+
+
+                    $scope.data.region_code = $scope.selected_region.Id;
+                    $scope.data.prov_code = $scope.selected_province.Id;
+                    $scope.data.city_code = $scope.selected_city.Id;
+                    $scope.data.brgy_code = $scope.selected_brgy.Id;
+
+
+                    $scope.data.fund_source_id = $scope.selected_fund.Id;
+                    $scope.data.cycle_id = $scope.selected_cycle.Id;
+                    $scope.data.enrollment_id = $scope.selected_enrollment.Id;
+
+                    if ($scope.selected_report.id == 1 || $scope.selected_report.id == 2) {
+
+                        $.post('/api/export/barangay_assembly/summary', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+
+
+                            $scope.list = value;
+
+
+
+
+
+                            angular.forEach($scope.list,
+                                function (todo) {
+
+                                    todo.first_ba_perc_male = (100 * todo.first_ba_male / (todo.first_ba_male + todo.first_ba_female)).toFixed(2);
+                                    todo.first_ba_perc_female = (100 * todo.first_ba_female / (todo.first_ba_male + todo.first_ba_female)).toFixed(2);
+
+                                    todo.second_ba_perc_male = (100 * todo.second_ba_male / (todo.second_ba_male + todo.second_ba_female)).toFixed(2);
+                                    todo.second_ba_perc_female = (100 * todo.second_ba_female / (todo.second_ba_male + todo.second_ba_female)).toFixed(2);
+
+                                    todo.third_ba_perc_male = (100 * todo.third_ba_male / (todo.third_ba_male + todo.third_ba_female)).toFixed(2);
+                                    todo.third_ba_perc_female = (100 * todo.third_ba_female / (todo.third_ba_male + todo.third_ba_female)).toFixed(2);
+
+                                    todo.fourth_ba_perc_male = (100 * todo.fourth_ba_male / (todo.fourth_ba_male + todo.fourth_ba_female)).toFixed(2);
+                                    todo.fourth_ba_perc_female = (100 * todo.fourth_ba_female / (todo.fourth_ba_male + todo.fourth_ba_female)).toFixed(2);
+
+                                    todo.fifth_ba_perc_male = (100 * todo.fifth_ba_male / (todo.fifth_ba_male + todo.fifth_ba_female)).toFixed(2);
+                                    todo.fifth_ba_perc_female = (100 * todo.fifth_ba_female / (todo.fifth_ba_male + todo.fifth_ba_female)).toFixed(2);
+
+
+
+
+
+                                    todo.first_ba_ip_perc_male = (100 * todo.first_ba_ip_male / (todo.first_ba_ip_male + todo.first_ba_ip_female)).toFixed(2);
+                                    todo.first_ba_ip_perc_female = (100 * todo.first_ba_ip_female / (todo.first_ba_ip_male + todo.first_ba_ip_female)).toFixed(2);
+
+                                    todo.second_ba_ip_perc_male = (100 * todo.second_ba_ip_male / (todo.second_ba_ip_male + todo.second_ba_ip_female)).toFixed(2);
+                                    todo.second_ba_ip_perc_female = (100 * todo.second_ba_ip_female / (todo.second_ba_ip_male + todo.second_ba_ip_female)).toFixed(2);
+
+                                    todo.third_ba_ip_perc_male = (100 * todo.third_ba_ip_male / (todo.third_ba_ip_male + todo.third_ba_ip_female)).toFixed(2);
+                                    todo.third_ba_ip_perc_female = (100 * todo.third_ba_ip_female / (todo.third_ba_ip_male + todo.third_ba_ip_female)).toFixed(2);
+
+                                    todo.fourth_ba_ip_perc_male = (100 * todo.fourth_ba_ip_male / (todo.fourth_ba_ip_male + todo.fourth_ba_ip_female)).toFixed(2);
+                                    todo.fourth_ba_ip_perc_female = (100 * todo.fourth_ba_ip_female / (todo.fourth_ba_ip_male + todo.fourth_ba_ip_female)).toFixed(2);
+
+                                    todo.fifth_ba_ip_perc_male = (100 * todo.fifth_ba_ip_male / (todo.fifth_ba_ip_male + todo.fifth_ba_ip_female)).toFixed(2);
+                                    todo.fifth_ba_ip_perc_female = (100 * todo.fifth_ba_ip_female / (todo.fifth_ba_ip_male + todo.fifth_ba_ip_female)).toFixed(2);
+
+
+                                    todo.first_ba_hh_perc = (100 * todo.first_ba_hh_atn / (todo.first_ba_hh_total)).toFixed(2);
+                                    todo.second_ba_hh_perc = (100 * todo.second_ba_hh_atn / (todo.second_ba_hh_total)).toFixed(2);
+                                    todo.third_ba_hh_perc = (100 * todo.third_ba_hh_atn / (todo.third_ba_hh_total)).toFixed(2);
+                                    todo.fourth_ba_hh_perc = (100 * todo.fourth_ba_hh_atn / (todo.fourth_ba_hh_total)).toFixed(2);
+                                    todo.fifth_ba_hh_perc = (100 * todo.fifth_ba_hh_atn / (todo.fifth_ba_hh_total)).toFixed(2);
+
+
+
+
+                                    todo.first_ba_ip_hh_perc = (100 * todo.first_ba_ip_hh_atn / (todo.first_ba_ip_hh_total)).toFixed(2);
+                                    todo.second_ba_ip_hh_perc = (100 * todo.second_ba_ip_hh_atn / (todo.second_ba_ip_hh_total)).toFixed(2);
+                                    todo.third_ba_ip_hh_perc = (100 * todo.third_ba_ip_hh_atn / (todo.third_ba_ip_hh_total)).toFixed(2);
+                                    todo.fourth_ba_ip_hh_perc = (100 * todo.fourth_ba_ip_hh_atn / (todo.fourth_ba_ip_hh_total)).toFixed(2);
+                                    todo.fifth_ba_ip_hh_perc = (100 * todo.fifth_ba_ip_hh_atn / (todo.fifth_ba_ip_hh_total)).toFixed(2);
+
+
+                                    todo.first_ba_pp_hh_perc = (100 * todo.first_ba_pp_hh_atn / (todo.first_ba_pp_hh_total)).toFixed(2);
+                                    todo.second_ba_pp_hh_perc = (100 * todo.second_ba_pp_hh_atn / (todo.second_ba_pp_hh_total)).toFixed(2);
+                                    todo.third_ba_pp_hh_perc = (100 * todo.third_ba_pp_hh_atn / (todo.third_ba_pp_hh_total)).toFixed(2);
+                                    todo.fourth_ba_pp_hh_perc = (100 * todo.fourth_ba_pp_hh_atn / (todo.fourth_ba_pp_hh_total)).toFixed(2);
+                                    todo.fifth_ba_pp_hh_perc = (100 * todo.fifth_ba_pp_hh_atn / (todo.fifth_ba_pp_hh_total)).toFixed(2);
+                                });
+
+
+
+
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+                    }
+
+                    if ($scope.selected_report.id ==3) {
+
+                        $scope.data.lgu_level_id = 2;
+                        $.post('/api/export/community_training/list', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+
+                            $scope.training_report = value;
+
+                            angular.forEach($scope.training_report,
+                                function (todo) {
+
+                                    todo.male_volunteer_participants_perc = (100 * todo.male_volunteer_participants / (todo.male_non_volunteer_participants + todo.male_volunteer_participants)).toFixed(2);
+                                    todo.female_volunteer_participants_perc = (100 * todo.female_volunteer_participants / (todo.female_non_volunteer_participants + todo.female_volunteer_participants)).toFixed(2);
+
+                                });
+
+                            $scope.isSearching = false;
+                            $scope.data.lgu_level_id = null;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+                    }
+
+
+                    if ($scope.selected_report.id == 4) {
+                        $scope.data.lgu_level_id = 1;
+                        $.post('/api/export/community_training/list', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+                            $scope.training_report = value;
+
+                            angular.forEach($scope.training_report,
+                                function (todo) {
+
+                                    todo.male_volunteer_participants_perc = (100 * todo.male_volunteer_participants / (todo.male_non_volunteer_participants + todo.male_volunteer_participants)).toFixed(2);
+                                    todo.female_volunteer_participants_perc = (100 * todo.female_volunteer_participants / (todo.female_non_volunteer_participants + todo.female_volunteer_participants)).toFixed(2);
+
+                                });
+
+                            $scope.isSearching = false;
+                            $scope.data.lgu_level_id = null;
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+                    }
+
+                    if ($scope.selected_report.id == 5) {
+                        $.post('/api/export/person_profile/volunteer/barangay/list', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+
+
+                            $scope.volunteer_report = value;
+
+
+
+
+                            angular.forEach($scope.volunteer_report,
+                                function (todo) {
+
+                                    todo.male_volunteer_perc = (100 * todo.male / (todo.male + todo.female)).toFixed(2);
+                                    todo.female_volunteer_perc = (100 * todo.female / (todo.male + todo.female)).toFixed(2);
+
+                                });
+
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+
+                        $.post('/api/export/person_profile/volunteer/commitee/list', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+
+
+                            $scope.volunteer_report_b = value;
+
+
+
+
+                            angular.forEach($scope.volunteer_report_b,
+                                function (todo) {
+
+                                    todo.male_chair_perc = (100 * todo.male_chair / (todo.male_chair + todo.female_chair)).toFixed(2);
+
+                                    todo.female_chair_perc = (100 * todo.female_chair / (todo.male_chair + todo.female_chair)).toFixed(2);
+
+                                    todo.male_member_perc = (100 * todo.male_member / (todo.male_member + todo.female_member)).toFixed(2);
+
+                                    todo.female_member_perc = (100 * todo.female_member / (todo.male_member + todo.female_member)).toFixed(2);
+
+                                });
+
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+                    }
+
+                    if ($scope.selected_report.id == 6) {
+
+
+
+                        $.post('/api/export/person_profile/simple/list', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+
+
+                            $scope.volunteer_list = value;
+
+
+
+
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+
+                        var indexedTeams = [];
+
+                        $scope.playersToFilter = function () {
+                            indexedTeams = [];
+                            return $scope.volunteer_list;
+                        }
+
+                        $scope.filterTeams = function (player) {
+                            var teamIsNew = indexedTeams.indexOf(player.person_profile_id) == -1;
+                            if (teamIsNew) {
+                                indexedTeams.push(player.person_profile_id);
+                            }
+                            return teamIsNew;
+                        }
+                    }
+
+
+                    //api / offline / v1 / trainings / pra
+                    if ($scope.selected_report.id == 7) {
+
+
+
+                        $.post('/api/offline/v1/trainings/pra/export/list', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+
+
+                            $scope.mibf_projects = value;
+
+
+
+
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+
+                        var indexedTeams = [];
+
+                        $scope.playersToFilter = function () {
+                            indexedTeams = [];
+                            return $scope.volunteer_list;
+                        }
+
+                        $scope.filterTeams = function (player) {
+                            var teamIsNew = indexedTeams.indexOf(player.person_profile_id) == -1;
+                            if (teamIsNew) {
+                                indexedTeams.push(player.person_profile_id);
+                            }
+                            return teamIsNew;
+                        }
+                    }
+
+
+                    //Grievances
+                    if ($scope.selected_report.id == 8) {
+
+
+
+                        $.post('/api/export/grievance_record/barangay_summary', $scope.data).success(function (value) {
+                            $scope.loading = false;
+                            $scope.grievance_intake_brgy = value;
+                            $scope.isSearching = false;
+
+
+
+
+                            angular.forEach($scope.grievance_intake_brgy,
+                                function (todo) {
+
+                                    todo.perc_resolved = (100 * todo.resolved / (todo.total)).toFixed(2);
+
+
+                                });
+
+
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+                        $.post('/api/export/grievance_record/nature_summary', $scope.data).success(function (value) {
+                            $scope.loading = false;
+                            $scope.grievance_intake_nature = value;
+                            $scope.isSearching = false;
+
+
+                            angular.forEach($scope.grievance_intake_nature,
+                           function (todo) {
+
+                               todo.perc_resolved = (100 * todo.resolved / (todo.total)).toFixed(2);
+
+
+                           });
+
+
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+
+                        $.post('/api/export/grievance_record/category_summary', $scope.data).success(function (value) {
+                            $scope.loading = false;
+                            $scope.grievance_intake_category = value;
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+                    }
+
+
+                    if ($scope.selected_report.id == 9) {
+
+
+
+                        $.post('/api/export/grievance_installation/list', $scope.data).success(function (value) {
+                            $scope.loading = false;
+                            $scope.grievance_installation = value;
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+
+                    }
+
+
+                    if ($scope.selected_report.id == 10) {
+
+
+
+                        $.post('/api/export/sub_project/list', $scope.data).success(function (value) {
+                            $scope.loading = false;
+                            $scope.sub_project_list = value;
+                            $scope.isSearching = false;
+
+                            alert(JSON.stringify($scope.sub_project_list));
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+
+                    }
+
+                };
+
+
+                $scope.search();
+
+
+
+
+
+            })
+
+
+
+
+
+        </script>
+    }
+
+
+
+</body> 

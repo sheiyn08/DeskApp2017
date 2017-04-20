@@ -1,0 +1,126 @@
+﻿
+
+<div class="panel panel-body">
+
+
+
+    <h3>KC Municipal Report - Community Volunteers</h3>
+    <br />
+
+    <h4>List of Community Volunteers</h4>
+
+    <br />
+    <br />
+
+    @Html.Partial("~/Views/Report/Common/_report_header.cshtml")
+
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-xs-12">A. Unique List of Community Volunteers</div>
+    </div>
+
+    @*<div ng-repeat="playerPerTeam in playersToFilter() | filter:filterTeams">
+        <b>{{playerPerTeam.person_profile_id}}</b>
+        <b>{{playerPerTeam.first_name}}</b>
+
+
+        <li ng-repeat="player in volunteer_list | filter:{person_profile_id: playerPerTeam.person_profile_id}">
+            {{player.first_name}}
+            {{player.committee}}
+            {{player.position}}
+
+
+
+
+        </li>
+    </div>*@
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    Barangay
+                </td>
+                <td align="center">
+                    Sur Name
+                </td>
+                <td align="center">
+                    First Name
+                </td>
+
+                <td align="center">
+                    Age
+                </td>
+
+                <td align="center">
+                    Gender
+                </td>
+
+                <td align="center">
+                    Committee
+         /
+                    Position
+                </td>
+            </tr>
+
+
+
+
+            <tr  ng-repeat="item in playersToFilter() | filter:filterTeams | orderBy: 'brgy_name'">
+
+
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+                <td>
+                    {{item.last_name}}
+                </td>
+
+
+                <td>
+                    {{item.first_name}}
+                </td>
+
+
+
+                <td>
+                    {{item.age}}
+                </td>
+                <td>
+                    {{item.sex}}
+                </td>
+
+                <td>
+                    <li ng-repeat="player in volunteer_list | filter:{person_profile_id: item.person_profile_id}">
+               
+                        {{player.committee}}
+                        {{player.position}}
+
+
+
+
+                    </li>
+
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+
+ 
+
+    <br />
+
+
+  
+  
+</div>

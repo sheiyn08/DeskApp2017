@@ -1,0 +1,1506 @@
+﻿
+
+
+<div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">Intake Training Record</div>
+    </md-toolbar>
+
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Details">
+
+
+                <md-content class="md-padding">
+
+                    @Html.Partial("~/Views/Entry/Trainings/_training_details.cshtml")
+                </md-content>
+
+                <md-content>
+
+                    <ul>
+                        <li ng-repeat="(key, errors) in myForm.$error track by $index">
+                            <strong>{{ key }}</strong> errors
+                            <ul>
+                                <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <md-container layout="row">
+
+
+
+
+
+
+
+                        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+                            <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || data.start_date == null || data.end_date == null">
+                                Save Record
+                            </md-button>
+
+                            <md-button class="md-warn md-raised" href="/View/Trainings">
+                                Cancel
+                            </md-button>
+
+                        </div>
+                    </md-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Participants" ng-disabled="!status">
+                <md-content class="md-padding">
+
+                    <md-content>
+
+                        @Html.Partial("~/Views/Entry/Trainings/_training_participant.cshtml")
+
+                    </md-content>
+                </md-content>
+
+
+            </md-tab>
+
+            <md-tab label="Sectors">
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/Person/_sectors.cshtml")
+                </md-content>
+
+                <md-content>
+
+                    <ul>
+                        <li ng-repeat="(key, errors) in myForm.$error track by $index">
+                            <strong>{{ key }}</strong> Details errors
+                            <ul>
+                                <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <md-container layout="row">
+
+                        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+                            <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid">
+                                Save Record
+                            </md-button>
+
+                            <md-button class="md-warn md-raised" href="/View/Trainings">
+                                Cancel
+                            </md-button>
+
+                        </div>
+                    </md-container>
+                </md-content>
+            </md-tab>
+
+
+            <md-tab label="PSA" ng-disabled="!status || data.training_category_id != 2">
+                <md-content class="md-padding">
+
+                    @Html.Partial("~/Views/Entry/Trainings/_psa_problem_solutions.cshtml")
+
+                </md-content>
+
+
+            </md-tab>
+
+            <md-tab label="CSW" ng-disabled="!status || data.training_category_id !=4">
+                <md-content class="md-padding">
+
+
+                    @Html.Partial("~/Views/Entry/Trainings/_csw.cshtml")
+
+                </md-content>
+            </md-tab>
+
+            <md-tab label="PRA" ng-disabled="!status || !can_pra()">
+                <md-content class="md-padding">
+
+
+                    @Html.Partial("~/Views/Entry/Trainings/_pra.cshtml")
+
+                </md-content>
+            </md-tab>
+            <md-tab label="PINCOs and Grievances" ng-disabled="!status">
+
+                <md-content class="md-padding">
+
+                    @Html.Partial("~/Views/Entry/Common/_pincos.cshtml")
+
+
+                </md-content>
+
+            </md-tab>
+            @Html.Partial("~/Views/Entry/Common/_attachment.cshtml")
+
+
+        </md-tabs>
+
+
+    </md-content>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+    <script src="~/scripts/directives/paging.js"></script>
+    <script src="~/scripts/directives/show-errors.js"></script>
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'pims-pager'])
+            .controller('AppCtrl',
+                function ($scope, $mdDialog, $http, $mdToast) {
+
+
+                    $scope.data;
+                    $scope.list_pra = [];
+
+                    $scope.filter = {};
+
+                    $scope.filter.region_code = '';
+                    $scope.filter.prov_code = '';
+                    $scope.filter.city_code = '';
+                    $scope.filter.brgy_code = '';
+                    $scope.filter.fund_source_id = '';
+                    $scope.filter.cycle_id = '';
+                    $scope.filter.enrollment_id = '';
+                    $scope.filter.is_male = '';
+                    $scope.filter.is_ip = '';
+                    $scope.filter.ip_group_id = '';
+                    $scope.filter.occupation_id = '';
+                    $scope.filter.is_lguofficial = '';
+                    $scope.filter.lgu_position_id = '';
+                    $scope.filter.education_attainment_id = '';
+                    $scope.filter.civil_status_id = '';
+                    $scope.filter.pageSize = '';
+                    $scope.filter.currPage = '';
+                    $scope.filter.push_status_id = '';
+                    $scope.filter.approval_id = '';
+                    $scope.filter.is_volunteer = '';
+                    $scope.filter.volunteer_committee_position_id = '';
+                    $scope.filter.volunteer_committee_id = '';
+                    $scope.filter.is_worker = '';
+                    $scope.filter.training_category_id = '';
+                    $scope.filter.community_training_id = '';
+                    $scope.filter.grs_intake_level_id = '';
+                    $scope.filter.grs_form_id = '';
+                    $scope.filter.grs_filling_mode_id = '';
+                    $scope.filter.grs_complainant_position_id = '';
+                    $scope.filter.grs_resolution_status_id = '';
+                    $scope.filter.grs_feedback_id = '';
+                    $scope.filter.grs_category_id = '';
+                    $scope.filter.grs_complaint_subject_id = '';
+                    $scope.filter.grs_nature_id = '';
+                    $scope.filter.spi_nature_work_id = '';
+
+                    $scope.filter.name = '';
+
+
+                    $scope.list_problems = [];
+                    $scope.list_problems.psa_solution_Mapping = [];
+
+                    $scope.problems = [];
+
+                    $scope.status = false;
+
+                    $scope.search = function (page) {
+
+                        //      $scope.filter.is_trained = true;
+                        $scope.filter.community_training_id = '@ViewBag.id';
+
+                        $scope.filter.pageSize = $scope.pageSize == undefined ? '' : $scope.pageSize;
+                        $scope.filter.currPage = page == undefined ? '' : page;
+
+
+
+                        $.post('/api/offline/v1/profiles/get_dto', $scope.filter)
+                            .success(function (value) {
+
+
+                                $scope.page = value.Page;
+                                $scope.pagesCount = value.TotalPages;
+                                $scope.totalCount = value.TotalCount;
+                                $scope.members = value.Items;
+                                $scope.isSearching = false;
+
+
+                                angular.forEach($scope.members,
+                                    function (todo) {
+
+
+                                        $http
+                                            .post('/Api/offline/v1/trainings/CheckParticipation?person_profile_id=' + todo.person_profile_id + "&community_training_id=" + '@ViewBag.id')
+                                            .then(function (response) {
+
+                                                if (response.data == true) {
+                                                    todo.is_participant = true;
+                                                } else {
+                                                    todo.is_participant = false;
+                                                }
+
+                                            })
+                                            .then(function () {
+                                                $scope.isSearching = false;
+                                            });
+
+
+                                    });
+
+
+                            })
+                            .error(function (data) {
+
+                                alert("get benes done");
+
+                                $scope.error = "An Error has occured! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+
+                    };
+
+
+                    $http.get('/api/offline/v1/trainings/get?id=@ViewBag.id')
+                        .then(function (response) {
+
+
+
+                            $scope.loading = true;
+
+                            $scope.data = response.data;
+
+
+
+                            $scope.can_pra = function () {
+                                if ($scope.data.training_category_id == 9) {
+                                    return true;
+
+                                }
+                                if ($scope.data.training_category_id == 11) {
+                                    return true;
+
+                                }
+                                if ($scope.data.training_category_id == 21) {
+                                    return true;
+
+                                }
+                                return false;
+
+                            }
+                            //     $scope.$watch('data.fund_source_id',
+                            //function (newValue, oldValue) {
+
+
+                            //    if (newValue != 7) {
+                            //        $scope.data.enrollment_id = 2;
+                            //    }
+
+                            //    else
+                            //    {
+                            //        $scope.data.enrollment_id = null;
+
+                            //    }
+
+
+                            //});
+
+
+                            $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
+                            $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
+                            $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
+                            $scope.data.brgy_code = $scope.data.brgy_code == 0 ? "" : $scope.data.brgy_code;
+
+
+                            $scope.data.fund_source_id = $scope.data.fund_source_id == 0 ? "" : $scope.data.fund_source_id;
+
+                            $scope.data.cycle_id = $scope.data.cycle_id == 0 ? "" : $scope.data.cycle_id;
+
+                            $scope.data.enrollment_id = $scope.data.enrollment_id == 0 ? "" : $scope.data.enrollment_id;
+
+                            $scope.data.lgu_level_id = $scope.data.lgu_level_id == 0 ? "" : $scope.data.lgu_level_id;
+
+                            $scope.data.training_category_id = $scope.data.training_category_id == 0 ? "" : $scope.data.training_category_id;
+
+
+                            $scope.search();
+
+                            $scope.check_status = function () {
+
+                                $http.get('/api/training_record_exists?id=@ViewBag.id')
+                                    .then(function (result) {
+
+
+                                        if (result.data == true) {
+                                            $scope.status = true;
+                                        } else {
+                                            $scope.status = false;
+
+                                        }
+                                    });
+
+                            }
+
+                            $scope.check_status();
+
+
+
+                            $scope.dt_start_date = response.data.start_date == undefined ? null : new Date(response.data.start_date);
+
+                            $scope.dt_end_date = response.data.end_date == undefined ? null : new Date(response.data.end_date);
+
+
+
+                            $scope.today = new Date();
+
+
+                            $scope.minYear = new Date("2010-01-01");
+
+                            $scope.maxDate = new Date($scope.dt_start_date);
+
+
+                            $scope.maxStartDate = new Date("01/01/2014");
+
+
+                            $scope.$watch('dt_start_date',
+                                function (newValue, oldValue) {
+
+
+                                    $scope.maxDate = new Date(newValue);
+
+
+                                });
+
+
+                            $scope.showAttributes = false;
+
+
+                            //PRA
+                            $http.get('/api/offline/v1/trainings/pra/get_mapped?community_training_id=' +
+                                    $scope.data.community_training_id)
+                                .then(function (response) {
+
+                                    $scope.list_pra = response.data;
+
+                                })
+
+
+                            $scope.listParticipants = function () {
+
+
+                                $scope.isSearching = true;
+
+                                $scope.filter = {};
+
+
+                                $http.get('/api/training_record_exists?id=@ViewBag.id')
+                                    .then(function (result) {
+
+
+                                        $scope.message = "";
+
+
+                                        if (result.data == true) {
+
+                                            $scope.search();
+
+                                            $scope.showParticipants = true;
+                                        } else {
+
+                                            $scope
+                                                .message =
+                                                "Record not yet saved in the database. Please save if before proceeding in adding other attributes.";
+                                            $scope.showParticipants = false;
+                                            alert($scope.message);
+                                        }
+
+
+                                        $scope.isSearching = false;
+
+                                    });
+
+                            }
+
+
+                            $scope.list_problems = [];
+
+                            $http
+                                .get('/api/offline/v1/trainings/psa/problem/get_mapped?community_training_id=@ViewBag.id')
+                                .then(function (red) {
+                                    $scope.list_problems = red.data;
+
+
+                                    angular.forEach($scope.list_problems,
+                                        function (todo) {
+
+
+                                            $http
+                                                .get('/api/offline/v1/trainings/psa/problem/get_solution?id=' + todo.psa_problem_id)
+                                                .then(function (response) {
+
+
+                                                    todo.solutions = response.data;
+
+                                                })
+                                                .then(function () {
+                                                    $scope.isSearching = false;
+                                                });
+
+
+                                        });
+
+                                })
+
+
+                            $scope.list_criterias = [];
+
+                            $http.get('/api/offline/v1/trainings/csw/get_mapped?community_training_id=@ViewBag.id')
+                                .then(function (red) {
+                                    $scope.list_criterias = red.data;
+                                })
+
+
+                            $scope.ConfirmParticipation = function (member) {
+                                var frien = member;
+
+
+                                var url = '/api/offline/v1/trainings/SaveBeneficiaryTraining?person_profile_id=' +
+                                    member.person_profile_id +
+                                    "&community_training_id=" +
+                                    $scope.data.community_training_id +
+                                    "&is_participant=" +
+                                    !member.is_participant +
+                                    "&api=false";
+
+
+                                $scope.isAddingPax = true;
+
+                                $http.post(url)
+                                    .success(function (data) {
+
+
+                                        $scope.isAddingPax = false;
+
+                                    })
+                                    .error(function (data) {
+                                        $scope.error = "An Error has occured while Saving! " + data;
+                                        $scope.isAddingPax = false;
+                                    });
+
+
+                            }
+
+
+                            $http.get('/api/lib_psa_solution_category')
+                                .then(function (response) { $scope.psa_solution_category_id_options = response.data; });
+
+                            $http.get('/api/lib_psa_problem_category')
+                                .then(function (response) { $scope.psa_problem_category_id_options = response.data; });
+
+
+                            $http.get('/api/lib_project_type')
+                                .then(function (response) { $scope.project_type_id_options = response.data; });
+
+                            $http.get('/api/online/lib_region')
+                                .then(function (response) { $scope.region_code_options = response.data; });
+
+                            $http.get('/Api/lib_fund_source/')
+                                .then(function (response) { $scope.fund_source_id_options = response.data; });
+
+                            $http.get('/api/lib_enrollment')
+                                .then(function (response) { $scope.enrollment_id_options = response.data; });
+
+                            $http.get('/Api/lib_lgu_level/')
+                                .then(function (response) { $scope.lgu_level_id_options = response.data; });
+
+
+                            $http.get('/Api/lib_training_category?lgu_level_id=' + $scope.data.lgu_level_id)
+                                .then(function (response) { $scope.training_category_id_options = response.data; });
+
+
+                            $scope.loading = false;
+
+
+                            $scope.cancel = function () {
+
+                                window.location.href = "/View/Trainings/"
+                            }
+
+
+                            $scope.prob_model = {};
+                            $scope.prob_model.rank = '';
+                            $scope.prob_model.problem = '';
+                            $scope.prob_model.psa_problem_category_id = '';
+                            $scope.prob_model.community_training_id = '@ViewBag.id';
+
+
+                            $scope.addProblem = function () {
+
+
+                                $.post('/api/offline/v1/trainings/psa/problem/save', $scope.prob_model)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+
+
+                                        $scope.list_problems.push(data.Result);
+
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Problem Added!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+
+                                        $scope.prob = {};
+                                        $scope.prob.list_criterias = [];
+                                        $scope.prob.rank = '';
+                                        $scope.prob.problem = '';
+                                        $scope.prob.psa_problem_category_id = '';
+                                        $scope.prob.community_training_id = '@ViewBag.id';
+
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            }
+
+
+                            $scope.sol = {};
+
+
+                            $scope.addSolution = function (pro, idx) {
+
+                                var obj = {
+                                    solution: pro.solution,
+                                    psa_solution_category_id: null,
+                                    psa_problem_id: pro.psa_problem_id,
+                                };
+
+
+                                $.post('/api/offline/v1/trainings/psa/solution/save', obj)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Solution Added!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+
+
+                                        $scope.list_problems[idx].solutions.push(data);
+                                        pro.solution = '';
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            }
+
+
+                            $scope.criteria_model = {};
+                            $scope.criteria_model.rate = '';
+                            $scope.criteria_model.criteria = '';
+                            $scope.criteria_model.community_training_id = '@ViewBag.id';
+
+
+                            $scope.addCriteria = function () {
+
+
+                                $.post('/api/offline/v1/trainings/csw/save', $scope.criteria_model)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Criteria Added!')
+                                            .position("bottom right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        $scope.list_criterias.push(data);
+
+                                        $scope.criteria_model = {};
+                                        $scope.criteria_model.rate = '';
+                                        $scope.criteria_model.criteria = '';
+                                        $scope.criteria_model.community_training_id = '@ViewBag.id';
+
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data.responseText));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            }
+
+                            $scope.removeCriteria = function (prob, index) {
+                                var ask = confirm("Do you want to remove this item?");
+                                if (ask == false) {
+                                    return false;
+                                }
+
+                                $.post('/api/offline/v1/trainings/csw/delete?id=' + prob.mibf_criteria_id)
+                                    .success(function (data) {
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Criteria Removed!')
+                                            .position("bottom right")
+                                            .hideDelay(3000)
+                                        );
+
+
+                                        $scope.list_criterias.splice(index, 1);
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+
+                                    });
+
+                            }
+
+                            $scope.removeProblem = function (prob, index) {
+
+                                var ask = confirm("Do you want to remove this item?");
+                                if (ask == false) {
+                                    return false;
+                                }
+
+                                $.post('/api/offline/v1/trainings/psa/problem/delete?id=' + prob.psa_problem_id)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Problem Removed!')
+                                            .position("bottom right")
+                                            .hideDelay(3000)
+                                        );
+
+
+                                        $scope.list_problems.splice(index, 1);
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+                            }
+
+                            $scope.removeSolution = function (prob, index, master) {
+
+
+
+                                var ask = confirm("Do you want to remove this item?");
+                                if (ask == false) {
+                                    return false;
+                                }
+
+                                $.post('/api/offline/v1/trainings/psa/solution/delete?id=' + prob.psa_solution_id)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+
+                                        $('html, body').animate({
+                                            scrollTop: '0px'
+                                        }, 1500);
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Solution Removed!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        master.solutions.splice(index, 1);
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+                            }
+
+
+                            //Prioritization
+
+
+                            $scope.addNewPra = function () {
+                                $scope.new_pra = !$scope.new_pra;
+                            }
+
+                            $scope.selected_pra = {};
+                            $scope.new_pra_record = {}
+
+                            $scope.editPra = function (contact) {
+                                $scope.edit_pra = true;
+                                $scope.selected_pra = angular.copy(contact);
+                            };
+
+
+                            // gets the template to ng-include for a table row / item
+                            $scope.getPraTemplate = function (contact) {
+                                if (contact
+                                    .mibf_prioritization_id ===
+                                    $scope.selected_pra.mibf_prioritization_id) return 'editPraTemplate';
+                                else return 'displayPraTemplate';
+                            };
+
+                            $scope.reset_pra = function () {
+                                $scope.new_pra = false;
+                                $scope.edit_pra = false;
+                                $scope.selected_pra = {};
+                                $scope.new_pra_record = {};
+                            };
+
+                            $scope.save_pra = function (idx) {
+
+
+                                $.post('/api/offline/v1/trainings/pra/save', $scope.selected_pra)
+                                    .success(function (data) {
+
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('PRA Updated!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+                                    })
+                                    .error(function (data) {
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+
+                                $scope.list_pra[idx] = angular.copy($scope.selected_pra);
+                                $scope.reset_pra();
+                            };
+
+
+                            $scope.new_pra_record.community_training_id = $scope.data.community_training_id;
+
+                            $scope.add_pra = function () {
+                                $scope.new_pra_record.community_training_id = $scope.data.community_training_id;
+
+
+                                $scope.new_pra_record.created_by = 0;
+                                $scope.new_pra_record.created_date = new Date();
+
+
+                                $.post('/api/offline/v1/trainings/pra/save', $scope.new_pra_record)
+                                    .success(function (data) {
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('PRA Added!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+
+                                        $scope.new_pra_record.mibf_prioritization_id = data.mibf_prioritization_id;
+
+                                        $scope.list_pra.push($scope.new_pra_record);
+                                        $scope.reset_pra();
+                                    })
+                                    .error(function (data) {
+                                        alert(JSON.stringify(data));
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+
+                            };
+
+                            $scope.remove_pra = function (id, idx) {
+
+
+                                var ask = confirm("Are you sure you want to remove this?")
+
+                                if (ask == false) {
+                                    return false;
+                                }
+
+                                $.post('/api/delete/mibf_prioritization?id=' + id)
+                                    .success(function (data) {
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('PRA Removed!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+                                        $scope.list_pra.splice(idx, 1);
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data.responseText));
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+
+                            };
+
+                            //ATTACHMENTS
+
+
+                            $http.get('/api/attachment_list?id=21')
+                            .then(function (response) {
+
+                                $scope.attachment_list = response.data;
+                            });
+
+
+                            $scope.attached_documents = [];
+                            $scope.attachment = {};
+                            $scope.attachment.mov_list_id = null;
+                                                  
+                            $scope.uploadAttachment = function () {
+
+                                if ($scope.attachment.mov_list_id == 11) {
+                                    if ($scope.attached_documents.filter(function (e) {
+                                    return e.mov_list_id == 11;
+                                    }).length > 0) {
+                                        alert("Only single attachment is allowed for Barangay Action Plan (BAP).");
+                                        $scope.attachment = {};
+                                    }
+                                    else {
+                                        $scope.successful_upload();
+                                    }
+                                }
+
+                                else if ($scope.attachment.mov_list_id == 12) {
+                                    if ($scope.attached_documents.filter(function (e) {
+                                    return e.mov_list_id == 12;
+                                    }).length > 0) {
+                                        alert("Only single attachment is allowed for Barangay Resolution/s.");
+                                        $scope.attachment = {};
+                                    }
+                                    else {
+                                        $scope.successful_upload();
+                                    }
+                                }
+
+                                else {
+                                    $scope.successful_upload();
+                                }
+                                
+                            }
+
+
+                            $scope.successful_upload = function () {
+                                
+                                var fileUpload = $("#files").get(0);
+                                var files = fileUpload.files;
+                                var data = new FormData();
+                                for (var i = 0; i < files.length ; i++) {
+                                    data.append(files[i].name, files[i]);
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Mov/UploadFilesAjax?id="
+                                        + '@ViewBag.id'
+                                        + "&mov_list_id=" + $scope.attachment.mov_list_id
+
+
+                                       + "&region_code=" + $scope.data.region_code
+                                       + "&prov_code=" + $scope.data.prov_code
+                                            + "&city_code=" + $scope.data.city_code
+                                            + "&brgy_code=" + $scope.data.brgy_code
+
+                                       + "&fund_source_id=" + $scope.data.fund_source_id
+                                            + "&cycle_id=" + $scope.data.cycle_id
+                                         + "&enrollment_id=" + $scope.data.enrollment_id,
+
+
+
+                                    contentType: false,
+                                    processData: false,
+                                    data: data,
+                                    success: function (message) {
+                                        var base = window.location.origin;
+
+                                        message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+                                        $scope.attached_documents.push(message);
+                                        $scope.attachment = {};
+                                    },
+                                    error: function (message) {
+                                        alert(JSON.stringify(message.responseText));
+                                    }
+                                });
+
+
+                            }
+
+                            $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
+                               .success(function (value) {
+
+
+                                   $scope.attached_documents = value;
+
+                                   angular.forEach($scope.attached_documents, function (item) {
+                                       var base = window.location.origin;
+
+                                       item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
+
+
+                                   })
+
+                               });
+
+
+
+
+                            $scope.deleteMov = function (removeitem) {
+
+
+
+                                var ask = confirm("Are you sure you want to Delete this?");
+
+
+                                if (ask == true) {
+                                    $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
+                                        $scope.loading = false;
+
+
+
+                                        var index = $scope.attached_documents.indexOf(removeitem);
+                                        $scope.attached_documents.splice(index, 1);
+
+
+                                        alert("Record removed!")
+
+                                    }).error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+                                }
+
+                            }
+                            //END ATTACHMENTS
+
+
+                            ///PINCOS
+
+                            $scope.addPincos = function () {
+                                $scope.add_pincos = !$scope.add_pincos;
+
+                            }
+                            $scope.filter = {};
+                            $scope.search_grs = function () {
+
+
+                                $scope.filter.table_name_id = 1;
+                                $scope.filter.activity_source_id = '@ViewBag.id';
+                                $scope.filter.pageSize = $scope.pageSize == undefined ? '' : $scope.pageSize;
+                                $scope.filter.currPage = '';
+
+                                $scope.isSearching = true;
+
+
+                                $scope.isSearching = true;
+
+                                $.post('/api/offline/v1/grievances/get_dto', $scope.filter)
+                                    .success(function (value) {
+
+
+                                        //$scope.loading = false;
+
+
+                                        //$scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                                        //$scope.TotalSync = value.TotalSync;
+                                        //$scope.page = value.Page;
+                                        //$scope.pagesCount = value.TotalPages;
+                                        //$scope.totalCount = value.TotalCount;
+                                        $scope.Items = value.Items;
+
+
+                                        $scope.isSearching = false;
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+
+                            };
+
+
+                            $scope.search_grs();
+
+
+                            $scope.$watch('dt_date_intake',
+                                function (newValue, oldValue) {
+
+
+                                    $scope.maxDate = new Date(newValue);
+
+
+                                });
+
+                            $scope.$watch('data.start_date',
+                                            function (newValue, oldValue) {
+
+
+                                                $scope.data.date_intake = $scope.data.start_date;
+
+
+
+                                            });
+
+
+                            $scope.$watch('data.is_ip',
+                                function (newValue, oldValue) {
+
+
+                                    if (newValue != true) {
+                                        $scope.data.ip_group_id = '';
+
+                                    }
+
+
+                                });
+
+
+                            $scope.$watch('data.grs_resolution_status_id',
+                                function (newValue, oldValue) {
+
+                                    if (newValue != 1) {
+
+                                        $scope.data.final_resolution = '';
+                                        $scope.data.grs_feedback_id = '';
+
+
+                                        $scope.dt_resolution_date == new Date(newValue);
+
+                                        $scope.data.resolution_date = '';
+
+
+                                    }
+                                    if (newValue == 1) {
+                                        $scope.data.resolution_date = $scope.data.end_date;
+                                        $scope.data.dt_resolution_date = new Date($scope.data.end_date);
+
+                                    }
+                                });
+
+
+                            $scope.$watch('data.grs_form_id',
+                                function (newValue, oldValue) {
+
+                                    if (newValue == 1) {
+                                        $scope.data.is_individual = true;
+                                        $scope.data.grs_sender_designation_id = 3;
+                                        $scope.data.sender_organization = "KALAHI CIDSS";
+                                        $scope.data.is_anonynous = false;
+
+                                    }
+                                });
+
+                            $scope.$watch('data.is_anonymous',
+                                function (newValue, oldValue) {
+
+                                    if (newValue == true) {
+                                        $scope.data.sender_organization = '';
+                                        $scope.data.sender_name = '';
+                                    }
+                                });
+
+
+                            $http.get('/Api/lib_lgu_level/')
+                                .then(function (response) { $scope.lgu_level_id_options = response.data; });
+
+                            $http.get('/Api/lib_grs_intake_level/')
+                                .then(function (response) { $scope.grs_intake_level_id_options = response.data; });
+
+                            $http.get('/Api/lib_grs_form/')
+                                .then(function (response) { $scope.grs_form_id_options = response.data; });
+
+                            $http.get('/Api/lib_grs_filling_mode/')
+                                .then(function (response) { $scope.grs_filling_mode_id_options = response.data; });
+
+                            $http.get('/Api/lib_grs_resolution_status/')
+                                .then(function (response) { $scope.grs_resolution_status_id_options = response.data; });
+
+                            $http.get('/Api/lib_grs_feedback/')
+                                .then(function (response) { $scope.grs_feedback_id_options = response.data; });
+
+                            $http.get('/Api/lib_grs_category/')
+                                .then(function (response) { $scope.grs_category_id_options = response.data; });
+
+                            $http.get('/Api/lib_grs_complaint_subject/')
+                                .then(function (response) { $scope.grs_complaint_subject_id_options = response.data; });
+
+                            $http.get('/Api/lib_grs_nature/')
+                                .then(function (response) { $scope.grs_nature_id_options = response.data; });
+
+                            $http.get('/Api/lib_ip_group/')
+                                .then(function (response) { $scope.ip_group_id_options = response.data; });
+
+                            $http.get('/Api/lib_sex/')
+                                .then(function (response) { $scope.sex_id_options = response.data; });
+
+                            $http.get('/Api/lib_grs_sender_designation/')
+                                .then(function (response) { $scope.grs_sender_designation_id_options = response.data; });
+
+                            $http.get('/Api/lib_grs_intake_officer/')
+                                .then(function (response) { $scope.grs_intake_officer_id_options = response.data; });
+
+                            $scope.$broadcast('show-errors-check-validity');
+
+
+                            $scope.save_pincos = function () {
+                                $scope.$broadcast('show-errors-check-validity');
+                                $scope.loading = true;
+
+
+
+
+                                $scope.data.date_intake = $scope.data.start_date;
+
+                                $scope.data.grs_filling_mode_id = 9;
+
+                                $scope.data.activity_source_id = '@ViewBag.id';
+
+                                $.post('/api/offline/v1/grievances/save', $scope.data)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+
+
+                                        $scope.Items.push(data);
+                                        $scope.add_pincos = !$scope.add_pincos;
+
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            };
+
+                            $scope.delete_pincos = function (removeitem) {
+
+
+
+                                var ask = confirm("Are you sure you want to Delete this?");
+
+
+                                if (ask == true) {
+                                    $.post('/api/delete/grievance_record?id=' + removeitem.grievance_record_id).success(function (value) {
+                                        $scope.loading = false;
+
+
+                                        var index = $scope.Items.indexOf(removeitem);
+                                        $scope.Items.splice(index, 1);
+
+
+                                        alert("Record removed!")
+
+                                    }).error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+                                }
+
+                            }
+
+                            ///END PINCOS
+
+
+                            $scope.save = function () {
+
+
+                                $scope.$broadcast('show-errors-check-validity');
+                                $scope.loading = true;
+
+
+                                $.post('/api/offline/v1/trainings/save', $scope.data)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Record Saved!')
+                                            .position("bottom right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        $scope.check_status();
+                                        @*if ($scope.status == false) {
+                                            window.location.href = "/Entry/Trainings?id=@ViewBag.id";
+                                        }*@
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            };
+
+
+                            $scope.$watch('data.region_code',
+                                function (newValue, oldValue) {
+
+
+                                    var record = $scope;
+
+                                    if (newValue == null) {
+                                        record.prov_code = '';
+                                        record.city_code = '';
+                                        record.brgy_code = '';
+
+
+                                        record.prov_code_options = [];
+                                        record.city_code_options = [];
+                                        record.brgy_code_options = [];
+                                    } else {
+
+                                        $http({
+                                            method: 'GET',
+                                            url: '/api/online/lib_province?id=' + newValue,
+
+                                        })
+                                            .success(function (data, status, headers, config) {
+
+                                                $scope.prov_code_options = data;
+                                            })
+                                            .error(function (data, status, headers, config) {
+
+                                                $scope.message = 'Unexpected Error';
+                                            });
+                                    }
+
+                                });
+
+                            $scope.$watch('data.prov_code',
+                                function (newValue, oldValue) {
+
+                                    var record = $scope;
+
+                                    if (newValue == null) {
+
+                                        record.brgy_code = '';
+                                        record.city_code = '';
+                                        record.city_code_options = [];
+                                        record.brgy_code_options = [];
+                                    } else {
+                                        $http({
+                                            method: 'GET',
+                                            url: '/api/online/lib_city?id=' + newValue,
+
+                                        })
+                                            .success(function (data, status, headers, config) {
+
+                                                $scope.city_code_options = data;
+                                            })
+                                            .error(function (data, status, headers, config) {
+
+                                                $scope.message = 'Unexpected Error';
+                                            });
+                                    }
+
+                                });
+
+
+                            $scope.$watch('data.city_code',
+                                function (newValue, oldValue) {
+
+                                    var record = $scope;
+
+                                    if (newValue == null) {
+
+                                        record.brgy_code = '';
+
+                                        record.brgy_code_options = [];
+                                    } else {
+                                        $http({
+                                            method: 'GET',
+                                            url: '/api/online/lib_brgy?id=' + newValue,
+
+                                        })
+                                            .success(function (data, status, headers, config) {
+
+                                                $scope.brgy_code_options = data;
+                                            })
+                                            .error(function (data, status, headers, config) {
+
+                                                $scope.message = 'Unexpected Error';
+                                            });
+                                    }
+
+                                });
+
+
+                            $scope.$watch('data.fund_source_id',
+                                function (newValue, oldValue) {
+
+                                    var record = $scope;
+
+
+
+                                    if (newValue == null) {
+
+                                        record.cycle_id = null;
+
+                                        record.cycle_id_options = [];
+                                    } else {
+                                        $http({
+                                            method: 'GET',
+                                            url: '/api/lib_cycle?id=' + newValue,
+
+                                        })
+                                            .success(function (data, status, headers, config) {
+
+                                                $scope.cycle_id_options = data;
+                                            })
+                                            .error(function (data, status, headers, config) {
+
+                                                $scope.message = 'Unexpected Error';
+                                            });
+                                    }
+
+                                });
+
+
+                            $scope.$watchGroup(['data.cycle_id', 'data.city_code'],
+                                function (newValues, oldValues, scope) {
+
+                                    if ($scope.data.cycle_id != '' && $scope.data.city_code != '') {
+
+
+                                        $http({
+                                            method: 'GET',
+                                            url: '/api/lib_enrollment?cycle_id=' +
+                                                $scope.data.cycle_id +
+                                                "&city_code=" +
+                                                $scope.data.city_code,
+
+                                        })
+                                            .success(function (data, status, headers, config) {
+
+                                                $scope.enrollment_id_options = data;
+                                            })
+                                            .error(function (data, status, headers, config) {
+
+                                                $scope.message = 'Unexpected Error';
+                                            });
+
+                                    } else {
+                                        //$scope.data.modality_category_id = '';
+                                        //$scope.ncddp_grouping_id_options = [];
+                                    }
+
+                                });
+
+
+                            $scope.$watch('data.lgu_level_id',
+                                function (newValue, oldValue) {
+
+                                    var record = $scope;
+
+                                    if (newValue == null) {
+
+                                        record.training_category_id = '';
+                                        record.training_category_id_options = [];
+                                    } else {
+                                        $http({
+                                            method: 'GET',
+                                            url: '/api/lib_training_category?lgu_level_id=' + newValue,
+
+                                        })
+                                            .success(function (data, status, headers, config) {
+
+                                                $scope.training_category_id_options = data;
+                                            })
+                                            .error(function (data, status, headers, config) {
+
+                                                $scope.message = 'Unexpected Error';
+                                            });
+                                    }
+
+                                });
+
+
+                        });
+                })
+
+    </script>
+
+
+
+
+}
+
+
+

@@ -1,0 +1,181 @@
+﻿<div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
+
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">
+            <h1>Municipal Talakayan Perception Survey Records</h1>
+        </div>
+    </md-toolbar>
+
+    <md-content>
+        <br />
+        <div style="margin:25px">
+            <a class="btn btn-success" ng-click="createNew()">
+                <i class="fa fa-plus fa-lg"></i> New Survey Record
+            </a>
+        </div>
+        <div class="panel panel-success" style="margin:25px">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4><b>FILTER RECORDS BY:</b></h4>
+                    </div>
+                </div><br />
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <md-checkbox ng-model="data.filter_by_recent_edit" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Edited</b> record</md-checkbox>
+                    </div>
+                    <div class="col-md-3">
+                        <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
+                    </div>
+                </div><br />
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Name</label>
+                        <input type="text" class="form-control" ng-model="data.name">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Age</label>
+                        <input type="number" name="Age" class="form-control" placeholder="(Enter age)" min="1" max="150" required ng-model="data.age">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Sex</label>
+                        <select name="Sex" ng-model="data.is_male" class="form-control" ng-required="true"
+                                ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Male'},{'value':false,'text':'Female'}]">
+                            <option value="">[Sex]</option>
+                        </select>
+                    </div>
+                </div> <br />
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Region</label>
+                        <select name="Region" ng-model="data.region_code" id="region_code" class="form-control"
+                                ng-required="true"
+                                ng-disabled="status"
+                                ng-options="option.Id as option.Name for option in region_code_options">
+                            <option value="">[Select Region]</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Province</label>
+                        <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                ng-disabled="data.region_code == null"
+                                ng-required="true"
+                                ng-options="option.Id as option.Name for option in prov_code_options">
+                            <option value="">[Select Province]</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Municipality</label>
+                        <select name="Municipality" ng-model="data.city_code" id="city_code" class="form-control"
+                                ng-disabled="data.prov_code == null"
+                                ng-required="true"
+                                ng-options="option.Id as option.Name for option in city_code_options">
+                            <option value="">[Select Municipality]</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Barangay</label>
+                        <select name="Barangay" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                ng-disabled="data.city_code == null"
+                                ng-required="true"
+                                ng-options="option.Id as option.Name for option in brgy_code_options">
+                            <option value="">[Select Barangay]</option>
+                        </select>
+                    </div>
+                </div> <br />
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Pantawid Pamilya beneficiary?</label>
+                        <select name="Pantawid" ng-model="data.is_pantawid" class="form-control" ng-required="true"
+                                ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]">
+                            <option value="">[Yes/No]</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>SLP beneficiary?</label>
+                        <select name="SLP" ng-model="data.is_slp" class="form-control" ng-required="true"
+                                ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]">
+                            <option value="">[Yes/No]</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Belongs to an IP Group?</label>
+                        <select name="IP Group" ng-model="data.is_ip" class="form-control" ng-required="true"
+                                ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]">
+                            <option value="">[Yes/No]</option>
+                        </select>
+                    </div>
+                </div> <br />
+                <div class="row">
+                    <div class="col-md-3" show-errors='{showSuccess: true}'>
+                        <label>Talakayan date</label>
+                        <md-datepicker name="start_date" ng-model="data.dt_start_date" md-placeholder="Enter date" ng-change="data.talakayan_date_from = data.dt_start_date.toISOString()" ng-required="true" md-min-date="minYear" md-max-date="today"></md-datepicker>
+                    </div>
+                    <div class="col-md-3" show-errors='{showSuccess: true}'>
+                        <label>Survey Conduct date</label>
+                        <md-datepicker name="start_date" ng-model="data.dt_survey_start_date" md-placeholder="Enter date" ng-change="data.survey_date_from = data.dt_survey_start_date.toISOString()" ng-required="true" md-min-date="minYear" md-max-date="today"></md-datepicker>
+                    </div>
+                </div>
+            </div>  
+        </div>
+        <div flex="100" layout="row" style="margin:20px" layout-margin layout-md="column">
+            <a class="btn btn-primary" ng-click="search()">
+                <i class="fa fa-filter fa-lg"></i> Filter
+            </a>
+            <a class="btn btn-warning" ng-click="clear()">
+                <i class="fa fa-recycle fa-lg"></i>  Clear
+            </a>
+            @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+        </div>
+        <div style="margin:25px">
+            
+        </div>
+    </md-content>
+    <br />
+
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="RESULTS">
+                <md-content class="md-padding">
+                    <md-content>
+                        @Html.Partial("~/Views/Shared/_pagination.cshtml")
+                    </md-content>
+                <md-content>
+                        @Html.Partial("~/Views/PerceptionSurvey/_surveyrecords.cshtml") 
+                    </md-content>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+
+</div>
+
+@section Scripts {
+
+    <script>
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+            .controller('AppCtrl',
+                function ($scope, $mdDialog, $http, $mdToast) {
+                    $scope.survey_year = [{ "Id": 2015, "Name": "2015" }, { "Id": 2016, "Name": "2016" }];
+                    $scope.data;
+                })
+    </script>
+    
+    <script src="~/scripts/alasql.min.js"></script>
+    <script src="~/scripts/xlsx.core.min.js"></script>
+
+    <script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+
+
+    <script src="~/scripts/app/Evaluation/perception_index.js"></script>
+   
+    <script src="~/scripts/directives/paging.js"></script>
+
+    
+
+    
+}
+

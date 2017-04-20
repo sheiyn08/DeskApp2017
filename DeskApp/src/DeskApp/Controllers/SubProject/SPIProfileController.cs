@@ -877,7 +877,7 @@ namespace DeskApp.Controllers
                         lib_fund_source_name = db.lib_fund_source.FirstOrDefault(c => c.fund_source_id == x.modality_id).name,
                         lib_cycle_name = x.lib_cycle.name,
                         Phy_Perc_To_Date = x.Phy_Perc_To_Date,
-                        push_status_id = x.push_status_id
+                        last_updated_date = x.last_updated_date
                     })
                     .Take(size).ToList(),
                 };

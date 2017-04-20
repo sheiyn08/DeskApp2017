@@ -1,0 +1,604 @@
+﻿<div class="panel panel-body">
+
+    <div class="col-md-12">
+        <h3>Talakayan Day Evaluation Form Report</h3>
+    </div>
+    <div class="col-md-12">
+        <h4>{{selected_report.Name}}</h4>
+        <br />
+    </div>
+
+    @*<div class="col-md-12">
+            <h5><strong>Period Covered: </strong>{{earliest_talakayan_date | date:'MM/dd/yyyy'}} <strong>to </strong>{{latest_talakayan_date | date:'MM/dd/yyyy'}}</h5>
+            <br />
+        </div>*@
+    <div class="col-md-12">
+        <h5><strong>Region: {{selected_region.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Province: {{selected_province.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Municipality: {{selected_city.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Barangay: {{selected_brgy.Name}}</strong></h5>
+        <br /> <br />
+    </div>
+
+    <div class="row">
+
+    </div>
+
+    <div style="overflow:auto">
+
+        <table class="table table-bordered">
+
+            <tr>
+                <td rowspan="3" align="center" style="vertical-align:middle">
+                    <strong>Barangay Name</strong>
+                </td>
+                <td rowspan="3" align="center" style="vertical-align:middle">
+                    <strong>Total Respondents</strong>
+                </td>
+                
+                <td colspan="2" rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>Sex</strong>
+                </td>
+
+                <td colspan="4" rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>Participant Type</strong>
+                </td>
+
+                <td colspan="2" rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>1. Were the objectives fully explained?</strong>
+                </td>
+                <td colspan="2" rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>2. Was time alloted to the different activities sufficient?</strong>
+                </td>
+                <td colspan="8" align="center" style="vertical-align:middle">
+                    <strong>3. Venue</strong>
+                </td>
+                <td colspan="2" rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>4. Equipped with good sound system</strong>
+                </td>
+                <td colspan="6" align="center" style="vertical-align:middle">
+                    <strong>5. Visual Aids in the presentation are:</strong>
+                </td>
+                <td colspan="6" align="center" style="vertical-align:middle">
+                    <strong>6. Meals:</strong>
+                </td>
+                <td colspan="2" rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>7. Did you like the gallery walk?</strong>
+                </td>
+                <td colspan="2" rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>8. Did you like the Focus Group Discussion?</strong>
+                </td>
+                <td colspan="20" align="center" style="vertical-align:middle">
+                    <strong>Knowledge-gained</strong>
+                </td>
+                <td colspan="4" rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>Overall satisfaction on the conduct of Municipal Talakayan</strong>
+                </td>
+                <td colspan="5" rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>Please evaluate the whole teams' effectiveness in the conduct of the different parts of the Municipal Talakayan</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>a. Clean</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>b. Well-ventilated</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>c. Spacious</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>d. Well-lighted</strong>
+                </td>
+
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>a. Easily read from where I am seated</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>b. Attractive</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>c. Easy to understand</strong>
+                </td>
+
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>a. Delicious</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>b. Sufficient</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>c. Clean</strong>
+                </td>
+
+                <td colspan="4" align="center" style="vertical-align:middle">
+                    <strong>Part 1: Presentation of the Municipal Profile and Development Status of the Municipality</strong>
+                </td>
+                <td colspan="4" align="center" style="vertical-align:middle">
+                    <strong>Part 2: Presentation of the Municipal Development Priorities, Interventions and Gaps</strong>
+                </td>
+                <td colspan="4" align="center" style="vertical-align:middle">
+                    <strong>Part 3: Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</strong>
+                </td>
+                <td colspan="4" align="center" style="vertical-align:middle">
+                    <strong>Part 4: Gallery Walk</strong>
+                </td>
+                <td colspan="4" align="center" style="vertical-align:middle">
+                    <strong>Part 5: Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</strong>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Total Male</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Total Female</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>Local Official (Elected)</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Local Official (Appointed)</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Community Citizens Group A</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Community Citizens Group B</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Yes
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    No
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    4 - Very Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    3 - Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    2 - Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    1 - Very Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    4 - Very Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    3 - Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    2 - Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    1 - Very Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    4 - Very Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    3 - Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    2 - Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    1 - Very Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    4 - Very Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    3 - Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    2 - Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    1 - Very Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    4 - Very Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    3 - Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    2 - Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    1 - Very Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    4 - Very Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    3 - Satisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    2 - Dissatisified
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    1 - Very Dissatisified
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    Excellent
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Very Good
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Good
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Poor
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    Very Poor
+                </td>
+                
+            </tr>
+
+            <tr ng-repeat="item in list">
+                <td align="center" style="vertical-align:middle">
+                    {{item.brgy_name}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.total_respondents}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.total_male}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.total_female}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.total_localofficial_elected}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.total_localofficial_appointed}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.total_citizens_grp_a}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.total_citizens_grp_b}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_obj_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_obj_total_no}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_time_alloted_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_time_alloted_total_no}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_venue_a_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_venue_a_total_no}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_venue_b_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_venue_b_total_no}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_venue_c_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_venue_c_total_no}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_venue_d_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_venue_d_total_no}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_sound_system_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_sound_system_total_no}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_visual_a_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_visual_a_total_no}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_visual_b_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_visual_b_total_no}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_visual_c_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_visual_c_total_no}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_meals_a_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_meals_a_total_no}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_meals_b_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_meals_b_total_no}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_meals_c_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_meals_c_total_no}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_gallery_walk_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_gallery_walk_total_no}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_fgd_total_yes}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_fgd_total_no}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part1_total_verysatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part1_total_satisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part1_total_dissatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part1_total_verydissatisfied}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part2_total_verysatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part2_total_satisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part2_total_dissatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part2_total_verydissatisfied}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part3_total_verysatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part3_total_satisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part3_total_dissatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part3_total_verydissatisfied}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part4_total_verysatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part4_total_satisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part4_total_dissatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part4_total_verydissatisfied}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part5_total_verysatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part5_total_satisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part5_total_dissatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_knowledge_part5_total_verydissatisfied}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_overall_satisfaction_total_verysatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_overall_satisfaction_total_satisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_overall_satisfaction_total_dissatisfied}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_overall_satisfaction_total_verydissatisfied}}
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_team_effectiveness_total_excellent}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_team_effectiveness_total_verygood}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_team_effectiveness_total_good}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_team_effectiveness_total_poor}}
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    {{item.v2016_team_effectiveness_total_verypoor}}
+                </td>
+                
+            </tr>
+
+        </table>
+
+    </div>
+    <br /> <br />
+    <div class="row">
+        <div class="col-xs-6">
+            <label>Certified Correct By:</label>
+
+            <br />
+            <br />
+            <br />
+            {{prepared_by}}
+
+            Signature over Printed Name
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+    <div class="row">
+
+        <br />
+        <br />
+
+
+        <div class="col-xs-6">
+
+            Position
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+
+</div>

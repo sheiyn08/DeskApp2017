@@ -1,0 +1,229 @@
+﻿
+
+<div class="panel panel-body">
+
+
+
+    <h3>KC Municipal Report - Grievance Redress System</h3>
+    <br />
+
+    <h4>Status of Filed Grievances</h4>
+
+    <br />
+    <br />
+
+    @Html.Partial("~/Views/Report/Common/_report_header.cshtml")
+
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-xs-12">A. Barangay Grievance Monitoring</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    Barangay
+                </td>
+                <td align="center">
+                    Total
+                </td>
+                <td align="center">
+                    No. Resolved
+                </td>
+
+                <td align="center">
+                    % Resolved
+                </td>
+
+                <td align="center">
+                    No. of Pending
+                </td>
+
+                 
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in grievance_intake_brgy | orderBy: 'brgy_name'">
+
+
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+                <td>
+                    {{item.total}}
+                </td>
+
+
+                <td>
+                    {{item.resolved}}
+                </td>
+
+
+
+                <td>
+                    {{item.perc_resolved == 'NaN' ? "" : item.perc_resolved}}
+                </td>
+                <td>
+                    {{item.pending}}
+                </td>
+ 
+
+            </tr>
+        </table>
+    </div>
+
+ 
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-xs-12">B. Status of Resolution</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    Type
+                </td>
+                <td align="center">
+                    Total
+                </td>
+                <td align="center">
+                    No. Resolved
+                </td>
+
+                <td align="center">
+                    % Resolved
+                </td>
+
+                <td align="center">
+                    No. of Pending
+                </td>
+
+
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in grievance_intake_nature | orderBy: 'brgy_name'">
+
+
+
+                <td>
+                    {{item.name}}
+                </td>
+
+
+                <td>
+                    {{item.total}}
+                </td>
+
+
+                <td>
+                    {{item.resolved}}
+                </td>
+
+
+
+                <td>
+                    {{item.perc_resolved == 'NaN' ? "" : item.perc_resolved}}
+                </td>
+                <td>
+                    {{item.pending}}
+                </td>
+
+
+            </tr>
+        </table>
+    </div>
+
+
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-xs-12">C. Breakdown of Grievances by Category and Type</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    Category
+                </td>
+                <td align="center">
+                    Total
+                </td>
+                <td align="center">
+                    No. Type A.
+                </td>
+
+                <td align="center">
+                    No. of Type B
+                </td>
+
+                <td align="center">
+                    No. of Type C
+                </td>
+
+
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in grievance_intake_category | orderBy: 'brgy_name'">
+
+
+
+                <td>
+                    {{item.name}}
+                </td>
+
+
+                <td>
+                    {{item.total}}
+                </td>
+
+
+                <td>
+                    {{item.type_a}}
+                </td>
+
+
+
+                <td>
+                   {{item.type_b}}
+                </td>
+                <td>
+                    {{item.type_c}}
+                </td>
+
+
+            </tr>
+        </table>
+    </div>
+
+
+
+    <br />
+</div>

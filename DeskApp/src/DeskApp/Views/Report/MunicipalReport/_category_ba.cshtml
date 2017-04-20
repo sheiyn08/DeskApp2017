@@ -1,0 +1,720 @@
+﻿
+@Html.Partial("~/Views/Report/MunicipalReport/_municipal_report_filter.cshtml")
+
+
+@* --------------------- Barangay Assembly ==> Breakdown of Attendees --------------------- *@ 
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 1" id="subreport_1">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Barangay Assembly</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <b>Region: </b>{{selected_region.Name == null ? "" : selected_region.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Province: </b>{{selected_province.Name == null ? "Across Provinces" : selected_province.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Municipality: </b>{{selected_city.Name == null ? "Across Municipalities" : selected_city.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Barangay: </b>{{selected_brgy.Name == null ? "Across Barangays" : selected_brgy.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Portfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Cycle: </b>{{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>KC Mode: </b>{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+            </div>
+        </div>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>A. Total Male and Female Attendees</strong></div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Barangay
+                    </td>
+                    <td colspan="4" align="center">
+                        1st BA
+                    </td>
+                    <td colspan="4" align="center">
+                        2nd BA
+                    </td>
+                    <td colspan="4" align="center">
+                        3rd  BA
+                    </td>
+                    <td colspan="4" align="center">
+                        4th BA
+                    </td>
+                    <td colspan="4" align="center">
+                        5th BA
+                    </td>
+                </tr>
+                <tr class="bg-primary">
+                    <!--First-->
+                    <td>M</td>
+                    <td>M%</td>
+                    <td>F</td>
+                    <td>F%</td>
+                    <!--Second-->
+                    <td>M</td>
+                    <td>M%</td>
+                    <td>F</td>
+                    <td>F%</td>
+                    <!--Third-->
+                    <td>M</td>
+                    <td>M%</td>
+                    <td>F</td>
+                    <td>F%</td>
+                    <!--Fourth-->
+                    <td>M</td>
+                    <td>M%</td>
+                    <td>F</td>
+                    <td>F%</td>
+                    <!--Fifth-->
+                    <td>M</td>
+                    <td>M%</td>
+                    <td>F</td>
+                    <td>F%</td>
+                </tr>
+
+                <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <!--First-->
+                    <td>
+                        {{item.first_ba_male}}
+                    </td>
+                    <td>
+                        {{item.first_ba_perc_male == 'NaN' ? "" : item.first_ba_perc_male}}
+                    </td>
+                    <td>
+                        {{item.first_ba_female}}
+                    </td>
+                    <td>
+                        {{item.first_ba_perc_female == 'NaN' ? "" : item.first_ba_perc_female}}
+                    </td>
+                    <!--Second-->
+                    <td>
+                        {{item.second_ba_male}}
+                    </td>
+                    <td>
+                        {{item.second_ba_perc_male == 'NaN' ? "" : item.second_ba_perc_male}}
+                    </td>
+                    <td>
+                        {{item.second_ba_female}}
+                    </td>
+                    <td>
+                        {{item.second_ba_perc_female == 'NaN' ? "" : item.second_ba_perc_female}}
+                    </td>
+                    <!--Third-->
+                    <td>
+                        {{item.third_ba_male}}
+                    </td>
+                    <td>
+                        {{item.third_ba_perc_male == 'NaN' ? "" : item.third_ba_perc_male}}
+                    </td>
+                    <td>
+                        {{item.third_ba_female}}
+                    </td>
+                    <td>
+                        {{item.third_ba_perc_female == 'NaN' ? "" : item.third_ba_perc_female}}
+                    </td>
+                    <!--Fourth-->
+                    <td>
+                        {{item.fourth_ba_male}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_perc_male == 'NaN' ? "" : item.fourth_ba_perc_male}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_female}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_perc_female == 'NaN' ? "" : item.fourth_ba_perc_female}}
+                    </td>
+                    <!--Fifth-->
+                    <td>
+                        {{item.fifth_ba_male}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_perc_male == 'NaN' ? "" : item.fifth_ba_perc_male}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_female}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_perc_female == 'NaN' ? "" : item.fifth_ba_perc_female}}
+                    </td>
+                </tr>
+
+                <tr class="bg-gray" ng-hide="!list.length">
+                    <td><b>Total</b></td>
+                    <td>{{first_ba_male_subtotal}}</td>
+                    <td></td>
+                    <td>{{first_ba_female_subtotal}}</td>
+                    <td></td>
+                    <td>{{second_ba_male_subtotal}}</td>
+                    <td></td>
+                    <td>{{second_ba_female_subtotal}}</td>
+                    <td></td>
+                    <td>{{third_ba_male_subtotal}}</td>
+                    <td></td>
+                    <td>{{third_ba_female_subtotal}}</td>
+                    <td></td>
+                    <td>{{fourth_ba_male_subtotal}}</td>
+                    <td></td>
+                    <td>{{fourth_ba_female_subtotal}}</td>
+                    <td></td>
+                    <td>{{fifth_ba_male_subtotal}}</td>
+                    <td></td>
+                    <td>{{fifth_ba_female_subtotal}}</td>
+                    <td></td>
+                </tr>
+                <tr ng-show="!list.length">
+                    <td colspan="21"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>B. Total IP Male and Female Attendees</strong></div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Barangay
+                    </td>
+                    <td colspan="4" align="center">
+                        1st BA
+                    </td>
+                    <td colspan="4" align="center">
+                        2nd BA
+                    </td>
+                    <td colspan="4" align="center">
+                        3rd  BA
+                    </td>
+                    <td colspan="4" align="center">
+                        4th BA
+                    </td>
+                    <td colspan="4" align="center">
+                        5th BA
+                    </td>
+                </tr>
+
+                <tr class="bg-primary">
+                    <!--First-->
+                    <td>M</td>
+                    <td>M%</td>
+                    <td>F</td>
+                    <td>F%</td>
+                    <!--Second-->
+                    <td>M</td>
+                    <td>M%</td>
+                    <td>F</td>
+                    <td>F%</td>
+                    <!--Third-->
+                    <td>M</td>
+                    <td>M%</td>
+                    <td>F</td>
+                    <td>F%</td>
+                    <!--Fourth-->
+                    <td>M</td>
+                    <td>M%</td>
+                    <td>F</td>
+                    <td>F%</td>
+                    <!--Fifth-->
+                    <td>M</td>
+                    <td>M%</td>
+                    <td>F</td>
+                    <td>F%</td>
+                </tr>
+
+                <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <!--First-->
+                    <td>
+                        {{item.first_ba_ip_male}}
+                    </td>
+                    <td>
+                        {{item.first_ba_ip_perc_male == 'NaN' ? "" : item.first_ba_ip_perc_male}}
+                    </td>
+                    <td>
+                        {{item.first_ba_ip_female}}
+                    </td>
+                    <td>
+                        {{item.first_ba_ip_perc_female == 'NaN' ? "" : item.first_ba_ip_perc_female}}
+                    </td>
+                    <!--Second-->
+                    <td>
+                        {{item.second_ba_ip_male}}
+                    </td>
+                    <td>
+                        {{item.second_ba_ip_perc_male == 'NaN' ? "" : item.second_ba_ip_perc_male}}
+                    </td>
+                    <td>
+                        {{item.second_ba_ip_female}}
+                    </td>
+                    <td>
+                        {{item.second_ba_ip_perc_female == 'NaN' ? "" : item.second_ba_ip_perc_female}}
+                    </td>
+                    <!--Third-->
+                    <td>
+                        {{item.third_ba_ip_male}}
+                    </td>
+                    <td>
+                        {{item.third_ba_ip_perc_male == 'NaN' ? "" : item.third_ba_ip_perc_male}}
+                    </td>
+                    <td>
+                        {{item.third_ba_ip_female}}
+                    </td>
+                    <td>
+                        {{item.third_ba_ip_perc_female == 'NaN' ? "" : item.third_ba_ip_perc_female}}
+                    </td>
+                    <!--Fourth-->
+                    <td>
+                        {{item.fourth_ba_ip_male}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_ip_perc_male == 'NaN' ? "" : item.fourth_ba_ip_perc_male}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_ip_female}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_ip_perc_female == 'NaN' ? "" : item.fourth_ba_ip_perc_female}}
+                    </td>
+                    <!--Fifth-->
+                    <td>
+                        {{item.fifth_ba_ip_male}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_ip_perc_male == 'NaN' ? "" : item.fifth_ba_ip_perc_male}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_ip_female}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_ip_perc_female == 'NaN' ? "" : item.fifth_ba_ip_perc_female}}
+                    </td>
+                </tr>
+
+                <tr class="bg-gray" ng-hide="!list.length">
+                    <td><b>Total</b></td>
+                    <td>{{first_ba_ip_male_subtotal}}</td>
+                    <td></td>
+                    <td>{{first_ba_ip_female_subtotal}}</td>
+                    <td></td>
+                    <td>{{second_ba_ip_male_subtotal}}</td>
+                    <td></td>
+                    <td>{{second_ba_ip_female_subtotal}}</td>
+                    <td></td>
+                    <td>{{third_ba_ip_male_subtotal}}</td>
+                    <td></td>
+                    <td>{{third_ba_ip_female_subtotal}}</td>
+                    <td></td>
+                    <td>{{fourth_ba_ip_male_subtotal}}</td>
+                    <td></td>
+                    <td>{{fourth_ba_ip_female_subtotal}}</td>
+                    <td></td>
+                    <td>{{fifth_ba_ip_male_subtotal}}</td>
+                    <td></td>
+                    <td>{{fifth_ba_ip_female_subtotal}}</td>
+                    <td></td>
+                </tr>
+                <tr ng-show="!list.length">
+                    <td colspan="21"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+        <br />
+
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>
+
+
+
+@* --------------------- Barangay Assembly ==> Households and Families Participation --------------------- *@ 
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 2" id="subreport_2">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Barangay Assembly</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <b>Region: </b>{{selected_region.Name == null ? "" : selected_region.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Province: </b>{{selected_province.Name == null ? "Across Provinces" : selected_province.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Municipality: </b>{{selected_city.Name == null ? "Across Municipalities" : selected_city.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Barangay: </b>{{selected_brgy.Name == null ? "Across Barangays" : selected_brgy.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Porfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Cycle: </b>{{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>KC Mode: </b>{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+            </div>
+        </div>
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>A. Household Participation Rate (Total No. of HHs Represented over the Total No. of HHs resifding in the Barangay during the time of BA)</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td align="center" style="vertical-align:middle">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        1st BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        2nd BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        3rd  BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        4th BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        5th BA <br />
+                        %
+                    </td>
+                </tr>
+
+                <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.first_ba_hh_perc == 'NaN' ? "" : item.first_ba_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.second_ba_hh_perc == 'NaN' ? "" : item.second_ba_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.third_ba_hh_perc == 'NaN' ? "" : item.third_ba_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_hh_perc == 'NaN' ? "" : item.fourth_ba_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_hh_perc == 'NaN' ? "" : item.fifth_ba_hh_perc}}
+                    </td>
+                </tr>
+
+                <tr class="bg-gray" ng-hide="!list.length">
+                    <td><b>Average</b></td>
+                    <td>{{first_ba_hh_avg == 'NaN' ? "" : first_ba_hh_avg}}</td>
+                    <td>{{second_ba_hh_avg == 'NaN' ? "" : second_ba_hh_avg}}</td>
+                    <td>{{third_ba_hh_avg == 'NaN' ? "" : third_ba_hh_avg}}</td>
+                    <td>{{fourth_ba_hh_avg == 'NaN' ? "" : fourth_ba_hh_avg}}</td>
+                    <td>{{fifth_ba_hh_avg == 'NaN' ? "" : fifth_ba_hh_avg}}</td>
+                </tr>
+                <tr ng-show="!list.length">
+                    <td colspan="6"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+
+        <br />
+        <!--IP-->
+        <div class="row">
+            <div class="col-md-12"><strong>B. IP Household Participation Rate (Total No. of IP HHs Represented over the Total No. of IP HHs resifding in the Barangay during the time of BA)</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td align="center" style="vertical-align:middle">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        1st BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        2nd BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        3rd  BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        4th BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        5th BA <br />
+                        %
+                    </td>
+                </tr>
+
+                <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.first_ba_ip_hh_perc == 'NaN' || item.first_ba_ip_hh_perc == 'Infinity' ? "" : item.first_ba_ip_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.second_ba_ip_hh_perc == 'NaN' || item.second_ba_ip_hh_perc == 'Infinity' ? "" : item.second_ba_ip_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.third_ba_ip_hh_perc == 'NaN' || item.third_ba_ip_hh_perc == 'Infinity' ? "" : item.third_ba_ip_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_ip_hh_perc == 'NaN'|| item.fourth_ba_ip_hh_perc == 'Infinity'  ? "" : item.fourth_ba_ip_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_ip_hh_perc == 'NaN'|| item.fifth_ba_ip_hh_perc == 'Infinity'  ? "" : item.fifth_ba_ip_hh_perc}}
+                    </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!list.length">
+                    <td><b>Average</b></td>
+                    <td>{{first_ba_ip_hh_avg == 'NaN' ? "" : first_ba_ip_hh_avg}}</td>
+                    <td>{{second_ba_ip_hh_avg == 'NaN' ? "" : second_ba_ip_hh_avg}}</td>
+                    <td>{{third_ba_ip_hh_avg == 'NaN' ? "" : third_ba_ip_hh_avg}}</td>
+                    <td>{{fourth_ba_ip_hh_avg == 'NaN' ? "" : fourth_ba_ip_hh_avg}}</td>
+                    <td>{{fifth_ba_ip_hh_avg == 'NaN' ? "" : fifth_ba_ip_hh_avg}}</td>
+                </tr>
+                <tr ng-show="!list.length">
+                    <td colspan="6"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+        <br />
+        
+        <!--Pantawid Pamilya-->
+        <div class="row">
+            <div class="col-md-12"><strong>C. Pantawid Pamilya Household Participation Rate (Total No. of 4Ps HHs Represented over the Total No. of 4Ps HHs resifding in the Barangay during the time of BA)</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td align="center" style="vertical-align:middle">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        1st BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        2nd BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        3rd  BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        4th BA <br />
+                        %
+                    </td>
+                    <td align="center">
+                        5th BA <br />
+                        %
+                    </td>
+                </tr>
+
+                <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.first_ba_pp_hh_perc == 'NaN' || item.first_ba_pp_hh_perc == 'Infinity'?  "" : item.first_ba_pp_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.second_ba_pp_hh_perc == 'NaN' || item.second_ba_pp_hh_perc == 'Infinity'? "" : item.second_ba_pp_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.third_ba_pp_hh_perc == 'NaN' || item.third_ba_pp_hh_perc == 'Infinity'? "" : item.third_ba_pp_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_pp_hh_perc == 'NaN'|| item.fourth_ba_pp_hh_perc == 'Infinity' ? "" : item.fourth_ba_pp_hh_perc}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_pp_hh_perc == 'NaN' || item.fifth_ba_pp_hh_perc == 'Infinity'? "" : item.fifth_ba_pp_hh_perc}}
+                    </td>
+                </tr>
+
+                <tr class="bg-gray" ng-hide="!list.length">
+                    <td><b>Average</b></td>
+                    <td>{{first_ba_pp_hh_avg == 'NaN' ? "" : first_ba_pp_hh_avg}}</td>
+                    <td>{{second_ba_pp_hh_avg == 'NaN' ? "" : second_ba_pp_hh_avg}}</td>
+                    <td>{{third_ba_pp_hh_avg == 'NaN' ? "" : third_ba_pp_hh_avg}}</td>
+                    <td>{{fourth_ba_pp_hh_avg == 'NaN' ? "" : fourth_ba_pp_hh_avg}}</td>
+                    <td>{{fifth_ba_pp_hh_avg == 'NaN' ? "" : fifth_ba_pp_hh_avg}}</td>
+                </tr>
+                <tr ng-show="!list.length">
+                    <td colspan="6"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+
+        <br />
+
+        <!--D.	Total  Number of Pantawid & IP Families with atleast one representative-->
+        <div class="row">
+            <div class="col-md-12"><strong>D.	Total  Number of Pantawid & IP Families with atleast one representative</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td align="center" rowspan="2" style="vertical-align:middle">
+                        Barangay
+                    </td>
+                    <td align="center" colspan="2">
+                        1st BA
+                    </td>
+                    <td align="center" colspan="2">
+                        2nd BA
+                    </td>
+                    <td align="center" colspan="2">
+                        3rd  BA
+                    </td>
+                    <td align="center" colspan="2">
+                        4th BA
+                    </td>
+                    <td align="center" colspan="2">
+                        5th BA
+                    </td>
+                </tr>
+
+                <tr class="bg-primary">
+                    <td>4Ps</td>
+                    <td>IP</td>
+                    <td>4Ps</td>
+                    <td>IP</td>
+                    <td>4Ps</td>
+                    <td>IP</td>
+                    <td>4Ps</td>
+                    <td>IP</td>
+                    <td>4Ps</td>
+                    <td>IP</td>
+                </tr>
+
+                <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.first_ba_pantawid_fam_rep}}
+                    </td>
+                    <td>
+                        {{item.first_ba_ip_fam_rep}}
+                    </td>
+                    <td>
+                        {{item.second_ba_pantawid_fam_rep}}
+                    </td>
+                    <td>
+                        {{item.second_ba_ip_fam_rep}}
+                    </td>
+                    <td>
+                        {{item.third_ba_pantawid_fam_rep}}
+                    </td>
+                    <td>
+                        {{item.third_ba_ip_fam_rep}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_pantawid_fam_rep}}
+                    </td>
+                    <td>
+                        {{item.fourth_ba_ip_fam_rep}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_pantawid_fam_rep}}
+                    </td>
+                    <td>
+                        {{item.fifth_ba_ip_fam_rep}}
+                    </td>
+                </tr>
+
+                <tr class="bg-gray" ng-hide="!list.length">
+                    <td><b>Total</b></td>
+                    <td>{{first_ba_pantawid_fam_subtotal}}</td>
+                    <td>{{first_ba_ip_fam_subtotal}}</td>
+                    <td>{{second_ba_pantawid_fam_subtotal}}</td>
+                    <td>{{second_ba_ip_fam_subtotal}}</td>
+                    <td>{{third_ba_pantawid_fam_subtotal}}</td>
+                    <td>{{third_ba_ip_fam_subtotal}}</td>
+                    <td>{{fourth_ba_pantawid_fam_subtotal}}</td>
+                    <td>{{fourth_ba_ip_fam_subtotal}}</td>
+                    <td>{{fifth_ba_pantawid_fam_subtotal}}</td>
+                    <td>{{fifth_ba_ip_fam_subtotal}}</td>
+                </tr>
+                <tr ng-show="!list.length">
+                    <td colspan="11"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <br /><br />
+
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>
+

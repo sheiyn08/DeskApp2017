@@ -1,0 +1,561 @@
+﻿
+
+
+
+<div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools"> Oversight and Coordinating Committees Checklist</div>
+    </md-toolbar>
+    
+    <md-content>
+
+        <md-tabs md-dynamic-height md-border-bottom>
+
+            <md-tab label="Details">
+                <md-content class="md-padding">
+
+                    <form name="myForm">
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label for="Region:_">Region</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <select name="Region" ng-model="data.region_code" id="region_code" class="form-control"
+                                        ng-required="true"
+                                        ng-disabled="status"
+                                        ng-options="option.Id as option.Name for option in region_code_options">
+                                    <option value="">[Select Region]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label for="Region:_">Province</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                        ng-disabled="data.region_code == null || status"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in prov_code_options">
+                                    <option value="">[Select Province]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label for="Region:_">Municipality</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <select name="Municipality" ng-model="data.city_code" id="city_code" class="form-control"
+                                        ng-required="true"
+                                        ng-disabled="data.prov_code == null || status"
+                                        ng-options="option.Id as option.Name for option in city_code_options">
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row" ng-show="data.lgu_level_id ==1">
+                            <div flex flex-sm="100">
+                                <label for="Region:_">Barangay</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <select name="Barangay" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                        ng-required="data.lgu_level_id ==1"
+                                        ng-disabled="data.city_code == null || status"
+                                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                                    <option value="">[Select Barangay]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label for="Region:_">Fund Source</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
+                                        ng-disabled="status"
+                                        required
+                                        ng-options="option.Id as option.Name for option in fund_source_id_options">
+                                    <option value="">[Select Fund Source]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label for="Region:_">Cycle</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <select name="Cycle" ng-model="data.cycle_id" id="cycle_id" class="form-control"
+                                        ng-disabled="status"
+                                        required
+                                        ng-options="option.Id as option.Name for option in cycle_id_options">
+                                    <option value="">[Select Cycle]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label for="Region:_">KC Mode</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <select name="KC Mode" ng-model="data.enrollment_id" id="KC Mode" class="form-control"
+                                        ng-disabled="status"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in enrollment_id_options">
+                                    <option value="">[Select KC Mode]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label for="Region:_">Name</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <input type="text" name="Name" ng-model="data.name" class="form-control" />
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label> Male </label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <input name="No of Male" class="form-control" ng-model="data.no_male" min="0" />
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label> Female </label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <input name="No of Female" class="form-control" ng-model="data.no_female" min="0" />
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label> No. of meetings conducted </label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <input name="Frequency" class="form-control" ng-model="data.frequency" min="0" />
+                            </div>
+                        </div>
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label> Date Organized </label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <md-datepicker name="Date Organized" ng-model="dt_date_organized"
+                                               md-placeholder="Enter date" ng-change="data.date_organized = dt_date_organized.toISOString()"
+                                               required md-min-date="minDate"
+                                               md-max-date="today"></md-datepicker>
+                            </div>
+                        </div>
+
+                    </form>
+                </md-content>
+            </md-tab>
+            
+            @Html.Partial("~/Views/Entry/Common/_attachment.cshtml")
+
+        </md-tabs>
+
+    </md-content>
+    
+    <md-content>
+
+
+        <ul>
+            <li ng-repeat="(key, errors) in myForm.$error track by $index">
+                <strong>{{ key }}</strong> errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+
+
+        <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid">
+            Save Record
+        </md-button>
+
+        <md-button class="md-warn md-raised" ng-click="cancel()">
+            Cancel
+        </md-button>
+
+
+    </md-content>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+@section Scripts
+{
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+
+            .controller('AppCtrl', function ($scope, $mdDialog, $http, $mdToast) {
+
+
+
+
+                $scope.data;
+
+
+
+
+                $http.get('/api/offline/v1/oversight_committee/get?id=@ViewBag.id')
+          .then(function (response) {
+
+
+              $scope.loading = true;
+
+              $scope.data = response.data;
+
+
+              $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
+              $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
+              $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
+              $scope.data.brgy_code = $scope.data.brgy_code == 0 ? "" : $scope.data.brgy_code;
+
+              $scope.data.fund_source_id = $scope.data.fund_source_id == 0 ? "" : $scope.data.fund_source_id;
+              $scope.data.cycle_id = $scope.data.cycle_id == 0 ? "" : $scope.data.cycle_id;
+              $scope.data.enrollment_id = $scope.data.enrollment_id == 0 ? "" : $scope.data.enrollment_id;
+
+
+              $scope.check_status = function () {
+
+                  $http.get('/api/exists/oversight_committee?id=@ViewBag.id')
+                      .then(function (result) {
+
+
+                          if (result.data == true) {
+                              $scope.status = true;
+                          } else {
+                              $scope.status = false;
+
+                          }
+                      });
+
+              }
+
+              $scope.check_status();
+
+
+
+              $scope.minDate = new Date("01/01/2014");
+
+
+              $scope.today = new Date();
+
+
+              $scope.dt_date_organized = $scope.data.date_organized == undefined ? null : new Date(response.data.date_organized);
+
+
+              $http.get('/api/online/lib_region')
+         .then(function (response) { $scope.region_code_options = response.data; });
+
+              $http.get('/Api/lib_fund_source/')
+      .then(function (response) { $scope.fund_source_id_options = response.data; });
+
+
+              $http.get('/api/lib_enrollment')
+                            .then(function (response) { $scope.enrollment_id_options = response.data; });
+
+
+
+
+
+              $scope.loading = false;
+
+              $scope.edit = function () {
+                  this.editMode = !this.editMode;
+              };
+
+
+              $scope.cancel = function () {
+
+                  window.location.href = "/View/Oversight";
+              }
+
+
+              //ATTACHMENTS
+
+              $http.get('/api/attachment_list?id=69')
+              .then(function (response) {
+                  $scope.attachment_list = response.data;
+              });
+
+              $scope.attached_documents = [];
+              $scope.attachment = {};
+              $scope.attachment.mov_list_id = null;
+
+              $scope.uploadAttachment = function () {
+
+                  if ($scope.attached_documents.filter(function (e) { return e.mov_list_id == $scope.attachment.mov_list_id; }).length > 0) {
+                      alert("Only single attachment is allowed for Oversight and Coordinating Committee Checklist.");
+                      $scope.attachment = {};
+                  }
+
+                  else {
+
+                      var fileUpload = $("#files").get(0);
+                      var files = fileUpload.files;
+                      var data = new FormData();
+                      for (var i = 0; i < files.length ; i++) {
+                          data.append(files[i].name, files[i]);
+                      }
+
+                      $.ajax({
+                          type: "POST",
+                          url: "/Mov/UploadFilesAjax?id="
+                              + '@ViewBag.id'
+                              + "&mov_list_id=" + $scope.attachment.mov_list_id
+                              + "&region_code=" + $scope.data.region_code
+                              + "&prov_code=" + $scope.data.prov_code
+                              + "&city_code=" + $scope.data.city_code
+                              + "&brgy_code=" + $scope.data.brgy_code
+                              + "&fund_source_id=" + $scope.data.fund_source_id
+                              + "&cycle_id="
+                              + "&enrollment_id=",
+                          contentType: false,
+                          processData: false,
+                          data: data,
+                          success: function (message) {
+                              var base = window.location.origin;
+
+                              message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+                              $scope.attached_documents.push(message);
+                              $scope.attachment = {};
+                          },
+                          error: function (message) {
+                              alert(JSON.stringify(message.responseText));
+                          }
+                      });
+                  }
+
+              } //end of uploadAttachment function
+
+
+              $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
+                 .success(function (value) {
+                     $scope.attached_documents = value;
+                     angular.forEach($scope.attached_documents, function (item) {
+                         var base = window.location.origin;
+                         item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
+                     })
+                 });
+
+              $scope.deleteMov = function (removeitem) {
+                  var ask = confirm("Are you sure you want to Delete this?");
+                  if (ask == true) {
+                      $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
+                          $scope.loading = false;
+                          //$scope.check_button_is_disabled = false;
+                          var index = $scope.attached_documents.indexOf(removeitem);
+                          $scope.attached_documents.splice(index, 1);
+                          alert("Attachment removed!")
+
+                      }).error(function (data) {
+                          alert(JSON.stringify(data));
+                          $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                          $scope.loading = false;
+                      });
+                  }
+              }
+              //END ATTACHMENTS
+
+              $scope.save = function () {
+
+                  $scope.$broadcast('show-errors-check-validity');
+                  $scope.loading = true;
+                  //       alert(JSON.stringify($scope.data));
+
+                  //'/api/v1/grievances/save'
+
+
+                  $.post('/api/offline/v1/oversight_committee/save', $scope.data).success(function (data) {
+                      $scope.loading = false;
+
+
+                      $('html, body').animate({
+                          scrollTop: '0px'
+                      }, 1500);
+
+                      $mdToast.show(
+                      $mdToast.simple()
+                        .textContent('Record Saved!')
+                        .position("top right")
+                        .hideDelay(3000)
+                    );
+
+                      $scope.check_status();
+
+                  }).error(function (data) {
+
+                      alert(JSON.stringify(data));
+
+
+                      $scope.error = "An Error has occured while Saving! " + data.statusText;
+                      $scope.loading = false;
+                  });
+              };
+          });
+
+
+
+
+
+
+
+                $scope.$watch('data.region_code', function (newValue, oldValue) {
+
+
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+                        record.prov_code = '';
+                        record.city_code = '';
+                        record.brgy_code = '';
+
+
+                        record.prov_code_options = [];
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+                    else {
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_province?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.prov_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.prov_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = '';
+                        record.city_code = '';
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_city?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.city_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+                $scope.$watch('data.city_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = '';
+
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_brgy?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.brgy_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+                $scope.$watch('data.fund_source_id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.cycle_id = null;
+
+                        record.cycle_id_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_cycle?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.cycle_id_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+
+
+            })
+
+
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+}
+
+

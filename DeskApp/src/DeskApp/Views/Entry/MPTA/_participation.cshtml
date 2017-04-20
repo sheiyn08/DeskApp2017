@@ -1,0 +1,233 @@
+﻿ <div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>NGO-PO engaged and represented in MDC and LSB</h3>
+    </div>
+
+    <md-content>
+
+        
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex></div>
+            <div flex>Male</div>
+            <div flex>Female</div>
+            <div flex>Total</div>
+        </div>
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>No. of NGO-PO accredited</div>
+            <div flex></div>
+            <div flex></div>
+            <div flex>
+                <input name="No. of NGO-PO accredited" type="number" class="form-control" ng-model="data.ngopo_accredited" required min="0" />
+            </div>
+        </div>
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>No. of NGO-PO represented in MDC</div>
+            <div flex>
+                <input name="No. of Male NGO-PO represented in MDC" type="number" class="form-control" ng-model="data.no_ngopo_represented_male" required min="0" />
+
+            </div>
+            <div flex>
+                <input name="No. of Female NGO-PO represented in MDC" type="number" class="form-control" ng-model="data.no_ngopo_represented_female" required min="0" />
+
+            </div>
+            <div flex>
+                {{data.no_ngopo_represented_male + data.no_ngopo_represented_female}}
+            </div>
+        </div>
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>No. of NGO-PO represented in LSB</div>
+            <div flex>
+                <input name="No. of Male NGO-PO represented in LSB" type="number" class="form-control" ng-model="data.lsb_represented_male" required min="0" />
+
+
+
+            </div>
+            <div flex>
+
+                <input name="No. Female of NGO-PO represented in LSB" type="number" class="form-control" ng-model="data.lsb_represented_female" required min="0" />
+
+            </div>
+            <div flex>
+                {{data.lsb_represented_male + data.lsb_represented_female}}
+            </div>
+        </div>
+    </md-content>
+
+     </div>
+
+
+ <div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>Representation of highly marginalized/vulnerable groups in MDC and BDC</h3>
+    </div>
+
+    <md-content>
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex></div>
+
+
+        </div>
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex></div>
+            <div flex>Male</div>
+            <div flex>Female</div>
+            <div flex>Total</div>
+        </div>
+
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>Pantawid Pamilya representatives</div>
+            <div flex>
+                <input name="No. of Male Pantawid Pamilya representative" type="number" class="form-control" ng-model="data.no_4p_male" required min="0" />
+
+            </div>
+            <div flex>
+                <input name="No. of Female Pantawid Pamilya representative" type="number" class="form-control" ng-model="data.no_4p_female" required min="0" />
+
+            </div>
+            <div flex>
+                {{data.no_ngopo_represented_male + data.no_ngopo_represented_female}}
+            </div>
+        </div>
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>IPs representatives</div>
+            <div flex>
+                <input name="No. of Male NGO-PO represented in MDC" type="number" class="form-control" ng-model="data.no_ip_male" required min="0" />
+
+            </div>
+            <div flex>
+                <input name="No. of Female NGO-PO represented in MDC" type="number" class="form-control" ng-model="data.no_ip_female" required min="0" />
+
+            </div>
+            <div flex>
+                {{data.no_ngopo_represented_male + data.no_ngopo_represented_female}}
+            </div>
+        </div>
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>Women representatives</div>
+            <div flex>
+                <input name="No. of Male Women representatives" type="number" class="form-control" ng-model="data.no_women_male" required min="0" />
+
+
+
+            </div>
+            <div flex>
+
+                <input name="No. of Female Women representatives" type="number" class="form-control" ng-model="data.no_women_female" required min="0" />
+
+            </div>
+            <div flex>
+                {{data.lsb_represented_male + data.lsb_represented_female}}
+            </div>
+        </div>
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>Youth representatives</div>
+            <div flex>
+                <input name="No. of Male Youth representatives" type="number" class="form-control" ng-model="data.no_youth_male" required min="0" />
+
+
+
+            </div>
+            <div flex>
+
+                <input name="No. of Female Youth representatives" type="number" class="form-control" ng-model="data.no_youth_female" required min="0" />
+
+            </div>
+            <div flex>
+                {{data.lsb_represented_male + data.lsb_represented_female}}
+            </div>
+        </div>
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>Elderly representatives</div>
+            <div flex>
+                <input name="No. of Male Elderly representatives" type="number" class="form-control" ng-model="data.no_elderly_male" required min="0" />
+
+
+
+            </div>
+            <div flex>
+
+                <input name="No. of Female Elderly representatives" type="number" class="form-control" ng-model="data.no_elderly_female" required min="0" />
+
+            </div>
+            <div flex>
+                {{data.lsb_represented_male + data.lsb_represented_female}}
+            </div>
+        </div>
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>PWD  representatives</div>
+            <div flex>
+                <input name="No. of Male PWD  representatives" type="number" class="form-control" ng-model="data.no_pwd_male" required min="0" />
+
+
+
+            </div>
+            <div flex>
+
+                <input name="No. of Female PWD  representatives" type="number" class="form-control" ng-model="data.no_pwd_female" required min="0" />
+
+            </div>
+            <div flex>
+                {{data.lsb_represented_male + data.lsb_represented_female}}
+            </div>
+        </div>
+    </md-content>
+
+</div>
+
+
+
+  <div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>No. of Activities / Meetings / No. of Participation</h3>
+    </div>
+
+    <md-content>
+
+        
+
+        <div class="layout-row" layout-margin flex>
+            <div flex>Regular LGU-CSO consultation and dialogue</div>
+            <div flex>
+                <input name="No. of Regular LGU-CSO consultation and dialogue" type="number" class="form-control" ng-model="data.no_lgu_cso_meeting" required min="0" />
+            </div>
+        </div>
+
+
+        <div class="layout-row" layout-margin flex>
+            <div flex>Conduct participatory review and assessment of the gender responsiveness of GAD Plans and GAD funded projects</div>
+            <div flex>
+                <input name="No. of Conducted participatory review and assessment" type="number" class="form-control" ng-model="data.no_gad_plan_assessment" required min="0" />
+            </div>
+        </div>
+        <div class="layout-row" layout-margin flex>
+            <div flex>  NGO participation in project implementation and monitoring</div>
+            <div flex>
+                <input name="No. of  NGO participation in project implementation and monitoring " type="number" class="form-control" ng-model="data.no_ngo_pim" required min="0" />
+            </div>
+        </div>
+
+
+    </md-content>
+
+</div>

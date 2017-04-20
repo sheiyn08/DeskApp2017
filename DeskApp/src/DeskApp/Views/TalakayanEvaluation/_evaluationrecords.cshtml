@@ -1,0 +1,128 @@
+﻿<style>
+    .zui-table {
+        border: solid 1px #DDEEEE;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font: normal 13px Arial, sans-serif;
+    }
+
+        .zui-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .zui-table tbody td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+    .zui-table-highlight tbody tr:hover {
+        background-color: lightgray;
+    }
+
+    .zui-table-horizontal tbody td {
+        border-left: none;
+        border-right: none;
+    }
+
+    mark {
+        background-color: deepskyblue;
+        color: white;
+        font-style: italic;
+    }
+
+</style>
+
+
+<div class="panel panel-body" ng-show="!isSearching">
+    <table class="table zui-table zui-table-horizontal zui-table-highlight">
+        <thead class="thead-inverse">
+            <tr>
+                <th style="text-align:center; vertical-align:middle">
+                    {{data.check_all == true ? "Un-select All" : "Select All"}}
+                    <br /><br />
+                    <md-checkbox ng-model="data.check_all" style="vertical-align:middle" aria-label="Checkbox 1" ng-change="checkAll()"></md-checkbox>
+                </th>
+                <th style="vertical-align:middle">
+                    Actions
+                </th>
+                <th style="vertical-align:middle">
+                    Talakayan Date
+                </th>
+                <th style="vertical-align:middle">
+                    Evaluation Conduct Date
+                </th>
+                <th style="vertical-align:middle">
+                    Evaluation Form Version
+                </th>
+                <th style="vertical-align:middle">
+                    Full Name
+                </th>
+                <th style="vertical-align:middle">
+                    Sex
+                </th>
+                <th style="vertical-align:middle">
+                    Region
+                </th>
+                <th style="vertical-align:middle">
+                    Province
+                </th>
+                <th style="vertical-align:middle">
+                    Municipality
+                </th>
+                <th style="vertical-align:middle">
+                    Date Uploaded
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="item in Items | orderBy: item.last_modified_date">
+                <td style="text-align:center; vertical-align:middle">
+                    <md-checkbox ng-model="item.is_item_selected" ng-change="itemSelectedforSync(item)" aria-label="false"></md-checkbox> {{item.is_item_selected == true ? "Selected" : ""}}
+                </td>
+                <td style="vertical-align:middle">
+                    <a ng-href="/TalakayanEvaluation/Talakayan?id={{item.talakayan_evaluation_id}}" class="btn btn-info" title="Edit Record"><i class="fa fa-edit"></i></a>
+                    <a ng-click="delete(item)" class="btn btn-warning" title="Delete Record"><span data-toggle='tooltip' class='glyphicon glyphicon-trash'></span></a>
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.talakayan_date_start | date:'MM/dd/yyyy'}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.evaluation_date_start | date:'MM/dd/yyyy'}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.evaluation_form_version}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.person_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.is_male == true ? "Male" : "Female"}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_region_region_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_province_prov_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_city_city_name}}
+                </td>
+                <td style="vertical-align:middle" ng-show="item.push_date==null">
+                    <mark>(For Uploading)</mark>
+                </td>
+                <td style="vertical-align:middle" ng-show="item.push_date!=null">
+                    {{item.push_date | date:'MM/dd/yyyy'}}
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>

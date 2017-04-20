@@ -1,0 +1,123 @@
+﻿
+
+<div class="panel panel-body">
+
+
+
+    <h3>KC Municipal Report - Municipal Inter-Barangay Forum / Municipal Forum</h3>
+    <br />
+
+    <h4>Proposed and Prioritized Sub-Projects</h4>
+
+    <br />
+    <br />
+
+    @Html.Partial("~/Views/Report/Common/_report_header.cshtml")
+
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-xs-12">A. List of Sub-Projects Proposed and Prioritized during the MIBF/MF</div>
+    </div>
+
+    @*<div ng-repeat="playerPerTeam in playersToFilter() | filter:filterTeams">
+            <b>{{playerPerTeam.person_profile_id}}</b>
+            <b>{{playerPerTeam.first_name}}</b>
+
+
+            <li ng-repeat="player in volunteer_list | filter:{person_profile_id: playerPerTeam.person_profile_id}">
+                {{player.first_name}}
+                {{player.committee}}
+                {{player.position}}
+
+
+
+
+            </li>
+        </div>*@
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    Rank
+                </td>
+                <td align="center">
+                   Title Proposal
+                </td>
+                <td align="center">
+           Lead Barangay
+                </td>
+
+                <td align="center">
+                    Proposed KC Grant Amount
+                </td>
+
+                <td align="center">
+                    LCC Amount
+                </td>
+
+                <td align="center">
+                    Total Amount
+                </td>
+                <td align="center">
+                    Prioritized
+                </td>
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in mibf_projects| orderBy: 'rank'">
+
+
+
+                <td>
+                    {{item.rank}}
+                </td>
+
+
+                <td>
+                    {{item.project_name}}
+                </td>
+
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+
+                <td>
+                    {{item.kc_amount}}
+                </td>
+                <td>
+                    {{item.lcc_amount}}
+                </td>
+
+                <td>
+                  {{item.kc_amount + item.lcc_amount}}
+
+                </td>
+                <td>
+
+                    {{item.is_priority ? "YES" : "NO"}}
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+
+
+
+    <br />
+
+
+
+
+</div>

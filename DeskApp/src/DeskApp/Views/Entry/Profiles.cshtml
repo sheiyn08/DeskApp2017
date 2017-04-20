@@ -1,0 +1,906 @@
+﻿
+
+
+
+<div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">Person Profile</div>
+    </md-toolbar>
+
+    <md-content>
+
+
+
+        <md-tabs md-dynamic-height md-border-bottom>
+
+
+
+            <md-tab label="Details">
+                <form name="myForm">
+                    <md-content class="md-padding">
+                        @Html.Partial("~/Views/Entry/Person/_details.cshtml")
+
+
+                    </md-content>
+                </form>
+            </md-tab>
+
+            <md-tab label="Address">
+                <form name="addressForm">
+                    <md-content class="md-padding">
+
+                        @Html.Partial("~/Views/Entry/Person/_address.cshtml")
+
+
+
+
+
+
+                    </md-content>
+                </form>
+            </md-tab>
+
+
+            <md-tab label="Employment">
+                <form name="employmentForm">
+                    <md-content class="md-padding">
+                        @Html.Partial("~/Views/Entry/Person/_employment.cshtml")
+                    </md-content>
+                </form>
+
+
+
+            </md-tab>
+
+
+            <md-tab label="Sectors">
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/Person/_sectors.cshtml")
+                </md-content>
+            </md-tab>
+
+            <md-tab label="Volunteer Details" ng-disabled="!status">
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/Person/_volunteer_record.cshtml")
+                </md-content>
+            </md-tab>
+
+
+
+
+            <md-tab label="KC Trainings">
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/Person/_training_records.cshtml")
+                </md-content>
+            </md-tab>
+
+
+
+
+
+            <md-tab label="ERS Records">
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/Person/_ers.cshtml")
+                </md-content>
+            </md-tab>
+
+            <md-tab label="Other Trainings and Membership" ng-disabled="!status">
+               
+                    <md-content class="md-padding">
+                        @Html.Partial("~/Views/Entry/Person/_others.cshtml")
+                    </md-content>
+               
+            </md-tab>
+
+            @Html.Partial("~/Views/Entry/Common/_attachment.cshtml")
+
+
+
+        </md-tabs>
+
+
+
+
+
+
+
+
+    </md-content>
+
+    <md-content>
+
+
+        <ul>
+            <li ng-repeat="(key, errors) in myForm.$error track by $index">
+                <strong>{{ key }}</strong> Personal Information
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+
+            <li ng-repeat="(key, errors) in addressForm.$error track by $index">
+                <strong>{{ key }}</strong> Address Errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+
+            <li ng-repeat="(key, errors) in employmentForm.$error track by $index">
+                <strong>{{ key }}</strong> Employment Errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+
+
+        <md-container layout="row">
+
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+
+                <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || !addressForm.$valid || !employmentForm.$valid">
+                    Save Record
+                </md-button>
+
+                <md-button class="md-warn md-raised" href="/View/People">
+                    Cancel
+                </md-button>
+
+            </div>
+        </md-container>
+    </md-content>
+
+</div>
+
+
+
+
+ 
+
+
+
+@section Scripts
+{
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+            .controller('AppCtrl',
+                function ($scope, $mdDialog, $http, $mdToast) {
+
+
+                    $scope.data;
+
+
+
+                    $scope.list_volunteer = [];
+
+                    $scope.selected_volunteer = {};
+                    $scope.new_volunteer_record = {}
+
+
+                    $http.get('/api/lib_enrollment')
+                        .then(function (response) { $scope.enrollment_id_options = response.data; });
+
+                    $http.get('/api/lib_civil_status')
+                     .then(function (response) { $scope.civil_status_id_options = response.data; });
+
+                     
+
+
+
+                    $scope.$watch('new_volunteer_record.fund_source_id', function (newValue, oldValue) {
+
+                        var record = $scope;
+
+
+                        if (newValue == null) {
+
+                            record.new_volunteer_record.cycle_id = null;
+
+                            record.new_volunteer_record.cycle_id_options = [];
+                        }
+
+                        else {
+
+                            if (newValue != "") {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/lib_cycle?id=' + record.new_volunteer_record.fund_source_id,
+
+                                }).success(function (data, status, headers, config) {
+
+                                    $scope.new_volunteer_record.cycle_id_options = data;
+
+                                }).error(function (data, status, headers, config) {
+
+                                    $scope.message = 'Unexpected Error';
+                                });
+                            }
+                            else {
+                                record.new_volunteer_record.cycle_id = null;
+
+                                record.new_volunteer_record.cycle_id_options = [];
+                            }
+                        }
+
+                    });
+
+
+
+                    $http.get('/api/offline/v1/profiles/get?id=@ViewBag.id')
+                        .then(function (response) {
+
+
+                            $scope.loading = true;
+
+                            $scope.data = response.data;
+                            //Prioritization
+
+
+                            $scope.dt_birthdate = $scope.data.birthdate == undefined ? null : new Date($scope.data.birthdate);
+                           
+                            $scope.dt_date_appointment = new Date($scope.data.date_appointment);
+
+                            $scope.check_status = function () {
+
+                                $http.get('/api/exists/person_profile?id=@ViewBag.id')
+                                    .then(function (result) {
+
+
+                                        if (result.data == true) {
+                                            $scope.status = true;
+                                        } else {
+                                            $scope.status = false;
+
+                                        }
+                                    });
+
+                            }
+
+                            $scope.check_status();
+
+                            $scope.data.other_trainings = [];
+
+                            if ($scope.data.other_training != null) {
+                                $scope.data.other_trainings = JSON.parse($scope.data.other_training);
+                            }
+
+                            $scope.data.other_memberships = [];
+
+                            if ($scope.data.other_membership != null) {
+                                $scope.data.other_memberships = JSON.parse($scope.data.other_membership);
+                            }
+
+                            $scope.addTraining = function () {
+
+
+
+
+                                $scope.data.other_trainings.push($scope.training);
+
+                                $mdToast.show(
+                                                 $mdToast.simple()
+                                                 .textContent('Other Trainings Added!')
+                                                 .position("top right")
+                                                 .hideDelay(5000)
+                                             );
+
+                                $scope.training = {};
+                            }
+
+                            $scope.removeTraining = function (index) {
+                                $scope.data.other_trainings.splice(index, 1);
+
+                                $mdToast.show(
+                                               $mdToast.simple()
+                                               .textContent('Other Trainings Removed!')
+                                               .position("top right")
+                                               .hideDelay(5000)
+                                           );
+                            }
+
+                            $scope.addMembership = function () {
+
+
+
+
+                                $scope.data.other_memberships.push($scope.membership);
+
+                                $mdToast.show(
+                                                 $mdToast.simple()
+                                                 .textContent('Other Committee Added!')
+                                                 .position("top right")
+                                                 .hideDelay(5000)
+                                             );
+
+                                $scope.membership = {};
+                            }
+
+                            $scope.removeMembership = function (index) {
+                                $scope.data.other_memberships.splice(index, 1);
+
+                                $mdToast.show(
+                                               $mdToast.simple()
+                                               .textContent('Other Committee Removed!')
+                                               .position("top right")
+                                               .hideDelay(5000)
+                                           );
+                            }
+
+
+                            //get volu
+                            $scope.get_volunteer_records = function () {
+                                $http.get('/api/offline/v1/profiles/volunteer_record/get?id=@ViewBag.id')
+                                    .then(function (response) {
+
+                                        $scope.list_volunteer = response.data;
+
+
+                                        angular.forEach($scope.list_volunteer,
+                                            function (todo) {
+
+                                                todo.dt_start_date = new Date(todo.start_date);
+                                                todo.dt_end_date = new Date(todo.end_date);
+
+
+                                            });
+
+
+                                    });
+
+                            };
+
+
+                            //edit request`
+                            $scope.editVolunteer = function (contact) {
+                                $scope.edit_volunteer = true;
+                                $scope.selected_volunteer = angular.copy(contact);
+                            };
+
+                            //add request
+                            $scope.addVolunteer = function (contact) {
+                                $scope.new_volunteer = true;
+                                $scope.edit_volunteer = false;
+                            };
+
+
+
+                            // gets the template to ng-include for a table row / item
+                            $scope.getVolunteerTemplate = function (contact) {
+                                if (contact
+                                    .person_volunteer_record_id ===
+                                    $scope.selected_volunteer.person_volunteer_record_id) return 'editVolunteerTemplate';
+                                else return 'displayVolunteerTemplate';
+                            };
+
+                            $scope.reset_volunteer = function () {
+                                $scope.new_volunteer = false;
+                                $scope.edit_volunteer = false;
+                                $scope.selected_volunteer = {};
+                                $scope.new_volunteer_record = {};
+                            };
+
+                            $scope.save_volunteer = function (idx) {
+
+
+                                $.post('/api/offline/v1/profiles/volunteer_record/save', $scope.selected_volunteer)
+                                    .success(function (data) {
+
+                                      
+                                        //      $scope.selected_volunteer.lib_implementation_status_name = data.lib_implementation_status_name;
+                                        //set name values of libs
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Volunteer Record Updated!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+
+                                        $scope.list_volunteer[idx] = angular.copy($scope.selected_volunteer);
+
+
+                                        $scope.reset_volunteer();
+                                        // $scope.get_volunteer_records();
+
+                                    })
+                                    .error(function (data) {
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+
+
+                            };
+
+                            //set Foreign Ky
+                            $scope.new_volunteer_record = {};
+
+                            $scope.new_volunteer_record.person_profile_id = $scope.data.person_profile_id;
+
+                            $scope.add_volunteer = function () {
+                                $scope.new_volunteer_record.person_profile_id = $scope.data.person_profile_id;
+
+
+                                $scope.new_volunteer_record.created_by = 0;
+                                $scope.new_volunteer_record.created_date = new Date();
+
+
+                                $.post('/api/offline/v1/profiles/volunteer_record/save', $scope.new_volunteer_record)
+                                    .success(function (data) {
+
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Volunteer Record Added!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        $scope.get_volunteer_records();
+
+
+                                        $scope.reset_volunteer();
+                                    })
+                                    .error(function (data) {
+                                        alert(JSON.stringify(data));
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+
+                            };
+
+
+
+                            $scope.remove_volunteer = function (prob, index) {
+                                var ask = confirm("Do you want to remove this item?");
+                                if (ask == false) {
+                                    return false;
+                                }
+
+                                $.post('/api/delete/person_volunteer_record?id=' + prob.person_volunteer_record_id)
+                                    .success(function (data) {
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Volunteer Record Removed!')
+                                            .position("bottom right")
+                                            .hideDelay(3000)
+                                        );
+
+
+                                        $scope.list_volunteer.splice(index, 1);
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+
+                                    });
+
+                            }
+
+
+
+
+
+                            //trainings
+
+                            $http.get('/api/offline/v1/profiles/trainings/get?id=@ViewBag.id')
+                                .then(function (response) {
+
+                                    $scope.person_trainings = response.data;
+
+                                });
+
+
+
+
+                            $scope.get_volunteer_records();
+
+
+                            $http.get('/api/offline/v1/profiles/ers/get?id=@ViewBag.id')
+                                .then(function (response) {
+
+                                    $scope.person_ers_records = response.data;
+
+                                });
+
+
+                            $scope.dt_date_intake = new Date(response.data.date_intake);
+                            $scope.dt_resolution_date = new Date(response.data.resolution_date);
+
+                            $http.get('/api/online/lib_region')
+                                .then(function (response) { $scope.region_code_options = response.data; });
+
+                            $http.get('/Api/lib_fund_source/')
+                                .then(function (response) { $scope.fund_source_id_options = response.data; });
+
+                            $http.get('/api/lib_enrollment')
+                                .then(function (response) { $scope.enrollment_id_options = response.data; });
+
+                            $http.get('/Api/lib_lgu_level/')
+                                .then(function (response) { $scope.lgu_level_id_options = response.data; });
+
+
+                            $http.get('/Api/lib_ip_group/')
+                                .then(function (response) { $scope.ip_group_id_options = response.data; });
+
+                            $http.get('/Api/lib_occupation/')
+                                .then(function (response) { $scope.occupation_id_options = response.data; });
+
+                            $http.get('/Api/lib_lgu_position/')
+                                .then(function (response) { $scope.lgu_position_id_options = response.data; });
+
+
+                            $http.get('/Api/lib_volunteer_committee/')
+                                .then(function (response) { $scope.volunteer_committee_id_options = response.data; });
+
+                            $http.get('/Api/lib_volunteer_committee_position/')
+                                .then(function (response) {
+                                    $scope.volunteer_committee_position_id_options = response.data;
+                                });
+
+                            $http.get('/Api/lib_occupation/')
+                                .then(function (response) { $scope.occupation_id_options = response.data; });
+
+
+                            $http.get('/Api/lib_education_attainment/')
+                                .then(function (response) { $scope.educational_attainment_id_options = response.data; });
+
+
+                            $scope.loading = false;
+
+
+
+
+                            $scope.cancel = function () {
+
+                                $http.get('/api/offline/v1/profiles/get?id=@ViewBag.id')
+                                    .then(function (response) {
+
+                                        //            this.editMode = false;
+
+                                        $scope.data = response.data;
+
+                                        $scope.dt_intake_date = new Date(response.data.intake_date);
+                                        $scope.dt_resolution_date = new Date(response.data.resolution_date);
+                                    });
+                            }
+
+
+
+                            //ATTACHMENTS
+
+
+                            $http.get('/api/attachment_list?id=18')
+                            .then(function (response) {
+
+                                $scope.attachment_list = response.data;
+                                
+                            });
+                          
+                            $scope.attached_documents = [];
+                            $scope.attachment = {};
+                            $scope.attachment.mov_list_id = null;
+
+                            $scope.uploadAttachment = function () {
+
+                                $scope.attachment1 = 'Community Volunteers Profile';
+                                $scope.attachment2 = 'CDD Sub-Project Workers Basic Profile';
+
+                                
+                                if ($scope.attached_documents.filter(function (e) {
+                                    return e.mov_list_id == $scope.attachment.mov_list_id;
+                                }).length > 0) {
+                                    alert("Only single attachment is allowed for each attachment type/form.");
+                                    $scope.attachment = {};
+                                }
+
+                                else {
+
+                                    var fileUpload = $("#files").get(0);
+                                    var files = fileUpload.files;
+                                    var data = new FormData();
+                                    for (var i = 0; i < files.length ; i++) {
+                                        data.append(files[i].name, files[i]);
+                                    }
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/Mov/UploadFilesAjax?id="
+                                            + '@ViewBag.id'
+                                            + "&mov_list_id=" + $scope.attachment.mov_list_id
+
+
+                                           + "&region_code=" + $scope.data.region_code
+                                           + "&prov_code=" + $scope.data.prov_code
+                                                + "&city_code=" + $scope.data.city_code
+                                                + "&brgy_code=" + $scope.data.brgy_code
+
+                                           + "&fund_source_id=" + $scope.data.fund_source_id
+                                                + "&cycle_id=" + $scope.data.cycle_id
+                                             + "&enrollment_id=" + $scope.data.enrollment_id,
+
+
+
+                                        contentType: false,
+                                        processData: false,
+                                        data: data,
+                                        success: function (message) {
+                                            var base = window.location.origin;
+
+                                            message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+                                            
+                                            $scope.attached_documents.push(message);
+
+                                            $scope.attachment = {};
+                                        },
+                                        error: function (message) {
+                                            alert(JSON.stringify(message.responseText));
+                                        }
+                                    });
+                                }
+
+                                
+
+                                                               
+                                @*var fileUpload = $("#files").get(0);
+                                var files = fileUpload.files;
+                                var data = new FormData();
+                                for (var i = 0; i < files.length ; i++) {
+                                    data.append(files[i].name, files[i]);
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Mov/UploadFilesAjax?id="
+                                        + '@ViewBag.id'
+                                        + "&mov_list_id=" + $scope.attachment.mov_list_id
+
+
+                                       + "&region_code=" + $scope.data.region_code
+                                       + "&prov_code=" + $scope.data.prov_code
+                                            + "&city_code=" + $scope.data.city_code
+                                            + "&brgy_code=" + $scope.data.brgy_code
+
+                                       + "&fund_source_id=" + $scope.data.fund_source_id
+                                            + "&cycle_id=" + $scope.data.cycle_id
+                                         + "&enrollment_id=" + $scope.data.enrollment_id,
+
+
+
+                                    contentType: false,
+                                    processData: false,
+                                    data: data,
+                                    success: function (message) {
+                                        var base = window.location.origin;
+
+                                        message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+
+
+
+                                        $scope.attached_documents.push(message);
+
+                                        //    alert(JSON.stringify(message));
+
+                                    },
+                                    error: function (message) {
+                                        alert(JSON.stringify(message.responseText));
+                                    }
+                                });*@
+
+
+                            }
+
+                            $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
+                               .success(function (value) {
+                                   
+                                   $scope.attached_documents = value;
+
+                                   angular.forEach($scope.attached_documents, function (item) {
+                                       var base = window.location.origin;
+
+                                       item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
+
+
+                                   })
+
+                               });
+
+
+
+
+                            $scope.deleteMov = function (removeitem) {
+
+
+
+                                var ask = confirm("Are you sure you want to Delete this?");
+
+
+                                if (ask == true) {
+                                    $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
+                                        $scope.loading = false;
+
+
+
+                                        var index = $scope.attached_documents.indexOf(removeitem);
+                                        $scope.attached_documents.splice(index, 1);
+
+
+                                        alert("Record removed!")
+
+                                    }).error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+                                }
+
+                            }
+                            //END ATTACHMENTS
+
+
+
+                            $scope.save = function () {
+
+
+                                $scope.$broadcast('show-errors-check-validity');
+                                $scope.loading = true;
+                                //       alert(JSON.stringify($scope.data));
+
+                                //'/api/v1/grievances/save'
+                                $scope.data.other_training = JSON.stringify($scope.data.other_trainings);
+                                $scope.data.other_membership = JSON.stringify($scope.data.other_memberships);
+
+
+                                $.post('/api/offline/v1/profiles/save', $scope.data)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+                                        $('html, body').animate({
+                                            scrollTop: '0px'
+                                        }, 1500);
+
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Record Saved!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        $scope.check_status();
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            };
+                        });
+
+
+                    $scope.$watch('data.region_code',
+                        function (newValue, oldValue) {
+
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+                                record.prov_code = null;
+                                record.city_code = null;
+                                record.brgy_code = null;
+
+
+                                record.prov_code_options = [];
+                                record.city_code_options = [];
+                                record.brgy_code_options = [];
+                            } else {
+
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_province?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.prov_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    $scope.$watch('data.prov_code',
+                        function (newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+
+                                record.brgy_code = null;
+                                record.city_code = null;
+                                record.city_code_options = [];
+                                record.brgy_code_options = [];
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_city?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.city_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    $scope.$watch('data.city_code',
+                        function (newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+
+                                record.brgy_code = null;
+
+                                record.brgy_code_options = [];
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_brgy?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.brgy_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+
+
+
+
+                })
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+}
+
+

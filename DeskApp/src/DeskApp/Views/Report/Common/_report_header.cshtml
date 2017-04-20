@@ -1,0 +1,24 @@
+﻿<div class="row">
+    <div class="col-xs-3">
+        Region: {{selected_region.Name}}
+    </div>
+    <div class="col-xs-3">
+        Province: {{selected_province.Name}}
+    </div>
+    <div class="col-xs-3">
+        Municipality: {{selected_city.Name}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-3">
+        Fund Source: {{selected_fund.Name == null ? "Across Modality" : selected_fund.Name}}
+    </div>
+    <div class="col-xs-3">
+        Cycle: {{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
+    </div>
+    <div class="col-xs-3">
+        KC Mode:{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+    </div>
+</div>
+ 
+<br />

@@ -1,0 +1,126 @@
+﻿
+<form name="myForm" ng-cloak>
+    <div class="panel panel-success">
+
+        <div class="panel-heading">
+            <h4>Generation Instructions</h4>
+            <h5>Please filter before proceeding in printing the report.</h5>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-8">
+                        <label>Select Report</label>
+                        <div class="form-group">
+                            <select name="Report" ng-model="selected_report" class="form-control" ng-required="true"
+                                    ng-change="clear()"
+                                    ng-disabled="status"
+                                    ng-options="option as option.Name for option in report_list">
+                                <option value="">[Select Report]</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Talakayan Year</label>
+                        <div class="form-group">
+                            <select name="talakayan_yr" ng-model="selected_talakayan_year" class="form-control" ng-required="true"
+                                    ng-change="clear()"
+                                    ng-disabled="status"
+                                    ng-options="option as option.Name for option in talakayan_year_options">
+                                <option value="">[Select Year]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+
+                        <label for="Region:_">Region</label>
+                        <div class="form-group">
+                            <select name="Region" ng-model="selected_region" class="form-control"
+                                    ng-disabled="status"
+                                    ng-options="option as option.Name for option in region_code_options">
+                                <option value="">[Select Region]</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label for="Province:_">Province</label>
+                        <div class="form-group">
+                            <select name="Province" ng-model="selected_province" class="form-control"
+                                    ng-disabled="selected_region == null || status"
+                                    ng-options="option as option.Name for option in prov_code_options">
+                                <option value="">[Select Province]</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Municipality:_">Municipality</label>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <select name="Municipality" ng-model="selected_city" class="form-control"
+                                        ng-disabled="selected_province == null || status"
+                                        ng-options="option as option.Name for option in city_code_options">
+
+
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Barangay:_">Barangay</label>
+                        <div class="form-group">
+                            <select name="Barangay" ng-model="selected_brgy" class="form-control"
+                                    ng-change="clear()"
+                                    ng-disabled="selected_city == null || status"
+                                    ng-options="option as option.Name for option in brgy_code_options">
+                                <option value="">[Select Barangay]</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-6">
+                        <md-button class="md-raised" ng-click="search()" ng-disabled="!myForm.$valid">
+                            <i class="fa fa-filter"></i>  Filter
+                        </md-button>
+                        <md-button class="md-primary md-raised" ng-click="printContent()" ng-disabled="!myForm.$valid">
+                            <i class="fa fa-print"></i>  Print
+                        </md-button>
+                        <md-button class="md-raised md-warn" ng-click="exportToXLS()" ng-disabled="!myForm.$valid">
+                            <i class="fa fa-file-excel-o"></i>  Export
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+

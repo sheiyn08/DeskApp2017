@@ -1,0 +1,235 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Desktop App</title>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="http://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.css">
+
+
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    
+    <!-- Bootstrap 3.3.4 -->
+    <link href="../content/lte/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="../bower_components/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../bower_components/ionicons-2.0.1/css/ionicons.css" rel="stylesheet" />
+    <link href="../content/lte/dist/css/adminlte.css" rel="stylesheet" />
+  
+    <link href="../content/lte/dist/css/skins/skin-blue.css" rel="stylesheet" />
+
+</head>
+
+ 
+
+<body class="skin-blue sidebar-mini">
+    <div class="wrapper">
+        <!-- Main Header -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>PI</b>MS</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>PIMS </b><small style="font-size:12px">Sync Tool</small></span>
+            </a>
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+                        <!-- Notifications Menu -->
+                        <!-- Tasks Menu -->
+                    
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                         <span class="hidden-xs">
+                                   
+
+
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- The user image in the menu -->
+                                <li class="user-header">
+                                    <div class="pull-left">
+                                        <a href="@Url.Action(" Manage", "Account" )" class="btn btn-default btn-flat">Change Password</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="@Url.Action(" LogOff", "Account" )" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+
+                                </li>
+                                <!-- Menu Body -->
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+                        <li>
+                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+              
+                <ul class="sidebar-menu">
+                    <li class="header">NAVIGATION</li>
+                    <!-- Optionally, you can add icons to the links -->
+                    <li><a href="@Url.Action(" Index", "Home" )"><i class='glyphicon glyphicon-dashboard'></i> <span>Home</span></a></li>
+
+              
+
+                    <li><a href="@Url.Action(" Index", "ERFRS" )"><i class="fa fa-circle-o"></i> SP / ERFRs</a></li>
+
+
+
+
+                    <li><a href="@Url.Action(" Index", "Import" )"><i class='glyphicon glyphicon-list'></i> <span>Import</span></a></li>
+
+
+
+
+                 
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-table"></i> <span>Library</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu" style="display: none;">
+                            <li><a href="@Url.Action(" MetaAnswer", "Admin" )"><i class="fa fa-circle-o"></i> SWDI Response</a></li>
+                            <li><a href="@Url.Action(" lib_percapita", "Admin" )"><i class="fa fa-circle-o"></i> Per Capita</a></li>
+                            <li><a href="@Url.Action(" lib_childnutrition", "Admin" )"><i class="fa fa-circle-o"></i> Child Nutrition</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li><a href="/Admin/RoleIndex"><i class='glyphicon glyphicon-wrench'></i> <span>Roles</span></a></li>
+                    <li><a href="/Admin/AuditTrail"><i class='fa fa-eye'></i> <span>Audit Trail</span></a></li>
+                    <li><a href="/Admin/SystemSettings"><i class='fa fa-connectdevelop'></i> <span>System Settings</span></a></li>
+                    <li><a href="/Elmah"><i class='glyphicon glyphicon-exclamation-sign'></i> <span>Errors</span></a></li>
+
+                   
+ 
+
+
+                </ul><!-- /.sidebar-menu -->
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    @ViewBag.Controller
+                    <small>@ViewBag.Action</small>
+                </h1>
+                <ol class="breadcrumb">
+                    @*
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                    <li class="active">Here</li>*@
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                @RenderBody()
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+                PIMS Online Sync Tool 2
+            </div>
+            <!-- Default to the left -->
+            <strong>DEPARTMENT OF SOCIAL WELFARE AND DEVELOPMENT &copy; @DateTime.Now.ToShortDateString() <a href="http://geotagging.dswd.gov.ph">DSWD</a>.</strong>
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Create the tabs -->
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+                <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- Home tab content -->
+                <div class="tab-pane active" id="control-sidebar-home-tab">
+                    <h3 class="control-sidebar-heading">Recent Activity</h3>
+                    <ul class='control-sidebar-menu'>
+
+                      
+
+
+                        <li>
+                           
+                        </li>
+                    </ul><!-- /.control-sidebar-menu -->
+                
+                </div><!-- /.tab-pane -->
+                <!-- Stats tab content -->
+                <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div><!-- /.tab-pane -->
+                <!-- Settings tab content -->
+                <div class="tab-pane" id="control-sidebar-settings-tab">
+                    <form method="post">
+                        <h3 class="control-sidebar-heading">General Settings</h3>
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Account Information
+                           
+                            </label>
+                            <p>
+                                Account Level:
+                              
+
+                            </p>
+                        </div>
+                 
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Covered Areas
+
+                            </label>
+                          
+                        </div>
+
+                       
+                    </form>
+                </div><!-- /.tab-pane -->
+            </div>
+        </aside><!-- /.control-sidebar -->
+ 
+        <div class='control-sidebar-bg'></div>
+    </div><!-- ./wrapper -->
+   
+</body>
+
+
+
+<script src="../Content/LTE/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<!-- Bootstrap 3.3.2 JS -->
+<script src="../content/lte/bootstrap/js/bootstrap.js"></script>
+
+<!-- AdminLTE App -->
+<script src="../content/lte/dist/js/app.js"></script>
+ 

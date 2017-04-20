@@ -1,0 +1,59 @@
+﻿@{Layout = null; }
+
+
+
+<div class="panel panel-success">
+
+    <div class="panel panel-heading">
+        <h3>Socio Economic Information</h3>
+        <p>Identify top three income-generating activities in the Municipality, average income per activity and number of HHs involved</p>
+
+    </div>
+
+
+
+    <div flex="100" class="layout-row" layout-margin>
+
+
+
+
+        <div flex>Rank</div>
+        <div flex>Activity</div>
+        <div flex>No. of HHs</div>
+        <div flex>Ave. Income</div>
+    </div>
+
+    <div flex="100" class="layout-row" layout-margin>
+
+
+
+
+        <div flex>1</div>
+        <div flex><input type="text" ng-model="data.socio_econ_activity_1" class="form-control" /></div>
+        <div flex><input type="number" min="0" ng-model="data.socio_econ_hhs_1" class="form-control" /></div>
+        <div flex><input type="number" min="0" ng-model="data.socio_econ_amount_1" class="form-control" /></div>
+    </div>
+
+
+
+    <div flex="100" class="layout-row" layout-margin>
+
+
+
+
+        <div flex>2</div>
+        <div flex><input type="text" ng-model="data.socio_econ_activity_2" class="form-control" /></div>
+        <div flex><input type="number" min="0" ng-model="data.socio_econ_hhs_2" class="form-control" /></div>
+        <div flex><input type="text" ng-model="data.socio_econ_amount_2" class="form-control" /></div>
+    </div>
+    <div flex="100" class="layout-row" layout-margin>
+
+
+
+
+        <div flex>3</div>
+        <div flex><input type="text" ng-model="data.socio_econ_activity_3" class="form-control" /></div>
+        <div flex><input type="number" min="0" ng-model="data.socio_econ_hhs_3" class="form-control" /></div>
+        <div flex><input type="text" ng-model="data.socio_econ_amount_3" class="form-control" /></div>
+    </div>
+</div>

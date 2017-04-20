@@ -1,0 +1,1003 @@
+﻿
+<md-tabs md-dynamic-height md-border-bottom>
+
+    <!--1st Tab-->
+    <md-tab label="2011">
+        <div class="panel panel-body">
+            <div class="row" style="padding:40px">
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>DOF-BLGF</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>DSWD</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>IRA Share</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2011.ira_share}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" ng-model="data.mlgu_ira_share_2011" min="0" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_ira_share_2011" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Locally-sourced Revenues</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2011.locally_shared_revenues}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly"  min="0" ng-model="data.mlgu_locally_sourced_revenues_2011" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_locally_sourced_revenues_2011" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Other revenues (include sources)</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2011.other_revenues_total}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_other_revenues_2011" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_other_revenues_2011" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2011.total_lgu_income}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_2011" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_2011" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income per Capita*</strong>
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2011.result_total_lgu_income_per_capita}}
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_per_capita_2011" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_per_capita_2011" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund=20% IRA*</strong>
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2011.result_development_fund}}
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_2011" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_2011" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund per Capita*</strong>
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2011.result_development_fund_per_capita}}
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_per_capita_2011" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_per_capita_2011" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </md-tab>
+    <!--2nd Tab-->
+    <md-tab label="2012">
+        <div class="panel panel-body">
+            <div class="row" style="padding:40px">
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>DOF-BLGF</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>DSWD</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>IRA Share</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2012.ira_share}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_ira_share_2012" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_ira_share_2012" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Locally-sourced Revenues</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2012.locally_shared_revenues}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_locally_sourced_revenues_2012" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_locally_sourced_revenues_2012" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Other revenues (include sources)</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2012.other_revenues_total}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_other_revenues_2012" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_other_revenues_2012" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2012.total_lgu_income}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_2012" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_2012" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income per Capita*</strong>
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2012.result_total_lgu_income_per_capita}}
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%"  ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_per_capita_2012" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_per_capita_2012" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund=20% IRA*</strong>
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2012.result_development_fund}}
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_2012" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_2012" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund per Capita*</strong>
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2012.result_development_fund_per_capita}}
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_per_capita_2012" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_per_capita_2012" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </md-tab>
+    <!--3rd Tab-->
+    <md-tab label="2013">
+        <div class="panel panel-body">
+            <div class="row" style="padding:40px">
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>DOF-BLGF</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>DSWD</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>IRA Share</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2013.ira_share}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_ira_share_2013" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_ira_share_2013" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Locally-sourced Revenues</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2013.locally_shared_revenues}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_locally_sourced_revenues_2013" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_locally_sourced_revenues_2013" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Other revenues (include sources)</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2013.other_revenues_total}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_other_revenues_2013" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_other_revenues_2013" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income</strong>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2013.total_lgu_income}}
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_2013" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_2013" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income per Capita*</strong>
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2013.result_total_lgu_income_per_capita}}
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_per_capita_2013" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_per_capita_2013" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund=20% IRA*</strong>
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2013.result_development_fund}}
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_2013" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_2013" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund per Capita*</strong>
+                        </td>
+                        <td>
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right">
+                            {{RevenueandExpenditures2013.result_development_fund_per_capita}}
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_per_capita_2013" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_per_capita_2013" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </md-tab>
+    <!--4th Tab-->
+    <md-tab label="2014">
+        <div class="panel panel-body">
+            <div class="row" style="padding:40px">
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>IRA Share</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_ira_share_2014" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_ira_share_2014" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Locally-sourced Revenues</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_locally_sourced_revenues_2014" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_locally_sourced_revenues_2014" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Other revenues (include sources)</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_other_revenues_2014" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_other_revenues_2014" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_2014" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_2014" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_per_capita_2014" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_per_capita_2014" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund=20% IRA*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_2014" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_2014" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_per_capita_2014" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_per_capita_2014" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </md-tab>
+    <!--5th Tab-->
+    <md-tab label="2015">
+        <div class="panel panel-body">
+            <div class="row" style="padding:40px">
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>IRA Share</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_ira_share_2015" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_ira_share_2015" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Locally-sourced Revenues</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_locally_sourced_revenues_2015" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_locally_sourced_revenues_2015" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Other revenues (include sources)</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_other_revenues_2015" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_other_revenues_2015" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_2015" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_2015" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_per_capita_2015" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_per_capita_2015" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund=20% IRA*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_2015" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_2015" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_per_capita_2015" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_per_capita_2015" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </md-tab>
+    <!--6th Tab-->
+    <md-tab label="2016">
+        <div class="panel panel-body">
+            <div class="row" style="padding:40px">
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>IRA Share</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_ira_share_2016" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_ira_share_2016" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Locally-sourced Revenues</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_locally_sourced_revenues_2016" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_locally_sourced_revenues_2016" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Other revenues (include sources)</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_other_revenues_2016" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_other_revenues_2016" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_2016" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_2016" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_per_capita_2016" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_per_capita_2016" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund=20% IRA*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_2016" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_2016" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_per_capita_2016" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_per_capita_2016" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </md-tab>
+    <!--7th Tab-->
+    <md-tab label="2017">
+        <div class="panel panel-body">
+            <div class="row" style="padding:40px">
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>IRA Share</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_ira_share_2017" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_ira_share_2017" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Locally-sourced Revenues</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_locally_sourced_revenues_2017" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_locally_sourced_revenues_2017" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Other revenues (include sources)</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_other_revenues_2017" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_other_revenues_2017" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_2017" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_2017" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_per_capita_2017" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_per_capita_2017" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund=20% IRA*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_2017" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_2017" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_per_capita_2017" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_per_capita_2017" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </md-tab>
+    <!--8th Tab-->
+    <md-tab label="2018">
+        <div class="panel panel-body">
+            <div class="row" style="padding:40px">
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>IRA Share</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_ira_share_2018" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_ira_share_2018" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Locally-sourced Revenues</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_locally_sourced_revenues_2018" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_locally_sourced_revenues_2018" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Other revenues (include sources)</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_other_revenues_2018" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_other_revenues_2018" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_2018" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_2018" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_per_capita_2018" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_per_capita_2018" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund=20% IRA*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_2018" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_2018" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_per_capita_2018" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_per_capita_2018" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </md-tab>
+    <!--9th Tab-->
+    <md-tab label="2019">
+        <div class="panel panel-body">
+            <div class="row" style="padding:40px">
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>IRA Share</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_ira_share_2019" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_ira_share_2019" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Locally-sourced Revenues</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_locally_sourced_revenues_2019" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_locally_sourced_revenues_2019" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Other revenues (include sources)</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_other_revenues_2019" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_other_revenues_2019" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_2019" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_2019" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Total LGU Income per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_total_lgu_income_per_capita_2019" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_total_lgu_income_per_capita_2019" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund=20% IRA*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_2019" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_2019" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Development Fund per Capita*</strong>
+                        </td>
+                        <td>
+                            <input type="number" style="width:100%" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu_devt_fund_per_capita_2019" />
+                        </td>
+                        <td>
+                            <input type="text" style="width:100%" ng-model="data.source_devt_fund_per_capita_2019" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </md-tab>
+</md-tabs>

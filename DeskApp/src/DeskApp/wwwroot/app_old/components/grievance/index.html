@@ -1,0 +1,422 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+    <style>
+        md-backdrop {
+            position: fixed;
+        }
+    </style>
+
+</head>
+
+<body layout="column">
+    <div  style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" >
+        <md-toolbar md-scroll-shrink>
+            <div class="md-toolbar-tools">Filter Records</div>
+        </md-toolbar>
+
+
+        <md-content>
+
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <label for="Region:_">Region: </label>
+
+                            <select class="form-control" ng-model="region_code">
+                                <option value=''>[Select Region]</option>
+                                <option ng-repeat="value in region_code_options" value="{{value.Id}}">{{value.Name}}</option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Province:_">Province: </label>
+                            <select class="form-control" ng-model="prov_code" ng-disabled="region_code == ''">
+                                <option value=''>[Select Province]</option>
+                                <option ng-repeat="value in prov_code_options" value="{{value.Id}}">{{value.Name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Municipality:_">Municipality: </label>
+
+                            <select class="form-control" ng-model="city_code" ng-disabled="prov_code ==''">
+                                <option value=''>[Select Municipality]</option>
+                                <option ng-repeat="value in city_code_options" value="{{value.Id}}">{{value.Name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Barangay:_">Barangay: </label>
+
+                            <select class="form-control" ng-model="brgy_code" ng-disabled="city_code ==''">
+                                <option value=''>[Select Barangay]</option>
+                                <option ng-repeat="value in brgy_code_options" value="{{value.Id}}">{{value.Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <label for="Fund Source:_">Fund Source: </label>
+
+
+                            <select class="form-control" ng-model="fund_source_id">
+                                <option value=''>[Select Fund Source]</option>
+                                <option ng-repeat="value in fund_source_id_options" value="{{value.Id}}">{{value.Name}}</option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Province:_">KC Mode: </label>
+                            <select class='form-control' ng-model="enrollment_id">
+                                <option value=''>[Select KC Mode]</option>
+                                <option ng-repeat="value in enrollment_id_options" value="{{value.Id}}">{{value.Name}}</option>
+
+                            </select>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <label for="Region:_">Intake Level: </label>
+
+                            <select ng-model="grs_intake_level_id" id="region_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in grs_intake_level_id_options">
+                                <option value="">[Select Intake Level]</option>
+                            </select>
+                            <div id="validation_for_region_code"></div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Province:_">Form: </label>
+                            <select ng-model="grs_form_id" id="prov_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in grs_form_id_options">
+                                <option value="">[Select Form]</option>
+                            </select>
+                            <div id="validation_for_prov_code"></div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Municipality:_">Filling Mode: </label>
+                            <select ng-model="grs_filling_mode_id" id="city_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in grs_filling_mode_id_options">
+
+
+                                <option value="">[Select Filing Mode]</option>
+                            </select>
+                            <div id="validation_for_city_code"></div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <label for="Region:_">Resolution Status: </label>
+
+                            <select ng-model="grs_resolution_status_id" id="region_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in grs_resolution_status_id_options">
+                                <option value="">[Select Resolution Status]</option>
+                            </select>
+                            <div id="validation_for_region_code"></div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Province:_">Feedback: </label>
+                            <select ng-model="grs_feedback_id" id="prov_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in grs_feedback_id_options">
+                                <option value="">[Select Feedback]</option>
+                            </select>
+                            <div id="validation_for_prov_code"></div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="Province:_">Category: </label>
+                            <select ng-model="grs_category_id" id="prov_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in grs_category_id_options">
+                                <option value="">[Select Category]</option>
+                            </select>
+                            <div id="validation_for_prov_code"></div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Municipality:_">Subject: </label>
+                            <select ng-model="grs_complaint_subject_id" id="city_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in grs_complaint_subject_id_options">
+
+
+                                <option value="">[Select Subject]</option>
+                            </select>
+                            <div id="validation_for_city_code"></div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <label for="Region:_">Nature: </label>
+
+                            <select ng-model="grs_nature_id" id="region_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in grs_nature_id_options">
+                                <option value="">[Select Nature]</option>
+                            </select>
+                            <div id="validation_for_region_code"></div>
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <label for="Region:_">From: </label>
+                        
+                            <md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker> 
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Region:_">To: </label>
+
+                            <md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+        </md-content>
+
+
+
+
+
+        <div class="panel-footer">
+            <div class="panel-body">
+                <p>
+
+
+                    <md-button class="md-warn md-raised" ng-click="search()">
+                        <i class="fa fa-filter"></i>  Filter
+                    </md-button>
+
+                    <a class="btn btn-success" href="#/grievance_intake/Create"><i class="fa fa-plus"></i>Create New</a> |
+                    <md-button class="md-success md-raised" href="#/grievance_intake/Create">
+                        <i class="fa fa-plus"></i>  New Record
+                    </md-button>
+
+                    <a ng-click="getData()">ge</a>
+
+
+                </p>
+                <md-button class="md-primary md-raised" ng-click="getData()">
+                    <i class="ion-android-download"></i>   Get Server Data
+                </md-button>
+                <md-button class="md-primary md-raised" ng-click="showPush($event)">
+                    <i class="ion-android-sync"></i>  Push Desktop Data to Server
+                </md-button>
+
+            </div>
+
+        </div>
+
+
+
+        <md-content>
+            <div class="panel-body">
+                <div class="pull-left">
+
+                    <h3>Page {{page + 1}} of {{pagesCount}} || {{totalCount}} Records</h3>
+
+                    <select name="quarter" ng-model="pageSize" ng-options="obj.value as obj.text for obj in [{'value':5,'text':'5'},{'value':10,'text':'10'},{'value':20,'text':'20'}]" ng-selected="pageSize" class="form-control" ng-change="search()"></select>
+                </div>
+
+                <demo-pager page="{{page}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" search-func="search(page)" class="pull-right"></demo-pager>
+            </div>
+        </md-content>
+
+
+        <div ng-show="isSearching">
+
+            <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+        </div>
+
+
+        <md-content>
+
+            <div class="panel panel-body" ng-show="!isSearching">
+                <table class="table zui-table zui-table-horizontal zui-table-highlight">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th></th>
+
+                            <th>
+                                Region
+                            </th>
+
+                            <th>
+                                Province
+                            </th>
+                            <th>
+                                City
+                            </th>
+                            <th>
+                                Barangay
+                            </th>
+
+                            <th>
+                                Fund Source
+                            </th>
+                            <th>
+                                KC Mode
+                            </th>
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Resolution Status
+                            </th>
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in Items">
+
+                            <td>
+                                <!--<a ng-href="/Entry/Grievances?id={{item.grievance_intake_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>-->
+                                <a ng-href="#/grievance_intake/Edit/{{item.grievance_intake_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a> 
+                            </td>
+
+
+                            <td>
+
+                                {{item.lib_region_region_name}}
+
+                            </td>
+                            <td>
+
+                                {{item.lib_province_prov_name}}
+
+                            </td>
+                            <td>
+
+                                {{item.lib_city_city_name}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.lib_brgy_brgy_name}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.lib_fund_source_name}}
+
+                            </td>
+
+
+                            <td>
+
+                                {{item.lib_enrollment_name}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.lib_grs_category_name}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.lib_grs_resolution_status_name}}
+
+                            </td>
+
+
+
+
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </md-content>
+
+    </div>
+
+    <!--
+    Copyright 2016 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+    -->
+
+
+
+</body>
+
+ 

@@ -1,0 +1,19 @@
+﻿
+@*<div class="col-md-3">
+    @Html.Label("Region: ")
+    <select id="FiltRegion" class="form-control" multiple data-bind="
+    selectPicker: selected_regions, 
+    optionsText: 'region_name', 
+    optionsValue : 'region_code', 
+    selectPickerOptions: { optionsArray: lib_regions }"></select>
+
+</div>*@
+
+<div class="col-md-3">
+    @Html.Label("Region: ")
+    <select class="form-control" data-bind="options: lib_regions, value: region_code,
+    optionsText: 'region_name',
+    optionsValue: 'region_code',optionsCaption: '[Select Region]'"></select>
+</div>
+
+ 

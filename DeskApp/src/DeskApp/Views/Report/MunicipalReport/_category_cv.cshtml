@@ -1,0 +1,611 @@
+﻿@Html.Partial("~/Views/Report/MunicipalReport/_municipal_report_filter.cshtml")
+
+
+@* --------------------- Community Volunteers ==> Summary of Male and Female CVs --------------------- *@
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 8" id="subreport_8">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Community Volunteers</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <b>Region: </b>{{selected_region.Name == null ? "" : selected_region.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Province: </b>{{selected_province.Name == null ? "Across Provinces" : selected_province.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Municipality: </b>{{selected_city.Name == null ? "Across Municipalities" : selected_city.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Portfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Cycle: </b>{{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>KC Mode: </b>{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+            </div>
+        </div>
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>A. Male and Female Count of Community Volunteers</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td align="center">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        Male
+                    </td>
+                    <td align="center">
+                        Male %
+                    </td>
+                    <td align="center">
+                        Female
+                    </td>
+                    <td align="center">
+                        Female %
+                    </td>
+                    <td align="center">
+                        Total
+                    </td>
+                </tr>
+                <tr ng-repeat="item in volunteer_report | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.male}}
+                    </td>
+                    <td>
+                        {{item.male_volunteer_perc}}
+                    </td>
+                    <td>
+                        {{item.female}}
+                    </td>
+                    <td>
+                        {{item.female_volunteer_perc}}
+                    </td>
+                    <td>
+                        {{item.male + item.female}}
+                    </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!volunteer_report.length">
+                    <td><b>Total</b></td>
+                    <td>{{male_subtotal == 'NaN' ? "" : male_subtotal}}</td>
+                    <td></td>
+                    <td>{{female_subtotal == 'NaN' ? "" : female_subtotal}}</td>
+                    <td></td>
+                    <td>{{male_female_subtotal == 'NaN' ? "" : male_female_subtotal}}</td>
+                </tr>
+                <tr ng-show="!volunteer_report.length">
+                    <td colspan="6"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>B. Male and Female Community Volunteers Committee Membership</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td rowspan="2" align="center" style="vertical-align:middle" >
+                        Barangay
+                    </td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Committee Name
+                    </td>
+                    <td colspan="5" align="center">
+                        Chairperson
+                    </td>
+                    <td colspan="5" align="center">
+                        Member
+                    </td>
+                </tr>
+                <tr class="bg-primary">
+                    <td>
+                        Male
+                    </td>
+                    <td>
+                        Male %
+                    </td>
+                    <td>
+                        Female
+                    </td>
+                    <td>
+                        Female %
+                    </td>
+                    <td>
+                        Total
+                    </td>
+                    <td>
+                        Male
+                    </td>
+                    <td>
+                        Male %
+                    </td>
+                    <td>
+                        Female
+                    </td>
+                    <td>
+                        Female %
+                    </td>
+                    <td>
+                        Total
+                    </td>
+                </tr>
+                <tr ng-repeat="item in volunteer_report_b | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.committee_name}}
+                    </td>
+                    <td>
+                        {{item.male_chair}}
+                    </td>
+                    <td>
+                        {{item.male_chair_perc == 'NaN' ? "" : item.male_chair_perc}}
+                    </td>
+                    <td>
+                        {{item.female_chair}}
+                    </td>
+                    <td>
+                        {{item.female_chair_perc == 'NaN' ? "" : item.female_chair_perc}}
+                    </td>
+                    <td>
+                        {{item.male_chair + item.female_chair}}
+                    </td>
+                    <td>
+                        {{item.male_member}}
+                    </td>
+                    <td>
+                        {{item.male_member_perc == 'NaN' ? "" : item.male_member_perc}}
+                    </td>
+                    <td>
+                        {{item.female_member}}
+                    </td>
+                    <td>
+                        {{item.female_member_perc == 'NaN' ? "" : item.female_member_perc}}
+                    </td>
+                    <td>
+                        {{item.male_member + item.female_member}}
+                    </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!volunteer_report_b.length">
+                    <td colspan="2"><b>Total</b></td>
+                    <td>{{male_chair_subtotal == 'NaN' ? "" : male_chair_subtotal}}</td>
+                    <td></td>
+                    <td>{{female_chair_subtotal == 'NaN' ? "" : male_chair_subtotal}}</td>
+                    <td></td>
+                    <td>{{male_female_chair_subtotal == 'NaN' ? "" : male_female_chair_subtotal}}</td>
+                    <td>{{male_member_subtotal == 'NaN' ? "" : male_member_subtotal}}</td>
+                    <td></td>
+                    <td>{{female_member_subtotal == 'NaN' ? "" : male_member_subtotal}}</td>
+                    <td></td>
+                    <td>{{male_female_member_subtotal == 'NaN' ? "" : male_female_member_subtotal}}</td>
+                </tr>
+                <tr ng-show="!volunteer_report_b.length">
+                    <td colspan="12"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>C. Male and Female IP, 4Ps, SLP and LGU as KC Community Volunteers</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Barangay
+                    </td>
+                    <td colspan="4" align="center">
+                        Male
+                    </td>
+                    <td colspan="4" align="center">
+                        Female
+                    </td>
+                    <td colspan="4" align="center">
+                        Total
+                    </td>
+                </tr>
+                <tr class="bg-primary">
+                    <td>
+                        IP
+                    </td>
+                    <td>
+                        4Ps
+                    </td>
+                    <td>
+                        SLP
+                    </td>
+                    <td>
+                        LGU
+                    </td>
+                    <td>
+                        IP
+                    </td>
+                    <td>
+                        4Ps
+                    </td>
+                    <td>
+                        SLP
+                    </td>
+                    <td>
+                        LGU
+                    </td>
+                    <td>
+                        IP
+                    </td>
+                    <td>
+                        4Ps
+                    </td>
+                    <td>
+                        SLP
+                    </td>
+                    <td>
+                        LGU
+                    </td>
+                </tr>
+                <tr ng-repeat="item in volunteer_report | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.male_ip}}
+                    </td>
+                    <td>
+                        {{item.male_pantawid}}
+                    </td>
+                    <td>
+                        {{item.male_slp}}
+                    </td>
+                    <td>
+                        {{item.male_lgu}}
+                    </td>
+                    <td>
+                        {{item.female_ip}}
+                    </td>
+                    <td>
+                        {{item.female_pantawid}}
+                    </td>
+                    <td>
+                        {{item.female_slp}}
+                    </td>
+                    <td>
+                        {{item.female_lgu}}
+                    </td>
+                    <td>
+                        {{item.male_ip + item.female_ip}}
+                    </td>
+                    <td>
+                        {{item.male_pantawid + item.female_pantawid}}
+                    </td>
+                    <td>
+                        {{item.male_slp + item.female_slp}}
+                    </td>
+                    <td>
+                        {{item.male_lgu + item.female_lgu}}
+                    </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!volunteer_report.length">
+                    <td><b>Total</b></td>
+                    <td>{{male_ip_subtotal}}</td>
+                    <td>{{male_pantawid_subtotal}}</td>
+                    <td>{{male_slp_subtotal}}</td>
+                    <td>{{male_lgu_subtotal}}</td>
+                    <td>{{female_ip_subtotal}}</td>
+                    <td>{{female_pantawid_subtotal}}</td>
+                    <td>{{female_slp_subtotal}}</td>
+                    <td>{{female_lgu_subtotal}}</td>
+                    <td>{{male_female_ip_subtotal}}</td>
+                    <td>{{male_female_pantawid_subtotal}}</td>
+                    <td>{{male_female_slp_subtotal}}</td>
+                    <td>{{male_female_lgu_subtotal}}</td>
+                </tr>
+                <tr ng-show="!volunteer_report.length">
+                    <td colspan="13"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>
+
+
+@* --------------------- Community Volunteers ==> List of CVs --------------------- *@
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 10" id="subreport_10">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Community Volunteers</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <b>Region: </b>{{selected_region.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Province: </b>{{selected_province.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Municipality: </b>{{selected_city.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Portfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Cycle: </b>{{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>KC Mode: </b>{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+            </div>
+        </div>
+        <br /><br />        
+
+        <div class="row">
+            <div class="col-md-12"><strong>A. Unique List of Community Volunteers</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        Sur Name
+                    </td>
+                    <td align="center">
+                        First Name
+                    </td>
+                    <td align="center">
+                        Age
+                    </td>
+                    <td align="center">
+                        Gender
+                    </td>
+                    <td align="center">
+                        Committee
+                    </td>
+                    <td align="center">
+                        Position
+                    </td>
+                </tr>
+                <tr ng-repeat="item in playersToFilter() | filter:filterTeams | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.last_name}}
+                    </td>
+                    <td>
+                        {{item.first_name}}
+                    </td>
+                    <td>
+                        {{item.age}}
+                    </td>
+                    <td>
+                        {{item.sex}}
+                    </td>
+                    <td>
+                        <li ng-repeat="player in volunteer_list | filter:{person_profile_id: item.person_profile_id}">
+                            {{player.committee}}
+                        </li>
+                    </td>
+                    <td>
+                        <li ng-repeat="player in volunteer_list | filter:{person_profile_id: item.person_profile_id}">
+                            {{player.position}}
+                        </li>
+                    </td>
+                </tr>
+            </table>
+        </div> <br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>B. List of Community Volunteers per Committee</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        Committee
+                    </td>
+                    <td align="center">
+                        Position
+                    </td>
+                    <td align="center">
+                        Sur Name
+                    </td>
+                    <td align="center">
+                        First Name
+                    </td>
+                    <td align="center">
+                        Age
+                    </td>
+                    <td align="center">
+                        Gender
+                    </td>
+
+                </tr>
+                <tr ng-repeat="item in playersToFilter() | filter:filterTeams | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        <li ng-repeat="player in volunteer_list | filter:{person_profile_id: item.person_profile_id}">
+                            {{player.committee}}
+                        </li>
+                    </td>
+                    <td>
+                        <li ng-repeat="player in volunteer_list | filter:{person_profile_id: item.person_profile_id}">
+                            {{player.position}}
+                        </li>
+                    </td>
+                    <td>
+                        {{item.last_name}}
+                    </td>
+                    <td>
+                        {{item.first_name}}
+                    </td>
+                    <td>
+                        {{item.age}}
+                    </td>
+                    <td>
+                        {{item.sex}}
+                    </td>                    
+                </tr>
+            </table>
+        </div> 
+
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>
+
+
+@* --------------------- Community Volunteers ==> List of CVs across Cycles --------------------- *@
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 11" id="subreport_11">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Community Volunteers</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <b>Region: </b>{{selected_region.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Province: </b>{{selected_province.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Municipality: </b>{{selected_city.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Portfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>KC Mode: </b>{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+            </div>
+        </div>
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>A. Unique list of Community Volunteers Across Cycles</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        Sur Name
+                    </td>
+                    <td align="center">
+                        First Name
+                    </td>
+                    <td align="center">
+                        Age
+                    </td>
+                    <td align="center">
+                        Gender
+                    </td>
+                    <td align="center">
+                        Committee
+                    </td>
+                    <td align="center">
+                        Position
+                    </td>
+                </tr>
+                <tr ng-repeat="item in playersToFilter() | filter:filterTeams | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.last_name}}
+                    </td>
+                    <td>
+                        {{item.first_name}}
+                    </td>
+                    <td>
+                        {{item.age}}
+                    </td>
+                    <td>
+                        {{item.sex}}
+                    </td>
+                    <td>
+                        <li ng-repeat="player in volunteer_list | filter:{person_profile_id: item.person_profile_id}">
+                            {{player.committee}}
+                        </li>
+                    </td>
+                    <td>
+                        <li ng-repeat="player in volunteer_list | filter:{person_profile_id: item.person_profile_id}">
+                            {{player.position}}
+                        </li>
+                    </td>
+                </tr>
+            </table>
+        </div> <br />
+
+
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>

@@ -1,0 +1,375 @@
+﻿
+@{Layout = null; }
+
+
+
+
+
+<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h4>Municipal Inter Barangay Forum Information / Municipal Forum</h4>
+        <p> Please Select from the List Below the MIBF Activity that corresponds for this Project and the PRA Item that corresponds to the project</p>
+
+    </div>
+
+
+
+
+
+
+    <div class="md-whiteframe-5dp">
+
+
+
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex>
+                <label>
+                    MIBF PRA / MF
+
+                </label>
+            </div>
+            <div flex>
+                <select name="community_training_id" ng-model="data.community_training_id" id="community_training_id" class="form-control"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in pra_activity_matching_options_id">
+
+
+                    <option value="">[Select Activity]</option>
+                </select>
+            </div>
+
+        </div>
+
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label>
+                    MIBF Date:
+
+                </label>
+            </div>
+
+            <div flex>
+
+                <md-datepicker name="MIBF Date" ng-disabled="true" ng-model="data.dt_pims_mibf_date"></md-datepicker>
+
+            </div>
+
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label>
+                    Select Project from Priority List
+
+                </label>
+            </div>
+
+            <div flex>
+
+                <select name="mibf_priority_id" ng-model="data.mibf_prioritization_id" id="mibf_priority_id" class="form-control"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in pra_spi_matching_options_id">
+
+
+                    <option value="">[Select Priority]</option>
+                </select>
+            </div>
+
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label>
+                    Recorded Geotagging Grant Amount
+
+                </label>
+            </div>
+
+            <div flex>
+
+                <input type="number" disabled class="form-control" ng-model="data.Kalahi_Amount" />
+            </div>
+
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label>
+                    Desktop  Approved MIBF Grant Amount
+
+                </label>
+            </div>
+
+            <div flex>
+
+                <input type="number" disabled class="form-control" ng-model="data.pims_mibf_cost" />
+            </div>
+
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label>
+                    Desktop  Approved MIBF LCC Amount
+
+                </label>
+            </div>
+
+            <div flex>
+
+                <input type="number" disabled class="form-control" ng-model="data.pims_mibf_lcc_cost" />
+            </div>
+
+        </div>
+
+
+
+
+        <small>
+            <i>
+                *We have limited the available list of MIBF PRA / MF based on the following information (Fund Source, Cycle, Barangay). If the MIBF-PRA, MF activity is not
+                available, please encode it in the Training Module. 
+            </i>
+        </small>
+
+    </div>
+
+
+
+</div>
+
+<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h4>  ERFR Release Information</h4>
+        <p> This information is directly fetched from the ERFRS System</p>
+
+    </div>
+
+
+
+
+
+    <div class="md-whiteframe-5dp">
+
+
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <small>   Check if with data</small>
+            </div>
+
+            <div flex>Tranche </div>
+
+            <div flex ng-show="data.has_t1">
+                Date Released
+            </div>
+
+            <div flex ng-show="data.has_t1">
+                Amount Released
+            </div>
+
+            <div flex ng-show="data.modality_id == 7">
+                Amount in ERFR
+            </div>
+
+            <div flex ng-show="data.modality_id == 7">
+                Amount Utilized
+            </div>
+
+        </div>
+
+
+
+
+        <div layout="row" layout-margin flex="100">
+
+
+            <div flex>
+
+                <md-checkbox ng-model="data.has_t1" aria-label="Checkbox 1" ng-disabled="true">
+                </md-checkbox>
+            </div>
+
+            <div flex>First Tranche </div>
+
+            <div flex>
+                <md-datepicker md-min-date="min_start_date" md-max-date="today" name="dt_Tranche1date" ng-disabled="!data.has_t1" ng-required="data.has_t1" ng-model="dt_Tranche1date" md-placeholder="Enter date" ng-change="data.Tranche1date = dt_Tranche1date.toISOString()"></md-datepicker>
+
+                <div ng-messages="myForm.dt_Tranche1date.$error">
+                    <div ng-message="required" class="error">*Date is required.</div>
+                    <div ng-message="required" class="error">*For Pure LCC, set amount to Zero.</div>
+                </div>
+            </div>
+
+            <div flex>
+                <input ng-model="data.Tranche1amount" ng-disabled="!data.has_t1" class="form-control" ng-required="data.physical_status_id != 3" name="Tranche1amount" type="number" min="0" />
+
+                <div ng-messages="myForm.Tranche1amount.$error">
+                    <div ng-message="required" class="error">*Tranche Amount required.</div>
+
+                </div>
+            </div>
+
+            <div flex ng-show="data.modality_id ==7">
+
+                {{data.erfr_t1}}
+            </div>
+
+            @*additional field for Amount Utilized (first tranche)*@
+            <div flex>
+                <input ng-model="data.Tranche1amount_utilized" ng-disabled="!data.has_t1" class="form-control" ng-required="data.physical_status_id != 3" name="Tranche1amount_utilized" type="number" min="0" max="{{data.Tranche1amount}}" />
+                <div ng-messages="myForm.Tranche1amount_utilized.$error">
+                    <div ng-message="required" class="error">*Amount Utilized required.</div>
+                    <div ng-message="max" class="error">Higher than the amount released?</div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex>
+                <md-checkbox ng-model="data.has_t2" aria-label="Checkbox 1" ng-disabled="!data.has_t1">
+                </md-checkbox>
+            </div>
+
+            <div flex>Second Tranche </div>
+            <div flex>
+
+
+                <md-datepicker  md-min-date="min_start_date" md-max-date="today" name="dt_Tranche2date" ng-disabled="!data.has_t2" ng-required="data.has_t2" ng-model="dt_Tranche2date" md-placeholder="Enter date" ng-change="data.Tranche2date = dt_Tranche2date.toISOString()"></md-datepicker>
+
+                <div ng-messages="myForm.dt_Tranche2date.$error">
+                    <div ng-message="required" class="error">*Date  is required.</div>
+
+                </div>
+
+
+
+            </div>
+            <div flex>
+                <input ng-model="data.Tranche2amount" ng-disabled="!data.has_t2" class="form-control" name="Tranche2amount" ng-required="data.has_t2" type="number" min="0" />
+
+                <div ng-messages="myForm.Tranche2amount.$error">
+                    <div ng-message="required" class="error">*Tranche Amount required.</div>
+
+                </div>
+            </div>
+
+
+            <div flex ng-show="data.modality_id ==7">
+
+                {{data.erfr_t2}}
+            </div>
+
+            @*additional field for Amount Utilized (second tranche)*@
+            <div flex>
+                <input ng-model="data.Tranche2amount_utilized" ng-disabled="!data.has_t2" class="form-control" name="Tranche2amount_utilized" type="number" min="0" max="{{data.Tranche2amount}}" />
+                <span style="font-size:small; color:red" ng-show="myForm.Tranche2amount_utilized.$error"><i>Higher than the amount released?</i></span>
+                <div ng-messages="myForm.Tranche2amount_utilized.$error">
+                    <div ng-message="required" class="error">*Amount Utilized required.</div>
+                </div>
+            </div>
+            
+        </div>
+
+
+
+
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <md-checkbox ng-model="data.has_t3" aria-label="Checkbox 1" ng-disabled="!data.has_t2">
+                </md-checkbox>
+            </div>
+
+            <div flex>Third Tranche </div>
+            <div flex>
+
+
+                <md-datepicker  md-min-date="min_start_date" md-max-date="today" name="dt_Tranche3date" ng-disabled="!data.has_t3" ng-required="data.has_t3" ng-model="dt_Tranche3date" md-placeholder="Enter date" ng-change="data.Tranche3date = dt_Tranche3date.toISOString()"></md-datepicker>
+
+                <div ng-messages="myForm.dt_Tranche3date.$error">
+                    <div ng-message="required" class="error">*Date  is required.</div>
+
+                </div>
+
+
+
+            </div>
+            <div flex>
+                <input ng-model="data.Tranche3amount" ng-disabled="!data.has_t3" class="form-control" name="Tranche3amount" ng-required="data.has_t3" type="number" min="0" />
+
+                <div ng-messages="myForm.Tranche3amount.$error">
+                    <div ng-message="required" class="error">*Tranche Amount required.</div>
+
+                </div>
+            </div>
+            
+            <div flex ng-show="data.modality_id ==7">
+
+                {{data.erfr_t3}}
+            </div>
+
+            @*additional field for Amount Utilized (third tranche)*@
+            <div flex>
+                <input ng-model="data.Tranche3amount_utilized" ng-disabled="!data.has_t3" class="form-control" name="Tranche3amount_utilized" type="number" min="0" max="{{data.Tranche3amount}}" />
+                <span style="font-size:small; color:red" ng-show="myForm.Tranche3amount_utilized.$error"><i>Higher than the amount released?</i></span>
+                <div ng-messages="myForm.Tranche3amount_utilized.$error">
+                    <div ng-message="required" class="error">*Amount Utilized required.</div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <small>   Total Amount Released</small>
+            </div>
+
+            <div flex>  </div>
+
+            <div flex>
+
+            </div>
+
+            <div flex>
+                {{data.Tranche1amount + data.Tranche2amount + data.Tranche3amount}}
+            </div>
+
+            <div flex ng-show="data.modality_id == 7">
+                {{data.erfr_t1 + data.erfr_t2 + data.erfr_t3}}
+
+            </div>
+
+            <div flex ng-show="data.modality_id == 7">
+                {{data.Tranche1amount_utilized + data.Tranche2amount_utilized + data.Tranche3amount_utilized}}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+</div>

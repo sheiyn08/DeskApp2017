@@ -1,0 +1,137 @@
+﻿
+<script src="~/Scripts/jquery-2.0.3.js"></script>
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+<script src="~/bower_components/Knockout/knockout-3.1.0.js"></script>
+<script src="~/bower_components/Knockout/knockout.bindings.js"></script>
+<script src="~/bower_components/Knockout/knockout.mapping-latest.js"></script>
+<script src="~/bower_components/Knockout/knockout.validation.js"></script>
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-title">Filter</h3>
+    </div>
+    <form role="form">
+        <div class="box-body">
+
+                <dl class="dropdown">
+                    <dt>
+                        <a href="#">
+                            <span class="hida">Select</span>
+                            <p class="multiSel"></p>
+                        </a>
+                    </dt>
+
+                    <dd>
+                        <div id="multiSelect" class="multiSelect">
+                            <ul data-bind="foreach: lib_regions">
+                                <li> 
+                                    <input type="checkbox"   data-bind="value: region_code, click: $root.click"/>
+                                    <span data-bind="text:region_name, value:region_nick"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </dd>
+                </dl>
+
+        </div>
+            <div class="box-footer">
+                <div class="btn btn-success" id="filter" name="filter" onclick="filter()" data-toggle='tooltip' title='Filter List'>Filter</div>
+                <div class="btn btn-danger" id="clear" name="clear" onclick="clear()" data-toggle='tooltip' title='Clear'>Clear</div>
+            </div>
+    </form>
+</div>
+        @*$.post("/Library/GetDropDownMenu", function(data)
+        {
+            alert(data.lib_regions.length);
+            filtermenu.push(data);
+        });*@
+
+
+@*<pre data-bind="text: ko.toJson($data, null, 2)"></pre>*@
+<script>
+ 
+
+  
+    function ViewModel() {
+        var self = this;
+        
+        self.lib_regions = ko.observableArray([]);
+
+        //self.filtermenu = ko.observable();
+
+        $.post("/Library/GetDropDownMenu", function(data)
+           {
+            self.lib_regions(data.lib_regions);
+        });
+
+        $(".dropdown dt a").on('click', function () {
+            $(".dropdown dd ul").slideToggle('fast');
+        });
+
+        $(".dropdown dd ul li a").on('click', function () {
+            $(".dropdown dd ul").hide();
+        });
+
+        function getSelectedValue(id) {
+            return $("#" + id).find("dt a span.value").html();
+        }
+
+        $(document).bind('click', function (e) {
+            var $clicked = $(e.target);
+            if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
+        });
+
+
+        $('.multiSelect input[type="checkbox"]').on('click', function () {
+
+            var title = $(this).closest('.multiSelect').find('input[type="checkbox"]').val(),
+                title = $(this).val() + ",";
+            if ($(this).is(':checked')) {
+                var html = '<span title="' + title + '">' + title + '</span>';
+                $('.multiSel').append(html);
+                $(".hida").hide();
+            }
+            else {
+                $('span[title="' + title + '"]').remove();
+                var ret = $(".hida");
+                $('.dropdown dt a').append(ret);
+
+            }
+        });
+
+
+        self.click = function(data)
+        {
+            var title = title + data.region_code + ",";
+
+            alert(title);
+        }
+
+        
+        
+    }
+  
+
+    $(document).ready(function () {
+        ko.applyBindings(new ViewModel());
+    });
+    //alert check
+    $(':checkbox').click(function () {
+        var $this = $(this);
+        // $this will contain a reference to the checkbox   
+        if ($this.is(':checked')) {
+            // the checkbox was checked 
+            alert('checked');
+        } else {
+            // the checkbox was unchecked
+            alert('unchecked');
+        }
+    })
+
+
+
+</script> 

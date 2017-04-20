@@ -1,0 +1,374 @@
+﻿
+
+<div class="panel panel-body">
+
+
+
+    <h3>KC Municipal Report - Community Volunteers</h3>
+    <br />
+
+    <h4>Summary of Male and Female Volunteers</h4>
+
+    <br />
+    <br />
+
+    @Html.Partial("~/Views/Report/Common/_report_header.cshtml")
+
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-xs-12">A. Male and Female Count of Community Volunteers (Unique Count)</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    Barangay
+                </td>
+                <td align="center">
+                    Male
+                </td>
+                <td align="center">
+                    Male %
+                </td>
+
+                <td align="center">
+                    Female
+                </td>
+
+                <td align="center">
+                    Female %
+                </td>
+
+                <td align="center">
+                    Total
+                </td>
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in volunteer_report | orderBy: 'brgy_name'">
+
+                
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+                <td>
+                    {{item.male}}
+                </td>
+
+
+                <td>
+                    {{item.male_volunteer_perc}}
+                </td>
+
+
+
+                <td>
+                    {{item.female}}
+                </td>
+                <td>
+                    {{item.female_volunteer_perc}}
+                </td>
+
+                <td>
+                    {{item.male + item.female}}
+
+                </td>
+                  
+            </tr>
+        </table>
+    </div>
+
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-xs-12">B. Male and Female Community Volunteers Committee Membership</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td rowspan="2" align="center">
+                    Barangay
+                </td>
+
+
+                <td rowspan="2" align="center">
+                    Committee Name
+                </td>
+
+                <td colspan="5" align="center">
+                    Chairperson
+                </td>
+
+                <td colspan="5" align="center">
+                    Member
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Male
+                </td>
+                <td>
+                    Male %
+                </td>
+                <td>
+                    Female
+                </td>
+                <td>
+                    Female %
+                </td>
+                <td>
+                    Total
+                </td>
+
+
+                <td>
+                    Male
+                </td>
+                <td>
+                    Male %
+                </td>
+                <td>
+                    Female
+                </td>
+                <td>
+                    Female %
+                </td>
+                <td>
+                    Total
+                </td>
+
+            </tr>
+
+
+            <tr ng-repeat="item in volunteer_report_b | orderBy: 'brgy_name'">
+
+
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+                <td>
+                    {{item.committee_name}}
+                </td>
+
+
+
+                <td>
+                    {{item.male_chair}}
+                </td>
+                <td>
+                    {{item.male_chair_perc == 'NaN' ? "" : item.male_chair_perc}}
+                </td>
+
+                <td>
+                    {{item.female_chair}}
+
+                </td>
+
+                <td>
+                    {{item.female_chair_perc == 'NaN' ? "" : item.female_chair_perc}}
+
+                </td>
+                <td>
+                    {{item.male_chair + item.female_chair}}
+                </td>
+
+
+
+
+                <td>
+                    {{item.male_member}}
+                </td>
+                <td>
+                    {{item.male_member_perc == 'NaN' ? "" : item.male_member_perc}}
+                </td>
+
+                <td>
+                    {{item.female_member}}
+
+                </td>
+
+                <td>
+                    {{item.female_member_perc == 'NaN' ? "" : item.female_member_perc}}
+
+                </td>
+                <td>
+                    {{item.male_member + item.female_member}}
+                </td>
+
+
+
+
+            </tr>
+        </table>
+    </div>
+
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-xs-12">C. Male and Female IP, 4Ps, SLP and LGU as KC Community Volunteers</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td rowspan="2" align="center">
+                    Barangay
+                </td>
+          
+
+                <td colspan="4" align="center">
+                    Male
+                </td>
+
+                <td colspan="4" align="center">
+                    Female
+                </td>
+
+                <td colspan="4" align="center">
+                    Total
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    IP
+                </td>
+                <td>
+                    4Ps
+                </td>
+                <td>
+                    SLP
+                </td>
+                <td>
+                    LGU
+                </td>
+
+
+                <td>
+                    IP
+                </td>
+                <td>
+                    4Ps
+                </td>
+                <td>
+                    SLP
+                </td>
+                <td>
+                    LGU
+                </td>
+
+
+                <td>
+                    IP
+                </td>
+                <td>
+                    4Ps
+                </td>
+                <td>
+                    SLP
+                </td>
+                <td>
+                    LGU
+                </td>
+
+            </tr>
+
+
+            <tr ng-repeat="item in volunteer_report | orderBy: 'brgy_name'">
+
+
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+             
+
+
+                <td>
+                    {{item.no_ip_male}}
+                </td>
+                <td>
+                    {{item.no_pantawid_male}}
+                </td>
+
+                <td>
+                    {{item.no_slp_male}}
+
+                </td>
+
+                <td>
+                    {{item.no_lgu_male}}
+
+                </td>
+
+
+
+                <td>
+                    {{item.no_ip_female}}
+                </td>
+                <td>
+                    {{item.no_pantawid_female}}
+                </td>
+
+                <td>
+                    {{item.no_slp_female}}
+
+                </td>
+
+                <td>
+                    {{item.no_lgu_female}}
+
+                </td>
+
+
+                <td>
+                    {{item.no_ip_male + item.no_ip_female}}
+                </td>
+                <td>
+                    {{item.no_pantawid_male + item.no_pantawid_female}}
+                </td>
+
+                <td>
+                    {{item.no_slp_male + item.no_slp_female}}
+
+                </td>
+
+                <td>
+                    {{item.no_lgu_male + item.no_lgu_female}}
+
+                </td>
+
+
+
+
+            </tr>
+        </table>
+    </div>
+
+
+</div>

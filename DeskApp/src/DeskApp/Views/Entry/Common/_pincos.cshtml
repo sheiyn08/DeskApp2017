@@ -1,0 +1,571 @@
+﻿
+<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h4>PINCOs and Grievances</h4>
+
+
+
+        <p>Please Encode PINCOs and Grievances encountered during this activity</p>
+        <p><i>Encoded information will be directly saved into the Grievance Module.</i></p>
+    </div>
+
+    <md-content>
+
+
+        <div ng-show="!isSearching">
+            <table class="table zui-table zui-table-horizontal zui-table-highlight">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th></th>
+
+
+
+
+                        <th>
+                            Sender
+                        </th>
+
+                        <th>
+                            Details
+                        </th>
+
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in Items">
+
+                        <td>
+                            <a ng-href="/Entry/Grievances?id={{item.grievance_record_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+                            @if (!User.IsInRole("RMES"))
+                            {
+
+                                <a ng-click="delete_pincos(item)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
+
+                            }
+                        </td>
+
+
+
+                        <td>
+
+                            {{item.sender_name}}
+
+                        </td>
+                        <td>
+
+                            {{item.details}}
+
+                        </td>
+
+
+
+
+
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </md-content>
+
+
+
+
+
+
+    <md-content ng-show="!add_pincos">
+
+
+        <md-button class="md-primary md-raised" ng-click="addPincos()">
+            Add PINCOs / Grievance
+        </md-button>
+
+
+    </md-content>
+
+
+
+
+    <md-content flex="" layout-padding="" ng-show="add_pincos">
+        <form name="grsForm" ng-cloak>
+
+            <div class="panel panel-info">
+
+                <div class="panel-heading">
+                    <h4>General Information</h4>
+
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+
+
+                            <div class="col-md-4">
+
+                                <label>     Status of Actions Taken</label>
+                            </div>
+
+                            <div class="col-md-4">
+
+
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="Resolution" ng-model="data.grs_resolution_status_id" id="region_code" class="form-control"
+                                            ng-options="option.Id as option.Name for option in grs_resolution_status_id_options" required>
+                                        <option value="">[Select Resolution Status]</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-body">
+
+                    <div class="col-md-4">
+
+                        <label>GRS Form</label>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="form-group" show-errors='{showSuccess: true}'>
+
+                            <select required name="GRSForm" ng-model="data.grs_form_id" id="region_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in grs_form_id_options">
+                                <option value="">[Select Form]</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    @*<div class="col-md-4" ng-show="data.grs_resolution_status_id == 1">
+                            <label>Date Addressed</label>
+
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+
+                                <md-datepicker name="Date Intake" ng-model="dt_resolution_date" md-placeholder="Enter date" ng-change="data.resolution_date = dt_resolution_date.toISOString()" ng-required="data.grs_resolution_status_id == 1" md-min-date="maxDate" md-max-date="today"></md-datepicker>
+                                <p class="help-block" ng-if="myForm.dt_resolution_date.$error.required">Date of Intake required</p>
+
+                            </div>
+
+                        </div>*@
+                </div>
+
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label>                                Feedback</label>
+                            </div>
+
+                            <div class="col-md-4" ng-show="data.grs_resolution_status_id == 1">
+
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="grs_feedback_id" ng-model="data.grs_feedback_id" id="region_code" class="form-control"
+                                            ng-required="data.grs_resolution_status_id==1"
+                                            ng-options="option.Id as option.Name for option in grs_feedback_id_options">
+                                        <option value="">[Select Feedback]</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+            <div class="panel panel-info">
+
+                <div class="panel-heading">
+                    <h4>I. Complainants/Sender/Observers's Information</h4>
+
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_" ng-show="data.grs_form_id != 1">Type of Sender</label>
+                                <label for="Region:_" ng-show="data.grs_form_id == 1">Type of Observer</label>
+                            </div>
+                            <div class="col-md-4">
+
+                                <select name="Type of Sender" required ng-model="data.is_individual" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Individual Filling'},{'value':false,'text':'Group Filling'}]" ng-selected="data.is_individual" class="form-control" ng-disabled="data.grs_form_id ==1">
+
+                                    <option value="">[Select Type]</option>
+                                </select>
+
+
+                                @*<input type="radio" ng-model="data.is_individual" ng-checked="true" value="true" /> Individual Filling&nbsp;
+                                    <input type="radio" ng-model="data.is_individual" ng-checked="false" value="false"/>Group Filling
+                                    <md-radio-group ng-model="data.is_individual">
+
+                                        <md-radio-button ng-checked="true" value="true" ng-model="data.is_individual">Individual</md-radio-button>
+                                        <md-radio-button ng-checked="false" value="false"> Group </md-radio-button>
+
+
+                                    </md-radio-group>*@
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label>
+                                    Name: <small> Check if Sender is Anonymous / Unknown</small>
+                                </label>
+                                <md-checkbox ng-model="data.is_anonymous" aria-label="Checkbox 1" ng-disabled="data.grs_form_id ==1">
+
+                                </md-checkbox>
+
+
+
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <input ng-disabled="data.is_anonymous == true" name="sender_name" type="text" ng-model="data.sender_name" class="form-control" placeholder="Sender Name" ng-required="data.is_anonymous !=true" />
+
+                                    <small ng-show="data.is_anonymous != true"><i>Sender name is required for non-anonymous senders.</i></small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <small>IP Group (Check if IP) </small>
+                                <md-checkbox ng-model="data.is_ip" aria-label="Checkbox 1"> </md-checkbox>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="ip_group" ng-model="data.ip_group_id" id="prov_code" class="form-control" ng-disabled="data.is_ip != true" ng-required="data.is_ip == true"
+                                            ng-enable="data.is_ip == true"
+                                            ng-options="option.Id as option.Name for option in ip_group_id_options">
+                                        <option value="">[Select IP Group]</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_">Organization</label>
+                            </div>
+                            <div class="col-md-4">
+
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    @*<md-input-container class="md-block" ng-disabled="data.is_individual == true">
+                                            <label>Organization</label>
+                                            <input name="sender_organization" ng-model="data.sender_organization" ng-required="data.is_individual == false && data.is_anonymous == false" ng-disabled="data.is_anonymous == true">
+                                        </md-input-container>*@
+
+                                    <input name="sender_organization" type="text" ng-model="data.sender_organization" class="form-control" placeholder="Organization" ng-disabled="data.grs_form_id ==1" />
+
+                                </div>
+                                <small ng-show="data.is_anonymous != true && data.is_individual !=true"><i>Organization name is required for Group Senders and non-anonymous .</i></small>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_">Sex</label>
+                            </div>
+                            <div class="col-md-4">
+
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="sex" ng-model="data.sex_id" id="prov_code" class="form-control" required
+                                            ng-options="option.Id as option.Name for option in sex_id_options">
+                                        <option value="">[Select Sex]</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_">Designation / Position</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="grs_sender_designation_id" ng-model="data.grs_sender_designation_id" id="prov_code" class="form-control" required
+                                            ng-options="option.Id as option.Name for option in grs_sender_designation_id_options" ng-disabled="data.grs_form_id ==1">
+                                        <option value="">[Select Sender Designation]</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" ng-show="data.grs_sender_designation_id == 8 || data.grs_sender_designation_id ==9">
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+
+                                    <input type="text" placeholder="Other Designation" name="sender_designation_other" ng-model="data.sender_designation_other" ng-required="data.grs_sender_designation_id == 8 || data.grs_sender_designation_id ==9" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_">Contact Information</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input ng-model="data.cellphone" id="prov_code" class="form-control" placeholder="Cellphone / Landline" />
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <input name="email" type="email" ng-model="data.email" id="prov_code" class="form-control" placeholder="Email " />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="panel panel-info">
+
+                <div class="panel-heading">
+                    <h4>II. Details of the Issue / Concern</h4>
+
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_">Nature of Issue / Concern:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="grs_nature_id" required ng-model="data.grs_nature_id" id="region_code" class="form-control"
+                                            ng-options="option.Id as option.Name for option in grs_nature_id_options">
+                                        <option value="">[Select Nature]</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_">Subject of Complaint:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="subject" required ng-model="data.grs_complaint_subject_id" id="city_code" class="form-control"
+                                            ng-options="option.Id as option.Name for option in grs_complaint_subject_id_options">
+                                        <option value="">[Select Subject]</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" ng-show="data.grs_complaint_subject_id == 8 || data.grs_complaint_subject_id ==9">
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+
+                                    <input type="text" placeholder="Other Designation" name="sender_designation_other" ng-model="data.grs_complaint_subject_others" ng-required="data.grs_complaint_subject_id == 8 || data.grs_complaint_subject_id ==9" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_">Category of Concerns:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="grs_category_id" required ng-model="data.grs_category_id" id="prov_code" class="form-control"
+                                            ng-options="option.Id as option.Name for option in grs_category_id_options">
+                                        <option value="">[Select Category]</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="panel panel-info">
+
+                <div class="panel-heading">
+                    <h4>Details of Concern (if PINCOS, indicate if Community and / or Operation and Management Concern):</h4>
+
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_">Details / Narrative Summary:</label>
+                            </div>
+                            <div class="col-md-8">
+
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <md-input-container class="md-block">
+
+                                        <textarea name="details" required ng-model="data.details" md-maxlength="2000" rows="150" md-select-on-focus=""></textarea>
+                                    </md-input-container>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_">Actions Taken / Resolution of the Issue: </label>
+                            </div>
+                            <div class="col-md-8">
+
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <md-input-container class="md-block">
+
+                                        <textarea name="actions" required ng-model="data.actions" md-maxlength="2000" rows="150" md-select-on-focus=""></textarea>
+                                    </md-input-container>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="panel panel-info">
+
+                <div class="panel-heading">
+                    <h4>Details of Concern (if PINCOS, indicate if Community and / or Operation and Management Concern):</h4>
+
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label for="Region:_">Intake Officer:</label>
+                            </div>
+                            <div class="col-md-8">
+
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <input required name="intake_officer" ng-model="data.intake_officer" class="form-control" required />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </form>
+    </md-content>
+
+
+    <md-content ng-show="add_pincos">
+
+
+        <ul>
+            <li ng-repeat="(key, errors) in grsForm.$error track by $index">
+                <strong>{{ key }}</strong> errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <md-button class="md-primary md-raised" ng-click="save_pincos()" ng-disabled="!grsForm.$valid">
+            Save PINCOs
+        </md-button>
+
+        <md-button class="md-warn md-raised" ng-click="addPincos()">
+            Cancel
+        </md-button>
+
+
+    </md-content>
+
+
+
+
+
+</div>

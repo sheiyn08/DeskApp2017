@@ -1,0 +1,498 @@
+﻿
+
+
+<style>
+    .ui-datepicker {
+        background-color: #fff;
+        border: 1px solid #66AFE9;
+        border-radius: 4px;
+        box-shadow: 0 0 8px rgba(102,175,233,.6);
+        display: none;
+        margin-top: 4px;
+        padding: 10px;
+        width: 240px;
+    }
+
+        .ui-datepicker a,
+        .ui-datepicker a:hover {
+            text-decoration: none;
+        }
+
+            .ui-datepicker a:hover,
+            .ui-datepicker td:hover a {
+                color: #2A6496;
+                -webkit-transition: color 0.1s ease-in-out;
+                -moz-transition: color 0.1s ease-in-out;
+                -o-transition: color 0.1s ease-in-out;
+                transition: color 0.1s ease-in-out;
+            }
+
+        .ui-datepicker .ui-datepicker-header {
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .ui-datepicker .ui-datepicker-title {
+            font-weight: 700;
+        }
+
+        .ui-datepicker .ui-datepicker-prev,
+        .ui-datepicker .ui-datepicker-next {
+            cursor: default;
+            font-family: 'Glyphicons Halflings';
+            -webkit-font-smoothing: antialiased;
+            font-style: normal;
+            font-weight: normal;
+            height: 20px;
+            line-height: 1;
+            margin-top: 2px;
+            width: 30px;
+        }
+
+        .ui-datepicker .ui-datepicker-prev {
+            float: left;
+            text-align: left;
+        }
+
+        .ui-datepicker .ui-datepicker-next {
+            float: right;
+            text-align: right;
+        }
+
+        .ui-datepicker .ui-datepicker-prev:before {
+            content: "\e079";
+        }
+
+        .ui-datepicker .ui-datepicker-next:before {
+            content: "\e080";
+        }
+
+        .ui-datepicker .ui-icon {
+            display: none;
+        }
+
+        .ui-datepicker .ui-datepicker-calendar {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+            .ui-datepicker .ui-datepicker-calendar th,
+            .ui-datepicker .ui-datepicker-calendar td {
+                text-align: center;
+                padding: 4px 0;
+            }
+
+            .ui-datepicker .ui-datepicker-calendar td {
+                border-radius: 4px;
+                -webkit-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+                -moz-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+                -o-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+                transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+            }
+
+                .ui-datepicker .ui-datepicker-calendar td:hover {
+                    background-color: #eee;
+                    cursor: pointer;
+                }
+
+                .ui-datepicker .ui-datepicker-calendar td a {
+                    text-decoration: none;
+                }
+
+        .ui-datepicker .ui-datepicker-current-day {
+            background-color: #4289cc;
+        }
+
+            .ui-datepicker .ui-datepicker-current-day a {
+                color: #fff;
+            }
+
+        .ui-datepicker .ui-datepicker-calendar .ui-datepicker-unselectable:hover {
+            background-color: #fff;
+            cursor: default;
+        }
+</style>
+
+
+<script src="~/Scripts/jquery-2.0.3.min.js"></script>
+
+<script src="~/bower_components/Knockout/knockout-3.1.0.js"></script>
+<script src="~/bower_components/Knockout/knockout.bindings.js"></script>
+<script src="~/bower_components/Knockout/knockout.mapping-latest.js"></script>
+<script src="~/bower_components/Knockout/knockout.validation.js"></script>
+
+
+<script src="~/bower_components/Knockout/numeral.min.js"></script>
+
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+<script src="~/Content/LTE/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="~/bower_components/DatePickerKO/Datepicker.js"></script>
+<link href="~/bower_components/DatePickerKO/datepicker.css" rel="stylesheet" />
+<script src="~/bower_components/DatePickerKO/bootstrap-datepicker.js"></script>
+
+<script src="~/bower_components/Knockout/numeral.min.js"></script>
+
+<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+
+<script src="~/bower_components/Knockout/knockout-jqueryui.js"></script>
+
+
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+<script src="~/Content/LTE/plugins/daterangepicker/moment.js"></script>
+<script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
+<script src="http://tinymce.cachefly.net/4.0/jquery.tinymce.min.js"></script>
+
+<div id="errors" style="display:none; cursor: default">
+    <div class="col-md-12">
+
+        <hr />
+        <p style="text-align: justify">
+            We are sorry but it looks like the Form is incomplete, please check all the listed errors below.<br /><br />
+            <br />
+        </p>
+
+        <input class="btn btn-primary" type="button" id="ok" value="OK" onclick="$.unblockUI();" />
+        <br />
+        <br />
+
+        <div class="row" data-bind="ifnot: isValid()">
+            <div class="alert alert-warning" role="alert">
+                <h4>Validation summary</h4>
+
+            </div>
+
+        </div>
+        <ul data-bind="foreach: { data: errors, as: 'error'}">
+            <li data-bind="text: error"></li>
+        </ul>
+
+        <input class="btn btn-primary" type="button" id="ok" value="OK" onclick="$.unblockUI();" />
+        <br />
+        <br />
+    </div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <a href="#" class="btn btn-primary btn-block margin-bottom">Generate Report</a>
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Manage</h3>
+                    <div class='box-tools'>
+                        <button class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i></button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+
+                        <li><a data-bind="click: show_profile"><i class="fa fa-info"></i> Details</a></li>
+
+
+                        <li><a href="#"><i class="fa fa-group"></i> All Involved SPI Workers <span class="label label-primary pull-right">12</span></a></li>
+                        <li><a data-bind="click: get_spi_ers_list"><i class="fa fa-wrench"></i> ERS List</a></li>
+
+                        <li><a href="#"><i class="fa fa-shopping-cart"></i> Community Procurement Monitoring</a></li>
+                        <li><a href="#"><i class="fa fa-money"></i> Grant Release</a></li>
+
+                    </ul>
+                </div><!-- /.box-body -->
+            </div><!-- /. box -->
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Actions</h3>
+                    <div class='box-tools'>
+                        <button class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i></button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="#"><i class="fa fa-comment text-red"></i> SP Completion Report</a></li>
+                        <li><a href="#"><i class="fa fa-warning text-red"></i> Report Damage</a></li>
+                        <li><a href="#"><i class="fa fa-check text-yellow"></i> Sustainability Evaluation Tool (SET)</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o text-light-blue"></i> Geotagging Images</a></li>
+                    </ul>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div><!-- /.col -->
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Details</h3>
+                    <div class="box-tools pull-right">
+                        <div class="has-feedback">
+                            <input type="text" class="form-control input-sm" placeholder="Search Mail" />
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+                    </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body no-padding">
+
+                    <div id="result">
+
+
+
+
+                    </div>
+
+
+                </div>
+                <div class="box-footer no-padding">
+
+                </div>
+            </div><!-- /. box -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</section><!-- /.content -->
+
+
+
+
+<script>
+    /*tinymce-knockout-binding v1.0.0|(c) 2013 Michael Papworth|raw.github.com/michaelpapworth/tinymce-knockout-binding/master/LICENSE*/(function(n){ko.bindingHandlers.wysiwyg={init:function(t,i,r,u,f){var o=ko.utils.unwrapObservable(i()),s=r.has("wysiwygConfig")?r.get("wysiwygConfig"):{},e={browser_spellcheck:n(t).prop("spellcheck"),plugins:["link","paste"],toolbar:"undo redo | bold italic | bullist numlist | link",menubar:!1,statusbar:!1,setup:function(n){var t=function(){var t,u;if(!ko.isWriteableObservable(i()))throw"valueAccessor must be writeable and observable";if(t=n.getContent(),o!==t)if(i()(t),r.has("wysiwygDirty")){if(u=r.get("wysiwygDirty"),!ko.isWriteableObservable(u))throw"wysiwygDirty must be writeable and observable";u(!0)}else f.$root.isDirty=!0};n.on("change",t).on("keyup",t)}};e=n.extend(e,s);n(t).text(o).tinymce(e);ko.utils.domNodeDisposal.addDisposeCallback(t,function(){tinyMCE.remove("#"+t.id)})},update:function(n,t,i,r,u){return ko.bindingHandlers.value.update(n,t,i,r,u)}}})(jQuery);
+
+    var dataarray;
+
+    ko.bindingHandlers.whole = {
+        init: function(element, valueAccessor) {
+            var value = valueAccessor();
+
+            var interceptor = ko.computed({
+                read: function() {
+                    return numeral(ko.unwrap(value)).format('0,0');
+                },
+                write: function(newValue) {
+                    if($.trim(newValue) == '')
+                        value(0);
+                    else
+                        value(numeral().unformat(newValue));
+                    value.valueHasMutated();
+
+                }
+            }).extend({ notify: 'always' });
+
+            if(element.tagName.toLowerCase() == 'input' )
+                ko.applyBindingsToNode(element, {
+                    value: interceptor
+                });
+            else
+                ko.applyBindingsToNode(element, {
+                    text: interceptor
+                });
+        }
+    }
+
+    var remarks_model = function(data)
+    {
+        var self = this;
+        self._destroy = false;
+        ko.mapping.fromJS(data, {}, self);
+
+        self.remarks.extend({ required: { message: '* Required ' } });
+        self.position.extend({ required: { message: '* Required ' } });
+
+        self.created_by_name.extend({ required: { message: '* Required ' } });
+
+        self.created_date.extend({ required: { message: '* Required ' } });
+
+
+    }
+
+
+    var remarks_model_mapping = {
+        create: function (options) {
+            return new remarks_model(options.data);
+        }
+    };
+
+
+
+    var ViewModel = function (data) {
+        var self = this;
+
+        dataarray = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model, Newtonsoft.Json.Formatting.Indented,
+new Newtonsoft.Json.JsonSerializerSettings {
+       ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        }));
+
+
+        ko.mapping.fromJS(dataarray, {
+
+        }, self);
+
+
+
+        self.is_authorized = ko.observable(true);
+
+        self.IsCentral = '@ViewBag.IsCentral';
+
+
+
+        self.errors = ko.validation.group(self, {deep: true});
+
+        self.cancel = function()
+        {
+
+            var ask =  confirm("Cancel this Form?")
+
+            if(ask == true)
+            {
+                window.location.href = "/View/Grievances";
+            }
+
+
+        }
+
+        self.get_workers = function()
+        {
+            alert("ASDAsd");
+        }
+        self.show_profile = function()
+        {
+            var url_get_ers_list = "/View/_spi_profile?id=" + self.spi_profile_id();
+
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+            $.ajax({
+                type: "GET",
+                url: url_get_ers_list,
+                //  data: someArguments,
+                success: function (viewHTML) {
+                    $("#result").html(viewHTML);
+                    setTimeout($.unblockUI, 100);
+
+                },
+                error: function (errorData) { onError(errorData); }
+            });
+        }
+
+        self.get_spi_ers_list = function()
+        {
+            var url_get_ers_list = "/View/_spi_ers_list?id=" + self.spi_profile_id();
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+            $.ajax({
+                type: "GET",
+                url: url_get_ers_list,
+                //  data: someArguments,
+                success: function (viewHTML) {
+                    $("#result").html(viewHTML);
+                    setTimeout($.unblockUI, 100);
+
+                },
+                error: function (errorData) { onError(errorData); }
+            });
+        }
+
+
+        self.save = function () {
+
+
+
+
+            if (self.isValid() ==false) {
+                $.blockUI({ message: $('#errors'), css: { top: '25%' } });
+                return false;
+            }
+
+
+            if(self.grs_resolution_status_id() == 2)
+            {
+                if(self.date_intake() > self.resolution_date())
+                {
+                    alert("Resolution Date Cannot be earlier than Intake Date");
+                    return false;
+                }
+            }
+
+
+
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+
+
+            var mapping = {
+                'ignore': ["lib_regions", "lib_provinces", "lib_cities", "lib_brgy",
+                    "lib_fund_sources", "lib_cycles", "lib_barangay_assembly_purposes", "lib_enrollments",
+                    "lib_training_category", "lib_grs_category", "lib_grs_resolution_status", "lib_grs_feedback",
+                    "lib_volunteer_committees",
+                    "lib_approval",
+
+                    "lib_region",
+                    "lib_province",
+                    "lib_city",
+                    "lib_brgy",
+                    "lib_ip_group",
+                    "lib_ip_group_ip_group_id"
+
+                ]
+            }
+
+            //         var item = JSON.stringify(ko.mapping.toJS(self));
+
+            var item =    ko.mapping.toJS(ko.mapping.fromJSON(ko.toJSON(self)), mapping)
+
+
+
+            var url = "/Entry/SaveGrievance/";
+
+            $.ajax({
+
+                type: "POST",
+                url: url,
+                //  contentType: "application/json; charset=utf-8",
+                contentType: 'application/json',
+                dataType: "json",
+                data:JSON.stringify(item),
+                processData: false,
+
+
+            }).done(function (response) {
+                if (response === true)
+                {
+                    setTimeout($.unblockUI, 10);
+
+                    $.blockUI({
+                        message: '<h2>Record Saved</h2></br><h1>' + response + '</h1><p>' + 'You will be redirected' + '</p>'  ,
+                        timeout: 120000
+                    });
+
+                    window.location.href = '/View/Grievances'
+
+                } else {
+                    setTimeout($.unblockUI, 10);
+                    $.blockUI({
+                        message: '<h2>Validation Error Occured</h2></br><h1>' + response + '</h1><p>' + 'Message will unblock after 10 seconds' + '</p>'  ,
+                        timeout: 10000
+                    });
+
+                }
+            })
+               .fail(function (err_reponse) {
+                   setTimeout($.unblockUI, 10);
+                   alert(err_reponse);
+
+                   $.blockUI({
+                       message: '<h1>Error Occured</h1><p>' + err_response + '</p>',
+                       timeout: 5000
+                   });
+               });
+
+        }
+
+
+
+    }
+
+    $(document).ready(function () {
+        ko.applyBindings(new ViewModel());
+
+
+
+    });
+
+</script>

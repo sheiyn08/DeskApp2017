@@ -1,0 +1,102 @@
+﻿
+@{Layout = null; }
+ 
+    <md-container layout="row">
+        <div flex="100" layout="column" layout-margin layout-sm="column">
+            <h3>Financial Allocation</h3>
+
+            <p>How were municipal funds allocated in the previous year?</p>
+        </div>
+
+    </md-container>
+
+
+    <md-container layout="row">
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="50" flex-sm="100">
+                <label>Environment</label>
+                <input type="number" name="alloc_env" ng-model="data.alloc_env" required class="form-control" min="0">
+
+            </div>
+            <div flex="50" flex-sm="100">
+                <label>Infrastructure</label>
+                <input type="number" name="alloc_env" ng-model="data.alloc_infra" required class="form-control" min="0">
+
+            </div>
+
+
+
+
+
+        </div>
+    </md-container>
+
+
+
+    <md-container layout="row">
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="50" flex-sm="100">
+                <label>Social Development</label>
+                <input type="number" name="alloc_env" ng-model="data.alloc_basic" required class="form-control" min="0">
+
+            </div>
+            <div flex="50" flex-sm="100">
+                <label>Institutional Sector</label>
+                <input type="number" name="alloc_env" ng-model="data.alloc_inst" required class="form-control" min="0">
+
+            </div>
+
+
+
+
+
+        </div>
+    </md-container>
+
+    <md-container layout="row">
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="50" flex-sm="100">
+                <label>GAD</label>
+                <input type="number" name="alloc_env" ng-model="data.alloc_gender" required class="form-control" min="0">
+
+            </div>
+            <div flex="50" flex-sm="100">
+                <label>DRRM</label>
+                <input type="number" name="alloc_env" ng-model="data.alloc_drrm" required class="form-control" min="0">
+
+            </div>
+
+
+
+
+
+        </div>
+    </md-container>
+
+
+    <md-container layout="row">
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+
+            <div flex="50" flex-sm="100">
+                <label>Other Allocations</label>
+                <input type="number" name="alloc_env" ng-model="data.alloc_others" required class="form-control" min="0">
+
+            </div>
+
+            <div flex="50" flex-sm="100">
+
+            </div>
+
+
+
+        </div>
+    </md-container>
+ 

@@ -1,0 +1,632 @@
+﻿<div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">
+            <h1>Municipal Talakayan Day Evaluation</h1>
+        </div>
+
+    </md-toolbar>
+
+    <md-tabs md-dynamic-height md-border-bottom>
+
+
+        <md-tab label="Details">
+            <form name="basicForm">
+                <!--for validation-->
+                @Html.Partial("~/Views/TalakayanEvaluation/_basic_information.cshtml")
+            </form>
+        </md-tab>
+        <md-tab label="Municipal Talakayan Day Evaluation Form 2015" ng-disabled="data.evaluation_form_version != 2015">
+            @Html.Partial("~/Views/TalakayanEvaluation/_version_2015.cshtml")
+        </md-tab>
+        <md-tab label="Municipal Talakayan Day Evaluation Form 2016" ng-disabled="data.evaluation_form_version != 2016">
+            @Html.Partial("~/Views/TalakayanEvaluation/_version_2016.cshtml")
+        </md-tab>
+        @Html.Partial("~/Views/Entry/Common/_attachment.cshtml")
+    </md-tabs>
+
+
+    <md-content>
+
+
+        <ul>
+            <li ng-repeat="(key, errors) in basicForm.$error track by $index">
+                <strong>{{ key }}</strong> Details
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+
+        </ul>
+
+
+
+    </md-content>
+
+    <br /> <br />
+
+    <br />
+    <md-container layout="row">
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+            <!--VALIDATION: button Submit will be enabled only if the required fields are populated-->
+            <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!basicForm.$valid">
+                Proceed
+            </md-button>
+
+            <md-button class="md-warn md-raised" href="/TalakayanEvaluation/Index">
+                Back to List
+            </md-button>
+
+        </div>
+    </md-container>
+
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+            .controller('AppCtrl',
+                function ($scope, $mdDialog, $http, $mdToast) {
+
+                    $scope.talakayan_option_answer_id = [{ "Id": 1, "Name": "1 - Strongly Disagree" }, { "Id": 2, "Name": "2 - Disagree" }, { "Id": 3, "Name": "3 - Agree" }, { "Id": 4, "Name": "4 - Strongly Agree" }];
+                    $scope.evaluation_form_version = [{ "Id": 2015, "Name": "2015" }, { "Id": 2016, "Name": "2016" }];
+                    $scope.talakayan_option_participant_id_2015 = [{ "Id": 1, "Name": "Local Official (Elected)" }, { "Id": 2, "Name": "Local Official (Appointed)" }, { "Id": 3, "Name": "Volunteer" }, { "Id": 4, "Name": "Non-Volunteer" }];
+                    $scope.talakayan_option_participant_id_2016 = [{ "Id": 1, "Name": "Local Official (Elected)" }, { "Id": 2, "Name": "Local Official (Appointed)" }, { "Id": 3, "Name": "Community Citizens Group A" }, { "Id": 4, "Name": "Community Citizens Group B" }];
+                    $scope.talakayan_year_options = [{ "Id": 1, "Name": "2015" }, { "Id": 2, "Name": "2016" }, { "Id": 3, "Name": "2017" }, { "Id": 4, "Name": "2018" }, { "Id": 5, "Name": "2019" }];
+
+                    $scope.data;
+
+
+                    //displaying the previously entered details: EDIT
+                    $http.get('/api/offline/v1/talakayan_eval/get?id=@ViewBag.id')
+                        .then(function (response) {
+
+
+                            $scope.loading = true;
+
+                            $scope.data = response.data;
+
+
+                            //try: - ok
+
+                            //getting talakayan dates
+                            $scope.dt_talakayan_date_start = response.data.talakayan_date_start == undefined ? null : new Date(response.data.talakayan_date_start);
+                            $scope.dt_talakayan_date_end = response.data.talakayan_date_end == undefined ? null : new Date(response.data.talakayan_date_end);
+
+                            //$scope.talakayan_minEndDate = new Date(data.dt_talakayan_date_start);
+
+                            //getting date evaluation was conducted
+                            $scope.dt_evaluation_date_start = response.data.evaluation_date_start == undefined ? null : new Date(response.data.evaluation_date_start);
+                            $scope.dt_evaluation_date_end = response.data.evaluation_date_end == undefined ? null : new Date(response.data.evaluation_date_end);
+
+                            //$scope.evaluation_minEndDate = new Date(data.dt_evaluation_date_start);
+
+                            $scope.$watch('dt_talakayan_date_start',
+                                function (newValue, oldValue) {
+                                    $scope.talakayan_minEndDate = new Date(newValue);
+                                });
+
+                            $scope.$watch('dt_talakayan_date_end',
+                                function (newValue, oldValue) {
+                                    $scope.evaluation_minStartDate = new Date(newValue);
+                                });
+
+                            $scope.$watch('dt_evaluation_date_start',
+                                function (newValue, oldValue) {
+                                    $scope.evaluation_minEndDate = new Date(newValue);
+                                });
+
+                            $scope.showAttributes = false;
+
+                            $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
+                            $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
+                            $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
+                            $scope.data.brgy_code = $scope.data.brgy_code == 0 ? "" : $scope.data.brgy_code;
+
+                            $scope.data.evaluation_form_version = $scope.data.evaluation_form_version == 0 ? "" : $scope.data.evaluation_form_version;
+
+                            $scope.data.talakayan_date_start = $scope.data.talakayan_date_start == 0 ? "" : $scope.data.talakayan_date_start;
+                            $scope.data.talakayan_date_end = $scope.data.talakayan_date_end == 0 ? "" : $scope.data.talakayan_date_end;
+                                                        
+                            $scope.data.evaluation_date_start = $scope.data.evaluation_date_start == 0 ? "" : $scope.data.evaluation_date_start;
+                            $scope.data.evaluation_date_end = $scope.data.evaluation_date_end == 0 ? "" : $scope.data.evaluation_date_end;
+
+                            $scope.data.talakayan_name = $scope.data.talakayan_name == 0 ? "" : $scope.data.talakayan_name;
+                            $scope.data.talakayan_yr_id = $scope.data.talakayan_yr_id == 0 ? "" : $scope.data.talakayan_yr_id;
+
+
+                            $scope.$watch('data.talakayan_yr_id',
+                                function (newValue, oldValue) {
+
+                                    $scope.this_year = new Date().getFullYear();
+
+                                    switch ($scope.data.talakayan_yr_id) {
+                                        //2015
+                                        case 1:
+                                            if ($scope.this_year < 2015) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+                                                return false;
+                                            }
+                                            break;
+                                            //2016
+                                        case 2:
+                                            if ($scope.this_year < 2016) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+                                                return false;
+                                            }
+                                            break;
+                                            //2017
+                                        case 3:
+                                            if ($scope.this_year < 2017) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+
+
+                                                return false;
+                                            }
+                                            break;
+                                            //2018
+                                        case 4:
+                                            if ($scope.this_year < 2018) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+
+
+                                                return false;
+                                            }
+                                            break;
+                                            //2019
+                                        case 5:
+                                            if ($scope.this_year < 2019) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+
+
+                                                return false;
+                                            }
+                                            break;
+
+                                    }
+
+
+
+                                    //if talakayan year is 2015
+                                    if ($scope.data.talakayan_yr_id == 1) {
+
+                                        $scope.talakayan_minStartDate = new Date("01/01/2015");
+                                        $scope.talakayan_maxStartDate = new Date("12/31/2015");
+
+                                        $scope.talakayan_maxEndDate = new Date("12/31/2015");
+
+                                        $scope.evaluation_maxStartDate = new Date("12/31/2015");
+                                        $scope.evaluation_maxEndDate = new Date("12/31/2015");
+                                    }
+                                    //if talakayan year is 2016
+                                    if ($scope.data.talakayan_yr_id == 2) {
+                                        $scope.talakayan_minStartDate = new Date("01/01/2016");
+                                        $scope.talakayan_maxStartDate = new Date("12/31/2016");
+
+                                        $scope.talakayan_maxEndDate = new Date("12/31/2016");
+
+                                        $scope.evaluation_maxStartDate = new Date("12/31/2016");
+                                        $scope.evaluation_maxEndDate = new Date("12/31/2016");
+                                    }
+
+                                    if ($scope.data.talakayan_yr_id == 3) {
+                                        $scope.talakayan_minStartDate = new Date("01/01/2017");
+                                        $scope.talakayan_maxStartDate = new Date("12/31/2017");
+
+                                        $scope.talakayan_maxEndDate = new Date("12/31/2017");
+
+                                        $scope.evaluation_maxStartDate = new Date("12/31/2017");
+                                        $scope.evaluation_maxEndDate = new Date("12/31/2017");
+                                    }
+
+                                    if ($scope.data.talakayan_yr_id == 4) {
+                                        $scope.talakayan_minStartDate = new Date("01/01/2018");
+                                        $scope.talakayan_maxStartDate = new Date("12/31/2018");
+
+                                        $scope.talakayan_maxEndDate = new Date("12/31/2018");
+
+                                        $scope.evaluation_maxStartDate = new Date("12/31/2018");
+                                        $scope.evaluation_maxEndDate = new Date("12/31/2018");
+                                    }
+
+                                    if ($scope.data.talakayan_yr_id == 5) {
+                                        $scope.talakayan_minStartDate = new Date("01/01/2019");
+                                        $scope.talakayan_maxStartDate = new Date("12/31/2019");
+
+                                        $scope.talakayan_maxEndDate = new Date("12/31/2019");
+
+                                        $scope.evaluation_maxStartDate = new Date("12/31/2019");
+                                        $scope.evaluation_maxEndDate = new Date("12/31/2019");
+                                    }
+                                });
+
+
+
+
+                            $scope.$watch('data.evaluation_form_version',
+                          function (newValue, oldValue) {
+
+                              if ($scope.data.evaluation_form_version == 2016) {
+                                  //making 2015 questions null
+                                  $scope.data.v2015_obj_a = null;
+                                  $scope.data.v2015_obj_b = null;
+                                  $scope.data.v2015_timeallotment_a_part1 = null;
+                                  $scope.data.v2015_timeallotment_a_part2 = null;
+                                  $scope.data.v2015_timeallotment_a_part3 = null;
+                                  $scope.data.v2015_timeallotment_a_part4 = null;
+                                  $scope.data.v2015_timeallotment_a_part5 = null;
+                                  $scope.data.v2015_timeallotment_b_part1 = null;
+                                  $scope.data.v2015_timeallotment_b_part2 = null;
+                                  $scope.data.v2015_timeallotment_b_part3 = null;
+                                  $scope.data.v2015_timeallotment_b_part4 = null;
+                                  $scope.data.v2015_timeallotment_b_part5 = null;
+                                  $scope.data.v2015_partsoftalakayan_part1 = null;
+                                  $scope.data.v2015_partsoftalakayan_part2 = null;
+                                  $scope.data.v2015_partsoftalakayan_part3 = null;
+                                  $scope.data.v2015_partsoftalakayan_part4 = null;
+                                  $scope.data.v2015_partsoftalakayan_part5 = null;
+                                  $scope.data.v2015_evaluation_a = null;
+                                  $scope.data.v2015_evaluation_b = null;
+                                  $scope.data.v2015_venue_a = null;
+                                  $scope.data.v2015_venue_b = null;
+                                  $scope.data.v2015_venue_c = null;
+                                  $scope.data.v2015_venue_d = null;
+                                  $scope.data.v2015_venue_e = null;
+                                  $scope.data.v2015_visual_a = null;
+                                  $scope.data.v2015_visual_b = null;
+                                  $scope.data.v2015_visual_c = null;
+                                  $scope.data.v2015_visual_d = null;
+                                  $scope.data.v2015_visual_e = null;
+                                  $scope.data.v2015_satisfaction_a = null;
+                                  $scope.data.v2015_satisfaction_a_remarks = null;
+                                  $scope.data.v2015_satisfaction_b = null;
+                                  $scope.data.v2015_satisfaction_b_remarks = null;
+                                  $scope.data.v2015_satisfaction_c = null;
+                                  $scope.data.v2015_satisfaction_c_remarks = null;
+                                  $scope.data.v2015_satisfaction_d = null;
+                                  $scope.data.v2015_satisfaction_d_remarks = null;
+                                  $scope.data.v2015_satisfaction_e = null;
+                                  $scope.data.v2015_satisfaction_e_remarks = null;
+                                  $scope.data.v2015_satisfaction_f = null;
+                                  $scope.data.v2015_satisfaction_f_remarks = null;
+                                  $scope.data.v2015_satisfaction_g = null;
+                                  $scope.data.v2015_satisfaction_g_remarks = null;
+                                  $scope.data.v2015_satisfaction_h = null;
+                                  $scope.data.v2015_satisfaction_h_remarks = null;
+                                  $scope.data.v2015_satisfaction_i = null;
+                                  $scope.data.v2015_satisfaction_i_remarks = null;
+                                  $scope.data.v2015_satisfaction_j = null;
+                                  $scope.data.v2015_satisfaction_j_remarks = null;
+                                  $scope.data.v2015_satisfaction_k = null;
+                                  $scope.data.v2015_satisfaction_k_remarks = null;
+
+                              }
+                              if ($scope.data.evaluation_form_version == 2015) {
+                                  $scope.data.v2016_obj = null;
+                                  $scope.data.v2016_time_alloted = null;
+                                  $scope.data.v2016_venue_a = null;
+                                  $scope.data.v2016_venue_b = null;
+                                  $scope.data.v2016_venue_c = null;
+                                  $scope.data.v2016_venue_d = null;
+                                  $scope.data.v2016_sound_system = null;
+                                  $scope.data.v2016_visual_a = null;
+                                  $scope.data.v2016_visual_b = null;
+                                  $scope.data.v2016_visual_c = null;
+                                  $scope.data.v2016_meals_a = null;
+                                  $scope.data.v2016_meals_b = null;
+                                  $scope.data.v2016_meals_c = null;
+                                  $scope.data.v2016_gallery_walk = null;
+                                  $scope.data.v2016_fgd = null;
+                                  $scope.data.v2016_comments = null;
+                                  $scope.data.v2016_knowledge_part1 = null;
+                                  $scope.data.v2016_knowledge_part2 = null;
+                                  $scope.data.v2016_knowledge_part3 = null;
+                                  $scope.data.v2016_knowledge_part4 = null;
+                                  $scope.data.v2016_knowledge_part5 = null;
+                                  $scope.data.v2016_overall_satisfaction = null;
+                                  $scope.data.v2016_team_effectiveness = null;
+
+                              }
+
+                          });
+
+
+                            $scope.check_status = function () {
+
+                                $http.get('/api/exists/talakayan_eval?id=@ViewBag.id')
+                                    .then(function (result) {
+
+
+                                        if (result.data == true) {
+                                            $scope.status = true;
+                                        } else {
+                                            $scope.status = false;
+
+                                        }
+                                    });
+
+                            }
+
+                            $scope.check_status();
+
+                            $http.get('/api/online/lib_region')
+                                .then(function (response) { $scope.region_code_options = response.data; });
+
+                            $scope.loading = false;
+
+
+                            $http.get('/api/attachment_list?id=90')
+                           .then(function (response) {
+
+                               $scope.attachment_list = response.data;
+                           });
+
+
+                            $scope.attached_documents = [];
+                            $scope.attachment = {};
+                            $scope.attachment.mov_list_id = null;
+
+                            $scope.uploadAttachment = function () {
+
+
+
+                                var fileUpload = $("#files").get(0);
+                                var files = fileUpload.files;
+                                var data = new FormData();
+                                for (var i = 0; i < files.length ; i++) {
+                                    data.append(files[i].name, files[i]);
+                                }
+
+
+
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Mov/UploadFilesAjax?id="
+                                        + '@ViewBag.id'
+                                        + "&mov_list_id=" + $scope.attachment.mov_list_id
+
+
+                                       + "&region_code=" + $scope.data.region_code
+                                       + "&prov_code=" + $scope.data.prov_code
+                                            + "&city_code=" + $scope.data.city_code
+                                            + "&brgy_code=" + $scope.data.brgy_code
+
+                                       + "&fund_source_id=" + $scope.data.fund_source_id
+                                            + "&cycle_id=" + $scope.data.cycle_id
+                                         + "&enrollment_id=" + $scope.data.enrollment_id,
+
+
+
+                                    contentType: false,
+                                    processData: false,
+                                    data: data,
+                                    success: function (message) {
+                                        var base = window.location.origin;
+
+                                        message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+
+
+
+                                        $scope.attached_documents.push(message);
+
+                                        //    alert(JSON.stringify(message));
+
+                                    },
+                                    error: function (message) {
+                                        alert(JSON.stringify(message.responseText));
+                                    }
+                                });
+
+
+                            }
+
+                            $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
+                               .success(function (value) {
+
+
+                                   $scope.attached_documents = value;
+
+                                   angular.forEach($scope.attached_documents, function (item) {
+                                       var base = window.location.origin;
+
+                                       item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
+
+
+                                   })
+
+                               });
+
+
+
+
+                            $scope.deleteMov = function (removeitem) {
+
+
+
+                                var ask = confirm("Are you sure you want to Delete this?");
+
+
+                                if (ask == true) {
+                                    $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
+                                        $scope.loading = false;
+
+
+
+                                        var index = $scope.attached_documents.indexOf(removeitem);
+                                        $scope.attached_documents.splice(index, 1);
+
+
+                                        alert("Record removed!")
+
+                                    }).error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+                                }
+
+                            }
+                            //END ATTACHMENTS
+
+
+
+
+
+
+                        //FOR SAVING:
+                            $scope.save = function () {
+
+                                $scope.$broadcast('show-errors-check-validity');
+                                $scope.loading = true;
+                                //       alert(JSON.stringify($scope.data));
+
+                                $.post('/api/offline/v1/talakayan_eval/save', $scope.data)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+                                        $('html, body').animate({
+                                            scrollTop: '0px'
+                                        }, 1500);
+
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Talakayan Evaluation has been saved!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        $scope.check_status();
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            };
+                        });
+                    //end of EDIT
+
+                    $scope.$watch('data.region_code',
+                        function (newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+                                record.prov_code = null;
+                                record.city_code = null;
+                                record.brgy_code = null;
+
+
+                                record.prov_code_options = [];
+                                record.city_code_options = [];
+                                record.brgy_code_options = [];
+
+                            } else {
+
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_province?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.prov_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    $scope.$watch('data.prov_code',
+                        function (newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+
+                                record.brgy_code = null;
+                                record.city_code = null;
+                                record.city_code_options = [];
+                                record.brgy_code_options = [];
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_city?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.city_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    $scope.$watch('data.city_code',
+                        function (newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+
+                                record.brgy_code = null;
+
+                                record.brgy_code_options = [];
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_brgy?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.brgy_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                })
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+}
+
+
+
+
+

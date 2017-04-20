@@ -1,0 +1,256 @@
+ 
+    <form name="myForm" ng-cloak>
+
+        <div class="panel panel-success">
+
+            <div class="panel-heading">
+                <h4>General Information</h4>
+                <p>Please fill up the required fields before proceeding in enrolling participants / or using other modules (PSA/CSW/PRA)</p>
+                <p><strong>Ensure that you are encoding the correct Information, this will be transferred directly to the CEAC Tracking Module</strong></p>
+            </div>
+
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+
+                            <label for="Region:_">Region</label>
+
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="Region" ng-model="data.region_code" id="region_code" class="form-control"
+                                       ng-disabled="status"
+                                         ng-required="true"
+                                        ng-options="option.Id as option.Name for option in region_code_options">
+                                    <option value="">[Select Region]</option>
+                                </select>
+                            </div>
+
+
+
+
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="Province:_">Province: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                        ng-disabled="data.region_code == null || status"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in prov_code_options">
+                                    <option value="">[Select Province]</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Municipality:_">Municipality: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="Municipality" ng-model="data.city_code" id="city_code" class="form-control"
+                                            ng-required="true"
+                                            ng-disabled="data.prov_code == null || status"
+                                            ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                                        <option value="">[Select Municipality]</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3" ng-show="data.lgu_level_id == 1">
+                            <label for="Barangay:_">Barangay: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="Barangay" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                        ng-required="data.lgu_level_id ==1"
+                                        ng-disabled="data.city_code == null || status"
+                                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                                    <option value="">[Select Barangay]</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+
+                            <label for="Region:_">Fund Source</label>
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
+                                        ng-required="true"
+                                        ng-disabled="status"
+                                        ng-options="option.Id as option.Name for option in fund_source_id_options">
+                                    <option value="">[Select Fund Source]</option>
+                                </select>
+                            </div>
+
+                              
+
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="Province:_">Cycle: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="Cycle" ng-model="data.cycle_id" id="cycle_id" class="form-control"
+                                        ng-required="true"
+                                        ng-disabled="status"
+                                        ng-options="option.Id as option.Name for option in cycle_id_options">
+                                    <option value="">[Select Cycle]</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3" >
+                            <label for="Municipality:_">KC Mode: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="KC Mode" ng-model="data.enrollment_id" id="enrollment_id" class="form-control"
+                                       ng-disabled="status"
+                                         ng-required="true"
+                                        ng-options="option.Id as option.Name for option in enrollment_id_options">
+                                    <option value="">[Select KC Mode]</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-6">
+                            <label for="Title:_">Title: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <input type="text" class="form-control" ng-model="data.training_title" required name="Title" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="LGU Level:_">Training/Activity Level: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="Level" ng-model="data.lgu_level_id" id="region_code" class="form-control"
+                                        ng-disabled="status"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in lgu_level_id_options">
+                                    <option value="">[Select Activity Level]</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Training Category:_">Training Category: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="Category" ng-model="data.training_category_id" id="region_code" class="form-control"
+                                        ng-required="true"
+                                        ng-disabled="data.lgu_level_id =='' || status"
+                                        ng-options="option.Id as option.Name for option in training_category_id_options">
+                                    <option value="">[Select Training Category]</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+
+                            <label for="Region:_">Reported By</label>
+
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <input class="form-control" name="reported_by" ng-model="data.reported_by" required />
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="col-md-3">
+
+                            <label for="Region:_">Venue</label>
+
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <input class="form-control" name="venue" ng-model="data.venue" required />
+
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Region:_">Start Date</label>
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+
+                                <md-datepicker name="start_date" md-min-date="maxStartDate" ng-model="dt_start_date" md-placeholder="Enter date" ng-change="data.start_date = dt_start_date.toISOString()" required md-min-date="minYear" md-max-date="today"></md-datepicker>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Region:_">End Date</label>
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+
+                                <md-datepicker name="end_date" ng-model="dt_end_date" md-placeholder="Enter date" ng-change="data.end_date = dt_end_date.toISOString()" required md-min-date="maxDate" md-max-date="today"></md-datepicker>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    </form>
+ 

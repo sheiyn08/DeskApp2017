@@ -1,0 +1,269 @@
+﻿<div ng-controller="AppCtrl" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3><strong>Municipal Financial Profile Report</strong></h3>
+            <h5>General Instruction: Please fill necessary fields before proceeding to generating of report.</h5>
+        </div>
+        <div class="panel-body">
+            @Html.Partial("~/Views/Report/MunicipalFinancialProfile/_report_filter.cshtml")
+        </div>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h4>Preview</h4>
+        </div>
+        <div id="printDiv" ng-show="show_div">
+            @Html.Partial("~/Views/Report/MunicipalFinancialProfile/_preview_financial_profile.cshtml")
+        </div>
+    </div>
+
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+
+            angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']).controller('AppCtrl', function ($scope, $http, $mdDialog, $mdMedia) {
+                $scope.data = {};
+
+                $scope.selected_region = {};
+                $scope.selected_province = {};
+                $scope.selected_city = {};
+
+                $scope.selected_talakayan_year = {};
+                $scope.selected_cycle_id = {};
+
+                $scope.data.talakayan_yr_id = '';
+                $scope.data.region_code = '';
+                $scope.data.prov_code = '';
+                $scope.data.city_code = '';
+                $scope.data.cycle_id = '';
+
+                $scope.talakayan_year_options = [{ "Id": 1, "Name": "2015" }, { "Id": 2, "Name": "2016" }, { "Id": 3, "Name": "2017" }, { "Id": 4, "Name": "2018" }, { "Id": 5, "Name": "2019" }];
+                
+
+                function Popup(data) {
+                    var mywindow = window.open('', 'new div', 'height=400,width=600');
+
+                    mywindow.document.write(
+                      '<html>'
+                    + '<head>'
+                    + '<title> Municipal Financial Profile Report </title>'
+                    + '<link href="/content/lte/bootstrap/css/bootstrap.css" media="all"  type="text/css"  rel="stylesheet" />'
+                    + '<link href="/css/print.css" type="text/css" rel="stylesheet" media="print"  />'
+                    + '</head>'
+                    + '<body>'
+                    + data
+                    + '</body>'
+                    + '</html>'
+                    );
+                    //mywindow.document.write('<html><head><title>Municipal Financial Profile Report</title>');
+                    //mywindow.document.write('<link href="/content/lte/bootstrap/css/bootstrap.css" media="all"  type="text/css"  rel="stylesheet" />');
+                    //mywindow.document.write('<link href="/css/print.css" type="text/css" rel="stylesheet" media="print"  />');
+                    //mywindow.document.write('</head><body >');
+                    //mywindow.document.write(data);
+                    //mywindow.document.write('</body></html>');
+                    mywindow.print();
+                    mywindow.close();
+                    return true;
+                }
+
+
+                $scope.printContent = function () {
+
+                    Popup($('#printDiv').html());
+
+                }
+
+                $scope.exportToXLS = function () {
+
+                    var a = document.createElement('a');
+                    //getting data from our div that contains the HTML table
+                    var data_type = 'data:application/vnd.ms-excel';
+                    var table_div = document.getElementById('printDiv');
+                    var table_html = table_div.outerHTML.replace(/ /g, '%20');
+                    a.href = data_type + ', ' + table_html;
+                    a.download = 'Municipal Financial Profile Report.xls';
+                    //triggering the function
+                    a.click();
+                    e.preventDefault();
+                }
+
+           //     $http.get('/api/talakayan_year')
+           //.then(function (response) { $scope.talakayan_year_options = response.data; });
+
+                $http.get('/api/lib_cycle?id=7')
+           .then(function (response) { $scope.cycle_id_options = response.data; });
+
+                $http.get('/api/online/lib_region')
+            .then(function (response) { $scope.region_code_options = response.data; });
+
+                //$scope.loading = false;
+
+                $scope.$watch('selected_region.Id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+                        record.selected_province.Id = null;
+                        record.selected_city.Id = null;
+
+                        record.prov_code_options = [];
+                        record.city_code_options = [];
+                    }
+                    else {
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_province?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.prov_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('selected_province.Id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.selected_city.Id = null;
+                        record.city_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_city?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.city_code_options = data;
+
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.clear = function () {
+                    $scope.data = {};
+                }
+
+                $scope.search = function () {
+                    $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
+
+                    $scope.data.region_code = $scope.selected_region.Id;
+                    $scope.data.prov_code = $scope.selected_province.Id;
+                    $scope.data.city_code = $scope.selected_city.Id;
+                    $scope.data.talakayan_yr_id = $scope.selected_talakayan_year.Id;
+
+                    //for data entered by user:
+                    $.post('/api/export/muni_financial_profile/mlgu_data_entered', $scope.data).success(function (value) {
+                        $scope.loading = false;
+                                                
+                        $scope.MLGUData = value;
+
+                        setTimeout($.unblockUI, 3);
+
+                        $scope.isSearching = false;
+
+                    }).error(function (data) {
+
+                        alert(JSON.stringify(data));
+                        $scope.error = "An Error has occured! " + data.statusText;
+                        $scope.loading = false;
+                    });
+
+                    //for Revenue Sources and Sector Expenditure - 2011
+                    $.post('/api/export/muni_financial_profile/blgf_financial_data?id=3', $scope.data).success(function (value) {
+                        $scope.loading = false;
+
+                        $scope.RevenueandExpenditures2011 = value;
+
+                        setTimeout($.unblockUI, 3);
+
+                        $scope.isSearching = false;
+
+                    }).error(function (data) {
+
+                        alert(JSON.stringify(data));
+                        $scope.error = "An Error has occured! " + data.statusText;
+                        $scope.loading = false;
+                    });
+
+
+                    //for Revenue Sources and Sector Expenditure - 2012
+                    $.post('/api/export/muni_financial_profile/blgf_financial_data?id=4', $scope.data).success(function (value) {
+                        $scope.loading = false;
+
+                        $scope.RevenueandExpenditures2012 = value;
+
+                        setTimeout($.unblockUI, 3);
+
+                        $scope.isSearching = false;
+
+                    }).error(function (data) {
+
+                        alert(JSON.stringify(data));
+                        $scope.error = "An Error has occured! " + data.statusText;
+                        $scope.loading = false;
+                    });
+
+                    //for Revenue Sources and Sector Expenditure - 2013
+                    $.post('/api/export/muni_financial_profile/blgf_financial_data?id=5', $scope.data).success(function (value) {
+                        $scope.loading = false;
+                        
+                        $scope.RevenueandExpenditures2013 = value;
+
+                        setTimeout($.unblockUI, 3);
+
+                        $scope.isSearching = false;
+
+                    }).error(function (data) {
+
+                        alert(JSON.stringify(data));
+                        $scope.error = "An Error has occured! " + data.statusText;
+                        $scope.loading = false;
+                    });
+
+                    //for LGPMS
+                    $.post('/api/export/muni_financial_profile/lgpms_all_data', $scope.data).success(function (value) {
+                        $scope.loading = false;
+
+                        $scope.LGPMSlist = value;
+
+                        setTimeout($.unblockUI, 3);
+
+                        $scope.isSearching = false;
+
+                    }).error(function (data) {
+
+                        alert(JSON.stringify(data));
+                        $scope.error = "An Error has occured! " + data.statusText;
+                        $scope.loading = false;
+                    });
+
+
+                };
+
+                //$scope.search();
+
+            })
+
+    </script>
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+
+}

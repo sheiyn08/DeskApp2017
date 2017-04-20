@@ -1,0 +1,752 @@
+﻿<div class="panel panel-body">
+
+    <div class="col-md-12">
+        <h3>Perception Survey Report</h3>
+    </div>
+    <div class="col-md-12">
+        <h4>{{selected_report.Name}}</h4>
+        <br />
+    </div>
+
+    <div class="col-md-12">
+        <h5><strong>Period Covered: </strong>{{earliest_talakayan_date | date:'MM/dd/yyyy'}} <strong>to </strong>{{latest_talakayan_date | date:'MM/dd/yyyy'}}</h5>
+        <br />
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Region: {{selected_region.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Province: {{selected_province.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Municipality: {{selected_city.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Barangay: {{selected_brgy.Name}}</strong></h5>
+        <br /> <br /><br />
+    </div>
+
+    <table class="table table-bordered" style="width:30%">
+
+        <tr>
+            <td rowspan="2" align="center" style="vertical-align:middle" width="30%">
+                <strong>Total Number of Respondents</strong>
+            </td>
+            <td colspan="3" align="center" style="vertical-align:middle" width="70%">
+                <strong>No. of Respondents</strong>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <strong>Pantawid</strong>
+            </td>
+            <td align="center">
+                <strong>IP</strong>
+            </td>
+            <td align="center">
+                <strong>SLP</strong>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <strong>{{total_respondents}}</strong>
+            </td>
+            <td align="center">
+                <strong>{{total_pantawid}}</strong>
+            </td>
+            <td align="center">
+                <strong>{{total_ip}}</strong>
+            </td>
+            <td align="center">
+                <strong>{{total_slp}}</strong>
+            </td>
+        </tr>
+
+    </table>
+    <br /><br />
+
+    <table class="table table-bordered">
+
+        <tr>
+            <td rowspan="3" align="center" style="vertical-align:middle">
+                <strong>Item</strong>
+            </td>
+
+            <td rowspan="3" align="center" style="vertical-align:middle">
+                <strong>Total Number of Response</strong>
+            </td>
+
+            <td colspan="6" align="center">
+                <strong>Strongly Disagree</strong>
+            </td>
+
+
+            <td colspan="6" align="center">
+                <strong>Disagree</strong>
+            </td>
+
+
+            <td colspan="6" align="center">
+                <strong>Agree</strong>
+            </td>
+
+
+            <td colspan="6" align="center">
+                <strong>Strongly Agree</strong>
+            </td>
+
+            <td colspan="6" align="center">
+                <strong>No Answer</strong>
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td colspan="2" align="center">
+                <strong>Pantawid</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>SLP</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>IP</strong>
+            </td>
+
+            <td colspan="2" align="center">
+                <strong>Pantawid</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>SLP</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>IP</strong>
+            </td>
+
+
+            <td colspan="2" align="center">
+                <strong>Pantawid</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>SLP</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>IP</strong>
+            </td>
+
+
+            <td colspan="2" align="center">
+                <strong>Pantawid</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>SLP</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>IP</strong>
+            </td>
+
+
+            <td colspan="2" align="center">
+                <strong>Pantawid</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>SLP</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>IP</strong>
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td colspan="32">
+                <strong>TRUST AND CONFIDENCE ON OFFICIALS</strong>
+            </td>
+        </tr>
+
+        <tr ng-repeat="item in list | filter: {category:'TRUST AND CONFIDENCE ON OFFICIALS'}">
+
+            <td>
+                {{item.item}}
+            </td>
+            <td>
+                {{item.total_num_of_response}}
+            </td>
+            <td>
+                {{item.strongly_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_pantawid == 'NaN' || item.percent_strongly_disagree_pantawid == '.0%' ? "" : item.percent_strongly_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.strongly_disagree_slp}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_slp == 'NaN' || item.percent_strongly_disagree_slp == '.0%' ? "" : item.percent_strongly_disagree_slp}}
+            </td>
+            <td>
+                {{item.strongly_disagree_ip}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_ip == 'NaN' || item.percent_strongly_disagree_ip == '.0%' ? "" : item.percent_strongly_disagree_ip}}
+            </td>
+
+
+            <td>
+                {{item.disagree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_disagree_pantawid == 'NaN' || item.percent_disagree_pantawid == '.0%' ? "" : item.percent_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.disagree_slp}}
+            </td>
+            <td>
+                {{item.percent_disagree_slp == 'NaN' || item.percent_disagree_slp == '.0%' ? "" : item.percent_disagree_slp}}
+            </td>
+            <td>
+                {{item.disagree_ip}}
+            </td>
+            <td>
+                {{item.percent_disagree_ip == 'NaN' || item.percent_disagree_ip == '.0%' ? "" : item.percent_disagree_ip}}
+            </td>
+
+
+            <td>
+                {{item.agree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_agree_pantawid == 'NaN' || item.percent_agree_pantawid == '.0%' ? "" : item.percent_agree_pantawid}}
+            </td>
+            <td>
+                {{item.agree_slp}}
+            </td>
+            <td>
+                {{item.percent_agree_slp == 'NaN' || item.percent_agree_slp == '.0%' ? "" : item.percent_agree_slp}}
+            </td>
+            <td>
+                {{item.agree_ip}}
+            </td>
+            <td>
+                {{item.percent_agree_ip == 'NaN' || item.percent_agree_ip == '.0%' ? "" : item.percent_agree_ip}}
+            </td>
+
+
+            <td>
+                {{item.strongly_agree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_pantawid == 'NaN' || item.percent_strongly_agree_pantawid == '.0%' ? "" : item.percent_strongly_agree_pantawid}}
+            </td>
+            <td>
+                {{item.strongly_agree_slp}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_slp == 'NaN' || item.percent_strongly_agree_slp == '.0%' ? "" : item.percent_strongly_agree_slp}}
+            </td>
+            <td>
+                {{item.strongly_agree_ip}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_ip == 'NaN' || item.percent_strongly_agree_ip == '.0%' ? "" : item.percent_strongly_agree_ip}}
+            </td>
+
+            <td>
+                {{item.no_answer_pantawid}}
+            </td>
+            <td>
+                {{item.percent_no_answer_pantawid == 'NaN' || item.percent_no_answer_pantawid == '.0%' ? "" : item.percent_no_answer_pantawid}}
+            </td>
+            <td>
+                {{item.no_answer_slp}}
+            </td>
+            <td>
+                {{item.percent_no_answer_slp == 'NaN' || item.percent_no_answer_slp == '.0%' ? "" : item.percent_no_answer_slp}}
+            </td>
+            <td>
+                {{item.no_answer_ip}}
+            </td>
+            <td>
+                {{item.percent_no_answer_ip == 'NaN' || item.percent_no_answer_ip == '.0%' ? "" : item.percent_no_answer_ip}}
+            </td>
+
+        </tr>
+
+        <tr>
+            <td colspan="32">
+                <strong>ACCESS TO SERVICES AND GOVERNANCE</strong>
+            </td>
+        </tr>
+
+        <tr ng-repeat="item in list | filter: {category:'ACCESS TO SERVICES AND GOVERNANCE'}">
+
+            <td>
+                {{item.item}}
+            </td>
+            <td>
+                {{item.total_num_of_response}}
+            </td>
+            <td>
+                {{item.strongly_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_pantawid == 'NaN' || item.percent_strongly_disagree_pantawid == '.0%' ? "" : item.percent_strongly_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.strongly_disagree_slp}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_slp == 'NaN' || item.percent_strongly_disagree_slp == '.0%' ? "" : item.percent_strongly_disagree_slp}}
+            </td>
+            <td>
+                {{item.strongly_disagree_ip}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_ip == 'NaN' || item.percent_strongly_disagree_ip == '.0%' ? "" : item.percent_strongly_disagree_ip}}
+            </td>
+
+
+            <td>
+                {{item.disagree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_disagree_pantawid == 'NaN' || item.percent_disagree_pantawid == '.0%' ? "" : item.percent_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.disagree_slp}}
+            </td>
+            <td>
+                {{item.percent_disagree_slp == 'NaN' || item.percent_disagree_slp == '.0%' ? "" : item.percent_disagree_slp}}
+            </td>
+            <td>
+                {{item.disagree_ip}}
+            </td>
+            <td>
+                {{item.percent_disagree_ip == 'NaN' || item.percent_disagree_ip == '.0%' ? "" : item.percent_disagree_ip}}
+            </td>
+
+
+            <td>
+                {{item.agree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_agree_pantawid == 'NaN' || item.percent_agree_pantawid == '.0%' ? "" : item.percent_agree_pantawid}}
+            </td>
+            <td>
+                {{item.agree_slp}}
+            </td>
+            <td>
+                {{item.percent_agree_slp == 'NaN' || item.percent_agree_slp == '.0%' ? "" : item.percent_agree_slp}}
+            </td>
+            <td>
+                {{item.agree_ip}}
+            </td>
+            <td>
+                {{item.percent_agree_ip == 'NaN' || item.percent_agree_ip == '.0%' ? "" : item.percent_agree_ip}}
+            </td>
+
+
+            <td>
+                {{item.strongly_agree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_pantawid == 'NaN' || item.percent_strongly_agree_pantawid == '.0%' ? "" : item.percent_strongly_agree_pantawid}}
+            </td>
+            <td>
+                {{item.strongly_agree_slp}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_slp == 'NaN' || item.percent_strongly_agree_slp == '.0%' ? "" : item.percent_strongly_agree_slp}}
+            </td>
+            <td>
+                {{item.strongly_agree_ip}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_ip == 'NaN' || item.percent_strongly_agree_ip == '.0%' ? "" : item.percent_strongly_agree_ip}}
+            </td>
+
+            <td>
+                {{item.no_answer_pantawid}}
+            </td>
+            <td>
+                {{item.percent_no_answer_pantawid == 'NaN' || item.percent_no_answer_pantawid == '.0%' ? "" : item.percent_no_answer_pantawid}}
+            </td>
+            <td>
+                {{item.no_answer_slp}}
+            </td>
+            <td>
+                {{item.percent_no_answer_slp == 'NaN' || item.percent_no_answer_slp == '.0%' ? "" : item.percent_no_answer_slp}}
+            </td>
+            <td>
+                {{item.no_answer_ip}}
+            </td>
+            <td>
+                {{item.percent_no_answer_ip == 'NaN' || item.percent_no_answer_ip == '.0%' ? "" : item.percent_no_answer_ip}}
+            </td>
+
+        </tr>
+
+        <tr>
+            <td colspan="32">
+                <strong>PARTICIPATION AND EMPOWERMENT TO THE POOR AND MARGINALIZED</strong>
+            </td>
+        </tr>
+
+        <tr ng-repeat="item in list | filter: {category:'PARTICIPATION AND EMPOWERMENT TO THE POOR AND MARGINALIZED'}">
+
+            <td>
+                {{item.item}}
+            </td>
+            <td>
+                {{item.total_num_of_response}}
+            </td>
+            <td>
+                {{item.strongly_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_pantawid == 'NaN' || item.percent_strongly_disagree_pantawid == '.0%' ? "" : item.percent_strongly_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.strongly_disagree_slp}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_slp == 'NaN' || item.percent_strongly_disagree_slp == '.0%' ? "" : item.percent_strongly_disagree_slp}}
+            </td>
+            <td>
+                {{item.strongly_disagree_ip}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_ip == 'NaN' || item.percent_strongly_disagree_ip == '.0%' ? "" : item.percent_strongly_disagree_ip}}
+            </td>
+
+
+            <td>
+                {{item.disagree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_disagree_pantawid == 'NaN' || item.percent_disagree_pantawid == '.0%' ? "" : item.percent_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.disagree_slp}}
+            </td>
+            <td>
+                {{item.percent_disagree_slp == 'NaN' || item.percent_disagree_slp == '.0%' ? "" : item.percent_disagree_slp}}
+            </td>
+            <td>
+                {{item.disagree_ip}}
+            </td>
+            <td>
+                {{item.percent_disagree_ip == 'NaN' || item.percent_disagree_ip == '.0%' ? "" : item.percent_disagree_ip}}
+            </td>
+
+
+            <td>
+                {{item.agree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_agree_pantawid == 'NaN' || item.percent_agree_pantawid == '.0%' ? "" : item.percent_agree_pantawid}}
+            </td>
+            <td>
+                {{item.agree_slp}}
+            </td>
+            <td>
+                {{item.percent_agree_slp == 'NaN' || item.percent_agree_slp == '.0%' ? "" : item.percent_agree_slp}}
+            </td>
+            <td>
+                {{item.agree_ip}}
+            </td>
+            <td>
+                {{item.percent_agree_ip == 'NaN' || item.percent_agree_ip == '.0%' ? "" : item.percent_agree_ip}}
+            </td>
+
+
+            <td>
+                {{item.strongly_agree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_pantawid == 'NaN' || item.percent_strongly_agree_pantawid == '.0%' ? "" : item.percent_strongly_agree_pantawid}}
+            </td>
+            <td>
+                {{item.strongly_agree_slp}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_slp == 'NaN' || item.percent_strongly_agree_slp == '.0%' ? "" : item.percent_strongly_agree_slp}}
+            </td>
+            <td>
+                {{item.strongly_agree_ip}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_ip == 'NaN' || item.percent_strongly_agree_ip == '.0%' ? "" : item.percent_strongly_agree_ip}}
+            </td>
+
+            <td>
+                {{item.no_answer_pantawid}}
+            </td>
+            <td>
+                {{item.percent_no_answer_pantawid == 'NaN' || item.percent_no_answer_pantawid == '.0%' ? "" : item.percent_no_answer_pantawid}}
+            </td>
+            <td>
+                {{item.no_answer_slp}}
+            </td>
+            <td>
+                {{item.percent_no_answer_slp == 'NaN' || item.percent_no_answer_slp == '.0%' ? "" : item.percent_no_answer_slp}}
+            </td>
+            <td>
+                {{item.no_answer_ip}}
+            </td>
+            <td>
+                {{item.percent_no_answer_ip == 'NaN' || item.percent_no_answer_ip == '.0%' ? "" : item.percent_no_answer_ip}}
+            </td>
+
+        </tr>
+
+        <tr>
+            <td colspan="32">
+                <strong>DISASTER-RISK RELATED ACTIVITIES AND PREPAREDNESS</strong>
+            </td>
+        </tr>
+
+        <tr ng-repeat="item in list | filter: {category:'DISASTER-RISK RELATED ACTIVITIES AND PREPAREDNESS'}">
+
+            <td>
+                {{item.item}}
+            </td>
+            <td>
+                {{item.total_num_of_response}}
+            </td>
+            <td>
+                {{item.strongly_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_pantawid == 'NaN' || item.percent_strongly_disagree_pantawid == '.0%' ? "" : item.percent_strongly_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.strongly_disagree_slp}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_slp == 'NaN' || item.percent_strongly_disagree_slp == '.0%' ? "" : item.percent_strongly_disagree_slp}}
+            </td>
+            <td>
+                {{item.strongly_disagree_ip}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree_ip == 'NaN' || item.percent_strongly_disagree_ip == '.0%' ? "" : item.percent_strongly_disagree_ip}}
+            </td>
+
+
+            <td>
+                {{item.disagree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_disagree_pantawid == 'NaN' || item.percent_disagree_pantawid == '.0%' ? "" : item.percent_disagree_pantawid}}
+            </td>
+            <td>
+                {{item.disagree_slp}}
+            </td>
+            <td>
+                {{item.percent_disagree_slp == 'NaN' || item.percent_disagree_slp == '.0%' ? "" : item.percent_disagree_slp}}
+            </td>
+            <td>
+                {{item.disagree_ip}}
+            </td>
+            <td>
+                {{item.percent_disagree_ip == 'NaN' || item.percent_disagree_ip == '.0%' ? "" : item.percent_disagree_ip}}
+            </td>
+
+
+            <td>
+                {{item.agree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_agree_pantawid == 'NaN' || item.percent_agree_pantawid == '.0%' ? "" : item.percent_agree_pantawid}}
+            </td>
+            <td>
+                {{item.agree_slp}}
+            </td>
+            <td>
+                {{item.percent_agree_slp == 'NaN' || item.percent_agree_slp == '.0%' ? "" : item.percent_agree_slp}}
+            </td>
+            <td>
+                {{item.agree_ip}}
+            </td>
+            <td>
+                {{item.percent_agree_ip == 'NaN' || item.percent_agree_ip == '.0%' ? "" : item.percent_agree_ip}}
+            </td>
+
+
+            <td>
+                {{item.strongly_agree_pantawid}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_pantawid == 'NaN' || item.percent_strongly_agree_pantawid == '.0%' ? "" : item.percent_strongly_agree_pantawid}}
+            </td>
+            <td>
+                {{item.strongly_agree_slp}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_slp == 'NaN' || item.percent_strongly_agree_slp == '.0%' ? "" : item.percent_strongly_agree_slp}}
+            </td>
+            <td>
+                {{item.strongly_agree_ip}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree_ip == 'NaN' || item.percent_strongly_agree_ip == '.0%' ? "" : item.percent_strongly_agree_ip}}
+            </td>
+
+            <td>
+                {{item.no_answer_pantawid}}
+            </td>
+            <td>
+                {{item.percent_no_answer_pantawid == 'NaN' || item.percent_no_answer_pantawid == '.0%' ? "" : item.percent_no_answer_pantawid}}
+            </td>
+            <td>
+                {{item.no_answer_slp}}
+            </td>
+            <td>
+                {{item.percent_no_answer_slp == 'NaN' || item.percent_no_answer_slp == '.0%' ? "" : item.percent_no_answer_slp}}
+            </td>
+            <td>
+                {{item.no_answer_ip}}
+            </td>
+            <td>
+                {{item.percent_no_answer_ip == 'NaN' || item.percent_no_answer_ip == '.0%' ? "" : item.percent_no_answer_ip}}
+            </td>
+
+        </tr>
+
+    </table>
+
+    <br /> <br />
+    <div class="row">
+        <div class="col-xs-6">
+            <label>Certified Correct By:</label>
+
+            <br />
+            <br />
+            <br />
+            {{prepared_by}}
+
+            Signature over Printed Name
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+    <div class="row">
+
+        <br />
+        <br />
+
+
+        <div class="col-xs-6">
+
+            Position
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+
+</div>

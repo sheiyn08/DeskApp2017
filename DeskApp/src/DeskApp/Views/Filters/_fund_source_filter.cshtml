@@ -1,0 +1,16 @@
+﻿
+@*<div class="col-md-3">
+    @Html.Label("Fund Source: ")
+    <select id="FiltFundSource" class="form-control" multiple data-bind="
+    selectPicker: selected_fund_sources, 
+    optionsText: 'name', 
+    optionsValue : 'fund_source_id', 
+    selectPickerOptions: { optionsArray: lib_fund_sources }"></select>
+</div>*@
+
+<div class="col-md-3">
+    @Html.Label("Fund Source: ")
+    <select class="form-control" data-bind="options: lib_fund_sources, value: fund_source_id,
+    optionsText: 'name',
+    optionsValue: 'fund_source_id',optionsCaption: '[Select Fund Source]'"></select>
+</div>

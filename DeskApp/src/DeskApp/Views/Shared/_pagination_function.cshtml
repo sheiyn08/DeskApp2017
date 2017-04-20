@@ -1,0 +1,29 @@
+﻿@{Layout = null;}
+
+<md-content>
+    <div class="panel-body">
+        <div class="pull-left">
+
+            <h3>Page {{page + 1}} of {{pagesCount}} || {{totalCount}} Records</h3>
+
+            <select name="quarter" ng-model="pageSize" ng-options="obj.value as obj.text for obj in [{'value':5,'text':'5'},{'value':10,'text':'10'},{'value':20,'text':'20'}]" ng-selected="pageSize" class="form-control" onchange="search()"></select>
+
+            <div class="pull-left">
+                <div class="label label-info">Items to Sync: {{itemsToSync}}</div>
+            </div>
+        </div>
+
+        <demo-pager page="{{page}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" onclick="search(page)" class="pull-right">
+
+
+        </demo-pager>
+
+
+    </div>
+</md-content>
+
+
+<div ng-show="isSearching">
+
+    <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+</div>

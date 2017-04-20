@@ -1,0 +1,151 @@
+﻿
+
+<div class="panel panel-success">
+
+    <div class="panel panel-heading">
+        <h4>Sustainability Evaluation Test</h4>
+        <p ng-show="data.physical_status_id !=1">
+            <b>Available only to Completed Sub Projects</b>
+        </p>
+        <md-button class="md-raised" aria-label="Add New SET" ng-click="createNewSET()" ng-show="data.physical_status_id == 1" ng-disabled="create_button_is_clicked || edit_button_is_clicked">
+            Add New SET
+        </md-button>
+
+    </div>
+
+    
+    @*INDEX:*@
+    <div class="panel-body" ng-hide="create_button_is_clicked || edit_button_is_clicked">
+        <div class="panel panel-info" ng-show="data.physical_status_id == 1">
+            <div class="panel panel-heading">
+                <h5>Existing SET Records for this Sub-Project</h5>
+            </div>
+            <div class="panel-body">
+                @*list of SET:*@
+                <md-content>
+                    <div layout="row" layout-margin flex="100">
+                        <div flex>
+                            <label for="Actions">Actions</label>
+                        </div>
+                        <div flex>
+                            <label for="Date of Evaluation">Date of Evaluation</label>
+                        </div>
+                        <div flex>
+                            <label for="Physical Description">Physical Description</label>
+                        </div>
+                        <div flex>
+                            <label for="Total">Total SET Score</label>
+                        </div>
+                    </div>
+                    <div ng-repeat="set in list_SET">
+                        <div layout="row" layout-margin flex="100">
+                            <div flex>
+                                <a ng-click="editset(set)" class="btn btn-success"><i class="fa fa-pencil-square-o"></i></a>
+                                <a ng-click="deleteset(set)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
+                            </div>
+                            <div flex>
+                                {{set.set_date_eval |  date:'MM/dd/yyyy'}}
+                            </div>
+                            <div flex>
+                                {{set.set_physical_description}}
+                            </div>
+                            <div flex>
+                                {{set.set_total_score}}
+                            </div>
+                        </div>
+                    </div>
+                </md-content>
+            </div>
+        </div>
+    </div>     
+
+    <div class="panel-body">
+        <form name="NewSetForm" ng-show="create_button_is_clicked || edit_button_is_clicked">
+            <div class="panel panel-info">
+                <div class="panel panel-heading">
+                    <h4>{{create_button_is_clicked == true ? "Add new SET" : "Edit SET"}}</h4>
+                    <a ng-click="saveset()" class="btn btn-success" ng-disabled="!NewSetForm.$valid"><i class="fa fa-floppy-o"></i>&emsp;Save&emsp;</a>
+                    <a ng-click="cancelset()" class="btn btn-warning"><i class="fa fa-remove"></i>&emsp;Cancel&emsp;</a>                    
+                </div>
+                <div class="panel panel-body">
+                    <div layout="row" layout-margin flex="100">
+                        <div flex="50">
+                            <label> Date of Evaluation</label>
+                        </div>
+                        <div flex="50">
+                            <md-datepicker md-max-date="today" md-min-date="minSetStart" name="SET Date" ng-model="dt_set_date_eval" md-placeholder="Enter date" ng-change="set_data.set_date_eval = dt_set_date_eval.toISOString()" ng-required="true"></md-datepicker>
+                        </div>
+                    </div>
+                    <div layout="row" layout-margin flex="100">
+                        <div flex="50">
+                            <label> Physical Description</label>
+                        </div>
+                        <div flex="50">
+                            <md-input-container class="md-block" flex="100">
+                                <textarea aria-label="Physical Description" name="final" ng-model="set_data.set_physical_description" md-maxlength="2000" rows="5"
+                                          cols="100" md-select-on-focus="" flex="100" ng-required="true"></textarea>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div layout="row" layout-margin flex="100">
+                        <div flex="50">
+                            <label> Section</label>
+                        </div>
+                        <div flex="50">
+                            <label>Score</label>
+                        </div>
+                    </div>
+                    <div layout="row" layout-margin flex="100">
+                        <div flex="50">
+                            <label>(I) SP Utilization</label>
+                        </div>
+                        <div flex="50">
+                            <input type="number" ng-pattern="/^[0-9]{1,7}$/" ng-model="set_data.set_sp_utilization" max="5" min="1" class="form-control" name="SP Utilization" ng-required="true" />
+                        </div>
+                    </div>
+                    <div layout="row" layout-margin flex="100">
+                        <div flex="50">
+                            <label>(II) Organization and Management</label>
+                        </div>
+                        <div flex="50">
+                            <input type="number" ng-pattern="/^[0-9]{1,7}$/" ng-model="set_data.set_organization" max="5" min="1" class="form-control" name="Organization"  ng-required="true"/>
+                        </div>
+                    </div>
+                    <div layout="row" layout-margin flex="100">
+                        <div flex="50">
+                            <label>(III) Institutional Linkage</label>
+                        </div>
+                        <div flex="50">
+                            <input type="number" ng-pattern="/^[0-9]{1,7}$/" ng-model="set_data.set_institutional_linkage" max="5" min="1" class="form-control" name="Insitutional Linkage" ng-required="true" />
+                        </div>
+                    </div>
+                    <div layout="row" layout-margin flex="100">
+                        <div flex="50">
+                            <label>(IV) Financial Component</label>
+                        </div>
+                        <div flex="50">
+                            <input type="number" ng-pattern="/^[0-9]{1,7}$/" ng-model="set_data.set_financial" max="5" min="1" class="form-control" name="Financial" ng-required="true" />
+                        </div>
+                    </div>
+                    <div layout="row" layout-margin flex="100">
+                        <div flex="50">
+                            <label>(V) Physical/Technical</label>
+                        </div>
+                        <div flex="50">
+                            <input type="number" ng-pattern="/^[0-9]{1,7}$/" ng-model="set_data.set_physical" max="5" min="1" class="form-control" name="Physical" ng-required="true" />
+                        </div>
+                    </div>
+                    <div layout="row" layout-margin flex="100">
+                        <div flex="50">
+                            <label> Total SET Score</label>
+                        </div>
+                        <div flex="50">
+                            {{compute_for_set_total()}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

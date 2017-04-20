@@ -1,0 +1,167 @@
+﻿
+<div class="panel panel-success">
+
+    <div class="panel panel-heading">
+        <h3>ERS Records</h3>
+        <p>Ensure that you are adding the correct information and worker</p>
+        <p><strong>If the worker is not found, include it in the Person Profile Module</strong></p>
+
+
+
+        <md-button class="md-raised" aria-label="Add New Record" ng-click="addNewErsList()" ng-show="!selected_ers_list">
+            Add New Record
+        </md-button>
+
+    </div>
+
+
+    @*INDEX:*@
+    <md-content ng-show="!selected_ers_list">
+
+        <div layout="row" layout-margin flex="100">
+
+
+            <div flex>
+
+
+            </div>
+
+            <div flex>
+                <label for="Region:_">Date Reported </label>
+
+
+            </div>
+
+            <div flex>
+                <label for="Region:_">Date Started </label>
+
+
+            </div>
+
+
+            <div flex>
+                <label for="Region:_">Date Ended </label>
+
+
+            </div>
+            <div flex>
+                <label for="Region:_">Mode </label>
+
+
+            </div>
+
+        </div>
+
+
+        <div ng-repeat="ers in list_ErsList">
+            <div layout="row" layout-margin flex="100">
+
+
+                <div flex>
+
+
+                    <a ng-click="show_ers_worker(ers)" class="btn btn-success"><i class="fa fa-group"></i></a>
+
+                    <a ng-click="remove_ErsList(ers.sub_project_ers_id, $idx)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
+
+                </div>
+
+                <div flex>
+
+                    {{ers.date_reported |  date:'MM/dd/yyyy'}}
+                </div>
+
+                <div flex>
+
+                    {{ers.date_started |  date:'MM/dd/yyyy'}}
+                </div>
+
+
+                <div flex>
+
+                    {{ers.date_ended |  date:'MM/dd/yyyy'}}
+                </div>
+
+                <div flex>
+
+                    <select name="ERS Delivery Mode" ng-model="ers.ers_delivery_mode_id" id="brgy_code" class="form-control"
+                            disabled=""
+                            ng-options="option.Id as option.Name for option in ers_delivery_mode_id_options">
+                        <option value="">[Select Mode]</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+
+    </md-content>
+
+
+
+    <form name="ersListForm">
+        <div layout="row" layout-margin flex="100" ng-show="new_ErsList">
+
+
+            <div flex>
+
+
+                <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="add_ErsList()" ng-disabled="!ersListForm.$valid"><i class="fa fa-save"></i></a>
+
+                <a class="btn btn-warning btn-sm" style="margin-right: 5px" ng-click="reset_ErsList()"><i class="fa fa-close"></i></a>
+
+            </div>
+
+            <div flex>
+                <md-datepicker ng-disabled="new_ErsList_record.dt_date_reported != null" md-max-date="today" ng-required="new_ErsList" name="Reported Date" ng-model="new_ErsList_record.dt_date_reported" ng-change="new_ErsList_record.date_reported = new_ErsList_record.dt_date_reported.toISOString()"></md-datepicker>
+
+
+
+            </div>
+
+            <div flex>
+                <md-datepicker ng-disabled="new_ErsList_record.dt_date_reported == null || new_ErsList_record.dt_date_started != null" md-max-date="minDateErsStart" ng-required="new_ErsList" name="Date Started" ng-model="new_ErsList_record.dt_date_started" ng-change="new_ErsList_record.date_started = new_ErsList_record.dt_date_started.toISOString()"></md-datepicker>
+
+
+            </div>
+
+
+            <div flex>
+                <md-datepicker ng-disabled="new_ErsList_record.dt_date_started == null || new_ErsList_record.dt_date_ended !=null" md-min-date="minDateErsEnd" md-max-date="minDateErsStart" ng-required="new_ErsList" name="Date Ended" ng-model="new_ErsList_record.dt_date_ended" ng-change="new_ErsList_record.date_ended = new_ErsList_record.dt_date_ended.toISOString()"></md-datepicker>
+
+
+            </div>
+
+            <div flex>
+
+                <select name="ERS Delivery Mode" ng-model="new_ErsList_record.ers_delivery_mode_id" id="brgy_code" class="form-control"
+                        ng-required="new_ErsList"
+                        ng-options="option.Id as option.Name for option in ers_delivery_mode_id_options">
+                    <option value="">[Select Mode]</option>
+                </select>
+
+
+
+            </div>
+        </div>
+
+    </form>
+
+
+
+
+    <md-content class="md-padding" ng-show="selected_ers_list">
+
+        @Html.Partial("~/Views/Entry/SPI/_person_ers_work.cshtml")
+
+
+
+
+    </md-content>
+    <md-content class="md-padding" ng-show="new_worker">
+
+        @Html.Partial("~/Views/Entry/SPI/_potential_workers.cshtml")
+
+    </md-content>
+
+</div>

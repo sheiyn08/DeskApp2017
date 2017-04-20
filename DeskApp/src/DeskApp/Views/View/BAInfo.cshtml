@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "BAInfo";
+}
+
+<h2>BAInfo</h2>
+
+<script src="~/Scripts/jquery-2.0.3.min.js"></script>
+
+<script src="~/bower_components/Knockout/knockout-3.1.0.js"></script>
+<script src="~/bower_components/Knockout/knockout.bindings.js"></script>
+<script src="~/bower_components/Knockout/knockout.mapping-latest.js"></script>
+<script src="~/bower_components/Knockout/knockout.validation.js"></script>
+
+
+<script src="~/bower_components/Knockout/numeral.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
+<script src="~/bower_components/Knockout/knockout-jqueryui.js"></script>
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+<script src="~/Content/LTE/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/bower_components/DatePickerKO/Datepicker.js"></script>
+<link href="~/bower_components/DatePickerKO/datepicker.css" rel="stylesheet" />
+<script src="~/bower_components/DatePickerKO/bootstrap-datepicker.js"></script>
+
+<script src="~/bower_components/Knockout/numeral.min.js"></script>
+
+<script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
+<script src="http://tinymce.cachefly.net/4.0/jquery.tinymce.min.js"></script>
+
+
+<aside class="right-side strech">
+
+
+
+    <section class="content">
+        <section class="row">
+            <div class="col-xs-12">
+
+                <!-- if there are creation errors, they will show here -->
+
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            <form method="POST" action="http://localhost:8060/kalahi_ncddp/bassembly" accept-charset="UTF-8" novalidate="novalidate">
+                                <input name="_token" type="hidden" value="yHRpmhczbLd7HM75XCd9p4w1VuG1sDd7C5b27Ekp">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="province">Province</label>
+                                        <input class="form-control" readonly="readonly" name="province" type="text" value=" " id="province">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="municipality">Municipality</label>
+                                        <input class="form-control" readonly="readonly" name="municipality" type="text" value=" " id="municipality">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="">Barangay <i class="text-red">*</i></label>
+                                        <select class="form-control" required="required" id="barangay" name="barangay"><option value="NULL">Select Barangay</option><option value="144401001">Chupac</option><option value="144401002">Fiangtin</option><option value="144401003">Kaleo</option><option value="144401005">Latang</option><option value="144401006">Lias Kanluran</option><option value="144401007">Lingoy</option><option value="144401008">Lunas</option><option value="144401009">Macalana</option><option value="144401010">Ogoog</option><option value="144401011">Gawana (Pob.)</option><option value="144401012">Lias Silangan</option></select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="psgc_id">PSGC Code</label>
+                                        <input class="form-control" required="required" readonly="readonly" name="psgc_id" type="text" id="psgc_id">
+                                    </div>
+
+                                    <div class="form-group hidden">
+                                        <label for="kc_code">KC-NCDDP Code</label>
+                                        <input class="form-control" name="kc_code" type="text" id="kc_code">
+                                    </div>
+
+                                    
+
+                                  
+                                    <div class="form-group">
+                                        <label for="">Cycle <i class="text-red">*</i></label>
+                                        <select class="form-control" required="required" name="cycle_id"><option value="" selected="selected">Select Cycle</option><option value="NULL">Select Cycle</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="GuarC1">GuarC1</option><option value="GuarC2">GuarC2</option><option value="MT">MT</option><option value="NCDDP-1">NCDDP-1</option><option value="NCDDP-2">NCDDP-2</option><option value="NCDDP-3">NCDDP-3</option><option value="NCDDP-4">NCDDP-4</option><option value="RandomC1">RandomC1</option><option value="RandomC2">RandomC2</option><option value="RandomC3">RandomC3</option></select>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="program_id">Program</label>
+                                        <select class="form-control" required="required" id="program_id" name="program_id"><option value="" selected="selected">Select Program</option><option value="Australian DFAT">Australian DFAT</option><option value="GIG">GIG</option><option value="JFPR">JFPR</option><option value="JSDF">JSDF</option><option value="KC-GBP">KC-GBP</option><option value="KC-MCC">KC-MCC</option><option value="KC-NCDDP">KC-NCDDP</option><option value="Others">Others</option><option value="PAMANA">PAMANA</option></select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="">Purpose <i class="text-red">*</i></label>
+                                        <select class="form-control" required="required" name="purpose"><option value="" selected="selected">Select Purpose</option><option value="1st BA">Barangay Orientation</option><option value="3rd BA">Feedbacking of CSW</option><option value="5th BA">Feedbacking of Result of MIBF-PRA and action planning</option><option value="4th BA">Final Community Approval of Proposal prior to MIBF-PRA</option><option value="2nd BA">Presentation of PSA Results</option></select>
+                                    </div>
+
+
+                                    <input class="btn btn-primary" type="submit" value="Add Barangay Assembly">
+
+                                    <!-- clear floats -->
+                                    <a class="btn bg-navy" href="http://localhost:8060/kalahi_ncddp/bassembly">Close</a>
+                                    </div>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                </div>
+            </section>
+        </section>
+
+    </aside>
+
+
+

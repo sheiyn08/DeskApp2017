@@ -188,7 +188,7 @@ namespace DeskApp.DataLayer
 
 
         #endregion
-
+        
         #region Sync
         //used for offline sync purposes
         [JsonIgnore]
@@ -202,6 +202,37 @@ namespace DeskApp.DataLayer
         public int approval_id { get; set; }
         [JsonIgnore]
         public virtual lib_approval lib_approval { get; set; }
+        #endregion
+    }
+
+    public class act_report_other_activities
+    {
+        [Key]
+        public Guid act_report_other_activity_id { get; set; }
+
+        public Guid act_report_id { get; set; }
+        public string act_other_activity_name { get; set; }
+        public DateTime? act_other_activity_startdate { get; set; }
+        public DateTime? act_other_activity_enddate { get; set; }
+        public string act_other_activity_remarks { get; set; }
+
+        #region Audit
+        public int created_by { get; set; }
+        public DateTime created_date { get; set; }
+        public int? last_modified_by { get; set; }
+        public DateTime? last_modified_date { get; set; }
+        public bool is_deleted { get; set; }
+        public int? deleted_by { get; set; }
+        public DateTime? deleted_date { get; set; }
+        #endregion
+
+        #region Sync
+        public int push_status_id { get; set; }
+        public DateTime? push_date { get; set; }
+        #endregion
+
+        #region Approval
+        public int approval_id { get; set; }
         #endregion
     }
 

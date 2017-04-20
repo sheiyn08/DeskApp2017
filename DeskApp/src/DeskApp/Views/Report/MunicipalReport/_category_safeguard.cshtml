@@ -1,0 +1,211 @@
+﻿@Html.Partial("~/Views/Report/MunicipalReport/_municipal_report_filter.cshtml")
+
+
+@* --------------------- Environmental and Social Safeguards ==> Environmental & Social Safeguard Information --------------------- *@
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 19" id="subreport_19">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Environmental and Social Safeguards</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <b>Region: </b>{{selected_region.Name == null ? "" : selected_region.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Province: </b>{{selected_province.Name == null ? "Across Provinces" : selected_province.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Municipality: </b>{{selected_city.Name == null ? "Across Municipalities" : selected_city.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Portfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Cycle: </b>{{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>KC Mode: </b>{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+            </div>
+        </div>
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>A. Safeguard Documents</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center">
+                        ID
+                    </td>
+                    <td align="center">
+                        Sub Project Name
+                    </td>
+                    <td align="center">
+                        Category
+                    </td>
+                    <td align="center">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        With ESMP
+                    </td>
+                    <td align="center">
+                        With ECC
+                    </td>
+                    <td align="center">
+                        With CNC
+                    </td>
+                    <td align="center">
+                        With CP
+                    </td>
+                    <td align="center">
+                        With CNO
+                    </td>
+                </tr>
+                <tr ng-repeat="item in sub_project_list | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.geotagging_id}}
+                    </td>
+                    <td>
+                        {{item.sub_project_name"}}
+                    </td>
+                    <td>
+                        {{item.project_type"}}
+                    </td>
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.with_esmp == true ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.with_ecc == true ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.with_cnc == true ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.with_cp == true ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.with_cno == true ? "Yes" : "No"}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>B. Land Acquisition</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center">
+                        ID
+                    </td>
+                    <td align="center">
+                        Sub Project Name
+                    </td>
+                    <td align="center">
+                        Category
+                    </td>
+                    <td align="center">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        With Deed of Donation
+                    </td>
+                    <td align="center">
+                        With Usufruct Agreement
+                    </td>
+                    <td align="center">
+                        With LGU Resolution
+                    </td>
+                    <td align="center">
+                        With DepEd Certification
+                    </td>
+                    <td align="center">
+                        Other
+                    </td>
+                </tr>
+                <tr ng-repeat="item in sub_project_list | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.sub_project_id}}
+                    </td>
+                    <td>
+                        {{item.sub_project_name"}}
+                    </td>
+                    <td>
+                        {{item.project_type"}}
+                    </td>
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.land_acq_with_deed_of_donation == true ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.land_acq_with_usfruct == true ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.land_acq_with_blgu_resolution == true ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.land_acq_with_deped_certification == true ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.land_acq_with_other_land_acquisition == true ? "Yes" : "No"}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>
+
+
+
+@* --------------------- Environmental and Social Safeguards ==> Environmental & Social Safeguard Information – Indigenous People --------------------- *@
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 20" id="subreport_20">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Environmental and Social Safeguards</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+        
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>
+
+
+

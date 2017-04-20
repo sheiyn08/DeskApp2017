@@ -1,0 +1,189 @@
+<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h4> Employment Information</h4>
+
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <div class="col-md-4">
+                    <label>
+                        Current Occupation
+                    </label>
+
+
+
+                </div>
+                <div class="col-md-4">
+                    <select name="Occupation" ng-model="data.occupation_id" id="prov_code" class="form-control" required
+                            ng-options="option.Id as option.Name for option in occupation_id_options">
+                        <option value="">[Select Occupation]</option>
+                    </select>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="col-md-4">
+                    <label>
+                        Is LGU Official
+                    </label>
+
+
+
+                </div>
+                <div class="col-md-4">
+                    <md-radio-group required ng-model="data.is_lguofficial" name="Is LGU Official">
+                        <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                        <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                    </md-radio-group>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="panel-body" ng-show="data.is_lguofficial">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label>LGU Level</label>
+
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors='{showSuccess: true}'>
+                        <select name="Level" ng-model="data.lgu_level_id" id="lgu_level_id" class="form-control" ng-required="data.is_lguofficial == true"
+                                ng-options="option.Id as option.Name for option in lgu_level_id_options">
+                            <option value="">[Select LGU Position]</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel-body" ng-show="data.is_lguofficial">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label>LGU Position</label>
+
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors='{showSuccess: true}'>
+                        <select name="Position" ng-model="data.lgu_position_id" id="lgu_position_id" class="form-control" ng-required="data.is_lguofficial == true"
+                                ng-options="option.Id as option.Name for option in lgu_position_id_options">
+                            <option value="">[Select LGU Position]</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label>
+                        Is MDC?
+                    </label>
+
+
+
+                </div>
+                <div class="col-md-4">
+
+                    <md-radio-group required ng-model="data.is_mdc" name="Is MDC">
+                        <md-radio-button data-ng-value="true" class="md-primary">YES</md-radio-button>
+                        <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                    </md-radio-group>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label>
+                        Is BDC?
+                    </label>
+
+
+
+                </div>
+                <div class="col-md-4">
+
+                    <md-radio-group required ng-model="data.is_bdc" name="Is BDC">
+                        <md-radio-button data-ng-value="true" class="md-primary">YES</md-radio-button>
+                        <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                    </md-radio-group>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label>
+                        Is BSPMC?
+                    </label>
+
+
+
+                </div>
+                <div class="col-md-4">
+
+                    <md-radio-group required ng-model="data.is_bspmc" name="Is BSPMC">
+                        <md-radio-button data-ng-value="true" class="md-primary">YES</md-radio-button>
+                        <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                    </md-radio-group>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>

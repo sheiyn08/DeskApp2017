@@ -1,0 +1,124 @@
+﻿<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h4> Address</h4>
+
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label for="Region:_">Region</label>
+                </div>
+                <div class="col-md-4">
+
+                    <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                            ng-required="true"
+                            ng-options="option.Id as option.Name for option in region_code_options">
+                        <option value="">[Select Region]</option>
+                    </select>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label for="Region:_">Province</label>
+                </div>
+                <div class="col-md-4">
+
+                    <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                            ng-disabled="data.region_code == null"
+                            ng-required="true"
+                            ng-options="option.Id as option.Name for option in prov_code_options">
+                        <option value="">[Select Province]</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label for="Region:_">Municipality</label>
+                </div>
+                <div class="col-md-4">
+
+                    <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                            ng-required="true"
+                            ng-disabled="data.prov_code == null"
+                            ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                        <option value="">[Select Municipality]</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label for="Region:_">Barangay</label>
+                </div>
+                <div class="col-md-4">
+
+                    <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                            ng-required="true"
+                            ng-disabled="data.city_code == null"
+                            ng-options="option.Id as option.Name for option in brgy_code_options">
+                        <option value="">[Select Barangay]</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label for="Region:_">Sitio</label>
+                </div>
+                <div class="col-md-4">
+
+                    <input type="text" name="Sitio" ng-model="data.sitio" class="form-control" placeholder="Sitio" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label for="Region:_">Cellphone No.</label>
+                </div>
+                <div class="col-md-4">
+
+                    <input ng-model="data.contact_no" id="prov_code" class="form-control" placeholder="Cellphone / Landline" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

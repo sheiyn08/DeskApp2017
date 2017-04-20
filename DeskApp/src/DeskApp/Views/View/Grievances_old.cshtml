@@ -1,0 +1,665 @@
+﻿@{ ViewBag.Title = "List of Grievances";
+
+    ViewBag.Controller = "View Grievances";
+
+}
+
+
+<script src="~/Scripts/jquery-2.0.3.js"></script>
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<script src="~/Scripts/knockout-3.1.0.js"></script>
+<script src="~/Scripts/knockout.mapping-latest.js"></script>
+<script src="~/Scripts/knockout.bindings.js"></script>
+<script src="~/Scripts/knockout.validation.js"></script>
+
+
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-title">Filter</h3>
+    </div>
+    <form role="form">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" data-bind="value: name" placeholder="Name, description, details..." />
+
+                </div>
+
+
+
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Filters/_region_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_province_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_municipality_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_barangay_filter.cshtml")
+
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Filters/_fund_source_filter.cshtml")
+
+                @*@Html.Partial("~/Views/Filters/_cycle_filter.cshtml")*@
+
+                @Html.Partial("~/Views/Filters/_enrollment_filter.cshtml")
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Filters/Grievance/_grs_intake_level_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/Grievance/_grs_form_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/Grievance/_grs_filling_mode_filter.cshtml")
+
+                @*@Html.Partial("~/Views/Filters/Grievance/_grs_complainant_position_filter.cshtml")*@
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Filters/Grievance/_grs_resolution_status_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/Grievance/_grs_feedback_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/Grievance/_grs_category_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/Grievance/_grs_complaint_subject_filter.cshtml")
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Filters/Grievance/_grs_nature_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/Grievance/_ip_group_filter.cshtml")
+
+                <div class="col-md-3">
+
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer">
+            <p>
+                @Html.Label("Show Data: ")
+                <input type="radio" data-bind="checked: is_valid, checkedValue: true" /> Valid
+                <input type="radio" data-bind="checked: is_valid, checkedValue: false" /> Invalid
+            </p>
+            <br />
+
+            <p>
+                @if (User.IsInRole("Super") || User.IsInRole("FO Admin") || User.IsInRole("RMES") || User.IsInRole("ME Officer III SRPMO") || User.IsInRole("ME Officer III for Grievance RPMO") || User.IsInRole("ME Officer IV for Grievance NPMO"))
+                {
+                    @Html.Partial("~/Views/Filters/_Buttons/_add.cshtml")
+                }
+            </p>
+
+            @Html.Partial("~/Views/Filters/_Buttons/_filter.cshtml")
+            @Html.Partial("~/Views/Filters/_Buttons/_clear.cshtml")
+
+        
+
+            @Html.Partial("~/Views/Filters/_Buttons/_export.cshtml")
+
+            <div class="btn btn-info" name="exportXls" id="exportXls" data-bind="click: export_grs_report_kpi">Export KP1</div>
+
+        
+            <a class="btn btn-info" href="/Graphs/Grievances/"><i class="fa fa-bar-chart"></i>Graphs</a>
+            <a class="btn btn-info" href="/Pivot/Grievances/"><i class="fa fa-area-chart"></i>Pivot</a>
+
+
+        </div>
+    </form>
+</div>
+
+
+
+<input type="radio" data-bind="checked: show_summary, checkedValue: true" /> Show Summary
+<input type="radio" data-bind="checked: show_summary, checkedValue: false" /> Hide Summary
+
+<div id="summary">
+
+</div>
+
+
+@{ Html.RenderPartial("_alerts"); }
+
+
+<div id="result" class="scrolls">
+
+</div>
+
+
+
+
+<script>
+
+    var dataarray;
+
+
+    var mapping = {
+        'ignore': [
+        "lib_regions",
+        "lib_fund_sources",
+        "lib_cycles",
+        "lib_enrollments",
+        "lib_barangay_assembly_purposes",
+        "ncddp_groupings",
+
+        "lib_volunteer_committees",
+        "lib_volunteer_committee_positions",
+
+
+        "lib_training_category",
+
+        "lib_grs_intake_levels",
+        "lib_grs_forms",
+        "lib_grs_filling_modes",
+        "lib_grs_complainant_positions",
+        "lib_grs_resolution_statuses",
+        "lib_grs_feedbacks",
+        "lib_grs_categories",
+        "lib_grs_complaint_subjects",
+        "lib_grs_natures",
+        "lib_ip_groups",
+        "lib_spi_nature_work"
+
+
+
+
+        ]
+    };
+
+    var ViewModel = function (data) {
+        var self = this;
+
+        dataarray =  @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+        self.show_summary = ko.observable(false);
+
+
+        ko.mapping.fromJS(dataarray, {}, self);
+
+
+
+
+        self.lib_regions = ko.observableArray([]);
+        self.lib_provinces = ko.observableArray([]);
+        self.lib_cities = ko.observableArray([]);
+        self.lib_brgy = ko.observableArray([]);
+
+
+        //self.lib_training_category = ko.observableArray([]);
+        //      self.lib_fund_sources = ko.observableArray([]);
+        self.lib_cycles = ko.observableArray([]);
+        //  self.lib_enrollments = ko.observableArray([]);
+
+        self.lib_grs_intake_levels = ko.observableArray([]);
+        self.lib_grs_forms = ko.observableArray([]);
+        self.lib_grs_filling_modes = ko.observableArray([]);
+        self.lib_grs_sender_designations = ko.observableArray([]);
+        self.lib_grs_resolution_statuses = ko.observableArray([]);
+        self.lib_grs_feedbacks = ko.observableArray([]);
+        self.lib_grs_categories = ko.observableArray([]);
+        self.lib_grs_complaint_subjects = ko.observableArray([]);
+        self.lib_grs_natures = ko.observableArray([]);
+        self.lib_ip_groups = ko.observableArray([]);
+
+        //self.selected_regions = ko.observableArray([]);
+        //self.selected_fund_sources = ko.observableArray([]);
+
+        self.prov_code = ko.observable('');
+        self.city_code = ko.observable('');
+        self.brgy_code = ko.observable('');
+        self.training_category_id = ko.observable('');
+        self.cycle_id = ko.observable('');
+        self.enrollment_id = ko.observable('');
+
+        self.grs_intake_level_id = ko.observable('');
+        self.grs_form_id = ko.observable('');
+        self.grs_filling_mode_id = ko.observable('');
+        self.grs_complainant_position_id = ko.observable('');
+        self.grs_resolution_status_id = ko.observable('');
+        self.grs_feedback_id = ko.observable('');
+        self.grs_category_id = ko.observable('');
+        self.grs_complaint_subject_id = ko.observable('');
+        self.grs_nature_id = ko.observable('');
+        self.ip_group_id = ko.observable('');
+
+
+
+        //subscribe
+        self.fund_source_id.subscribe(function (newval) {
+
+
+            if (self.fund_source_id() == '') {
+                self.lib_cycles(undefined);
+            }
+            else {
+
+
+                $.post("/Library/GetCycle", { id: self.fund_source_id() }, function (states) {
+                    self.lib_cycles(states);
+                });
+
+
+            }
+        })
+
+        self.region_code.subscribe(function (newval) {
+
+
+            if (self.region_code() == '') {
+                self.lib_provinces(undefined);
+                self.lib_cities(undefined);
+                self.lib_brgy(undefined);
+            }
+            else {
+
+
+                $.post("/Library/GetProvinces", { id: self.region_code() }, function (states) {
+                    self.lib_provinces(states);
+                });
+
+
+            }
+        })
+
+        self.prov_code.subscribe(function (newval) {
+            $.post("/Library/GetCity", { id: self.prov_code() }, function (states) {
+                self.lib_cities(states);
+            })
+
+        })
+
+        self.city_code.subscribe(function (newval) {
+            $.post("/Library/GetBarangay", { id: self.city_code() }, function (states) {
+                self.lib_brgy(states);
+            })
+        })
+
+
+
+
+
+
+
+
+        $.post("/Library/GetDropDownMenu", function (data) {
+            self.lib_regions(data.lib_regions);
+            self.lib_training_category(data.lib_training_category);
+            self.lib_fund_sources(data.lib_fund_sources);
+            self.lib_enrollments(data.lib_enrollments);
+
+            self.lib_grs_intake_levels(data.lib_grs_intake_levels);
+            self.lib_grs_forms(data.lib_grs_forms);
+            self.lib_grs_filling_modes(data.lib_grs_filling_modes);
+            self.lib_grs_complainant_positions(data.lib_grs_complainant_positions);
+            self.lib_grs_resolution_statuses(data.lib_grs_resolution_statuses);
+            self.lib_grs_feedbacks(data.lib_grs_feedbacks);
+            self.lib_grs_categories(data.lib_grs_categories);
+            self.lib_grs_complaint_subjects(data.lib_grs_complaint_subjects);
+            self.lib_grs_natures(data.lib_grs_natures);
+            self.lib_ip_groups(data.lib_ip_groups);
+        });
+
+
+        self.clear = function()
+        {
+
+            window.location.reload();
+
+        }
+
+        self.addNew = function()
+        {
+
+            var ask =confirm("Are you sure you want to add new record?")
+
+            if(ask == false)
+            {
+                return false;
+            }
+
+            window.location.href    = "/Entry/Transgrievance?id=0";
+        }
+        self.filter = function () {
+
+
+
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+
+
+            var mapping = {
+                'ignore': [
+                "lib_regions",
+                "lib_fund_sources",
+                "lib_cycles",
+                "lib_enrollments",
+                "lib_barangay_assembly_purposes",
+                "ncddp_groupings",
+
+                "lib_volunteer_committees",
+                "lib_volunteer_committee_positions",
+
+
+                "lib_training_category",
+
+                "lib_grs_intake_levels",
+                "lib_grs_forms",
+                "lib_grs_filling_modes",
+                "lib_grs_complainant_positions",
+                "lib_grs_resolution_statuses",
+                "lib_grs_feedbacks",
+                "lib_grs_categories",
+                "lib_grs_complaint_subjects",
+                "lib_grs_natures",
+                "lib_ip_groups",
+                "lib_spi_nature_work"
+
+
+
+
+                ]
+            };
+
+
+
+
+
+            var data = JSON.stringify(ko.mapping.toJS(self, mapping));
+
+
+            var url = "/View/_grievances?item=" + data;
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                //  data: someArguments,
+                success: function (viewHTML) {
+                    $("#result").html(viewHTML);
+                    setTimeout($.unblockUI, 100);
+
+                },
+                error: function (errorData) { onError(errorData); }
+            });
+
+
+            if(self.show_summary() == true)
+            {
+
+                $('#dqa_result').block({
+                    message: 'Processing...' ,
+                    css: { border: '3px solid #a00' }
+                });
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "/DataQuality/_grievance_summary?item=" + data,
+
+                    success: function (viewHTML) {
+                        $("#summary").html(viewHTML);
+                        setTimeout($.unblockUI, 10);
+
+                    },
+                    error: function (errorData) {
+                        onError(errorData);
+                        setTimeout($.unblockUI, 10);
+                    }
+
+                });
+            }
+
+        }
+
+        self.is_valid.subscribe(function (newwal) {
+
+
+
+
+            var data = JSON.stringify(ko.mapping.toJS(self, mapping));
+
+
+
+            if(self.show_summary() == true)
+            {
+                $('#dqa_result').block({
+                    message: 'Processing...' ,
+                    css: { border: '3px solid #a00' }
+                });
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "/DataQuality/_grievance_summary?item=" + data,
+
+                    success: function (viewHTML) {
+                        $("#summary").html(viewHTML);
+                        setTimeout($.unblockUI, 10);
+
+                    },
+                    error: function (errorData) {
+                        onError(errorData);
+                        setTimeout($.unblockUI, 10);
+                    }
+
+                });
+            }
+
+        });
+
+        self.show_summary.subscribe(function(newval)
+        {
+            if(newval == true)
+            {
+                $('#summary').show(500);
+
+
+
+
+
+                var data = JSON.stringify(ko.mapping.toJS(self,mapping));
+
+                $('#dqa_result').block({
+                    message: 'Processing...' ,
+                    css: { border: '3px solid #a00' }
+                });
+
+                $.ajax({
+                    type: "GET",
+                    url: "/DataQuality/_grievance_summary?item=" + data,
+
+                    success: function (viewHTML) {
+                        $("#summary").html(viewHTML);
+                        setTimeout($.unblockUI, 10);
+
+                    },
+                    error: function (errorData) {
+                        onError(errorData);
+                        setTimeout($.unblockUI, 10);
+                    }
+
+                });
+            }
+            else
+            {
+                $('#summary').hide(500);
+            }
+
+        });
+
+
+
+        self.export_grs_report_kpi = function() {
+
+            var type = " ";
+
+            if(self.is_valid() == false)
+            {
+                type = " in-valid ";
+            }
+
+            var ask= confirm("You are about to download" + type +" Grievance Entries. Do you want to Continue?");
+
+            if(ask == false)
+            {
+                return false;
+            }
+
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+
+
+            var mapping = {
+                'ignore': [
+                "lib_regions",
+                "lib_fund_sources",
+                "lib_cycles",
+                "lib_enrollments",
+                "lib_barangay_assembly_purposes",
+                "ncddp_groupings",
+                "lib_volunteer_committees",
+                "lib_volunteer_committee_positions",
+                "lib_training_category",
+
+                "lib_grs_intake_levels",
+                "lib_grs_forms",
+                "lib_grs_filling_modes",
+                "lib_grs_complainant_positions",
+                "lib_grs_resolution_statuses",
+                "lib_grs_feedbacks",
+                "lib_grs_categories",
+                "lib_grs_complaint_subjects",
+                "lib_grs_natures",
+                "lib_ip_groups",
+                "lib_spi_nature_works"
+
+
+
+
+                ]
+            };
+
+
+
+
+
+            var data = JSON.stringify(ko.mapping.toJS(self,mapping));
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Report/grs_report_kpi",// + Params,
+                data: {
+                    item: data,
+
+                },
+                success: function (viewHTML) {
+                    window.location.href = "/Export/GetExcel?id=" + viewHTML;
+                    setTimeout($.unblockUI, 10);
+
+                },
+                error: function (errorData) {
+                    onError(errorData);
+                    setTimeout($.unblockUI, 10);
+                }
+
+            });
+
+
+        }
+
+        self.exportXls = function() {
+
+            var type = " ";
+
+            if(self.is_valid() == false)
+            {
+                type = " in-valid ";
+            }
+
+            var ask= confirm("You are about to download" + type +" Grievance Entries. Do you want to Continue?");
+
+            if(ask == false)
+            {
+                return false;
+            }
+
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+
+
+            var mapping = {
+                'ignore': [
+                "lib_regions",
+                "lib_fund_sources",
+                "lib_cycles",
+                "lib_enrollments",
+                "lib_barangay_assembly_purposes",
+                "ncddp_groupings",
+                "lib_volunteer_committees",
+                "lib_volunteer_committee_positions",
+                "lib_training_category",
+
+                "lib_grs_intake_levels",
+                "lib_grs_forms",
+                "lib_grs_filling_modes",
+                "lib_grs_complainant_positions",
+                "lib_grs_resolution_statuses",
+                "lib_grs_feedbacks",
+                "lib_grs_categories",
+                "lib_grs_complaint_subjects",
+                "lib_grs_natures",
+                "lib_ip_groups",
+                "lib_spi_nature_works"
+
+
+
+
+                ]
+            };
+
+
+
+
+
+            var data = JSON.stringify(ko.mapping.toJS(self,mapping));
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Export/grievances",// + Params,
+                data: {
+                    item: data,
+
+                },
+                success: function (viewHTML) {
+                    window.location.href = "/Export/GetExcel?id=" + viewHTML;
+                    setTimeout($.unblockUI, 10);
+
+                },
+                error: function (errorData) {
+                    onError(errorData);
+                    setTimeout($.unblockUI, 10);
+                }
+
+            });
+
+
+        }
+
+
+
+
+
+    }
+
+    $(document).ready(function () {
+        ko.applyBindings(new ViewModel());
+
+        $("#filter").trigger('click');
+
+    });
+
+</script> 

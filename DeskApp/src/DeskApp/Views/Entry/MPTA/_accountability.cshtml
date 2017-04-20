@@ -1,0 +1,327 @@
+﻿<form name="moaForm">
+    <div class="panel panel-success">
+
+        <div class="panel panel-heading">
+            <h3>Legislation/Resolution/Ordinances passed in support of CDD and Participatory Governance</h3>
+        </div>
+
+        <md-content>
+            <div class="layout-row" layout-margin flex>
+
+                <div flex></div>
+                <div flex>Resolution No.</div>
+                <div flex>Date of Approval</div>
+
+            </div>
+
+            <div class="layout-row" layout-margin flex>
+
+                <div flex>
+                    Institutionalization of People’s PTA in LGU development, planning and poverty reduction programs, plans and activities
+                </div>
+                <div flex>
+                    <input type="text" class="form-control" ng-model="data.pta_resolution_no" />
+                </div>
+                <div flex>
+                    <md-datepicker ng-required="data.pta_resolution_no.length > 0"
+                                   name="PTA Resolution Date" ng-model="dt_pta_approval_date" md-placeholder="Enter date"
+                                   ng-change="data.pta_approval_date = dt_pta_approval_date.toISOString()" required
+                                   md-max-date="today"></md-datepicker>
+                </div>
+            </div>
+
+
+            <div class="layout-row" layout-margin flex>
+
+                <div flex>
+                    Convergence of NGA property reduction PPAs in the municipality
+                </div>
+                <div flex>
+                    <input type="text" class="form-control" ng-model="data.nga_resolution_no" />
+                </div>
+                <div flex>
+                    <md-datepicker ng-required="data.nga_resolution_no.length > 0"
+                                   name="NGA Resolution Date" ng-model="dt_nga_approval_date" md-placeholder="Enter date"
+                                   ng-change="data.nga_approval_date = dt_nga_approval_date.toISOString()" required
+                                   md-max-date="today"></md-datepicker>
+                </div>
+            </div>
+
+
+            <div class="layout-row" layout-margin flex>
+
+                <div flex>
+                    Formation of MIAC
+                </div>
+                <div flex>
+                    <input type="text" class="form-control" ng-model="data.miac_resolution_no" />
+                </div>
+                <div flex>
+                    <md-datepicker ng-required="data.miac_resolution_no.length > 0"
+                                   name="Formation of MIAC Date" ng-model="dt_miac_approval_date" md-placeholder="Enter date"
+                                   ng-change="data.miac_approval_date = dt_miac_approval_date.toISOString()" required
+                                   md-max-date="today"></md-datepicker>
+                </div>
+            </div>
+
+
+            <div class="layout-row" layout-margin flex>
+
+                <div flex>
+                    Formation of MCT
+                </div>
+                <div flex>
+                    <input type="text" class="form-control" ng-model="data.mct_resolution_no" />
+                </div>
+                <div flex>
+                    <md-datepicker ng-required="data.mct_resolution_no.length > 0"
+                                   name="Formation of MCT Date" ng-model="dt_mct_approval_date" md-placeholder="Enter date"
+                                   ng-change="data.mct_approval_date = dt_mct_approval_date.toISOString()" required
+                                   md-max-date="today"></md-datepicker>
+                </div>
+            </div>
+
+            <div class="layout-row" layout-margin flex>
+
+                <div flex>
+                    NGO and PO Accreditation Guidelines
+                </div>
+                <div flex>
+                    <input type="text" class="form-control" ng-model="data.ngopo_resolution_no" />
+                </div>
+                <div flex>
+                    <md-datepicker ng-required="data.ngopo_resolution_no.length > 0"
+                                   name="NGO / Accreditation Date" ng-model="dt_ngopo_approval_date" md-placeholder="Enter date"
+                                   ng-change="data.ngopo_approval_date = dt_ngopo_approval_date.toISOString()" required
+                                   md-max-date="today"></md-datepicker>
+                </div>
+            </div>
+
+            <div class="layout-row" layout-margin flex>
+
+                <div flex>
+                    Support to BDP Formulation and BDP-MDP implementation including GAD plans
+                </div>
+                <div flex>
+                    <input type="text" class="form-control" ng-model="data.gad_resolution_no" />
+                </div>
+                <div flex>
+                    <md-datepicker ng-required="data.gad_resolution_no.length > 0"
+                                   name="BDP-MDP Date" ng-model="dt_gad_approval_date" md-placeholder="Enter date"
+                                   ng-change="data.gad_approval_date = dt_gad_approval_date.toISOString()" required
+                                   md-max-date="today"></md-datepicker>
+                </div>
+            </div>
+
+            <div class="layout-row" layout-margin flex>
+
+                <div flex>
+                    Municipal resolution expanding MDC membership to include CDD volunteers/representative
+                </div>
+                <div flex>
+                    <input type="text" class="form-control" ng-model="data.mdcmem_resolution_no" />
+                </div>
+                <div flex>
+                    <md-datepicker ng-required="data.mdcmem_resolution_no.length > 0"
+                                   name="Municipal Reso expanding MDC Membership Date" ng-model="dt_mdcmem_approval_date" md-placeholder="Enter date"
+                                   ng-change="data.mdcmem_approval_date = dt_mdcmem_approval_date.toISOString()" required
+                                   md-max-date="today"></md-datepicker>
+                </div>
+            </div>
+            <div class="layout-row" layout-margin flex>
+
+                <div flex>
+                    No. of CDD Volunteers as members of MDC
+                </div>
+                <div flex>
+                    <label>Male</label>
+                    <input name="Male CDD Volunteers as MDC" type="number" min="0" required class="form-control" ng-model="data.mdcmem_male_no" />
+                </div>
+                <div flex>
+                    <label>Female</label>
+                    <input name="Female CDD Volunteers as MDC" type="number" min="0" required class="form-control" ng-model="data.mdcmem_female_no" />
+                </div>
+            </div>
+
+
+
+        </md-content>
+
+    </div>
+
+    <md-content class="md-padding">
+        <div class="panel panel-success">
+            <div class="panel panel-heading">
+                <h3>Support to KC Implementation</h3>
+            </div>
+         
+
+
+
+                <div class="layout-row" layout-margin flex>
+
+                    <div flex>
+                        Allocation of LCC  (SB Resolution No.)
+                    </div>
+                    <div flex>
+                        <input type="text" class="form-control" ng-model="data.lcc_resolution_no" />
+                    </div>
+                    <div flex>
+                        <label>Date Approved</label>
+                        <br />
+                        <md-datepicker ng-required="data.lcc_resolution_no.length > 0"
+                                       name="LCC Resolution Date" ng-model="dt_lcc_approval_date" md-placeholder="Enter date"
+                                       ng-change="data.lcc_approval_date = dt_lcc_approval_date.toISOString()" required
+                                       md-max-date="today"></md-datepicker>
+                    </div>
+                </div>
+
+
+                <div class="layout-row" layout-margin flex>
+
+                    <div flex>
+                        Municipal Trust Fund (Account No.)
+                    </div>
+                    <div flex>
+                        <input type="text" class="form-control" ng-model="data.trust_account_no" />
+                    </div>
+                    <div flex>
+                        <label>Date Opened</label>
+                        <br />
+                        <md-datepicker ng-required="data.trust_account_no.length > 0"
+                                       name="Trust Account Opened Date" ng-model="dt_trust_opened_date" md-placeholder="Enter date"
+                                       ng-change="data.trust_opened_date = dt_trust_opened_date.toISOString()" required
+                                       md-max-date="today"></md-datepicker>
+                    </div>
+                </div>
+
+
+
+
+          
+        </div>
+    </md-content>
+</form>
+<form name="equipmentForm">
+
+    <div class="panel panel-success">
+        <div class="panel panel-heading">
+            <h3>Equipment </h3>
+        </div>
+
+        <div class="layout-row" layout-margin flex>
+            <div flex>
+
+            </div>
+            <div flex>
+                Equipment Name
+            </div>
+            <div flex>
+                Quantity
+            </div>
+            <div flex>
+                Date Provided
+            </div>
+            <div flex>
+                End-user
+            </div>
+            <div flex>
+                Functionality
+            </div>
+        </div>
+
+
+        <div class="layout-row" layout-margin flex ng-repeat="equip in data.kc_equipments">
+
+            <div flex>
+                <a class="btn btn-danger" ng-click="removeEquipment($index)"><i class="fa fa-trash"></i></a>
+            </div>
+            <div flex>
+                {{equip.name}}
+            </div>
+            <div flex>
+                {{equip.quantity}}
+            </div>
+            <div flex>
+                {{equip.date | date:'MM/dd/yyyy'}}
+            </div>
+            <div flex>
+                {{equip.enduser}}
+            </div>
+            <div flex>
+                {{equip.functionality == true ? "Yes" : "No"}}
+            </div>
+        </div>
+
+
+        <div class="layout-row" layout-margin flex md-padding>
+            <div flex>
+                <a class="btn btn-success" ng-click="addEquipment()" ng-disabled="!equipmentForm.$valid"><i class="fa fa-plus"></i></a>
+            </div>
+            <div flex>
+                <input type="text" required name="Equipment Name" ng-model="equipment.name" class="form-control" />
+            </div>
+            <div flex>
+                <input type="number" required name="Equipment Name" ng-model="equipment.quantity" class="form-control" />
+            </div>
+            <div flex>
+
+                <md-datepicker ng-required="true" name="Date Provided" ng-model="equipment.date" md-placeholder="Enter date"
+                               md-max-date="today" class="form-control"></md-datepicker>
+            </div>
+            <div flex>
+                <input required type="text" name="Equipment Name" ng-model="equipment.enduser" class="form-control" />
+            </div>
+            <div flex>
+                <md-radio-group ng-required="true" ng-model="equipment.functionality">
+                    <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                    <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                </md-radio-group>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="panel panel-success">
+        <div class="panel panel-heading">
+            <h3>Office and Staffing</h3>
+        </div>
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>
+                KC-NCDDP Municipal Office Address
+            </div>
+            <div flex>
+                <input type="text" name="KC Office" class="form-control" ng-model="data.kc_office" required />
+            </div>
+
+        </div>
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>
+                Provision of personnel (No. of Staff provided)
+            </div>
+            <div flex>
+                <input type="number" name="No of Staff" class="form-control" ng-model="data.no_staff" min="0" required />
+            </div>
+
+        </div>
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>
+                Assist community volunteers in KC/NCDD procurement and Fiduciary processes ( No. of TAs provided)
+            </div>
+            <div flex>
+                <input type="number" name="No of TAs" class="form-control" ng-model="data.no_tas" min="0" required />
+            </div>
+
+        </div>
+
+
+    </div>
+
+</form>

@@ -13,7 +13,7 @@ namespace DeskApp.Controllers
             return View();
         }
 
-        public ActionResult ACTAccomplishmentReport()
+        public ActionResult ACTAccomplishmentReportIndex()
         {
             return View();
         }
@@ -23,7 +23,7 @@ namespace DeskApp.Controllers
             return View();
         }
 
-        public ActionResult entry_act_accomplishment_report()
+        public ActionResult ACTAccomplishmentReport()
         {
             return View();
         }

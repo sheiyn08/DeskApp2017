@@ -1,0 +1,66 @@
+
+
+<div flex="100" class="md-whiteframe-1dp">
+
+
+
+    <div class="panel panel-success">
+
+        <div class="panel-heading">
+            <h4>Represented IP Groups</h4>
+            <p>Tick Box on the Corresponding Sector Represented</p>
+            <p><i>Tis will automatically be saved upon ticking the box</i></p>
+        </div>
+
+
+
+        <div layout="row" layout-margin flex="100">
+
+
+            <br />
+            <label><i>Search...</i></label>
+            <input ng-model="searchGroups" class="form-control" />
+        </div>
+
+
+
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex>
+
+                <table class="table" >
+                    <tr>
+                        <td>
+                            Group
+                        </td>
+                        <td>
+                            Represented?
+                        </td>
+                    </tr>
+
+                    <tbody>
+                        <tr ng-repeat="item in represented_groups | filter: searchGroups">
+                            <td>
+                                {{item.ip_group_name}}
+                            </td>
+
+                            <td>
+                                <md-checkbox ng-model="item.Selected" aria-label="Checkbox 1" ng-click="SaveCoverage(item)">
+
+                                </md-checkbox>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+

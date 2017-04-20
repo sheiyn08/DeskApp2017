@@ -1,0 +1,263 @@
+﻿<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+
+    <style>
+        .form-group .help-block {
+            display: none;
+        }
+
+        .form-group.has-error .help-block {
+            display: block;
+        }
+
+        .dialogdemoBasicUsage #popupContainer {
+            position: relative;
+        }
+
+        .dialogdemoBasicUsage .footer {
+            width: 100%;
+            text-align: center;
+            margin-left: 20px;
+        }
+
+            .dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+                font-size: 0.8em;
+                margin-top: 50px;
+            }
+
+        .dialogdemoBasicUsage button {
+            width: 200px;
+        }
+
+        .dialogdemoBasicUsage div#status {
+            color: #c60008;
+        }
+
+
+        /*
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        */
+    </style>
+</head>
+
+
+
+<body layout="column" class="relative" layout-fill role="main">
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+        <md-toolbar md-scroll-shrink>
+            <div class="md-toolbar-tools">Update Library Module</div>
+        </md-toolbar>
+
+        <md-content flex="" layout-padding="">
+            <form name="myForm" ng-cloak>
+
+                <div class="panel panel-success">
+                    
+
+                        <div class="panel-heading">
+                            <h4><strong>Online Credential Information</strong></h4>
+                            <p>Use this module to download latest LIBRARY for dropdowns and location. Use your <strong>personal</strong> PIMS WEB Account</p>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="col-md-3">
+                                        <label for="Region:_">Username</label>
+
+                                        <div class="form-group" show-errors='{showSuccess: true}'>
+                                            <input type="text" class="form-control" required ng-model="username" name="username" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="Province:_">Password</label>
+                                        <div class="form-group" show-errors='{showSuccess: true}'>
+                                            <input type="password" class="form-control" required ng-model="password" name="password" />
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                 
+
+
+
+
+                </div>
+
+
+
+            </form>
+        </md-content>
+
+        <md-content>
+
+            <md-button class="md-primary md-raised" ng-click="save()" ng-abled="!myForm.$valid" ng-hide="loading">
+                Synchronize Library
+            </md-button>
+
+
+            <div ng-show="loading">
+
+                <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+            </div>
+
+
+        </md-content>
+
+    </div>
+
+    @section Scripts
+{
+        <script>
+
+            angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+
+                .controller('AppCtrl', function ($scope, $http) {
+
+
+
+
+
+
+                    $scope.data;
+
+
+
+
+
+
+                    $scope.save = function () {
+                        $scope.$broadcast('show-errors-check-validity');
+                        $scope.loading = true;
+                        //       alert(JSON.stringify($scope.data));
+
+                        //'/api/v1/grievances/save'
+
+                        var url = '/Sync/UpdateLibrary?username=' + $scope.username + '&password=' + $scope.password;
+
+                  
+
+                        $.post(url).success(function (data) {
+                            $scope.loading = false;
+
+
+                            alert("Synchronization of Library Complete");
+                          
+
+                        }).error(function (data) {
+
+                    alert("Your credentials did not work. Please ty again!")
+
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+                    };
+                })
+
+
+
+
+
+
+        .directive('showErrors', function ($timeout, showErrorsConfig) {
+            var getShowSuccess, linkFn;
+            getShowSuccess = function (options) {
+                var showSuccess;
+                showSuccess = showErrorsConfig.showSuccess;
+                if (options && options.showSuccess != null) {
+                    showSuccess = options.showSuccess;
+                }
+                return showSuccess;
+            };
+            linkFn = function (scope, el, attrs, formCtrl) {
+                var blurred, inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses;
+                blurred = false;
+                options = scope.$eval(attrs.showErrors);
+                showSuccess = getShowSuccess(options);
+                inputEl = el[0].querySelector('[name]');
+                inputNgEl = angular.element(inputEl);
+                inputName = inputNgEl.attr('name');
+                if (!inputName) {
+                    throw 'show-errors element has no child input elements with a \'name\' attribute';
+                }
+                inputNgEl.bind('blur', function () {
+                    blurred = true;
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                });
+                scope.$watch(function () {
+                    return formCtrl[inputName] && formCtrl[inputName].$invalid;
+                }, function (invalid) {
+                    if (!blurred) {
+                        return;
+                    }
+                    return toggleClasses(invalid);
+                });
+                scope.$on('show-errors-check-validity', function () {
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                });
+                scope.$on('show-errors-reset', function () {
+                    return $timeout(function () {
+                        el.removeClass('has-error');
+                        el.removeClass('has-success');
+                        return blurred = false;
+                    }, 0, false);
+                });
+                return toggleClasses = function (invalid) {
+                    el.toggleClass('has-error', invalid);
+                    if (showSuccess) {
+                        return el.toggleClass('has-success', !invalid);
+                    }
+                };
+            };
+            return {
+                restrict: 'A',
+                require: '^form',
+                compile: function (elem, attrs) {
+                    if (!elem.hasClass('form-group')) {
+                        throw 'show-errors element does not have the \'form-group\' class';
+                    }
+                    return linkFn;
+                }
+            };
+        }
+      )
+
+        .provider('showErrorsConfig', function () {
+            var _showSuccess;
+            _showSuccess = false;
+            this.showSuccess = function (showSuccess) {
+                return _showSuccess = showSuccess;
+            };
+            this.$get = function () {
+                return { showSuccess: _showSuccess };
+            };
+        });
+
+
+
+            /**
+            Copyright 2016 Google Inc. All Rights Reserved.
+            Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+            **/
+
+        </script>
+    }
+
+
+
+</body>

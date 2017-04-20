@@ -1,0 +1,376 @@
+ <div class="panel panel-success">
+
+ <div class="panel panel-heading">
+     <h4>Personal Information</h4>
+      
+ </div>
+
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">First Name</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <input name="First Name" type="text" ng-model="data.first_name" required placeholder="First Name" class="form-control" />
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Middle Name</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <input name="Middle Name" type="text" ng-model="data.middle_name" placeholder="Middle Name" class="form-control" />
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Last Name</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <input name="Last Name" type="text" ng-model="data.last_name" required placeholder="Last Name" class="form-control" />
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Sex</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <select name="Sex" ng-model="data.sex" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Male'},{'value':false,'text':'Female'}]" ng-selected="data.sex" class="form-control"></select>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+     <div class="panel-body">
+         <div class="row">
+             <div class="col-md-12">
+
+
+                 <div class="col-md-4">
+                     <label>
+                         Civil Status
+                     </label>
+
+
+
+                 </div>
+                 <div class="col-md-4">
+                     <select name="Civil Status" ng-model="data.civil_status_id" id="prov_code" class="form-control"
+                             ng-options="option.Id as option.Name for option in civil_status_id_options">
+                         <option value="">[Select Civil Status]</option>
+                     </select>
+                 </div>
+
+
+
+             </div>
+         </div>
+     </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Birthdate</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <md-datepicker name="Birth Date" ng-model="dt_birthdate" md-placeholder="Enter date" ng-change="data.birthdate = dt_birthdate.toISOString()" required md-min-date="minYear" md-max-date="today"></md-datepicker>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">No of Children</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <input name="No of Children" type="number" ng-model="data.no_children" ng-pattern="/^[0-9]{1,7}$/" placeholder="No of Children" class="form-control" min="0" max="20" />
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <div class="col-md-4">
+                        <label>
+                            Educational Attainment
+                        </label>
+
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <select name="Educational Attainment" ng-model="data.education_attainment_id" id="prov_code" class="form-control"
+                                ng-options="option.Id as option.Name for option in educational_attainment_id_options">
+                            <option value="">[Select Educational Attainment]</option>
+                        </select>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label>
+                            Member of an Indigenous Group?
+                        </label>
+
+
+
+                    </div>
+                    <div class="col-md-4">
+
+                        <md-radio-group required ng-model="data.is_ip" name="Is IP">
+                            <md-radio-button data-ng-value="true" class="md-primary">IP</md-radio-button>
+                            <md-radio-button data-ng-value="false"> Non Ip </md-radio-button>
+
+                        </md-radio-group>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        <div class="panel-body" ng-show="data.is_ip">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label>
+                            Indigenous Group
+                        </label>
+
+
+
+                    </div>
+
+                    <div class="col-md-4" ng-show="data.is_ip">
+
+
+
+                        <select name="IP group" ng-model="data.ip_group_id" id="prov_code" class="form-control" ng-disabled="data.is_ip != true" ng-required="data.is_ip == true"
+                                ng-enable="data.is_ip == true"
+                                ng-options="option.Id as option.Name for option in ip_group_id_options">
+                            <option value="">[Select IP Group]</option>
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="panel-body" ng-show="data.is_ip">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label>
+                            IS IP Leader?
+                        </label>
+
+
+
+                    </div>
+
+                    <div class="col-md-4" ng-show="data.is_ip">
+
+
+
+                        <md-radio-group ng-required="data.is_ip" ng-model="data.is_ipleader" name="Is IP Leader">
+                            <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                        </md-radio-group>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-4">
+                        <label>
+                            Is Pantawid?
+                        </label>
+
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <md-radio-group required ng-model="data.is_pantawid" name="Is LGU Official">
+                            <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                        </md-radio-group>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel-body" ng-show="data.is_pantawid">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-4">
+                        <label>
+                            Is Pantawid Leader?
+                        </label>
+
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <md-radio-group ng-required="data.is_pantawid" ng-model="data.is_pantawid_leader" name="Is Pantawid Leader">
+                            <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                        </md-radio-group>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-4">
+                        <label>
+                            Is SLP?
+                        </label>
+
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <md-radio-group required ng-model="data.is_slp" name="Is SLP">
+                            <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                        </md-radio-group>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel-body" ng-show="data.is_slp">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-4">
+                        <label>
+                            Is SLP Leader?
+                        </label>
+
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <md-radio-group ng-required="data.is_slp" ng-model="data.is_slp_leader" name="Is SLP Leader">
+                            <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                        </md-radio-group>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+ 
+</div>

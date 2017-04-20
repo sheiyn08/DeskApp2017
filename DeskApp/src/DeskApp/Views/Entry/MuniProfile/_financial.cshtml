@@ -1,0 +1,350 @@
+﻿<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>Financial Source</h3>
+        <p>What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?</p>
+    </div>
+
+
+
+    <form name="financial_sourceForm">
+
+
+
+
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+            <div flex="50" flex-sm="100"></div>
+            <div flex="50" flex-sm="100">
+                <label>Fund Source</label>
+
+            </div>
+
+            <div flex="50" flex-sm="100">
+                <label>Amount</label>
+
+            </div>
+
+        </div>
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+            <div flex="50" flex-sm="100"></div>
+            <div flex="50" flex-sm="100">
+                IRA
+            </div>
+
+            <div flex="50" flex-sm="100">
+
+                <input min="0" name="IRA" class="form-control" required ng-model="data.ira_amount" type="number" />
+            </div>
+       
+        </div>
+        <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="item in data.financial_sources">
+            <div flex="50" flex-sm="100">
+                <a class="btn btn-danger" ng-click="removeFinancial($index)"><i class="fa fa-trash"></i></a>
+            </div>
+            <div flex="50" flex-sm="100">
+
+                {{item.name}}
+            </div>
+
+            <div flex="50" flex-sm="100">
+                {{item.amount}}
+            </div>
+
+        </div>
+    
+
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+            <div flex="50" flex-sm="100">
+                <a class="btn btn-success" ng-disabled="!financial_sourceForm.$valid" ng-click="addFinancial()"><i class="fa fa-plus"></i></a>
+            </div>
+            <div flex="50" flex-sm="100">
+
+                <input ng-model="financial.name" class="form-control" required />
+            </div>
+
+            <div flex="50" flex-sm="100">
+                <input ng-model="financial.amount" type="number" class="form-control" required min="0" />
+            </div>
+
+        </div>
+        <i>*Indicate IRA before adding other sources</i>
+    </form>
+
+
+</div>
+
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>Financial Allocation</h3>
+        <p>          How were municipal funds allocated in the previous year?</p>
+    </div>
+
+    <form name="financial_allocationForm" flex="100">
+
+
+
+
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="50" flex-sm="100">
+                <label>Environment</label>
+
+            </div>
+            <div flex="50" flex-sm="100">
+                <input type="number" name="alloc_env" ng-model="data.alloc_env" required class="form-control" min="0">
+
+            </div>
+
+
+
+
+
+        </div>
+        <md-divider></md-divider>
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="50" flex-sm="100">
+                <label>Infra</label>
+
+            </div>
+            <div flex="50" flex-sm="100">
+
+                <input type="number" name="alloc_env" ng-model="data.alloc_infra" required class="form-control" min="0">
+
+            </div>
+
+
+
+
+
+        </div>
+
+        <md-divider></md-divider>
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="50" flex-sm="100">
+                <label>Social Development</label>
+
+            </div>
+            <div flex="50" flex-sm="100">
+                <input type="number" name="alloc_env" ng-model="data.alloc_basic" required class="form-control" min="0">
+
+            </div>
+
+
+
+
+
+        </div>
+        <md-divider></md-divider>
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="50" flex-sm="100">
+                <label>Institutional Sector</label>
+
+            </div>
+            <div flex="50" flex-sm="100">
+
+                <input type="number" name="alloc_env" ng-model="data.alloc_inst" required class="form-control" min="0">
+
+            </div>
+
+
+
+
+
+        </div>
+        <md-divider></md-divider>
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="50" flex-sm="100">
+                <label>GAD</label>
+
+            </div>
+            <div flex="50" flex-sm="100">
+
+                <input type="number" name="alloc_env" ng-model="data.alloc_gender" required class="form-control" min="0">
+
+            </div>
+
+
+
+
+
+        </div>
+        <md-divider></md-divider>
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="50" flex-sm="100">
+                <label>DRRM</label>
+
+            </div>
+            <div flex="50" flex-sm="100">
+
+                <input type="number" name="alloc_env" ng-model="data.alloc_drrm" required class="form-control" min="0">
+
+            </div>
+
+
+
+
+
+        </div>
+
+        <md-divider></md-divider>
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+
+            <div flex="50" flex-sm="100">
+                <label>Other Allocations</label>
+
+            </div>
+
+            <div flex="50" flex-sm="100">
+                <input type="number" name="alloc_env" ng-model="data.alloc_others" required class="form-control" min="0">
+
+            </div>
+
+
+
+        </div>
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+
+            <div flex="50" flex-sm="100">
+                <label>Total</label>
+
+            </div>
+
+            <div flex="50" flex-sm="100">
+                {{data.alloc_env + data.alloc_infra +data.alloc_basic + data.alloc_inst + data.alloc_gender + data.alloc_drrm + data.alloc_others }}
+            </div>
+
+
+
+        </div>
+    </form>
+
+
+</div>
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>GAD Utilization</h3>
+        <p>How was GAD Fund utilized by the municipality?</p>
+        <p>@*What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?*@</p>
+    </div>
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+        <div flex="50" flex-sm="100">
+
+        </div>
+        <div flex="50" flex-sm="100">
+
+            Activity
+        </div>
+
+        <div flex="50" flex-sm="100">
+            Amount
+        </div>
+
+    </div>
+
+    <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="item in data.gad_activities">
+        <div flex="50" flex-sm="100">
+            <a class="btn btn-danger" ng-click="removeGad($index)"><i class="fa fa-trash"></i></a>
+        </div>
+        <div flex="50" flex-sm="100">
+
+            {{item.name}}
+        </div>
+
+        <div flex="50" flex-sm="100">
+            {{item.amount}}
+        </div>
+
+    </div>
+
+    <form name="gadForm">
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+            <div flex="50" flex-sm="100">
+                <a class="btn btn-success" ng-disabled="!gadForm.$valid" ng-click="addGad()"><i class="fa fa-plus"></i></a>
+            </div>
+            <div flex="50" flex-sm="100">
+
+                <input ng-model="gad.name" class="form-control" required />
+            </div>
+
+            <div flex="50" flex-sm="100">
+                <input ng-model="gad.amount" type="number" class="form-control" required min="0" />
+            </div>
+
+        </div>
+    </form>
+
+
+
+</div>
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>DRRM Utilization</h3>
+        <p>How was DRRM Fund utilized by the municipality?</p>
+        <p>@*What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?*@</p>
+    </div>
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+        <div flex="50" flex-sm="100">
+
+        </div>
+        <div flex="50" flex-sm="100">
+
+            Activity
+        </div>
+
+        <div flex="50" flex-sm="100">
+            Amount
+        </div>
+
+    </div>
+
+    <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="item in data.drrm_activities">
+        <div flex="50" flex-sm="100">
+            <a class="btn btn-danger" ng-click="removeDrrm($index)"><i class="fa fa-trash"></i></a>
+        </div>
+        <div flex="50" flex-sm="100">
+
+            {{item.name}}
+        </div>
+
+        <div flex="50" flex-sm="100">
+            {{item.amount}}
+        </div>
+
+    </div>
+
+    <form name="drrmForm">
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+            <div flex="50" flex-sm="100">
+                <a class="btn btn-success" ng-disabled="!drrmForm.$valid" ng-click="addDrrm()"><i class="fa fa-plus"></i></a>
+            </div>
+            <div flex="50" flex-sm="100">
+
+                <input ng-model="drrm.name" class="form-control" required />
+            </div>
+
+            <div flex="50" flex-sm="100">
+                <input ng-model="drrm.amount" type="number" class="form-control" required min="0" />
+            </div>
+
+        </div>
+    </form>
+
+
+
+</div>
+

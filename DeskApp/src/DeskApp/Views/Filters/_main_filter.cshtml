@@ -1,0 +1,238 @@
+﻿<script src="~/Scripts/jquery-2.0.3.js"></script>
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<script src="~/bower_components/Knockout/knockout-3.1.0.js"></script>
+<script src="~/bower_components/Knockout/knockout.bindings.js"></script>
+<script src="~/bower_components/Knockout/knockout.mapping-latest.js"></script>
+<script src="~/bower_components/Knockout/knockout.validation.js"></script>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<link href="~/bower_components/Bootstrap/bootstrap-select.min.css" rel="stylesheet" />
+
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-title">Filter</h3>
+    </div>
+    <form role="form">
+        <div class="box-body">
+
+            <div class="row">
+                @Html.Partial("~/Views/Filters/_region_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_province_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_municipality_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_barangay_filter.cshtml")
+
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Filters/_fund_source_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_cycle_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_purpose_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_enrollment_filter.cshtml")
+
+            </div>
+
+        </div>
+        <div class="box-footer">
+            <div class="btn btn-success" id="filter" name="filter" onclick="filter()" data-toggle='tooltip' title='Filter List'>Filter</div>
+            <div class="btn btn-danger" id="clear" name="clear" onclick="clear()" data-toggle='tooltip' title='Clear'>Clear</div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    var dataarray;
+
+    $.ajax({
+        type: 'POST',
+        url: '@Url.Action("GetDropdownMenu", "Library")', // we are calling json method
+        dataType: 'json',
+
+        success: function (states) {
+            dataarray = states;
+        },
+        error: function (ex) {
+            alert('Failed to retrieve data.' + ex);
+        }
+    });
+
+    var ViewModel = function (data) {
+        var self = this;
+        ko.mapping.fromJS(dataarray, {}, self);
+
+        self.filter = function () {
+            var data = ko.mapping.toJS(self);
+        }
+
+        ko.bindingHandlers.selectPicker = {
+            init: function (element, valueAccessor, allBindingsAccessor) {
+                if ($(element).is('select')) {
+                    if (ko.isObservable(valueAccessor())) {
+                        if ($(element).prop('multiple') && $.isArray(ko.utils.unwrapObservable(valueAccessor()))) {
+                            // in the case of a multiple select where the valueAccessor() is an observableArray, call the default Knockout selectedOptions binding
+                            ko.bindingHandlers.selectedOptions.init(element, valueAccessor, allBindingsAccessor);
+                        } else {
+                            // regular select and observable so call the default value binding
+                            ko.bindingHandlers.value.init(element, valueAccessor, allBindingsAccessor);
+                        }
+                    }
+                    $(element).addClass('selectpicker').selectpicker();
+                }
+            },
+            update: function (element, valueAccessor, allBindingsAccessor) {
+                if ($(element).is('select')) {
+                    var selectPickerOptions = allBindingsAccessor().selectPickerOptions;
+                    if (typeof selectPickerOptions !== 'undefined' && selectPickerOptions !== null) {
+                        var options = selectPickerOptions.optionsArray,
+                            optionsText = selectPickerOptions.optionsText,
+                            optionsValue = selectPickerOptions.optionsValue,
+                            optionsCaption = selectPickerOptions.optionsCaption,
+                            isDisabled = selectPickerOptions.disabledCondition || false,
+                            resetOnDisabled = selectPickerOptions.resetOnDisabled || false;
+                        if (ko.utils.unwrapObservable(options).length > 0) {
+                            // call the default Knockout options binding
+                            ko.bindingHandlers.options.update(element, options, allBindingsAccessor);
+                        }
+                        if (isDisabled && resetOnDisabled) {
+                            // the dropdown is disabled and we need to reset it to its first option
+                            $(element).selectpicker('val', $(element).children('option:first').val());
+                        }
+                        $(element).prop('disabled', isDisabled);
+                    }
+                    if (ko.isObservable(valueAccessor())) {
+                        if ($(element).prop('multiple') && $.isArray(ko.utils.unwrapObservable(valueAccessor()))) {
+                            // in the case of a multiple select where the valueAccessor() is an observableArray, call the default Knockout selectedOptions binding
+                            ko.bindingHandlers.selectedOptions.update(element, valueAccessor);
+                        } else {
+                            // call the default Knockout value binding
+                            ko.bindingHandlers.value.update(element, valueAccessor);
+                        }
+                    }
+
+                    $(element).selectpicker('refresh');
+                }
+            }
+        };
+
+        self.lib_regions = ko.observableArray([]);
+        self.lib_provinces = ko.observableArray([]);
+        self.lib_cities = ko.observableArray([]);
+        self.lib_brgy = ko.observableArray([]);
+        self.lib_fund_sources = ko.observableArray([]);
+        self.lib_cycles = ko.observableArray([]);
+        self.lib_barangay_assembly_purposes = ko.observableArray([]);
+        self.lib_enrollments = ko.observableArray([]);
+
+        self.selected_regions = ko.observableArray([]);
+        self.selected_fund_sources = ko.observableArray([]);
+
+        self.prov_code = ko.observable('');
+        self.city_code = ko.observable('');
+        self.brgy_code = ko.observable('');
+        self.cycle_id = ko.observable('');
+        self.enrollment_id = ko.observable('');
+        self.barangay_assembly_purpose_id = ko.observable('');
+
+        self.many_regions = ko.computed(function () {
+
+            var r = self.selected_regions().length;
+            if (r >= 2 || r == 0) {
+                return true;
+            }
+            else {
+
+                return false;
+            }
+        });
+
+        self.many_fund_sources = ko.computed(function () {
+
+            var r = self.selected_fund_sources().length;
+            if (r >= 2 || r == 0) {
+                return true;
+            }
+            else {
+
+                return false;
+            }
+        });
+
+        self.selected_regions.subscribe(function (newval) {
+
+            var r = self.selected_regions().length;
+            if (r >= 2 || r == 0) {
+                self.lib_provinces(undefined);
+                self.lib_cities(undefined);
+                self.lib_brgy(undefined);
+            }
+            else {
+
+                $.each(self.selected_regions(), function () {
+
+                    var id = this;
+
+                    $.post("/Library/GetProvinces", { id: id }, function (states) {
+                        self.lib_provinces(states);
+                    });
+
+                });
+            }
+        })
+
+        self.selected_fund_sources.subscribe(function (newval) {
+
+            var r = self.selected_fund_sources().length;
+            if (r >= 2 || r == 0) {
+                self.lib_cycles(undefined);
+            }
+            else {
+
+                $.each(self.selected_fund_sources(), function () {
+
+                    var id = this;
+
+                    $.post("/Library/GetCycle", { id: id }, function (states) {
+                        self.lib_cycles(states);
+                    });
+
+                });
+            }
+        })
+
+        self.prov_code.subscribe(function (newval) {
+            $.post("/Library/GetCity", { id: self.prov_code() }, function (states) {
+                self.lib_cities(states);
+            })
+
+        })
+
+        self.city_code.subscribe(function (newval) {
+            $.post("/Library/GetBarangay", { id: self.city_code() }, function (states) {
+                self.lib_brgy(states);
+            })
+        })
+
+
+        $.post("/Library/GetDropDownMenu", function (data) {
+            self.lib_regions(data.lib_regions);
+            self.lib_fund_sources(data.lib_fund_sources);
+            self.lib_barangay_assembly_purposes(data.lib_barangay_assembly_purposes);
+            self.lib_enrollments(data.lib_enrollments);
+        });
+
+    }
+
+    $(document).ready(function () {
+        ko.applyBindings(new ViewModel());
+    });
+
+</script> 

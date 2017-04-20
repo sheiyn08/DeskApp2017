@@ -1,0 +1,347 @@
+﻿<div class="panel panel-body">
+
+    <div class="col-md-12">
+        <h3>Perception Survey Report</h3>
+    </div>
+    <div class="col-md-12">
+        <h4>{{selected_report.Name}}</h4>
+        <br />
+    </div>
+
+    <div class="col-md-12">
+        <h5><strong>Period Covered: </strong>{{earliest_talakayan_date | date:'MM/dd/yyyy'}} <strong>to </strong>{{latest_talakayan_date | date:'MM/dd/yyyy'}}</h5>
+        <br />
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Region: {{selected_region.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Province: {{selected_province.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Municipality: {{selected_city.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Barangay: {{selected_brgy.Name}}</strong></h5>
+        <br /> <br /><br />
+    </div>
+
+    <div class="row">
+
+    </div>
+    
+    <div style="overflow:auto">
+        <table class="table table-bordered">
+
+            <tr>
+                <td rowspan="2" align="center" style="vertical-align:middle">
+                    @*column for count*@
+                </td>
+                <td colspan="8" align="center" style="vertical-align:middle">
+                    <strong>Basic Information</strong>
+                </td>
+                <td colspan="5" align="center" style="vertical-align:middle">
+                    <strong>A. Trust and Confidence on Officials</strong>
+                </td>
+                <td colspan="10" align="center" style="vertical-align:middle">
+                    <strong>B. Access to Services and Governance</strong>
+                </td>
+                <td colspan="8" align="center" style="vertical-align:middle">
+                    <strong>C. Participation and Empowerment to the Poor and Marginalized</strong>
+                </td>
+                <td colspan="5" align="center" style="vertical-align:middle">
+                    <strong>D. Disaster-Risk Related Activities and Preparedness</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Name</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Age</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Sex</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Is IP?</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Is Pantawid?</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Is SLP?</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Survey Year Version</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Talakayan Date</strong>
+                </td>
+                @*<td ng-repeat="item in list">
+                    {{item.question}}
+                </td>*@
+
+                <td style="vertical-align:middle">
+                    Barangay residents believe that our local officials are working for the benefit of our barangay
+                </td>
+                <td style="vertical-align:middle">
+                    Local officials are not fair in dealing with the people
+                </td>
+                <td style="vertical-align:middle">
+                    Barangay officials regularly meet with the community
+                </td>
+                <td style="vertical-align:middle">
+                    Municipal officials regularly meet with the community
+                </td>
+                <td style="vertical-align:middle">
+                    I don't believe that the local officials are working for the benefit of our barangay
+                </td>
+                
+                
+                <td style="vertical-align:middle">
+                    There is an adequate number of health facilities in our barangay
+                </td>
+                <td style="vertical-align:middle">
+                    The number of educational facilities in our barangay is not enough
+                </td>
+                <td style="vertical-align:middle">
+                    Our barangay has adequate an number of roads accessed by public vehicles (e.g. transportation of public goods)
+                </td>
+                <td style="vertical-align:middle">
+                    Potable water is not available to the community
+                </td>
+                <td style="vertical-align:middle">
+                    There is peace and order in the community
+                </td>
+                <td style="vertical-align:middle">
+                    School-aged children in our household are able to go to school
+                </td>
+                <td style="vertical-align:middle">
+                    Our household is able to purchase basic necessities in the market/nearby store
+                </td>
+                <td style="vertical-align:middle">
+                    I don’t feel secure from crimes in the community
+                </td>
+                <td style="vertical-align:middle">
+                    Our household has access to potable water
+                </td>
+                <td style="vertical-align:middle">
+                    If I or any of my household is sick, we can easily go to a health center
+                </td>
+
+
+                <td style="vertical-align:middle">
+                    Women are excluded from the implementation of programs/projects in the community
+                </td>
+                <td style="vertical-align:middle">
+                    (FOR IP MEMBERS ONLY) IPs are engaged in the implementation of programs/projects in the community
+                </td>
+                <td style="vertical-align:middle">
+                    The poorest are represented in the barangay assembly
+                </td>
+                <td style="vertical-align:middle">
+                    Members of the community are not given various skills training (e.g. livelihood, financial literacy, etc.)
+                </td>
+                <td style="vertical-align:middle">
+                    I am able to participate in the implementation of programs/projects in the community
+                </td>
+                <td style="vertical-align:middle">
+                    I am shy when participating in community development activities
+                </td>
+                <td style="vertical-align:middle">
+                    I attend trainings/activities (e.g. livelihood, financial literacy, etc.) provided to the community
+                </td>
+                <td style="vertical-align:middle">
+                    (If answer to previous item is 3 or 4 only) My skills have improved because of these trainings
+                </td>
+
+
+                <td style="vertical-align:middle">
+                    People in the community are aware of the dangers brought by disasters
+                </td>
+                <td style="vertical-align:middle">
+                    People in the community are not aware of the different measures to reduce dangers brought by disasters
+                </td>
+                <td style="vertical-align:middle">
+                    I am aware of the dangers brought by disasters
+                </td>
+                <td style="vertical-align:middle">
+                    I am aware of the different measures to reduce dangers brought by disasters
+                </td>
+                <td style="vertical-align:middle">
+                    I think my barangay is not ready for any possible disaster 
+                </td>
+               
+            </tr>
+
+            <tr ng-repeat="item in list | orderBy: 'year'">
+                    
+                    <td align="center" style="vertical-align:middle">
+                        {{$index + 1}}
+                    </td>
+                    <td>
+                        {{item.person_name}}
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        {{item.age}}
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        {{item.sex == '1' ? "Male" : item.sex || item.sex == '0' ? "Female" : item.sex}}
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        {{item.is_ip == '1' ? "Yes" : item.is_ip || item.is_ip == '0' ? "No" : item.is_ip}}
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        {{item.is_pantawid == '1' ? "Yes" : item.is_pantawid || item.is_pantawid == '0' ? "No" : item.is_pantawid}}
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        {{item.is_slp == '1' ? "Yes" : item.is_slp || item.is_slp == '0' ? "No" : item.is_slp}}
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        {{item.year}}
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        {{item.talakayan_date_from | date:'MM/dd/yyyy'}}
+                    </td>
+
+                    <td align="center" style="vertical-align:middle">
+                        {{item.trust_1 == '0' ? "--" : item.trust_1}} 
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.trust_3 == '0' ? "--" : item.trust_3}} 
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.trust_5 == '0' ? "--" : item.trust_5}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.trust_6 == '0' ? "--" : item.trust_6}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.trust_8 == '0' ? "--" : item.trust_8}} 
+                    </td>
+
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.access_1 == '0' ? "--" : item.access_1}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.access_2 == '0' ? "--" : item.access_2}} 
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.access_4 == '0' ? "--" : item.access_4}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.access_6 == '0' ? "--" : item.access_6}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.access_8 == '0' ? "--" : item.access_8}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.access_10 == '0' ? "--" : item.access_10}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.access_12 == '0' ? "--" : item.access_12}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.access_13 == '0' ? "--" : item.access_13}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.access_15 == '0' ? "--" : item.access_15}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.access_16 == '0' ? "--" : item.access_16}}
+                    </td>
+
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.participation_1 == '0' ? "--" : item.participation_1}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{(item.participation_3 == '0' && item.is_ip == '0' ? "NA" : item.participation_3) || (item.participation_3 == '0' && item.is_ip == '1' ? "--" : item.participation_3)}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.participation_4  == '0' ? "--" : item.participation_4}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.participation_5 == '0' ? "--" : item.participation_5}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.participation_7 == '0' ? "--" : item.participation_7}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.participation_8 == '0' ? "--" : item.participation_8}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.participation_10 == '0' ? "--" : item.participation_10}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.participation_12 == '0' ? "--" : item.participation_12 || (item.participation_10 == '1' || item.participation_10 == '2' ? "NA" : item.participation_12)}}
+                    </td>
+
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.disaster_1 == '0' ? "--" : item.disaster_1}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.disaster_2 == '0' ? "--" : item.disaster_2}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.disaster_4 == '0' ? "--" : item.disaster_4}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.disaster_7 == '0' ? "--" : item.disaster_7}}
+                    </td>
+                    <td  align="center" style="vertical-align:middle">
+                        {{item.disaster_9 == '0' ? "--" : item.disaster_9}}
+                    </td>
+                
+                </tr>
+        </table>
+    </div>
+    <br /> <br />
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label><strong>Legend:</strong></label>
+            <br /> <br />
+            <strong>NA</strong>&emsp;&emsp;&emsp;<i>Not applicable</i>
+            <br /><br />
+            <strong>--</strong>&emsp;&emsp;&emsp;<i>No Answer</i>
+            <br /><br /><br /> <br />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label>Certified Correct By:</label>
+
+            <br />
+            <br />
+            <br />
+            {{prepared_by}}
+
+            Signature over Printed Name
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+    <div class="row">
+
+        <br />
+        <br />
+
+
+        <div class="col-xs-6">
+
+            Position
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+
+</div>

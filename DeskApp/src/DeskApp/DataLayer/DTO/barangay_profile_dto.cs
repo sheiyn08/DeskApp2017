@@ -32,6 +32,8 @@ namespace DeskApp.DataLayer
         public Guid muni_profile_id { get; set; }
         public string old_id { get; set; }
         public int push_status_id { get; set; }
+        public DateTime? push_date { get; set; }
+        public DateTime? last_modified_date { get; set; }
 
         public static System.Linq.Expressions.Expression<Func<muni_profile, muni_profileDTO>> SELECT =
             x => new muni_profileDTO
@@ -45,7 +47,8 @@ namespace DeskApp.DataLayer
                 lib_region_region_name = x.lib_region.region_name,
                 muni_profile_id = x.muni_profile_id,
                 old_id = x.old_id,
-                push_status_id = x.push_status_id,
+                push_date = x.push_date,
+                last_modified_date = x.last_modified_date,
 
             };
 
@@ -63,6 +66,8 @@ namespace DeskApp.DataLayer
         public Guid brgy_profile_id { get; set; }
         public string old_id { get; set; }
         public int push_status_id { get; set; }
+        public DateTime? push_date { get; set; }
+        public DateTime? last_modified_date { get; set; }
 
         public static System.Linq.Expressions.Expression<Func<brgy_profile, brgy_profileDTO>> SELECT =
             x => new brgy_profileDTO
@@ -77,7 +82,9 @@ namespace DeskApp.DataLayer
                 lib_brgy_brgy_name = x.lib_brgy.brgy_name,
                 brgy_profile_id = x.brgy_profile_id,
                 old_id = x.old_id,
-                push_status_id = x.push_status_id
+                push_date = x.push_date,
+                push_status_id = x.push_status_id,
+                last_modified_date = x.last_modified_date
 
             };
 
@@ -100,7 +107,9 @@ namespace DeskApp.DataLayer
         public int? no_male { get; set; }
         public int? no_female { get; set; }
         public int push_status_id { get; set; }
+        public DateTime? push_date { get; set; }
         public int? frequency { get; set; }
+        public DateTime? last_modified_date { get; set; }
 
         public static System.Linq.Expressions.Expression<Func<oversight_committee, oversight_committeeDTO>> SELECT =
             x => new oversight_committeeDTO
@@ -119,7 +128,10 @@ namespace DeskApp.DataLayer
                 no_male = x.no_male,
                 no_female = x.no_female,
                 frequency = x.frequency,
-                push_status_id = x.push_status_id
+                push_status_id = x.push_status_id,
+                push_date = x.push_date,
+                last_modified_date = x.last_modified_date
+
             };
 
     }

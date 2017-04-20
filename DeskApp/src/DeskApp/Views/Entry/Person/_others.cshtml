@@ -1,0 +1,135 @@
+﻿<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>Previous Trainings Attended (NON KC-NCDDP) </h3>
+    </div>
+
+    <div class="layout-row" layout-margin flex>
+        <div flex>
+
+        </div>
+        <div flex>
+            Training Name
+        </div>
+        <div flex>
+            Provider
+        </div>
+        <div flex>
+            Year
+        </div>
+        
+    </div>
+
+
+    <div class="layout-row" layout-margin flex ng-repeat="equip in data.other_trainings">
+
+        <div flex>
+            <a class="btn btn-danger" ng-click="removeTraining($index)"><i class="fa fa-trash"></i></a>
+        </div>
+        <div flex>
+            {{equip.name}}
+        </div>
+        <div flex>
+            {{equip.provider}}
+        </div>
+        <div flex>
+            {{equip.year}}
+        </div>
+        
+       
+    </div>
+
+    <form name="othersTrainingForm">
+        <div class="layout-row" layout-margin flex md-padding>
+            <div flex>
+                <a class="btn btn-success" ng-click="addTraining()" ng-disabled="!othersTrainingForm.$valid"><i class="fa fa-plus"></i></a>
+            </div>
+            <div flex>
+                <input type="text" required name="Training Name" ng-model="training.name" class="form-control" />
+            </div>
+            <div flex>
+                <input type="text" required name="Provider Name" ng-model="training.provider" class="form-control" />
+            </div>
+            <div flex>
+                <input type="number" required name="Year Provided" ng-model="training.year" class="form-control" />
+            </div>
+
+        </div>
+    </form>
+
+
+</div>
+
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>Previous Organizations (NON KC-NCDDP) </h3>
+    </div>
+
+    <div class="layout-row" layout-margin flex>
+        <div flex>
+
+        </div>
+        <div flex>
+            Name of Committee  / Organization
+        </div>
+        <div flex>
+            Membership
+        </div>
+     <div flex>
+         Active (Yes / No)
+     </div>
+
+    </div>
+
+
+    <div class="layout-row" layout-margin flex ng-repeat="equip in data.other_memberships">
+
+        <div flex>
+            <a class="btn btn-danger" ng-click="removeMembership($index)"><i class="fa fa-trash"></i></a>
+        </div>
+        <div flex>
+            {{equip.name}}
+        </div>
+        <div flex>
+            {{equip.is_chair == true ? "Chair" : "Member"}}
+        </div>
+        <div flex>
+            {{equip.is_active == true ? "Active" : "Inactive"}}
+        </div>
+
+
+    </div>
+
+    <form name="othersForm">
+        <div class="layout-row" layout-margin flex md-padding>
+            <div flex>
+                <a class="btn btn-success" ng-click="addMembership()" ng-disabled="!othersForm.$valid"><i class="fa fa-plus"></i></a>
+            </div>
+            <div flex>
+                <input type="text" required name="Org./ Committee Name" ng-model="membership.name" class="form-control" />
+            </div>
+
+
+            <div flex>
+                <md-radio-group ng-required="true" ng-model="membership.is_chair">
+                    <md-radio-button data-ng-value="true" class="md-primary">Chair</md-radio-button>
+                    <md-radio-button data-ng-value="false"> Member </md-radio-button>
+
+                </md-radio-group>
+            </div>
+
+            <div flex>
+                <md-radio-group ng-required="true" ng-model="membership.is_active">
+                    <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                    <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                </md-radio-group>
+            </div>
+
+        </div>
+        </form>
+
+
+</div>
+
+ 

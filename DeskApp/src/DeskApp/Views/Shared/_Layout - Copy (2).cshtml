@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<!--================================================================================
+    Item Name: Materialize - Material Design Admin Template
+    Version: 3.1
+    Author: GeeksLabs
+    Author URL: http://www.themeforest.net/user/geekslabs
+================================================================================ -->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google. ">
+    <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
+    <title>Page Blank | Materialize - Material Design Admin Template</title>
+
+    <!-- Favicons-->
+    <link rel="icon" href="/content/material-lite/images/favicon/favicon-32x32.png" sizes="32x32">
+    <!-- Favicons-->
+    <link rel="apple-touch-icon-precomposed" href="images/favicon/apple-touch-icon-152x152.png">
+    <!-- For iPhone -->
+    <meta name="msapplication-TileColor" content="#00bcd4">
+    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
+    <!-- For Windows Phone -->
+    <!-- CORE CSS-->
+    @*<link href="/content/material-lite/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection">*@
+    @*<link href="/content/material-lite/css/style.min.css" type="text/css" rel="stylesheet" media="screen,projection">*@
+    <!-- Custome CSS-->
+    <link href="/content/material-lite/css/custom/custom.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/content/lte/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/CSS/angular-material.css" rel="stylesheet" />
+
+    <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+    @*<link href="/content/material-lite/js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection">*@
+    @*<link href="/content/material-lite/js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">*@
+    @*<link href="/content/material-lite/js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection">*@
+</head>
+
+<body>
+    <!-- Start Page Loading -->
+    @*<div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>*@
+    <!-- End Page Loading -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START HEADER -->
+    <header id="header" class="page-topbar">
+        <!-- start header nav-->
+        <div class="navbar-fixed">
+            <nav class="navbar-color">
+                <div class="nav-wrapper">
+                    <ul class="left">
+                        <li><h1 class="logo-wrapper"><a href="index.html" class="brand-logo darken-1"><img src="images/materialize-logo.png" alt="materialize logo"></a> <span class="logo-text">Materialize</span></h1></li>
+                    </ul>
+
+
+                </div>
+            </nav>
+        </div>
+        <!-- end header nav-->
+    </header>
+    <!-- END HEADER -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START MAIN -->
+    <div id="main">
+        <!-- START WRAPPER -->
+        <div class="wrapper">
+
+            <!-- START LEFT SIDEBAR NAV-->
+            <aside id="left-sidebar-nav">
+                <ul id="slide-out" class="side-nav fixed leftside-navigation">
+                    <li class="user-details cyan darken-2">
+                        <div class="row">
+                            <div class="col col s4 m4 l4">
+
+                            </div>
+                            <div class="col col s8 m8 l8">
+                                <ul id="profile-dropdown" class="dropdown-content">
+                                    <li>
+                                        <a href="#"><i class="mdi-action-face-unlock"></i> Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="mdi-action-settings"></i> Settings</a>
+                                    </li>
+
+                                    <li class="divider"></li>
+
+                                    <li>
+                                        <a href="/Account/Logoff"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
+                                    </li>
+                                </ul>
+                                <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown">John Doe<i class="mdi-navigation-arrow-drop-down right"></i></a>
+                                <p class="user-roal">Administrator</p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="bold">
+                        <a href="app-email.html" class="waves-effect waves-cyan"><i class="mdi-communication-email"></i> Mailbox <span class="new badge">4</span></a>
+                    </li>
+                    <li class="bold">
+                        <a href="app-calendar.html" class="waves-effect waves-cyan"><i class="mdi-editor-insert-invitation"></i> Calender</a>
+                    </li>
+
+
+
+
+
+                    @if (User.Identity.IsAuthenticated == true)
+                    {
+
+                        if (User.IsInRole("Finance") == true)
+                        {
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-download"></i> <span>Export</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu" style="display: none;">
+                                    <li>@*<a href="@Url.Action("ERFRList", "Export")"><i class="fa fa-circle-o"></i> SP / ERFRs</a>*@</li>
+                                    <li><a href="@Url.Action("Index", "ERFRS")"><i class="fa fa-circle-o"></i> SP / ERFRs</a></li>
+
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+
+
+                            <li><a href="@Url.Action("Index", "ERFRS")"><i class="fa fa-circle-o"></i> SP / ERFRs</a></li>
+
+
+
+
+                            <li><a href="@Url.Action("Index", "Import")"><i class='glyphicon glyphicon-list'></i> <span>Import</span></a></li>
+
+
+
+
+
+                            @Html.Partial("~/Views/Shared/_sidebar_menu.cshtml")
+
+
+
+                            if (User.IsInRole("FO Admin") == true || User.IsInRole("Super") == true)
+                            {
+                                <li><a href="/Account/Users"><i class='glyphicon glyphicon-user'></i> <span>Users</span></a></li>
+                            }
+                        }
+                    }
+
+                    @if (!User.IsInRole("Operation") || !User.IsInRole("Finance"))
+                    {
+
+                        <li><a href="@Url.Action("Index", "Ticket")"><i class='fa fa-ticket'></i> <span>Tickets</span></a></li>
+                    }
+                </ul>
+
+
+
+                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
+            </aside>
+            <!-- END LEFT SIDEBAR NAV-->
+            <!-- //////////////////////////////////////////////////////////////////////////// -->
+            <!-- START CONTENT -->
+            <section id="content">
+
+                <!--breadcrumbs start-->
+                <div id="breadcrumbs-wrapper">
+                    <!-- Search for small screen -->
+                    <div class="header-search-wrapper grey hide-on-large-only">
+                        <i class="mdi-action-search active"></i>
+                        <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col s12 m12 l12">
+                                <h5 class="breadcrumbs-title">Blank Page</h5>
+                                <ol class="breadcrumbs">
+                                    <li><a href="index.html">Dashboard</a></li>
+                                    <li><a href="#">Pages</a></li>
+                                    <li class="active">Blank Page</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--breadcrumbs end-->
+                <!--start container-->
+                <div class="container">
+                    <div class="section">
+
+
+                        <div class="divider"></div>
+                        @RenderBody()
+                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                    </div>
+                    <!-- Floating Action Button -->
+                    <div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
+                        <a class="btn-floating btn-large">
+                            <i class="mdi-action-stars"></i>
+                        </a>
+                        <ul>
+                            <li><a href="css-helpers.html" class="btn-floating red"><i class="large mdi-communication-live-help"></i></a></li>
+                            <li><a href="app-widget.html" class="btn-floating yellow darken-1"><i class="large mdi-device-now-widgets"></i></a></li>
+                            <li><a href="app-calendar.html" class="btn-floating green"><i class="large mdi-editor-insert-invitation"></i></a></li>
+                            <li><a href="app-email.html" class="btn-floating blue"><i class="large mdi-communication-email"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- Floating Action Button -->
+                </div>
+                <!--end container-->
+            </section>
+            <!-- END CONTENT -->
+            <!-- //////////////////////////////////////////////////////////////////////////// -->
+            <!-- START RIGHT SIDEBAR NAV-->
+            <!-- LEFT RIGHT SIDEBAR NAV-->
+
+        </div>
+        <!-- END WRAPPER -->
+
+    </div>
+    <!-- END MAIN -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START FOOTER -->
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                <span>DSWD © KALAHI CIDSS NCDDP <a class="grey-text text-lighten-4" href="http://ncddpdb.dswd.gov.ph" target="_blank">PIMS</a> All rights reserved.</span>
+                <span class="right"> Design and Developed by <a class="grey-text text-lighten-4" href="http://geekslabs.com/">DeskApp</a></span>
+            </div>
+        </div>
+    </footer>
+    <!-- END FOOTER -->
+    <!-- ================================================
+    Scripts
+    ================================================ -->
+    <!-- jQuery Library -->
+   
+    <script type="text/javascript" src="~/content/material-lite/js/plugins/jquery-1.11.2.min.js"></script>
+    <!--materialize js-->
+    @*<script type="text/javascript" src="~/content/material-lite/js/materialize.min.js"></script>*@
+    
+    @*<script type="text/javascript" src="js/prism/prism.js"></script>*@
+    <!--scrollbar-->
+    @*<script type="text/javascript" src="~/content/material-lite/js/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>*@
+    <!-- chartist -->
+    @*<script type="text/javascript" src="~/content/material-lite/js/plugins/chartist-js/chartist.min.js"></script>*@
+
+    <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+    @*<script type="text/javascript" src="~/content/material-lite/js/plugins.min.js"></script>*@
+    <!--custom-script.js - Add your own theme custom JS-->
+    @*<script type="text/javascript" src="~/content/material-lite/js/custom-script.js"></script>*@
+
+    <!--angularjs-->
+    @*<script type="text/javascript" src="~/content/material-lite/js/plugins/angular.min.js"></script>*@
+    <!--materialize js-->
+    @*<script type="text/javascript" src="~/content/material-lite/js/materialize.min.js"></script>*@
+    <!--angular-materialize js-->
+    @*<script type="text/javascript" src="~/content/material-lite/js/plugins/angular-materialize.js"></script>*@
+
+
+
+    <script src="~/LIB/Scripts/angular.min.js"></script>
+    <script src="~/LIB/Scripts/angular-animate.min.js"></script>
+    <script src="~/LIB/Scripts/angular-route.js"></script>
+    <script src="~/LIB/Scripts/angular-aria.min.js"></script>
+    <script src="~/LIB/Scripts/angular-messages.min.js"></script>
+    <script src="~/LIB/Scripts/svg-assets-cache.js"></script>
+    <script src="~/LIB/Scripts/angular-material.js"></script>
+
+@RenderSection("Scripts", false)
+</body>
+
+</html>

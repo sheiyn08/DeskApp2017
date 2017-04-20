@@ -1,0 +1,271 @@
+ 
+
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h4>Barangay Ceac Tracking</h4>
+        <p>
+            Ensure that you do not commit mistake when encoding PLANNED Dates, once encoded,<strong> it cannot be replaced.</strong>
+            Instead, update the CATCH UP PLAN Dates
+        </p>
+
+        <md-button class="md-raised" aria-label="Add New Record" ng-click="cancel_beac()" ng-show="!show_all">
+            Back to List
+        </md-button>
+
+    </div>
+
+
+
+    <div class="md-whiteframe-1dp" layout="row" layout-margin flex="100" ng-repeat="brgy in brgy_code_options" ng-show="show_all">
+        <div flex>
+
+            <a class="btn btn-info btn-sm" style="margin-right: 5px" ng-click="get_brgy_ceac(brgy.Id)"><i class="fa fa-edit"></i></a>
+
+        </div>
+        <div flex>{{brgy.Name}}</div>
+        <div flex>{{brgy.Id}}</div>
+
+
+
+    </div>
+
+
+
+    <form name="praForm" ng-show="!show_all">
+
+        <div class="md-whiteframe-1dp" layout-margin flex="100">
+
+
+
+            <table class="table table-responsive">
+
+                <thead>
+
+                    <tr>
+
+
+                        <th>
+
+                        </th>
+                        <th rowspan="2">
+                            Activity
+                        </th>
+                        <th colspan="2">
+                            Target Date
+                        </th>
+
+                        <th colspan="2">
+                            Catch Up Date
+                        </th>
+                        <th colspan="2">
+                            Actual Date
+                        </th>
+
+                        <th rowspan="2">
+                            Status
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+
+                        </th>
+
+
+                        <th>
+                            Start
+                        </th>
+                        <th>
+                            End
+                        </th>
+
+                        <!--Catch Up-->
+
+                        <th>
+                            Start
+                        </th>
+                        <th>
+                            End
+                        </th>
+
+                        <!--Actual Date-->
+
+                        <th>
+                            Start
+                        </th>
+                        <th>
+                            End
+                        </th>
+
+
+
+
+                    </tr>
+
+
+
+                </thead>
+
+
+
+
+
+                <tbody>
+                    <tr ng-repeat="item in data_brgy | orderBy:'brgy_sort_order'" ng-include="getBeacTemplate(item)"></tr>
+                </tbody>
+
+
+            </table>
+
+
+
+            <script type="text/ng-template" id="editBeacTemplate">
+
+
+                <td>
+
+                    <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="save_bra($index)" ng-disabled="!praForm.$valid"><i class="fa fa-save"></i></a>
+
+                    <a class="btn btn-warning btn-sm" style="margin-right: 5px" ng-click="reset_bra()"><i class="fa fa-close"></i></a>
+
+
+
+                </td>
+
+
+
+                <td>
+                    {{selected_bra.brgy_sort_order}} - {{selected_bra.lib_training_category_name}}
+
+                </td>
+
+
+
+                <td>
+                    <md-datepicker ng-disabled="selected_bra.plan_start != null" name="Plan Start" ng-model="selected_bra.dt_plan_start" ng-change="selected_bra.plan_start = selected_bra.dt_plan_start.toISOString()"></md-datepicker>
+
+
+                </td>
+                <td>
+
+                    <md-datepicker ng-disabled="selected_bra.plan_end != null"  name="Plan End" md-min-date="selected_bra.dt_plan_start" ng-model="selected_bra.dt_plan_end" ng-change="selected_bra.plan_end = selected_bra.dt_plan_end.toISOString()"></md-datepicker>
+
+                </td>
+
+                @* Catch up date *@
+                <td>
+                    <md-datepicker name="Catch Start" ng-model="selected_bra.dt_catch_start" ng-change="selected_bra.catch_start = selected_bra.dt_catch_start.toISOString()"></md-datepicker>
+
+
+
+                </td>
+                <td>
+
+                    <md-datepicker name="Catch End" ng-model="selected_bra.dt_catch_end"  md-min-date="selected_bra.dt_catch_start" ng-change="selected_bra.catch_end = selected_bra.dt_catch_end.toISOString()"></md-datepicker>
+
+                </td>
+
+                @* Actual Date *@
+
+                <td>
+
+                    <md-datepicker name="Actual Start" md-max-date="selected_bra.today" ng-model="selected_bra.dt_actual_start" ng-change="selected_bra.actual_start = selected_bra.dt_actual_start.toISOString()" ng-disabled="!selected_bra.is_ceac_tracking_only || !is_editable()"></md-datepicker>
+
+
+                </td>
+                <td>
+
+                    <md-datepicker md-max-date="today" name="Actual End" md-min-date="selected_bra.dt_actual_start" ng-model="selected_bra.dt_actual_end" ng-change="selected_bra.actual_end = selected_bra.dt_actual_end.toISOString()" ng-disabled="!selected_bra.is_ceac_tracking_only || !is_editable()"></md-datepicker>
+
+
+                </td>
+
+                <td>
+                    <select name="Status" ng-model="selected_bra.implementation_status_id"  class="form-control"
+                            ng-required="true"
+                           
+                            ng-options="option.Id as option.Name for option in implementation_status_id_options">
+                        <option value="">[Select Status]</option>
+                    </select>
+ 
+                </td>
+
+            </script>
+
+            <script type="text/ng-template" id="displayBeacTemplate">
+
+
+                <td>
+
+                    <a class="btn btn-info btn-sm" style="margin-right: 5px" ng-click="edit_beac(item)"><i class="fa fa-edit"></i></a>
+
+                </td>
+
+
+                <td>
+                    {{item.brgy_sort_order}} - {{item.lib_training_category_name}}
+
+                </td>
+
+
+
+                <td>
+
+                    {{item.plan_start | date:'MM/dd/yyyy'}}
+                </td>
+                <td>
+
+                    {{item.plan_end | date:'MM/dd/yyyy'}}
+                </td>
+
+
+                <td>
+
+                    {{item.catch_start | date:'MM/dd/yyyy'}}
+                </td>
+                <td>
+
+                    {{item.catch_end | date:'MM/dd/yyyy'}}
+                </td>
+
+
+
+
+                <td>
+                    {{item.actual_start | date:'MM/dd/yyyy'}}
+
+                </td>
+                <td>
+
+
+                    {{item.actual_end | date:'MM/dd/yyyy'}}
+                </td>
+
+
+                <td>
+
+                    {{item.lib_implementation_status_name}}
+                </td>
+
+            </script>
+
+            <ul>
+                <li ng-repeat="(key, errors) in praForm.$error track by $index">
+                    <strong>{{ key }}</strong> errors
+                    <ul>
+                        <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                    </ul>
+                </li>
+            </ul>
+
+
+
+
+
+
+
+
+
+        </div>
+    </form>
+</div>

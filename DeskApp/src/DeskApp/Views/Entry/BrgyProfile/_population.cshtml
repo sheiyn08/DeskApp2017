@@ -1,0 +1,287 @@
+﻿<form name="popForm">
+
+    <div class="panel panel-success">
+
+        <div class="panel panel-heading">
+            <h3>Population Profile</h3>
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+            <div flex="50">
+                <label>Total No. of Household</label>
+            </div>
+            <div flex="50">
+                <input  ng-app-max="{{ data.no_families }}"  type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_households" ng-model="data.no_households">
+            </div>
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex="50">
+                <label>Total No. of Families</label>
+            </div>
+            <div flex="50">
+                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_families" ng-model="data.no_families">
+            </div>
+        </div>
+
+
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label> No. of Male</label>
+            </div>
+            <div flex="50">
+
+                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_male" ng-model="data.no_male">
+
+            </div>
+
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label>No. of Female</label>
+            </div>
+            <div flex="50">
+
+                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_female" ng-model="data.no_female">
+
+
+            </div>
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label> No. of Male children ages 0-5 years old</label>
+            </div>
+            <div flex="50">
+
+                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_male0_5" ng-model="data.no_male0_5">
+
+
+            </div>
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+            <div flex="50">
+
+                <label>No. of Female children ages 0-5 years old</label>
+            </div>
+            <div flex="50">
+
+                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_female0_5" ng-model="data.no_female0_5">
+
+            </div>
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label>No. of Male elementary school aged (6-12 years old)</label>
+            </div>
+            <div flex="50">
+
+                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_male6_12" ng-model="data.no_male6_12">
+
+            </div>
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label>No. of Female elementary school aged (6-12 years old)</label>
+            </div>
+            <div flex="50">
+
+                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_female6_12" ng-model="data.no_female6_12">
+
+            </div>
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label> No. of Male secondary school aged (13-16 years old)</label>
+            </div>
+            <div flex="50">
+
+                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_male13_16" ng-model="data.no_male13_16">
+
+
+            </div>
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label> No. of Female secondary school aged (13-16 years old)</label>
+            </div>
+            <div flex="50">
+
+                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_female13_16" ng-model="data.no_female13_16">
+
+            </div>
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label>Total Male voting population</label>
+            </div>
+            <div flex="50">
+
+                <input   ng-app-max="{{ data.no_male }}"  type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_voting_male" ng-model="data.no_voting_male">
+
+            </div>
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label>Total Female voting population</label>
+            </div>
+            <div flex="50">
+
+                <input   ng-app-max="{{ data.no_female }}"  type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_voting_female" ng-model="data.no_voting_female">
+
+            </div>
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label>Total Male Labor Force</label>
+            </div>
+            <div flex="50">
+
+                <input   ng-app-max="{{ data.no_male }}"  type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_labor_male" ng-model="data.no_labor_male">
+
+            </div>
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+
+            <div flex="50">
+                <label>Total Female Labor Force</label>
+            </div>
+            <div flex="50">
+
+                <input   ng-app-max="{{ data.no_female }}"  type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_labor_female" ng-model="data.no_labor_female">
+
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+</form>
+
+<div class="panel panel-success">
+
+    <div class="panel panel-heading">
+        <h3>Indigenous People</h3>
+
+      
+    </div>
+
+
+    <div class="layout-row" layout-margin flex>
+        <div flex>
+
+        </div>
+        <div flex>
+            IP Group
+        </div>
+        <div flex>
+            Sitio
+        </div>
+        <div flex>
+            Total Households
+        </div>
+        <div flex>
+            Total Families
+        </div>
+        <div flex>
+            Male
+        </div>
+        <div flex>
+            Female
+        </div>
+
+    </div>
+
+
+    <div class="layout-row" layout-margin flex ng-repeat="equip in data.ip_group_in_areas">
+
+        <div flex>
+            <a class="btn btn-danger" ng-click="removeIpGroup($index)"><i class="fa fa-trash"></i></a>
+        </div>
+        <div flex>
+            {{equip.lib_ip_group.Name}}
+        </div>
+        <div flex>
+            {{equip.sitio}}
+        </div>
+        <div flex>
+            {{equip.household}}
+        </div>
+
+        <div flex>
+            {{equip.family}}
+        </div>
+        <div flex>
+            {{equip.male}}
+        </div>
+        <div flex>
+            {{equip.female}}
+        </div>
+    </div>
+
+    <form name="othersTrainingForm">
+        <div class="layout-row" layout-margin flex md-padding>
+            <div flex>
+                <a class="btn btn-success" ng-click="addIpGroup()" ng-disabled="!othersTrainingForm.$valid"><i class="fa fa-plus"></i></a>
+            </div>
+            <div flex>
+          
+                <select ng-model="groups.lib_ip_group" class="form-control"
+                       ng-options="option as option.Name for option in ip_group_id_options">
+                    <option value="">[Select IP Group]</option>
+                </select>
+
+            </div>
+            <div flex>
+                <input type="text" required name="Sito" ng-model="groups.sitio" class="form-control" />
+            </div>
+            <div flex>
+                <input  ng-app-max="{{ groups.family}}" type="number" required name="Total Households" ng-model="groups.household" class="form-control" />
+            </div>
+            <div flex>
+                <input type="number" required name="Total Families" ng-model="groups.family" class="form-control" />
+            </div>
+            <div flex>
+                <input type="number" required name="Total Households" ng-model="groups.male" class="form-control" />
+            </div>
+            <div flex>
+                <input type="number" required name="Total Households" ng-model="groups.female" class="form-control" />
+            </div>
+
+        </div>
+    </form>
+
+
+</div>
+

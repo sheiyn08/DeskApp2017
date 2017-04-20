@@ -1,0 +1,164 @@
+﻿<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h4>Talakayan Information</h4>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-1">
+                <label>Name of Activity</label>
+            </div>
+            <div class="col-md-6">
+                <textarea name="Name of Activity" class="form-control" ng-model="data.activity_name" required></textarea>
+                <br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <label>Talakayan Year</label>
+            </div>
+            <div class="col-md-2">
+                <select name="talakayan_yr" ng-model="data.talakayan_yr_id" class="form-control" ng-required="true"
+                        ng-change=""
+                        ng-options="option.Id as option.Name for option in talakayan_year_options">
+                    <option value="">[Select Year]</option>
+                </select>
+            </div>
+            <div class="col-md-4" show-errors='{showSuccess: true}' ng-hide="data.talakayan_yr_id == 0">
+                    <label>Talakayan Day (Start)</label>
+                    <md-datepicker name="talakayan_start_date" ng-model="dt_start_date" md-placeholder="Enter date" ng-change="data.talakayan_date_from = dt_start_date.toISOString()" ng-required="true" md-min-date="maxStartDate" md-max-date="maxEndDate"
+                                    ng-disabled="data.talakayan_yr_id == 4 || data.talakayan_yr_id == 5"></md-datepicker>
+            </div>
+            <div class="col-md-4" show-errors='{showSuccess: true}' ng-hide="data.talakayan_yr_id == 0">
+                <label>Talakayan Day (End)</label>
+                <md-datepicker name="talakayan_end_date" ng-model="dt_end_date" md-placeholder="Enter date" ng-change="data.talakayan_date_to = dt_end_date.toISOString()" ng-required="true" md-min-date="maxDate" md-max-date="maxEndDate"
+                                ng-disabled="data.talakayan_yr_id == 4 || data.talakayan_yr_id == 5"></md-datepicker>
+            </div> 
+        </div> <!--end of row-->
+   </div>     <!--end of panel body-->   
+</div> <!--end of panel-->
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h4>Survey Information</h4>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-1">
+                <label>Survey Version</label>
+            </div>
+            <div class="col-md-2">
+                <select name="survey_version" ng-model="data.year" class="form-control" ng-required="true"
+                        ng-options="option.Id as option.Name for option in survey_year">
+                    <option value="">[Select Year]</option>
+                </select>
+            </div>
+            <div class="col-md-4" show-errors='{showSuccess: true}'>
+                <label>Date Survey was conducted (Start)</label>
+                <md-datepicker name="survey_start_date" ng-model="dt_survey_start_date" md-placeholder="Enter date" ng-change="data.survey_date_from = dt_survey_start_date.toISOString()" md-min-date="maxStartDate" md-max-date="survey_maxEndDate" ng-required="true"></md-datepicker>
+            </div>
+            <div class="col-md-4" show-errors='{showSuccess: true}'>
+                <label>Date Survey was conducted (End)   </label>
+                <md-datepicker name="survey_end_date" ng-model="dt_survey_end_date" md-placeholder="Enter date" ng-change="data.survey_date_to = dt_survey_end_date.toISOString()" ng-required="true" md-min-date="survey_maxDate" md-max-date="survey_maxEndDate"></md-datepicker>
+            </div>
+        </div> <!--end of row-->
+
+    </div>     <!--end of panel body-->
+</div> <!--end of panel-->
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h4>Respondent's Basic Information</h4>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <label> Full Name <small style="color:red; font-style:italic">(Optional)</small></label>
+                <input type="text" class="form-control" ng-model="data.person_name">
+            </div>
+            <div class="col-md-4">
+                <label for="age">Age <small style="color:red; font-style:italic">(As of last birthday)</small></label>
+                <input type="number" name="Age" class="form-control" placeholder="(Enter age)" min="1" max="150" required ng-model="data.age">
+            </div>
+            <div class="col-md-4">
+                <label>Sex</label>
+                <select name="Sex" ng-model="data.is_male" class="form-control" ng-required="true"
+                        ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Male'},{'value':false,'text':'Female'}]">
+                    <option value="">[Sex]</option>
+                </select>
+            </div>
+        </div> <!--end of row-->
+        <br />
+        <div class="row">
+            <div class="col-md-3">
+                <label>Current NCDDP Cycle ID</label>
+                <select name="cycle_id" ng-model="data.cycle_id" id="cycle_code" class="form-control"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in cycle_id_options">
+                    <option value="">[Select Cycle]</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Belongs to an IP Group?</label>
+                <select name="IP Group" ng-model="data.is_ip" class="form-control" ng-required="true"
+                        ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]">
+                    <option value="">[Yes/No]</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Pantawid Pamilya beneficiary?</label>
+                <select name="Pantawid" ng-model="data.is_pantawid" class="form-control" ng-required="true"
+                        ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]">
+                    <option value="">[Yes/No]</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>SLP beneficiary?</label>
+                <select name="SLP" ng-model="data.is_slp" class="form-control" ng-required="true"
+                        ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]">
+                    <option value="">[Yes/No]</option>
+                </select>
+            </div>
+        </div> <!--end of row-->
+        <br />
+        <div class="row">
+            <div class="col-md-9">
+                <label for="name">Location</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <select name="Region" ng-model="data.region_code" id="region_code" class="form-control"
+                        ng-required="true"
+                        ng-disabled="status"
+                        ng-options="option.Id as option.Name for option in region_code_options">
+                    <option value="">[Select Region]</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
+                        ng-disabled="data.region_code == null || status"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in prov_code_options">
+                    <option value="">[Select Province]</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="Municipality" ng-model="data.city_code" id="city_code" class="form-control"
+                        ng-disabled="data.prov_code == null || status"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in city_code_options">
+                    <option value="">[Select Municipality]</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="Barangay" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                        ng-disabled="data.city_code == null || status"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                    <option value="">[Select Barangay]</option>
+                </select>
+            </div>
+        </div> <!--end of row-->
+
+    </div>     <!--end of panel body-->
+</div> <!--end of panel-->

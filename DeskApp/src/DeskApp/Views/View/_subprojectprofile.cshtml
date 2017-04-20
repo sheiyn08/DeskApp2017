@@ -1,0 +1,223 @@
+﻿
+
+
+
+@model PagedList.IPagedList<WebApp.DataLayer.Entities.spi_profile>
+@using PagedList;
+@{Layout = null;}
+@using PagedList.Mvc;
+
+
+
+
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">  Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount || @Model.TotalItemCount Records</h3>
+
+        <form>
+            <label>Records per page</label>
+            <select class="pagesize" name="FiltPages" id="FiltPages" onchange="filter()">
+                <option value="10"></option>
+
+                <option value="10">10</option>
+
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+
+
+        </form>
+
+        <div class="box-tools">
+            @Html.PagedListPager(Model, page => Url.Action("_subprojectprofile",
+    new
+    {
+        item = ViewBag.FilterModel,
+        page,
+
+
+    }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "result" }))
+
+
+
+        </div>
+
+    </div>
+
+    <br />
+    <div class="box-body no-padding">
+
+
+        <table class="table table-striped">
+            <tr><th></th>
+                <th>
+                    Fund Source
+                </th>
+                <th>
+                    Cycle
+                </th>
+                <th>
+                    Region
+                </th>
+                <th>
+                    Province
+                </th>
+                <th>
+                    Municipality
+                </th>
+                <th>
+                    Barangay
+                </th>
+
+                <th>
+                    proj statement
+                </th>
+                <th>
+                    proj subcategory
+                </th>
+
+                <th>
+                    proj purpose
+                </th>
+      
+                <th>
+                    mibf refno
+                </th>
+                <th>
+                    mibf rank
+                </th>
+                <th>
+                    date started
+                </th>
+                <th>
+                    date completed
+                </th>
+
+
+
+         
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+
+                        <a href="@Url.Action("spi_management", "View", new { id = @item.spi_profile_id})" class="btn btn-success"><i class="fa fa-list"></i></a>
+                        @if (!User.IsInRole("RMES"))
+                        {
+                        <a onclick="Delete(this.id)" class="btn btn-warning" id="@item.spi_profile_id"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lib_fund_source.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lib_cycle.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lib_region.region_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lib_province.prov_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lib_city.city_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lib_brgy.brgy_name)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.proj_statement)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.proj_subcategory)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.proj_purpose)
+                    </td>
+           
+                    <td>
+                        @Html.DisplayFor(modelItem => item.mibf_refno)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.mibf_rank)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.date_started)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.date_completed)
+                    </td>
+
+
+                  
+                </tr>
+            }
+
+        </table>
+
+
+    </div><!-- /.box-body -->
+</div><!-- /.box -->
+
+
+
+<script>
+
+    function Delete(id) {
+        var con = confirm("Do you want to delete this record?")
+
+
+
+        console.log(id);
+
+        $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/loading-bars.gif")" /></h1> Processing...' });
+
+
+
+        if (con == true) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteSPIProfile", "Delete")', // we are calling json method
+                dataType: 'json',
+                data: { id: id },
+                success: function (states) {
+                    setTimeout($.unblockUI, 100);
+
+
+                    if(states == true)
+                    {
+                        window.location.href = '/View/SubProjectProfile'
+                    }
+                    else
+                    {
+                        alert(states);
+                    }
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve data.' + ex);
+                }
+            });
+
+        }
+        else
+
+        {
+            setTimeout($.unblockUI, 100);
+
+
+        }
+    }
+
+
+</script>

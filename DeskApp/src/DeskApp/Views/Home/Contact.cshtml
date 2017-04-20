@@ -1,0 +1,108 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+    <style>
+        md-backdrop {
+            position: fixed;
+        }
+    </style>
+
+</head>
+
+<body layout="column">
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+        <md-toolbar md-scroll-shrink>
+            <div class="md-toolbar-tools">Filter Records</div>
+        </md-toolbar>
+
+    
+    <md-content>
+        <md-container layout="row">
+
+         
+                    <div flex="100" layout="row" layout-margin >
+
+                        <div flex="25">
+                            <label for="Region:_">Region: </label>
+
+                            <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in region_code_options">
+                                <option value="">[Select Region]</option>
+                            </select>
+
+
+                        </div>
+
+                        <div flex="25">
+                            <label for="Province:_">Province: </label>
+                            <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                    ng-disabled="data.region_code == null"
+                                    ng-options="option.Id as option.Name for option in prov_code_options">
+                                <option value="">[Select Province]</option>
+                            </select>
+                        </div>
+
+                        <div flex="25">
+                            <label for="Municipality:_">Municipality: </label>
+
+                            <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                                    ng-disabled="data.prov_code == null"
+                                    ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                                <option value="">[Select Municipality]</option>
+                            </select>
+                        </div>
+
+                        <div flex="25">
+                            <label for="Barangay:_">Barangay: </label>
+                            <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                    ng-disabled="data.city_code == null"
+                                    ng-options="option.Id as option.Name for option in brgy_code_options">
+                                <option value="">[Select Barangay]</option>
+                            </select>
+                        </div>
+                    </div>
+               
+         
+
+
+ 
+        </md-container>
+    </md-content>
+
+
+       
+        <md-content>
+
+            @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+        </md-content>
+
+        <md-content>
+            <md-container>
+                @Html.Partial("~/Views/View/_grievances.cshtml")
+            </md-container>
+        </md-content>
+
+    </div>
+
+    <!--
+    Copyright 2016 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+    -->
+
+
+
+</body>
+
+
+@section Scripts {
+    <script src="~/scripts/app/grievance/grievance_index.js"></script>
+    <script src="~/scripts/directives/paging.js"></script>
+
+}

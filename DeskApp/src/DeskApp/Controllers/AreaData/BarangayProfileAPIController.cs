@@ -315,7 +315,62 @@ namespace DeskApp.Controllers
         }
 
 
+        [Route("api/offline/v1/barangay_profile/sync_push")]
+        public async Task<IActionResult> Push(brgy_profile model, bool? api)
+        {
+            var record = db.brgy_profile.AsNoTracking().FirstOrDefault(x => x.brgy_profile_id == model.brgy_profile_id);
+            
+            if (record == null)
+            {
+                if (api != true)
+                {
+                    model.push_status_id = 2;
+                    model.push_date = null;
+                }
 
+                model.created_by = 0;
+                model.created_date = DateTime.Now;
+                model.approval_id = 3;
+                model.is_deleted = false;
+
+                db.brgy_profile.Add(model);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                model.push_date = null;
+
+                if (api != true)
+                {
+                    model.push_status_id = 3;
+                }
+
+                model.brgy_profile_id = record.brgy_profile_id;                
+                model.created_by = record.created_by;
+                model.created_date = record.created_date;
+
+                db.Entry(model).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+        }
 
 
         [Route("api/offline/v1/barangay_profile/eca/get")]
@@ -562,7 +617,7 @@ namespace DeskApp.Controllers
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-                        HttpResponseMessage response = client.PostAsync("api/offline/v1/barangay_profile/save", data).Result;
+                        HttpResponseMessage response = client.PostAsync("api/offline/v1/barangay_profile/sync_push", data).Result;
 
                         if (response.IsSuccessStatusCode)
                         {
@@ -587,7 +642,7 @@ namespace DeskApp.Controllers
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-                        HttpResponseMessage response = client.PostAsync("api/offline/v1/barangay_profile/save", data).Result;
+                        HttpResponseMessage response = client.PostAsync("api/offline/v1/barangay_profile/sync_push", data).Result;
 
                         if (response.IsSuccessStatusCode)
                         {

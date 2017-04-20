@@ -1,0 +1,1959 @@
+﻿
+<div class="panel panel-body">
+
+    <div class="col-md-12">
+        <h3>Municipal Financial Profile Report</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <h5><strong>Region: {{selected_region.Name}}</strong></h5>
+            </div>
+            <div class="col-md-3">
+                <h5><strong>Province: {{selected_province.Name}}</strong></h5>
+            </div>
+            <div class="col-md-3">
+                <h5><strong>Municipality: {{selected_city.Name}}</strong></h5>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <h5><strong>Talakayan Date: {{data.talakayan_date_start}}</strong></h5>
+            </div>
+            <div class="col-md-3">
+                <h5><strong>Current NCDDP Cycle: {{selected_cycle_id.Name}}</strong></h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <h5><strong>2015 Population: {{MLGUData.population_2015 | number}}</strong></h5>
+            </div>
+        </div>
+    </div>
+       
+
+    <div class="row">
+
+    </div>
+    <br />
+
+    <div style="overflow:auto">
+        <table class="table table-bordered">
+
+            <tr style="background-color:cadetblue">
+                <td rowspan="2" align="center" style="vertical-align:middle">
+                    <p style="color:white"><strong>REVENUE SOURCES</strong></p>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2009</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2010</strong>
+                </td>
+                <td colspan="4" align="center" style="vertical-align:middle">
+                    <strong>2011</strong>
+                </td>
+                <td colspan="4" align="center" style="vertical-align:middle">
+                    <strong>2012</strong>
+                </td>
+                <td colspan="4" align="center" style="vertical-align:middle">
+                    <strong>2013</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2014</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2015</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2016</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2017</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2018</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2019</strong>
+                </td>
+            </tr>
+
+            <tr style="background-color:lightblue">
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>DOF-BLGF</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>DSWD</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>DOF-BLGF</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>DSWD</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>DOF-BLGF</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>DSWD</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>IRA Share</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_ira_share_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_ira_share_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_ira_share_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_ira_share_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_ira_share_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_ira_share_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_ira_share_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_ira_share_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_ira_share_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_ira_share_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_ira_share | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_ira_share_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Locally-sourced Revenues</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_locally_sourced_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_locally_sourced_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.locally_shared_revenues | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_locally_sourced_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.locally_shared_revenues | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_locally_sourced_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.locally_shared_revenues | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_locally_sourced_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_locally_sourced_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_locally_sourced_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_locally_sourced_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_locally_sourced_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_locally_sourced_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_locally_sourced | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_locally_sourced_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Other Revenues (include sources)</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_other_revenues_total_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_other_revenues_total_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_other_revenues_total_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_other_revenues_total_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_other_revenues_total_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_other_revenues_total_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_other_revenues_total_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_other_revenues_total_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_other_revenues_total_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_other_revenues_total_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_other_revenues_total | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_other_revenues_total_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Total LGU Income</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_total_lgu_income_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_total_lgu_income_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_total_lgu_income_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_total_lgu_income_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_total_lgu_income_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_total_lgu_income_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_total_lgu_income_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_total_lgu_income_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_total_lgu_income_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_total_lgu_income_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_total_lgu_income | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_total_lgu_income_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Total LGU Income per Capita</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_total_lgu_income_per_capita_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_total_lgu_income_per_capita_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.total_lgu_income / MLGUData.population_2015 | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_total_lgu_income_per_capita_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.total_lgu_income / MLGUData.population_2015 | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_total_lgu_income_per_capita_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.total_lgu_income / MLGUData.population_2015 | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_total_lgu_income_per_capita_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_total_lgu_income_per_capita_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_total_lgu_income_per_capita_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_total_lgu_income_per_capita_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_total_lgu_income_per_capita_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_total_lgu_income_per_capita_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_total_lgu_income_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_total_lgu_income_per_capita_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Development Fund</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_devt_fund_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_devt_fund_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.ira_share * 0.2 | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_devt_fund_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.ira_share * 0.2 | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_devt_fund_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.ira_share * 0.2 | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_devt_fund_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_devt_fund_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_devt_fund_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_devt_fund_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_devt_fund_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_devt_fund_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_devt_fund | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_devt_fund_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Development Fund per Capita</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_rev_devt_fund_per_capita_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_rev_devt_fund_per_capita_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{(RevenueandExpenditures2011.ira_share * 0.2) / MLGUData.population_2015 | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_rev_devt_fund_per_capita_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{(RevenueandExpenditures2012.ira_share * 0.2) / MLGUData.population_2015 | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_rev_devt_fund_per_capita_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    <i>Not Applicable</i>
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{(RevenueandExpenditures2013.ira_share * 0.2) / MLGUData.population_2015 | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_rev_devt_fund_per_capita_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_rev_devt_fund_per_capita_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_rev_devt_fund_per_capita_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_rev_devt_fund_per_capita_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_rev_devt_fund_per_capita_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_rev_devt_fund_per_capita_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_devt_fund_per_capita | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_rev_devt_fund_per_capita_source}}
+                </td>
+            </tr>
+        </table>
+    </div>
+        <br /><br />
+    <div style="overflow:auto">
+        <table class="table table-bordered">
+
+            <tr style="background-color:cadetblue">
+                <td rowspan="2" align="center" style="vertical-align:middle">
+                    <p style="color:white"><strong>SECTORAL EXPENDITURES</strong></p>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2009</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2010</strong>
+                </td>
+                <td colspan="3" align="center" style="vertical-align:middle">
+                    <strong>2011</strong>
+                </td>
+                <td colspan="3" align="center" style="vertical-align:middle">
+                    <strong>2012</strong>
+                </td>
+                <td colspan="3" align="center" style="vertical-align:middle">
+                    <strong>2013</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2014</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2015</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2016</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2017</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2018</strong>
+                </td>
+                <td colspan="2" align="center" style="vertical-align:middle">
+                    <strong>2019</strong>
+                </td>
+            </tr>
+
+            <tr style="background-color:lightblue">
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>DOF-BLGF</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>DOF-BLGF</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>DOF-BLGF</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+
+                <td align="center" style="vertical-align:middle">
+                    <strong>MLGU</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>Source</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>General Public Services</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_gen_public_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_gen_public_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.expenditures_gen_public_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_gen_public_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.expenditures_gen_public_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_gen_public_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.expenditures_gen_public_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_gen_public_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_gen_public_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_gen_public_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_gen_public_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_gen_public_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_gen_public_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_gen_public | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_gen_public_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Education, Culture, Sports, and Manpower Development</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_educ_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_educ_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.expenditures_educ_culture_etc | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_educ_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.expenditures_educ_culture_etc | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_educ_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.expenditures_educ_culture_etc | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_educ_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_educ_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_educ_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_educ_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_educ_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_educ_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_educ | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_educ_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Health Services</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_health_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_health_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.expenditures_health_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_health_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.expenditures_health_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_health_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.expenditures_health_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_health_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_health_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_health_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_health_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_health_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_health_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_health | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_health_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Labor and Employment</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_labor_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_labor_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.expenditures_labor_and_employment | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_labor_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.expenditures_labor_and_employment | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_labor_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.expenditures_labor_and_employment | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_labor_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_labor_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_labor_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_labor_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_labor_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_labor_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_labor | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_labor_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Housing and Community Development</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_housing_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_housing_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.expenditures_housing_comm_devt | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_housing_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.expenditures_housing_comm_devt | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_housing_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.expenditures_housing_comm_devt | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_housing_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_housing_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_housing_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_housing_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_housing_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_housing_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_housing | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_housing_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Social Welfare Services</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_social_welfare_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_social_welfare_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.expenditures_social_welfare_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_social_welfare_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.expenditures_social_welfare_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_social_welfare_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.expenditures_social_welfare_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_social_welfare_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_social_welfare_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_social_welfare_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_social_welfare_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_social_welfare_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_social_welfare_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_social_welfare| currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_social_welfare_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Economic Services</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_economic_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_economic_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.expenditures_economic_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_economic_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.expenditures_economic_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_economic_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.expenditures_economic_services | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_economic_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_economic_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_economic_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_economic_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_economic_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_economic_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_economic | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_economic_source}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Other Purposes</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2009_ex_other_purposes_source}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2010_ex_other_purposes_source}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2011.expenditures_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2011_ex_other_purposes_source}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2012.expenditures_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2012_ex_other_purposes_source}}
+                </td>
+                @*2013*@
+                <td align="right" style="vertical-align:middle">
+                    {{RevenueandExpenditures2013.expenditures_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2013_ex_other_purposes_source}}
+                </td>
+                @*2014*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2014_ex_other_purposes_source}}
+                </td>
+                @*2015*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2015_ex_other_purposes_source}}
+                </td>
+                @*2016*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2016_ex_other_purposes_source}}
+                </td>
+                @*2017*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2017_ex_other_purposes_source}}
+                </td>
+                @*2018*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2018_ex_other_purposes_source}}
+                </td>
+                @*2019*@
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_other_purposes | currency:"₱"}}
+                </td>
+                <td align="right" style="vertical-align:middle">
+                    {{MLGUData.mlgu2019_ex_other_purposes_source}}
+                </td>
+            </tr>
+
+
+        </table>
+    </div>
+        <br /><br />
+    <div>
+        <table class="table table-bordered">
+
+            <tr style="background-color:cadetblue">
+                <td colspan="5" style="vertical-align:middle">
+                    <p style="color:white"><strong>LOCAL GOVERNANCE PERFORMANCE MANAGEMENT SYSTEM (LGPMS)</strong></p>
+                </td>
+            </tr>
+
+            <tr style="background-color:lightblue">
+                <td align="center" style="vertical-align:middle">
+                    <strong>Areas</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>2009</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>2010</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>2011</strong>
+                </td>
+                <td align="center" style="vertical-align:middle">
+                    <strong>2012</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Administrative Governance</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.administrative_governance_2009}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.administrative_governance_2010}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.administrative_governance_2011}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.administrative_governance_2012}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Social Governance</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.social_governance_2009}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.social_governance_2010}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.social_governance_2011}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.social_governance_2012}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Economic Governance</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.economic_governance_2009}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.economic_governance_2010}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.economic_governance_2011}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.economic_governance_2012}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Environmental Governance</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.environmental_governance_2009}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.environmental_governance_2010}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.environmental_governance_2011}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.environmental_governance_2012}}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Valuing Fundamentals of Good Governance</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.valuing_fundamentals_of_good_gov_2009}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.valuing_fundamentals_of_good_gov_2010}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.valuing_fundamentals_of_good_gov_2011}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.valuing_fundamentals_of_good_gov_2012}}
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align:middle">
+                    <strong>Overall Performance</strong>
+                </td>
+                @*2009*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.overall_performance_index_2009}}
+                </td>
+                @*2010*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.overall_performance_index_2010}}
+                </td>
+                @*2011*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.overall_performance_index_2011}}
+                </td>
+                @*2012*@
+                <td align="right" style="vertical-align:middle">
+                    {{LGPMSlist.overall_performance_index_2012}}
+                </td>
+            </tr>
+
+        </table>
+    </div>
+        <br /> <br />
+        <div class="row">
+            <div class="col-xs-6">
+                <label>Certified Correct By:</label>
+
+                <br />
+                <br />
+                <br />
+                {{prepared_by}}
+
+                Signature over Printed Name
+            </div>
+
+            <div class="col-xs-6">
+
+
+            </div>
+        </div>
+        <div class="row">
+
+            <br />
+            <br />
+
+
+            <div class="col-xs-6">
+
+                Position
+            </div>
+
+            <div class="col-xs-6">
+
+
+            </div>
+        </div>
+
+    </div>

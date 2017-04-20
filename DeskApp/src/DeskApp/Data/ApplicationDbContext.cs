@@ -204,6 +204,8 @@ namespace DeskApp.Data
         public DbSet<ceac_tracking> ceac_tracking { get; set; }
 
         public DbSet<ceac_list> ceac_list { get; set; }
+
+        public DbSet<act_report_other_activities> act_report_other_activities { get; set; }
         #endregion
 
 

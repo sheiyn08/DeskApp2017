@@ -1,0 +1,278 @@
+
+
+
+ <div class="panel panel-success">
+
+            <div class="panel-heading">
+                <h4>Participatory Resource Allocation</h4>
+             
+
+
+  <p>Please Encode <strong>According to Rank Order (First - Last)</strong></p>
+            </div>
+ 
+
+<form name="praForm">
+
+ 
+  
+
+
+        <table class="table zui-table zui-table-horizontal zui-table-highlight">
+            <thead>
+                <tr>
+                    <th>
+
+                    </th>
+
+                    <th>
+                        Rank
+                    </th>
+                    <th>
+                        Project Name
+                    </th>
+                    <th>
+                        Lead
+                    </th>
+                    <th>
+                        Priority
+                    </th>
+                    <th>
+                        Project Type
+                    </th>
+                    <th>
+                        Grant Amount
+                    </th>
+                    <th>
+                        LCC Amount
+                    </th>
+                </tr>
+
+
+
+            </thead>
+
+
+            <tbody>
+                <tr ng-repeat="item in list_pra | orderBy:'rank'" ng-include="getPraTemplate(item)"></tr>
+            </tbody>
+
+
+            <tr ng-show="new_pra">
+                <td>
+
+                    <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="add_pra()" ng-disabled="!praForm.$valid"><i class="fa fa-save"></i></a>
+
+                    <a class="btn btn-warning btn-sm" style="margin-right: 5px" ng-click="reset_pra()"><i class="fa fa-close"></i></a>
+
+
+
+                </td>
+
+                <td>
+                 {{new_pra_record.rank}}
+                </td>
+                <td>
+                    @*<input ng-model="new_pra_record.project_name" class="form-control" ng-required="new_pra" name="Project Name" />*@
+
+                    <md-input-container class="md-block" flex="100">
+
+                        <textarea   ng-model="new_pra_record.project_name" md-maxlength="2000" rows="5" name="Project Name"
+                                 ng-required="new_pra"
+                                   cols="100"
+                                  md-select-on-focus="" flex="100"></textarea>
+
+                    </md-input-container>
+
+                </td>
+
+                <td>
+                    <select name="Lead Barangay" ng-model="new_pra_record.brgy_code" id="brgy_code" class="form-control"
+                            ng-required="new_pra"
+                            ng-options="option.Id as option.Name for option in brgy_code_options">
+                        <option value="">[Select Lead Barangay]</option>
+                    </select>
+
+                </td>
+
+                <td>
+
+
+
+                    <md-radio-group ng-model="new_pra_record.is_priority" ng-required="new_pra" name="Is Prioritized">
+                        <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                        <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                    </md-radio-group>
+
+                   
+                </td>
+                <td>
+                    <select name="Project Type" ng-model="new_pra_record.project_type_id" id="brgy_code" class="form-control"
+                            ng-required="new_pra"
+                            ng-options="option.Id as option.Name for option in project_type_id_options">
+                        <option value="">[Select Project Type]</option>
+                    </select>
+
+                </td>
+                <td>
+                    <input ng-model="new_pra_record.kc_amount" class="form-control" ng-required="new_pra" type="number" name="Grant Amount" />
+                </td>
+                <td>
+                    <input ng-model="new_pra_record.lcc_amount" class="form-control" ng-required="new_pra" type="number" name="LCC Amount" />
+                </td>
+            </tr>
+
+
+        </table>
+
+
+        <ul>
+            <li ng-repeat="(key, errors) in praForm.$error track by $index">
+                <strong>{{ key }}</strong> errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+
+
+        <md-button class="md-primary md-raised" ng-click="addNewPra()" ng-show="!new_pra" ng-disabled="edt_pra">
+            Add New Prioritization
+        </md-button>
+
+
+        <script type="text/ng-template" id="displayPraTemplate">
+            <td>
+
+                <a class="btn btn-info btn-sm" style="margin-right:5px" ng-click="editPra(item)"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-danger btn-sm" style="margin-right:5px" ng-click="remove_pra(item.mibf_prioritization_id, $index)"><i class="fa fa-remove"></i></a>
+
+            </td>
+
+            <td>
+                {{item.rank}}
+
+            </td>
+            <td>
+                {{item.project_name}}
+
+            </td>
+
+            <td>
+                <select disabled name="Lead Barangay" ng-model="item.brgy_code" id="brgy_code" class="form-control"
+                      
+                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                    <option value="">[Select Lead Barangay]</option>
+                </select>
+
+            </td>
+
+
+            <td>
+
+                <md-radio-group ng-model="item.is_priority" disabled>
+                    <md-radio-button data-ng-value="true" class="md-primary" disabled>Yes</md-radio-button>
+                    <md-radio-button data-ng-value="false" disabled> No </md-radio-button>
+
+                </md-radio-group>
+
+            </td>
+            <td>
+
+                <select disabled ng-model="item.project_type_id" id="brgy_code" class="form-control"
+                        ng-options="option.Id as option.Name for option in project_type_id_options">
+                    <option value="">[Select Project Type]</option>
+                </select>
+            </td>
+            <td>
+                {{item.kc_amount}}
+
+            </td>
+            <td>
+                {{item.lcc_amount}}
+            </td>
+
+
+
+
+        </script>
+
+
+    <script type="text/ng-template" id="editPraTemplate">
+
+            <td>
+
+                <a class="btn btn-success btn-sm" style="margin-right:5px" ng-click="save_pra($index)" ng-disabled="!praForm.$valid"><i class="fa fa-save"></i></a>
+
+                <a class="btn btn-warning btn-sm" style="margin-right:5px" ng-click="reset_pra()"><i class="fa fa-close"></i></a>
+
+
+
+            </td>
+
+
+            <td>
+                {{selected_pra.rank}}
+                 
+            </td>
+            <td>
+                   
+                <md-input-container class="md-block" flex="100">
+
+                    <textarea  ng-model="selected_pra.project_name" md-maxlength="2000" rows="5" name="Project Name"
+                              ng-required="edit_pra"
+                              cols="100"
+                              md-select-on-focus="" flex="100"></textarea>
+
+                </md-input-container>
+            </td>
+
+        <td>
+            <select name="Lead Barangay" ng-model="selected_pra.brgy_code" id="brgy_code" class="form-control"
+                    ng-required="edit_pra"
+                    ng-options="option.Id as option.Name for option in brgy_code_options">
+                <option value="">[Select Lead Barangay]</option>
+            </select>
+
+        </td>
+
+
+            <td>
+
+
+
+                <md-radio-group ng-model="selected_pra.is_priority" ng-required="edit_pra" name="Is Prioritized">
+                    <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                    <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                </md-radio-group>
+
+
+            </td>
+            <td>
+                <select name="Project Type" ng-model="selected_pra.project_type_id" id="brgy_code" class="form-control"
+                        ng-required="edit_pra"
+                        ng-options="option.Id as option.Name for option in project_type_id_options">
+                    <option value="">[Select Project Type]</option>
+                </select>
+
+            </td>
+            <td>
+                <input ng-model="selected_pra.kc_amount" class="form-control" ng-required="edit_pra" type="number" name="Grant Amount" />
+            </td>
+            <td>
+                <input ng-model="selected_pra.lcc_amount" class="form-control" ng-required="edit_pra" type="number" name="LCC Amount" />
+            </td>
+
+
+        </script>
+
+
+
+
+    
+</form>
+
+
+</div>

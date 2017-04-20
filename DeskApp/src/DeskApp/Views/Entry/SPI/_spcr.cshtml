@@ -1,0 +1,89 @@
+﻿
+
+<md-content>
+
+
+    <div layout="row" layout-padding flex="100">
+
+        <div flex></div>
+        <div flex>Target</div>
+        <div flex>Actual</div>
+    </div>
+
+
+    <md-divider></md-divider>
+
+    <div layout="row" layout-padding flex="100">
+
+        <div flex>Households</div>
+        <div flex><input type="number" name="No of HH" class="form-control" ng-model="data.NoOfHH" ng-required="data.physical_status_id ==1"/>
+        </div>
+        <div flex><input type="number" name="No of HH (Target)" class="form-control" ng-model="data.NoOfHHActual" ng-required="data.physical_status_id ==1" ng-disabled="data.physical_status_id!=1"/>
+        </div>
+    </div>
+
+
+    <md-divider></md-divider>
+    <div layout="row" layout-padding flex="100">
+
+        <div flex>Families</div>
+        <div flex>
+            <input type="number" class="form-control" name="No of Families" ng-model="data.no_target_families" ng-required="data.physical_status_id ==1" />
+        </div>
+        <div flex>
+            <input type="number" class="form-control" name="No of Families (Actual)" ng-model="data.no_actual_families" ng-required="data.physical_status_id ==1"  ng-disabled="data.physical_status_id!=1" />
+        </div>
+    </div>
+
+
+ 
+    <md-divider></md-divider>
+ 
+    <div layout="row" layout-padding flex="100">
+
+        <div flex>Pantawid Families</div>
+        <div flex>
+            <input type="number" class="form-control" name="No of Pantawid Families" ng-model="data.no_target_pantawid_families" ng-required="data.physical_status_id ==1" />
+        </div>
+        <div flex>
+            <input type="number" class="form-control"name="No of Pantawid Families (Actual)" ng-model="data.no_actual_pantawid_families" ng-required="data.physical_status_id ==1" ng-disabled="data.physical_status_id!=1"/>
+        </div>
+    </div>
+
+
+
+    <md-divider></md-divider>
+
+
+
+    <div layout="row" layout-padding flex="100">
+
+        <div flex>SLP Families</div>
+        <div flex>
+            <input type="number" class="form-control" name="No of SLP Families" ng-model="data.no_target_slp_families"  ng-required="data.physical_status_id ==1"/>
+        </div>
+        <div flex>
+            <input type="number" class="form-control"name="No of SLP Families (Actual)" ng-model="data.no_actual_slp_families" ng-required="data.physical_status_id ==1" ng-disabled="data.physical_status_id!=1"/>
+        </div>
+    </div>
+
+
+
+    <md-divider></md-divider>
+
+
+    <div layout="row" layout-padding flex="100">
+
+        <div flex>IP Families</div>
+        <div flex>
+            <input type="number" class="form-control" name="No of IP Families" ng-model="data.no_target_ip_families"  ng-required="data.physical_status_id ==1"/>
+        </div>
+        <div flex>
+            <input type="number" class="form-control" name="No of IP Families (Actual)" ng-model="data.no_actual_ip_families" ng-required="data.physical_status_id ==1"  ng-disabled="data.physical_status_id !=1"/>
+        </div>
+    </div>
+
+
+
+    <md-divider></md-divider>
+</md-content>

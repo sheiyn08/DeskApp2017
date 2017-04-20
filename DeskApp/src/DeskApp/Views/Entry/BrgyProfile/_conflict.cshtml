@@ -1,0 +1,101 @@
+﻿
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>Conflict Affected/Pantawid Pamiya and SLP Beneficiaries</h3>
+    </div>
+
+    <div layout="row" layout-margin flex="100">
+        <div flex="50">
+            <label>   Is the barangay affected by armed conflict?</label>
+        </div>
+        <div flex="50">
+            <div flex="50">
+                <md-checkbox aria-label="Checkbox 1" ng-model="data.is_armedconflict" ng-change="data.is_brgyaffected = data.is_armedconflict" id="is_isolated">
+                    {{ data.is_brgyaffected == true ? "Yes" : "No" }}
+                </md-checkbox>
+            </div>
+        </div>
+    </div>
+
+    <div layout="row" layout-margin flex="100">
+        <div flex="50">
+            <label>Affected by any of the following Peace and Social Cohesion Issues?</label>
+        </div>
+        <div flex="50" layout="row">
+            <div flex="50" layout="column">
+
+                @*<md-checkbox ng-model="data.is_armedconflict" ng-checked="true" label="md-checkbox">{{data.is_armedconflict}}</md-checkbox>*@
+
+                @*<md-checkbox ng-model="data.is_armedconflict" aria-label="Checkbox 1" ng-disabled="">
+                        Armed Conflict: {{ data.is_armedconflict == true ? "Yes" : "No" }}
+                    </md-checkbox>*@
+
+                <md-checkbox ng-model="data.is_poldispute" aria-label="Checkbox 1">
+                    Political and extra judicial killing: {{ data.is_poldispute == true ? "Yes" : "No" }}
+                </md-checkbox>
+                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_genderviolence" id="is_genderviolence">Family and gender-based violence</md-checkbox>
+                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_rido_war" id="is_rido_war">RIDO or clan wars/Tribal wars or 'pangayao'</md-checkbox>
+                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_crime" id="is_crime">Crime</md-checkbox>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex="50">
+            <label> Please give additional details of the armed conflict area</label>
+        </div>
+        <md-input-container class="md-block" flex="50">
+
+            <textarea name="final" ng-model="data.baragay_additiondetails" md-maxlength="2000" rows="5"
+                      cols="100"
+                      ng-required="data.is_armedconflict == true"
+                      md-select-on-focus="" flex="100"></textarea>
+
+        </md-input-container>
+    </div>
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex="50">
+            <label>No. of Pantawid Pamilya household beneficiaries in the barangay</label>
+        </div>
+        <div flex="50">
+            <input type="number" ng-app-max="{{ data.no_households }}" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_households" ng-model="data.no_pantawid_household">
+        </div>
+    </div>
+
+    <div layout="row" layout-margin flex="100">
+        <div flex="50">
+            <label>No. of Pantawid Pamilya family beneficiaries in the barangay</label>
+        </div>
+        <div flex="50">
+            <input type="number" ng-app-max="{{ data.no_households }}" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_households" ng-model="data.no_pantawid_family">
+        </div>
+    </div>
+
+    <div layout="row" layout-margin flex="100">
+        <div flex="50">
+            <label>No. of SLP household beneficiaries in the barangay</label>
+        </div>
+        <div flex="50">
+            <input type="number" ng-app-max="{{ data.no_households }}" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_households" ng-model="data.no_slp_household">
+        </div>
+    </div>
+
+    <div layout="row" layout-margin flex="100">
+        <div flex="50">
+            <label>No. of SLP family beneficiaries in the barangay</label>
+        </div>
+        <div flex="50">
+            <input type="number" ng-app-max="{{ data.no_households }}" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_households" ng-model="data.no_slp_family">
+        </div>
+    </div>
+
+
+</div>

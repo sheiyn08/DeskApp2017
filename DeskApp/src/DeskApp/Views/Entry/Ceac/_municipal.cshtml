@@ -1,0 +1,265 @@
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h4>Municipal Ceac Tracking</h4>
+        <p>
+            Ensure that you do not commit mistake when encoding PLANNED Dates, once encoded,<strong> it cannot be replaced.</strong>
+            Instead, update the CATCH UP PLAN Dates
+        </p>
+
+        <br />
+        <label>CYCLE STATUS:</label>
+
+
+        <select name="Status" ng-model="main.implementation_status_id" class="form-control"
+                ng-required="true"
+                ng-change="save_main()"
+                ng-options="option.Id as option.Name for option in implementation_status_id_options">
+            <option value="">[Select Status]</option>
+        </select>
+
+
+    </div>
+
+    <form name="praForm">
+
+
+
+
+        <table class="table table-responsive">
+            <thead>
+
+                <tr>
+
+
+                    <th>
+
+                    </th>
+                    <th rowspan="2">
+                        Activity
+                    </th>
+                    <th colspan="2">
+                        Target Date
+                    </th>
+
+                    <th colspan="2">
+                        Catch Up Date
+                    </th>
+                    <th colspan="2">
+                        Actual Date
+                    </th>
+
+                    <th rowspan="2">
+                        Status
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>
+
+                    </th>
+
+
+                    <th>
+                        Start
+                    </th>
+                    <th>
+                        End
+                    </th>
+
+                    <!--Catch Up-->
+
+                    <th>
+                        Start
+                    </th>
+                    <th>
+                        End
+                    </th>
+
+                    <!--Actual Date-->
+
+                    <th>
+                        Start
+                    </th>
+                    <th>
+                        End
+                    </th>
+
+
+
+
+                </tr>
+
+
+
+            </thead>
+
+
+            <tbody>
+                <tr ng-repeat="item in data | orderBy:'muni_sort_order'" ng-include="getPraTemplate(item)"></tr>
+            </tbody>
+
+
+
+
+
+        </table>
+
+
+        <ul>
+            <li ng-repeat="(key, errors) in praForm.$error track by $index">
+                <strong>{{ key }}</strong> errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+
+
+
+
+
+        <script type="text/ng-template" id="displayPraTemplate">
+            <td>
+
+                <a class="btn btn-info btn-sm" style="margin-right:5px" ng-click="editPra(item)"><i class="fa fa-edit"></i></a>
+
+            </td>
+
+
+            <td>
+                {{item.muni_sort_order}}   -     {{item.lib_training_category_name}}
+
+            </td>
+
+
+
+            <td>
+
+                {{item.plan_start | date:'MM/dd/yyyy'}}
+            </td>
+            <td>
+
+                {{item.plan_end | date:'MM/dd/yyyy'}}
+            </td>
+
+
+            <td>
+
+                {{item.catch_start | date:'MM/dd/yyyy'}}
+            </td>
+            <td>
+
+                {{item.catch_end | date:'MM/dd/yyyy'}}
+            </td>
+
+
+
+
+            <td>
+                {{item.actual_start | date:'MM/dd/yyyy'}}
+
+            </td>
+            <td>
+
+
+                {{item.actual_end  | date:'MM/dd/yyyy'}}
+            </td>
+
+
+            <td>
+
+                {{item.lib_implementation_status_name}}
+            </td>
+
+
+
+
+
+        </script>
+
+
+        <script type="text/ng-template" id="editPraTemplate">
+
+            <td>
+
+                <a class="btn btn-success btn-sm" style="margin-right:5px" ng-click="save_pra($index)" ng-disabled="!praForm.$valid"><i class="fa fa-save"></i></a>
+
+                <a class="btn btn-warning btn-sm" style="margin-right:5px" ng-click="reset_pra()"><i class="fa fa-close"></i></a>
+
+
+
+            </td>
+
+
+
+            <td>
+                {{selected_pra.muni_sort_order}}   -     {{selected_pra.lib_training_category_name}}
+
+            </td>
+
+
+
+            <td>
+                <md-datepicker ng-disabled="selected_pra.plan_start != null" md-min-date="min_start_date" name="Plan Start" ng-model="selected_pra.dt_plan_start" ng-change="selected_pra.plan_start = selected_pra.dt_plan_start.toISOString()"></md-datepicker>
+
+
+            </td>
+            <td>
+
+                <md-datepicker ng-disabled="selected_pra.plan_end != null" md-min-date="selected_pra.dt_plan_start" name="Plan End" ng-model="selected_pra.dt_plan_end" ng-change="selected_pra.plan_end = selected_pra.dt_plan_end.toISOString()"></md-datepicker>
+
+            </td>
+
+
+            <td>
+                <md-datepicker name="Catch End" md-min-date="min_start_date" ng-model="selected_pra.dt_catch_start" ng-change="selected_pra.catch_start = selected_pra.dt_catch_start.toISOString()"></md-datepicker>
+
+
+
+            </td>
+            <td>
+
+                <md-datepicker name="Catch End" md-min-date="selected_pra.dt_catch_start" ng-model="selected_pra.dt_catch_end" ng-change="selected_pra.catch_end = selected_pra.dt_catch_end.toISOString()"></md-datepicker>
+
+            </td>
+
+
+
+            <td>
+
+                <md-datepicker ng-required="selected_pra.implementation_status_id ==1" name="Actual Start" ng-model="selected_pra.dt_actual_start" ng-change="selected_pra.actual_start = selected_pra.dt_actual_start.toISOString()" ng-disabled="!selected_pra.is_ceac_tracking_only"></md-datepicker>
+
+
+            </td>
+            <td>
+
+                <md-datepicker md-max-date="today" md-min-date="selected_pra.dt_actual_start" ng-required="selected_pra.implementation_status_id ==1" name="Actual End" ng-model="selected_pra.dt_actual_end" ng-change="selected_pra.actual_end = selected_pra.dt_actual_end.toISOString()" ng-disabled="!selected_pra.is_ceac_tracking_only"></md-datepicker>
+
+
+            </td>
+
+
+
+            <td>
+                <select name="Status" ng-model="selected_pra.implementation_status_id" class="form-control"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in implementation_status_id_options">
+                    <option value="">[Select Status]</option>
+                </select>
+
+            </td>
+
+
+        </script>
+
+
+
+
+    </form>
+
+
+
+
+
+</div>

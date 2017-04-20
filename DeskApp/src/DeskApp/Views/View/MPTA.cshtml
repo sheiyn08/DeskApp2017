@@ -1,0 +1,261 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+    <style>
+        md-backdrop {
+            position: fixed;
+        }
+
+        mark {
+        background-color: deepskyblue;
+        color: white;
+        font-style: italic;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+        <md-toolbar md-scroll-shrink>
+            <h3 class="md-toolbar-tools">PTA Integration Checklist</h3>
+        </md-toolbar>
+
+        <md-content>
+            <br />
+
+            <div style="margin:25px">
+                <a class="btn btn-success" ng-click="createNew()">
+                    <i class="fa fa-plus fa-lg"></i> New Record
+                </a>
+            </div>
+
+            <div class="panel panel-success" style="margin:25px">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <h4><b>FILTER RECORDS BY:</b></h4>
+                            </div>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <md-checkbox ng-model="data.filter_by_recent_edit" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Edited</b> record</md-checkbox>
+                            </div>
+                            <div class="col-md-3">
+                                <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
+                            </div>
+                        </div>
+                    </div><br />
+                    <div flex="100" layout="row" layout-margin layout-sm="column">
+                        <div flex="25" flex-sm="100">
+                            <label for="Region:_">Region</label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in region_code_options">
+                                    <option value="">[Select Region]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="25" flex-sm="100">
+                            <label for="Province:_">Province: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                        ng-disabled="data.region_code == null"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in prov_code_options">
+                                    <option value="">[Select Province]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="25" flex-sm="100">
+                            <label for="Municipality:_">Municipality: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                                            ng-required="true"
+                                            ng-disabled="data.prov_code == null"
+                                            ng-options="option.Id as option.Name for option in city_code_options">
+                                        <option value="">[Select Municipality]</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div flex="25" ng-show="data.lgu_level_id == 1" flex-sm="100">
+                            <label for="Barangay:_">Barangay: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                        ng-required="data.lgu_level_id ==1"
+                                        ng-disabled="data.city_code == null"
+                                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                                    <option value="">[Select Barangay]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div flex="100" layout="row" layout-margin layout-sm="column">
+                        <div flex="25" flex-sm="100">
+                            <label for="Region:_">Fund Source</label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="fund_source_id" ng-model="data.fund_source_id" id="brgy_code" class="form-control"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in fund_source_id_options">
+                                    <option value="">[Select Fund Source]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="25" flex-sm="100">
+                            <label for="Province:_">Cycle: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="cycle_id" ng-model="data.cycle_id" id="brgy_code" class="form-control"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in cycle_id_options">
+                                    <option value="">[Select Cycle]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div flex="25" flex-sm="100">
+                            <label for="Municipality:_">KC Mode: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="enrollment_id" ng-model="data.enrollment_id" id="brgy_code" class="form-control"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in enrollment_id_options">
+                                    <option value="">[Select KC Mode]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div flex="100" layout="row" layout-margin layout-sm="column" style="margin:20px">
+                <a class="btn btn-primary" ng-click="search()">
+                    <i class="fa fa-filter fa-lg"></i> Filter
+                </a>
+                <a class="btn btn-warning" ng-click="clear()">
+                    <i class="fa fa-recycle fa-lg"></i>  Clear
+                </a>
+                @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+            </div>
+            
+        </md-content>
+        
+        <br />
+
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="List">
+                    <md-content class="md-padding">
+                        <md-content>
+                            @Html.Partial("~/Views/Shared/_pagination.cshtml")
+                        </md-content>
+                        <md-content>
+                            <div flex="100" ng-show="!isSearching">
+                                <table class="table zui-table zui-table-horizontal zui-table-highlight">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th style="text-align:center; vertical-align:middle">
+                                                {{data.check_all == true ? "Un-select All" : "Select All"}}
+                                                <br /><br />
+                                                <md-checkbox ng-model="data.check_all" style="vertical-align:middle" aria-label="Checkbox 1" ng-change="checkAll()"></md-checkbox>
+                                            </th>
+                                            <th style="vertical-align:middle">
+                                                Actions
+                                            </th>
+                                            <th style="vertical-align:middle">
+                                                Region
+                                            </th>
+                                            <th style="vertical-align:middle">
+                                                Province
+                                            </th>
+                                            <th style="vertical-align:middle">
+                                                Municipality
+                                            </th>
+                                            <th style="vertical-align:middle">
+                                                Fund Source
+                                            </th>
+                                            <th style="vertical-align:middle">
+                                                Cycle
+                                            </th>
+                                            <th style="vertical-align:middle">
+                                                KC Mode
+                                            </th>
+                                            <th style="vertical-align:middle">
+                                                Date Uploaded
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in Items | orderBy: item.last_modified_date">
+                                            <td style="text-align:center; vertical-align:middle">
+                                                <md-checkbox ng-model="item.is_item_selected" ng-change="itemSelectedforSync(item)" aria-label="false"></md-checkbox> {{item.is_item_selected == true ? "Selected" : ""}}
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                <a ng-href="/Entry/MPTA?id={{item.municipal_pta_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+                                                <a ng-click="delete(item)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                {{item.lib_region_region_name}}
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                {{item.lib_province_prov_name}}
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                {{item.lib_city_city_name}}
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                {{item.lib_fund_source_name}}
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                {{item.lib_cycle_name}}
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                {{item.lib_enrollment_name}}
+                                            </td>
+                                            <td style="vertical-align:middle" ng-show="item.push_date==null">
+                                                <mark>(For Uploading)</mark>
+                                            </td>
+                                            <td style="vertical-align:middle" ng-show="item.push_date!=null">
+                                                {{item.push_date | date:'MM/dd/yyyy'}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </md-content>
+                    </md-content>
+                </md-tab>
+                @Html.Partial("~/Views/View/Common/_download.cshtml")
+            </md-tabs>
+        </md-content>
+
+    </div>
+    <!--
+    Copyright 2016 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+    -->
+
+    @section Scripts {
+        <script src="~/scripts/alasql.min.js"></script>
+        <script src="~/scripts/xlsx.core.min.js"></script>
+
+        <script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+        <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+
+        <script src="~/scripts/app/MPTA/_index.js"></script>
+
+        <script src="~/scripts/directives/paging.js"></script>
+    }
+
+</body>
+
+

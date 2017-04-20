@@ -1,0 +1,91 @@
+﻿<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h3><strong>DOF-BLGF Financial Data</strong></h3>
+        <h5>General Instruction: Please filter location and year to display.</h5>
+    </div>
+
+    <div class="panel-body">
+        <form name="basicForm">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+
+                        <label for="Region:_">Region</label>
+                        <div class="form-group">
+                            <select name="Region" ng-model="data.region_code" class="form-control" ng-required="true"
+                                    ng-disabled="status"
+                                    ng-options="option.Id as option.Name for option in region_code_options">
+                                <option value="">[Select Region]</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label for="Province:_">Province</label>
+                        <div class="form-group">
+                            <select name="Province" ng-model="data.prov_code" class="form-control" ng-required="true"
+                                    ng-disabled="data.region_code == null || status"
+                                    ng-options="option.Id as option.Name for option in prov_code_options">
+                                <option value="">[Select Province]</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Municipality:_">Municipality</label>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <select name="Municipality" ng-model="data.city_code" class="form-control" ng-required="true"
+                                        ng-disabled="data.prov_code == null || status"
+                                        ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Year</label>
+                        <div class="form-group">
+                            <select name="year_id" ng-model="selected_financial_year" class="form-control" ng-required="true"
+                                    ng-disabled="status" ng-change="search()"
+                                    ng-options="option as option.Name for option in financial_year_list">
+                                <option value="">[Select Year]</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="col-md-6">
+                    <md-button class="md-raised" ng-click="search(); show_div=true" ng-disabled="!basicForm.$valid">
+                        <i class="fa fa-filter"></i>  Filter
+                    </md-button>
+                    <md-button class="md-warn md-raised" ng-click="clear()">
+                        <i class="fa fa-recycle"></i>  Clear
+                    </md-button>
+                    <md-button class="md-primary md-raised" ng-click="printContent()" ng-disabled="!basicForm.$valid">
+                        <i class="fa fa-print"></i>  Print
+                    </md-button>
+                    <md-button class="md-raised md-warn" ng-click="exportToXLS()" ng-disabled="!basicForm.$valid">
+                        <i class="fa fa-file-excel-o"></i>   Export (2011, 2012, 2013)
+                    </md-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

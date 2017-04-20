@@ -1,0 +1,104 @@
+﻿
+
+@if (User.Identity.IsAuthenticated)
+{
+<li><a href="@Url.Action("Index", "Sync")"><i class='fa fa-database'></i> <span>Update Library</span></a></li>
+<li><a href="@Url.Action("OTS", "Sync")"><i class='fa fa-database'></i> <span>OTS</span></a></li>
+
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-table"></i> <span>View</span>
+        <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+
+
+
+     
+        <li><a href="@Url.Action("CeacTracking", "View")"><i class="fa fa-circle-o"></i> Ceac Tracking</a></li>
+
+
+        <li><a href="/View/BarangayProfiles"><i class="fa fa-circle-o"></i> Barangay Profiles</a></li>
+
+        <li><a href="@Url.Action("MunicipalProfiles", "View")"><i class="fa fa-circle-o"></i> Municipal Profiles</a></li>
+        <li><a href="/View/BarangayAssembly"><i class="fa fa-circle-o"></i> Barangay Assemblies</a></li>
+
+        <li>@*<a href="/View/Trainings"><i class="fa fa-circle-o"></i> Volunteers</a>*@</li>
+        <li><a href="@Url.Action("People", "View")"><i class="fa fa-circle-o"></i> Person Profiles</a></li>
+
+
+        <li><a href="@Url.Action("Trainings", "View")"><i class="fa fa-circle-o"></i> Trainings</a></li>
+        <li><a href="@Url.Action("Grievances", "View")"><i class="fa fa-circle-o"></i> Grievances</a></li>
+
+        <li><a href="@Url.Action("GrievanceInstallation", "View")"><i class="fa fa-circle-o"></i> GRS Installation</a></li>
+
+
+        <li><a href="@Url.Action("SubProjects", "View")"><i class="fa fa-circle-o"></i> Sub Projects</a></li>
+        <li><a href="@Url.Action("MPTA", "View")"><i class="fa fa-circle-o"></i> PTA Integration Check List</a></li>
+        <li><a href="@Url.Action("MLCC", "View")"><i class="fa fa-circle-o"></i> Municipal Consolidated LCC</a></li>
+<li><a href="@Url.Action("Oversight", "View")"><i class="fa fa-circle-o"></i> Oversight & Coord.Committee</a></li>
+
+        <li><a href="@Url.Action("Organizations", "View")"><i class="fa fa-circle-o"></i> Community Organizations</a></li>
+
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Municipal Talakayan Data</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+                <li><a href="@Url.Action("Index", "PerceptionSurvey")"><i class="fa fa-circle-o"></i> Perception Survey</a></li>
+                <li><a href="@Url.Action("Index", "TalakayanEvaluation")"><i class="fa fa-circle-o"></i> Talakayan Evaluation</a></li>
+                <li><a href="@Url.Action("Index", "MunicipalFinancialProfile")"><i class="fa fa-circle-o"></i> Municipal Financial Profile</a></li>
+            </ul>
+        </li>
+
+        
+
+
+    </ul>
+</li>
+
+<li><a href="@Url.Action("Index", "MOV")"><i class='fa fa-file-pdf-o'></i> <span>MOVs</span></a></li>
+@*<li><a href="@Url.Action("Index", "Report")"><i class='fa fa-dashboard'></i> <span>Reports</span></a></li>*@
+
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-dashboard"></i> <span>Reports</span>
+        <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        
+        <li><a href="@Url.Action("MunicipalReports", "Report")"><i class="fa fa-circle-o"></i>Municipal Reports</a></li>
+        <li><a href="@Url.Action("ACTAccomplishmentReportIndex", "Report")"><i class="fa fa-circle-o"></i>ACT Accomplishment Report</a></li>
+        <li><a href="@Url.Action("AddressedPSAPriorities", "Report")"><i class="fa fa-circle-o"></i>Addressed PSA Priorities</a></li>
+        <li><a href="@Url.Action("Index", "Report")"><i class="fa fa-circle-o"></i>Index*</a></li>
+
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-circle-o"></i><span>Municipal Talakayan Report</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+                <li><a href="@Url.Action("talakayan", "Report")"><i class="fa fa-circle-o"></i>Perception Survey Report</a></li>
+                <li><a href="@Url.Action("evaluation", "Report")"><i class="fa fa-circle-o"></i>Talakayan Evaluation Report</a></li>
+                <li><a href="@Url.Action("Index", "DOFBLGFFinancialData")"><i class="fa fa-circle-o"></i>DOF-BLGF Financial Data</a></li>
+                <li><a href="@Url.Action("Index", "LGPMSData")"><i class="fa fa-circle-o"></i>LGPMS Data</a></li>
+                <li><a href="@Url.Action("municipalfinancialprofile", "Report")"><i class="fa fa-circle-o"></i>Municipal Financial Profile Report</a></li>
+            </ul>
+        </li>
+
+
+        
+
+
+    </ul>
+</li>
+
+
+
+}
+else
+{
+    <li><a href="@Url.Action("Login", "Account")"><i class='fa fa-user'></i> <span>Login</span></a></li>
+
+}

@@ -1,0 +1,215 @@
+﻿ 
+
+ 
+
+ 
+        
+
+<form name="myForm" ng-cloak>
+
+    <div class="panel panel-success">
+
+        <div class="panel-heading">
+            <h4>Generation Instructions</h4>
+            <p>Please filter up to cycle level and KC Mode before proceeding in printing the report.</p>
+            
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+
+                        <label for="Region:_">Report</label>
+
+
+                        <div class="form-group">
+                            <select name="Region" ng-model="selected_report" id="region_code" class="form-control"
+                                    ng-disabled="status"
+                                   ng-change="search()"
+                                     ng-required="true"
+                                    ng-options="option as option.name for option in report_list">
+                                <option value="">[Select Report to be Generated]</option>
+                            </select>
+                        </div>
+
+
+
+
+                    </div>
+
+ 
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+
+                        <label for="Region:_">Region</label>
+
+
+                        <div class="form-group"  >
+                            <select name="Region" ng-model="selected_region" id="region_code" class="form-control"
+                                    ng-disabled="status"
+                                    ng-required="true"
+                                    ng-options="option as option.Name for option in region_code_options">
+                                <option value="">[Select Region]</option>
+                            </select>
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label for="Province:_">Province: </label>
+                        <div class="form-group"  >
+                            <select name="Province" ng-model="selected_province" id="prov_code" class="form-control"
+                                    ng-disabled="selected_region.Id == null || status"
+                                    ng-required="true"
+                                    ng-options="option as option.Name for option in prov_code_options">
+                                <option value="">[Select Province]</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Municipality:_">Municipality: </label>
+                        <div class="form-group"  >
+                            <div class="form-group"  >
+                                <select name="Municipality" ng-model="selected_city" id="city_code" class="form-control"
+                                        ng-required="true"
+                                        ng-disabled="selected_province.Id == null || status"
+                                        ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-3" ng-show="data.lgu_level_id == 1">
+                        <label for="Barangay:_">Barangay: </label>
+                        <div class="form-group"  >
+                            <select name="Barangay" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                    ng-required="data.lgu_level_id ==1"
+                                    ng-disabled="data.city_code == null || status"
+                                    ng-options="option.Id as option.Name for option in brgy_code_options">
+                                <option value="">[Select Barangay]</option>
+                            </select>
+                        </div>
+
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+
+                        <label for="Region:_">Fund Source</label>
+
+                        <div class="form-group"  >
+                            <select name="Fund Source" ng-model="selected_fund" id="fund_source_id" class="form-control"
+                                    ng-required="true"
+                                    ng-disabled="status"
+                                    ng-options="option as option.Name for option in fund_source_id_options">
+                                <option value="">[Select Fund Source]</option>
+                            </select>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label for="Province:_">Cycle: </label>
+                        <div class="form-group"  >
+                            <select name="Cycle" ng-model="selected_cycle" id="cycle_id" class="form-control"
+                                    ng-required="true"
+                                    ng-disabled="status"
+                                    ng-options="option as option.Name for option in cycle_id_options">
+                                <option value="">[Select Cycle]</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Municipality:_">KC Mode: </label>
+                        <div class="form-group"  >
+                            <select name="KC Mode" ng-model="selected_enrollment" id="enrollment_id" class="form-control"
+                                    ng-disabled="status"
+                                    ng-required="true"
+                                    ng-options="option as option.Name for option in enrollment_id_options">
+                                <option value="">[Select KC Mode]</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-6">
+                        <md-button class="md-primary md-raised" ng-click="search()">
+                            <i class="fa fa-filter"></i>  Filter
+                        </md-button>
+
+
+                        <md-button class="md-primary md-raised" ng-click="printContent()">
+                            <i class="fa fa-print"></i>  Print
+                        </md-button>
+                    </div>
+
+ 
+
+
+                </div>
+            </div>
+        </div>
+
+
+  
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</form>
+
+ 

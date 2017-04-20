@@ -1,0 +1,516 @@
+﻿@*<div class="row">
+        <div class="col-md-4">
+            With IP presence in the Barangay?
+
+        </div>
+        <div class="col-md-8">
+
+            <md-checkbox ng-model="data.has_ip_presence" aria-label="Checkbox 1">
+            </md-checkbox>
+        </div>
+
+    </div>*@
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>Sub Project Concept Form</h3>
+    </div>
+
+
+    <div class="panel panel-body">
+        <div class="panel panel-success">
+            <div class="panel panel-heading">
+
+                <label>A. GENERAL INFORMATION</label>
+
+            </div>
+
+            <div class="panel panel-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Project Beneficiaries and Expected Beneficiaries</label>
+
+                    </div>
+                </div>
+
+            </div>
+            <md-content>
+
+
+                <div layout="row" layout-padding flex="100">
+
+                    <div flex></div>
+                    <div flex>Households</div>
+                    <div flex>Families</div>
+                </div>
+
+
+                <md-divider></md-divider>
+
+                <div layout="row" layout-padding flex="100">
+
+                    <div flex>Total Number of Beneficiaries </div>
+                    <div flex>
+                        <input type="number" min="0" name="No of HH Beneficiaries" class="form-control" ng-model="data.NoOfHH" ng-app-max="{{ data.no_target_families }}" ng-required="data.physical_status_id !=3" />
+                    </div>
+                    <div flex>
+                        <input type="number" min="0" class="form-control" name="No of Families" ng-model="data.no_target_families" ng-required="data.physical_status_id !=3" />
+                    </div>
+                </div>
+
+
+                <md-divider></md-divider>
+                <div layout="row" layout-padding flex="100">
+
+                    <div flex>Total Pantawid Beneficiaries</div>
+                    <div flex>
+                        <input type="number" class="form-control" name="No of Pantawid Households" ng-model="data.no_target_pantawid_households" ng-required="data.physical_status_id !=3" />
+                    </div>
+
+                    <div flex>
+                        <input type="number" class="form-control" name="No of Pantawid Families" ng-model="data.no_target_pantawid_families" ng-required="data.physical_status_id !=3" />
+                    </div>
+                </div>
+
+
+
+                <md-divider></md-divider>
+
+                <div layout="row" layout-padding flex="100">
+
+                    <div flex>Total SLP Beneficiaries</div>
+                    <div flex>
+                        <input type="number" class="form-control" name="No of SLP Households" ng-model="data.no_target_slp_households" ng-required="data.physical_status_id !=3" />
+                    </div>
+
+                    <div flex>
+                        <input type="number" class="form-control" name="No of SLP Families" ng-model="data.no_target_slp_families" ng-required="data.physical_status_id !=3" />
+                    </div>
+                </div>
+
+
+
+
+
+                <md-divider></md-divider>
+
+
+                <div layout="row" layout-padding flex="100">
+
+                    <div flex>Total IP Beneficiaries</div>
+                    <div flex>
+                        <input type="number" class="form-control" name="No of IP Households" ng-model="data.no_target_ip_households" ng-required="data.physical_status_id !=3" />
+                    </div>
+
+                    <div flex>
+                        <input type="number" class="form-control" name="No of IP Families" ng-model="data.no_target_ip_families" ng-required="data.physical_status_id !=3" />
+                    </div>
+                </div>
+
+
+
+
+
+
+                <md-divider></md-divider>
+            </md-content>
+
+
+            <md-content>
+
+
+                <div layout="row" layout-padding flex="100">
+
+                    <div flex></div>
+                    <div flex>Male</div>
+                    <div flex>Female</div>
+                </div>
+
+
+                <md-divider></md-divider>
+
+                <div layout="row" layout-padding flex="100">
+
+                    <div flex>Total   Beneficiaries </div>
+                    <div flex>
+                        <input type="number" min="0" name="No of Male Beneficiaries" class="form-control" ng-model="data.no_target_male" ng-required="data.physical_status_id !=3" />
+                    </div>
+                    <div flex>
+                        <input type="number" min="0" class="form-control" name="No Female Beneficiaries" ng-model="data.no_target_female" ng-required="data.physical_status_id !=3" />
+                    </div>
+                </div>
+
+
+            </md-content>
+
+        </div>
+    </div>
+
+   
+
+    <div class="panel panel-body">
+
+
+
+
+
+        <div class="panel panel-success">
+            <div class="panel panel-heading">
+
+                <h3>Financial Economic Aspect</h3>
+
+
+            </div>
+
+           
+            <div class="panel panel-body">
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-7">
+                        Local Counterpart Contribution (LCC)
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-2">
+                    Community
+                    </div>
+                    <div class="col-md-5">
+                         
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2">
+                        Cost Items per Component
+                    </div>
+                    <div class="col-md-1">
+                        Total Cost
+                    </div>
+                    <div class="col-md-1">
+                        CDD Grant
+
+                    </div>
+                    <div class="col-md-1">
+                        Men
+                    </div>
+                    <div class="col-md-1">
+                        Women
+                    </div>
+                    <div class="col-md-1">
+                        BLGU
+                    </div>
+                    <div class="col-md-1">
+                        MLGU
+                    </div>
+                    <div class="col-md-1">
+                        PLGU
+                    </div>
+                    <div class="col-md-1">
+                        Others
+                    </div>
+                    <div class="col-md-1">
+                        Total LCC
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-2">
+                     Total Estimated Cost - POW (Infrastructure)
+                    </div>
+                    <div class="col-md-1">
+
+                     
+                        @*Total Cost*@
+ {{pow_total()}}
+                        @*{{data.spcr.pow_cdd_cost + data.spcr.pow_male_cost + data.spcr.pow_female_cost + data.spcr.pow_blgu_cost + data.spcr.pow_mlgu_cost + data.spcr.pow_plgu_cost +  data.spcr.pow_others_cost}}*@
+                    </div>
+                    <div class="col-md-1">
+                        @*CDD Grant*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.pow_cdd_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Men*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.pow_male_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Women*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.pow_female_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*BLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.pow_blgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*MLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.pow_mlgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*PLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.pow_plgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Others*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.pow_others_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        {{pow_total_lcc()}}
+                    </div>
+                </div>
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-2">
+                       Training
+                    </div>
+                    <div class="col-md-1">
+
+                        {{training_total()}}
+                        @*Total Cost*@
+
+                        @*{{data.spcr.training_cdd_cost + data.spcr.training_male_cost + data.spcr.training_female_cost + data.spcr.training_blgu_cost + data.spcr.training_mlgu_cost + data.spcr.training_plgu_cost +  data.spcr.training_others_cost}}*@
+                    </div>
+                    <div class="col-md-1">
+                        @*CDD Grant*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.training_cdd_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Men*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.training_male_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Women*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.training_female_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*BLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.training_blgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*MLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.training_mlgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*PLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.training_plgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Others*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.training_others_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        {{training_total_lcc()}}
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-2">
+                    Women Specific
+                    </div>
+                    <div class="col-md-1">
+
+                        {{women_total()}}
+                        @*Total Cost*@
+
+                        @*{{data.spcr.women_cdd_cost + data.spcr.women_male_cost + data.spcr.women_female_cost + data.spcr.women_blgu_cost + data.spcr.women_mlgu_cost + data.spcr.women_plgu_cost +  data.spcr.women_others_cost}}*@
+                    </div>
+                    <div class="col-md-1">
+                        @*CDD Grant*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.women_cdd_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Men*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.women_male_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Women*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.women_female_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*BLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.women_blgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*MLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.women_mlgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*PLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.women_plgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Others*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.women_others_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        {{women_total_lcc()}}
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-2">
+                      Management
+                    </div>
+                    <div class="col-md-1">
+
+
+                        @*Total Cost*@
+                        {{management_total()}}
+                        @*{{data.spcr.management_cdd_cost + data.spcr.management_male_cost + data.spcr.management_female_cost + data.spcr.management_blgu_cost + data.spcr.management_mlgu_cost + data.spcr.management_plgu_cost +  data.spcr.management_others_cost}}*@
+                    </div>
+                    <div class="col-md-1">
+                        @*CDD Grant*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.management_cdd_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Men*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.management_male_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Women*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.management_female_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*BLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.management_blgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*MLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.management_mlgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*PLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.management_plgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Others*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.management_others_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        {{management_total_lcc()}}
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-2">
+                        Others
+                    </div>
+                    <div class="col-md-1">
+
+
+                        @*Total Cost*@
+
+                        {{others_total()}}
+                        @*{{data.spcr.others_cdd_cost + data.spcr.others_male_cost + data.spcr.others_female_cost + data.spcr.others_blgu_cost + data.spcr.others_mlgu_cost + data.spcr.others_plgu_cost +  data.spcr.others_others_cost}}*@
+                    </div>
+                    <div class="col-md-1">
+                        @*CDD Grant*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.others_cdd_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Men*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.others_male_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Women*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.others_female_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*BLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.others_blgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*MLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.others_mlgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*PLGU*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.others_plgu_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        @*Others*@
+                        <input type="number" min="0" class="form-control"   ng-model="data.spcr.others_others_cost" />
+                    </div>
+                    <div class="col-md-1">
+                        {{others_total_lcc()}}
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-2">
+                        Total
+                    </div>
+                    <div class="col-md-1">
+
+                        <label>
+                            (100%)
+                        </label>
+ 
+                    </div>
+                    <div class="col-md-1">
+                        @*CDD Grant*@
+                       {{cdd_perc()}}
+                    </div>
+                    <div class="col-md-1">
+                    
+                        {{men_perc()}}
+                      
+                    </div>
+                    <div class="col-md-1">
+                        @*Women*@
+                        {{female_perc()}}
+                    </div>
+                    <div class="col-md-1">
+                        @*BLGU*@
+                        {{blgu_perc()}}
+                    </div>
+                    <div class="col-md-1">
+                        @*MLGU*@
+                        {{mlgu_perc()}}
+                    </div>
+                    <div class="col-md-1">
+                        @*PLGU*@
+                      {{plgu_perc()}}
+                    </div>
+                    <div class="col-md-1">
+                        @*Others*@
+                        {{others_others_total_perc()}}
+                    </div>
+                    <div class="col-md-1">
+                       {{grand_total_lcc_perc()}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+
+

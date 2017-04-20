@@ -1,0 +1,135 @@
+﻿<div ng-controller="AppCtrl" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">
+            <h3>Municipal Financial Profile Records</h3>
+        </div>
+    </md-toolbar>
+
+    <md-content>
+        <br />
+        <div style="margin:25px">
+            <a class="btn btn-success" ng-click="createNew()">
+                <i class="fa fa-plus fa-lg"></i> New Record
+            </a>
+        </div>
+        <div class="panel panel-success" style="margin:25px">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <h4><b>FILTER RECORDS BY:</b></h4>
+                    </div>
+                </div><br />
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <md-checkbox ng-model="data.filter_by_recent_edit" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Edited</b> record</md-checkbox>
+                    </div>
+                    <div class="col-md-3">
+                        <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
+                    </div>
+                </div><br />
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="Region:_">Region</label>
+                        <div class="form-group">
+                            <select name="Region" ng-model="data.region_code" class="form-control"
+                                    ng-disabled="status"
+                                    ng-options="option.Id as option.Name for option in region_code_options">
+                                <option value="">[Select Region]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Province:_">Province</label>
+                        <div class="form-group">
+                            <select name="Province" ng-model="data.prov_code" class="form-control"
+                                    ng-disabled="data.region_code == null || status"
+                                    ng-options="option.Id as option.Name for option in prov_code_options">
+                                <option value="">[Select Province]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Municipality:_">Municipality</label>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <select name="Municipality" ng-model="data.city_code" class="form-control"
+                                        ng-disabled="data.prov_code == null || status"
+                                        ng-options="option.Id as option.Name for option in city_code_options">
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br />
+                <div class="row">
+                    <div class="col-md-3" show-errors='{showSuccess: true}'>
+                        <label>Talakayan Day (Start)</label>
+                        <md-datepicker name="talakayan_date_start" ng-model="dt_talakayan_date_start" md-placeholder="Enter date"></md-datepicker>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Current NCDDP Cycle</label>
+                        <select name="cycle_id" ng-model="data.cycle_id" id="cycle_code" class="form-control"
+                                ng-required="true"
+                                ng-options="option.Id as option.Name for option in cycle_id_options">
+                            <option value="">[Select Cycle]</option>
+                        </select>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div flex="100" layout="row" style="margin:20px" layout-margin layout-md="column">
+            <a class="btn btn-primary" ng-click="search()">
+                <i class="fa fa-filter fa-lg"></i> Filter
+            </a>
+            <a class="btn btn-warning" ng-click="clear()">
+                <i class="fa fa-recycle fa-lg"></i>  Clear
+            </a>
+            @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+        </div>
+        <div style="margin:25px">
+
+        </div>
+
+    </md-content>
+    <br />
+
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="List">
+                <md-content class="md-padding">
+                    <md-content>
+                        @Html.Partial("~/Views/Shared/_pagination.cshtml")
+                    </md-content>
+                    <md-content>
+                        @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_current_records.cshtml")
+                    </md-content>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+            .controller('AppCtrl',
+                function ($scope, $mdDialog, $http, $mdToast) {
+                    $scope.data;
+                })
+    </script>
+
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+    <script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+    <script src="~/scripts/directives/paging.js"></script>
+    <script src="~/scripts/app/Evaluation/financial_data_index.js"></script>
+
+
+
+
+}

@@ -1,0 +1,280 @@
+﻿<style>
+    /* Component styles */
+table {
+    border-collapse: collapse;
+    margin-bottom: 1em;
+    width: 100%;
+    background: #fff;
+}
+
+th {
+    background-color: cadetblue;
+    font-weight: bold;
+    color: #fff;
+    white-space: nowrap;
+}
+tbody th {
+    background-color: #2ea879;    
+}
+tbody tr:nth-child(2n-1) {
+    background-color: #f5f5f5;
+    transition: all .125s ease-in-out;
+}
+td, th {
+    padding: 0.75em 1.5em;
+}
+tbody tr:hover {
+     background-color: rgba(129,208,177,.3);
+}
+
+</style>
+
+
+
+
+
+
+        <div class="panel panel-body" ng-repeat="item in list">
+
+            <div class="col-md-12" style="text-align:center">
+                <h3><strong><u>MUNICIPAL FINANCIAL DATA</u></strong></h3>
+                <h4><strong>Region: {{item.lib_region_region_name}} || Province: {{item.lib_province_prov_name}} || Municipality: {{item.lib_city_city_name}}</strong></h4>
+                <h5>Year: <strong>{{selected_financial_year.Name}}</strong> || PSGC Code: <strong>{{item.psgc_code}}</strong> || Source: <strong>DOF-BLGF</strong></h5>
+                <br /><br />
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="6" style="vertical-align:middle">
+                            CURRENT OPERATING INCOME
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <strong>TOTAL LGU INCOME</strong>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.total_lgu_income}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <ul style="list-style:square">
+                                <li><strong>Locally-sourced Revenues</strong></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.locally_shared_revenues}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <ul style="list-style:square">
+                                <li><strong>External Source</strong></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.total_external_source}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="vertical-align:middle">
+                            <ul style="list-style:disc">
+                                <li><strong>IRA Share</strong></li>
+                            </ul>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.ira_share}}</strong>
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="vertical-align:middle" colspan="5">
+                            <ul style="list-style:disc">
+                                <li><strong>Other Revenues</strong></li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="vertical-align:middle">
+                            <strong>Total Other Revenues</strong>
+                        </td>
+                        <td></td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.other_revenues_total}}</strong>
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="vertical-align:middle">
+                            <ul style="list-style:circle">
+                                <li>Other Shares from National Tax Collections</li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            {{item.other_shares_natl_tax}}
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="vertical-align:middle">
+                            <ul style="list-style:circle">
+                                <li>Inter-local Transfers</li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            {{item.inter_local_transfers}}
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="vertical-align:middle">
+                            <ul style="list-style:circle">
+                                <li>Extraordinary Receipts/Grants/Donations/Aids</li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            {{item.extraordinary_receipts}}
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                               
+            </table>
+
+            <br /><br />
+
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="6" style="vertical-align:middle">
+                            <strong>CURRENT OPERATING EXPENDITURES</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <strong>TOTAL LGU EXPENDITURES</strong>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.total_lgu_expenditures}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <ul style="list-style:square">
+                                <li><strong>General Public Services</strong></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.expenditures_gen_public_services}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <ul style="list-style:square">
+                                <li><strong>Education, Culture, Sports, and Manpower Development</strong></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.expenditures_educ_culture_etc}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <ul style="list-style:square">
+                                <li><strong>Health Services</strong></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.expenditures_health_services}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <ul style="list-style:square">
+                                <li><strong>Labor and Employment</strong></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.expenditures_labor_and_employment}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <ul style="list-style:square">
+                                <li><strong>Housing and Community Development</strong></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.expenditures_housing_comm_devt}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <ul style="list-style:square">
+                                <li><strong>Social Welfare Services</strong></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.expenditures_social_welfare_services}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <ul style="list-style:square">
+                                <li><strong>Economic Services</strong></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.expenditures_economic_services}}</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="vertical-align:middle">
+                            <ul style="list-style:square">
+                                <li><strong>Other Purposes</strong></li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align:middle; text-align:right">
+                            <strong>{{item.expenditures_other_purposes}}</strong>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>

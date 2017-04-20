@@ -1,0 +1,575 @@
+﻿
+<style>
+    body {
+        font: 9pt Georgia, "Times New Roman", Times, serif;
+        line-height: 1.3;
+    }
+
+    tr, td, th {
+        font: 9pt Georgia, "Times New Roman", Times, serif;
+    }
+</style>
+
+
+
+<link href="~/css/print.css" rel="stylesheet" />
+
+<body>
+
+
+
+
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+
+        @Html.Partial("~/Views/Report/Common/_report_filter.cshtml")
+
+        <div class="panel panel-success">
+
+            <div class="panel panel-heading">
+                Print Preview
+            </div>
+
+            <div class="panel panel-body" id="printDiv" name="printDiv">
+
+
+
+                <h3>@ViewBag.header</h3>
+                <br />
+              
+                  <h4>Breakdown of Attendees</h4>
+
+                <br />
+                <br />
+
+                <div class="row">
+                    <div class="col-xs-3">
+                        Region
+                    </div>
+                    <div class="col-xs-3">
+                        Province
+                    </div>
+                    <div class="col-xs-3">
+                        Municipality
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Fund Source
+                    </div>
+                    <div class="col-xs-3">
+                        Cycle
+                    </div>
+                    <div class="col-xs-3">
+                        KC Mode
+                    </div>
+                </div>
+
+                <br />
+        
+
+                <div class="row">
+
+                    <div class="col-xs-12">A. Household Participation Rate (Total No. of HHs Represented over the Total No. of HHs resifding in the Barangay during the time of BA)</div>
+                </div>
+
+                <div class="row">
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <td  align="center">
+                                Barangay
+                            </td>
+                            <td  align="center">
+                                1st BA
+                            </td>
+                            <td align="center">
+                                2nd BA
+                            </td>
+                            <td align="center">
+                                3rd  BA
+                            </td>
+                            <td align="center">
+                                4th BA
+                            </td>
+                            <td  align="center">
+                                5th BA
+                            </td>
+                        </tr>
+
+
+           
+
+                        <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+
+                            <td>
+                                {{item.brgy_name}}
+                            </td>
+                       
+
+                            <td>
+                                {{item.first_ba_hh_perc == 'NaN' ? "" : item.first_ba_hh_perc}}
+                            </td>
+
+
+                            <td>
+                                {{item.second_ba_hh_perc == 'NaN' ? "" : item.second_ba_hh_perc}}
+                            </td>
+                            <td>
+                                {{item.third_ba_hh_perc == 'NaN' ? "" : item.third_ba_hh_perc}}
+                            </td>
+                            <td>
+                                {{item.fourth_ba_hh_perc == 'NaN' ? "" : item.fourth_ba_hh_perc}}
+                            </td>
+                            <td>
+                                {{item.fifth_ba_hh_perc == 'NaN' ? "" : item.fifth_ba_hh_perc}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            
+                <br />
+                <!--IP-->
+                  <div class="row">
+
+                    <div class="col-xs-12">B. IP Household Participation Rate (Total No. of IP HHs Represented over the Total No. of IP HHs resifding in the Barangay during the time of BA)</div>
+                </div>
+
+                <div class="row">
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <td  align="center">
+                                Barangay
+                            </td>
+                            <td  align="center">
+                                1st BA
+                            </td>
+                            <td align="center">
+                                2nd BA
+                            </td>
+                            <td align="center">
+                                3rd  BA
+                            </td>
+                            <td align="center">
+                                4th BA
+                            </td>
+                            <td  align="center">
+                                5th BA
+                            </td>
+                        </tr>
+
+
+           
+
+                        <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+
+                            <td>
+                                {{item.brgy_name}}
+                            </td>
+
+
+                            <td>
+                           
+                                {{item.first_ba_ip_hh_perc == 'NaN' || item.first_ba_ip_hh_perc == 'Infinity' ? "" : item.first_ba_ip_hh_perc}}
+                            </td>
+
+
+                            <td>
+                                {{item.second_ba_ip_hh_perc == 'NaN' || item.second_ba_ip_hh_perc == 'Infinity' ? "" : item.second_ba_ip_hh_perc}}
+                            </td>
+                            <td>
+                                {{item.third_ba_ip_hh_perc == 'NaN' || item.third_ba_ip_hh_perc == 'Infinity' ? "" : item.third_ba_ip_hh_perc}}
+                            </td>
+                            <td>
+                                {{item.fourth_ba_ip_hh_perc == 'NaN'|| item.fourth_ba_ip_hh_perc == 'Infinity'  ? "" : item.fourth_ba_ip_hh_perc}}
+                            </td>
+                            <td>
+                                {{item.fifth_ba_ip_hh_perc == 'NaN'|| item.fifth_ba_ip_hh_perc == 'Infinity'  ? "" : item.fifth_ba_ip_hh_perc}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            
+                <br />
+
+
+                <!--Pantawid Pamilya-->
+                <div class="row">
+
+                    <div class="col-xs-12">C. Pantawid Pamilya Household Participation Rate (Total No. of 4Ps HHs Represented over the Total No. of 4Ps HHs resifding in the Barangay during the time of BA)</div>
+                </div>
+
+                <div class="row">
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <td align="center">
+                                Barangay
+                            </td>
+                            <td align="center">
+                                1st BA
+                            </td>
+                            <td align="center">
+                                2nd BA
+                            </td>
+                            <td align="center">
+                                3rd  BA
+                            </td>
+                            <td align="center">
+                                4th BA
+                            </td>
+                            <td align="center">
+                                5th BA
+                            </td>
+                        </tr>
+
+
+
+
+                        <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+
+                            <td>
+                                {{item.brgy_name}}
+                            </td>
+
+
+                            <td>
+                                {{item.first_ba_pp_hh_perc == 'NaN' || item.first_ba_pp_hh_perc == 'Infinity'?  "" : item.first_ba_pp_hh_perc}}
+                            </td>
+
+
+                            <td>
+                                {{item.second_ba_pp_hh_perc == 'NaN' || item.second_ba_pp_hh_perc == 'Infinity'? "" : item.second_ba_pp_hh_perc}}
+                            </td>
+                            <td>
+                                {{item.third_ba_pp_hh_perc == 'NaN' || item.third_ba_pp_hh_perc == 'Infinity'? "" : item.third_ba_pp_hh_perc}}
+                            </td>
+                            <td>
+                                {{item.fourth_ba_pp_hh_perc == 'NaN'|| item.fourth_ba_pp_hh_perc == 'Infinity' ? "" : item.fourth_ba_pp_hh_perc}}
+                            </td>
+                            <td>
+                                {{item.fifth_ba_pp_hh_perc == 'NaN' || item.fifth_ba_pp_hh_perc == 'Infinity'? "" : item.fifth_ba_pp_hh_perc}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <br />
+
+             
+
+                <br />
+            </div>
+
+        </div>
+
+
+
+
+
+
+ 
+
+
+
+    </div>
+
+
+    @section Scripts
+{
+
+
+        <script>
+
+
+
+            angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']).controller('AppCtrl', function ($scope, $http, $mdDialog, $mdMedia) {
+                $scope.data = {};
+
+                $scope.data.region_code = '';
+                $scope.data.prov_code = '';
+                $scope.data.city_code = '';
+                $scope.data.brgy_code = '';
+                $scope.data.fund_source_id = '';
+                $scope.data.cycle_id = '';
+                $scope.data.enrollment_id = '';
+                $scope.data.is_male = '';
+                $scope.data.is_ip = '';
+                $scope.data.ip_group_id = '';
+                $scope.data.occupation_id = '';
+                $scope.data.is_lguofficial = '';
+                $scope.data.lgu_position_id = '';
+                $scope.data.education_attainment_id = '';
+                $scope.data.civil_status_id = '';
+                $scope.data.pageSize = '';
+                $scope.data.currPage = '';
+                $scope.data.push_status_id = '';
+                $scope.data.approval_id = '';
+                $scope.data.is_volunteer = '';
+                $scope.data.volunteer_committee_position_id = '';
+                $scope.data.volunteer_committee_id = '';
+                $scope.data.is_worker = '';
+                $scope.data.is_trained = '';
+                $scope.data.training_category_id = '';
+                $scope.data.community_training_id = '';
+                $scope.data.grs_intake_level_id = '';
+                $scope.data.grs_form_id = '';
+                $scope.data.grs_filling_mode_id = '';
+                $scope.data.grs_complainant_position_id = '';
+                $scope.data.grs_resolution_status_id = '';
+                $scope.data.grs_feedback_id = '';
+                $scope.data.grs_category_id = '';
+                $scope.data.grs_complaint_subject_id = '';
+                $scope.data.grs_nature_id = '';
+                $scope.data.spi_nature_work_id = '';
+
+                $scope.grs_resolution_status_id;
+
+                $scope.printContent = function () {
+                    var restorepage = $('body').html();
+                    var printcontent = $('#printDiv').clone();
+                    $('body').empty().html(printcontent);
+                    window.print();
+                    $('body').html(restorepage);
+                }
+
+
+                $http.get('/api/online/lib_region')
+            .then(function (response) { $scope.region_code_options = response.data; });
+
+                $http.get('/Api/lib_fund_source/')
+            .then(function (response) { $scope.fund_source_id_options = response.data; });
+
+                $http.get('/api/all_lib_enrollment')
+            .then(function (response) { $scope.enrollment_id_options = response.data; });
+
+
+                $http.get('/Api/lib_lgu_level/')
+                .then(function (response) { $scope.lgu_level_id_options = response.data; });
+
+
+                $http.get('/Api/lib_training_category?lgu_level_id=' + $scope.lgu_level_id)
+            .then(function (response) { $scope.training_category_id_options = response.data; });
+
+
+
+
+
+                $scope.$watch('data.region_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+                        record.data.prov_code = null;
+                        record.data.city_code = null;
+                        record.data.brgy_code = null;
+
+
+                        record.prov_code_options = [];
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+                    else {
+
+
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_province?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.prov_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.prov_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.data.brgy_code = null;
+                        record.data.city_code = null;
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_city?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.city_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.city_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.data.brgy_code = null;
+
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_brgy?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.brgy_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+
+
+
+
+
+
+
+
+                $scope.$watch('data.fund_source_id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.data.cycle_id = null;
+
+                        record.cycle_id_options = [];
+                    }
+
+                    else {
+
+                        if (newValue != "") {
+                            $http({
+                                method: 'GET',
+                                url: '/api/lib_cycle?id=' + record.data.fund_source_id,
+
+                            }).success(function (data, status, headers, config) {
+
+                                $scope.cycle_id_options = data;
+                            }).error(function (data, status, headers, config) {
+
+                                $scope.message = 'Unexpected Error';
+                            });
+                        }
+                        else {
+                            record.cycle_id = null;
+
+                            record.cycle_id_options = [];
+                        }
+                    }
+
+                });
+
+
+
+
+                $scope.search = function () {
+
+
+
+
+                    $.post('/api/export/barangay_assembly/summary', $scope.data).success(function (value) {
+                        $scope.loading = false;
+
+
+
+                        $scope.list = value;
+
+
+
+
+
+                        angular.forEach($scope.list,
+                            function (todo) {
+
+                                todo.first_ba_hh_perc = (100 * todo.first_ba_hh_atn / (todo.first_ba_hh_total)).toFixed(2);
+                                todo.second_ba_hh_perc = (100 * todo.second_ba_hh_atn / (todo.second_ba_hh_total)).toFixed(2);
+                                todo.third_ba_hh_perc = (100 * todo.third_ba_hh_atn / (todo.third_ba_hh_total)).toFixed(2);
+                                todo.fourth_ba_hh_perc = (100 * todo.fourth_ba_hh_atn / (todo.fourth_ba_hh_total)).toFixed(2);
+                                todo.fifth_ba_hh_perc = (100 * todo.fifth_ba_hh_atn / (todo.fifth_ba_hh_total)).toFixed(2);
+
+
+
+
+                                todo.first_ba_ip_hh_perc = (100 * todo.first_ba_ip_hh_atn / (todo.first_ba_ip_hh_total)).toFixed(2);
+                                todo.second_ba_ip_hh_perc = (100 * todo.second_ba_ip_hh_atn / (todo.second_ba_ip_hh_total)).toFixed(2);
+                                todo.third_ba_ip_hh_perc = (100 * todo.third_ba_ip_hh_atn / (todo.third_ba_ip_hh_total)).toFixed(2);
+                                todo.fourth_ba_ip_hh_perc = (100 * todo.fourth_ba_ip_hh_atn / (todo.fourth_ba_ip_hh_total)).toFixed(2);
+                                todo.fifth_ba_ip_hh_perc = (100 * todo.fifth_ba_ip_hh_atn / (todo.fifth_ba_ip_hh_total)).toFixed(2);
+
+
+                                todo.first_ba_pp_hh_perc = (100 * todo.first_ba_pp_hh_atn / (todo.first_ba_pp_hh_total)).toFixed(2);
+                                todo.second_ba_pp_hh_perc = (100 * todo.second_ba_pp_hh_atn / (todo.second_ba_pp_hh_total)).toFixed(2);
+                                todo.third_ba_pp_hh_perc = (100 * todo.third_ba_pp_hh_atn / (todo.third_ba_pp_hh_total)).toFixed(2);
+                                todo.fourth_ba_pp_hh_perc = (100 * todo.fourth_ba_pp_hh_atn / (todo.fourth_ba_pp_hh_total)).toFixed(2);
+                                todo.fifth_ba_pp_hh_perc = (100 * todo.fifth_ba_pp_hh_atn / (todo.fifth_ba_pp_hh_total)).toFixed(2);
+                            });
+
+                        $scope.isSearching = false;
+
+                    }).error(function (data) {
+
+                        alert(JSON.stringify(data));
+                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                        $scope.loading = false;
+                    });
+
+                };
+
+
+                $scope.search();
+
+
+
+
+
+            })
+
+
+
+
+
+        </script>
+    }
+
+
+</body>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace DeskApp.Views.Report
+{
+    public class _ba_hhs_fam_representation
+    {
+    }
+}

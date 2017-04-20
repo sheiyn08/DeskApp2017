@@ -1,0 +1,96 @@
+﻿
+
+<div class="panel panel-body">
+
+
+
+    <h3>KC Municipal Report - Grievance Installation</h3>
+    <br />
+
+    <h4>Summary of Male and Female Volunteers</h4>
+
+    <br />
+    <br />
+
+    @Html.Partial("~/Views/Report/Common/_report_header.cshtml")
+
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-xs-12">A. Barangay Grievance Monitoring</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    Barangay
+                </td>
+                <td align="center">
+                    With GRS Orientation
+                </td>
+                <td align="center">
+                    With GRS Volunteers Identified
+                </td>
+
+              
+
+                <td align="center">
+                    With IEC Materials
+                </td>
+                <td align="center">
+                    With GRS Box
+                </td>
+            
+
+
+
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in grievance_installation | orderBy: 'brgy_name'">
+
+
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+                <td>
+                    {{item.date_orientation != null ? "Yes" : "No"}}
+                </td>
+
+
+                <td>
+                    {{item.date_voliden != null ? "Yes" : "No"}}
+                </td>
+
+
+ 
+                <td>
+                    {{item.date_inspect != null ? "Yes" : "No"}}
+                </td>
+
+                <td>
+                    {{item.with_grievance_box == true ? "Yes" : "No"}}
+                </td>
+
+               
+            </tr>
+        </table>
+    </div>
+
+
+
+  
+
+
+    <br />
+</div>

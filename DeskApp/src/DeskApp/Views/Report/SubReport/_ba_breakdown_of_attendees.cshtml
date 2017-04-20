@@ -1,0 +1,481 @@
+﻿<div class="panel panel-body">
+
+
+
+    
+
+    <h3>KC Municipal Report - Barangay Assembly</h3>
+    <br />
+
+    <h4>Breakdown of Attendees</h4>
+
+    <br />
+    <br />
+
+
+    @Html.Partial("~/Views/Report/Common/_report_header.cshtml")
+
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-md-12"><strong>A. Total Male and Female Attendees</strong></div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td rowspan="2" align="center">
+                    Barangay
+                </td>
+                <td colspan="4" align="center">
+                    1st BA
+                </td>
+                <td colspan="4" align="center">
+                    2nd BA
+                </td>
+                <td colspan="4" align="center">
+                    3rd  BA
+                </td>
+                <td colspan="4" align="center">
+                    4th BA
+                </td>
+                <td colspan="4" align="center">
+                    5th BA
+                </td>
+            </tr>
+
+
+            <tr>
+                <!--First-->
+                <td>
+                    M
+                </td>
+
+                <td>
+                    M%
+                </td>
+
+                <td>
+                    F
+                </td>
+
+                <td>
+                    F%
+                </td>
+
+                <!--Second-->
+                <td>
+                    M
+                </td>
+
+                <td>
+                    M%
+                </td>
+
+                <td>
+                    F
+                </td>
+
+                <td>
+                    F%
+                </td>
+
+                <!--Third-->
+                <td>
+                    M
+                </td>
+
+                <td>
+                    M%
+                </td>
+
+                <td>
+                    F
+                </td>
+
+                <td>
+                    F%
+                </td>
+
+                <!--Fourth-->
+                <td>
+                    M
+                </td>
+
+                <td>
+                    M%
+                </td>
+
+                <td>
+                    F
+                </td>
+
+                <td>
+                    F%
+                </td>
+
+                <!--Fifth-->
+                <td>
+                    M
+                </td>
+
+                <td>
+                    M%
+                </td>
+
+                <td>
+                    F
+                </td>
+
+                <td>
+                    F%
+                </td>
+            </tr>
+
+
+            <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+                <!--First-->
+                <td>
+                    {{item.first_ba_male}}
+                </td>
+
+                <td>
+                    {{item.first_ba_perc_male == 'NaN' ? "" : item.first_ba_perc_male}}
+                </td>
+
+                <td>
+                    {{item.first_ba_female}}
+                </td>
+
+                <td>
+                    {{item.first_ba_perc_female == 'NaN' ? "" : item.first_ba_perc_female}}
+                </td>
+
+                <!--Second-->
+                <td>
+                    {{item.second_ba_male}}
+                </td>
+
+                <td>
+                    {{item.second_ba_perc_male == 'NaN' ? "" : item.second_ba_perc_male}}
+                </td>
+
+                <td>
+                    {{item.second_ba_female}}
+                </td>
+
+                <td>
+                    {{item.second_ba_perc_female == 'NaN' ? "" : item.second_ba_perc_female}}
+                </td>
+
+                <!--Third-->
+                <td>
+                    {{item.third_ba_male}}
+                </td>
+
+                <td>
+                    {{item.third_ba_perc_male == 'NaN' ? "" : item.third_ba_perc_male}}
+                </td>
+
+                <td>
+                    {{item.third_ba_female}}
+                </td>
+
+                <td>
+                    {{item.third_ba_perc_female == 'NaN' ? "" : item.third_ba_perc_female}}
+                </td>
+
+                <!--Fourth-->
+                <td>
+                    {{item.fourth_ba_male}}
+                </td>
+
+                <td>
+                    {{item.fourth_ba_perc_male == 'NaN' ? "" : item.fourth_ba_perc_male}}
+                </td>
+
+                <td>
+                    {{item.fourth_ba_female}}
+                </td>
+
+                <td>
+                    {{item.fourth_ba_perc_female == 'NaN' ? "" : item.fourth_ba_perc_female}}
+                </td>
+
+                <!--Fifth-->
+                <td>
+                    {{item.fifth_ba_male}}
+                </td>
+
+                <td>
+                    {{item.fifth_ba_perc_male == 'NaN' ? "" : item.fifth_ba_perc_male}}
+                </td>
+
+                <td>
+                    {{item.fifth_ba_female}}
+                </td>
+
+                <td>
+                    {{item.fifth_ba_perc_female == 'NaN' ? "" : item.fifth_ba_perc_female}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br />
+    <div class="row">
+
+        <label>B. Total IP Male and Female Attendees</label>
+    </div>
+
+    <table class="table table-bordered">
+
+        <tr>
+            <td rowspan="2" align="center">
+                Barangay
+            </td>
+            <td colspan="4" align="center">
+                1st BA
+            </td>
+            <td colspan="4" align="center">
+                2nd BA
+            </td>
+            <td colspan="4" align="center">
+                3rd  BA
+            </td>
+            <td colspan="4" align="center">
+                4th BA
+            </td>
+            <td colspan="4" align="center">
+                5th BA
+            </td>
+        </tr>
+
+
+        <tr>
+            <!--First-->
+            <td>
+                M
+            </td>
+
+            <td>
+                M%
+            </td>
+
+            <td>
+                F
+            </td>
+
+            <td>
+                F%
+            </td>
+
+            <!--Second-->
+            <td>
+                M
+            </td>
+
+            <td>
+                M%
+            </td>
+
+            <td>
+                F
+            </td>
+
+            <td>
+                F%
+            </td>
+
+            <!--Third-->
+            <td>
+                M
+            </td>
+
+            <td>
+                M%
+            </td>
+
+            <td>
+                F
+            </td>
+
+            <td>
+                F%
+            </td>
+
+            <!--Fourth-->
+            <td>
+                M
+            </td>
+
+            <td>
+                M%
+            </td>
+
+            <td>
+                F
+            </td>
+
+            <td>
+                F%
+            </td>
+
+            <!--Fifth-->
+            <td>
+                M
+            </td>
+
+            <td>
+                M%
+            </td>
+
+            <td>
+                F
+            </td>
+
+            <td>
+                F%
+            </td>
+        </tr>
+
+
+        <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+
+            <td>
+                {{item.brgy_name}}
+            </td>
+            <!--First-->
+            <td>
+                {{item.first_ba_ip_male}}
+            </td>
+
+            <td>
+                {{item.first_ba_ip_perc_male == 'NaN' ? "" : item.first_ba_ip_perc_male}}
+            </td>
+
+            <td>
+                {{item.first_ba_ip_female}}
+            </td>
+
+            <td>
+                {{item.first_ba_ip_perc_female == 'NaN' ? "" : item.first_ba_ip_perc_female}}
+            </td>
+
+            <!--Second-->
+            <td>
+                {{item.second_ba_ip_male}}
+            </td>
+
+            <td>
+                {{item.second_ba_ip_perc_male == 'NaN' ? "" : item.second_ba_ip_perc_male}}
+            </td>
+
+            <td>
+                {{item.second_ba_ip_female}}
+            </td>
+
+            <td>
+                {{item.second_ba_ip_perc_female == 'NaN' ? "" : item.second_ba_ip_perc_female}}
+            </td>
+
+            <!--Third-->
+            <td>
+                {{item.third_ba_ip_male}}
+            </td>
+
+            <td>
+                {{item.third_ba_ip_perc_male == 'NaN' ? "" : item.third_ba_ip_perc_male}}
+            </td>
+
+            <td>
+                {{item.third_ba_ip_female}}
+            </td>
+
+            <td>
+                {{item.third_ba_ip_perc_female == 'NaN' ? "" : item.third_ba_ip_perc_female}}
+            </td>
+
+            <!--Fourth-->
+            <td>
+                {{item.fourth_ba_ip_male}}
+            </td>
+
+            <td>
+                {{item.fourth_ba_ip_perc_male == 'NaN' ? "" : item.fourth_ba_ip_perc_male}}
+            </td>
+
+            <td>
+                {{item.fourth_ba_ip_female}}
+            </td>
+
+            <td>
+                {{item.fourth_ba_ip_perc_female == 'NaN' ? "" : item.fourth_ba_ip_perc_female}}
+            </td>
+
+            <!--Fifth-->
+            <td>
+                {{item.fifth_ba_ip_male}}
+            </td>
+
+            <td>
+                {{item.fifth_ba_ip_perc_male == 'NaN' ? "" : item.fifth_ba_ip_perc_male}}
+            </td>
+
+            <td>
+                {{item.fifth_ba_ip_female}}
+            </td>
+
+            <td>
+                {{item.fifth_ba_ip_perc_female == 'NaN' ? "" : item.fifth_ba_ip_perc_female}}
+            </td>
+        </tr>
+    </table>
+
+
+    <br /><br /> <!--Signature-->
+
+
+    <div class="row">
+
+
+
+
+        <div class="col-xs-6">
+            <label>Certified Correct By:</label>
+
+            <br />
+            <br />
+            {{prepared_by}}
+
+            Signature over Printed Name
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+    <div class="row">
+
+        <br />
+        <br />
+
+        <div class="col-xs-6">
+
+            Position
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+</div>

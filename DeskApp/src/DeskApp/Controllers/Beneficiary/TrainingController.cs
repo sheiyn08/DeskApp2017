@@ -275,7 +275,8 @@ namespace DeskApp.Controllers
 
                              s.training_title,
                              training_category = s.lib_training_category.name,
-                             lgu_level = s.lib_lgu_level.name,
+                             lgu_level_id = s.lgu_level_id,
+                             lgu_name = s.lib_lgu_level.name,
                              s.start_date,
                              s.end_date,
 
@@ -291,52 +292,82 @@ namespace DeskApp.Controllers
                              no_slp_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_slp == true && x.is_participant == true && x.community_training_id == s.community_training_id),
                              no_slp_male = db.person_training.Count(x => x.person_profile.sex == true && x.person_profile.is_slp == true && x.is_participant == true && x.community_training_id == s.community_training_id),
 
+                             no_lgu_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_lguofficial == true && x.is_participant == true && x.community_training_id == s.community_training_id),
+                             no_lgu_male = db.person_training.Count(x => x.person_profile.sex == true && x.person_profile.is_lguofficial == true && x.is_participant == true && x.community_training_id == s.community_training_id),
 
-                             male_volunteer_participants    = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_deleted != true)
-                                                              where
-                                                                   (from o in
-                                                                       db.person_volunteer_record.Where(x => x.is_deleted != true
-                                                                       && x.person_profile.is_deleted != true
-                                                                       && x.person_profile.sex == true)
-                                                                    select o.person_profile_id)
-                                                                       .Contains(i.person_profile_id)
+                             //male_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_participant == true && x.is_deleted != true)
+                             //                               where
+                             //                                    (from o in
+                             //                                        db.person_volunteer_record.Where(x => x.is_deleted != true
+                             //                                        && x.person_profile.is_deleted != true
+                             //                                        && x.person_profile.sex == true)
+                             //                                     select o.person_profile_id)
+                             //                                        .Contains(i.person_profile_id)
 
-                                                              select i).Count(),
+                             //                               select i).Count(),
 
-
-                             male_non_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_deleted != true)
-                                                            where
-                                                                 !(from o in
-                                                                             db.person_volunteer_record.Where(x => x.is_deleted != true
-                                                                       && x.person_profile.is_deleted != true
-                                                                       && x.person_profile.sex == true)
-                                                                   select o.person_profile_id)
-                                                                     .Contains(i.person_profile_id)
-
-                                                            select i).Count(),
-
-                             female_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_deleted != true)
+                             male_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_participant == true && x.person_profile.sex == true && x.is_deleted != true)
                                                             where
                                                                  (from o in
                                                                      db.person_volunteer_record.Where(x => x.is_deleted != true
-                                                                     && x.person_profile.is_deleted != true
-                                                                     && x.person_profile.sex != true)
+                                                                     && x.person_profile.person_profile_id == x.person_profile_id)
                                                                   select o.person_profile_id)
                                                                      .Contains(i.person_profile_id)
 
                                                             select i).Count(),
 
+                             male_non_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_participant == true && x.person_profile.sex == true && x.is_deleted != true)
+                                                                  where
+                                                                       !(from o in
+                                                                             db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                             && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                         select o.person_profile_id)
+                                                                           .Contains(i.person_profile_id)
 
-                             female_non_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_deleted != true)
+                                                                  select i).Count(),
+
+                             female_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_participant == true && x.person_profile.sex != true && x.is_deleted != true)
+                                                            where
+                                                                 (from o in
+                                                                     db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                     && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                  select o.person_profile_id)
+                                                                     .Contains(i.person_profile_id)
+
+                                                            select i).Count(),
+
+                             female_non_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_participant == true && x.person_profile.sex != true && x.is_deleted != true)
                                                                 where
                                                                      !(from o in
-                                                                                 db.person_volunteer_record.Where(x => x.is_deleted != true
-                                                                           && x.person_profile.is_deleted != true
-                                                                           && x.person_profile.sex != true)
+                                                                           db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                           && x.person_profile.person_profile_id == x.person_profile_id)
                                                                        select o.person_profile_id)
                                                                          .Contains(i.person_profile_id)
 
                                                                 select i).Count(),
+
+
+                             //female_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_deleted != true)
+                             //                                 where
+                             //                                      (from o in
+                             //                                          db.person_volunteer_record.Where(x => x.is_deleted != true
+                             //                                          && x.person_profile.is_deleted != true
+                             //                                          && x.person_profile.sex != true)
+                             //                                       select o.person_profile_id)
+                             //                                          .Contains(i.person_profile_id)
+
+                             //                                 select i).Count(),
+
+                             //female_non_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == s.community_training_id && x.is_deleted != true)
+                             //                                   where
+                             //                                        !(from o in
+                             //                                                    db.person_volunteer_record.Where(x => x.is_deleted != true
+                             //                                              && x.person_profile.is_deleted != true
+                             //                                              && x.person_profile.sex != true)
+                             //                                          select o.person_profile_id)
+                             //                                            .Contains(i.person_profile_id)
+
+                             //                                   select i).Count(),
 
                              //male_non_volunteer_participants
 
@@ -558,13 +589,261 @@ namespace DeskApp.Controllers
                     lib_fund_source_name = x.lib_fund_source.name,
                     lib_cycle_name = x.lib_cycle.name,
                     lib_enrollment_name = x.lib_enrollment.name,
-                    push_status_id = x.push_status_id
+                    push_date = x.push_date,
+                    last_modified_date = x.last_modified_date
                 }).Skip(currPages * size).Take(size).ToList(),
 
 
             };
         }
 
+
+        #region ACT Report: Part C #3:
+        [HttpPost]
+        [Route("api/export/report/trainings_facilitated/for_the_period_of")]
+        public IActionResult export_actreport_fortheperiodof(AngularFilterModel item)
+        {
+            DateTime? fortheperiodof_from = item.fortheperiodof_from;
+            DateTime? fortheperiodof_to = item.fortheperiodof_to;
+            int? selected_fund_source = item.fund_source_id;
+
+            var community_training = db.community_training.Where(x => x.fund_source_id == selected_fund_source && (x.start_date >= fortheperiodof_from && x.start_date <= fortheperiodof_to));
+            var person_profile = db.person_profile;
+            var person_training = db.person_training.Where(x => x.is_participant == true);
+
+            //var joined_result = from ct in community_training
+            //                    join pt in person_training on ct.community_training_id equals pt.community_training_id
+            //                    join pp in person_profile on pt.person_profile_id equals pp.person_profile_id
+            //                    select ct;
+
+            var joined_result = from pp in person_profile
+                                join pt in person_training on pp.person_profile_id equals pt.person_profile_id
+                                join ct in community_training on pt.community_training_id equals ct.community_training_id
+                                select ct;
+
+            //var items = joined_result
+            //    .Select(x => new
+            //    {
+            //        cycle_name = x.lib_cycle.name,
+            //        training_category = x.lib_training_category.description,
+            //        training_title = x.training_title,
+            //        start_date = x.start_date,
+            //        end_date = x.end_date,
+
+            //        count_leader_male = x.Where(xc => xc.person_profile.sex == true && xc.volunteer_committee_position_id == 2).Count(),
+            //        count_lgu_male = joined_result.Where(c => c)
+            //    });
+
+                                //group ct by new
+                                //{
+                                //    ct.lib_cycle.name,
+                                //    ct.fund_source_id,
+                                //    ct.community_training_id,
+                                //    ct.lib_training_category.description
+                                //} into g
+                                ////select g;
+                                //select new
+                                //{
+                                //    cycle_name = g.Key.name,
+                                //    training_title = 
+                                //    //training_title =  
+                                //    start_date = g.Select(s => s.start_date),
+                                //    end_date = g.Select(s => s.end_date),
+                                //    count_lgu_male = g.Where(c => c.pp.is_male == true)
+                                //};
+
+            //        var items = community_training
+            //            .Join(person_training, ct => ct.community_training_id, pt => pt.community_training_id, (ct, pt) => new { ct, pt })
+            //            .Join(person_profile, ppc => ppc.pt.person_profile_id, pp => pp.person_profile_id, (ppc, pp) => new { ppc, pp })
+            //            .GroupBy(x => new
+            //            {
+            //                fund_source = x.ppc.ct.lib_fund_source.fund_source_id,
+            //                cycle_name = x.ppc.ct.lib_cycle.name,
+            //                training_id = x.ppc.ct.community_training_id
+            //            })
+            //            .Select(m => new
+            //            {
+            //                cycle_name = m.Key.cycle_name,
+            //                training_category = m.lib_training_category.description,
+            //                training_title = m.ppc.ct.training_title,
+
+            //            });
+
+            //        var categorizedProducts = product
+            //.Join(productcategory, p => p.Id, pc => pc.ProdId, (p, pc) => new { p, pc })
+            //.Join(category, ppc => ppc.pc.CatId, c => c.Id, (ppc, c) => new { ppc, c })
+            //.Select(m => new {
+            //    ProdId = m.ppc.p.Id, // or m.ppc.pc.ProdId
+            //    CatId = m.c.CatId
+            //    // other assignments
+            //});
+
+            //var items = joined_result
+            //    .Select(x => new
+            //    {
+            //        cycle_name = x.Key.name,
+            //        training_category = x.Key.description,
+            //        training_title = community_training.training_title,
+
+            //    });
+
+            return Ok(joined_result);
+        }
+
+
+
+
+        //[HttpPost]
+        //[Route("api/export/report/trainings_facilitated/for_the_period_of")]
+        //public IActionResult export_actreport_fortheperiodof(AngularFilterModel item)
+        //{
+        //    DateTime? fortheperiodof_from = item.fortheperiodof_from;
+        //    DateTime? fortheperiodof_to = item.fortheperiodof_to;
+        //    int? selected_fund_source = item.fund_source_id;
+
+        //    var training_details = db.community_training.Where(x => x.fund_source_id == selected_fund_source && (x.start_date >= fortheperiodof_from && x.start_date <= fortheperiodof_to));
+        //    var participants_details = db.person_profile;
+        //    var training_participants = db.person_training.Where(x => x.is_participant == true);
+
+        //    var joined_result = from pt in training_participants
+        //                        join 
+
+
+        //    //    [Route("api/offline/v1/trainings/CheckParticipation")]
+        //    //public IActionResult CheckParticipation(Guid person_profile_id, Guid community_training_id)
+        //    //{
+        //    //    bool model = db.person_training.Any(
+        //    //                x =>
+        //    //                    x.person_profile_id == person_profile_id && x.community_training_id == community_training_id
+        //    //                    && x.is_participant == true);
+
+
+        //    //    return Ok(model);
+
+        //    //}
+
+            
+        //    var result = itemsCovered.GroupBy(x => new
+        //    {
+        //        fund_source = x.lib_fund_source.fund_source_id,
+        //        cycle_name = x.lib_cycle.name,
+        //        region_name = x.lib_region.region_name,
+        //        prov_name = x.lib_province.prov_name,
+        //        city_name = x.lib_city.city_name,
+        //        brgy_name = x.lib_brgy.brgy_name,
+        //    }).
+        //    Select(x => new
+        //    {
+        //        fund_source_id = x.Key.fund_source,
+        //        cycle_name = x.Key.cycle_name,
+        //        region_name = x.Key.region_name,
+        //        prov_name = x.Key.prov_name,
+        //        city_name = x.Key.city_name,
+        //        brgy_name = x.Key.brgy_name,
+
+        //        //household:
+        //        first_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_household),
+        //        first_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.total_household_in_barangay),
+        //        second_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_household),
+        //        second_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.total_household_in_barangay),
+        //        third_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_household),
+        //        third_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.total_household_in_barangay),
+        //        fourth_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_household),
+        //        fourth_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.total_household_in_barangay),
+        //        fifth_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_household),
+        //        fifth_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.total_household_in_barangay),
+
+        //        //IP household:
+        //        first_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_ip_household),
+        //        first_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.total_household_ip_in_barangay),
+        //        second_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_ip_household),
+        //        second_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.total_household_ip_in_barangay),
+        //        third_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_ip_household),
+        //        third_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.total_household_ip_in_barangay),
+        //        fourth_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_ip_household),
+        //        fourth_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.total_household_ip_in_barangay),
+        //        fifth_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_ip_household),
+        //        fifth_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.total_household_ip_in_barangay),
+
+        //        //male:
+        //        first_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_atn_male),
+        //        second_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_atn_male),
+        //        third_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_atn_male),
+        //        fourth_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_atn_male),
+        //        fifth_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_atn_male),
+
+        //        //female:
+        //        first_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_atn_female),
+        //        second_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_atn_female),
+        //        third_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_atn_female),
+        //        fourth_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_atn_female),
+        //        fifth_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_atn_female),
+
+        //        first_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_atn_male + c.no_atn_female),
+        //        second_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_atn_male + c.no_atn_female),
+        //        third_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_atn_male + c.no_atn_female),
+        //        fourh_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_atn_male + c.no_atn_female),
+        //        fifth_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_atn_male + c.no_atn_female),
+
+        //    }).ToList();
+
+        //    return Ok(result);
+
+        //}
+
+
+        //public PagedCollection<community_trainingDTO> GetDTO(AngularFilterModel item)
+        //{
+
+
+        //    var model = GetData(item);
+
+
+
+        //    var totalCount = model.Count();
+
+        //    int currPages = item.currPage ?? 0;
+        //    int size = item.pageSize ?? 10;
+
+        //    return new PagedCollection<community_trainingDTO>()
+        //    {
+
+
+        //        TotalSync = model.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).Count(),
+
+        //        TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
+
+
+        //        Page = currPages,
+        //        TotalCount = totalCount,
+        //        TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+
+
+        //        //   Items = model.OrderBy(x => x.training_title).Skip(currPages * size).Select(community_trainingDTO.SELECT).Take(size).ToList()
+
+        //        Items = model.OrderBy(x => x.community_training_id)
+        //        .Select(x => new community_trainingDTO
+        //        {
+        //            community_training_id = x.community_training_id,
+        //            lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
+        //            lib_city_city_name = x.lib_city.city_name,
+        //            lib_province_prov_name = x.lib_province.prov_name,
+        //            lib_region_region_name = x.lib_region.region_name,
+        //            lib_lgu_level_name = x.lib_lgu_level.name,
+        //            lib_training_category_name = x.lib_training_category.name,
+        //            training_title = x.training_title,
+        //            lib_fund_source_name = x.lib_fund_source.name,
+        //            lib_cycle_name = x.lib_cycle.name,
+        //            lib_enrollment_name = x.lib_enrollment.name,
+        //            push_status_id = x.push_status_id
+        //        }).Skip(currPages * size).Take(size).ToList(),
+
+
+        //    };
+        //}
+
+
+        #endregion
 
 
         [Route("api/offline/v1/trainings/save")]

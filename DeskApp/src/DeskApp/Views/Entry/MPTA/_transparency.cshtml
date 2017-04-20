@@ -1,0 +1,67 @@
+﻿<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h3>Available Information on State of Municipality</h3>
+    </div>
+    <md-content>
+        <div class="layout-row" layout-margin flex>
+
+            <div flex></div>
+            <div flex>Location of Posting</div>
+            <div flex>Date of Posted</div>
+
+        </div>
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>
+                Income and Expenditure
+            </div>
+            <div flex>
+                <input type="text" class="form-control" ng-model="data.incexp_location_post" />
+            </div>
+            <div flex>
+                <md-datepicker ng-required="data.incexp_location_post != null" ng-disabled="data.incexp_location_post ==null"
+                               name="Income and Expenditure Post Date" ng-model="dt_incexp_post_date" md-placeholder="Enter date"
+                               ng-change="data.incexp_post_date = dt_incexp_post_date.toISOString()" required
+                               md-max-date="today"></md-datepicker>
+            </div>
+        </div>
+
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>
+                Budget and data used for formulating the budget
+            </div>
+            <div flex>
+                <input type="text" class="form-control" ng-model="data.budget_location_post" />
+            </div>
+            <div flex>
+                <md-datepicker ng-required="data.budget_location_post != null" ng-disabled="data.budget_location_post ==null"
+                               name="Budget Data Post Date" ng-model="dt_budget_post_date" md-placeholder="Enter date"
+                               ng-change="data.budget_post_date = dt_budget_post_date.toISOString()" required
+                               md-max-date="today"></md-datepicker>
+            </div>
+        </div>
+
+
+        <div class="layout-row" layout-margin flex>
+
+            <div flex>
+                LGU Plans and Activities
+            </div>
+            <div flex>
+                <input type="text" class="form-control" ng-model="data.plan_location_post" />
+            </div>
+            <div flex>
+                <md-datepicker ng-required="data.plan_location_post != null" ng-disabled="data.plan_location_post ==null"
+                               name="Lgu Plans and Activities Post Date" ng-model="dt_plan_post_date" md-placeholder="Enter date"
+                               ng-change="data.plan_post_date = dt_plan_post_date.toISOString()" required
+                               md-max-date="today"></md-datepicker>
+            </div>
+        </div>
+
+
+    </md-content>
+
+</div>

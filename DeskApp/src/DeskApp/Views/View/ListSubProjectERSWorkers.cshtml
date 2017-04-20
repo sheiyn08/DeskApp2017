@@ -1,0 +1,119 @@
+﻿@model IEnumerable<WebApp.DataLayer.Entities.spi_ers_record>
+
+@{ ViewBag.Title = "List of Workers";
+
+    ViewBag.Controller = "View ERS Workers";
+
+}
+
+
+<table class="table table-striped">
+    <tr>
+
+        <th>
+            Last Name
+        </th>
+        <th>
+            First Name
+        </th>
+        <th>
+            Middle Name
+        </th>
+        <th>
+            Sex
+        </th>
+<th>
+    Age
+</th> 
+        <th>
+            @Html.DisplayNameFor(model => model.rate_hour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.rate_day)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.work_hours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.work_days)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.plan_cash)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.plan_lcc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.actual_cash)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.actual_lcc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ers_current_work_id)
+        </th>
+       
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+  
+        <td>
+            @Html.DisplayFor(modelItem => item.spi_worker.last_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.spi_worker.first_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.spi_worker.middle_name)
+        </td>
+        <td>
+            @(item.spi_worker.sex == true ? "Male" : "Female")
+
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.spi_worker.age)
+        </td>
+        <td> 
+           @Html.DisplayFor(modelItem => item.rate_hour)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rate_day)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.work_hours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.work_days)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.plan_cash)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.plan_lcc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.actual_cash)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.actual_lcc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lib_ers_current_work.name)
+        </td>
+         
+       
+    </tr>
+}
+
+</table>
+
+
+<script src="~/Scripts/jquery-2.0.3.js"></script>
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+
+<script src="~/Content/LTE/plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="~/Content/LTE/plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+

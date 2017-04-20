@@ -1,0 +1,142 @@
+﻿
+@model PagedList.IPagedList<WebApp.DataLayer.Entities.activity_monitoring>
+@using PagedList;
+@{Layout = null;}
+@using PagedList.Mvc;
+
+
+@{ Html.RenderPartial("_alerts"); }
+
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">  Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount || @Model.TotalItemCount Records</h3>
+
+        <form>
+            <label>Records per page</label>
+            <select class="pagesize" name="FiltPages" id="FiltPages" onchange="filter()">
+                <option value="10"></option>
+
+                <option value="10">10</option>
+
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </form>
+
+        <div class="box-tools">
+            @Html.PagedListPager(Model, page => Url.Action("_activity_monitoring",
+    new
+    {
+        item = ViewBag.FilterModel,
+        page,
+
+    }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "result" }))
+
+
+
+        </div>
+
+    </div>
+
+    <br />
+    <div class="box-body no-padding">
+        <table class="table table-striped">
+            <tr>
+                <th>
+
+                </th>
+
+                <th>
+                    Region
+                </th>
+                <th>
+                    Province
+                </th>
+                <th>
+                    Municipality
+                </th>
+                <th>
+                    Barangay
+                </th>
+
+                <th>
+            DSWD/ DILG Meeting
+                </th>
+                <th>
+                   MLGU /BLGU Orientation
+                </th>
+                <th>
+                 Social Prep
+                </th>
+
+                <th>
+                  BDC Workshop
+                </th>
+                <th>BA  
+                </th>
+                <th>
+                    Submitted Complete Doc. Req. to MLGOO
+                </th>
+
+
+
+
+
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-success" href="@Url.Action("TransActivityMonitoring", "Entry", new { id = @item.activity_monitoring_id})"><i class="fa fa-edit"></i></a>
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lib_region.region_nick)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lib_province.prov_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lib_city.city_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lib_brgy.brgy_name)
+                    </td>
+
+                    <td>
+                        @(item.has_coordination_dswd_dilg == true ? "Yes" : "")
+                   
+                    </td>
+                    <td>
+                        @(item.has_mlgu_blgu_orientation == true ? "Yes" : "")
+                      
+                    </td>
+                    <td>
+                        @(item.has_soc_prep_cso_orientation == true ? "Yes" : "")
+                       
+                    </td>
+                    <td>
+                        @(item.has_bdc_planning_workshop == true ? "Yes": "")
+                    </td>
+                    <td>
+                        @(item.has_ba_conducted == true ? "Yes" : "")
+                       
+                    </td>
+                    <td>
+                        @(item.has_sub_doc_req == true ? "Yes" : "")
+
+                    </td>
+                   
+                </tr>
+                            }
+
+        </table>
+
+    </div><!-- /.box-body -->
+</div><!-- /.box -->

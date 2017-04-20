@@ -1,0 +1,570 @@
+﻿
+<div ng-controller="AppCtrl" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+    <div class="panel panel-success">
+
+        <div class="panel-heading">
+            <h3><strong>Municipal Financial Profile</strong></h3>
+        </div>
+
+        <md-content>
+            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_basic_info.cshtml")
+        </md-content>
+        
+        <div class="panel panel-body">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                                       
+                </div> 
+                <md-content ng-show="show_tabs">
+                    <md-tabs md-dynamic-height md-border-bottom>
+
+                        <!--1st Tab-->
+                        <md-tab label="2009" ng-disabled="disable_2009_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2009.cshtml")
+                        </md-tab>
+                        <!--2nd Tab-->
+                        <md-tab label="2010" ng-disabled="disable_2010_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2010.cshtml")
+                        </md-tab>
+                        <!--3rd Tab-->
+                        <md-tab label="2011" ng-disabled="disable_2011_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2011.cshtml")
+                        </md-tab>
+                        <!--4th Tab-->
+                        <md-tab label="2012" ng-disabled="disable_2012_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2012.cshtml")
+                        </md-tab>
+                        <!--5th Tab-->
+                        <md-tab label="2013" ng-disabled="disable_2013_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2013.cshtml")
+                        </md-tab>
+                        <!--6th Tab-->
+                        <md-tab label="2014" ng-disabled="disable_2014_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2014.cshtml")
+                        </md-tab>
+                        <!--7th Tab-->
+                        <md-tab label="2015" ng-disabled="disable_2015_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2015.cshtml")
+                        </md-tab>
+                        <!--8th Tab-->
+                        <md-tab label="2016" ng-disabled="disable_2016_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2016.cshtml")
+                        </md-tab>
+                        <!--9th Tab-->
+                        <md-tab label="2017" ng-disabled="disable_2017_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2017.cshtml")
+                        </md-tab>
+                        <!--10th Tab-->
+                        <md-tab label="2018" ng-disabled="disable_2018_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2018.cshtml")
+                        </md-tab>
+                        <!--11th Tab-->
+                        <md-tab label="2019" ng-disabled="disable_2019_tab">
+                            @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2019.cshtml")
+                        </md-tab>
+                    </md-tabs>
+
+                </md-content> 
+            </div>
+        </div>
+        <br />
+        
+        <md-container layout="row">
+
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+ 
+                <!--VALIDATION: button Submit will be enabled only if the required fields are populated-->
+                <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!basicForm.$valid">
+                    Save Records
+                </md-button>
+                <md-button class="md-warn md-raised" href="/MunicipalFinancialProfile/Index">
+                    Back to List
+                </md-button>
+            </div>
+
+        </md-container>
+
+    </div>
+
+</div>
+
+
+
+
+@section Scripts
+{
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+            .controller('AppCtrl',
+                function ($scope, $mdDialog, $http, $mdToast) {
+
+                    $scope.talakayan_year_options = [{ "Id": 1, "Name": "2015" }, { "Id": 2, "Name": "2016" }, { "Id": 3, "Name": "2017" }, { "Id": 4, "Name": "2018" }, { "Id": 5, "Name": "2019" }];
+                    $scope.numbersOnly = /^[0-9]+([,.][0-9]+)?$/;
+                    $scope.wholeNumberOnly = /^\d+$/;
+
+                    $scope.data;                    
+
+                    //edit:
+                    $http.get('/api/offline/v1/muni_financial_profile/get?id=@ViewBag.id')
+                        .then(function (response) {
+
+                    $scope.loading = true;                            
+                    $scope.data = response.data;
+                                                                                    
+                    $scope.dt_talakayan_date_start = response.data.talakayan_date_start == undefined ? null: new Date(response.data.talakayan_date_start);
+                    $scope.dt_talakayan_date_end = response.data.talakayan_date_end == undefined ? null : new Date(response.data.talakayan_date_end);
+
+
+                    $scope.$watch('dt_talakayan_date_start',
+                                function (newValue, oldValue) {
+                                    $scope.minEndDate = new Date(newValue);
+                                });
+
+                    $scope.$watch('dt_talakayan_date_end',
+                                function (newValue, oldValue) {
+                                    $scope.maxEndDate = new Date(newValue);
+                                });                                   
+
+                    $scope.showAttributes = false;
+
+                    $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
+                    $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
+                    $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
+
+                    $scope.data.talakayan_yr_id = $scope.data.talakayan_yr_id == 0 ? "" : $scope.data.talakayan_yr_id;
+                    $scope.data.talakayan_date_start = $scope.data.talakayan_date_start == 0 ? "" : $scope.data.talakayan_date_start;
+                    $scope.data.talakayan_date_end = $scope.data.talakayan_date_end == 0 ? "" : $scope.data.talakayan_date_end;
+
+                    $scope.data.cycle_id = $scope.data.cycle_id == 0 ? "" : $scope.data.cycle_id;
+                    
+                    $scope.$watch('data.talakayan_yr_id',
+                                function (newValue, oldValue) {
+
+                                    $scope.this_year = new Date().getFullYear();
+
+                                    switch ($scope.data.talakayan_yr_id) {
+                                        //2015
+                                        case 1:
+                                            if ($scope.this_year < 2015) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+
+                                                return false;
+                                            }
+                                            break;
+                                            //2016
+                                        case 2:
+                                            if ($scope.this_year < 2016) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+                                                return false;
+                                            }
+                                            break;
+                                            //2017
+                                        case 3:
+                                            if ($scope.this_year < 2017) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+
+
+                                                return false;
+                                            }
+                                            break;
+                                            //2018
+                                        case 4:
+                                            if ($scope.this_year < 2018) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+
+
+                                                return false;
+                                            }
+                                            break;
+                                            //2019
+                                        case 5:
+                                            if ($scope.this_year < 2019) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+
+
+                                                return false;
+                                            }
+                                            break;
+
+                                    }
+
+                                    //if talakayan year is 2015
+                                    if ($scope.data.talakayan_yr_id == 1) {
+                                        $scope.minStartDate = new Date("01/01/2015");
+                                        $scope.maxStartDate = new Date("12/31/2015");
+
+                                        $scope.minEndDate = new Date($scope.data.dt_talakayan_date_start);
+                                        $scope.maxEndDate = new Date("12/31/2015");
+
+                                        $scope.disable_2016_tab = true;
+                                        $scope.disable_2017_tab = true;
+                                        $scope.disable_2018_tab = true;
+                                        $scope.disable_2019_tab = true;
+                                    }
+
+                                    //if talakayan year is 2016
+                                    if ($scope.data.talakayan_yr_id == 2) {
+                                        $scope.minStartDate = new Date("01/01/2016");
+                                        $scope.maxStartDate = new Date();
+
+                                        $scope.minEndDate = new Date($scope.data.dt_talakayan_date_start);
+                                        $scope.maxEndDate = new Date();
+
+                                        $scope.disable_2017_tab = true;
+                                        $scope.disable_2018_tab = true;
+                                        $scope.disable_2019_tab = true;
+                                    }
+
+                                    if ($scope.data.talakayan_yr_id == 3) {
+                                        $scope.minStartDate = new Date("01/01/2017");
+                                        $scope.maxStartDate = new Date();
+
+                                        $scope.minEndDate = new Date($scope.data.dt_talakayan_date_start);
+                                        $scope.maxEndDate = new Date();
+
+                                        $scope.disable_2018_tab = true;
+                                        $scope.disable_2019_tab = true;
+                                    }
+
+                                    if ($scope.data.talakayan_yr_id == 4) {
+                                        $scope.minStartDate = new Date("01/01/2018");
+                                        $scope.maxStartDate = new Date();
+
+                                        $scope.minEndDate = new Date($scope.data.dt_talakayan_date_start);
+                                        $scope.maxEndDate = new Date();
+
+                                        $scope.disable_2019_tab = true;
+                                    }
+
+                                    if ($scope.data.talakayan_yr_id == 5) {
+                                        $scope.minStartDate = new Date("01/01/2019");
+                                        $scope.maxStartDate = new Date();
+
+                                        $scope.minEndDate = new Date($scope.data.dt_talakayan_date_start);
+                                        $scope.maxEndDate = new Date();
+                                    }
+                                });
+
+
+                                                
+                    $scope.check_status = function () {
+
+                        $http.get('/api/exists/muni_financial_profile?id=@ViewBag.id')
+                            .then(function (result) {
+
+
+                                if (result.data == true) {
+                                    $scope.status = true;
+                                } else {
+                                    $scope.status = false;
+
+                                }
+                            });
+
+                    }
+
+                    $scope.check_status();
+
+                        //getting libraries: Region, Province, Municipality, Current Cycle
+                    $http.get('/api/online/lib_region')
+                                .then(function (response) { $scope.region_code_options = response.data; });
+                            
+                    $http.get('/api/lib_cycle?id=7')
+                         .then(function (response) { $scope.cycle_id_options = response.data; });
+
+                    
+                    $scope.watchTalakayanYear = function () {
+
+                        $scope.dt_talakayan_date_start = '';
+                        $scope.dt_talakayan_date_end = '';
+                        $scope.disable_2009_tab = false;
+                        $scope.disable_2010_tab = false;
+                        $scope.disable_2011_tab = false;
+                        $scope.disable_2012_tab = false;
+                        $scope.disable_2013_tab = false;
+                        $scope.disable_2014_tab = false;
+                        $scope.disable_2015_tab = false;
+                        $scope.disable_2016_tab = false;
+                        $scope.disable_2017_tab = false;
+                        $scope.disable_2018_tab = false;
+                        $scope.disable_2019_tab = false;
+
+                    };
+
+                            //populate pre-filled fields if Municipality is selected:
+                    $scope.populate = function () {
+
+                        $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
+
+                        //for Revenue Sources and Sector Expenditure - 2011
+                        $.post('/api/export/muni_financial_profile/blgf_financial_data?id=3', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+                            //alert(JSON.stringify(value));
+
+                            $scope.RevenueandExpenditures2011 = value;
+                            
+                            setTimeout($.unblockUI, 3);
+
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+
+                        //for Revenue Sources and Sector Expenditure - 2012
+                        $.post('/api/export/muni_financial_profile/blgf_financial_data?id=4', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+                            //alert(JSON.stringify(value));
+
+                            $scope.RevenueandExpenditures2012 = value;
+
+                            setTimeout($.unblockUI, 3);
+
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+                        //for Revenue Sources and Sector Expenditure - 2013
+                        $.post('/api/export/muni_financial_profile/blgf_financial_data?id=5', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+                            //alert(JSON.stringify(value));
+
+                            $scope.RevenueandExpenditures2013 = value;
+
+                            setTimeout($.unblockUI, 3);
+
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+                        //for LGPMS
+                        $.post('/api/export/muni_financial_profile/lgpms_all_data', $scope.data).success(function (value) {
+                            $scope.loading = false;
+
+                            //alert(JSON.stringify(value));
+
+                            $scope.LGPMSlist = value;
+                            
+                            setTimeout($.unblockUI, 3);
+
+                            $scope.isSearching = false;
+
+                        }).error(function (data) {
+
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured! " + data.statusText;
+                            $scope.loading = false;
+                        });
+
+                    };
+                            $scope.populate();
+
+                            //FOR SAVING:
+                            $scope.save = function () {
+
+                                $scope.$broadcast('show-errors-check-validity');
+                                $scope.loading = true;
+
+                                $scope.data.mlgu2009_rev_total_lgu_income_per_capita =  Math.round(($scope.data.mlgu2009_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;                                    
+                                $scope.data.mlgu2009_rev_devt_fund = Math.round(($scope.data.mlgu2009_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2009_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2009_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+
+                                $scope.data.mlgu2010_rev_total_lgu_income_per_capita = Math.round(($scope.data.mlgu2010_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;
+                                $scope.data.mlgu2010_rev_devt_fund = Math.round(($scope.data.mlgu2010_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2010_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2010_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+
+                                $scope.data.mlgu2011_rev_total_lgu_income_per_capita = Math.round(($scope.data.mlgu2011_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;
+                                $scope.data.mlgu2011_rev_devt_fund = Math.round(($scope.data.mlgu2011_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2011_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2011_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+
+                                $scope.data.mlgu2012_rev_total_lgu_income_per_capita = Math.round(($scope.data.mlgu2012_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;
+                                $scope.data.mlgu2012_rev_devt_fund = Math.round(($scope.data.mlgu2012_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2012_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2012_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+
+                                $scope.data.mlgu2013_rev_total_lgu_income_per_capita = Math.round(($scope.data.mlgu2013_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;
+                                $scope.data.mlgu2013_rev_devt_fund = Math.round(($scope.data.mlgu2013_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2013_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2013_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+
+                                $scope.data.mlgu2014_rev_total_lgu_income_per_capita = Math.round(($scope.data.mlgu2014_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;
+                                $scope.data.mlgu2014_rev_devt_fund = Math.round(($scope.data.mlgu2014_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2014_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2014_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+
+                                $scope.data.mlgu2015_rev_total_lgu_income_per_capita = Math.round(($scope.data.mlgu2015_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;
+                                $scope.data.mlgu2015_rev_devt_fund = Math.round(($scope.data.mlgu2015_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2015_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2015_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+
+                                $scope.data.mlgu2016_rev_total_lgu_income_per_capita = Math.round(($scope.data.mlgu2016_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;
+                                $scope.data.mlgu2016_rev_devt_fund = Math.round(($scope.data.mlgu2016_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2016_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2016_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+
+                                $scope.data.mlgu2017_rev_total_lgu_income_per_capita = Math.round(($scope.data.mlgu2017_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;
+                                $scope.data.mlgu2017_rev_devt_fund = Math.round(($scope.data.mlgu2017_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2017_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2017_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+
+                                $scope.data.mlgu2018_rev_total_lgu_income_per_capita = Math.round(($scope.data.mlgu2018_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;
+                                $scope.data.mlgu2018_rev_devt_fund = Math.round(($scope.data.mlgu2018_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2018_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2018_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+
+                                $scope.data.mlgu2019_rev_total_lgu_income_per_capita = Math.round(($scope.data.mlgu2019_rev_total_lgu_income / $scope.data.population_2015) * 100) / 100;
+                                $scope.data.mlgu2019_rev_devt_fund = Math.round(($scope.data.mlgu2019_rev_ira_share * 0.2) * 100) / 100;
+                                $scope.data.mlgu2019_rev_devt_fund_per_capita = Math.round((($scope.data.mlgu2019_rev_ira_share * 0.2) / $scope.data.population_2015) * 100) / 100;
+                                                                                                                                    
+                                $.post('/api/offline/v1/muni_financial_profile/save', $scope.data).success(function (data) {
+                                        $scope.loading = false;
+                                        
+                                        $('html, body').animate({
+                                            scrollTop: '0px'
+                                        }, 1500);
+
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Record Saved!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        $scope.check_status();
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            };
+                            
+                        }); //end of edit
+
+
+
+                    //===============================================================================================================================================================================//
+                    
+                    //watch for region, province, and muni..
+                    $scope.$watch('data.region_code',
+                        function (newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+                                record.prov_code = null;
+                                record.city_code = null;
+
+                                record.prov_code_options = [];
+                                record.city_code_options = [];
+
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_province?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.prov_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    $scope.$watch('data.prov_code',
+                        function (newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+
+                                record.city_code = null;
+                                record.city_code_options = [];
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_city?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.city_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    //watch for talakayan year:
+                    //$scope.$watch('data.talakayan_yr_id',
+                    //    function (newValue, oldValue) {
+                    //        var record = $scope;
+                    //        $http({
+                    //            method: 'GET',
+                    //            url: '/api/talakayan_year?id=' + newValue,
+                    //        })
+                    //            .success(function (data, status, headers, config) {
+                    //                $scope.talakayan_year_options = data;
+                    //            })
+                    //            .error(function (data, status, headers, config) {
+
+                    //                $scope.message = 'Unexpected Error';
+                    //            });
+                    //    });
+
+                    $scope.compute = function () {
+                        alert("Population saved!");
+                    };
+
+
+
+                    //populate pre-filled fields if Municipality is selected:
+                    
+
+                }) //end of script
+
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+}
+
+
+
+
+

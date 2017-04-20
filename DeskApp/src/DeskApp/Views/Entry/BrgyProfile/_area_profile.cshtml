@@ -1,0 +1,168 @@
+﻿
+@{Layout = null; }
+
+<form name="areaForm">
+    <div class="panel panel-success">
+        <div class="panel panel-heading">
+            <h3>Area Profile</h3>
+        </div>
+
+        <div class="panel panel-body">
+            <div layout="row">
+                <div flex="50">
+                    <label> Is this a poblacion?</label>
+                </div>
+                <div flex="50">
+                    @*<md-radio-group>
+                            <md-radio-button aria-label="Checkbox 1" ng-model="data.is_poblacion" id="is_Yes">Yes</md-radio-button>
+                            <md-radio-button aria-label="Checkbox 1" ng-model="data.is_poblacion" id="is_No">No</md-radio-button>
+                        </md-radio-group>*@
+
+
+                    <md-radio-group name="Is Poblacion" ng-required="" ng-model="data.is_poblacion">
+                        <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                        <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+                    </md-radio-group>
+
+                </div>
+            </div>
+
+
+
+            <div layout="row" layout-margin>
+                <div flex="50">
+                    <label> If not, how many hours does it take to travel to Poblacion?</label>
+                </div>
+                <div flex="25">
+                    <label>Hours</label>
+                    <input class="form-control" ng-disabled="data.is_poblacion == true" type="number" name="Hours to Town" ng-model="data.hrs_totown" ng-required="data.is_poblacion == false" min="0" />
+
+                </div>
+                <div flex="25">
+                    <label>Minutes</label>
+                    <input max="59" min="0" class="form-control" ng-disabled="data.is_poblacion == true" type="number" name="Minutes to Town" ng-model="data.mins_totown" ng-required="data.is_poblacion == false" />
+                </div>
+            </div>
+
+
+
+            <div layout="row">
+                <div flex="50">
+                    <label>No. of kilometers from the poblacion?</label>
+                </div>
+                <div flex="50">
+                    <label>KMS</label>
+                    <input class="form-control" ng-disabled="data.is_poblacion == true" type="number" name="KM to Town" ng-model="data.km_frmtown" ng-required="data.is_poblacion == false" min="0" />
+
+                </div>
+            </div>
+
+
+            <div layout="row" layout-margin flex="100">
+                <div flex="50">
+                    <label>   Geographic Characteristic of the Barangays</label>
+                </div>
+                <div flex="50">
+
+                    <md-checkbox value="true" ng-model="data.is_upland" id="is_upland">upland</md-checkbox>
+                    <md-checkbox value="true" ng-model="data.is_hilly" id="is_hilly">hilly</md-checkbox>
+                    <md-checkbox value="true" ng-model="data.is_lowland" id="is_lowland">lowland</md-checkbox>
+                    <md-checkbox value="true" ng-model="data.is_island" id="is_island">island</md-checkbox>
+                    <md-checkbox value="true" ng-model="data.is_coastal" id="is_coastal">coastal</md-checkbox>
+
+
+                </div>
+            </div>
+
+            <div layout="row" layout-margin flex="100">
+                <div flex="50">
+                    <label>Is this barangay isolated from other barangays?</label>
+                </div>
+                <div flex="50">
+                    <md-checkbox aria-label="Checkbox 1" ng-model="data.is_isolated" id="is_isolated">
+                        {{ data.is_isolated == true ? "Yes" : "No" }}
+                    </md-checkbox>
+
+                </div>
+            </div>
+         
+
+        </div>
+
+    </div>
+
+
+</form>
+
+
+
+    <div class="panel panel-success">
+        <div class="panel panel-heading">
+            <h3>Environmental Critical Areas</h3>
+        </div>
+
+        <md-container layout-padding>
+            <form name="ecaForm" layout="row" layout-margin flex="100">
+
+                <table class="table zui-table zui-table-horizontal zui-table-highlight">
+                    <tr>
+                        <td></td>
+                        <td>
+                            Type
+                        </td>
+                        <td>
+                            Description
+                        </td>
+                        <td>
+                            Location
+                        </td>
+
+                    </tr>
+
+                    <tbody ng-repeat="prob in data.eca_lists">
+                        <tr>
+                            <td>
+                                <a class="btn btn-danger" flex="1" ng-click="removeEca($index)"><i class="fa fa-remove"></i></a>
+                            </td>
+                            <td>{{prob.lib_eca_type.Name}}</td>
+                            <td>{{prob.description}}</td>
+                            <td>{{prob.location}}</td>
+
+
+                        </tr>
+
+                    </tbody>
+                    <tr>
+
+
+                        <td>
+                            <a class="btn btn-success" flex="1" ng-click="addEca()" ng-disabled="!ecaForm.$valid"><i class="fa fa-check"></i></a>
+                        </td>
+
+                        <td>
+
+                            <select name="ECA Type" ng-model="eca_model.lib_eca_type" class="form-control" required
+                                    ng-options="option as option.Name for option in eca_type_id_options">
+                                <option value="">[Select ECA Type]</option>
+                            </select>
+                        </td>
+
+
+                        <td><input type="text" class="form-control" placeholder="Description" ng-model="eca_model.description" required name="Description" /></td>
+                        <td><input type="text" class="form-control" placeholder="Location" ng-model="eca_model.location" required name="Location" /></td>
+
+
+                    </tr>
+
+                </table>
+
+
+
+            </form>
+        </md-container>
+ 
+
+
+
+    </div>

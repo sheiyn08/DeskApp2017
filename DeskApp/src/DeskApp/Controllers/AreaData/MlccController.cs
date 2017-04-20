@@ -241,7 +241,8 @@ namespace DeskApp.Controllers.AreaData
                                lib_region_region_name = x.lib_region.region_nick,
                                lib_enrollment_name = x.lib_enrollment.name,
                                municipal_lcc_id = x.municipal_lcc_id,
-                               push_status_id = x.push_status_id
+                               push_date = x.push_date,
+                               last_modified_date = x.last_modified_date
                            })
                            .Skip(currPages * size).Take(size).ToList(),
             };
@@ -281,7 +282,9 @@ namespace DeskApp.Controllers.AreaData
                                lib_province_prov_name = x.lib_province.prov_name,
                                lib_region_region_name = x.lib_region.region_nick,
                                lib_enrollment_name = x.lib_enrollment.name,
-                               municipal_lcc_id = x.municipal_lcc_id
+                               municipal_lcc_id = x.municipal_lcc_id,
+                               push_date = x.push_date,
+                               last_modified_date = x.last_modified_date
                            })
                            .Skip(currPages * size).Take(size).ToList(),
             };
@@ -321,7 +324,9 @@ namespace DeskApp.Controllers.AreaData
                                lib_province_prov_name = x.lib_province.prov_name,
                                lib_region_region_name = x.lib_region.region_nick,
                                lib_enrollment_name = x.lib_enrollment.name,
-                               municipal_lcc_id = x.municipal_lcc_id
+                               municipal_lcc_id = x.municipal_lcc_id,
+                               push_date = x.push_date,
+                               last_modified_date = x.last_modified_date
                            })
                            .Skip(currPages * size).Take(size).ToList(),
             };
@@ -361,7 +366,9 @@ namespace DeskApp.Controllers.AreaData
                                lib_province_prov_name = x.lib_province.prov_name,
                                lib_region_region_name = x.lib_region.region_nick,
                                lib_enrollment_name = x.lib_enrollment.name,
-                               municipal_lcc_id = x.municipal_lcc_id
+                               municipal_lcc_id = x.municipal_lcc_id,
+                               push_date = x.push_date,
+                               last_modified_date = x.last_modified_date
                            })
                            .Skip(currPages * size).Take(size).ToList(),
             };

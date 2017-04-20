@@ -1,0 +1,103 @@
+﻿
+<div class="panel panel-body" ng-show="!isSearching">
+    <table class="table zui-table zui-table-horizontal zui-table-highlight">
+        <thead class="thead-inverse">
+            <tr>
+                <th></th>
+
+                <th>
+                    Region
+                </th>
+
+                <th>
+                    Province
+                </th>
+                <th>
+                    City
+                </th>
+                <th>
+                    Barangay
+                </th>
+
+                <th>
+                    Fund Source
+                </th>
+                <th>
+                    KC Mode
+                </th>
+                <th>
+                    Category
+                </th>
+
+                <th>
+                    Resolution Status
+                </th>
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in Items">
+
+                <td>
+                    <a ng-href="/Entry/Grievances?id={{item.grievance_record_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>  
+                    
+                </td>
+
+
+                <td>
+                   
+                        {{item.lib_region_region_name}}
+                    
+                </td>
+                <td>
+                    
+                        {{item.lib_province_prov_name}}
+                 
+                </td>
+                <td>
+                  
+                        {{item.lib_city_city_name}}
+                
+                </td>
+
+                <td>
+                  
+                        {{item.lib_brgy_brgy_name}}
+                 
+                </td>
+            
+                <td>
+                 
+                        {{item.lib_fund_source_name}}
+                  
+                </td>
+
+
+                <td>
+                   
+                        {{item.lib_enrollment_name}}
+                   
+                </td>
+
+                <td>
+                  
+                        {{item.lib_grs_category_name}}
+                   
+                </td>
+                
+                <td>
+                  
+                        {{item.lib_grs_resolution_status_name}}
+                   
+                </td>
+              
+             
+
+              
+            </tr>
+        </tbody>
+
+    </table>
+</div>

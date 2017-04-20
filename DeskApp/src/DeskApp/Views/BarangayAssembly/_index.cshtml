@@ -1,0 +1,205 @@
+﻿<div class="panel panel-body" ng-show="!isSearching">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    Region
+                </th>
+
+                <th>
+                    Province
+                </th>
+                <th>
+                    City
+                </th>
+                <th>
+                    Barangay
+                </th>
+
+                <th>
+                    Fund Source
+                </th>
+
+                <th>
+                    Cycle
+                </th>
+                <th>
+                    KC Mode
+                </th>
+                <th>
+                    Purpose
+                </th>
+
+                <th>
+                    no_families
+                </th>
+                <th>
+                    no_household
+                </th>
+                <th>
+                    no_atn_male
+                </th>
+                <th>
+                    no_atn_female
+                </th>
+                <th>
+                    no_ip_male
+                </th>
+                <th>
+                    no_ip_female
+                </th>
+                <th>
+                    no_old_male
+                </th>
+                <th>
+                    no_old_female
+                </th>
+                <th>
+                    no_pantawid_household
+                </th>
+                <th>
+                    no_pantawid_family
+                </th>
+                <th>
+                    no_slp_household
+                </th>
+                <th>
+                    no_slp_family
+                </th>
+                <th>
+                    no_ip_household
+                </th>
+                <th>
+                    no_ip_family
+                </th>
+                <th>
+                    total_household_in_barangay
+                </th>
+                <th>
+                    total_families_in_barangay
+                </th>
+                <th>
+                    no_lgu_male
+                </th>
+                <th>
+                    no_lgu_female
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in Items">
+
+
+                <td>
+                    <a ng-href="/Entry/BarangayAssembly?id={{item.brgy_assembly_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+
+                </td>
+
+
+                <td>
+
+                    {{item.lib_region_region_name}}
+
+                </td>
+                <td>
+
+                    {{item.lib_province_prov_name}}
+
+                </td>
+                <td>
+
+                    {{item.lib_city_city_name}}
+
+                </td>
+
+                <td>
+
+                    {{item.lib_brgy_brgy_name}}
+
+                </td>
+
+                <td>
+
+                    {{item.lib_fund_source_name}}
+
+                </td>
+                <td>
+
+                    {{item.lib_cycle_name}}
+
+                </td>
+                
+                <td>
+
+                    {{item.lib_enrollment_name}}
+
+                </td>
+                <td>
+
+                    {{item.lib_barangay_assembly_purpose_name}}
+
+                </td>
+
+                <td>
+                    {{ item.no_families }}
+                </td>
+                <td>
+                    {{ item.no_household }}
+                </td>
+                <td>
+                    {{ item.no_atn_male }}
+                </td>
+                <td>
+                    {{ item.no_atn_female }}
+                </td>
+                <td>
+                    {{ item.no_ip_male }}
+                </td>
+                <td>
+                    {{ item.no_ip_female }}
+                </td>
+                <td>
+                    {{ item.no_old_male }}
+                </td>
+                <td>
+                    {{ item.no_old_female }}
+                </td>
+                <td>
+                    {{ item.no_pantawid_household }}
+                </td>
+                <td>
+                    {{ item.no_pantawid_family }}
+                </td>
+                <td>
+                    {{ item.no_slp_household }}
+                </td>
+                <td>
+                    {{ item.no_slp_family }}
+                </td>
+                <td>
+                    {{ item.no_ip_household }}
+                </td>
+                <td>
+                    {{ item.no_ip_family }}
+                </td>
+                <td>
+                    {{ item.total_household_in_barangay }}
+                </td>
+                <td>
+                    {{ item.total_families_in_barangay }}
+                </td>
+                <td>
+                    {{ item.no_lgu_male }}
+                </td>
+                <td>
+                    {{ item.no_lgu_female }}
+                </td>
+
+
+            </tr>
+        </tbody>
+
+    </table>
+</div>

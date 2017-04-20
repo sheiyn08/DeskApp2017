@@ -1,0 +1,1166 @@
+﻿<div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
+
+    <form name="syncForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Synchronize Records</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()" ng-show="!isSearching">
+                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+
+            <div class="md-dialog-content" ng-show="isSearching">
+                <p>
+                    Currently Synchronizing your Data, Application Not Accessible Until Operation has Completed!
+                </p>
+                <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+            </div>
+
+
+
+            <div class="md-dialog-content" ng-show="!isSearching">
+
+                <h2>Enter WEB PIMS Username and Password</h2>
+                <p>
+                    Ensure that you are connected to the Internet to successfully Synchronize your data.
+                </p>
+                <strong> {{error}}</strong>
+
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Select Municipality</label>
+
+                        <select name="City" ng-model="city_code" id="city_code" class="form-control"
+                                ng-required="true"
+                                ng-options="option.Id as option.Name for option in all_city_code_options">
+
+
+                            <option value="">[Select Municipality]</option>
+                        </select>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstName">PIMS Online User Name</label>
+                        <input required type="email" class="form-control" id="firstName" placeholder="UserName" ng-model="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">PIMS Online Password</label>
+                        <input required type="password" class="form-control" id="lastName" placeholder="Password" ng-model="password">
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" ng-show="isSearching">
+            {{message}}
+        </md-dialog-actions>
+        <md-dialog-actions layout="row" ng-show="!isSearching">
+
+
+            <ul>
+                <li ng-repeat="(key, errors) in myForm.$error track by $index">
+                    <strong>{{ key }}</strong> errors
+                    <ul>
+                        <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                    </ul>
+                </li>
+            </ul>
+
+
+            <span flex></span>
+            <md-button md-warn md-primary ng-click="upload()" ng-disabled="username == null || password==null">
+                <i class="fa fa-upload"></i>   Upload
+            </md-button>
+
+            <md-button md-warn md-primary ng-click="download()" ng-disabled="!syncForm.$valid">
+                <i class="fa fa-download"></i>      Download
+            </md-button>
+
+            <md-button md-warn md-raised ng-click="cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</div>
+
+
+@section Scripts
+{
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+
+            .controller('AppCtrl', function ($scope, $mdDialog, $http, $mdToast) {
+
+                $http.get('/api/all/cities')
+                    .then(function (response) { $scope.all_city_code_options = response.data; });
+
+                $scope.geturi = ["ceac", "barangay_profile", "profiles"]
+
+                $scope.download = function (url) {
+
+                    angular.forEach($scope.geturi,
+                                           function (todo) {
+
+                                               $scope.syncGet(todo);
+
+                                           });
+                  
+                  
+
+                    //$scope.isSearching = true;
+                    //$scope.syncGetCeac();
+                    //$scope.syncGetbarangay_profile();
+                    //$scope.syncGetmunicipal_profile();
+                    //$scope.syncGetbarangay_assembly();
+                    //$scope.syncGetperson_profile();
+                    //$scope.syncGettrainings();
+
+                    //$scope.syncGetgrievances();
+
+                    //$scope.syncGetgrs_installation();
+
+                    //$scope.syncGetsub_project();
+
+                    //$scope.syncGetMPTA();
+
+                    //$scope.syncGetmlcc();
+
+                    //$scope.syncGetoversight_committee();
+
+                    //$scope.isSearching = false;
+                }
+
+                $scope.syncGet = function (url) {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading " + url;
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/' + url + '?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+
+                        $scope.false = true;
+
+
+
+
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent(url + ' Downloaded!')
+                            .position("top right")
+                            .hideDelay(3000)
+                        );
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Processing Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+       
+
+                $scope.syncGetCeac = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading CEAC";
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/ceac?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+
+                        $scope.false = true;
+
+
+
+
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent('Ceac Downloaded!')
+                            .position("top right")
+                            .hideDelay(3000)
+                        );
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostCeac = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading Ceac";
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/ceac?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+                        $mdToast.show(
+                           $mdToast.simple()
+                           .textContent('Ceac Uploaded!')
+                           .position("top right")
+                           .hideDelay(3000)
+                       );
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+
+                $scope.syncGetbarangay_profile = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading Barangay Profile";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/barangay_profile?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+
+
+                        $mdToast.show(
+                              $mdToast.simple()
+                              .textContent('Barangay Profile Downloaded!')
+                              .position("top right")
+                              .hideDelay(3000)
+                          );
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostbarangay_profile = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+
+                    $scope.message = "Uploading Barangay Profile";
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/barangay_profile?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+
+
+
+                        $mdToast.show(
+                              $mdToast.simple()
+                              .textContent('Barangay Profile Uploaded!')
+                              .position("top right")
+                              .hideDelay(3000)
+                          );
+
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+
+                $scope.syncGetmunicipal_profile = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading Municipal Profile";
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/municipal_profile?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+
+
+
+
+
+
+                        $mdToast.show(
+                              $mdToast.simple()
+                              .textContent('Municipal Profile Downloaded!')
+                              .position("top right")
+                              .hideDelay(3000)
+                          );
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostmunicipal_profile = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading Municipal Profile";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/municipal_profile?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+
+
+
+
+                        $mdToast.show(
+                              $mdToast.simple()
+                              .textContent('Municipal Profile Uploaded!')
+                              .position("top right")
+                              .hideDelay(3000)
+                          );
+
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncGetbarangay_assembly = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading Barangay Assembly";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/barangay_assembly?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+
+                        $mdToast.show(
+                             $mdToast.simple()
+                             .textContent('Barangay Assembly Downloaded!')
+                             .position("top right")
+                             .hideDelay(3000)
+                         );
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostbarangay_assembly = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading Barangay Assembly";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/barangay_assembly?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+
+
+                        $mdToast.show(
+                             $mdToast.simple()
+                             .textContent('Barangay Assembly Uploaded!')
+                             .position("top right")
+                             .hideDelay(3000)
+                         );
+
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncGetperson_profile = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading Person Profile and Related Tables";
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/profiles?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+
+
+
+                        $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('Person Profile Downloaded!')
+                        .position("top right")
+                        .hideDelay(3000)
+                    );
+
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostperson_profile = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading Person Profile and Related Tables";
+
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/profiles?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+
+
+                        $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('Person Profile Uploaded!')
+                        .position("top right")
+                        .hideDelay(3000)
+                    );
+
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncGettrainings = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading Training Records and Related Tables";
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/trainings?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+
+
+                        $mdToast.show(
+                  $mdToast.simple()
+                  .textContent('Training Records Downloaded!')
+                  .position("top right")
+                  .hideDelay(3000)
+              );
+
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPosttrainings = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading Training Records and Related Tables";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/trainings?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+
+
+
+
+                        $mdToast.show(
+                  $mdToast.simple()
+                  .textContent('Training Records Uploaded!')
+                  .position("top right")
+                  .hideDelay(3000)
+              );
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncGetgrievances = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading GRS Records";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/grievances?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+
+
+
+                        $mdToast.show(
+                  $mdToast.simple()
+                  .textContent('Grievance Records Downloaded!')
+                  .position("top right")
+                  .hideDelay(3000)
+              );
+
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostgrievances = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading GRS Records";
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/grievances?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+
+
+
+                        $mdToast.show(
+                  $mdToast.simple()
+                  .textContent('Grievance Records Uploaded!')
+                  .position("top right")
+                  .hideDelay(3000)
+              );
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+
+
+                $scope.syncGetgrs_installation = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading GRSInstall Records";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/grs_installation?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+
+                        $mdToast.show(
+             $mdToast.simple()
+             .textContent('Grievance Intallation Records Downloaded!')
+             .position("top right")
+             .hideDelay(3000)
+         );
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostgrs_installation = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading GRSInstall Records";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/grs_installation?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+
+
+                        $mdToast.show(
+             $mdToast.simple()
+             .textContent('Grievance Intallation Records Uploaded!')
+             .position("top right")
+             .hideDelay(3000)
+         );
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncGetsub_project = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading sub project Records";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/sub_project?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+
+
+                        $mdToast.show(
+                         $mdToast.simple()
+                         .textContent('Sub Project Records Downloaded!')
+                         .position("top right")
+                         .hideDelay(3000)
+                     );
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostsub_project = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading sub project Records";
+
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/sub_project?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+                
+
+                        $mdToast.show(
+                         $mdToast.simple()
+                         .textContent('Sub Project Records Uploaded!')
+                         .position("top right")
+                         .hideDelay(3000)
+                     );
+
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+
+                $scope.syncGetMPTA = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading PTA Integration Records";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/MPTA?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+                     
+
+                        $mdToast.show(
+                         $mdToast.simple()
+                         .textContent('PTA Integration Records Downloaded!')
+                         .position("top right")
+                         .hideDelay(3000)
+                     );
+
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostMPTA = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading PTA Integration Records";
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/MPTA?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+                     
+
+                        $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('PTA Integration Records Uploaded!')
+                        .position("top right")
+                        .hideDelay(3000)
+                    );
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncGetmlcc = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading MLCC Integration Records";
+
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/mlcc?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+                     
+                        $mdToast.show(
+                        $mdToast.simple()
+                        .textContent('MLCC Records Downloaded!')
+                        .position("top right")
+                        .hideDelay(3000)
+                    );
+
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostmlcc = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading MLCC Records";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/mlcc?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+                   
+                        $mdToast.show(
+                   $mdToast.simple()
+                   .textContent('MLCC Records Uploaded!')
+                   .position("top right")
+                   .hideDelay(3000)
+               );
+
+
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncGetoversight_committee = function () {
+                    $scope.isSearching = true;
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.error = '';
+                    $scope.message = "Downloading oversight committee   Records";
+
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+                    $http.post('/sync/get/oversight_committee?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code + "&record_id="
+
+                    ).success(function (data) {
+
+                      
+                        $mdToast.show(
+              $mdToast.simple()
+              .textContent('OCC Records Downloaded!')
+              .position("top right")
+              .hideDelay(3000)
+          );
+
+
+                        $scope.false = true;
+
+
+                        $scope.isSearching = false;
+                    }).error(function (data) {
+
+                        $scope.error = "An Error has occured while Downloading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+                $scope.syncPostoversight_committee = function () {
+                    $scope.isSearching = true;
+                    $scope.error = '';
+                    $scope.total = 0;
+                    $scope.finished = 0;
+                    $scope.message = "Uploading oversight committee   Records";
+                    var credentials;
+
+                    var username = $scope.username;
+                    var password = $scope.password;
+
+
+
+                    $http.post('/sync/post/oversight_committee?username=' + username + "&password=" + password + "&record_id="
+                    ).success(function (data) {
+
+                        $mdToast.show(
+              $mdToast.simple()
+              .textContent('OCC Records Uploaded!')
+              .position("top right")
+              .hideDelay(3000)
+          );
+
+             
+                        $scope.false = true;
+                        $scope.isSearching = false;
+
+
+                    }).error(function (data) {
+
+
+
+                        $scope.error = "An Error has occured while Uploading Data! ";
+                        $scope.isSearching = false;
+                    });
+
+                };
+
+            })
+    </script>
+
+}

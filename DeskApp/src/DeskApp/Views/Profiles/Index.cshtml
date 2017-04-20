@@ -1,0 +1,164 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+    <style>
+        md-backdrop {
+            position: fixed;
+        }
+    </style>
+
+</head>
+
+<body layout="column">
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+        <md-toolbar md-scroll-shrink>
+            <div class="md-toolbar-tools">Filter Records</div>
+        </md-toolbar>
+
+
+        <md-content>
+
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <label for="Region:_">Region: </label>
+
+                            <select class="form-control" ng-model="region_code">
+                                <option value=''>[Select Region]</option>
+                                <option ng-repeat="value in region_code_options" value="{{value.Id}}">{{value.Name}}</option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Province:_">Province: </label>
+                            <select class="form-control" ng-model="prov_code" ng-disabled="region_code == ''">
+                                <option value=''>[Select Province]</option>
+                                <option ng-repeat="value in prov_code_options" value="{{value.Id}}">{{value.Name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Municipality:_">Municipality: </label>
+
+                            <select class="form-control" ng-model="city_code" ng-disabled="prov_code ==''">
+                                <option value=''>[Select Municipality]</option>
+                                <option ng-repeat="value in city_code_options" value="{{value.Id}}">{{value.Name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Barangay:_">Barangay: </label>
+
+                            <select class="form-control" ng-model="brgy_code" ng-disabled="city_code ==''">
+                                <option value=''>[Select Barangay]</option>
+                                <option ng-repeat="value in brgy_code_options" value="{{value.Id}}">{{value.Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <label for="Fund Source:_">Fund Source: </label>
+
+
+                            <select class="form-control" ng-model="fund_source_id">
+                                <option value=''>[Select Fund Source]</option>
+                                <option ng-repeat="value in fund_source_id_options" value="{{value.Id}}">{{value.Name}}</option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Province:_">KC Mode: </label>
+                            <select class='form-control' ng-model="enrollment_id">
+                                <option value=''>[Select KC Mode]</option>
+                                <option ng-repeat="value in enrollment_id_options" value="{{value.Id}}">{{value.Name}}</option>
+
+                            </select>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+        </md-content>
+
+
+
+        <div class="panel-footer">
+            <div class="panel-body">
+                <p>
+
+
+                    <md-button class="md-warn md-raised" ng-click="search()">
+                        <i class="fa fa-filter"></i>  Filter
+                    </md-button>
+
+
+                    <md-button class="md-success md-raised" ng-click="createNew()">
+                        <i class="fa fa-plus"></i>  New Record
+                    </md-button>
+
+
+
+
+                </p>
+
+                @Html.Partial("~/Views/shared/sync_get.cshtml")
+
+
+
+            </div>
+
+        </div>
+
+
+
+
+
+        @Html.Partial("~/Views/Shared/_pagination.cshtml")
+
+
+        <md-content>
+
+            @Html.Partial("~/Views/Profiles/_index.cshtml")
+        </md-content>
+
+    </div>
+
+    <!--
+    Copyright 2016 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+    -->
+
+
+
+</body>
+
+
+@section Scripts {
+    <script src="~/scripts/app/Profiles/profile_index.js"></script>
+}

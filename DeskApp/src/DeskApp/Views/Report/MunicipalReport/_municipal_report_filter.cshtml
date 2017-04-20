@@ -1,0 +1,146 @@
+﻿
+
+<div class="panel panel-info">
+    <div class="panel panel-heading">
+        <h4>Municipal Reports <span style="font-size:smaller"> ► </span><b> {{selected_category_name}}</b></h4>
+    </div>
+    <div class="panel-body">
+        <form name="reportFilterForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label>Sub Report:</label>
+                        <div class="form-group">
+                            <select name="Region" ng-model="selected_subreport" id="region_code" class="form-control"
+                                    ng-disabled="status"
+                                    ng-change="search()"
+                                    ng-required="true"
+                                    ng-options="option as option.name for option in subreport_list">
+                                <option value="">[Select Report to be Generated]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <label>Region:</label>
+                        <div class="form-group">
+                            <select name="Region" ng-model="selected_region" id="region_code" class="form-control"
+                                    ng-disabled="status"
+                                    ng-required="true"
+                                    ng-options="option as option.Name for option in region_code_options">
+                                <option value="">[Select Region]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Province: </label>
+                        <div class="form-group">
+                            <select name="Province" ng-model="selected_province" id="prov_code" class="form-control"
+                                    ng-disabled="selected_region.Id == null || status"
+                                    ng-required="true"
+                                    ng-options="option as option.Name for option in prov_code_options">
+                                <option value="">[Select Province]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Municipality: </label>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <select name="Municipality" ng-model="selected_city" id="city_code" class="form-control"
+                                        ng-required="true"
+                                        ng-disabled="selected_province.Id == null || status"
+                                        ng-options="option as option.Name for option in city_code_options">
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" ng-show="selected_subreport.id == 1 || selected_subreport.id == 2 || selected_subreport.id == 4 || selected_subreport.id == 5 || selected_subreport.id == 6">
+                        <label>Barangay: </label>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <select name="Barangay" ng-model="selected_brgy" id="brgy_code" class="form-control"
+                                        ng-required="true"
+                                        ng-disabled="selected_city.Id == null || status"
+                                        ng-options="option as option.Name for option in brgy_code_options">
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <label>Portfolio:</label>
+                        <div class="form-group">
+                            <select name="Fund Source" ng-model="selected_fund" id="fund_source_id" class="form-control"
+                                    ng-required="true"
+                                    ng-disabled="status"
+                                    ng-options="option as option.Name for option in fund_source_id_options">
+                                <option value="">[Select Portfolio]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3" ng-hide="selected_subreport.id == 4 || selected_subreport.id == 9 || selected_subreport.id == 11 || selected_subreport.id == 13 || selected_subreport.id == 16 || selected_subreport.id == 17 || selected_subreport.id == 23 || selected_subreport.id == 24 || selected_subreport.id == 27 || selected_subreport.id == 28">
+                        <label>Cycle: </label>
+                        <div class="form-group">
+                            <select name="Cycle" ng-model="selected_cycle" id="cycle_id" class="form-control"                                    
+                                    ng-required="true"
+                                    ng-disabled="status"
+                                    ng-options="option as option.Name for option in cycle_id_options">
+                                <option value="">[Select Cycle]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>KC Mode: </label>
+                        <div class="form-group">
+                            <select name="KC Mode" ng-model="selected_enrollment" id="enrollment_id" class="form-control"
+                                    ng-disabled="status"
+                                    ng-required="true"
+                                    ng-options="option as option.Name for option in enrollment_id_options">
+                                <option value="">[Select KC Mode]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-3" ng-show="selected_subreport.id == 12">
+                        <label>Status:</label>
+                        <div class="form-group">
+                            <select name="Priority" ng-model="selected_priority" class="form-control"
+                                    ng-disabled="status"
+                                    ng-options="option as option.Name for option in priority_options">
+                                <option value="">[Select Priority]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <br />
+                        <a class="btn btn-info" ng-click="search()" ng-disabled="!reportFilterForm.$valid">
+                            Filter &nbsp; <i class="fa fa-filter fa-lg"></i>
+                        </a>
+                        <a class="btn btn-info" ng-click="print()">
+                            Print &nbsp; <i class="fa fa-print fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+

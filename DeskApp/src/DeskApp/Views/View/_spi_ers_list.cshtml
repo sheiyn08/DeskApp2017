@@ -1,0 +1,44 @@
+﻿@model IEnumerable<WebApp.DataLayer.Entities.spi_ers_list>
+
+ 
+<table class="table table-striped">
+    <tr>
+        <th>
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_reported)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_started)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_ended)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a data-bind="click: get_workers(@item.spi_profile_id)"  class="btn btn-success"><i class="fa fa-list"></i></a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_reported)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_started)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_ended)
+            </td>
+
+           
+        </tr>
+    }
+
+</table>
+
+ 

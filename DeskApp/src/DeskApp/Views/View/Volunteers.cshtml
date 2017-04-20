@@ -1,0 +1,466 @@
+﻿@{ ViewBag.Title = "List of Volunteers";
+
+ ViewBag.Controller = "View Volunteers";
+
+}
+
+
+<script src="~/Scripts/jquery-2.0.3.js"></script>
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<script src="~/bower_components/Knockout/knockout-3.1.0.js"></script>
+<script src="~/bower_components/Knockout/knockout.bindings.js"></script>
+<script src="~/bower_components/Knockout/knockout.mapping-latest.js"></script>
+<script src="~/bower_components/Knockout/knockout.validation.js"></script>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<link href="~/bower_components/Bootstrap/bootstrap-select.min.css" rel="stylesheet" />
+
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-title">Filter</h3>
+    </div>
+    <form role="form">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" data-bind="value: name" class="form-control" placeholder="Name..." />
+                </div>
+
+            </div>
+
+            <div class="row">
+                @Html.Partial("~/Views/Filters/_region_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_province_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_municipality_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_barangay_filter.cshtml")
+
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Filters/_fund_source_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/_cycle_filter.cshtml")
+
+
+
+                @Html.Partial("~/Views/Filters/_enrollment_filter.cshtml")
+
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Filters/Volunteer/_committee_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/Volunteer/_membership_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/Volunteer/_sex_filter.cshtml")
+
+                @Html.Partial("~/Views/Filters/Volunteer/_is_trained_filter.cshtml")
+
+            </div>
+
+        </div>
+        <div class="box-footer">
+            @Html.Partial("~/Views/Filters/_Buttons/_filter.cshtml")
+            @Html.Partial("~/Views/Filters/_Buttons/_clear.cshtml")
+
+            @Html.Partial("~/Views/Filters/_Buttons/_export.cshtml")
+
+
+
+            <div class="btn btn-info" name="exportXls" id="exportXls" data-bind="click: exportXls1">Export Committee</div>
+            <div class="btn btn-info" name="exportXls" id="exportXls" data-bind="click: exportXls2">Export Trained</div>
+
+
+        </div>
+    </form>
+</div>
+
+
+
+
+<input type="radio" data-bind="checked: show_summary, checkedValue: true" /> Show Summary
+<input type="radio" data-bind="checked: show_summary, checkedValue: false" /> Hide Summary
+
+<div id="summary">
+
+</div>
+
+<div id="result" class="scrolls">
+
+</div>
+
+
+
+
+<script>
+
+    var dataarray;
+
+    
+    var mapping = {
+        'ignore': ["lib_regions", "lib_provinces", "lib_cities", "lib_brgy",
+            "lib_fund_sources", "lib_cycles", "lib_barangay_assembly_purposes", "lib_enrollments","lib_volunteer_committee_positions",
+            "lib_volunteer_committees"
+        ]
+    }
+
+
+    var ViewModel = function (data) {
+        var self = this;
+
+        dataarray =  @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+        ko.mapping.fromJS(dataarray, {}, self);
+
+        self.show_summary = ko.observable(false);
+
+
+        self.lib_regions = ko.observableArray([]);
+        self.lib_provinces = ko.observableArray([]);
+        self.lib_cities = ko.observableArray([]);
+        self.lib_brgy = ko.observableArray([]);
+        self.lib_volunteer_committees = ko.observableArray([]);
+        self.lib_volunteer_committee_positions = ko.observableArray([]);
+
+        self.selected_regions = ko.observableArray([]);
+        self.selected_volunteer_committees = ko.observableArray([]);
+
+        self.prov_code = ko.observable('');
+        self.city_code = ko.observable('');
+        self.brgy_code = ko.observable('');
+
+
+
+        self.lib_sex = ko.observableArray(["MALE", "FEMALE"]);
+        self.lib_trained = ko.observableArray(["Yes", "No"]);
+
+
+
+        //arrays
+        self.ItemsPerPage = ko.observableArray([10, 20, 30, 40, 50, 100]);
+        self.lib_regions = ko.observableArray([]);
+        self.lib_provinces = ko.observableArray([]);
+        self.lib_cities = ko.observableArray([]);
+        self.lib_brgy = ko.observableArray([]);
+        self.lib_fund_sources = ko.observableArray([]);
+        self.lib_cycles = ko.observableArray([]);
+
+        self.lib_enrollments = ko.observableArray([]);
+
+        //barangay assembly
+        self.lib_barangay_assembly_purposes = ko.observableArray([]);
+
+        //volunteer
+        self.lib_volunteer_committees = ko.observableArray([]);
+        self.lib_volunteer_committee_positions = ko.observableArray([]);
+
+
+        //dataarray
+        self.lib_regions(dataarray.lib_regions);
+        self.lib_fund_sources(dataarray.lib_fund_sources);
+        self.lib_barangay_assembly_purposes(dataarray.lib_barangay_assembly_purposes);
+        self.lib_enrollments(dataarray.lib_enrollments);
+
+
+        //observables
+        self.region_code = ko.observable('');
+        self.prov_code = ko.observable('');
+        self.city_code = ko.observable('');
+        self.brgy_code = ko.observable('');
+        self.cycle_id = ko.observable('');
+        self.enrollment_id = ko.observable('');
+        self.fund_source_id = ko.observable('');
+        self.barangay_assembly_purpose_id = ko.observable('');
+        self.volunteer_committee_position_id  = ko.observable('');
+        self.volunteer_committee_id = ko.observable('');
+
+        self.sex_id = ko.observable('');
+        self.trained_id = ko.observable('');
+        //subscribe
+        self.fund_source_id.subscribe(function (newval) {
+
+
+            if (self.fund_source_id() == '') {
+                self.lib_cycles(undefined);
+            }
+            else {
+
+
+                $.post("/Library/GetCycle", { id: self.fund_source_id() }, function (states) {
+                    self.lib_cycles(states);
+                });
+
+
+            }
+        })
+
+        self.region_code.subscribe(function (newval) {
+
+
+            if (self.region_code() == '') {
+                self.lib_provinces(undefined);
+                self.lib_cities(undefined);
+                self.lib_brgy(undefined);
+            }
+            else {
+
+
+                $.post("/Library/GetProvinces", { id: self.region_code() }, function (states) {
+                    self.lib_provinces(states);
+                });
+
+
+            }
+        })
+
+        self.prov_code.subscribe(function (newval) {
+            $.post("/Library/GetCity", { id: self.prov_code() }, function (states) {
+                self.lib_cities(states);
+            })
+
+        })
+
+        self.city_code.subscribe(function (newval) {
+            $.post("/Library/GetBarangay", { id: self.city_code() }, function (states) {
+                self.lib_brgy(states);
+            })
+        })
+
+        $.post("/Library/GetDropDownMenu", function (data) {
+
+            self.lib_volunteer_committees(data.lib_volunteer_committees);
+            self.lib_volunteer_committee_positions(data.lib_volunteer_committee_positions);
+        });
+
+
+
+        
+        self.show_summary.subscribe(function(newval)
+        {
+            if(newval == true)
+            {
+                $('#summary').show(500);
+
+
+
+
+
+                var data = JSON.stringify(ko.mapping.toJS(self,mapping));
+
+                $('#report_result').block({
+                    message: 'Processing...' ,
+                    css: { border: '3px solid #a00' }
+                });
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Report/_volunteers?item=" + data,
+
+                    success: function (viewHTML) {
+                        $("#summary").html(viewHTML);
+                        setTimeout($.unblockUI, 10);
+
+                    },
+                    error: function (errorData) {
+                        onError(errorData);
+                        setTimeout($.unblockUI, 10);
+                    }
+
+                });
+            }
+            else
+            {
+                $('#summary').hide(500);
+            }
+
+        });
+
+
+
+        self.clear = function()
+        {
+
+            window.location.reload();
+
+        }
+
+        self.filter = function () {
+
+
+
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+
+            var data = JSON.stringify(ko.mapping.toJS(self, mapping));
+
+
+            var url = "/View/_volunteers?item=" + data;
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                //  data: someArguments,
+                success: function (viewHTML) {
+                    $("#result").html(viewHTML);
+                    setTimeout($.unblockUI, 100);
+
+                },
+                error: function (errorData) { onError(errorData); }
+            });
+
+            if(self.show_summary() == true)
+            {
+
+                $('#report_result').block({
+                    message: 'Processing...' ,
+                    css: { border: '3px solid #a00' }
+                });
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Report/_volunteers?item=" + data,
+
+                    success: function (viewHTML) {
+                        $("#summary").html(viewHTML);
+                        setTimeout($.unblockUI, 10);
+
+                    },
+                    error: function (errorData) {
+                        onError(errorData);
+                        setTimeout($.unblockUI, 10);
+                    }
+
+                });
+            }
+
+        }
+
+        self.exportXls = function() {
+
+
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+            var mapping = {
+                'ignore': ["lib_regions", "lib_provinces", "lib_cities", "lib_brgy",
+                    "lib_fund_sources", "lib_cycles", "lib_barangay_assembly_purposes", "lib_enrollments","lib_volunteer_committee_positions",
+                    "lib_volunteer_committees"
+                ]
+            }
+            var data = JSON.stringify(ko.mapping.toJS(self,mapping));
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Export/volunteers",// + Params,
+                data: {
+                    item: data,
+
+                },
+                success: function (viewHTML) {
+                    window.location.href = "/Export/GetExcel?id=" + viewHTML;
+                    setTimeout($.unblockUI, 10);
+
+                },
+                error: function (errorData) {
+                    onError(errorData);
+                    setTimeout($.unblockUI, 10);
+                }
+
+            });
+
+
+        }
+
+
+        self.exportXls1 = function() {
+
+
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+            var mapping = {
+                'ignore': ["lib_regions", "lib_provinces", "lib_cities", "lib_brgy",
+                    "lib_fund_sources", "lib_cycles", "lib_barangay_assembly_purposes", "lib_enrollments","lib_volunteer_committee_positions",
+                    "lib_volunteer_committees"
+                ]
+            }
+            var data = JSON.stringify(ko.mapping.toJS(self,mapping));
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Export/volunteer_committees",// + Params,
+                data: {
+                    item: data,
+
+                },
+                success: function (viewHTML) {
+                    window.location.href = "/Export/GetExcel?id=" + viewHTML;
+                    setTimeout($.unblockUI, 10);
+
+                },
+                error: function (errorData) {
+                    onError(errorData);
+                    setTimeout($.unblockUI, 10);
+                }
+
+            });
+
+
+        }
+
+        self.exportXls2 = function() {
+
+
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+            var mapping = {
+                'ignore': ["lib_regions", "lib_provinces", "lib_cities", "lib_brgy",
+                    "lib_fund_sources", "lib_cycles", "lib_barangay_assembly_purposes", "lib_enrollments","lib_volunteer_committee_positions",
+                    "lib_volunteer_committees"
+                ]
+            }
+            var data = JSON.stringify(ko.mapping.toJS(self,mapping));
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Export/volunteer_trainings",// + Params,
+                data: {
+                    item: data,
+
+                },
+                success: function (viewHTML) {
+                    window.location.href = "/Export/GetExcel?id=" + viewHTML;
+                    setTimeout($.unblockUI, 10);
+
+                },
+                error: function (errorData) {
+                    onError(errorData);
+                    setTimeout($.unblockUI, 10);
+                }
+
+            });
+
+
+        }
+    }
+
+    $(document).ready(function () {
+        ko.applyBindings(new ViewModel());
+
+
+
+        $("#filter").trigger('click');
+
+
+    });
+
+
+
+</script> 

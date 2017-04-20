@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebApp.DataLayer.Entities.spi_ers_list>
+ 
+ @{ ViewBag.Title = "List of ERS";
+
+     ViewBag.Controller = "View Sub Project ERS";
+
+}
+
+<table class="table table-striped">
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.date_reported)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_started)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_ended)
+        </th>
+      
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.date_reported)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_started)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_ended)
+        </td>
+      
+        <td>
+            <a href="@Url.Action("ListSubProjectERSWorkers", "View", new { id = @item.spi_profile_id})" class="btn btn-success"><i class="fa fa-list"></i></a>
+        </td>
+    </tr>
+}
+
+</table>
+
+
+<script src="~/Scripts/jquery-2.0.3.js"></script>
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+
+<script src="~/Content/LTE/plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="~/Content/LTE/plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+

@@ -1,0 +1,656 @@
+ 
+
+<div flex="100" class="md-whiteframe-1dp">
+
+
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+            <h4>General Information</h4>
+
+        </div>
+
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Region</label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" show-errors='{showSuccess: true}'>
+                            <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                                    ng-required="true"
+                                    ng-options="option.Id as option.Name for option in region_code_options">
+                                <option value="">[Select Region]</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4" ng-show="data.grs_resolution_status_id == 2">
+                        <div class="form-group" show-errors='{showSuccess: true}'>
+                            <select name="region_code" ng-model="data.grs_feedback_id" id="region_code" class="form-control"
+                                    ng-required="data.grs_resolution_status_id==2"
+                                    ng-options="option.Id as option.Name for option in grs_feedback_id_options">
+                                <option value="">[Select Feedback]</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Province</label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" show-errors='{showSuccess: true}'>
+                            <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                    ng-disabled="data.region_code == null"
+                                    ng-required="true"
+                                    ng-options="option.Id as option.Name for option in prov_code_options">
+                                <option value="">[Select Province]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Municipality</label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" show-errors='{showSuccess: true}'>
+                            <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                                    ng-required="true"
+                                    ng-disabled="data.prov_code == null"
+                                    ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                                <option value="">[Select Municipality]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Barangay</label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" show-errors='{showSuccess: true}'>
+                            <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                    ng-required="true"
+                                    ng-disabled="data.city_code == null"
+                                    ng-options="option.Id as option.Name for option in brgy_code_options">
+                                <option value="">[Select Barangay]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+            <h4>I. Personal Information</h4>
+
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">First Name</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <input name="first_name" type="text" ng-model="data.first_name" required placeholder="First Name" class="form-control" />
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Middle Name</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <input name="middle_name" type="text" ng-model="data.middle_name" placeholder="Middle Name" class="form-control" />
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Last Name</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <input name="last_name" type="text" ng-model="data.last_name" required placeholder="Last Name" class="form-control" />
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">Sex</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <select name="sex" ng-model="data.sex" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Male'},{'value':false,'text':'Female'}]" ng-selected="data.sex" class="form-control"></select>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="Region:_">No of Children</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <input name="no_children" type="number" ng-model="data.no_children" ng-pattern="/^[0-9]{1,7}$/" required placeholder="No of Children" class="form-control" min="0" max="20" />
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <div class="col-md-4">
+                        <label>
+                            Educational Attainment
+                        </label>
+
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <select name="Educational Attainment" ng-model="data.education_attainment_id" id="prov_code" class="form-control" required
+                                ng-options="option.Id as option.Name for option in educational_attainment_id_options">
+                            <option value="">[Select Educational Attainment]</option>
+                        </select>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label>
+                            Member of an Indigenous Group?
+                        </label>
+
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <select name="ip" ng-model="data.is_ip" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'IP'},{'value':false,'text':'Non IP'}]" ng-selected="data.is_ip" class="form-control"></select>
+
+                    </div>
+
+                    <div class="col-md-4" ng-show="data.is_ip">
+
+
+                        <div class="form-group" show-errors='{showSuccess: true}'>
+                            <select name="ip_group" ng-model="data.ip_group_id" id="prov_code" class="form-control" ng-disabled="data.is_ip != true" ng-required="data.is_ip == true"
+                                    ng-enable="data.is_ip == true"
+                                    ng-options="option.Id as option.Name for option in ip_group_id_options">
+                                <option value="">[Select IP Group]</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+            <h4>III. Employment Information</h4>
+
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <div class="col-md-4">
+                        <label>
+                            Current Occupation
+                        </label>
+
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <select name="occupation_id" ng-model="data.occupation_id" id="prov_code" class="form-control" required
+                                ng-options="option.Id as option.Name for option in occupation_id_options">
+                            <option value="">[Select Occupation]</option>
+                        </select>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-4">
+                        <label>
+                            Is LGU Official
+                        </label>
+
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <select name="is_lguofficial" ng-model="data.is_lguofficial" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" ng-selected="data.is_lguofficial" class="form-control"></select>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="panel-body" ng-show="data.is_lguofficial">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label>LGU Level</label>
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" show-errors='{showSuccess: true}'>
+                            <select name="lgu_level_id" ng-model="data.lgu_level_id" id="lgu_level_id" class="form-control" ng-required="data.is_lguofficial == true"
+                                    ng-options="option.Id as option.Name for option in lgu_level_id_options">
+                                <option value="">[Select LGU Position]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body" ng-show="data.is_lguofficial">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label>LGU Position</label>
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" show-errors='{showSuccess: true}'>
+                            <select name="lgu_position_id" ng-model="data.lgu_position_id" id="lgu_position_id" class="form-control" ng-required="data.is_lguofficial == true"
+                                    ng-options="option.Id as option.Name for option in lgu_position_id_options">
+                                <option value="">[Select LGU Position]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+            <h4>II. Volunteer Information</h4>
+
+            <md-button class="md-primary md-raised" data-toggle="modal" data-target="#pushServerData">
+                <i class="ion-android-download"></i>   Add Volunteer Record
+            </md-button>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    Fund Source
+                                </th>
+                                <th>
+                                    Cycle
+                                </th>
+                                <th>
+                                    Committee
+                                </th>
+                                <th>
+                                    Position
+                                </th>
+                                <th>
+                                    Date Start
+                                </th>
+                                <th>
+                                    Date End
+                                </th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="item in person_volunteer_records">
+
+                                <td>
+                                    <a ng-href="/Entry/volunteer_committee?id={{item.volunteer_committee_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+
+                                </td>
+
+
+                                <td>
+
+                                    {{item.lib_fund_source_name}}
+
+                                </td>
+
+                                <td>
+
+                                    {{item.lib_cycle_name}}
+
+                                </td>
+
+                                <td>
+
+                                    {{item.lib_volunteer_committee_name}}
+
+                                </td>
+                                <td>
+
+                                    {{item.lib_volunteer_committee_position_name}}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{item.start_date | date:'MM/dd/yyyy'}}
+
+                                </td>
+
+                                <td>
+
+                                    {{item.end_date | date:'MM/dd/yyyy'}}
+
+                                </td>
+
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+            <h4>III. KC Trainings Attended</h4>
+
+
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    Training Title
+                                </th>
+                                <th>
+                                    Start
+                                </th>
+                                <th>
+                                    End
+                                </th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="item in person_trainings">
+
+                                <td>
+                                    <a ng-href="/Entry/trainings?id={{item.community_training_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+
+                                </td>
+
+
+                                <td>
+
+                                    {{item.training_title}}
+
+                                </td>
+
+                                <td>
+
+                                    {{item.start_date | date:'MM/dd/yyyy'}}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{item.end_date | date:'MM/dd/yyyy'}}
+
+                                </td>
+
+
+
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+            <h4>IV. ERS Work Record</h4>
+
+
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    Date Reported
+                                </th>
+                                <th>
+                                    Start
+                                </th>
+                                <th>
+                                    End
+                                </th>
+                                <th>
+                                    Actual Cash
+                                </th>
+                                <th>
+                                    Actual LCC
+                                </th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="item in person_ers_records">
+
+                                <td>
+                                    @*<a ng-href="/Entry/trainings?id={{item.community_training_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>*@
+
+                                </td>
+
+
+                                <td>
+                                    {{item.sub_project_ers.date_reported | date:'MM/dd/yyyy'}}
+
+                                </td>
+
+
+                                <td>
+                                    {{item.sub_project_ers.date_started | date:'MM/dd/yyyy'}}
+                                </td>
+
+                                <td>
+                                    {{item.sub_project_ers.date_ended | date:'MM/dd/yyyy'}}
+                                </td>
+
+
+                                <td>
+
+                                    {{item.actual_cash}}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{item.actual_lcc}}
+
+                                </td>
+
+
+
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+

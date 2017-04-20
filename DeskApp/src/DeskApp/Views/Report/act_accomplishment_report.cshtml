@@ -1,0 +1,696 @@
+﻿@{Layout = "~/Views/Shared/_report_layout.cshtml";
+}
+
+<style>
+    body {
+        font: 10pt Georgia, "Times New Roman", Times, serif;
+        line-height: 1.3;
+    }
+
+    tr, td, th {
+        font: 10pt Georgia, "Times New Roman", Times, serif;
+    }
+</style>
+
+
+
+
+
+<div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
+
+    <div id="outerDiv" style="float:right; margin:30px" >
+        <a class="btn btn-success" ng-click="printDiv('printableArea')">
+            <i class="fa fa-print fa-lg"></i> &nbsp; Print
+        </a>
+    </div>    
+
+    <div id="printableArea" style="padding: 40px;">
+        <div flex>
+            <h3 style="text-align:center">
+                <strong>
+                    Area Coordinating Team Monthly Accomplishment Report
+                </strong>
+            </h3>
+            <label>For the period of</label>
+        </div>
+
+        <br />
+        <br />
+
+        <label>A. CEAC Activities Conducted (including municipal and barangay trainings)</label>
+
+
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Activity Name
+                    </th>
+                    <th>
+                        Barangay (if applicable)
+                    </th>
+                    <th>
+                        Target Date
+                    </th>
+
+                    <th>
+                        Actual Date
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
+
+
+
+            </thead>
+
+            <tr ng-repeat="item in ceac_list">
+
+                <td>{{item.lib_training_category_name}}</td>
+                <td>{{item.lib_brgy_brgy_name}}</td>
+
+                <td>
+
+                    {{item.plan_start | date:'MM/dd/yyyy'}} -
+                    {{item.plan_end | date:'MM/dd/yyyy'}}
+                </td>
+                <td>
+
+                    {{item.actual_start | date:'MM/dd/yyyy'}} -
+                    {{item.actual_end | date:'MM/dd/yyyy'}}
+                </td>
+                <td>{{item.lib_implementation_status_name}}</td>
+            </tr>
+        </table>
+
+        <br /><br />
+
+        <label>B. Other Activities COnducted (including trainings at the S/RPMO level, meetings, etc)</label>
+
+
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Activity Name
+                    </th>
+                    <th>
+                        Activity Date
+                    </th>
+                    <th>
+                        Remarks
+                    </th>
+                </tr>
+
+
+
+            </thead>
+
+        </table>
+
+        <br /><br />
+
+        <label>C. Accomplishments/Outputs</label>
+        <br />
+
+        <label>1. Participation Rates per BAs Conducted</label>
+        <br />
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Cyce
+                    </th>
+
+                    <th>
+                        Barangay
+                    </th>
+
+                    <th>
+                        First BA
+                    </th>
+
+                    <th>
+                        Second BA
+                    </th>
+
+                    <th>
+                        Third BA
+                    </th>
+
+                    <th>
+                        Fourth BA
+                    </th>
+
+                    <th>
+                        Fifth BA
+                    </th>
+                </tr>
+
+
+
+            </thead>
+            <tr ng-repeat="item in barangay_assembly_list">
+
+
+                <td>
+
+
+                    {{item.lib_cycle_name}}
+
+                </td>
+
+
+                <td>
+                    {{item.lib_brgy_brgy_name}}
+                </td>
+
+
+
+
+
+
+            </tr>
+
+        </table>
+
+        <br />
+
+        <label>2. Total Number of Volunteers per Committee</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Committe
+                    </th>
+                    <th>
+                        No. of Male
+                    </th>
+                    <th>
+                        No. of Female
+                    </th>
+                </tr>
+
+            </thead>
+
+        </table>
+
+
+        <br />
+
+        <label>3. List and Date of Trainings (municipal anf barangay) facilitated with data on total number of participants trained</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+
+                        Training
+                    </th>
+                    @*<th>
+                            Date
+                        </th>
+                        <th>
+                            Municipality / Barangay
+                        </th>
+                        <th>
+                            No. of LGU Officials
+                        </th>
+                        <th>
+                            No. of Community Volunteers
+                        </th>
+                        <th>
+                            Other Community Members
+                        </th>*@
+                </tr>
+
+            </thead>
+
+            <tr ng-repeat="item in training_items">
+
+
+
+
+                <td>
+
+
+                    {{item.training_title}}
+
+                </td>
+
+
+                @*<td></td>
+                    <td>
+
+                        {{item.lib_city_city_name}}                  {{item.lib_brgy_brgy_name != "" item.lib_brgy_brgy_name + "," : ""}}
+
+                    </td>
+
+                    <td></td>
+
+
+                    <td></td>
+
+                    <td></td>*@
+
+
+
+            </tr>
+
+        </table>
+
+        <br />
+        <label>4. Total Number of Grievances files and resolved</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Resolved
+                    </th>
+                    <th>
+                        On going
+                    </th>
+                    <th>
+                        Pending
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+
+        <label>5. Breakdown of SPs</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Fund Source
+                    </th>
+                    <th>
+                        Cycle
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Not Yet Started
+                    </th>
+                    <th>
+                        Ongoing
+                    </th>
+                    <th>
+                        Completed
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+
+
+        <br />
+
+        <label>6. Breakdown of ongoing SPs per Tranche</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Fund Source
+                    </th>
+                    <th>
+                        Cycle
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Tranche 1 Amount
+                    </th>
+                    <th>
+                        Tranche 2 Amount
+                    </th>
+                    <th>
+                        Tranche 3 Amount
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+
+        <label>7. Percentage of on-going and compleed SPS over the total number of prioritized SPS during MIBF</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Fund Source
+                    </th>
+                    <th>
+                        Cycle
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Tranche 1 Amount
+                    </th>
+                    <th>
+                        Tranche 2 Amount
+                    </th>
+                    <th>
+                        Tranche 3 Amount
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+
+        <label>8. Total Amount and Percentage of Delivered MLCC over the total committed amount</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Fund Source
+                    </th>
+                    <th>
+                        Cycle
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Tranche 1 Amount
+                    </th>
+                    <th>
+                        Tranche 2 Amount
+                    </th>
+                    <th>
+                        Tranche 3 Amount
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+
+        <label>9. Total number of Male and Female engaged in paid labor with cost (cumulative and for the period)</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Fund Source
+                    </th>
+                    <th>
+                        Cycle
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Tranche 1 Amount
+                    </th>
+                    <th>
+                        Tranche 2 Amount
+                    </th>
+                    <th>
+                        Tranche 3 Amount
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+
+        <label>10. Total No. of Household Beneficiaries</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Fund Source
+                    </th>
+                    <th>
+                        Cycle
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Tranche 1 Amount
+                    </th>
+                    <th>
+                        Tranche 2 Amount
+                    </th>
+                    <th>
+                        Tranche 3 Amount
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+
+        <label>11. Total No. of Completed SPs with SET Result</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Fund Source
+                    </th>
+                    <th>
+                        Cycle
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Tranche 1 Amount
+                    </th>
+                    <th>
+                        Tranche 2 Amount
+                    </th>
+                    <th>
+                        Tranche 3 Amount
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+        <label>12. Percentage of available MOVs over the total required MOVs</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Fund Source
+                    </th>
+                    <th>
+                        Cycle
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Tranche 1 Amount
+                    </th>
+                    <th>
+                        Tranche 2 Amount
+                    </th>
+                    <th>
+                        Tranche 3 Amount
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+        <br />
+        <label>D. PINCOS (Issues and Concerns)</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Fund Source
+                    </th>
+                    <th>
+                        Cycle
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Tranche 1 Amount
+                    </th>
+                    <th>
+                        Tranche 2 Amount
+                    </th>
+                    <th>
+                        Tranche 3 Amount
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+        <br />
+        <label>E. Narrative (may include good practices, learnign experiences, brief explanations/analysis on the accomplishments/outputs, strategies, etc.)</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Fund Source
+                    </th>
+                    <th>
+                        Cycle
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Tranche 1 Amount
+                    </th>
+                    <th>
+                        Tranche 2 Amount
+                    </th>
+                    <th>
+                        Tranche 3 Amount
+                    </th>
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+        <br />
+        <label>F. Planned Activities for next month</label>
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>
+                        Activity Name
+                    </th>
+                    <th>
+                        Target Date
+                    </th>
+                    <th>
+                        Key Person
+                    </th>
+                    <th>
+                        Expected Output
+                    </th>
+
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <strong>{{training_items}}</strong>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+@section Scripts
+{
+    <script src="~/scripts/app/Reports/monthly_report_raw.js"></script>
+    <script src="~/scripts/directives/paging.js"></script>
+    
+    <script>
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']).controller('AppCtrl', function ($scope, $mdDialog, $http, $mdToast) {
+
+            $scope.printDiv = function (divName) {
+                window.print(document.getElementById(divName).innerHTML);
+                return true;
+            };
+
+
+
+
+        })
+
+
+    </script>
+
+
+}

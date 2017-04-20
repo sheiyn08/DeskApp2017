@@ -1,0 +1,316 @@
+﻿<div class="panel panel-body">
+
+    <div class="col-md-12">
+        <h3>Perception Survey Report</h3>
+    </div>
+    <div class="col-md-12">
+        <h4>{{selected_report.Name}}</h4>
+        <br />
+    </div>
+
+    <div class="col-md-12">
+        <h5><strong>Period Covered: </strong>{{earliest_talakayan_date | date:'MM/dd/yyyy'}} <strong>to </strong>{{latest_talakayan_date | date:'MM/dd/yyyy'}}</h5>
+        <br />
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Region: {{selected_region.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Province: {{selected_province.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Municipality: {{selected_city.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Barangay: {{selected_brgy.Name}}</strong></h5>
+        <br /> <br /><br />
+    </div>
+
+    <table class="table table-bordered">
+
+        <tr>
+            <td rowspan="2" align="center" style="vertical-align:middle">
+                <strong>Item</strong>
+            </td>
+            <td rowspan="2" align="center" style="vertical-align:middle">
+                <strong>Total Number of Responses</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>Strongly Disagree</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>Disagree</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>Agree</strong>
+            </td>
+            <td colspan="2" align="center">
+                <strong>Strongly Agree</strong>
+            </td>
+            <td rowspan="2" align="center" style="vertical-align:middle">
+                <strong>Average</strong>
+            </td>
+            <td rowspan="2" align="center" style="vertical-align:middle">
+                <strong>Verbal Interpretation</strong>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+
+            <td align="center">
+                <strong>No.</strong>
+            </td>
+            <td align="center">
+                <strong>%</strong>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="12">
+                <strong>TRUST AND CONFIDENCE ON OFFICIALS</strong>
+            </td>
+        </tr>
+
+        <tr ng-repeat="item in list | filter: {category:'TRUST AND CONFIDENCE ON OFFICIALS'}">
+
+            <td>
+                {{item.item}}
+            </td>
+            <td>
+                {{item.total_num_of_response == 'NaN' ? "" : item.total_num_of_response}}
+            </td>
+            <td>
+                {{item.strongly_disagree == 'NaN' ? "" : item.strongly_disagree}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree == 'NaN' || item.percent_strongly_disagree == '.0%' ? "" : item.percent_strongly_disagree}}
+            </td>
+            <td>
+                {{item.disagree == 'NaN' ? "" : item.disagree}}
+            </td>
+            <td>
+                {{item.percent_disagree == 'NaN' || item.percent_disagree == '.0%' ? "" : item.percent_disagree}}
+            </td>
+            <td>
+                {{item.agree == 'NaN' ? "" : item.agree}}
+            </td>
+            <td>
+                {{item.percent_agree == 'NaN' || item.percent_agree == '.0%' ? "" : item.percent_agree}}
+            </td>
+            <td>
+                {{item.strongly_agree == 'NaN' ? "" : item.strongly_agree}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree == 'NaN' || item.percent_strongly_agree == '.0%' ? "" : item.percent_strongly_agree}}
+            </td>
+            <td>
+                {{item.average == 'NaN' ? "" : item.average}}
+            </td>
+            <td>
+                {{item.verbal_interpretation == 'NaN' ? "" : item.verbal_interpretation}}
+            </td>
+
+        </tr>
+
+        <tr>
+            <td colspan="12">
+                <strong>ACCESS TO SERVICES AND GOVERNANCE</strong>
+            </td>
+        </tr>
+
+        <tr ng-repeat="item in list | filter: {category:'ACCESS TO SERVICES AND GOVERNANCE'}">
+
+            <td>
+                {{item.item}}
+            </td>
+            <td>
+                {{item.total_num_of_response == 'NaN' ? "" : item.total_num_of_response}}
+            </td>
+            <td>
+                {{item.strongly_disagree == 'NaN' ? "" : item.strongly_disagree}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree == 'NaN' || item.percent_strongly_disagree == '.0%' ? "" : item.percent_strongly_disagree}}
+            </td>
+            <td>
+                {{item.disagree == 'NaN' ? "" : item.disagree}}
+            </td>
+            <td>
+                {{item.percent_disagree == 'NaN' || item.percent_disagree == '.0%' ? "" : item.percent_disagree}}
+            </td>
+            <td>
+                {{item.agree == 'NaN' ? "" : item.agree}}
+            </td>
+            <td>
+                {{item.percent_agree == 'NaN' || item.percent_agree == '.0%' ? "" : item.percent_agree}}
+            </td>
+            <td>
+                {{item.strongly_agree == 'NaN' ? "" : item.strongly_agree}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree == 'NaN' || item.percent_strongly_agree == '.0%' ? "" : item.percent_strongly_agree}}
+            </td>
+            <td>
+                {{item.average == 'NaN' ? "" : item.average}}
+            </td>
+            <td>
+                {{item.verbal_interpretation == 'NaN' ? "" : item.verbal_interpretation}}
+            </td>
+
+        </tr>
+
+        <tr>
+            <td colspan="12">
+                <strong>PARTICIPATION AND EMPOWERMENT TO THE POOR AND MARGINALIZED</strong>
+            </td>
+        </tr>
+
+        <tr ng-repeat="item in list | filter: {category:'PARTICIPATION AND EMPOWERMENT TO THE POOR AND MARGINALIZED'}">
+
+            <td>
+                {{item.item}}
+            </td>
+            <td>
+                {{item.total_num_of_response == 'NaN' ? "" : item.total_num_of_response}}
+            </td>
+            <td>
+                {{item.strongly_disagree == 'NaN' ? "" : item.strongly_disagree}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree == 'NaN' || item.percent_strongly_disagree == '.0%' ? "" : item.percent_strongly_disagree}}
+            </td>
+            <td>
+                {{item.disagree == 'NaN' ? "" : item.disagree}}
+            </td>
+            <td>
+                {{item.percent_disagree == 'NaN' || item.percent_disagree == '.0%' ? "" : item.percent_disagree}}
+            </td>
+            <td>
+                {{item.agree == 'NaN' ? "" : item.agree}}
+            </td>
+            <td>
+                {{item.percent_agree == 'NaN' || item.percent_agree == '.0%' ? "" : item.percent_agree}}
+            </td>
+            <td>
+                {{item.strongly_agree == 'NaN' ? "" : item.strongly_agree}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree == 'NaN' || item.percent_strongly_agree == '.0%' ? "" : item.percent_strongly_agree}}
+            </td>
+            <td>
+                {{item.average == 'NaN' ? "" : item.average}}
+            </td>
+            <td>
+                {{item.verbal_interpretation == 'NaN' ? "" : item.verbal_interpretation}}
+            </td>
+
+        </tr>
+
+        <tr>
+            <td colspan="12">
+                <strong>DISASTER-RISK RELATED ACTIVITIES AND PREPAREDNESS</strong>
+            </td>
+        </tr>
+
+        <tr ng-repeat="item in list | filter: {category:'DISASTER-RISK RELATED ACTIVITIES AND PREPAREDNESS'}">
+
+            <td>
+                {{item.item}}
+            </td>
+            <td>
+                {{item.total_num_of_response == 'NaN' ? "" : item.total_num_of_response}}
+            </td>
+            <td>
+                {{item.strongly_disagree == 'NaN' ? "" : item.strongly_disagree}}
+            </td>
+            <td>
+                {{item.percent_strongly_disagree == 'NaN' || item.percent_strongly_disagree == '.0%' ? "" : item.percent_strongly_disagree}}
+            </td>
+            <td>
+                {{item.disagree == 'NaN' ? "" : item.disagree}}
+            </td>
+            <td>
+                {{item.percent_disagree == 'NaN' || item.percent_disagree == '.0%' ? "" : item.percent_disagree}}
+            </td>
+            <td>
+                {{item.agree == 'NaN' ? "" : item.agree}}
+            </td>
+            <td>
+                {{item.percent_agree == 'NaN' || item.percent_agree == '.0%' ? "" : item.percent_agree}}
+            </td>
+            <td>
+                {{item.strongly_agree == 'NaN' ? "" : item.strongly_agree}}
+            </td>
+            <td>
+                {{item.percent_strongly_agree == 'NaN' || item.percent_strongly_agree == '.0%' ? "" : item.percent_strongly_agree}}
+            </td>
+            <td>
+                {{item.average == 'NaN' ? "" : item.average}}
+            </td>
+            <td>
+                {{item.verbal_interpretation == 'NaN' ? "" : item.verbal_interpretation}}
+            </td>
+
+        </tr>
+
+
+
+    </table>
+
+    <br /> <br />
+    <div class="row">
+        <div class="col-xs-6">
+            <label>Certified Correct By:</label>
+
+            <br />
+            <br />
+            <br />
+            {{prepared_by}}
+
+            Signature over Printed Name
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+    <div class="row">
+
+        <br />
+        <br />
+
+
+        <div class="col-xs-6">
+
+            Position
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+
+</div>

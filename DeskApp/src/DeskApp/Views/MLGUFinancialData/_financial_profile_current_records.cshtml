@@ -1,0 +1,85 @@
+﻿<style>
+    .zui-table {
+        border: solid 1px #DDEEEE;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font: normal 13px Arial, sans-serif;
+    }
+
+        .zui-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .zui-table tbody td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+    .zui-table-highlight tbody tr:hover {
+        background-color: lightgray;
+    }
+
+    .zui-table-horizontal tbody td {
+        border-left: none;
+        border-right: none;
+    }
+</style>
+
+
+<div class="panel panel-body" ng-show="!isSearching">
+    <table class="table zui-table zui-table-horizontal zui-table-highlight" id="MunicipalFinancialRecords">
+        <thead class="thead-inverse">
+            <tr>
+                <th>
+                    Actions
+                </th>
+                <th>
+                    Talakayan Date
+                </th>
+                <th>
+                    Region
+                </th>
+                <th>
+                    Province
+                </th>
+                <th>
+                    Municipality
+                </th>
+                <th>
+                    Current NCDPP Cycle
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="item in Items">
+                <td>
+                    <a ng-href="/MunicipalFinancialProfile/FinancialProfile?id={{item.mlgu_financial_data_record_id}}" class="btn btn-info" title="Edit Record"><i class="fa fa-edit"></i></a>
+                    <a ng-click="delete(item)" class="btn btn-warning" title="Delete Record"><span data-toggle='tooltip' class='glyphicon glyphicon-trash'></span></a>
+                <td>
+                    {{item.talakayan_date_start | date:'MM/dd/yyyy'}}
+                </td>
+                <td>
+                    {{item.lib_region_region_name}}
+                </td>
+                <td>
+                    {{item.lib_province_prov_name}}
+                </td>
+                <td>
+                    {{item.lib_city_city_name}}
+                </td>
+                <td>
+                    {{item.lib_cycle_name}}
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>

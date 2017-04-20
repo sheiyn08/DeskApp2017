@@ -169,6 +169,7 @@ namespace DeskApp.DataLayer
         public int? currPage { get; set; }
 
         public int? push_status_id { get; set; }
+        public DateTime? push_date { get; set; }
         public int? approval_id { get; set; }
 
         //volunteer
@@ -263,6 +264,23 @@ namespace DeskApp.DataLayer
         public int? disaster_8 { get; set; }
         public int? disaster_9 { get; set; }
 
+        //ceac_tracking:
+        
+        public DateTime? plan_start { get; set; }
+        public DateTime? plan_end { get; set; }
+        public DateTime? actual_start { get; set; }
+        public DateTime? actual_end { get; set; }
+        public DateTime? catch_start { get; set; }
+        public DateTime? catch_end { get; set; }        
+        public int? implementation_status_id { get; set; }
+
+        public DateTime? fortheperiodof_from { get; set; }
+        public DateTime? fortheperiodof_to { get; set; }
+        public DateTime? as_of { get; set; }
+        public string lib_fund_source_name { get; set; }
+
+        //ba act report:
+        public string status_of_schedule { get; set; }
 
     }
 }

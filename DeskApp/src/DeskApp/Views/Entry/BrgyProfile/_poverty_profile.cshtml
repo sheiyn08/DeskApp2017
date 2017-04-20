@@ -1,0 +1,616 @@
+﻿
+@{Layout = null; }
+
+
+
+
+
+
+<div class="panel panel-success">
+
+<div class="panel panel-heading">
+    <h3>Poverty Profile</h3>
+</div>
+
+<div class="md-whiteframe-9dp">
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Health</label>
+        </div>
+    </div>
+
+
+    <div layout="row" layout-margin flex="100">
+
+
+        <div flex>
+            <label>
+                1. Proportion of children aged 0-5 years old who died:
+
+            </label>
+        </div>
+
+    </div>
+
+
+    <div layout="row" layout-margin flex="100">
+
+        <div flex>
+            <label>Number of children aged 0-5 years old who died</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="health_number_0_5_value" ng-model="data.health_number_0_5_value" class="form-control" />
+        </div>
+        <div flex>
+            <textarea class="form-control" class="form-control" name="health_number_0_5_reference" ng-model="data.health_number_0_5_reference"></textarea>
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total children aged 0-5 years old</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="children_0_5_value" ng-model="data.children_0_5_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="children_0_5_reference" ng-model="data.children_0_5_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+
+
+        <div flex>
+            <label>2. Proportion of women who died due to pregnancy related causes</label>
+        </div>
+
+    </div>
+
+    <div layout="row" layout-margin flex="100">
+
+        <div flex>
+            <label>Number of pregnant women who died due to pregnacy-related causes</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="pregnant_died_value" ng-model="data.pregnant_died_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="pregnant_died_reference" ng-model="data.pregnant_died_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total Pregnant women</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="pregnant_total_value" ng-model="data.pregnant_total_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="pregnant_total_reference" ng-model="data.pregnant_total_reference"></textarea>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="md-whiteframe-9dp">
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Nutrition</label>
+        </div>
+    </div>
+
+
+
+    <div flex>
+        <label>3. Proportion of children aged 0-5 years old who are malnourished</label>
+    </div>
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of children aged 0-5 years old who are malnourished</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="malnourished_0_5value" ng-model="data.malnourished_0_5value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="malnourished_0_5reference" ng-model="data.malnourished_0_5reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total Children aged 0-5 years old</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="total_malnourished_0_5value" ng-model="data.total_malnourished_0_5value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="total_malnourished_0_5_ref" ng-model="data.total_malnourished_0_5_ref"></textarea>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="md-whiteframe-9dp">
+    
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Access to BAsic Ammenities</label>
+        </div>
+    </div>
+
+    <div flex>
+        <label>4. Proportion of households with access to safe water</label>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>number of households with access to safe water (within 250m)</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="safewater_value" ng-model="data.safewater_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="safewater_reference" ng-model="data.safewater_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number of households</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totalsafewater_value" ng-model="data.totalsafewater_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="totalsafewater_reference" ng-model="data.totalsafewater_reference"></textarea>
+        </div>
+    </div>
+
+
+
+    <div flex>
+        <label>5. Proportion of households with access to sanity toilet facilities</label>
+    </div>
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of households with access to sanitary toilet facilities</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="sanity_value" ng-model="data.sanity_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="sanity_reference" ng-model="data.sanity_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number of households</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totalsanity_value" ng-model="data.totalsanity_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="totalsanity_reference" ng-model="data.totalsanity_reference"></textarea>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="md-whiteframe-9dp">
+
+    
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Shelter</label>
+        </div>
+    </div>
+
+
+    <div flex>
+        <label>6. Proportion of households who are squatting</label>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of households who are squatting</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="squatting_value" ng-model="data.squatting_value"/>
+        </div>
+        <div flex>
+            <textarea class="form-control" name="squatting_reference" ng-model="data.squatting_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number of households</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totalsquatting_value" ng-model="data.totalsquatting_value"/>
+        </div>
+        <div flex>
+            <textarea class="form-control" name="totalsquatting_reference" ng-model="data.totalsquatting_reference"></textarea>
+        </div>
+    </div>
+
+
+
+    <div flex>
+        <label>7. Proportion of households with living in markeshift housing</label>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of households living in makeshift housing</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="makeshift_value" ng-model="data.makeshift_value"/>
+        </div>
+        <div flex>
+            <textarea class="form-control" name="makeshift_reference" ng-model="data.makeshift_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number of households</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totalmakeshift_value" ng-model="data.totalmakeshift_value"/>
+        </div>
+        <div flex>
+            <textarea class="form-control" name="totalmakeshift_reference" ng-model="data.totalmakeshift_reference"></textarea>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="md-whiteframe-9dp">
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Peace and Order</label>
+        </div>
+    </div>
+
+    <div flex>
+        <label>8. Proportion of households with members victimized by crimes</label>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of households with members victimized by crimes</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="victimized_value" ng-model="data.victimized_value"/>
+        </div>
+        <div flex>
+            <textarea class="form-control" name="victimized_reference" ng-model="data.victimized_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number of households</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totalvictimized_value" ng-model="data.totalvictimized_value"/>
+        </div>
+        <div flex>
+            <textarea class="form-control" name="totalvictimized_reference" ng-model="data.totalvictimized_reference"></textarea>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div class="md-whiteframe-9dp">
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Income</label>
+        </div>
+    </div>
+
+    <div flex>
+        <label>9. Proportion of households with income less the poverty threshold</label>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of households with income less than the poverty threshold</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="threshold_value" ng-model="data.threshold_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="threshold_reference" ng-model="data.threshold_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number of households</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totalthreshold_value" ng-model="data.totalthreshold_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="totalthreshold_reference" ng-model="data.totalthreshold_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div flex>
+        <label>10. Proportion of households with income less the food threshold</label>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of households with income less than the food threshold</label>
+        </div>
+        <div flex>
+            <input type="text" name="incomeless_value" ng-model="data.incomeless_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="incomeless_reference" ng-model="data.incomeless_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number of households</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totalincomeless_value" ng-model="data.totalincomeless_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="totalincomeless_reference" ng-model="data.totalincomeless_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div flex>
+        <label>11. Proportion of households who eat less than three(3) meals a day</label>
+    </div>
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of households who eat less than three(3) meals a day</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="lessthan_3_meals_value" ng-model="data.lessthan_3_meals_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="lessthan_3_meals_reference" ng-model="data.lessthan_3_meals_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number of households</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totallessthan_3_meals_value" ng-model="data.totallessthan_3_meals_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="tot_lessthan_3_meals_ref" ng-model="data.tot_lessthan_3_meals_ref"> </textarea>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="md-whiteframe-9dp">
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Basic Education</label>
+        </div>
+    </div>
+
+
+    <div flex>
+        <label>12. Proportion of 6-12 years old children who are not in elementary school</label>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of 6-12 years old children who are not in elementary school</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="children_6_12_elem_value" ng-model="data.children_6_12_elem_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="children_6_12_elem_reference" ng-model="data.children_6_12_elem_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number of 6-12 years old</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totalchildren_6_12_elem_value" ng-model="data.totalchildren_6_12_elem_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="totchild_6_12_elem_ref" ng-model="data.totchild_6_12_elem_ref"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div flex>
+        <label>13. Proportion of 13-16 years old children who are not in secondary school</label>
+    </div>
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of 13-16 years old children who are not in secondary</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="children_13_16_secondary_value" ng-model="data.children_13_16_secondary_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="child_13_16_secondary_ref" ng-model="data.child_13_16_secondary_ref"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number of 13-16 years old</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totchild_13_16_secondary_val" ng-model="data.totchild_13_16_secondary_val" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="totchild_13_16_secondary_ref" ng-model="data.totchild_13_16_secondary_ref"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div flex>
+        <label>14. Proportion of the members of the labor force who are not working</label>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Number of labor force who are not working</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="laborforce_value" ng-model="data.laborforce_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="laborforce_reference" ng-model="data.laborforce_reference"></textarea>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Total number labor force</label>
+        </div>
+        <div flex>
+            <input type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="totallaborforce_value" ng-model="data.totallaborforce_value" />
+        </div>
+        <div flex>
+            <textarea class="form-control" name="totallaborforce_reference" ng-model="data.totallaborforce_reference"></textarea>
+        </div>
+    </div>
+</div>
+
+
+</div>

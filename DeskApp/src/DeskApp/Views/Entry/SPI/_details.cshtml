@@ -1,0 +1,250 @@
+﻿
+@{Layout = null; }
+
+
+
+
+<form name="detailsForm">
+
+
+    <div class="panel panel-success">
+
+        <div class="panel-heading">
+            <h4>General Information</h4>
+            <p>Please check if these are the correct information for the project being updated.</p>
+
+        </div>
+
+        <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7">
+            <div flex>
+                <label for="Region:_">Geotagging SP ID</label>
+            </div>
+            <div flex>
+                <input type="number" min="0" name="Geotagging SP ID" class="form-control" ng-model="data.geotagging_spid" ng-required="true" />               
+            </div>
+        </div>
+
+        <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7">
+            <div flex>
+                <label for="Region:_">e-RFR Sub Project ID</label>
+            </div>
+            <div flex>
+                <select name="erfr_project_id" ng-model="data.erfr_project_id" class="form-control" ng-disabled="data.modality_id !=7"
+                        ng-options="option.Id as option.Name for option in erfr_project_id_options">
+                    <option value="">[Select SPID]</option>
+                </select>
+                <div ng-messages="myForm.erfr_project_id.$error">
+                    <div ng-message="required" class="error">SPID is required. Dropdown will be available once barangay is selected!</div>
+
+                </div>
+                <i>This can be found on "http://erfrs.dswd.gov.ph/"</i>
+                <br />
+                <i>*Ensure that this is the correct Sub project ID (SPID) for the project being added and <b>not</b> the RFR ID.</i>
+            </div>
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label for="Region:_">Sub Project Name</label>
+            </div>
+            <div flex>
+                <input class="form-control" ng-model='data.sub_project_name' required name="sub_project_name" />
+                <div ng-messages="myForm.sub_project_name.$error">
+                    <div ng-message="required" class="error">Sub Project Name is required.</div>
+                </div>
+            </div>
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label for="Region:_">Project type</label>
+            </div>
+            <div flex>
+                <select name="project_type_id" ng-model="data.project_type_id" class="form-control" ng-disabled="data.modality_id == 12" required
+                        ng-options="option.Id as option.Name for option in project_type_id_options">
+                    <option value="">[Select Project Type]</option>
+                </select>
+                <div ng-messages="myForm.project_type_id.$error">
+                    <div ng-message="required" class="error">Project Type is required.</div>
+
+                </div>
+            </div>
+        </div>
+
+        <div layout="row" layout-margin flex="100" ng-show="data.project_type_id == 23 && data.modality_id ==7">
+
+
+            <div flex>Public School for IP (Lumad)?</div>
+            <div flex>
+
+                <md-checkbox ng-model="data.is_public_school_for_ip" aria-label="Checkbox 1">
+
+                </md-checkbox>
+
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <div layout="row" layout-margin flex="100" ng-show="data.project_type_id == 36 && data.modality_id ==11">
+            <div flex>
+                <label for="Region:_">Training type</label>
+            </div>
+            <div flex>
+                <select name="training_category_id" ng-model="data.training_category_id" class="form-control"
+                        ng-options="option.Id as option.Name for option in training_category_id_options">
+                    <option value="">[Select Training Category]</option>
+                </select>
+                <div ng-messages="myForm.training_category_id.$error">
+                    <div ng-message="required" class="error">*Training Category Required.</div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label for="Region:_">Fund Source</label>
+            </div>
+            <div flex>
+                <select name="modality_id" ng-model="data.modality_id" class="form-control" required
+                        ng-disabled="data.sub_project_id >0"
+                        ng-options="option.Id as option.Name for option in fund_source_id_options">
+                    <option value="">[Select Modality]</option>
+                </select>
+                <div ng-messages="myForm.modality_id.$error">
+                    <div ng-message="required" class="error">*Modality is required.</div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label for="Region:_">Cycle</label>
+            </div>
+            <div flex>
+                <select name="cycle_id" ng-model="data.cycle_id" class="form-control" required
+                        ng-disabled="data.sub_project_id >0"
+                        ng-options="option.Id as option.Name for option in cycle_id_options">
+                    <option value="">[Select Cycle]</option>
+                </select>
+                <div ng-messages="myForm.cycle_id.$error">
+                    <div ng-message="required" class="error">*Cycle is required.</div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        @*<div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7">
+                <div flex>
+                    <label for="Region:_">NCDDP Grouping</label>
+                </div>
+                <div flex>
+                    <select name="modality_category_id" ng-model="data.modality_category_id" class="form-control" ng-required="data.modality_id ==7"
+                            ng-disabled="data.sub_project_id >0"
+                            ng-options="option.Id as option.Name for option in ncddp_grouping_id_options">
+                        <option value="">[Select Grouping]</option>
+                    </select>
+                    <div ng-messages="myForm.modality_category_id.$error">
+                        <div ng-message="required" class="error">*Grouping is required.</div>
+
+                    </div>
+                </div>
+            </div>*@
+
+
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label for="Region:_">Region</label>
+            </div>
+            <div flex>
+
+                <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                        ng-disabled="data.sub_project_id >0"
+                        ng-options="option.Id as option.Name for option in region_code_options">
+                    <option value="">[Select Region]</option>
+                </select>
+
+            </div>
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label for="Region:_">Province</label>
+            </div>
+            <div flex>
+
+                <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                        ng-disabled="data.region_code == null || data.sub_project_id >0"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in prov_code_options">
+                    <option value="">[Select Province]</option>
+                </select>
+
+            </div>
+        </div>
+
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label for="Region:_">Municipality</label>
+            </div>
+            <div flex>
+
+                <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                        ng-required="true"
+                        ng-disabled="data.prov_code == null || data.sub_project_id >0"
+                        ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                    <option value="">[Select Municipality]</option>
+                </select>
+
+            </div>
+        </div>
+
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label for="Region:_">Barangay</label>
+            </div>
+            <div flex>
+
+                <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                        ng-required="true"
+                        ng-disabled="data.city_code == null || data.sub_project_id >0"
+                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                    <option value="">[Select Barangay]</option>
+                </select>
+
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+</form>

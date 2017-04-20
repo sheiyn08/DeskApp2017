@@ -1,0 +1,91 @@
+﻿
+ 
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">ERS Records</div>
+    </md-toolbar>
+    <md-content>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Region:_">Date Reported </label>
+
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Region:_">Date Started </label>
+
+
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label for="Region:_">Date Ended </label>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body" ng-repeat="ers in ers_list">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+
+
+                        <a ng-click="show_ers_worker(ers)" class="btn btn-success"><i class="fa fa-group"></i></a>
+                    </div>
+
+                    <div class="col-md-3">
+
+                        {{ers.date_reported |  date:'MM/dd/yyyy'}}
+                    </div>
+
+                    <div class="col-md-3">
+
+                        {{ers.date_started |  date:'MM/dd/yyyy'}}
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        {{ers.date_ended |  date:'MM/dd/yyyy'}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </md-content>
+
+
+ 
+
+<div ng-show="show_ers_worker_list">
+
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">ERS Work Record</div>
+    </md-toolbar>
+
+
+    <md-content>
+
+        @Html.Partial("~/Views/Entry/SPI/_person_ers_work.cshtml")
+    </md-content>
+
+
+</div>

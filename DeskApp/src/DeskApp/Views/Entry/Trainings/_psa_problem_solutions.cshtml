@@ -1,0 +1,96 @@
+
+
+
+
+<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h4>Identified Problems and Solutions</h4>
+
+        <p>Please Encode Problems <strong>According to Rank Order (First - Last)</strong></p>
+
+
+    </div>
+
+
+
+
+
+
+    <div flex="100" class="md-whiteframe-1dp">
+
+
+        <div layout="row" layout-margin ng-repeat="prob in list_problems">
+            <div class="md-whiteframe-5dp" flex layout-margin>
+                <h3>Problem No. {{prob.rank}} - {{prob.problem}}</h3>
+                <p><a class="btn btn-warning" ng-click="removeProblem(prob, $index)">Remove</a></p>
+                <div layout="row">
+                    <h4>Proposed Solutions:</h4>
+
+                </div>
+
+                <div flex layout="row" ng-repeat="sols in prob.solutions">
+
+                    <div flex><a class="btn btn-danger" ng-click="removeSolution(sols, $index, prob)"><i class="fa fa-trash"></i></a></div>
+                    <div flex>
+                        {{sols.solution}}
+                    </div>
+
+                </div>
+
+
+
+                <input type="text" class="form-control" id="firstName" placeholder="Solution" ng-model="prob.solution" required name="solution" />
+
+
+                <md-button class="md-primary md-raised" ng-click="addSolution(prob, $index)" ng-disabled="prob.solution.length  == 0">
+                    Add Solution
+                </md-button>
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <md-list-item layout-margin>
+
+            <form name="problemForm" layout="row" layout-margin flex="100">
+                @*<input type="text" class="form-control"   placeholder="Rank" ng-model="prob_model.rank" required name="prob.rank" flex="10" />*@
+
+                <input type="text" class="form-control" placeholder="Problem" ng-model="prob_model.problem" required name="prob.problem" flex="60" />
+
+                <select name="prob.Problem category" ng-model="prob_model.psa_problem_category_id" class="form-control" required
+                        ng-options="option.Id as option.Name for option in psa_problem_category_id_options" flex="30">
+                    <option value="">[Select Problem Category]</option>
+                </select>
+
+
+            </form>
+
+        </md-list-item>
+
+
+        <ul>
+            <li ng-repeat="(key, errors) in problemForm.$error track by $index">
+                <strong>{{ key }}</strong> errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <md-button class="md-primary md-raised" ng-click="addProblem()">
+            <!--ng-disabled="!problemForm.$valid">-->
+            Add Problem
+        </md-button>
+
+
+
+    </div>
+
+
+
+</div>

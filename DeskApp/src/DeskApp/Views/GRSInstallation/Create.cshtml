@@ -1,0 +1,506 @@
+﻿
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+
+    <style>
+        .form-group .help-block {
+            display: none;
+        }
+
+        .form-group.has-error .help-block {
+            display: block;
+        }
+
+        .dialogdemoBasicUsage #popupContainer {
+            position: relative;
+        }
+
+        .dialogdemoBasicUsage .footer {
+            width: 100%;
+            text-align: center;
+            margin-left: 20px;
+        }
+
+            .dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+                font-size: 0.8em;
+                margin-top: 50px;
+            }
+
+        .dialogdemoBasicUsage button {
+            width: 200px;
+        }
+
+        .dialogdemoBasicUsage div#status {
+            color: #c60008;
+        }
+
+
+        /*
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        */
+    </style>
+</head>
+
+
+
+
+<body layout="column" class="relative" layout-fill role="main">
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+
+        <md-toolbar md-scroll-shrink>
+            <div class="md-toolbar-tools">Intake GRS Installation</div>
+
+
+
+        </md-toolbar>
+
+
+        <md-content flex="" layout-padding="">
+            <form name="myForm" ng-cloak>
+
+                <div class="panel panel-info">
+
+                    <div class="panel-heading">
+                        <h4>General Information</h4>
+
+                    </div>
+
+
+
+
+                    @Html.Partial("~/Views/Shared/_rpmb_filter_group.cshtml")
+
+
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">Fund Source</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="fund_source_id" ng-model="data.fund_source_id" id="brgy_code" class="form-control"
+                                                ng-required="true"
+                                                ng-options="option.Id as option.Name for option in fund_source_id_options">
+                                            <option value="">[Select Fund Source]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">Cycle</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="cycle_id" ng-model="data.cycle_id" id="brgy_code" class="form-control"
+                                                ng-required="true"
+                                                ng-options="option.Id as option.Name for option in cycle_id_options">
+                                            <option value="">[Select Cycle]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">KC Mode</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="enrollment_id" ng-model="data.enrollment_id" id="brgy_code" class="form-control"
+                                                ng-required="true"
+                                                ng-options="option.Id as option.Name for option in enrollment_id_options">
+                                            <option value="">[Select KC Model]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     
+
+
+                 
+
+
+
+ 
+
+                  
+
+
+                </div>
+
+
+
+     
+
+       
+
+         
+            </form>
+        </md-content>
+
+
+        <md-content>
+
+            <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="myForm.$invalid">
+                Save
+            </md-button>
+
+        </md-content>
+
+
+
+
+
+
+
+
+    </div>
+
+
+</body>
+
+
+
+@section Scripts {
+
+
+
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+
+            .controller('AppCtrl', function ($scope, $http) {
+
+
+
+
+                $scope.data;
+
+
+                $http.get('/api/offline/v1/grs_installation/get?id=@ViewBag.id')
+          .then(function (response) {
+
+
+              $scope.loading = true;
+
+              $scope.data = response.data;
+
+
+              $scope.dt_start_date = new Date(response.data.start_date);
+              $scope.dt_end_date = new Date(response.data.end_date);
+
+
+              $scope.today = new Date();
+
+
+
+
+              $scope.maxDate = new Date($scope.dt_start_date);
+
+              $scope.$watch('dt_start_date', function (newValue, oldValue) {
+
+
+                  $scope.maxDate = new Date(newValue);
+
+
+              });
+
+
+
+              $scope.dt_date_intake = new Date(response.data.date_intake);
+              $scope.dt_resolution_date = new Date(response.data.resolution_date);
+
+              $http.get('/api/lib_region')
+         .then(function (response) { $scope.region_code_options = response.data; });
+
+              $http.get('/Api/lib_fund_source/')
+      .then(function (response) { $scope.fund_source_id_options = response.data; });
+
+              $http.get('/api/lib_enrollment')
+      .then(function (response) { $scope.enrollment_id_options = response.data; });
+
+         
+              $http.get('/api/lib_lgu_level')
+    .then(function (response) { $scope.lgu_level_id_options = response.data; });
+
+
+
+
+              $scope.loading = false;
+
+              $scope.edit = function () {
+                  this.editMode = !this.editMode;
+              };
+
+
+              $scope.cancel = function () {
+
+                  $http.get('/api/offline/v1/grs_installation/get?id=@ViewBag.id')
+            .then(function (response) {
+
+                //            this.editMode = false;
+
+                $scope.data = response.data;
+
+                //   $scope.dt_intake_date = new Date(response.data.intake_date);
+                //   $scope.dt_resolution_date = new Date(response.data.resolution_date);
+            });
+              }
+
+
+
+
+              $scope.save = function () {
+                  $scope.$broadcast('show-errors-check-validity');
+                  $scope.loading = true;
+                  //       alert(JSON.stringify($scope.data));
+
+                  //'/api/v1/grievances/save'
+
+
+                  $.post('/api/offline/v1/grs_installation/save', $scope.data).success(function (data) {
+                      $scope.loading = false;
+
+                      window.location.href = data.url;
+
+                  }).error(function (data) {
+
+                      alert(JSON.stringify(data));
+
+
+                      $scope.error = "An Error has occured while Saving! " + data.statusText;
+                      $scope.loading = false;
+                  });
+              };
+          });
+
+
+
+
+                $scope.$watch('data.region_code', function (newValue, oldValue) {
+
+
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+                        record.prov_code = null;
+                        record.city_code = null;
+                        record.brgy_code = null;
+
+
+                        record.prov_code_options = [];
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+                    else {
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_province?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.prov_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.prov_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = null;
+                        record.city_code = null;
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_city?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.city_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.city_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = null;
+
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_brgy?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.brgy_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.fund_source_id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.cycle_id = null;
+
+                        record.cycle_id_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_cycle?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.cycle_id_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+            })
+
+        .directive('showErrors', function ($timeout, showErrorsConfig) {
+            var getShowSuccess, linkFn;
+            getShowSuccess = function (options) {
+                var showSuccess;
+                showSuccess = showErrorsConfig.showSuccess;
+                if (options && options.showSuccess != null) {
+                    showSuccess = options.showSuccess;
+                }
+                return showSuccess;
+            };
+            linkFn = function (scope, el, attrs, formCtrl) {
+                var blurred, inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses;
+                blurred = false;
+                options = scope.$eval(attrs.showErrors);
+                showSuccess = getShowSuccess(options);
+                inputEl = el[0].querySelector('[name]');
+                inputNgEl = angular.element(inputEl);
+                inputName = inputNgEl.attr('name');
+                if (!inputName) {
+                    throw 'show-errors element has no child input elements with a \'name\' attribute';
+                }
+                inputNgEl.bind('blur', function () {
+                    blurred = true;
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                });
+                scope.$watch(function () {
+                    return formCtrl[inputName] && formCtrl[inputName].$invalid;
+                }, function (invalid) {
+                    if (!blurred) {
+                        return;
+                    }
+                    return toggleClasses(invalid);
+                });
+                scope.$on('show-errors-check-validity', function () {
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                });
+                scope.$on('show-errors-reset', function () {
+                    return $timeout(function () {
+                        el.removeClass('has-error');
+                        el.removeClass('has-success');
+                        return blurred = false;
+                    }, 0, false);
+                });
+                return toggleClasses = function (invalid) {
+                    el.toggleClass('has-error', invalid);
+                    if (showSuccess) {
+                        return el.toggleClass('has-success', !invalid);
+                    }
+                };
+            };
+            return {
+                restrict: 'A',
+                require: '^form',
+                compile: function (elem, attrs) {
+                    if (!elem.hasClass('form-group')) {
+                        throw 'show-errors element does not have the \'form-group\' class';
+                    }
+                    return linkFn;
+                }
+            };
+        }
+      )
+
+        .provider('showErrorsConfig', function () {
+            var _showSuccess;
+            _showSuccess = false;
+            this.showSuccess = function (showSuccess) {
+                return _showSuccess = showSuccess;
+            };
+            this.$get = function () {
+                return { showSuccess: _showSuccess };
+            };
+        });
+
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+
+}
+

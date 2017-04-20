@@ -1,0 +1,76 @@
+﻿<div class="panel panel-body" ng-show="!isSearching">
+    <table class="table zui-table zui-table-horizontal zui-table-highlight">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    Region
+                </th>
+
+                <th>
+                    Province
+                </th>
+                <th>
+                    City
+                </th>
+
+
+                <th>
+                    Fund Source
+                </th>
+
+                <th>
+                    Cycle
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in Items">
+
+
+                <td>
+                    <a ng-href="/Entry/MunicipalPRofiles?id={{item.muni_profile_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+
+                </td>
+
+
+                <td>
+
+                    {{item.lib_region_region_name}}
+
+                </td>
+                <td>
+
+                    {{item.lib_province_prov_name}}
+
+                </td>
+                <td>
+
+                    {{item.lib_city_city_name}}
+
+                </td>
+
+
+
+                <td>
+
+                    {{item.lib_fund_source_name}}
+
+                </td>
+                <td>
+
+                    {{item.lib_cycle_name}}
+
+                </td>
+
+
+
+
+
+            </tr>
+        </tbody>
+
+    </table>
+</div>

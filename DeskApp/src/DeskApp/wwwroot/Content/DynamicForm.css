@@ -1,0 +1,47 @@
+﻿    input, select, textarea {
+        width: 100%;
+        max-width: none;
+    }
+
+    .designer h4 {
+        display: inline;
+    }
+
+    .designer a {
+        float: right;
+        cursor: pointer;
+    }
+
+    .option input {
+        display: inline;
+        width: 50%;
+    }
+
+    .designer .item,
+    .preview > div {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .designer .ref select {
+        margin-top: 10px;
+    }
+
+    .designer .item {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        padding: 10px;
+    }
+
+    .designer .spinner input[type=text] {
+        margin-bottom: 5px;
+    }
+
+    .preview label {
+        margin-bottom: 0px;
+    }
+
+    .nolabel {
+        font-style: italic;
+    }

@@ -1,0 +1,172 @@
+﻿
+@{Layout = null; }
+
+
+
+<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h4>Training Participants</h4>
+        <p> Place a check on the left most corner to indicate that the person is a participant of the selected training</p>
+
+    </div>
+
+</div>
+
+
+<div ng-show="isAddingPax">Wait a moment.....saving participant in database.</div>
+
+<div ng-show="isAddingPax">
+
+    <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+</div>
+
+
+<div class="panel panel-success">
+
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="col-md-3">
+                <label>Name</label>
+                <input class="form-control" placeholder="Name" ng-model="filter.name" ng-changed="search()" />
+            </div>
+
+
+
+            <div class="col-md-3">
+                <label>Barangay</label>
+                <select name="brgy_code" ng-model="filter.brgy_code" id="brgy_code" class="form-control"
+                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                    <option value="">[Select Barangay]</option>
+                </select>
+            </div>
+
+
+
+            <div class="col-md-3">
+                <label>Trained</label>
+                <select ng-model="filter.is_trained" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                    <option value=''>[Select Option]</option>
+                </select>
+            </div>
+
+
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <md-button class="md-primary md-raised" ng-click="search()">
+                    <i class="fa fa-filter"></i>  Filter
+                </md-button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+<div class="panel panel-success">
+
+
+
+
+
+
+
+    <md-table-container>
+        <table class="table zui-table zui-table-horizontal zui-table-highlight" ng-show="!isSearching">
+            <thead>
+                <tr>
+                    <th>
+                        <div flex-xs="" flex="50">
+                            <small>Check if Participant</small>
+                        </div>
+                    </th>
+                    <th>
+                        Barangay
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Middle Name
+                    </th>
+                    <th>
+                        Birthdate
+                    </th>
+                    <th>
+                        Sex
+                    </th>
+
+                    <th>
+                        Contact No
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+
+
+
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in members">
+                    <td>
+                        <md-checkbox ng-model="item.is_participant" ng-click="ConfirmParticipation(item)" aria-label="false">
+
+                        </md-checkbox>
+
+                    </td>
+                    <td>
+                        {{item.lib_brgy_brgy_name}}
+                    </td>
+                    <td>
+                        {{ item.last_name }}
+                    </td>
+                    <td>
+                        {{ item.first_name }}
+                    </td>
+                    <td>
+                        {{ item.middle_name }}
+                    </td>
+                    <td>
+                        {{ item.birthdate | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td>
+                        {{ item.sex == true? "Male" : "Female" }}
+                    </td>
+
+                    <td>
+                        {{ item.contact_no }}
+                    </td>
+
+                    <td>
+                        <a class="btn btn-info btn-sm" style="margin-right:5px" href="/Entry/Profiles?id={{item.person_profile_id}}"><i class="fa fa-edit"></i></a>
+
+
+
+                    </td>
+
+
+                </tr>
+            </tbody>
+
+        </table>
+
+    </md-table-container>
+
+    @Html.Partial("~/Views/Shared/_pagination.cshtml")
+
+
+
+</div>

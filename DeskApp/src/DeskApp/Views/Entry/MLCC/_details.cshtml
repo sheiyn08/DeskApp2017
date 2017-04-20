@@ -1,0 +1,231 @@
+﻿
+@{Layout = null; }
+
+@*11-02-16*@
+<md-container layout="row">
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+        <div flex="25" flex-sm="100">
+            <label>As of</label>
+            <md-datepicker name="As of field" ng-model="dt_history" md-placeholder="Enter date" ng-change="data.history = dt_history.toISOString()" ng-required="true" md-min-date="minDate" md-max-date="today"></md-datepicker>
+        </div>
+    </div>
+</md-container>
+
+
+<md-container layout="row">
+
+
+
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+
+
+
+        <div flex="25" flex-sm="100">
+
+            <label for="Region:_">Region</label>
+
+
+
+            <select name="Region" ng-model="data.region_code" id="region_code" class="form-control"
+                    required
+                    ng-disabled="status"
+                    ng-options="option.Id as option.Name for option in region_code_options">
+                <option value="">[Select Region]</option>
+            </select>
+
+
+
+
+
+        </div>
+
+
+        <div flex="25" flex-sm="100">
+            <label for="Province:_">Province: </label>
+
+            <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
+                    ng-disabled="data.region_code == null || status"
+                    ng-required="true"
+                    ng-options="option.Id as option.Name for option in prov_code_options">
+                <option value="">[Select Province]</option>
+            </select>
+
+        </div>
+
+        <div flex="25" flex-sm="100">
+            <label for="Municipality:_">Municipality: </label>
+
+
+            <select name="City" ng-model="data.city_code" id="city_code" class="form-control"
+                    ng-required="true"
+                    ng-disabled="data.prov_code == null || status"
+                    ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                <option value="">[Select Municipality]</option>
+            </select>
+
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+</md-container>
+
+
+
+<md-container layout="row">
+
+
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+
+
+
+        <div flex="25" flex-sm="100">
+
+            <label for="FundSource:_">Fund Source</label>
+
+
+
+            <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
+                    ng-required="true"
+                    ng-disabled="status"
+                    ng-options="option.Id as option.Name for option in fund_source_id_options">
+                <option value="">[Select Fund Source]</option>
+            </select>
+
+
+
+        </div>
+
+
+        <div flex="25" flex-sm="100">
+            <label for="Province:_">Cycle: </label>
+
+            <select name="Cycle" ng-model="data.cycle_id" id="Cycle" class="form-control"
+                    ng-disabled="status"
+                    required
+                    ng-options="option.Id as option.Name for option in cycle_id_options">
+                <option value="">[Select Cycle]</option>
+            </select>
+
+
+        </div>
+
+        <div flex="25" flex-sm="100">
+            <label for="Municipality:_">KC Mode: </label>
+
+            <select name="KC Mode" ng-model="data.enrollment_id" id="KC Mode" class="form-control"
+                    ng-disabled="status"
+                    ng-required="true"
+                    ng-options="option.Id as option.Name for option in enrollment_id_options">
+                <option value="">[Select KC Mode]</option>
+            </select>
+
+
+
+        </div>
+
+    </div>
+
+</md-container>
+
+
+<md-container>
+
+
+    <div class="layout-row" layout-margin flex>
+
+
+        <div flex="25" >
+            TYPE
+        </div>
+
+
+        <div flex="25" >
+            PLANNED
+        </div>
+        <div flex="25" >
+            ACTUAL
+        </div>
+        <div flex="25" >
+            BALANCE
+        </div>
+
+
+    </div>
+
+
+
+    <div class="layout-row" layout-margin flex>
+        <div flex="25" >
+            CASH
+        </div>
+
+        <div flex="25" >
+            <input type="number" min="0" ng-model="data.planned_cash" class="form-control" />
+        </div>
+
+        <div flex="25" >
+            <input type="number" min="0" ng-model="data.actual_cash" class="form-control" />
+        </div>
+
+        <div flex="25" >
+            {{data.planned_cash - data.actual_cash}}
+        </div>
+
+    </div>
+
+
+    <div class="layout-row" layout-margin flex>
+        <div flex="25" >
+            IN KIND
+        </div>
+
+        <div flex="25" >
+            <input type="number" min="0" ng-model="data.planned_inkind" class="form-control" />
+        </div>
+
+        <div flex="25" >
+            <input type="number" min="0" ng-model="data.actual_inkind" class="form-control" />
+        </div>
+
+        <div flex="25" >
+            {{data.planned_inkind - data.actual_inkind}}
+        </div>
+
+    </div>
+
+    <div class="layout-row" layout-margin flex>
+        <div flex="25">
+           TOTAL
+        </div>
+
+        <div flex="25">
+          {{data.planned_inkind +data.planned_cash}}
+        </div>
+
+        <div flex="25">
+            {{data.actual_cash +data.actual_inkind}}
+        </div>
+
+        <div flex="25">
+            {{(planned_inkind +data.planned_cash) - (data.actual_cash +data.actual_inkind)}}
+        </div>
+
+    </div>
+
+</md-container>
+
+
+@*public double planned_cash { get; set; }
+    public double planned_inkind { get; set; }
+    public double actual_cash { get; set; }
+    public double actual_inkind { get; set; }*@

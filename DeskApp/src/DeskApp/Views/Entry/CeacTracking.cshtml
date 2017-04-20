@@ -1,0 +1,537 @@
+﻿<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+
+    <style>
+        .form-group .help-block {
+            display: none;
+        }
+
+        .form-group.has-error .help-block {
+            display: block;
+        }
+
+        .dialogdemoBasicUsage #popupContainer {
+            position: relative;
+        }
+
+        .dialogdemoBasicUsage .footer {
+            width: 100%;
+            text-align: center;
+            margin-left: 20px;
+        }
+
+            .dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+                font-size: 0.8em;
+                margin-top: 50px;
+            }
+
+        .dialogdemoBasicUsage button {
+            width: 200px;
+        }
+
+        .dialogdemoBasicUsage div#status {
+            color: #c60008;
+        }
+
+
+        /*
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        */
+    </style>
+</head>
+
+
+
+<div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">CEAC Tracking</div>
+    </md-toolbar>
+
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+
+            <md-tab label="Municipal">
+
+
+
+
+
+
+                <md-content class="md-padding">
+
+                    @Html.Partial("~/Views/Entry/Ceac/_municipal.cshtml")
+
+                </md-content>
+            </md-tab>
+
+
+
+            <md-tab label="Barangay">
+
+
+
+
+
+                <md-content class="md-padding">
+
+                    @Html.Partial("~/Views/Entry/Ceac/_barangay.cshtml")
+
+                </md-content>
+            </md-tab>
+
+
+
+        </md-tabs>
+    </md-content>
+    <md-content>
+
+
+
+
+
+
+    </md-content>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+            .controller('AppCtrl',
+                function ($scope, $mdDialog, $http, $mdToast) {
+
+
+                    $scope.data;
+                    $scope.main;
+
+                    $scope.data_brgy = [];
+                    $scope.show_all = true;
+
+                    $scope.min_start_date = new Date("01/01/2014");
+
+                    $scope.today = new Date();
+
+
+
+
+                    $http.get('/api/offline/v1/main/ceac?id=@ViewBag.id').then(function (response) {
+
+                        $scope.main = response.data;
+
+                    })
+
+
+
+
+
+
+
+                    $http.get('/api/lib_implementation_status')
+               .then(function (response) {
+
+                   //alert(JSON.stringify(response));
+
+                   $scope.implementation_status_id_options = response.data;
+               });
+
+                    $scope.get_muni_ceac = function () {
+
+
+
+
+
+
+
+                        $http.get('/api/offline/v1/ceac_tracking/get?id=@ViewBag.id' + "&lgu_level_id=2&brgy_code=")
+                            .then(function (response) {
+
+
+                                $scope.loading = true;
+
+                                $scope.data = response.data;
+
+
+                                $scope.city_code = "";
+
+                                angular.forEach($scope.data,
+                                    function (todo) {
+
+                                        todo.dt_actual_end = todo.actual_end == undefined ? null : new Date(todo.actual_end);
+                                        todo.dt_actual_start = todo.actual_start == undefined ? null : new Date(todo.actual_start);
+
+
+
+                                        todo.dt_plan_start = todo.plan_start == undefined ? null : new Date(todo.plan_start);
+                                        todo.dt_plan_end = todo.plan_end == undefined ? null : new Date(todo.plan_end);
+
+
+
+                                        todo.dt_catch_start = todo.catch_start == undefined ? null : new Date(todo.catch_start);
+                                        todo.dt_catch_end = todo.catch_end == undefined ? null : new Date(todo.catch_end);
+
+                                        $scope.city_code = todo.city_code;
+                                    });
+
+
+                                $http.get('/api/online/lib_brgy?id=' + $scope.city_code)
+                                    .then(function (response) { $scope.brgy_code_options = response.data; });
+
+                            });
+                    }
+
+                    $scope.get_muni_ceac();
+
+                    //Prioritization
+
+
+                    $scope.selected_pra = {};
+                    $scope.new_pra_record = {}
+
+                    $scope.editPra = function (contact) {
+                        $scope.edit_pra = true;
+                        $scope.selected_pra = angular.copy(contact);
+                    };
+
+
+                    // gets the template to ng-include for a table row / item
+                    $scope.getPraTemplate = function (contact) {
+                        if (contact
+                            .ceac_tracking_id ===
+                            $scope.selected_pra.ceac_tracking_id) return 'editPraTemplate';
+                        else return 'displayPraTemplate';
+                    };
+
+                    $scope.reset_pra = function () {
+                        $scope.new_pra = false;
+                        $scope.edit_pra = false;
+                        $scope.selected_pra = {};
+                        $scope.new_pra_record = {};
+                    };
+
+                    $scope.save_pra = function (idx) {
+
+
+
+                        $.post('/api/offline/v1/ceac_list/tracking/save', $scope.selected_pra)
+                            .success(function (data) {
+
+                                $scope.selected_pra
+                                    .lib_implementation_status_name = data.lib_implementation_status_name;
+
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('CEAC Updated!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+                            })
+                            .error(function (data) {
+
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+                        $scope.get_muni_ceac();
+
+                        $scope.reset_pra();
+                    };
+
+
+                    $scope.is_editable = function () {
+
+                        if ($scope.selected_bra.training_category_id == 39) {
+                            return false
+
+                        }
+                        if ($scope.selected_bra.training_category_id == 40) {
+                            return false
+
+                        } if ($scope.selected_bra.training_category_id == 41) {
+                            return false
+
+                        } if ($scope.selected_bra.training_category_id == 42) {
+                            return false
+
+                        } if ($scope.selected_bra.training_category_id == 43) {
+                            return false
+
+                        }
+                        return true;
+                    }
+
+
+
+                    $scope.save_bra = function (idx) {
+
+
+                        $.post('/api/offline/v1/ceac_list/tracking/save', $scope.selected_bra)
+                            .success(function (data) {
+
+                                $scope.selected_bra
+                                    .lib_implementation_status_name = data.lib_implementation_status_name;
+
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('CEAC Updated!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+
+                                //alert(JSON.stringify($scope.data_brgy[idx].dt_plan_start));
+                                //alert(JSON.stringify($scope.selected_bra.dt_plan_start));
+
+
+                                //$scope.data_brgy[idx].dt_plan_start = $scope.selected_bra.dt_plan_start;
+                                //$scope.data_brgy[idx].dt_actual_start = $scope.selected_bra.dt_actual_start;
+                                //$scope.data_brgy[idx].dt_catch_start = $scope.selected_bra.dt_catch_start;
+                                //$scope.data_brgy[idx].dt_plan_end = $scope.selected_bra.dt_plan_end;
+                                //$scope.data_brgy[idx].dt_actual_end = $scope.selected_bra.dt_actual_end;
+                                //$scope.data_brgy[idx].dt_catch_end = $scope.selected_bra.dt_catch_end;
+
+
+
+
+                                $scope.get_brgy_ceac($scope.selected_bra.brgy_code);
+
+
+
+
+                                $scope.reset_bra();
+
+                            })
+                            .error(function (data) {
+
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+
+
+                    };
+
+                    $scope.save_main = function () {
+
+
+                        $.post('/api/offline/v1/ceac_list/save', $scope.main)
+                            .success(function (data) {
+ 
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('Main CEAC Status Updated!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+
+                                
+
+                            })
+                            .error(function (data) {
+
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+
+
+                    };
+
+                    //   $scope.new_pra_record.community_training_id = $scope.data.community_training_id;
+
+                    $scope.add_pra = function () {
+                        $scope.new_pra_record.community_training_id = $scope.data.community_training_id;
+
+
+                        $scope.new_pra_record.created_by = 0;
+                        $scope.new_pra_record.created_date = new Date();
+
+
+                        $.post('/api/offline/v1/trainings/pra/save', $scope.new_pra_record)
+                            .success(function (data) {
+
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('PRA Added!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+
+
+                                $scope.new_pra_record.mibf_prioritization_id = data.mibf_prioritization_id;
+
+                                $scope.list_pra.push($scope.new_pra_record);
+                                $scope.reset_pra();
+                            })
+                            .error(function (data) {
+                                alert(JSON.stringify(data));
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+
+                    };
+
+
+
+                    $scope.reset_bra = function () {
+
+
+
+                        $scope.new_bra = false;
+                        $scope.edit_bra = false;
+                        $scope.selected_bra = {};
+                        $scope.new_bra_record = {};
+
+
+
+                    };
+
+                    $scope.cancel_beac = function () {
+                        $scope.show_all = true;
+                    }
+
+                    $scope.get_brgy_ceac = function (code) {
+
+
+
+                        $http.get('/api/offline/v1/ceac_tracking/get?id=@ViewBag.id' +
+                                "&lgu_level_id=1&brgy_code=" +
+                                code)
+                            .then(function (response) {
+
+                                $scope.show_all = false;
+
+                                $scope.loading = true;
+
+                                $scope.data_brgy = response.data; // = response.data;
+
+
+                                angular.forEach($scope.data_brgy,
+                                    function (todo) {
+
+
+
+                                        todo.dt_actual_end = todo.actual_end == undefined ? null : new Date(todo.actual_end);
+                                        todo.dt_actual_start = todo.actual_start == undefined ? null : new Date(todo.actual_start);
+
+
+
+                                        todo.dt_plan_start = todo.plan_start == undefined ? null : new Date(todo.plan_start);
+                                        todo.dt_plan_end = todo.plan_end == undefined ? null : new Date(todo.plan_end);
+
+
+
+                                        todo.dt_catch_start = todo.catch_start == undefined ? null : new Date(todo.catch_start);
+                                        todo.dt_catch_end = todo.catch_end == undefined ? null : new Date(todo.catch_end);
+
+
+                                        $scope.city_code = todo.city_code;
+
+
+                                    });
+
+
+                                $scope.cancel = function () {
+                                    $scope.data_brgy = {}
+                                    $scope.show_all = false;
+                                }
+
+
+
+
+                                $scope.selected_bra = {};
+                                $scope.new_bra_record = {}
+
+                                $scope.edit_beac = function (contact) {
+
+
+                                    $scope.edit_bra = true;
+                                    $scope.selected_bra = angular.copy(contact);
+
+
+                                    //validations
+
+
+                                    $scope.selected_bra.today = new Date();
+
+
+                                    $scope.selected_bra.minYear = new Date("2014-01-01");
+
+
+
+                                    $scope.selected_bra.minStartDate = new Date("01/01/2014");
+
+
+
+
+                                    $scope.selected_bra.minPlanEndDate = new Date($scope.selected_bra.dt_plan_start);
+
+                                    $scope.$watch('selected_bra.dt_plan_start',
+                                        function (newValue, oldValue) {
+                                            $scope.selected_bra.minPlanEndDate = new Date(newValue);
+                                        });
+
+
+
+
+
+                                    //MIN ACTUAL END
+                                    $scope.selected_bra.minActualEndDate = new Date($scope.selected_bra.dt_actual_start);
+
+
+                                    $scope.$watch('selected_bra.dt_plan_start',
+                                        function (newValue, oldValue) {
+                                            $scope.selected_bra.minActualEndDate = new Date(newValue);
+                                        });
+
+                                };
+
+
+                                // gets the template to ng-include for a table row / item
+                                $scope.getBeacTemplate = function (contact) {
+                                    if (contact
+                                        .ceac_tracking_id ===
+                                        $scope.selected_bra.ceac_tracking_id) return 'editBeacTemplate';
+                                    else return 'displayBeacTemplate';
+                                };
+
+
+
+                            });
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+                })
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+}
+
+
+
+
+</body>

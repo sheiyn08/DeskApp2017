@@ -1,0 +1,629 @@
+﻿<div class="panel panel-body">
+        
+        <div class="col-md-12">
+            <h3>Perception Survey Report</h3>
+        </div>
+        <div class="col-md-12">
+            <h4>{{selected_report.Name}}</h4>
+            <br />
+        </div>
+
+        <div class="col-md-12">
+            <h5><strong>Period Covered: </strong>{{earliest_talakayan_date | date:'MM/dd/yyyy'}} <strong>to </strong>{{latest_talakayan_date | date:'MM/dd/yyyy'}}</h5>
+            <br />
+        </div>
+        <div class="col-md-12">
+            <h5><strong>Region: {{selected_region.Name}}</strong></h5>
+        </div>
+        <div class="col-md-12">
+            <h5><strong>Province: {{selected_province.Name}}</strong></h5>
+        </div>
+        <div class="col-md-12">
+            <h5><strong>Municipality: {{selected_city.Name}}</strong></h5>
+        </div>
+        <div class="col-md-12">
+            <h5><strong>Barangay: {{selected_brgy.Name}}</strong></h5>
+            <br /> <br /><br />
+        </div>
+        
+    <table class="table table-bordered" style="width:30%">
+        
+        <tr>
+            <td colspan="2" align="center" style="vertical-align:middle" width="60%">
+                <strong>No. of Respondents</strong>
+            </td>
+            <td rowspan="2" align="center" style="vertical-align:middle" width="40%">
+                <strong>Total</strong>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <strong>Male</strong>
+            </td>
+            <td align="center">
+                <strong>Female</strong>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <strong>{{total_male}}</strong>
+            </td>
+            <td align="center">
+                <strong>{{total_female}}</strong>
+            </td>
+            <td align="center">
+                <strong>{{total_respondents}}</strong>
+            </td>
+        </tr>
+        
+    </table>
+    <br /><br />
+
+        <table class="table table-bordered">
+
+            <tr>
+                <td rowspan="3" align="center" style="vertical-align:middle">
+                    <strong>Item</strong>
+                </td>
+                <td colspan="5" align="center">
+                    <strong>Strongly Disagree</strong>
+                </td>
+
+
+                <td colspan="5" align="center">
+                    <strong>Disagree</strong>
+                </td>
+
+
+                <td colspan="5" align="center">
+                    <strong>Agree</strong>
+                </td>
+
+
+                <td colspan="5" align="center">
+                    <strong>Strongly Agree</strong>
+                </td>
+
+                <td colspan="5" align="center">
+                    <strong>No Answer</strong>
+                </td>
+            </tr>
+
+
+            <tr>
+
+                <td colspan="2" align="center">
+                    <strong>Male</strong>
+                </td>
+                <td colspan="2" align="center">
+                    <strong>Female</strong>
+                </td>
+                <td rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>Total</strong>
+                </td>
+
+                <td colspan="2" align="center">
+                    <strong>Male</strong>
+                </td>
+                <td colspan="2" align="center">
+                    <strong>Female</strong>
+                </td>
+                <td rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>Total</strong>
+                </td>
+
+                <td colspan="2" align="center">
+                    <strong>Male</strong>
+                </td>
+                <td colspan="2" align="center">
+                    <strong>Female</strong>
+                </td>
+                <td rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>Total</strong>
+                </td>
+
+
+                <td colspan="2" align="center">
+                    <strong>Male</strong>
+                </td>
+                <td colspan="2" align="center">
+                    <strong>Female</strong>
+                </td>
+                <td rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>Total</strong>
+                </td>
+
+
+                <td colspan="2" align="center">
+                    <strong>Male</strong>
+                </td>
+                <td colspan="2" align="center">
+                    <strong>Female</strong>
+                </td>
+                <td rowspan="2" align="center" style="vertical-align:middle">
+                    <strong>Total</strong>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td align="center">
+                    <strong>No.</strong>
+                </td>
+                <td align="center">
+                    <strong>%</strong>
+                </td>
+                <td align="center">
+                    <strong>No.</strong>
+                </td>
+                <td align="center">
+                    <strong>%</strong>
+                </td>
+                <td align="center">
+                    <strong>No.</strong>
+                </td>
+                <td align="center">
+                    <strong>%</strong>
+                </td>
+                <td align="center">
+                    <strong>No.</strong>
+                </td>
+                <td align="center">
+                    <strong>%</strong>
+                </td>
+                <td align="center">
+                    <strong>No.</strong>
+                </td>
+                <td align="center">
+                    <strong>%</strong>
+                </td>
+                <td align="center">
+                    <strong>No.</strong>
+                </td>
+                <td align="center">
+                    <strong>%</strong>
+                </td>
+                <td align="center">
+                    <strong>No.</strong>
+                </td>
+                <td align="center">
+                    <strong>%</strong>
+                </td>
+                <td align="center">
+                    <strong>No.</strong>
+                </td>
+                <td align="center">
+                    <strong>%</strong>
+                </td>
+                <td align="center">
+                    <strong>No.</strong>
+                </td>
+                <td align="center">
+                    <strong>%</strong>
+                </td>
+                <td align="center">
+                    <strong>No.</strong>
+                </td>
+                <td align="center">
+                    <strong>%</strong>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td colspan="26">
+                    <strong>TRUST AND CONFIDENCE ON OFFICIALS</strong>
+                </td>
+            </tr>
+
+            <tr ng-repeat="item in list | filter: {category:'TRUST AND CONFIDENCE ON OFFICIALS'}">
+                <td>
+                    {{item.item}}
+                </td>
+                <td>
+                    {{item.strongly_disagree_male == 'NaN' ? "" : item.strongly_disagree_male}}
+                </td>
+                <td>
+                    {{item.percent_strongly_disagree_male == 'NaN' || item.percent_strongly_disagree_male == '.0%' ? "" : item.percent_strongly_disagree_male}}
+                </td>
+                <td>
+                    {{item.strongly_disagree_female == 'NaN' ? "" : item.strongly_disagree_female}}
+                </td>
+                <td>
+                    {{item.percent_strongly_disagree_female == 'NaN' || item.percent_strongly_disagree_female == '.0%' ? "" : item.percent_strongly_disagree_female}}
+                </td>
+                <td>
+                    {{item.total_strongly_disagree}}
+                </td>
+
+
+                <td>
+                    {{item.disagree_male == 'NaN' ? "" : item.disagree_male}}
+                </td>
+                <td>
+                    {{item.percent_disagree_male == 'NaN' || item.percent_disagree_male == '.0%' ? "" : item.percent_disagree_male}}
+                </td>
+                <td>
+                    {{item.disagree_female == 'NaN' ? "" : item.disagree_female}}
+                </td>
+                <td>
+                    {{item.percent_disagree_female == 'NaN' || item.percent_disagree_female == '.0%' ? "" : item.percent_disagree_female}}
+                </td>
+                <td>
+                    {{item.total_disagree}}
+                </td>
+
+
+                <td>
+                    {{item.agree_male == 'NaN' ? "" : item.agree_male}}
+                </td>
+                <td>
+                    {{item.percent_agree_male == 'NaN' || item.percent_agree_male == '.0%' ? "" : item.percent_agree_male}}
+                </td>
+                <td>
+                    {{item.agree_female == 'NaN' ? "" : item.agree_female}}
+                </td>
+                <td>
+                    {{item.percent_agree_female == 'NaN' || item.percent_agree_female == '.0%' ? "" : item.percent_agree_female}}
+                </td>
+                <td>
+                    {{item.total_agree}}
+                </td>
+
+
+                <td>
+                    {{item.strongly_agree_male == 'NaN' ? "" : item.strongly_agree_male}}
+                </td>
+                <td>
+                    {{item.percent_strongly_agree_male == 'NaN' || item.percent_strongly_agree_male == '.0%' ? "" : item.percent_strongly_agree_male}}
+                </td>
+                <td>
+                    {{item.strongly_agree_female == 'NaN' ? "" : item.strongly_agree_female}}
+                </td>
+                <td>
+                    {{item.percent_strongly_agree_female == 'NaN' || item.percent_strongly_agree_female == '.0%' ? "" : item.percent_strongly_agree_female}}
+                </td>
+                <td>
+                    {{item.total_strongly_agree}}
+                </td>
+
+                <td>
+                    {{item.no_answer_male == 'NaN' ? "" : item.no_answer_male}}
+                </td>
+                <td>
+                    {{item.percent_no_answer_male == 'NaN' || item.percent_no_answer_male == '.0%' ? "" : item.percent_no_answer_male}}
+                </td>
+                <td>
+                    {{item.no_answer_female == 'NaN' ? "" : item.no_answer_female}}
+                </td>
+                <td>
+                    {{item.percent_no_answer_female == 'NaN' || item.percent_no_answer_female == '.0%' ? "" : item.percent_no_answer_female}}
+                </td>
+                <td>
+                    {{item.total_no_answer}}
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="26">
+                    <strong>ACCESS TO SERVICES AND GOVERNANCE</strong>
+                </td>
+            </tr>
+
+            <tr ng-repeat="item in list | filter: {category:'ACCESS TO SERVICES AND GOVERNANCE'}">
+                <td>
+                    {{item.item}}
+                </td>
+                <td>
+                    {{item.strongly_disagree_male == 'NaN' ? "" : item.strongly_disagree_male}}
+                </td>
+                <td>
+                    {{item.percent_strongly_disagree_male == 'NaN' || item.percent_strongly_disagree_male == '.0%' ? "" : item.percent_strongly_disagree_male}}
+                </td>
+                <td>
+                    {{item.strongly_disagree_female == 'NaN' ? "" : item.strongly_disagree_female}}
+                </td>
+                <td>
+                    {{item.percent_strongly_disagree_female == 'NaN' || item.percent_strongly_disagree_female == '.0%' ? "" : item.percent_strongly_disagree_female}}
+                </td>
+                <td>
+                    {{item.total_strongly_disagree}}
+                </td>
+
+
+                <td>
+                    {{item.disagree_male == 'NaN' ? "" : item.disagree_male}}
+                </td>
+                <td>
+                    {{item.percent_disagree_male == 'NaN' || item.percent_disagree_male == '.0%' ? "" : item.percent_disagree_male}}
+                </td>
+                <td>
+                    {{item.disagree_female == 'NaN' ? "" : item.disagree_female}}
+                </td>
+                <td>
+                    {{item.percent_disagree_female == 'NaN' || item.percent_disagree_female == '.0%' ? "" : item.percent_disagree_female}}
+                </td>
+                <td>
+                    {{item.total_disagree}}
+                </td>
+
+
+                <td>
+                    {{item.agree_male == 'NaN' ? "" : item.agree_male}}
+                </td>
+                <td>
+                    {{item.percent_agree_male == 'NaN' || item.percent_agree_male == '.0%' ? "" : item.percent_agree_male}}
+                </td>
+                <td>
+                    {{item.agree_female == 'NaN' ? "" : item.agree_female}}
+                </td>
+                <td>
+                    {{item.percent_agree_female == 'NaN' || item.percent_agree_female == '.0%' ? "" : item.percent_agree_female}}
+                </td>
+                <td>
+                    {{item.total_agree}}
+                </td>
+
+
+                <td>
+                    {{item.strongly_agree_male == 'NaN' ? "" : item.strongly_agree_male}}
+                </td>
+                <td>
+                    {{item.percent_strongly_agree_male == 'NaN' || item.percent_strongly_agree_male == '.0%' ? "" : item.percent_strongly_agree_male}}
+                </td>
+                <td>
+                    {{item.strongly_agree_female == 'NaN' ? "" : item.strongly_agree_female}}
+                </td>
+                <td>
+                    {{item.percent_strongly_agree_female == 'NaN' || item.percent_strongly_agree_female == '.0%' ? "" : item.percent_strongly_agree_female}}
+                </td>
+                <td>
+                    {{item.total_strongly_agree}}
+                </td>
+
+                <td>
+                    {{item.no_answer_male == 'NaN' ? "" : item.no_answer_male}}
+                </td>
+                <td>
+                    {{item.percent_no_answer_male == 'NaN' || item.percent_no_answer_male == '.0%' ? "" : item.percent_no_answer_male}}
+                </td>
+                <td>
+                    {{item.no_answer_female == 'NaN' ? "" : item.no_answer_female}}
+                </td>
+                <td>
+                    {{item.percent_no_answer_female == 'NaN' || item.percent_no_answer_female == '.0%' ? "" : item.percent_no_answer_female}}
+                </td>
+                <td>
+                    {{item.total_no_answer}}
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="26">
+                    <strong>PARTICIPATION AND EMPOWERMENT TO THE POOR AND MARGINALIZED</strong>
+                </td>
+            </tr>
+
+            <tr ng-repeat="item in list | filter: {category:'PARTICIPATION AND EMPOWERMENT TO THE POOR AND MARGINALIZED'}">
+                <td>
+                    {{item.item}}
+                </td>
+                <td>
+                    {{item.strongly_disagree_male == 'NaN' ? "" : item.strongly_disagree_male}}
+                </td>
+                <td>
+                    {{item.percent_strongly_disagree_male == 'NaN' || item.percent_strongly_disagree_male == '.0%' ? "" : item.percent_strongly_disagree_male}}
+                </td>
+                <td>
+                    {{item.strongly_disagree_female == 'NaN' ? "" : item.strongly_disagree_female}}
+                </td>
+                <td>
+                    {{item.percent_strongly_disagree_female == 'NaN' || item.percent_strongly_disagree_female == '.0%' ? "" : item.percent_strongly_disagree_female}}
+                </td>
+                <td>
+                    {{item.total_strongly_disagree}}
+                </td>
+
+
+                <td>
+                    {{item.disagree_male == 'NaN' ? "" : item.disagree_male}}
+                </td>
+                <td>
+                    {{item.percent_disagree_male == 'NaN' || item.percent_disagree_male == '.0%' ? "" : item.percent_disagree_male}}
+                </td>
+                <td>
+                    {{item.disagree_female == 'NaN' ? "" : item.disagree_female}}
+                </td>
+                <td>
+                    {{item.percent_disagree_female == 'NaN' || item.percent_disagree_female == '.0%' ? "" : item.percent_disagree_female}}
+                </td>
+                <td>
+                    {{item.total_disagree}}
+                </td>
+
+
+                <td>
+                    {{item.agree_male == 'NaN' ? "" : item.agree_male}}
+                </td>
+                <td>
+                    {{item.percent_agree_male == 'NaN' || item.percent_agree_male == '.0%' ? "" : item.percent_agree_male}}
+                </td>
+                <td>
+                    {{item.agree_female == 'NaN' ? "" : item.agree_female}}
+                </td>
+                <td>
+                    {{item.percent_agree_female == 'NaN' || item.percent_agree_female == '.0%' ? "" : item.percent_agree_female}}
+                </td>
+                <td>
+                    {{item.total_agree}}
+                </td>
+
+
+                <td>
+                    {{item.strongly_agree_male == 'NaN' ? "" : item.strongly_agree_male}}
+                </td>
+                <td>
+                    {{item.percent_strongly_agree_male == 'NaN' || item.percent_strongly_agree_male == '.0%' ? "" : item.percent_strongly_agree_male}}
+                </td>
+                <td>
+                    {{item.strongly_agree_female == 'NaN' ? "" : item.strongly_agree_female}}
+                </td>
+                <td>
+                    {{item.percent_strongly_agree_female == 'NaN' || item.percent_strongly_agree_female == '.0%' ? "" : item.percent_strongly_agree_female}}
+                </td>
+                <td>
+                    {{item.total_strongly_agree}}
+                </td>
+
+                <td>
+                    {{item.no_answer_male == 'NaN' ? "" : item.no_answer_male}}
+                </td>
+                <td>
+                    {{item.percent_no_answer_male == 'NaN' || item.percent_no_answer_male == '.0%' ? "" : item.percent_no_answer_male}}
+                </td>
+                <td>
+                    {{item.no_answer_female == 'NaN' ? "" : item.no_answer_female}}
+                </td>
+                <td>
+                    {{item.percent_no_answer_female == 'NaN' || item.percent_no_answer_female == '.0%' ? "" : item.percent_no_answer_female}}
+                </td>
+                <td>
+                    {{item.total_no_answer}}
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="26">
+                    <strong>DISASTER-RISK RELATED ACTIVITIES AND PREPAREDNESS</strong>
+                </td>
+            </tr>
+
+            <tr ng-repeat="item in list | filter: {category:'DISASTER-RISK RELATED ACTIVITIES AND PREPAREDNESS'}">
+
+                <td>
+                    {{item.item}}
+                </td>
+                <td>
+                    {{item.strongly_disagree_male == 'NaN' ? "" : item.strongly_disagree_male}}
+                </td>
+                <td>
+                    {{item.percent_strongly_disagree_male == 'NaN' || item.percent_strongly_disagree_male == '.0%' ? "" : item.percent_strongly_disagree_male}}
+                </td>
+                <td>
+                    {{item.strongly_disagree_female == 'NaN' ? "" : item.strongly_disagree_female}}
+                </td>
+                <td>
+                    {{item.percent_strongly_disagree_female == 'NaN' || item.percent_strongly_disagree_female == '.0%' ? "" : item.percent_strongly_disagree_female}}
+                </td>
+                <td>
+                    {{item.total_strongly_disagree}}
+                </td>
+
+
+                <td>
+                    {{item.disagree_male == 'NaN' ? "" : item.disagree_male}}
+                </td>
+                <td>
+                    {{item.percent_disagree_male == 'NaN' || item.percent_disagree_male == '.0%' ? "" : item.percent_disagree_male}}
+                </td>
+                <td>
+                    {{item.disagree_female == 'NaN' ? "" : item.disagree_female}}
+                </td>
+                <td>
+                    {{item.percent_disagree_female == 'NaN' || item.percent_disagree_female == '.0%' ? "" : item.percent_disagree_female}}
+                </td>
+                <td>
+                    {{item.total_disagree}}
+                </td>
+
+
+                <td>
+                    {{item.agree_male == 'NaN' ? "" : item.agree_male}}
+                </td>
+                <td>
+                    {{item.percent_agree_male == 'NaN' || item.percent_agree_male == '.0%' ? "" : item.percent_agree_male}}
+                </td>
+                <td>
+                    {{item.agree_female == 'NaN' ? "" : item.agree_female}}
+                </td>
+                <td>
+                    {{item.percent_agree_female == 'NaN' || item.percent_agree_female == '.0%' ? "" : item.percent_agree_female}}
+                </td>
+                <td>
+                    {{item.total_agree}}
+                </td>
+
+
+                <td>
+                    {{item.strongly_agree_male == 'NaN' ? "" : item.strongly_agree_male}}
+                </td>
+                <td>
+                    {{item.percent_strongly_agree_male == 'NaN' || item.percent_strongly_agree_male == '.0%' ? "" : item.percent_strongly_agree_male}}
+                </td>
+                <td>
+                    {{item.strongly_agree_female == 'NaN' ? "" : item.strongly_agree_female}}
+                </td>
+                <td>
+                    {{item.percent_strongly_agree_female == 'NaN' || item.percent_strongly_agree_female == '.0%' ? "" : item.percent_strongly_agree_female}}
+                </td>
+                <td>
+                    {{item.total_strongly_agree}}
+                </td>
+
+                <td>
+                    {{item.no_answer_male == 'NaN' ? "" : item.no_answer_male}}
+                </td>
+                <td>
+                    {{item.percent_no_answer_male == 'NaN' || item.percent_no_answer_male == '.0%' ? "" : item.percent_no_answer_male}}
+                </td>
+                <td>
+                    {{item.no_answer_female == 'NaN' ? "" : item.no_answer_female}}
+                </td>
+                <td>
+                    {{item.percent_no_answer_female == 'NaN' || item.percent_no_answer_female == '.0%' ? "" : item.percent_no_answer_female}}
+                </td>
+                <td>
+                    {{item.total_no_answer}}
+                </td>
+
+            </tr>
+        </table>
+  
+    <br /> <br />
+    <div class="row">
+        <div class="col-xs-6">
+            <label>Certified Correct By:</label>
+
+            <br />
+            <br />
+            <br />
+            {{prepared_by}}
+
+            Signature over Printed Name
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+    <div class="row">
+
+        <br />
+        <br />
+        
+
+        <div class="col-xs-6">
+
+            Position
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,157 @@
+﻿
+
+
+
+
+
+
+<div class="panel panel-info">
+
+    <div class="panel-heading">
+        <h4>Identified Problems and Solutions</h4>
+        <a class="btn btn-danger" data-toggle="modal" data-target="#addProblem"><i class="fa fa-plus-circle">Add Problem</i></a>
+
+    </div>
+
+    <div class="panel panel-default">
+        <div ng-repeat="problem in problems | orderBy:'rank'">
+
+            <div class="panel-body">
+                <div class="panel panel-info">
+
+                    <div class="panel-heading">
+
+                        <h1>Problem: {{problem.problem}}</h1>
+                        <h3>Rank: {{problem.rank}}</h3>
+                        <p>
+                            Category:<select disabled name="psa_problem_category_id" ng-model="problem.psa_problem_category_id" id="psa_problem_category_id" class="form-control"
+                                             ng-options="option.Id as option.Name for option in psa_problem_category_id_options">
+                                <option value="">[Select Problem Category]</option>
+                            </select>
+                        </p>
+
+                        <a class="btn btn-success" ng-click="openSolutionForm(problem)"><i class="fa fa-heart">Add Solution</i></a>
+
+                    </div>
+                    <div class="panel panel-body">
+                        <h4>Identified Solution: </h4>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="Training Category:_"> Solution: </label>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="Training Category:_"> Solution Category: </label>
+
+                            </div>
+                        </div>
+                        <div ng-repeat="solutions in problem.psa_solution_mapping">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{solutions.solution}}
+
+                                </div>
+                                <div class="col-md-6">
+                                    <select name="psa_problem_category_id" ng-model="solutions.psa_solution_category_id" id="psa_solution_category_id" class="form-control"
+                                            disabled ng-options="option.Id as option.Name for option in psa_solution_category_id_options">
+                                        <option value="">[Select Solution Category]</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br />
+            <hr />
+
+        </div>
+    </div>
+
+
+    <form id="addProblem" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Identified PSA Problem</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="firstName">Rank</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="Rank" ng-model="rank" required name="rank" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="firstName">Problem</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="Problem" ng-model="problem" required name="problem" />
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Category</label>
+                        <select name="psa_problem_category_id" ng-model="psa_problem_category_id" id="psa_problem_category_id" class="form-control"
+                                ng-options="option.Id as option.Name for option in psa_problem_category_id_options">
+                            <option value="">[Select Problem Category]</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" ng-click="addProblem()">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form id="addSolution" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Identified Solution</h4>
+                </div>
+                <div class="modal-body">
+
+                   
+
+
+                    <div class="form-group">
+                        <label for="firstName">Solution</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="Solution" ng-model="solution" required name="problem" />
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Category</label>
+                        <select name="psa_problem_category_id" ng-model="psa_solution_category_id" id="psa_solution_category_id" class="form-control"
+                                ng-options="option.Id as option.Name for option in psa_solution_category_id_options">
+                            <option value="">[Select Solution Category]</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" ng-click="addSolution()">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+</div>
+
+
+

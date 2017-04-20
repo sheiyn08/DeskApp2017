@@ -1,0 +1,229 @@
+﻿<div class="panel panel-body">
+
+    <div class="col-md-12">
+        <h3>Perception Survey Report</h3>
+    </div>
+    <div class="col-md-12">
+        <h4>{{selected_report.Name}}</h4>
+        <br />
+    </div>
+
+    <div class="col-md-12">
+        <h5><strong>Period Covered: </strong>{{earliest_talakayan_date | date:'MM/dd/yyyy'}} <strong>to </strong>{{latest_talakayan_date | date:'MM/dd/yyyy'}}</h5>
+        <br />
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Region: {{selected_region.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Province: {{selected_province.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Municipality: {{selected_city.Name}}</strong></h5>
+    </div>
+    <div class="col-md-12">
+        <h5><strong>Barangay: {{selected_brgy.Name}}</strong></h5>
+        <br /> <br /><br />
+    </div>
+
+    <table class="table table-bordered">
+
+        <tr align="center" style="vertical-align:middle">
+            <td rowspan="2" align="center" style="vertical-align:middle">
+                <strong>Total Number of Respondents</strong>
+            </td>
+            <td colspan="2">
+                <strong>Total Male</strong>
+            </td>
+            <td colspan="2">
+                <strong>Total Female</strong>
+            </td>
+            <td colspan="2">
+                <strong>Total Pantawid</strong>
+            </td>
+            <td colspan="2">
+                <strong>Total SLP</strong>
+            </td>
+            <td colspan="2">
+                <strong>Total IP</strong>
+            </td>
+            <td colspan="2">
+                <strong>Total 60 yrs. old and above</strong>
+            </td>
+            <td colspan="2">
+                <strong>Total 40-59 yrs. old</strong>
+            </td>
+            <td colspan="2">
+                <strong>Total 21-39 yrs. old</strong>
+            </td>
+            <td colspan="2">
+                <strong>Total 20 yrs. old and below</strong>
+            </td>
+
+        </tr>
+
+        <tr align="center" style="vertical-align:middle">
+            <td>
+                <strong>No.</strong>
+            </td>
+            <td>
+                <strong>%</strong>
+            </td>
+
+            <td>
+                <strong>No.</strong>
+            </td>
+            <td>
+                <strong>%</strong>
+            </td>
+
+            <td>
+                <strong>No.</strong>
+            </td>
+            <td>
+                <strong>%</strong>
+            </td>
+
+            <td>
+                <strong>No.</strong>
+            </td>
+            <td>
+                <strong>%</strong>
+            </td>
+
+            <td>
+                <strong>No.</strong>
+            </td>
+            <td>
+                <strong>%</strong>
+            </td>
+
+            <td>
+                <strong>No.</strong>
+            </td>
+            <td>
+                <strong>%</strong>
+            </td>
+
+            <td>
+                <strong>No.</strong>
+            </td>
+            <td>
+                <strong>%</strong>
+            </td>
+
+            <td>
+                <strong>No.</strong>
+            </td>
+            <td>
+                <strong>%</strong>
+            </td>
+
+            <td>
+                <strong>No.</strong>
+            </td>
+            <td>
+                <strong>%</strong>
+            </td>
+
+        </tr>
+
+        <tr ng-repeat="item in list" align="center" style="vertical-align:middle">
+
+            <td>
+                {{item.total_participants == 'NaN' ? "" : item.total_participants}}
+            </td>
+            <td>
+                {{item.total_male == 'NaN' ? "" : item.total_male}}
+            </td>
+            <td>
+                {{item.percent_male == 'NaN' || item.percent_male == '.0%' ? "" : item.percent_male}}
+            </td>
+            <td>
+                {{item.total_female == 'NaN' ? "" : item.total_female}}
+            </td>
+            <td>
+                {{item.percent_female == 'NaN' || item.percent_female == '.0%' ? "" : item.percent_female}}
+            </td>
+            <td>
+                {{item.total_pantawid == 'NaN' ? "" : item.total_pantawid}}
+            </td>
+            <td>
+                {{item.percent_pantawid == 'NaN' || item.percent_pantawid == '.0%' ? "" : item.percent_pantawid}}
+            </td>
+            <td>
+                {{item.total_slp == 'NaN' ? "" : item.total_slp}}
+            </td>
+            <td>
+                {{item.percent_slp == 'NaN' || item.percent_slp == '.0%' ? "" : item.percent_slp}}
+            </td>
+            <td>
+                {{item.total_ip == 'NaN' ? "" : item.total_ip}}
+            </td>
+            <td>
+                {{item.percent_ip == 'NaN' || item.percent_ip == '.0%' ? "" : item.percent_ip}}
+            </td>
+            <td>
+                {{item.total_60_and_above == 'NaN' ? "" : item.total_60_and_above}}
+            </td>
+            <td>
+                {{item.percent_60_and_above == 'NaN' || item.percent_60_and_above == '.0%' ? "" : item.percent_60_and_above}}
+            </td>
+            <td>
+                {{item.total_40_to_59_yo == 'NaN' ? "" : item.total_40_to_59_yo}}
+            </td>
+            <td>
+                {{item.percent_40_to_59_yo == 'NaN' || item.percent_40_to_59_yo == '.0%' ? "" : item.percent_40_to_59_yo}}
+            </td>
+            <td>
+                {{item.total_21_to_39_yo == 'NaN' ? "" : item.total_21_to_39_yo}}
+            </td>
+            <td>
+                {{item.percent_21_to_39_yo == 'NaN' || item.percent_21_to_39_yo == '.0%' ? "" : item.percent_21_to_39_yo}}
+            </td>
+            <td>
+                {{item.total_20_and_below == 'NaN' ? "" : item.total_20_and_below}}
+            </td>
+            <td>
+                {{item.percent_20_and_below == 'NaN' || item.percent_20_and_below == '.0%' ? "" : item.percent_20_and_below}}
+            </td>
+
+        </tr>
+    </table>
+
+    <br /> <br />
+    <div class="row">
+        <div class="col-xs-6">
+            <label>Certified Correct By:</label>
+
+            <br />
+            <br />
+            <br />
+            {{prepared_by}}
+
+            Signature over Printed Name
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+    <div class="row">
+
+        <br />
+        <br />
+
+
+        <div class="col-xs-6">
+
+            Position
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+
+</div>

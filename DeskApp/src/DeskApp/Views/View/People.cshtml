@@ -1,0 +1,298 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+    <style>
+        md-backdrop {
+            position: fixed;
+        }
+    </style>
+
+</head>
+
+<body layout="column">
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+        <md-toolbar md-scroll-shrink>
+            <div class="md-toolbar-tools">Person Profile Records</div>
+        </md-toolbar>
+
+        <md-content>
+            <br />
+
+            <div style="margin:25px">
+                <a class="btn btn-success" ng-click="createNew()">
+                    <i class="fa fa-plus fa-lg"></i> New Record
+                </a>
+            </div>
+
+            <div class="panel panel-success" style="margin:25px">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <h4><b>FILTER RECORDS BY:</b></h4>
+                            </div>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <md-checkbox ng-model="data.filter_by_recent_edit" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Edited</b> record</md-checkbox>
+                            </div>
+                            <div class="col-md-3">
+                                <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label>Name</label>
+                                <input class="form-control" ng-model="data.name" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Pantawid?</label>
+                                <select ng-model="data.is_pantawid" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Is SLP?</label>
+                                <select ng-model="data.is_slp" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="Region:_">Region: </label>
+                                <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                                        ng-options="option.Id as option.Name for option in region_code_options">
+                                    <option value="">[Select Region]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Province:_">Province: </label>
+                                <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                        ng-disabled="data.region_code == null"
+                                        ng-options="option.Id as option.Name for option in prov_code_options">
+                                    <option value="">[Select Province]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Municipality:_">Municipality: </label>
+                                <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                                        ng-disabled="data.prov_code == null"
+                                        ng-options="option.Id as option.Name for option in city_code_options">
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Barangay:_">Barangay: </label>
+                                <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                        ng-disabled="data.city_code == null"
+                                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                                    <option value="">[Select Barangay]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label>IP?</label>
+                                <select ng-model="data.is_ip" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'IP'},{'value':false,'text':'NON-IP'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Trained?</label>
+                                <select ng-model="data.is_trained" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Volunteer?</label>
+                                <select ng-model="data.is_volunteer" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Worker?</label>
+                                <select ng-model="data.is_worker" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body" ng-show="data.is_ip">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="Fund Source:_">IP Group: </label>
+                                <select class="form-control" ng-model="data.ip_group_id">
+                                    <option value=''>[Select Fund Source]</option>
+                                    <option ng-repeat="value in ip_group_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body" ng-show="data.is_volunteer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="Fund Source:_">Fund Source: </label>
+                                <select class="form-control" ng-model="data.fund_source_id">
+                                    <option value=''>[Select Fund Source]</option>
+                                    <option ng-repeat="value in fund_source_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Province:_">KC Mode: </label>
+                                <select class='form-control' ng-model="data.enrollment_id">
+                                    <option value=''>[Select KC Mode]</option>
+                                    <option ng-repeat="value in enrollment_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body" ng-show="data.is_volunteer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="Fund Source:_">Committee: </label>
+                                <select class="form-control" ng-model="data.volunteer_committee_id">
+                                    <option value=''>[Select Committee]</option>
+                                    <option ng-repeat="value in volunteer_committee_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Province:_">Committee Position: </label>
+                                <select class='form-control' ng-model="data.volunteer_committee_position_id">
+                                    <option value=''>[Select Position]</option>
+                                    <option ng-repeat="value in volunteer_committee_position_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body" ng-show="data.is_trained == true || data.is_trained == false">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="Fund Source:_">Training Category: </label>
+                                <select class="form-control" ng-model="data.training_category_id">
+                                    <option value=''>[Select Training Category]</option>
+                                    <option ng-repeat="value in training_category_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label>Sex</label>
+                                <select ng-model="data.is_male" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Male'},{'value':false,'text':'Female'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Fund Source:_">Educational Attainment: </label>
+                                <select class="form-control" ng-model="data.education_attainment_id">
+                                    <option value=''>[Select Option]</option>
+                                    <option ng-repeat="value in educational_attainment_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Province:_">Occupation: </label>
+                                <select class='form-control' ng-model="data.occupation_id">
+                                    <option value=''>[Select Option]</option>
+                                    <option ng-repeat="value in occupation_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div><br />
+            </div>
+
+            <div flex="100" layout="row" layout-margin layout-sm="column" style="margin:20px">
+                <a class="btn btn-primary" ng-click="search()">
+                    <i class="fa fa-filter fa-lg"></i> Filter
+                </a>
+                <a class="btn btn-warning" ng-click="clear()">
+                    <i class="fa fa-recycle fa-lg"></i>  Clear
+                </a>
+                @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+            </div>
+
+        </md-content>
+
+        <br />
+        
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="List">
+                    <md-content class="md-padding">
+                        <md-content>
+                            @Html.Partial("~/Views/Shared/_pagination.cshtml")
+                        </md-content>
+                        <md-content>
+                            @Html.Partial("~/Views/View/_people.cshtml")
+                        </md-content>
+                    </md-content>
+                </md-tab>
+                @Html.Partial("~/Views/View/Common/_download.cshtml")
+            </md-tabs>
+        </md-content>
+        
+    </div>
+
+    <!--
+    Copyright 2016 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+    -->
+
+
+
+</body>
+
+
+@section Scripts {
+
+    <script src="~/scripts/alasql.min.js"></script>
+    <script src="~/scripts/xlsx.core.min.js"></script>
+
+    <script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+
+
+
+    <script src="~/scripts/app/Profiles/profile_index.js"></script>
+    <script src="~/scripts/directives/paging.js"></script>
+}
+

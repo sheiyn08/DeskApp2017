@@ -160,7 +160,8 @@ namespace DeskApp.Controllers
                 Page = currPages,
                 TotalCount = totalCount,
                 TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
-                TotalSync = model.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).Count(),
+                //TotalSync = model.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).Count(),
+                TotalSync = model.Count(x => x.is_deleted != true && (x.push_status_id == 2 || x.push_status_id == 3)),
                 TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
                 
                 Items = model.OrderBy(x => x.talakayan_date_from)
@@ -179,7 +180,8 @@ namespace DeskApp.Controllers
                     year = x.year,
                     activity_name = x.activity_name,
                     talakayan_yr_id = x.talakayan_yr_id,   
-                    push_status_id = x.push_status_id                 
+                    push_date = x.push_date,
+                    last_modified_date = x.last_modified_date                 
 
                 }).Skip(currPages * size).Take(size).ToList(),
             };
@@ -191,7 +193,7 @@ namespace DeskApp.Controllers
         public PagedCollection<dynamic> GetRecentlyEdited(AngularFilterModel item)
         {
             var model = GetData(item);
-            var totalCount = model.Count();
+            var totalCount = model.Where(x => x.push_status_id != 1 && (x.push_status_id == 3 && x.is_deleted != true)).Count();
 
             int currPages = item.currPage ?? 0;
             int size = item.pageSize ?? 10;
@@ -221,7 +223,10 @@ namespace DeskApp.Controllers
                     talakayan_date_to = x.talakayan_date_to,
                     year = x.year,
                     activity_name = x.activity_name,
-                    
+                    talakayan_yr_id = x.talakayan_yr_id,
+                    push_date = x.push_date,
+                    last_modified_date = x.last_modified_date
+
                 }).Skip(currPages * size).Take(size).ToList(),
             };
         }
@@ -232,7 +237,7 @@ namespace DeskApp.Controllers
         public PagedCollection<dynamic> GetRecentlyAdded(AngularFilterModel item)
         {
             var model = GetData(item);
-            var totalCount = model.Count();
+            var totalCount = model.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).Count();
             int currPages = item.currPage ?? 0;
             int size = item.pageSize ?? 10;
 
@@ -260,8 +265,55 @@ namespace DeskApp.Controllers
                     talakayan_date_to = x.talakayan_date_to,
                     year = x.year,
                     activity_name = x.activity_name,
+                    talakayan_yr_id = x.talakayan_yr_id,
+                    push_date = x.push_date,
+                    last_modified_date = x.last_modified_date
 
                 }).Skip(currPages * size).Take(size).ToList(),
+            };
+        }
+
+
+        [HttpPost]
+        [Route("api/offline/v1/perception_survey/get_recently_edited_and_added")]
+        public PagedCollection<dynamic> GetRecentlyEditedandAdded(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            var totalCount = model.Where(x => x.push_status_id != 1 && ((x.push_status_id == 2 || x.push_status_id == 3) && x.is_deleted != true)).Count();
+            int currPages = item.currPage ?? 0;
+            int size = item.pageSize ?? 10;
+
+            //THIS PART IS FOR RETRIEVING RECORDS TO BE DISPLAYED ON THE LIST
+            return new PagedCollection<dynamic>()
+            {
+                Page = currPages,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+                TotalSync = model.Where(x => x.push_status_id != 1 && ((x.push_status_id == 2 || x.push_status_id == 3) && x.is_deleted != true)).Count(),
+                TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
+
+                Items = model
+                    .Where(x => x.push_status_id != 1 && ((x.push_status_id == 2 || x.push_status_id == 3) && x.is_deleted != true))
+                    .OrderBy(x => x.talakayan_date_from)
+                    .Select(x => new
+                    {
+                        perception_survey_id = x.perception_survey_id,
+                        lib_brgy_brgy_name = x.lib_brgy.brgy_name,
+                        lib_city_city_name = x.lib_city.city_name,
+                        lib_province_prov_name = x.lib_province.prov_name,
+                        lib_region_region_name = x.lib_region.region_name,
+                        age = x.age,
+                        is_male = x.is_male,
+                        person_name = x.person_name,
+                        talakayan_date_from = x.talakayan_date_from,
+                        talakayan_date_to = x.talakayan_date_to,
+                        year = x.year,
+                        activity_name = x.activity_name,
+                        talakayan_yr_id = x.talakayan_yr_id,
+                        push_date = x.push_date,
+                        last_modified_date = x.last_modified_date
+
+                    }).Skip(currPages * size).Take(size).ToList(),
             };
         }
 
@@ -5691,7 +5743,7 @@ namespace DeskApp.Controllers
                         else
                         {
                             item.push_status_id = 4;
-                            item.push_date = DateTime.Now;
+                            //item.push_date = DateTime.Now;
                             await db.SaveChangesAsync();
                         }
                     }
@@ -5716,7 +5768,7 @@ namespace DeskApp.Controllers
                         else
                         {
                             item.push_status_id = 4;
-                            item.push_date = DateTime.Now;
+                            //item.push_date = DateTime.Now;
                             await db.SaveChangesAsync();
                         }
                     }

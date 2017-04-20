@@ -1,0 +1,248 @@
+﻿
+@{Layout = null; }
+<md-toolbar class="md-whiteframe-1dp">
+    <div class="md-toolbar-tools">
+        <div class="md-title">
+            ERS Workers
+            <input ng-model="search" class="form-control" />
+        </div>
+    </div>
+</md-toolbar>
+
+
+<md-card>
+    <div layout="row" layout-wrap>
+        Place a check on the left most corner to indicate that the person is a participant of the selected training
+    </div>
+    <div ng-show="isAddingPax">Wait a moment.....saving participant in database.</div>
+
+    <div ng-show="isAddingPax">
+
+        <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+    </div>
+</md-card>
+
+
+<div ng-show="isSearching">
+
+    <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+</div>
+
+<md-table-container>
+    <table class="table zui-table zui-table-horizontal zui-table-highlight" ng-show="!isSearching">
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Middle Name
+                </th>
+                <th>
+                    Birthdate
+                </th>
+                <th>
+                    Sex
+                </th>
+                <th>
+                    Current Work
+                </th>
+
+                <th>
+                    Per Day
+                </th>
+                <th>
+                    Per Hour
+                </th>
+                <th>
+                    Actuals Days
+                </th>
+                <th>
+                    Actaul Hrs
+                </th>
+
+                <th>
+                    Total
+                </th>
+
+                <th>
+
+                    Actual Cash
+                </th>
+                <th>
+                    Actual LCC
+                </th>
+
+
+                <th>
+
+                </th>
+            </tr>
+
+
+
+        </thead>
+     
+
+        <tbody>
+            <tr ng-repeat="item in members | filter : search" ng-include="getTemplate(item)"></tr>
+        </tbody>
+
+     
+    </table>
+
+
+    <script type="text/ng-template" id="display">
+        <td>
+
+            <a class="btn btn-info btn-sm" style="margin-right:5px" ng-click="edit_worker(item)"><i class="fa fa-edit"></i></a>
+
+        </td>
+
+        <td>
+            {{ item.last_name }}
+        </td>
+        <td>
+            {{ item.first_name }}
+        </td>
+        <td>
+            {{ item.middle_name }}
+        </td>
+        <td>
+            {{ item.birthdate }}
+        </td>
+        <td>
+            {{ item.sex == true? "Male" : "Female" }}
+        </td>
+        <td>
+            {{item.ers_current_work_name}}
+        </td>
+        <td>
+            {{item.rate_day}}
+        </td>
+        <td>
+            {{item.rate_hour}}
+        </td>
+        <td>
+            {{item.work_days}}
+        </td>
+        <td>
+            {{item.work_hours}}
+        </td>
+        <td>
+            {{(item.rate_day * item.work_days) + (item.rate_hour * item.work_hours)}}
+        </td>
+        <td>
+            {{ item.actual_cash }}
+        </td>
+
+        <td>
+            {{ item.actual_lcc }}
+        </td>
+
+
+
+        <td>
+            <a class="btn btn-info btn-sm" style="margin-right:5px" href="/Entry/Profiles?id={{item.person_profile_id}}"><i class="fa fa-edit"></i></a>
+
+
+
+        </td>
+    </script>
+
+
+    <script type="text/ng-template" id="edit">
+
+        <td>
+         
+            <a class="btn btn-success btn-sm" style="margin-right:5px" ng-click="saveWorker($index)"><i class="fa fa-save"></i></a>
+
+            <a class="btn btn-warning btn-sm" style="margin-right:5px" ng-click="reset()"><i class="fa fa-close"></i></a>
+
+
+
+        </td>
+
+        <td>
+            {{ selected.last_name }}
+        </td>
+        <td>
+            {{ selected.first_name }}
+        </td>
+        <td>
+            {{ selected.middle_name }}
+        </td>
+        <td>
+            {{ selected.birthdate }}
+        </td>
+        <td>
+            {{ selected.sex == true? "Male" : "Female" }}
+        </td>
+        <td>
+            
+            <select name="ers_current_work_id" ng-model="selected.ers_current_work_id" id="region_code" class="form-control"
+                    ng-required="true"
+                  
+                    ng-options="option.Id as option.Name for option in ers_current_work_id_options"
+                    
+                      ng-change="selected.ers_current_work_name = option.Name">
+                <option value="">[Select Current Work]</option>
+            </select>
+
+
+        </td>
+        <td>
+
+            <input type="number" min="0" max="50000" ng-model="selected.rate_day" class="form-control" required />
+          
+        </td>
+        <td>
+
+            <input type="number" min="0" max="50000" ng-model="selected.rate_hour" class="form-control" required/>
+
+          
+        </td>
+        <td>
+
+            <input type="number" min="0" max="50000" ng-model="selected.work_days" class="form-control" required/>
+  
+        </td>
+        <td>
+            <input type="number" min="0" max="50000" ng-model="selected.work_hours" class="form-control" required/>
+         
+        </td>
+        <td>
+            {{(selected.rate_day * selected.work_days) + (selected.rate_hour * selected.work_hours)}}
+        </td>
+        <td>
+            <input type="number" min="0" max="50000" ng-model="selected.actual_cash" class="form-control"required />
+
+
+       
+        </td>
+
+        <td>
+            <input type="number" min="0" max="50000" ng-model="selected.actual_lcc" class="form-control" required/>
+
+
+
+     
+        </td>
+
+        <td>
+
+        </td>
+      
+    </script>
+
+
+
+
+</md-table-container>

@@ -1,0 +1,93 @@
+﻿@Html.Partial("~/Views/Report/MunicipalReport/_municipal_report_filter.cshtml")
+
+
+@* --------------------- Grievance Installation ==> Status of Filed Grievances Across Cycles --------------------- *@
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 18" id="subreport_18">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Grievance Installation</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <b>Region: </b>{{selected_region.Name == null ? "" : selected_region.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Province: </b>{{selected_province.Name == null ? "Across Provinces" : selected_province.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Municipality: </b>{{selected_city.Name == null ? "Across Municipalities" : selected_city.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Portfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Cycle: </b>{{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>KC Mode: </b>{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+            </div>
+        </div>
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>A. Barangay Grievance Monitoring</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        With GRS Orientation
+                    </td>
+                    <td align="center">
+                        With GRS Volunteers Identified
+                    </td>
+                    <td align="center">
+                        With IEC Materials
+                    </td>
+                    <td align="center">
+                        With GRS Box
+                    </td>
+                </tr>
+                <tr ng-repeat="item in grievance_installation | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.date_orientation != null ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.date_voliden != null ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.date_inspect != null ? "Yes" : "No"}}
+                    </td>
+                    <td>
+                        {{item.with_grievance_box == true ? "Yes" : "No"}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>
+
+

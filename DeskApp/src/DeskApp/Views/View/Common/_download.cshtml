@@ -1,0 +1,71 @@
+﻿
+<style>
+    .zui-table {
+        border: solid 1px #DDEEEE;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font: normal 13px Arial, sans-serif;
+    }
+
+        .zui-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .zui-table tbody td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+    .zui-table-highlight tbody tr:hover {
+        background-color: lightgray;
+    }
+
+    .zui-table-horizontal tbody td {
+        border-left: none;
+        border-right: none;
+    }
+</style>
+
+<md-tab label="Downloads">
+    <md-content class="md-padding">
+        <md-content>
+            <table class="table zui-table zui-table-horizontal zui-table-highlight">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="url in report_list">
+                        <td>
+                            {{url.Name}}
+                        <td>
+                            {{url.description}}
+                        </td>
+                        <td>
+                            <a ng-click="exportXls(url.url, url.name)" class="btn btn-success"><i class="fa fa-file-excel-o"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </md-content>
+    </md-content>
+</md-tab>
+

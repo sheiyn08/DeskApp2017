@@ -155,7 +155,8 @@ namespace DeskApp.Controllers
                         lib_lgu_level_name = x.lib_lgu_level.name,
                         lib_cycle_name = x.lib_cycle.name,
                         name = x.name,
-                        push_status_id = x.push_status_id
+                        push_date = x.push_date,
+                        last_modified_date = x.last_modified_date
                     }).Skip(currPages * size).Take(size).ToList(),
             };
         }
@@ -190,7 +191,8 @@ namespace DeskApp.Controllers
                         lib_fund_source_name = x.lib_fund_source.name,
                         lib_lgu_level_name = x.lib_lgu_level.name,
                         lib_cycle_name = x.lib_cycle.name,
-                        name = x.name
+                        name = x.name,
+                        last_modified_date = x.last_modified_date
 
                     }).Skip(currPages * size).Take(size).ToList(),
             };
@@ -226,7 +228,8 @@ namespace DeskApp.Controllers
                         lib_fund_source_name = x.lib_fund_source.name,
                         lib_lgu_level_name = x.lib_lgu_level.name,
                         lib_cycle_name = x.lib_cycle.name,
-                        name = x.name
+                        name = x.name,
+                        last_modified_date = x.last_modified_date
 
                     }).Skip(currPages * size).Take(size).ToList(),
             };
@@ -262,7 +265,8 @@ namespace DeskApp.Controllers
                         lib_fund_source_name = x.lib_fund_source.name,
                         lib_lgu_level_name = x.lib_lgu_level.name,
                         lib_cycle_name = x.lib_cycle.name,
-                        name = x.name
+                        name = x.name,
+                        last_modified_date = x.last_modified_date
 
                     }).Skip(currPages * size).Take(size).ToList(),
             };

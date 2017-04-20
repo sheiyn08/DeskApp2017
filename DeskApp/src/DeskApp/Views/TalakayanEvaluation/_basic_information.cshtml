@@ -1,0 +1,141 @@
+﻿
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h4>Talakayan Information</h4>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <label>Talakayan Name</label>
+                <input type="text" class="form-control" ng-model="data.talakayan_name">
+            </div>
+            <div class="col-md-3">
+                <label> Venue</label>
+                <input type="text" class="form-control" ng-model="data.talakayan_venue">
+            </div>
+        </div> <br /><!--end of row-->
+        <div class="row">
+            <div class="col-md-3">
+                <label>Region</label>
+                <select name="Region" ng-model="data.region_code" id="region_code" class="form-control"
+                        ng-required="true"
+                        ng-disabled="status"
+                        ng-options="option.Id as option.Name for option in region_code_options">
+                    <option value="">[Select Region]</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Province</label>
+                <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
+                        ng-disabled="data.region_code == null || status"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in prov_code_options">
+                    <option value="">[Select Province]</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Municipality</label>
+                <select name="Municipality" ng-model="data.city_code" id="city_code" class="form-control"
+                        ng-disabled="data.prov_code == null || status"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in city_code_options">
+                    <option value="">[Select Municipality]</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Barangay</label>
+                <select name="Barangay" ng-model="data.brgy_code" id="city_code" class="form-control"
+                        ng-disabled="data.city_code == null || status"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                    <option value="">[Select Barangay]</option>
+                </select>
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-md-1">
+                <label>Talakayan Year</label>
+            </div>
+            <div class="col-md-2">
+                <select name="talakayan_yr" ng-model="data.talakayan_yr_id" class="form-control" ng-required="true"
+                        ng-change=""
+                        ng-options="option.Id as option.Name for option in talakayan_year_options">
+                    <option value="">[Select Year]</option>
+                </select>
+            </div>
+            <div class="col-md-3" show-errors='{showSuccess: true}' ng-hide="data.talakayan_yr_id == 0">
+                <label>Talakayan Day (Start)</label>
+                <md-datepicker ng-model="dt_talakayan_date_start" md-placeholder="Enter date" ng-change="data.talakayan_date_start = dt_talakayan_date_start.toISOString()" ng-required="true" md-min-date="talakayan_minStartDate" md-max-date="talakayan_maxStartDate"
+                               ng-disabled="data.talakayan_yr_id == 3 || data.talakayan_yr_id == 4 || data.talakayan_yr_id == 5"></md-datepicker>
+            </div>
+            <div class="col-md-3" show-errors='{showSuccess: true}' ng-hide="data.talakayan_yr_id == 0">
+                <label>Talakayan Day (End)</label>
+                <md-datepicker ng-model="dt_talakayan_date_end" md-placeholder="Enter date" ng-change="data.talakayan_date_end = dt_talakayan_date_end.toISOString()" ng-required="true" md-min-date="talakayan_minEndDate" md-max-date="talakayan_maxEndDate"
+                               ng-disabled="data.talakayan_yr_id == 3 || data.talakayan_yr_id == 4 || data.talakayan_yr_id == 5"></md-datepicker>
+            </div>
+        </div><br /><!--end of row-->
+        </div>     <!--end of panel body-->
+</div> <!--end of panel-->
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h4>Evaluation Information</h4>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <label>Evaluation Form Version</label>
+                <select name="talakayan_version" ng-model="data.evaluation_form_version" class="form-control" ng-required="true"
+                        ng-options="option.Id as option.Name for option in evaluation_form_version">
+                    <option value="">[Select Version]</option>
+                </select>
+            </div>
+            <div class="col-md-3" show-errors='{showSuccess: true}'>
+                <label>Date evaluation was conducted (Start)</label>
+                <md-datepicker name="evaluation_date_start" ng-model="dt_evaluation_date_start" md-placeholder="Enter date" ng-change="data.evaluation_date_start = dt_evaluation_date_start.toISOString()" ng-required="true" md-min-date="evaluation_minStartDate" md-max-date="evaluation_maxStartDate"></md-datepicker>
+            </div>
+            <div class="col-md-3" show-errors='{showSuccess: true}'>
+                <label>Date evaluation was conducted (End)</label>
+                <md-datepicker name="evaluation_date_end" ng-model="dt_evaluation_date_end" md-placeholder="Enter date" ng-change="data.evaluation_date_end = dt_evaluation_date_end.toISOString()" ng-required="true" md-min-date="evaluation_minEndDate" md-max-date="evaluation_maxEndDate"></md-datepicker>
+            </div>
+        </div> <!--end of row-->
+    </div>     <!--end of panel body-->
+</div> <!--end of panel-->
+
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        <h4>Participant's Basic Information</h4>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <label>Full Name <small style="color:red; font-style:italic">(Optional)</small></label>
+                <input type="text" class="form-control" ng-model="data.person_name">
+            </div>
+            <div class="col-md-4">
+                <label>Sex</label>
+                <select name="Sex" ng-model="data.is_male" class="form-control" ng-required="true"
+                        ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Male'},{'value':false,'text':'Female'}]">
+                    <option value="">[Sex]</option>
+                </select>
+            </div>
+            <div class="col-md-4" ng-hide="data.evaluation_form_version != 2016">
+                <label>Participant Type</label>
+                <select ng-model="data.participant_type" class="form-control"
+                    ng-required="true"
+                    ng-options="option.Id as option.Name for option in talakayan_option_participant_id_2016">
+                    <option value="">[Select Rating]</option>
+                </select>
+            </div>
+            <div class="col-md-4" ng-hide="data.evaluation_form_version != 2015">
+                <label>Participant Type</label>
+                <select ng-model="data.participant_type" class="form-control"
+                        ng-required="true"
+                        ng-options="option.Id as option.Name for option in talakayan_option_participant_id_2015">
+                    <option value="">[Select Rating]</option>
+                </select>
+            </div>
+            
+        </div> <!--end of row-->
+    </div>     <!--end of panel body-->
+</div> <!--end of panel-->

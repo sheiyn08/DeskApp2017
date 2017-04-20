@@ -131,16 +131,11 @@ namespace DeskApp.Controllers.Eval
         [Route("api/offline/v1/talakayan_eval/get_dto")]
         public PagedCollection<dynamic> GetAll(AngularFilterModel item)
         {
-
-            var model = GetData(item);
-            
+            var model = GetData(item);            
             var totalCount = model.Count();
-
             int currPages = item.currPage ?? 0;
             int size = item.pageSize ?? 10;
-
-
-
+            
             //THIS PART IS FOR RETRIEVING RECORDS TO BE DISPLAYED ON THE LIST
             return new PagedCollection<dynamic>()
             {
@@ -165,13 +160,135 @@ namespace DeskApp.Controllers.Eval
                     lib_city_city_name = x.lib_city.city_name,
                     lib_province_prov_name = x.lib_province.prov_name,
                     lib_region_region_name = x.lib_region.region_name,
-                    push_status_id = x.push_status_id
+                    push_date = x.push_date,
+                    last_modified_date = x.last_modified_date
 
                 }).Skip(currPages * size).Take(size).ToList(),
-
             };
 
         }
+
+
+        [HttpPost]
+        [Route("api/offline/v1/talakayan_eval/get_recently_edited")]
+        public PagedCollection<dynamic> GetRecentlyEdited(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            var totalCount = model.Where(x => x.push_status_id != 1 && (x.push_status_id == 3 && x.is_deleted != true)).Count();
+            int currPages = item.currPage ?? 0;
+            int size = item.pageSize ?? 10;
+            
+            return new PagedCollection<dynamic>()
+            {
+                Page = currPages,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+                TotalSync = model.Where(x => x.push_status_id != 1 && (x.push_status_id == 3 && x.is_deleted != true)).Count(),
+                TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
+
+                Items = model
+                    .Where(x => x.push_status_id != 1 && (x.push_status_id == 3 && x.is_deleted != true))
+                    .OrderBy(x => x.talakayan_date_start)
+                    .Select(x => new
+                    {
+                        talakayan_evaluation_id = x.talakayan_evaluation_id,
+                        talakayan_date_start = x.talakayan_date_start,
+                        evaluation_date_start = x.evaluation_date_start,
+                        evaluation_form_version = x.evaluation_form_version,
+                        talakayan_yr_id = x.talakayan_yr_id,
+                        person_name = x.person_name,
+                        is_male = x.is_male,
+                        lib_brgy_brgy_name = x.lib_brgy.brgy_name,
+                        lib_city_city_name = x.lib_city.city_name,
+                        lib_province_prov_name = x.lib_province.prov_name,
+                        lib_region_region_name = x.lib_region.region_name,
+                        push_date = x.push_date,
+                        last_modified_date = x.last_modified_date
+
+                    }).Skip(currPages * size).Take(size).ToList(),
+            };
+        }
+
+        [HttpPost]
+        [Route("api/offline/v1/talakayan_eval/get_recently_added")]
+        public PagedCollection<dynamic> GetRecentlyAdded(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            var totalCount = model.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).Count();
+            int currPages = item.currPage ?? 0;
+            int size = item.pageSize ?? 10;
+
+            return new PagedCollection<dynamic>()
+            {
+                Page = currPages,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+                TotalSync = model.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).Count(),
+                TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
+
+                Items = model
+                    .Where(x => x.push_status_id != 1 && (x.push_status_id == 2 && x.is_deleted != true))
+                    .OrderBy(x => x.talakayan_date_start)
+                    .Select(x => new
+                    {
+                        talakayan_evaluation_id = x.talakayan_evaluation_id,
+                        talakayan_date_start = x.talakayan_date_start,
+                        evaluation_date_start = x.evaluation_date_start,
+                        evaluation_form_version = x.evaluation_form_version,
+                        talakayan_yr_id = x.talakayan_yr_id,
+                        person_name = x.person_name,
+                        is_male = x.is_male,
+                        lib_brgy_brgy_name = x.lib_brgy.brgy_name,
+                        lib_city_city_name = x.lib_city.city_name,
+                        lib_province_prov_name = x.lib_province.prov_name,
+                        lib_region_region_name = x.lib_region.region_name,
+                        push_date = x.push_date,
+                        last_modified_date = x.last_modified_date
+
+                    }).Skip(currPages * size).Take(size).ToList(),
+            };
+        }
+
+        [HttpPost]
+        [Route("api/offline/v1/talakayan_eval/get_recently_edited_and_added")]
+        public PagedCollection<dynamic> GetRecentlyEditedandAdded(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            var totalCount = model.Where(x => x.push_status_id != 1 && ((x.push_status_id == 2 || x.push_status_id == 3) && x.is_deleted != true)).Count();
+            int currPages = item.currPage ?? 0;
+            int size = item.pageSize ?? 10;
+
+            return new PagedCollection<dynamic>()
+            {
+                Page = currPages,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+                TotalSync = model.Where(x => x.push_status_id != 1 && ((x.push_status_id == 2 || x.push_status_id == 3) && x.is_deleted != true)).Count(),
+                TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
+
+                Items = model
+                    .Where(x => x.push_status_id != 1 && ((x.push_status_id == 2 || x.push_status_id == 3) && x.is_deleted != true))
+                    .OrderBy(x => x.talakayan_date_start)
+                    .Select(x => new
+                    {
+                        talakayan_evaluation_id = x.talakayan_evaluation_id,
+                        talakayan_date_start = x.talakayan_date_start,
+                        evaluation_date_start = x.evaluation_date_start,
+                        evaluation_form_version = x.evaluation_form_version,
+                        talakayan_yr_id = x.talakayan_yr_id,
+                        person_name = x.person_name,
+                        is_male = x.is_male,
+                        lib_brgy_brgy_name = x.lib_brgy.brgy_name,
+                        lib_city_city_name = x.lib_city.city_name,
+                        lib_province_prov_name = x.lib_province.prov_name,
+                        lib_region_region_name = x.lib_region.region_name,
+                        push_date = x.push_date,
+                        last_modified_date = x.last_modified_date
+
+                    }).Skip(currPages * size).Take(size).ToList(),
+            };
+        }
+
 
         #region For REPORT
 

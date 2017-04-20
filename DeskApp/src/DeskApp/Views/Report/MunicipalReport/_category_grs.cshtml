@@ -1,0 +1,182 @@
+﻿@Html.Partial("~/Views/Report/MunicipalReport/_municipal_report_filter.cshtml")
+
+
+@* --------------------- Grievance Redness System ==> Status of Filed Grievances Across Cycles --------------------- *@
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 17" id="subreport_17">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Grievance Redness System</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <b>Region: </b>{{selected_region.Name == null ? "" : selected_region.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Province: </b>{{selected_province.Name == null ? "Across Provinces" : selected_province.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Municipality: </b>{{selected_city.Name == null ? "Across Municipalities" : selected_city.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Portfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Cycle: </b>{{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>KC Mode: </b>{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+            </div>
+        </div>
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>A. Barangay Grievance Monitoring</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        Total
+                    </td>
+                    <td align="center">
+                        No. Resolved
+                    </td>
+                    <td align="center">
+                        % Resolved
+                    </td>
+                    <td align="center">
+                        No. of Pending
+                    </td>
+                </tr>
+                <tr ng-repeat="item in grievance_intake_brgy | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.brgy_name}}
+                    </td>
+                    <td>
+                        {{item.total}}
+                    </td>
+                    <td>
+                        {{item.resolved}}
+                    </td>
+                    <td>
+                        {{item.perc_resolved == 'NaN' ? "" : item.perc_resolved}}
+                    </td>
+                    <td>
+                        {{item.pending}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <br />
+        
+        <div class="row">
+            <div class="col-md-12"><strong>B. Status of Resolution</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center">
+                        Type
+                    </td>
+                    <td align="center">
+                        Total
+                    </td>
+                    <td align="center">
+                        No. Resolved
+                    </td>
+                    <td align="center">
+                        % Resolved
+                    </td>
+                    <td align="center">
+                        No. of Pending
+                    </td>
+                </tr>
+                <tr ng-repeat="item in grievance_intake_nature | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.name}}
+                    </td>
+                    <td>
+                        {{item.total}}
+                    </td>
+                    <td>
+                        {{item.resolved}}
+                    </td>                   <td>
+                        {{item.perc_resolved == 'NaN' ? "" : item.perc_resolved}}
+                    </td>
+                    <td>
+                        {{item.pending}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>C. Breakdown of Grievances by Category and Type</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center">
+                        Category
+                    </td>
+                    <td align="center">
+                        Total
+                    </td>
+                    <td align="center">
+                        No. Type A.
+                    </td>
+                    <td align="center">
+                        No. of Type B
+                    </td>
+                    <td align="center">
+                        No. of Type C
+                    </td>
+                </tr>
+                <tr ng-repeat="item in grievance_intake_category | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.name}}
+                    </td>
+                    <td>
+                        {{item.total}}
+                    </td>
+                    <td>
+                        {{item.type_a}}
+                    </td>
+                    <td>
+                        {{item.type_b}}
+                    </td>
+                    <td>
+                        {{item.type_c}}
+                    </td>
+                </tr>
+            </table>
+        </div>        
+
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>
+
+

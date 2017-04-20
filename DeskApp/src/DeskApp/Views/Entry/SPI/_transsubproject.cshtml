@@ -1,0 +1,4025 @@
+﻿@{  Layout = "~/Views/Shared/_layoutBasic.cshtml";}
+
+
+
+@*<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Manage Sub Project</h4>
+
+
+
+
+
+    </div>*@
+
+<body layout="column" class="relative" layout-fill role="main">
+
+
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+
+        <md-toolbar md-scroll-shrink>
+            <div class="md-toolbar-tools">Intake Sub Project Record</div>
+
+
+            <div class="row" ng-show="data.modality_id == 12">
+                <h3 class="col-md-8">DEPED Funded without KC-NCDDP Grant Amount</h3>
+
+            </div>
+        </md-toolbar>
+
+
+        <md-content flex="" layout-padding="">
+            <form name="myForm" ng-cloak>
+
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4>Basic Information</h4>
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+
+
+                                        <div class="panel-body">
+
+
+
+
+
+
+
+
+
+
+
+                                            <div class="panel-body" ng-show="data.modality_id == 7">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Sub Project ID</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @*ng-required="data.modality_id ==7"*@
+                                                            <select name="erfr_project_id" ng-model="data.erfr_project_id" class="form-control" ng-disabled="data.modality_id !=7"
+                                                                    ng-options="option.Id as option.Name for option in erfr_project_id_options">
+                                                                <option value="">[Select SPID]</option>
+                                                            </select>
+                                                            <div ng-messages="myForm.erfr_project_id.$error">
+                                                                <div ng-message="required" class="error">SPID is required. Dropdown will be available once barangay is selected!</div>
+
+                                                            </div>
+                                                            <i>This can be found on "http://erfrs.dswd.gov.ph/"</i>
+                                                            <br />
+                                                            <i>*Ensure that this is the correct Sub project ID (SPID) for the project being added and <b>not</b> the RFR ID.</i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Sub Project Name</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <input class="form-control" ng-model='data.sub_project_name' required name="sub_project_name" />
+                                                            <div ng-messages="myForm.sub_project_name.$error">
+                                                                <div ng-message="required" class="error">Sub Project Name is required.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Project type</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <select name="project_type_id" ng-model="data.project_type_id" class="form-control" ng-disabled="data.modality_id == 12" required
+                                                                    ng-options="option.Id as option.Name for option in project_type_id_options">
+                                                                <option value="">[Select Project Type]</option>
+                                                            </select>
+                                                            <div ng-messages="myForm.project_type_id.$error">
+                                                                <div ng-message="required" class="error">Project Type is required.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" ng-show="data.project_type_id == 23 && data.modality_id ==7">
+
+
+                                                <div class="col-md-4">Public School for IP (Lumad)?</div>
+                                                <div class="col-md-8">
+
+                                                    <md-checkbox ng-model="data.is_public_school_for_ip" aria-label="Checkbox 1">
+
+                                                    </md-checkbox>
+
+
+                                                </div>
+
+                                            </div>
+
+
+
+
+
+                                            <div class="panel-body" ng-show="data.project_type_id == 36 && data.modality_id ==11">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Training type</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <select name="training_category_id" ng-model="data.training_category_id" class="form-control"
+                                                                    ng-options="option.Id as option.Name for option in training_category_id_options">
+                                                                <option value="">[Select Training Category]</option>
+                                                            </select>
+                                                            <div ng-messages="myForm.training_category_id.$error">
+                                                                <div ng-message="required" class="error">*Training Category Required.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Fund Source</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <select name="modality_id" ng-model="data.modality_id" class="form-control" required
+                                                                    ng-disabled="data.sub_project_id >0"
+                                                                    ng-options="option.Id as option.Name for option in fund_source_id_options">
+                                                                <option value="">[Select Modality]</option>
+                                                            </select>
+                                                            <div ng-messages="myForm.modality_id.$error">
+                                                                <div ng-message="required" class="error">*Modality is required.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Cycle</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <select name="cycle_id" ng-model="data.cycle_id" class="form-control" required
+                                                                    ng-disabled="data.sub_project_id >0"
+                                                                    ng-options="option.Id as option.Name for option in cycle_id_options">
+                                                                <option value="">[Select Cycle]</option>
+                                                            </select>
+                                                            <div ng-messages="myForm.cycle_id.$error">
+                                                                <div ng-message="required" class="error">*Cycle is required.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body" ng-show="data.modality_id == 7">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">NCDDP Grouping</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <select name="modality_category_id" ng-model="data.modality_category_id" class="form-control" ng-required="data.modality_id ==7"
+                                                                    ng-disabled="data.sub_project_id >0"
+                                                                    ng-options="option.Id as option.Name for option in ncddp_grouping_id_options">
+                                                                <option value="">[Select Grouping]</option>
+                                                            </select>
+                                                            <div ng-messages="myForm.modality_category_id.$error">
+                                                                <div ng-message="required" class="error">*Grouping is required.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Region</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                                                <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                                                                        ng-disabled="data.sub_project_id >0"
+                                                                        ng-options="option.Id as option.Name for option in region_code_options">
+                                                                    <option value="">[Select Region]</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Province</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                                                <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                                                        ng-disabled="data.region_code == null || data.sub_project_id >0"
+                                                                        ng-required="true"
+                                                                        ng-options="option.Id as option.Name for option in prov_code_options">
+                                                                    <option value="">[Select Province]</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Municipality</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                                                <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                                                                        ng-required="true"
+                                                                        ng-disabled="data.prov_code == null || data.sub_project_id >0"
+                                                                        ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                                                                    <option value="">[Select Municipality]</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Barangay</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                                                <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                                                        ng-required="true"
+                                                                        ng-disabled="data.city_code == null || data.sub_project_id >0"
+                                                                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                                                                    <option value="">[Select Barangay]</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Other Covered Barangay</label>
+
+                                                            <br />
+                                                            <span ng-show="!data.sub_project_id >0">Available When Record has already been Saved!</span>
+                                                            <input ng-model="search" class="form-control" ng-show="data.sub_project_id >0" />
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <table class="table" ng-show="data.sub_project_id >0">
+                                                                <tr>
+                                                                    <td>
+                                                                        Location
+                                                                    </td>
+                                                                    <td>
+                                                                        Selected?
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tbody>
+                                                                    <tr ng-repeat="item in covered_barangays | filter: search">
+                                                                        <td>
+                                                                            {{item.brgy_name}}
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <md-checkbox ng-model="item.Selected" aria-label="Checkbox 1" ng-click="ConfirmParticipation(item)">
+
+                                                                            </md-checkbox>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4>Financial Information</h4>
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+
+
+                                        <div class="panel-body">
+
+                                            <div class="panel-body" ng-show="data.modality_id == 12">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">DepEd Grant Amount</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <input type="number" min="0" ng-model="data.dep_ed_amount" ng-required="data.modality_id ==12" name="dep_ed_amount" class="form-control" />
+
+                                                            <div ng-messages="myForm.dep_ed_amount.$error">
+                                                                <div ng-message="required" class="error">*Financial Information is required.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="panel-body" ng-show="data.modality_id == 7 && data.project_type_id ==23 && data.is_public_school_for_ip ==true">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">With DepEd Grant? <small>Check if Yes</small></label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <md-checkbox ng-model="data.is_deped_funded" aria-label="Checkbox 1">
+
+                                                            </md-checkbox>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body" ng-show="data.is_deped_funded == true">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">DepEd Grant Amount</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <input type="number" min="0" ng-model="data.dep_ed_amount" ng-required="data.is_deped_funded ==true" name="dep_ed_amount" class="form-control" />
+
+                                                            <div ng-messages="myForm.dep_ed_amount.$error">
+                                                                <div ng-message="required" class="error">*Financial Information is required.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div class="panel-body" ng-show="data.modality_id != 12">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Kalahi Target Amount:</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <input type="number" min="0" ng-model="data.Kalahi_Amount" ng-required="data.modality_id !=12" name="Kalahi_Amount" class="form-control" />
+
+                                                            <div ng-messages="myForm.Kalahi_Amount.$error">
+                                                                <div ng-message="required" class="error">*Financial Information is required.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body" ng-show="data.modality_id != 12">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Kalahi Actual Amount: (SUM of Tranche Releases) </label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <span>{{data.Tranche1amount + data.Tranche2amount + data.Tranche3amount}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">With Local Counterpart (financial)? <small>Check if Yes</small></label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <md-checkbox ng-model="data.has_local_counterpart" aria-label="Checkbox 1">
+
+                                                            </md-checkbox>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">LCC Target Amount:</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <input type="number" min="0" ng-model="data.LCC_Amount" ng-required="data.has_local_counterpart ==true" ng-disabled="!data.has_local_counterpart" name="LCC_Amount" class="form-control" />
+
+                                                            <div ng-messages="myForm.LCC_Amount.$error">
+                                                                <div ng-message="required" class="error">*Financial Information is required.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">LCC Actual Amount: <small>Copy LCC Amount Above if no adjustment</small></label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <input type="number" min="0" ng-model="data.LCC_Adj" ng-required="data.has_local_counterpart ==true && data.physical_status_id ==1" name="LCC_Adj" class="form-control" />
+
+                                                            <div ng-messages="myForm.LCC_Adj.$error">
+                                                                <div ng-message="required" class="error">*Financial Information is required for projects with LCC and with Completed Status.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Operation and Maintainance Cost</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <input type="number" min="0" ng-model="data.operation_maintainance_cost" name="operation_maintainance_cost" class="form-control" ng-required="data.physical_status_id ==1" />
+
+                                                            <div ng-messages="myForm.operation_maintainance_cost.$error">
+                                                                <div ng-message="required" class="error">*Operation and Maintainance Information is required for Completed SPs.</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4>Physical Progress Information</h4>
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+
+
+                                        <div class="panel-body">
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Physical Status</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <select name="physical_status_id" ng-model="data.physical_status_id" id="physical_status_id" class="form-control"
+                                                                    ng-required="true"
+                                                                    ng-options="option.Id as option.Name for option in physical_status_id_options">
+
+                                                                <option value="">[Select Physical Status]</option>
+                                                            </select>
+                                                            <div ng-messages="myForm.physical_status_id.$error">
+                                                                <div ng-message="required" class="error">*Physical Status  is required.</div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Date Started (if Started)</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+
+                                                            <md-datepicker name="Date_Started" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_Date_Started" md-placeholder="Enter date" ng-change="data.Date_Started = dt_Date_Started.toISOString()" md-max-date="today"></md-datepicker>
+
+                                                            <div ng-messages="myForm.Date_Started.$error">
+                                                                <div ng-message="required" class="error">*Date Started is required for Completed Projects</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Physical Accomplishment</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <input type="number" min="0" max="maxProgress" ng-model="data.Phy_Perc_To_Date" ng-required="data.physical_status_id != 3" name="Phy_Perc_To_Date" class="form-control" ng-disabled="data.physical_status_id !=2" />
+
+                                                            <div ng-messages="myForm.Phy_Perc_To_Date.$error">
+                                                                <div ng-message="required" class="error">*Physical Information is required.</div>
+                                                                <div ng-message="max" class="error">*Incorrect value!</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Target Date of Completion</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+
+                                                            <md-datepicker ng-required="true" name="PlannedDate_Completion" ng-model="dt_PlannedDate_Completion" md-placeholder="Enter date" ng-change="data.PlannedDate_Completion = dt_PlannedDate_Completion.toISOString()"></md-datepicker>
+
+                                                            <div ng-messages="myForm.PlannedDate_Completion.$error">
+                                                                <div ng-message="required" class="error">*Target Completion Date is required.</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label for="Region:_">Date Completed (if Completed)</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <md-datepicker ng-required="data.physical_status_id ==1" ng-disabled="data.physical_status_id !=1" name="Date_of_Completion" ng-model="dt_Date_of_Completion" md-placeholder="Enter date" ng-change="data.Date_of_Completion = dt_Date_of_Completion.toISOString()"></md-datepicker>
+                                                            <div ng-messages="myForm.Date_of_Completion.$error">
+                                                                <div ng-message="required" class="error">*Completion Date is required.</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Physical Targets</h4>
+
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+
+
+                                        <div class="panel-body" ng-show="data.modality_id != 11">
+
+                                            <div class="row">
+                                                <div class="col-md-2">Active? <small>Check if YES</small></div>
+                                                <div class="col-md-3">Category</div>
+                                                <div class="col-md-3">Unit of Measure</div>
+                                                <div class="col-md-2">Target</div>
+                                                <div class="col-md-2">Actual (if completed)</div>
+
+
+                                            </div>
+
+                                            <div class="panel-body">
+
+
+                                                <div class="row" ng-show="lib_project_type.phy_has_construction_target == true">
+                                                    <div class="col-md-2">
+
+
+                                                        <md-checkbox ng-model="data.phy_has_construction_target" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        Construction
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        {{lib_project_type.phy_construction_unit}}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" name="Construction Target" type="number" ng-model="data.phy_construction_target" ng-change="data.s_phy_construction_target = data.phy_construction_target" ng-disabled="!data.phy_has_construction_target" />
+
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" name="Construction Actual" type="number" ng-model="data.phy_construction_actual" ng-change="data.s_phy_construction_actual = data.phy_construction_actual" ng-disabled="!data.phy_has_construction_target" />
+                                                    </div>
+                                                    <br />
+                                                    <hr />
+                                                </div>
+
+
+                                                <div class="row" ng-show="lib_project_type.phy_has_improvement_target ==true">
+                                                    <div class="col-md-2">
+
+                                                        <md-checkbox ng-model="data.phy_has_improvement_target" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        Improvement/Upgrading
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        {{lib_project_type.phy_improvement_unit}}
+
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" name="Improvement Target" type="number" ng-model="data.phy_improvement_target" ng-change="data.s_phy_improvement_target = data.phy_improvement_target" ng-disabled="!data.phy_has_improvement_target" />
+
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" name="Improvement Actual" type="number" ng-model="data.phy_improvement_actual" ng-change="data.s_phy_improvement_actual = data.phy_improvement_actual" ng-disabled="!data.phy_has_improvement_target" />
+
+                                                    </div>
+                                                    <br />
+                                                    <hr />
+                                                </div>
+
+
+                                                <div class="row" ng-show="lib_project_type.phy_has_rehabilitation_target">
+
+                                                    <div class="col-md-2">
+
+                                                        <md-checkbox ng-model="data.phy_has_rehabilitation_target" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+
+
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        Rehabilitation /Repair / Reconstruction
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        {{lib_project_type.phy_rehabilitation_unit}}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" name="Rehab Target" type="number" ng-model="data.phy_rehabilitation_target" ng-change="data.s_phy_rehabilitation_target = data.phy_rehabilitation_target" ng-disabled="!data.phy_has_rehabilitation_target" />
+                                                    </div>
+                                                    <div class="col-md-2">
+
+
+                                                        <input class="form-control" name="Rehab Actual" type="number" ng-model="data.phy_rehabilitation_actual" ng-change="data.s_phy_rehabilitation_actual = data.phy_rehabilitation_actual" ng-disabled="!data.phy_has_rehabilitation_target" />
+
+                                                    </div>
+                                                    <br />
+                                                    <hr />
+                                                </div>
+
+
+                                                <div class="row" ng-show="lib_project_type.phy_has_purchase_target">
+                                                    <div class="col-md-2">
+                                                        <md-checkbox ng-model="data.phy_has_purchase_target" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        Purchase / Acquisition / Provision (training)
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        {{lib_project_type.phy_purchase_unit}}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" type="number" ng-model="data.phy_purchase_target" ng-change="data.s_phy_purchase_target = data.phy_purchase_target" ng-disabled="!data.phy_has_purchase_target" />
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" type="number" ng-model="data.phy_purchase_actual" ng-change="data.s_phy_purchase_actual = data.phy_purchase_actual" ng-disabled="!data.phy_has_purchase_target" />
+                                                    </div>
+                                                    <br />
+                                                    <hr />
+                                                </div>
+
+
+
+                                            </div>
+
+                                            @*Secondary*@
+
+                                            <div class="panel-body">
+
+
+                                                <div class="row" ng-show="lib_project_type.phy_has_construction_target_secondary == true">
+                                                    <div class="col-md-2">
+
+
+                                                        <md-checkbox ng-model="data.phy_has_construction_target_secondary" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        Construction
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        {{lib_project_type.phy_construction_unit_secondary}}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" type="number" ng-model="data.phy_construction_target_secondary" ng-change="data.s_phy_construction_target_secondary = data.phy_construction_target_secondary" ng-disabled="!data.phy_has_construction_target_secondary" />
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" type="number" ng-model="data.phy_construction_actual_secondary" ng-change="data.s_phy_construction_actual_secondary = data.phy_construction_actual_secondary" ng-disabled="!data.phy_has_construction_target_secondary" />
+                                                    </div>
+                                                    <br />
+                                                    <hr />
+                                                </div>
+
+
+                                                <div class="row" ng-show="lib_project_type.phy_has_improvement_target_secondary ==true">
+                                                    <div class="col-md-2">
+
+                                                        <md-checkbox ng-model="data.phy_has_improvement_target_secondary" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        Improvement/Upgrading
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        {{lib_project_type.phy_improvement_unit_secondary}}
+
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" type="number" ng-model="data.phy_improvement_target_secondary" ng-change="data.s_phy_improvement_target_secondary = data.phy_improvement_target_secondary" ng-disabled="!data.phy_has_improvement_target_secondary" />
+
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" type="number" ng-model="data.phy_improvement_actual_secondary" ng-change="data.s_phy_improvement_actual_secondary = data.phy_improvement_actual_secondary" ng-disabled="!data.phy_has_improvement_target_secondary" />
+                                                    </div>
+                                                    <br />
+                                                    <hr />
+                                                </div>
+
+
+                                                <div class="row" ng-show="lib_project_type.phy_has_rehabilitation_target_secondary">
+
+                                                    <div class="col-md-2">
+
+                                                        <md-checkbox ng-model="data.phy_has_rehabilitation_target_secondary" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+
+
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        Rehabilitation /Repair / Reconstruction
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        {{lib_project_type.phy_rehabilitation_unit_secondary}}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" type="number" ng-model="data.phy_rehabilitation_target_secondary" ng-change="data.s_phy_rehabilitation_target_secondary = data.phy_rehabilitation_target_secondary" ng-disabled="!data.phy_has_rehabilitation_target_secondary" />
+                                                    </div>
+                                                    <div class="col-md-2">
+
+
+                                                        <input class="form-control" type="number" ng-model="data.phy_rehabilitation_actual_secondary" ng-change="data.s_phy_rehabilitation_actual_secondary = data.phy_rehabilitation_actual_secondary" ng-disabled="!data.phy_has_rehabilitation_target_secondary" />
+
+                                                    </div>
+                                                    <br />
+                                                    <hr />
+                                                </div>
+
+
+                                                <div class="row" ng-show="lib_project_type.phy_has_purchase_target_secondary">
+                                                    <div class="col-md-2">
+                                                        <md-checkbox ng-model="data.phy_has_purchase_target_secondary" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        Purchase / Acquisition / Provision (training)
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        {{lib_project_type.phy_purchase_unit_secondary}}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" type="number" ng-model="data.phy_purchase_target_secondary" ng-change="data.s_phy_purchase_target_secondary = data.phy_purchase_target_secondary" ng-disabled="!data.phy_has_purchase_target_secondary" />
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" type="number" ng-model="data.phy_purchase_actual_secondary" ng-change="data.s_phy_purchase_target_secondary = data.phy_purchase_target_secondary" ng-disabled="!data.phy_has_purchase_target_secondary" />
+                                                    </div>
+                                                    <br />
+                                                    <hr />
+                                                </div>
+
+
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="panel-body" ng-show="data.modality_id != 11">
+                                            <div class="row">
+                                                <div class="col-md-4">Household Beneficiaries (Target) </div>
+                                                <div class="col-md-8">
+                                                    <input class="form-control" ng-model='data.NoOfHH' required ng-pattern="/^[0-9]{1,7}$/" name="NoOfHH" type="number" />
+
+                                                    <div ng-messages="myForm.NoOfHH.$error">
+                                                        <div ng-message="required" class="error">*Information Required.</div>
+
+                                                    </div>
+
+
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">Household Beneficiaries (Actual) </div>
+                                                <div class="col-md-8">
+
+                                                    <input class="form-control" ng-model='data.NoOfHHActual' ng-required="data.physical_status_id ==1" ng-pattern="/^[0-9]{1,7}$/" name="NoOfHHActual" type="number" />
+                                                    <div ng-messages="myForm.NoOfHHActual.$error">
+                                                        <div ng-message="required" class="error">*Required Information for Completed Project.</div>
+
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+
+
+
+                                        </div>
+
+
+                                        <div class="panel-body" ng-show="data.modality_id == 11">
+                                            <div class="panel-body">
+
+                                                <div class="row">
+                                                    <div class="col-md-4">Sex</div>
+                                                    <div class="col-md-4">Target</div>
+                                                    <div class="col-md-4">Actual</div>
+
+
+
+                                                </div>
+
+                                                <div class="panel-body">
+
+
+
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+
+                                                            Male
+
+                                                        </div>
+                                                        <div class="col-md-4">
+
+
+                                                            <input class="form-control" ng-model='data.target_male' ng-required="data.modality_id==11" ng-pattern="/^[0-9]{1,7}$/" name="target_male" />
+                                                        </div>
+                                                        <div class="col-md-4">
+
+                                                            <input class="form-control" ng-model='data.actual_male' ng-required="data.modality_id==11" ng-pattern="/^[0-9]{1,7}$/" name="actual_male" />
+
+                                                        </div>
+
+                                                        <br />
+                                                        <hr />
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div class="panel-body">
+
+
+
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+
+                                                            Female
+
+                                                        </div>
+                                                        <div class="col-md-4">
+
+                                                            <input class="form-control" ng-model='data.target_female' ng-required="data.modality_id==11" ng-pattern="/^[0-9]{1,7}$/" name="target_female" />
+
+                                                        </div>
+                                                        <div class="col-md-4">
+
+                                                            <input class="form-control" ng-model='data.actual_female' ng-required="data.modality_id==11" ng-pattern="/^[0-9]{1,7}$/" name="actual_female" />
+
+                                                        </div>
+
+                                                        <br />
+                                                        <hr />
+                                                    </div>
+
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Family Members Only-->
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+                <div class="panel panel-info">
+                    @*ng-show="data.visible: authorized_modality">*@
+                    <div class="panel-heading">
+                        <h4>Tranche Release dates</h4>
+                        *Ongoing / Completed Projects Require Tranche 1 Amount and Date
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+
+
+                                <div class="panel-body">
+
+                                    <div class="row">
+
+                                        <div class="form-group">
+                                            <div class="panel-body">
+                                                <div class="row">
+
+                                                    <div class="col-md-1">
+                                                        <small>   Check if with data</small>
+                                                    </div>
+
+                                                    <div class="col-md-2">Tranche </div>
+
+                                                    <div class="col-md-3" ng-show="data.has_t1">
+                                                        Date Released
+                                                    </div>
+
+                                                    <div class="col-md-3" ng-show="data.has_t1">
+                                                        Amount Released
+                                                    </div>
+
+                                                    <div class="col-md-3" ng-show="data.modality_id == 7">
+
+                                                        Amount in ERFR
+
+                                                    </div>
+
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="panel-body">
+                                                <div class="row">
+
+
+                                                    <div class="col-md-1">
+
+                                                        <md-checkbox ng-model="data.has_t1" aria-label="Checkbox 1" ng-disabled="true">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                    <div class="col-md-2">First Tranche </div>
+
+                                                    <div class="col-md-3">
+                                                        <md-datepicker name="dt_Tranche1date" ng-disabled="!data.has_t1" ng-required="data.has_t1" ng-model="dt_Tranche1date" md-placeholder="Enter date" ng-change="data.Tranche1date = dt_Tranche1date.toISOString()"></md-datepicker>
+
+                                                        <div ng-messages="myForm.dt_Tranche1date.$error">
+                                                            <div ng-message="required" class="error">*Date is required.</div>
+                                                            <div ng-message="required" class="error">*For Pure LCC, set amount to Zero.</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <input ng-model="data.Tranche1amount" ng-disabled="!data.has_t1" class="form-control" ng-required="data.physical_status_id != 3" name="Tranche1amount" type="number" min="0" />
+
+                                                        <div ng-messages="myForm.Tranche1amount.$error">
+                                                            <div ng-message="required" class="error">*Tranche Amount required.</div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3" ng-show="data.modality_id ==7">
+
+                                                        {{data.erfr_t1}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="panel-body">
+                                                <div class="row">
+
+                                                    <div class="col-md-1">
+                                                        <md-checkbox ng-model="data.has_t2" aria-label="Checkbox 1" ng-disabled="!data.has_t1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                    <div class="col-md-2">Second Tranche </div>
+                                                    <div class="col-md-3">
+
+
+                                                        <md-datepicker name="dt_Tranche2date" ng-disabled="!data.has_t2" ng-required="data.has_t2" ng-model="dt_Tranche2date" md-placeholder="Enter date" ng-change="data.Tranche2date = dt_Tranche2date.toISOString()"></md-datepicker>
+
+                                                        <div ng-messages="myForm.dt_Tranche2date.$error">
+                                                            <div ng-message="required" class="error">*Date  is required.</div>
+
+                                                        </div>
+
+
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input ng-model="data.Tranche2amount" ng-disabled="!data.has_t2" class="form-control" name="Tranche2amount" ng-required="data.has_t2" type="number" min="0" />
+
+                                                        <div ng-messages="myForm.Tranche2amount.$error">
+                                                            <div ng-message="required" class="error">*Tranche Amount required.</div>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-3" ng-show="data.modality_id ==7">
+
+                                                        {{data.erfr_t2}}
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="panel-body">
+
+
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                        <md-checkbox ng-model="data.has_t3" aria-label="Checkbox 1" ng-disabled="!data.has_t2">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                    <div class="col-md-2">Third Tranche </div>
+                                                    <div class="col-md-3">
+
+
+                                                        <md-datepicker name="dt_Tranche3date" ng-disabled="!data.has_t3" ng-required="data.has_t3" ng-model="dt_Tranche3date" md-placeholder="Enter date" ng-change="data.Tranche3date = dt_Tranche3date.toISOString()"></md-datepicker>
+
+                                                        <div ng-messages="myForm.dt_Tranche3date.$error">
+                                                            <div ng-message="required" class="error">*Date  is required.</div>
+
+                                                        </div>
+
+
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input ng-model="data.Tranche3amount" ng-disabled="!data.has_t3" class="form-control" name="Tranche3amount" ng-required="data.has_t3" type="number" min="0" />
+
+                                                        <div ng-messages="myForm.Tranche3amount.$error">
+                                                            <div ng-message="required" class="error">*Tranche Amount required.</div>
+
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                    <div class="col-md-3" ng-show="data.modality_id ==7">
+
+                                                        {{data.erfr_t3}}
+                                                    </div>
+
+
+
+                                                </div>
+
+
+
+                                                <div class="row">
+                                                    <div class="col-md-4">Total Releases </div>
+
+                                                    <div class="col-md-4">
+                                                        {{data.Tranche1amount + data.Tranche2amount + data.Tranche3amount}}
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div ng-show="data.modality_id ==2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>Other Details</h4>
+
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">No Of Classroom </div>
+                                                    <div class="col-md-6">
+                                                        <input ng-model="data.NoOfClassroom" ng-pattern="/^[0-9]{1,7}$/" class="form-control" type="number" />
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">No Of Hand Pumps </div>
+                                                    <div class="col-md-6">
+                                                        <input ng-model="data.NoOfHPumps" ng-pattern="/^[0-9]{1,7}$/" class="form-control" type="number" />
+
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">No Of Tapstands </div>
+                                                    <div class="col-md-6">
+
+                                                        <input ng-model="data.NoOfTapstands" ng-pattern="/^[0-9]{1,7}$/" class="form-control" type="number" />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4>Safeguards Information</h4>
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+
+
+                                        <div class="panel-body">
+
+
+
+
+
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    With IP presence in the Barangay?
+
+                                                </div>
+                                                <div class="col-md-8">
+
+                                                    <md-checkbox ng-model="data.has_ip_presence" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    With ESMP?
+                                                </div>
+                                                <div class="col-md-8">
+
+                                                    <md-checkbox ng-model="data.has_sc_esmp" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    With ECC?
+                                                </div>
+                                                <div class="col-md-8">
+
+
+                                                    <md-checkbox ng-model="data.has_sc_ecc" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    With CNC?
+                                                </div>
+                                                <div class="col-md-8">
+
+
+                                                    <md-checkbox ng-model="data.has_sc_cnc" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    With CP?
+                                                </div>
+                                                <div class="col-md-8">
+
+                                                    <md-checkbox ng-model="data.has_sc_cp" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    With CNO?
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <md-checkbox ng-model="data.has_sc_cno" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="panel-body">
+
+
+                                                <div class="panel-heading">
+                                                    <h4>Land Acquisition</h4>
+
+                                                </div>
+
+
+
+
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        Deed of Donation
+                                                    </div>
+                                                    <div class="col-md-8">
+
+                                                        <md-checkbox ng-model="data.land_aq_deed_of_donation" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        Unsfruct Agreement
+                                                    </div>
+                                                    <div class="col-md-8">
+
+                                                        <md-checkbox ng-model="data.land_aq_unsfruct" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        B/LGU Resolution
+                                                    </div>
+                                                    <div class="col-md-8">
+
+                                                        <md-checkbox ng-model="data.land_aq_blgu_resolution" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        DepEd Certification
+                                                    </div>
+                                                    <div class="col-md-8">
+
+                                                        <md-checkbox ng-model="data.land_aq_deped_certification" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        Other
+                                                    </div>
+                                                    <div class="col-md-8">
+
+
+                                                        <md-checkbox ng-model="data.land_aq_other" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row" ng-show="data.land_aq_other">
+                                                    <div class="col-md-4">Other Land Acquisition: </div>
+                                                    <div class="col-md-8">
+
+                                                        <input type="text" placeholder="Other Land Acquisition" ng-model="data.other_land_acquisition" class="form-control" ng-disabled="!data.land_aq_other" ng-required="data.land_aq_other" name="other_land_acquisition" />
+                                                        <div ng-messages="myForm.other_land_acquisition.$error">
+                                                            <div ng-message="required" class="error">Other Land Acquisition Info required.</div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="panel-body">
+
+                                                <div class="panel-heading">
+                                                    <h4>Land Ownership</h4>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        With Existing DOD
+                                                    </div>
+                                                    <div class="col-md-8">
+
+
+                                                        <md-checkbox ng-model="data.land_ownership_dod" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        Public Lands
+                                                    </div>
+                                                    <div class="col-md-8">
+
+
+                                                        <md-checkbox ng-model="data.land_ownership_public_lands" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        Government-Owned Lands
+                                                    </div>
+                                                    <div class="col-md-8">
+
+
+                                                        <md-checkbox ng-model="data.land_ownership_gov" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        Private and Untitled Land
+                                                    </div>
+                                                    <div class="col-md-8">
+
+
+                                                        <md-checkbox ng-model="data.land_ownership_private_untitled" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        Private and Titled Land
+                                                    </div>
+                                                    <div class="col-md-8">
+
+
+                                                        <md-checkbox ng-model="data.land_ownership_private_titled" aria-label="Checkbox 1">
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-info">
+
+                    <div class="panel-heading">
+                        <h4>Closure Information</h4>
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+
+
+                                        <div class="panel-body">
+
+
+
+
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    Has Scanned SPCR?
+
+                                                </div>
+                                                <div class="col-md-8">
+
+                                                    <md-checkbox ng-model="data.has_scanned_spcr" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    Has turnover certificate?
+
+                                                </div>
+                                                <div class="col-md-8">
+
+
+
+                                                    <md-checkbox ng-model="data.has_turnover_certificate" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    Has SET?
+
+                                                </div>
+                                                <div class="col-md-8">
+
+
+
+                                                    <md-checkbox ng-model="data.has_set" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row" ng-show="data.has_set">
+                                                <div class="col-md-4">SET Score</div>
+                                                <div class="col-md-8">
+
+
+
+                                                    <input class="form-control" ng-model="data.has_set_score" ng-disabled="!data.has_set" min="0" max="5" />
+
+
+                                                </div>
+
+
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    Has Marker?
+
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <md-checkbox ng-model="data.has_marker" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    Has Before Photo?
+
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <md-checkbox ng-model="data.has_before_photo" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    Has After Photo?
+
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <md-checkbox ng-model="data.has_after_photo" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    With Operation and Maintainance Group?
+
+                                                </div>
+                                                <div class="col-md-8">
+
+                                                    <md-checkbox ng-model="data.has_onm_group" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    Closed Account?
+
+                                                </div>
+                                                <div class="col-md-8">
+
+                                                    <md-checkbox ng-model="data.has_closed_account" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    With Variation Orders?
+
+                                                </div>
+                                                <div class="col-md-8">
+
+                                                    <md-checkbox ng-model="data.has_variation" aria-label="Checkbox 1">
+                                                    </md-checkbox>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4>Other Remarks</h4>
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+
+
+                                        <div class="panel-body">
+
+
+
+
+
+
+                                            <div class="row">
+
+
+                                                <div class="col-md-12">
+
+                                                    <md-input-container class="md-block">
+
+                                                        <textarea name="final" ng-model="data.Remarks" rows="15" md-select-on-focus=""></textarea>
+                                                    </md-input-container>
+
+                                                </div>
+
+
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                @if (@User.IsInRole("RME") || @User.IsInRole("Super"))
+                {
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <h4> Manage Record Status</h4>
+
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="form-group">
+
+
+                                            <div class="panel-body">
+
+
+
+
+
+
+                                                <div class="row">
+
+
+                                                    <div class="col-md-4">
+
+
+
+                                                        Check the Delete Button to deactivate the Project from the records.
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <md-checkbox ng-model="data.IsActive" aria-label="Checkbox 1" ng-disabled="IsNot">
+                                                            Active Record
+                                                        </md-checkbox>
+
+                                                        <md-checkbox ng-model="IsNot" aria-label="Checkbox 1" ng-disabled="data.IsActive">
+                                                            Delete Record
+                                                        </md-checkbox>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-12" ng-show="!data.IsActive">
+
+                                                        Reason for Deletion
+                                                        <md-input-container class="md-block">
+
+                                                            <textarea name="deleted_reason" ng-model="data.deleted_reason" rows="15" md-select-on-focus="" ng-required="!data.IsActive"> </textarea>
+                                                        </md-input-container>
+
+                                                        <div ng-messages="myForm.deleted_reason.$error">
+                                                            <div ng-message="required" class="error">Reason is required.</div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </form>
+        </md-content>
+
+        <md-content>
+
+            <ul>
+                <li ng-repeat="(key, errors) in myForm.$error track by $index">
+                    <strong>{{ key }}</strong> errors
+                    <ul>
+                        <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="myForm.$invalid">
+                Save
+            </md-button>
+            <md-button class="md-primary md-raised teal" ng-click="cancel()">
+                Cancel
+            </md-button>
+
+
+        </md-content>
+    </div>
+
+
+
+
+</body>
+
+@section Scripts
+{
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'pims-digits'])
+
+            .controller('AppCtrl', function ($scope, $mdDialog, $http) {
+
+
+
+
+
+
+                $scope.data;
+
+
+                $http.get('/api/subproject/get?id=@ViewBag.id')
+          .then(function (response) {
+
+
+
+
+
+
+              $scope.loading = true;
+
+              $scope.data = response.data;
+
+              $scope.data.phy_construction_target = parseFloat($scope.data.s_phy_construction_target);
+              $scope.data.phy_improvement_target = parseFloat($scope.data.s_phy_improvement_target);
+              $scope.data.phy_rehabilitation_target = parseFloat($scope.data.s_phy_rehabilitation_target);
+              $scope.data.phy_purchase_target = parseFloat($scope.data.s_phy_purchase_target);
+
+              $scope.data.phy_construction_target_secondary = parseFloat($scope.data.s_phy_construction_target_secondary);
+              $scope.data.phy_improvement_target_secondary = parseFloat($scope.data.s_phy_improvement_target_secondary);
+              $scope.data.phy_rehabilitation_targe_secondaryt = parseFloat($scope.data.s_phy_rehabilitation_target_secondary);
+              $scope.data.phy_purchase_target_secondary = parseFloat($scope.data.s_phy_purchase_target_secondary);
+
+
+
+
+              $http.get('/api/subproject/get_location_coverage?id=@ViewBag.id')
+      .then(function (response) {
+
+          $scope.covered_barangays = response.data;
+      });
+
+
+
+              $scope.ConfirmParticipation = function (member) {
+                  var frien = member
+
+                  var url = '/SPI/SaveCoverage?brgy_code='
+                  + member.brgy_code + "&id=" + $scope.data.sub_project_id;
+
+
+
+                  $scope.isAddingPax = true;
+
+                //  alert(url);
+
+                  $http.post(url).success(function (data) {
+
+
+                      $scope.isAddingPax = false;
+
+                  }).error(function (data) {
+                      $scope.error = "An Error has occured while Saving! " + data;
+                      $scope.isAddingPax = false;
+                  });
+
+
+              }
+
+
+
+            //  $scope.dt_s_phy_construction_target = parseFloat(response.data.s_phy_construction_target);
+
+              $scope.dt_Date_Started = new Date(response.data.Date_Started);
+
+              $scope.dt_Date_of_Completion = new Date(response.data.Date_of_Completion);
+
+              $scope.dt_PlannedDate_Completion = new Date(response.data.PlannedDate_Completion);
+
+
+              $scope.today = new Date();
+
+
+              $scope.maxDate = new Date($scope.dt_Date_Started);
+
+
+              $scope.dt_Tranche1date = new Date(response.data.Tranche1date);
+              $scope.dt_Tranche2date = new Date(response.data.Tranche2date);
+              $scope.dt_Tranche3date = new Date(response.data.Tranche3date);
+
+              $scope.$watch('dt_Date_Started', function (newValue, oldValue) {
+                  $scope.maxDate = new Date(newValue);
+              });
+
+
+              $scope.onlyNumbers = function (event) {
+                  var keys = {
+                      'up': 38, 'right': 39, 'down': 40, 'left': 37,
+                      'escape': 27, 'backspace': 8, 'tab': 9, 'enter': 13, 'del': 46,
+                      '0': 48, '1': 49, '2': 50, '3': 51, '4': 52, '5': 53, '6': 54, '7': 55, '8': 56, '9': 57
+                  };
+                  for (var index in keys) {
+                      if (!keys.hasOwnProperty(index)) continue;
+                      if (event.charCode == keys[index] || event.keyCode == keys[index]) {
+                          return; //default event
+                      }
+                  }
+                  event.preventDefault();
+              };
+              //$scope.$watchCollection(['data.city_code', 'data.modality_id'], function (newValues, oldValues) {
+              //    alert($scope.data.city_code);
+              //    alert($scope.data.modality_id);
+              //});
+
+              $scope.$watchGroup(['data.brgy_code', 'data.modality_id', 'data.cycle_id'], function (newValues, oldValues, scope) {
+
+                  if ($scope.data.brgy_code != '' && $scope.data.modality_id == 7 && $scope.data.cycle_id != '') {
+
+
+                      $http.get('/Api/erfr_projects?brgy_code=' + $scope.data.brgy_code + "&cycle_id=" + $scope.data.cycle_id)
+                    .then(function (response) { $scope.erfr_project_id_options = response.data; });
+
+                  }
+                  else {
+                      //$scope.data.modality_category_id = '';
+                      //$scope.ncddp_grouping_id_options = [];
+                  }
+
+              });
+
+
+
+              $scope.$watchGroup(['data.city_code', 'data.modality_id'], function (newValues, oldValues, scope) {
+
+                  if ($scope.data.city_code != '' && $scope.data.modality_id == 7) {
+
+                      $http.get('/Api/ncddp_grouping?id=' + $scope.data.city_code)
+        .then(function (response) { $scope.ncddp_grouping_id_options = response.data; });
+
+                  }
+                  else {
+                      $scope.data.modality_category_id = '';
+                      $scope.ncddp_grouping_id_options = [];
+                  }
+
+              });
+
+
+
+              $scope.maxProgress = 100;
+
+              $scope.$watch('data.physical_status_id', function (newValue, oldValue) {
+
+
+                  if (newValue != 1) {
+                      $scope.maxProgress = 99.9999999999999;
+                  }
+
+              });
+
+              $scope.$watch('data.has_set', function (newValue, oldValue) {
+
+
+                  if (newValue != true) {
+                      $scope.data.has_set_score = '';
+                  }
+
+              });
+
+              $scope.$watch('data.land_aq_other', function (newValue, oldValue) {
+
+
+                  if (newValue != true) {
+                      $scope.data.other_land_acquisition = '';
+                  }
+
+              });
+
+
+ //$scope.runDate = function()
+ //             {
+ //                 if($scope.physical_status_id != 1)
+ //                 {
+
+ //                     $scope.dt_Date_of_Completion = '';
+
+ //                     $scope.data.Date_of_Completion = '';
+ //                 }
+ //             }
+
+
+ //             $scope.runDate();
+
+
+
+              $scope.$watch('data.IsActive', function (newValue, oldValue) {
+
+                  if (newValue == true) {
+                      $scope.IsNot = false;
+                  }
+                  else {
+                      $scope.IsNot = true;
+                  }
+              })
+
+
+              $scope.$watch('IsNot', function (newValue, oldValue) {
+
+                  if (newValue == true) {
+                      $scope.data.IsActive = false;
+                  }
+                  else {
+                      $scope.data.IsActive = true;
+                      $scope.data.deleted_reason = '';
+                  }
+              })
+
+
+              $scope.$watch('data.physical_status_id', function (newValue, oldValue) {
+
+                  if ($scope.data.physical_status_id == 3) {
+                      $scope.data.Phy_Perc_To_Date = '';
+
+                      $scope.data.has_t1 = false;
+
+
+                      $scope.dt_Date_Started = new Date("1970-01-01");
+                      $scope.data.Date_Started = new Date("1970-01-01");
+
+
+
+                      $scope.dt_Tranche1date = new Date("1970-01-01");
+                      $scope.dt_Tranche2date = new Date("1970-01-01");
+                      $scope.dt_Tranche3date = new Date("1970-01-01");
+
+
+                  }
+
+                  if ($scope.data.physical_status_id != 3) {
+                      $scope.data.has_t1 = true;
+                  }
+
+                  if ($scope.data.physical_status_id == 1) {
+                      $scope.data.Phy_Perc_To_Date = 100;
+                      $scope.data.has_t1 = true;
+                  }
+
+
+
+                      if ($scope.data.physical_status_id == 2) {
+                          $scope.data.has_t1 = true;
+
+                          $scope.dt_Date_of_Completion = new Date("1970-01-01");
+
+                          $scope.data.Date_of_Completion = new Date("1970-01-01");
+
+                      }
+
+
+
+
+
+              })
+
+
+
+
+              $scope.$watch('data.has_local_counterpart', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+                      $scope.data.LCC_Amount = '';
+                      $scope.data.LCC_Adj = '';
+
+
+
+                  }
+              })
+              //lumad watch modality
+
+              $scope.$watch('data.modality_id', function (newValue, oldValue) {
+
+                  if (newValue != 7) {
+                      $scope.data.is_public_school_for_ip = false;
+
+                      $scope.data.ncddp_grouping_id_options = [];
+                      $scope.data.modality_category_id = '';
+
+                      $scope.data.is_deped_funded = false;
+                      $scope.data.dep_ed_amount = '';
+
+                      $scope.data.erfr_project_id = '';
+                      $scope.erfr_project_id_options = [];
+
+                  }
+
+                  //deped school
+                  if (newValue == 12) {
+                      $scope.data.project_type_id = 23;
+
+                  }
+                  //non deped
+                  if (newValue != 12) {
+
+                      $scope.data.dep_ed_amount = '';
+                  }
+                  //non gig
+                  if (newValue != 11) {
+                      $scope.data.training_category_id = '';
+                  }
+              });
+
+
+              $scope.$watch('data.project_type_id', function (newValue, oldValue) {
+                  //non school
+                  if (newValue != 23) {
+                      $scope.data.is_public_school_for_ip = false;
+                  }
+
+                  //non training
+                  if (newValue != 36) {
+                      $scope.data.training_category_id = '';
+                  }
+
+                  $http.get('/Api/get_project_type?id=' + newValue)
+                  .then(function (response) {
+
+                      $scope.lib_project_type = response.data[0];
+
+
+                  });
+              });
+
+
+              $scope.$watch('data.grs_form_id', function (newValue, oldValue) {
+
+                  if (newValue == 2) {
+                      $scope.data.is_individual = true;
+                      $scope.data.grs_sender_designation_id = 8;
+                      $scope.data.sender_organization = "KALAHI CIDSS";
+                      $scope.data.is_anonynous = false;
+
+                  }
+              });
+
+              $scope.$watch('data.is_anonymous', function (newValue, oldValue) {
+
+                  if (newValue == true) {
+                      $scope.data.sender_organization = '';
+                      $scope.data.sender_name = '';
+                  }
+              });
+
+
+              $scope.$watch('data.has_t1', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+                      $scope.data.has_t2 = false;
+                      $scope.data.Tranche1amount = '';
+                      $scope.data.Tranche1date = '';
+
+                      $scope.dt_Tranche1date = new Date("1970-01-01");
+                  }
+              });
+
+
+
+              $scope.$watch('data.has_t2', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+                      $scope.data.has_t3 = false;
+                      $scope.data.Tranche2amount = '';
+                      $scope.data.Tranche2date = '';
+
+                      $scope.dt_Tranche2date = new Date("1970-01-01");
+                  }
+              });
+
+
+              $scope.$watch('data.has_t3', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+
+                      $scope.data.Tranche3amount = '';
+                      $scope.data.Tranche3date = '';
+
+                      $scope.dt_Tranche3date = new Date("1970-01-01");
+                  }
+              });
+
+
+              $scope.$watch('data.phy_has_construction_target', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+
+                      $scope.data.phy_construction_target = '';
+                      $scope.data.phy_construction_actual = '';
+                  }
+              });
+
+
+              $scope.$watch('data.phy_has_improvement_target', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+
+                      $scope.data.phy_improvement_target = '';
+                      $scope.data.phy_improvement_actual = '';
+                  }
+              });
+              $scope.$watch('data.phy_has_rehabilitation_target', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+
+                      $scope.data.phy_rehabilitation_target = '';
+                      $scope.data.phy_rehabilitation_actual = '';
+                  }
+              });
+
+              $scope.$watch('data.phy_has_purchase_target', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+
+                      $scope.data.phy_purchase_target = '';
+                      $scope.data.phy_purchase_actual = '';
+                  }
+              });
+
+
+              //Secondary
+              $scope.$watch('data.phy_has_construction_target_secondary', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+
+                      $scope.data.phy_construction_target_secondary = '';
+                      $scope.data.phy_construction_actual_secondary = '';
+                  }
+              });
+
+
+              $scope.$watch('data.phy_has_improvement_target_secondary', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+
+                      $scope.data.phy_improvement_target_secondary = '';
+                      $scope.data.phy_improvement_actual_secondary = '';
+                  }
+              });
+              $scope.$watch('data.phy_has_rehabilitation_target_secondary', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+
+                      $scope.data.phy_rehabilitation_target_secondary = '';
+                      $scope.data.phy_rehabilitation_actual_secondary = '';
+                  }
+              });
+
+              $scope.$watch('data.phy_has_purchase_target_secondary', function (newValue, oldValue) {
+
+                  if (newValue == false) {
+
+                      $scope.data.phy_purchase_target_secondary = '';
+                      $scope.data.phy_purchase_actual_secondary = '';
+                  }
+              });
+
+
+
+
+              $http.get('/api/lib_region')
+         .then(function (response) { $scope.region_code_options = response.data; });
+
+              $http.get('/Api/lib_fund_source/')
+      .then(function (response) { $scope.fund_source_id_options = response.data; });
+
+              $http.get('/Api/lib_project_type/')
+   .then(function (response) { $scope.project_type_id_options = response.data; });
+
+
+              $http.get('/Api/lib_training_category/')
+.then(function (response) { $scope.training_category_id_options = response.data; });
+
+
+              $http.get('/Api/lib_physical_status/')
+.then(function (response) { $scope.physical_status_id_options = response.data; });
+
+
+
+
+
+
+              $scope.loading = false;
+
+              $scope.edit = function () {
+                  this.editMode = !this.editMode;
+              };
+
+
+              $scope.cancel = function () {
+
+
+                  window.locaton.href = "/Projects/Index";
+              }
+
+
+
+
+              $scope.save = function () {
+                  $scope.$broadcast('show-errors-check-validity');
+                  $scope.loading = true;
+                  //       alert(JSON.stringify($scope.data));
+
+                  //'/api/v1/grievances/save'
+
+
+
+                  if ($scope.data.project_status_id == 2 && $scope.data.Phy_Perc_To_Date >= 100)
+                  {
+                      alert("Ongoing projects cannot have 100% physical progress");
+                      return false;
+                  }
+
+                  if ($scope.data.physical_status_id != 1)
+                  {
+                      $scope.data.Date_of_Completion = '';
+
+                  }
+               //   alert(JSON.stringify($scope.data.Date_Started));
+
+                  if ($scope.data.physical_status_id == 3) {
+                      $scope.data.Date_Started = '';
+
+                      $scope.Tranche1date = '';
+                      $scope.Tranche2date = '';
+                      $scope.Tranche3date = '';
+                  }
+              //    alert(JSON.stringify($scope.data.Date_Started));
+
+              //    alert(JSON.stringify($scope.data.s_phy_construction_target));
+
+                  if ($scope.data.Date_Started == "1/1/1970")
+                  {
+                     $scope.data.Date_Started = '';
+                  }
+
+                  $http.post('/SPI/SaveSubProject/', $scope.data).success(function (data) {
+                      $scope.loading = false;
+
+                      if (data.success == true) {
+                          window.location.href = "/Projects/Index";
+                      }
+
+                      else
+
+                      {
+                          alert(data.message)
+                      }
+
+                  }).error(function (data) {
+
+                      alert(JSON.stringify(data));
+
+
+
+
+
+                      $scope.error = "An Error has occured while Saving! " + data.statusText;
+                      $scope.loading = false;
+                  });
+              };
+          });
+
+
+
+
+                $scope.$watch('data.region_code', function (newValue, oldValue) {
+
+
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+                        record.prov_code = null;
+                        record.city_code = null;
+                        record.brgy_code = null;
+
+
+                        record.prov_code_options = [];
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+                    else {
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_province?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.prov_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.prov_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = null;
+                        record.city_code = null;
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_city?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.city_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.city_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+
+
+                    if (newValue == null) {
+
+                        record.brgy_code = null;
+
+                        record.ncddp_grouping_ip_options = [];
+
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_brgy?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.brgy_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+
+
+                        //get ncddp grouping
+                        $http({
+                            method: 'GET',
+                            url: '/api/ncddp_grouping?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.ncddp_grouping_id_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+                $scope.$watch('data.modality_id', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.cycle_id = '';
+
+                        record.cycle_id_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_cycle?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.cycle_id_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+            })
+
+        .directive('showErrors', function ($timeout, showErrorsConfig) {
+            var getShowSuccess, linkFn;
+            getShowSuccess = function (options) {
+                var showSuccess;
+                showSuccess = showErrorsConfig.showSuccess;
+                if (options && options.showSuccess != null) {
+                    showSuccess = options.showSuccess;
+                }
+                return showSuccess;
+            };
+            linkFn = function (scope, el, attrs, formCtrl) {
+                var blurred, inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses;
+                blurred = false;
+                options = scope.$eval(attrs.showErrors);
+                showSuccess = getShowSuccess(options);
+                inputEl = el[0].querySelector('[name]');
+                inputNgEl = angular.element(inputEl);
+                inputName = inputNgEl.attr('name');
+                if (!inputName) {
+                    throw 'show-errors element has no child input elements with a \'name\' attribute';
+                }
+                inputNgEl.bind('blur', function () {
+                    blurred = true;
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                });
+                scope.$watch(function () {
+                    return formCtrl[inputName] && formCtrl[inputName].$invalid;
+                }, function (invalid) {
+                    if (!blurred) {
+                        return;
+                    }
+                    return toggleClasses(invalid);
+                });
+                scope.$on('show-errors-check-validity', function () {
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                });
+                scope.$on('show-errors-reset', function () {
+                    return $timeout(function () {
+                        el.removeClass('has-error');
+                        el.removeClass('has-success');
+                        return blurred = false;
+                    }, 0, false);
+                });
+                return toggleClasses = function (invalid) {
+                    el.toggleClass('has-error', invalid);
+                    if (showSuccess) {
+                        return el.toggleClass('has-success', !invalid);
+                    }
+                };
+            };
+            return {
+                restrict: 'A',
+                require: '^form',
+                compile: function (elem, attrs) {
+                    if (!elem.hasClass('form-group')) {
+                        throw 'show-errors element does not have the \'form-group\' class';
+                    }
+                    return linkFn;
+                }
+            };
+        }
+      )
+
+        .provider('showErrorsConfig', function () {
+            var _showSuccess;
+            _showSuccess = false;
+            this.showSuccess = function (showSuccess) {
+                return _showSuccess = showSuccess;
+            };
+            this.$get = function () {
+                return { showSuccess: _showSuccess };
+            };
+        })
+
+
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+    <script src="~/Scripts/app/directive/onlynumbers.js"></script>
+}
+
+@*<script>
+
+        function cancel()
+        {
+            var back = confirm("Are you sure you want to Cancel changes to this Project?")
+            if(back == true)
+            {
+                window.location.href = "@Url.Action("Index")";
+            }
+
+
+        };
+
+
+        var dataarray;
+        var projecttypes;
+
+
+
+
+
+
+
+
+
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
+        $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/loading.gif")" /></h1> Processing...' });
+
+
+        dataarray =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+        setTimeout($.unblockUI, 500);
+
+        var validationOptions = {
+            insertMessages: true,
+            decorateElement: true,
+            // errorElementClass: 'errorCSS',
+            messagesOnModified: true,
+            debug: true,
+            grouping: {
+                deep: true,
+                observable: false //Needed so added objects AFTER the initial setup get included
+            },
+        };
+
+
+        ko.validation.init(validationOptions);
+
+        var LandOwnershipModel = function(data){
+            var self = this;
+            self.id = ko.observable(data.id);
+            self.name = ko.observable(data.name);
+        };
+
+        var ViewModel = function (data) {
+
+            var self = this;
+
+
+
+
+
+
+            ko.bindingHandlers.numeric = {
+                init: function(element, valueAccessor) {
+                    var value = valueAccessor();
+                    var interceptor = ko.computed({
+                        read: function() {
+                            return numeral(ko.unwrap(value)).format('0,0.00');
+                        },
+                        write: function(newValue) {
+                            if($.trim(newValue) == '')
+                                value("0");
+                            else
+                                value(numeral().unformat(newValue));
+                            value.valueHasMutated();
+
+                        }
+                    }).extend({ notify: 'always' });
+
+                    if(element.tagName.toLowerCase() == 'input' )
+                        ko.applyBindingsToNode(element, {
+                            value: interceptor
+                        });
+                    else
+                        ko.applyBindingsToNode(element, {
+                            text: interceptor
+                        });
+                }
+            }
+
+            ko.bindingHandlers.decimal = {
+                init: function(element, valueAccessor) {
+                    var value = valueAccessor();
+                    var interceptor = ko.computed({
+                        read: function() {
+                            return numeral(ko.unwrap(value)).format('0,0.0000000');
+                        },
+                        write: function(newValue) {
+                            if($.trim(newValue) == '')
+                                value("0");
+                            else
+                                value(numeral().unformat(newValue));
+                            value.valueHasMutated();
+
+                        }
+                    }).extend({ notify: 'always' });
+
+                    if(element.tagName.toLowerCase() == 'input' )
+                        ko.applyBindingsToNode(element, {
+                            value: interceptor
+                        });
+                    else
+                        ko.applyBindingsToNode(element, {
+                            text: interceptor
+                        });
+                }
+            }
+
+            ko.bindingHandlers.whole = {
+                init: function(element, valueAccessor) {
+                    var value = valueAccessor();
+                    var interceptor = ko.computed({
+                        read: function() {
+                            return numeral(ko.unwrap(value)).format('0,0');
+                        },
+                        write: function(newValue) {
+                            if($.trim(newValue) == '')
+                                value("0");
+                            else
+                                value(numeral().unformat(newValue));
+                            value.valueHasMutated();
+
+                        }
+                    }).extend({ notify: 'always' });
+
+                    if(element.tagName.toLowerCase() == 'input' )
+                        ko.applyBindingsToNode(element, {
+                            value: interceptor
+                        });
+                    else
+                        ko.applyBindingsToNode(element, {
+                            text: interceptor
+                        });
+                }
+            }
+
+            //temporary obervables:
+            // self.major_classification_id = ko.observable();
+
+
+
+
+            ko.mapping.fromJS(dataarray, {}, self);
+
+
+            //viewbag init
+            self.is_deleted = ko.computed(function()
+            {
+
+                if(self.IsActive() == false)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+
+            self.deleted_reason.extend({  required: {
+                message: "Deletion Remarks is Required!",
+                onlyIf:
+                function () { return self.is_deleted() ==true; }
+            }});
+
+
+            //viewbag init
+            self.is_new = ko.computed(function()
+            {
+
+                if('@ViewBag.is_new' == "True")
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            });
+
+
+            self.is_authorized = '@ViewBag.is_authorized';
+            self.is_central_tenant = '@ViewBag.is_central_tenant';
+
+
+            self.orderErrors = ko.validation.group(self);
+
+            self.errors.showAllMessages(true);
+
+
+
+
+
+            self.physical_status_id.extend({ required: { message: '* Physical Status Required ' } });
+            self.Phy_Perc_To_Date.extend({min: 0, max: 100});
+
+
+            self.sub_project_name.extend({ required: { message: '* Sub Project Name Required ' } });
+
+            self.project_type_id.extend({ required: { message: '* Project Type Required ' } });
+
+            self.brgy_code.extend({ required: { message: '* Barangay Name Required ' } });
+            self.region_code.extend({ required: { message: '* Region Name Required ' } });
+            self.prov_code.extend({ required: { message: '* Province Name Required ' } });
+            self.city_code.extend({ required: { message: '* City Name Required ' } });
+            self.modality_id.extend({ required: { message: '* Modality Required ' } });
+            self.cycle_id.extend({ required: { message: '* Cycle Required ' } });
+
+            self.check_modality =  function(data)
+            {
+                if(self.modality_id() == data)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            self.check_project_type =  function(data)
+            {
+                if(self.project_type_id() == data)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            self.check_physical_status =  function(data)
+            {
+                if(self.physical_status_id() == data)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            self.physical_status_id.subscribe(function (newval)
+            {
+                if(newval == 3)
+                {
+                    self.Date_Started('');
+                    self.Date_of_Completion('');
+                    self.Phy_Perc_To_Date('');
+                }
+
+
+            });
+
+            //primary
+            self.phy_has_construction_target.subscribe(function (newval)
+            {
+                if(newval == false)
+                {
+                    self.s_phy_construction_target('');
+                    self.s_phy_construction_actual('');
+                }
+
+            });
+            self.phy_has_improvement_target.subscribe(function (newval)
+            {
+                if(newval == false)
+                {
+                    self.s_phy_improvement_target('');
+                    self.s_phy_improvement_actual('');
+                }
+
+            }); self.phy_has_rehabilitation_target.subscribe(function (newval)
+            {
+                if(newval == false)
+                {
+                    self.s_phy_rehabilitation_target('');
+                    self.s_phy_rehabilitation_actual('');
+                }
+
+            }); self.phy_has_purchase_target.subscribe(function (newval)
+            {
+                if(newval == false)
+                {
+                    self.s_phy_purchase_target('');
+                    self.s_phy_purchase_actual('');
+                }
+
+            });
+
+
+            //subscribe secondary
+            self.phy_has_construction_target_secondary.subscribe(function (newval)
+            {
+                if(newval == false)
+                {
+                    self.s_phy_construction_target_secondary('');
+                    self.s_phy_construction_actual_secondary('');
+                }
+
+            });
+            self.phy_has_improvement_target_secondary.subscribe(function (newval)
+            {
+                if(newval == false)
+                {
+                    self.s_phy_improvement_target_secondary('');
+                    self.s_phy_improvement_actual_secondary('');
+                }
+
+            }); self.phy_has_rehabilitation_target_secondary.subscribe(function (newval)
+            {
+                if(newval == false)
+                {
+                    self.s_phy_rehabilitation_target_secondary('');
+                    self.s_phy_rehabilitation_actual_secondary('');
+                }
+
+            }); self.phy_has_purchase_target_secondary.subscribe(function (newval)
+            {
+                if(newval == false)
+                {
+                    self.s_phy_purchase_target_secondary('');
+                    self.s_phy_purchase_actual_secondary('');
+                }
+
+            });
+
+
+
+
+
+
+            //self.Date_Started.extend({  required: {
+            //    message: "Date of Start is required for completed sub projects",
+            //    onlyIf:
+            //    function () { return self.physical_status_id() ==1; }
+            //}});
+
+
+
+            //self.Date_of_Completion.extend({  required: {
+            //    message: "Date of Completion is required for completed sub projects",
+            //    onlyIf:
+            //    function () { return self.physical_status_id() ==1; }
+            //}});
+
+
+
+
+            self.Totaltrancheamount = ko.computed(function()
+            {
+
+
+                return self.Tranche1amount() + self.Tranche2amount() +self.Tranche3amount();
+
+            })
+
+
+            //subscribe for ncddp grouping
+            self.modality_id.subscribe(function (newval) {
+                //remove cycle and ncddpgrouping on fund source change
+                self.cycle_id(undefined);
+                self.modality_category_id(undefined);
+
+                if(newval != '')
+                {
+                    $.post("/Library/GetCycle", { id: self.modality_id() }, function (data) {
+                        self.lib_cycle_list(data);
+                    });
+                }
+
+                if(newval == 7)
+                {
+                    $.post("/Library/GetNCDDPGrouping", { id: self.city_code() }, function (data) {
+                        self.lib_modality_category_list(data);
+                    });
+                }
+                else
+                {
+                    self.modality_category_id('');
+                    self.lib_modality_category_list([]);
+                }
+            });
+
+
+            self.city_code.subscribe(function (newval) {
+
+                if(self.modality_id() == 7)
+                {
+                    $.post("/Library/GetNCDDPGrouping", { id: self.city_code() }, function (data) {
+                        self.lib_modality_category_list(data);
+                    });
+                }
+                else
+                {
+                    self.modality_category_id('');
+                    self.lib_modality_category_list([]);
+                }
+            });
+            //ncddpgrouping subscribers
+
+
+
+            self.region_code.subscribe(function (newval) {
+                self.prov_code(undefined);
+                self.city_code(undefined);
+                self.brgy_code(undefined);
+                $.post("/Library/GetProvinces", { id: self.region_code() }, function (data) {
+                    self.lib_province_list(data);
+                });
+            });
+
+            self.prov_code.subscribe(function (newval) {
+                self.city_code(undefined);
+                self.brgy_code(undefined);
+                $.post("/Library/GetCity", { id: self.prov_code() }, function (data) {
+                    self.lib_city_list(data);
+                });
+            });
+
+            self.city_code.subscribe(function (newval) {
+                self.brgy_code(undefined);
+                $.post("/Library/GetBarangay", { id: self.city_code() }, function (data) {
+                    self.lib_brgy_list(data);
+                });
+            });
+
+
+
+            self.land_aq_other.subscribe(function(newval)
+            {
+                if(newval == false)
+                {
+                    self.other_land_acquisition('');
+                }
+            })
+
+
+
+            self.has_set.subscribe(function (newval) {
+
+                if(self.has_set() == false)
+                {
+                    self.has_set_score('');
+                }
+
+
+
+            });
+
+
+            self.has_set_score.extend({  required: {
+                message: "SET score is Required!",
+                onlyIf:
+                function () { return self.has_set() ==true; }
+            }});
+
+
+
+
+            self.modality_category_id.extend({  required: {
+                message: "NCDDP Grouping is Required",
+                onlyIf:
+                function () { return self.modality_id() ==7; }
+            }});
+
+
+            self.Phy_Perc_To_Date.extend({  required: {
+                message: "Percentage Accomplished is Required",
+                onlyIf:
+                function () { return self.physical_status_id() !=3; }
+            }});
+
+
+            self.Phy_Perc_To_Date.extend({min: 0, max: 100});
+
+            self.has_set_score.extend({min: 0, max: 5});
+
+
+
+
+
+
+            self.has_t1.subscribe(function (newval) {
+
+                if(newval == false)
+                {
+
+                    self.Tranche1date('');
+                    self.Tranche1amount(0);
+                    self.has_t2(false);
+                    self.has_t3(false);
+                }
+
+            });
+
+
+            self.has_t2.subscribe(function (newval) {
+
+                if(newval == false)
+                {
+
+                    self.Tranche2date('');
+                    self.Tranche2amount(0);
+
+                    self.has_t3(false);
+                }
+
+            });
+
+            self.has_t3.subscribe(function (newval) {
+
+                if(newval == false)
+                {
+
+                    self.Tranche3date('');
+                    self.Tranche3amount(0);
+                }
+
+            });
+
+
+            //self.Tranche1date.extend({  required: {
+            //    message: "* First Tranche Information is required.",
+            //    onlyIf:
+            //    function () { return self.has_t1() ==true ; }
+            //}});
+
+
+            //self.Tranche2date.extend({  required: {
+            //    message: "* Second Tranche Information is required.",
+            //    onlyIf:
+            //    function () { return self.has_t2() ==true ; }
+            //}});
+            //self.Tranche3date.extend({  required: {
+            //    message: "* Third Tranche Information is required.",
+            //    onlyIf:
+            //    function () { return self.has_t3() ==true ; }
+            //}});
+
+
+
+
+            self.Totaltrancheamount = ko.computed(function()
+            {
+                var amount =0;
+
+                if(self.has_t1() == true)
+                {
+                    amount = amount + self.Tranche1amount();
+                }
+
+                if(self.has_t2() == true)
+                {
+                    amount = amount + self.Tranche2amount();
+                }
+
+
+                if(self.has_t3() == true)
+                {
+                    amount = amount + self.Tranche3amount();
+                }
+
+                return amount;
+
+            })
+
+
+            self.totalrelease = ko.computed(function()
+            {
+
+
+                return self.Tranche1amount() + self.Tranche2amount() +self.Tranche3amount();
+
+            })
+
+            self.isMore = ko.computed(function()
+            {
+                if(self.totalrelease() > self.Kalahi_Amount())
+                {
+                    return true
+                }
+                else
+                {
+                    return false;
+                }
+            })
+
+
+
+
+
+            self.isLessAccomplished = ko.computed(function(){
+
+                return false;
+            })
+
+
+
+            self.Adjusted_Phy_Perc_To_Date = ko.computed(function(){
+
+
+                return false;
+
+            })
+
+
+            self.Adjusted_Tranche1amount = ko.computed(function(){
+
+
+                return false;
+
+            })
+
+            self.Adjusted_Tranche2amount = ko.computed(function(){
+
+                return false;
+
+            })
+
+
+            self.Adjusted_Tranche3amount = ko.computed(function(){
+
+
+                return false;
+
+            })
+
+
+            self.Adjusted_Tranche3amount = ko.computed(function(){
+
+
+                return false;
+
+            })
+
+            self.Adjusted_Kalahi_Amount = ko.computed(function(){
+
+
+                return false;
+
+            })
+
+
+            self.Adjusted_LCC_Amount = ko.computed(function(){
+
+
+                return false;
+
+            })
+
+
+
+            self.Adjusted_project_type_id = ko.computed(function(){
+
+
+                return false;
+
+            })
+
+
+            self.Adjusted_NoOfHH  = ko.computed(function(){
+
+
+                return false;
+
+            })
+
+
+            self.user_role = ko.observable('Super');
+
+            self.authorized_modality = ko.computed(function()
+            {
+                var authorized =false;
+
+                if(self.user_role() == "Super")
+                {
+                    return true;
+                }
+
+                else
+                {
+                    if(self.modality_id() == 2 || self.modality_id() == 5 || self.modality_id() == 10)
+                    {
+                        var modality_test = self.modality_id();
+
+                        var result = false;
+
+                        ko.utils.arrayFilter(self.modality_control(), function(scores) {
+
+                            if(scores.modality_id() == modality_test)
+                            {
+                                result = true
+                            }
+
+                        });
+
+                        return result;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+
+
+
+
+
+
+            })
+
+
+            self.is_not_gig = ko.computed(function()
+            {
+                if(self.modality_id() == 11)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            })
+
+            self.is_gig = ko.computed(function()
+            {
+                if(self.modality_id() == 11)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            })
+
+            self.is_training = ko.computed(function()
+            {
+
+                if(self.project_type_id() == 36 && self.modality_id() ==11)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            })
+
+            self.training_category_id.extend({  required: {
+                message: "* Training Category is required for GIG.",
+                onlyIf:
+                function () { return self.is_training() == true ; }
+            }});
+
+            self.not_authorized_modality = ko.computed(function()
+            {
+                var authorized =true;
+
+                if(self.user_role() == "Super")
+                {
+                    return false;
+                }
+
+                else
+                {
+                    if(self.modality_id() == 2 || self.modality_id() == 5 || self.modality_id() == 10)
+                    {
+                        var modality_test = self.modality_id();
+
+                        var result = true;
+
+                        ko.utils.arrayFilter(self.modality_control(), function(scores) {
+
+                            if(scores.modality_id() == modality_test)
+                            {
+                                result = false
+                            }
+
+                        });
+
+                        return result;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+
+
+
+
+
+            })
+
+
+            self.has_local_counterpart.subscribe(function (newval) {
+
+                if(self.has_local_counterpart() == false)
+                {
+                    self.LCC_Amount('');
+                }
+            });
+
+            self.isFundSourceDataRequirement = ko.computed(function(){
+
+                if(self.modality_id() == 2 || self.modality_id() == 5)
+                {
+                    return true;
+                }
+
+                else{
+                    return false;
+                }
+            })
+
+
+
+
+            self.project_type_id.subscribe(function (newval) {
+
+
+                ko.utils.arrayFilter(self.lib_project_type_list(), function(scores) {
+
+                    if(scores.project_type_id() == newval)
+                    {
+
+                        self.lib_project_type.phy_has_construction_target(scores.phy_has_construction_target());
+                        self.lib_project_type.phy_has_improvement_target(scores.phy_has_improvement_target());
+                        self.lib_project_type.phy_has_rehabilitation_target(scores.phy_has_rehabilitation_target());
+                        self.lib_project_type.phy_has_purchase_target(scores.phy_has_purchase_target());
+
+                        self.lib_project_type.phy_has_construction_target_secondary(scores.phy_has_construction_target_secondary());
+                        self.lib_project_type.phy_has_improvement_target_secondary(scores.phy_has_improvement_target_secondary());
+                        self.lib_project_type.phy_has_rehabilitation_target_secondary(scores.phy_has_rehabilitation_target_secondary());
+                        self.lib_project_type.phy_has_purchase_target_secondary(scores.phy_has_purchase_target_secondary());
+
+
+
+                        self.lib_project_type.phy_construction_unit(scores.phy_construction_unit());
+                        self.lib_project_type.phy_improvement_unit(scores.phy_improvement_unit());
+                        self.lib_project_type.phy_rehabilitation_unit(scores.phy_rehabilitation_unit());
+                        self.lib_project_type.phy_purchase_unit(scores.phy_purchase_unit());
+
+
+                        self.lib_project_type.phy_construction_unit_secondary(scores.phy_construction_unit_secondary());
+                        self.lib_project_type.phy_improvement_unit_secondary(scores.phy_improvement_unit_secondary());
+                        self.lib_project_type.phy_rehabilitation_unit_secondary(scores.phy_rehabilitation_unit_secondary());
+                        self.lib_project_type.phy_purchase_unit_secondary(scores.phy_purchase_unit_secondary());
+                    }
+
+                });
+
+            });
+
+
+            self.message = ko.observable();
+            self.warning = ko.observable();
+
+
+            // self.erfr_t1 = ko.observable();
+            //self.erfr_t2 = ko.observable(),
+            //self.erfr_t3 = ko.observable();
+
+            self.erfr_project_id.subscribe(function(newval){
+
+                var result = 0;
+
+                if(self.modality_id() == 7 && self.erfrf_project_id != ""  && self.brgy_code != "")
+                {
+                    $.post("/Projects/GetERFRTranche/", { erfr_project_id: self.erfr_project_id(), brgy_code: self.brgy_code()}, function (data) {
+
+                        self.erfr_t1(data.first);
+                        self.erfr_t2(data.second);
+                        self.erfr_t3(data.third);
+                    });
+
+                }
+
+            });
+
+
+
+            self.is_lumad_schools = ko.computed(function(newval){
+
+                var result = 0;
+
+                if(self.modality_id() ==12)
+                {
+                    self.project_type_id(23);
+
+                    return true;
+
+
+                }
+                return false;
+
+            });
+
+
+            //self.erfr_t1 = ko.computed(function(){
+
+            //    if(self.modality_id() == 7 && self.erfrf_project_id != ""  && self.brgy_code != "")
+            //    {
+            //        $.post("/Projects/GetERFRTranche/", { erfr_project_id: self.erfr_project_id(), brgy_code: self.brgy_code()}, function (data) {
+
+            //            return data.first;
+
+            //        });
+
+            //    }
+
+            //});
+
+            self.erfr_project_id.subscribe(function (newval) {
+
+                if(self.modality_id() == 7 && self.erfr_project_id() != "")
+                {
+                    $.post("/Projects/GetRFRDetails/", { erfr_project_id: self.erfr_project_id(), brgy_code: self.brgy_code() }, function (data) {
+                        self.message(data.message);
+
+                        if(data.result == false)
+                        {
+                            self.warning(true);
+                            self.is_correct_sp_id(false);
+                        }
+                        else
+                        {
+                            self.warning(false);
+                            self.is_correct_sp_id(false);
+                        }
+                    });
+                }
+                else
+                {
+                    self.message('');
+                    self.warning('');
+                    self.is_correct_sp_id('');
+                }
+            });
+
+            self.brgy_code.subscribe(function (newval) {
+
+                if(self.modality_id() == 7 && self.erfr_project_id() != "")
+                {
+                    $.post("/Projects/GetRFRDetails/", { erfr_project_id: self.erfr_project_id(), brgy_code: self.brgy_code() }, function (data) {
+                        self.message(data.message);
+
+                        if(data.result == false)
+                        {
+                            self.warning(true);
+                        }
+                        else
+                        {
+                            self.warning(false);
+                        }
+                    });
+                }
+                else
+                {
+                    self.message('');
+                    self.warning('');
+                }
+            });
+
+
+            self.cancel = function()
+            {
+
+                var ask = confirm("Are you sure you want to cancel?")
+                if(ask == true)
+                {
+                    window.location.href = "/Projects/Index";
+                }
+            }
+
+            self.SaveTest = function() {
+
+                if(self.has_t3() && self.Tranche3date() == "")
+                {
+
+                    alert("Date Information required for Tranche 3!")
+                    return false;
+                }
+
+                if(self.has_t2() && self.Tranche2date() == '')
+                {
+
+                    alert("Date Information required for Tranche 2!")
+                    return false;
+                }
+
+                if(self.has_t1() && self.Tranche1date() == '')
+                {
+
+                    alert("Date Information required for Tranche 1!")
+                    return false;
+                }
+                if(self.Kalahi_Amount() >= 1000000)
+                {
+                    var ask = confirm("You are about to encode subproject with amount greater than Php 1,000,000, do you want to proceed with this operation?")
+
+                    if(ask == false)
+                    {
+                        return false;
+                    }
+                }
+
+                if(self.physical_status_id() != 3 && self.Date_Started() == "null" && self.modality_id() != 11)
+                {
+                    alert("You have encoded that the project has started, please set Date of Start!")
+                    return false;
+                }
+
+                if(self.physical_status_id() == 1 && self.Date_of_Completion() == "null" && self.modality_id() != 11)
+                {
+                    alert("You have encoded that the project is completed, please set Date of Completion!")
+                    return false;
+                }
+
+
+
+                if(self.physical_status_id() == 1 && self.Phy_Perc_To_Date() != 100)
+                {
+                    alert("You have encoded that the project is completed, please set correct physical percentage accomplishment!")
+                    return false;
+                }
+
+                if(self.physical_status_id() == 2 && self.Phy_Perc_To_Date() == 100)
+                {
+                    alert("You have encoded that the project is not yet completed, please set correct physical percentage accomplishment!")
+                    return false;
+                }
+
+                if(self.physical_status_id() == 3 && self.Phy_Perc_To_Date() > 0)
+                {
+                    alert("You have encoded that the project is not yet started, please set correct physical percentage accomplishment!")
+                    return false;
+                }
+
+
+                //var data = ko.mapping.toJS(self, mapping);
+
+
+                //  alert(  JSON.stringify(data));
+
+                alert("Saving..")
+
+                if(self.isValid())
+                {
+
+
+                    alert("Saving...");
+                }
+                else
+                {
+                    alert("Invalid entries");
+                }
+
+            }
+
+            self.Save = function () {
+
+
+                $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/loading.gif")" /></h1> Processing...' });
+
+
+                if(self.has_t3() && self.Tranche3date() == "")
+                {
+
+                    alert("Date Information required for Tranche 3!")
+                    return false;
+                }
+
+                if(self.has_t2() && self.Tranche2date() == '')
+                {
+
+                    alert("Date Information required for Tranche 2!")
+                    return false;
+                }
+
+                if(self.has_t1() && self.Tranche1date() == '')
+                {
+
+                    alert("Date Information required for Tranche 1!")
+                    return false;
+                }
+                if(self.Kalahi_Amount() >= 1000000)
+                {
+                    var ask = confirm("You are about to encode subproject with amount greater than Php 1,000,000, do you want to proceed with this operation?")
+
+                    if(ask == false)
+                    {
+                        return false;
+                    }
+                }
+
+                if(self.physical_status_id() != 3 && self.Date_Started() == "null" && self.modality_id() != 11)
+                {
+                    alert("You have encoded that the project has started, please set Date of Start!")
+                    return false;
+                }
+
+                if(self.physical_status_id() == 1 && self.Date_of_Completion() == "null" && self.modality_id() != 11)
+                {
+                    alert("You have encoded that the project is completed, please set Date of Completion!")
+                    return false;
+                }
+
+
+
+                if(self.physical_status_id() == 1 && self.Phy_Perc_To_Date() != 100)
+                {
+                    alert("You have encoded that the project is completed, please set correct physical percentage accomplishment!")
+                    return false;
+                }
+
+                if(self.physical_status_id() == 2 && self.Phy_Perc_To_Date() == 100)
+                {
+                    alert("You have encoded that the project is not yet completed, please set correct physical percentage accomplishment!")
+                    return false;
+                }
+
+                if(self.physical_status_id() == 3 && self.Phy_Perc_To_Date() > 0)
+                {
+                    alert("You have encoded that the project is not yet started, please set correct physical percentage accomplishment!")
+                    return false;
+                }
+
+
+                if(self.isValid())
+                {
+
+
+
+
+                    //if(moment(self.Tranche1date()) > moment(self.Tranche2date()))
+                    //{
+                    //    alert("You cannot have Tranche 1 date greater than Tranche 2 date"); return false;
+                    //}
+
+                    //if(moment(self.Tranche2date()) > moment(self.Tranche3date()))
+                    //{
+                    //    alert("You cannot have Tranche 2 date greater than Tranche 3 date"); return false;
+                    //}
+
+                    //if(moment(self.Tranche1date()) > moment(self.Tranche3date()))
+                    //{
+                    //    alert("You cannot have Tranche 1 date greater than Tranche 3 date"); return false;
+                    //}
+
+
+
+
+
+
+                    var mapping = {
+                        'ignore': [
+                            "lib_project_type_list",
+                            "lib_cycle_list",
+                            "lib_modality_list",
+                            "lib_modality_category_list",
+                            "lib_region_list",
+                            "lib_prov_list",
+                            "lib_city_list",
+                            "lib_brgy_list",
+                            "lib_physical_status_category",
+                            "lib_physical_status_list",
+                            "lib_training_category",
+
+                            "lib_cities",
+                            "lib_cycles",
+
+                            "modality",
+
+                            "lib_enrollment_type",
+                            "modality",
+                            "lib_cycle",
+                            "lib_regions",
+                            "lib_provinces",
+                            "lib_cities",
+                            "lib_brgy",
+                            "lib_project_type",
+                            "lib_physical_status",
+                            "lib_modality_category",
+
+                            "lib_enrollment_type_list",
+                              "lib_modality_list",
+                            "lib_cycle_list",
+                            "lib_region_list",
+                            "lib_province_list",
+                            "lib_city_list",
+                            "lib_brgy_list",
+                            "lib_project_type_list",
+                            "lib_physical_status_list",
+                            "lib_modality_category_list",
+                            "lib_major_category_list"
+
+                        ]
+                    }
+                    var data = ko.mapping.toJS(self, mapping);
+
+
+                    //   alert(  JSON.stringify(data));
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/SPI/SaveSubProject/",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        processData: false,
+                    }).done(function (result) {
+                        if (result.success === true)
+                        {
+
+                            //  $('#myModal').modal('hide');
+                            setTimeout($.unblockUI, 500);
+                            window.location.href = "/SPI/View?id=" + result.sub_project_id;
+                            //   $('#result').load(result.url); //  Load data from the server and place the returned HTML into the matched element
+
+                        } else {
+
+                            setTimeout($.unblockUI, 500);
+                            alert(result.message);
+                        }
+                    })
+                    .fail(function (err_reponse) {
+
+                        alert(err_reponse);
+
+
+                    });
+
+
+                }
+                else
+                {
+
+                    alert("There seems to be incomplete or incorrect information in the fields you have provided. Please correct it then proceed.")
+                }
+            }
+
+        }
+
+        function success() {
+            var viewModel = new ViewModel()
+            ko.applyBindings(viewModel);
+        }
+
+
+        success();
+
+
+
+    </script>*@

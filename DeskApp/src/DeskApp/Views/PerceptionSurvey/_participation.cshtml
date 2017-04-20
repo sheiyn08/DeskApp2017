@@ -1,0 +1,224 @@
+﻿<div class="panel panel-info">
+    <div class="panel panel-heading">
+        <h4>Participation and Empowerment to the Poor and Marginalized</h4>
+    </div>
+    <div class="panel panel-body">
+        <div class="row" ng-hide="data.year != 2016">
+            <div class="col-md-8">
+                <label style="padding-right:25px">Women are excluded from the implementation of programs/projects in the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_1" class="form-control"
+                        ng-required="data.year == 2015"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_1" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row" ng-hide="data.year != 2015"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">Women are engaged in the implementation of programs/projects in the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_2" class="form-control"
+                        ng-required="data.year == 2016"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_2" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row" ng-hide="data.is_ip != 1"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">(FOR IP MEMBERS ONLY) IPs are engaged in the implementation of programs/projects in the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_3" class="form-control"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_3" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">The poorest are represented in the barangay assembly.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_4" class="form-control"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_4" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row" ng-hide="data.year != 2016"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">Members of the community are not given various skills training (e.g. livelihood, financial literacy, etc.).</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_5" class="form-control"
+                        ng-required="data.year == 2015"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_5" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row" ng-hide="data.year != 2015"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">Members of the community are provided with various skills training (e.g. livelihood, financial literacy among others).</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_6" class="form-control"
+                        ng-required="data.year == 2016"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_6" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">I am able to participate in the implementation of programs/ projects in the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_7" class="form-control"
+                        required
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_7" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row" ng-hide="data.year != 2016"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">I am shy when participating in community development activities.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_8" class="form-control"
+                        ng-required="data.year == 2015"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_8" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>  
+        <div class="row" ng-hide="data.year != 2015"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">I am not shy when participating in community development activities.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_9" class="form-control"
+                        ng-required="data.year == 2016"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_9" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>  
+        <div class="row" ng-hide="data.year != 2016"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">I attend trainings/activities (e.g. livelihood, financial literacy, etc.) provided to the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_10" class="form-control"
+                        ng-required="data.year == 2015"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_10" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>  
+        <div class="row" ng-hide="data.year != 2015"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">I have benefitted from the trainings/activities provided to the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_11" class="form-control"
+                        ng-required="data.year == 2016"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.participation_11" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>  
+        <div class="row"  ng-hide="data.participation_10 != 3 && data.participation_10 !=4 && data.participation_11 != 3 && data.participation_11 !=4"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">(If answer to item above is 3 or 4 only) My skills have improved because of these trainings.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.participation_12" class="form-control"
+                        ng-disabled="data.participation_7 !=  3|| data.participation_7 != 4"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group ng-model="data.participation_12" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> <br />
+        
+
+    </div> <!--end of panel body-->
+
+</div> <!--end of panel-->

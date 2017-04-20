@@ -36,7 +36,6 @@ namespace DeskApp.Controllers
         [Route("/api/export/person_profile/volunteer/commitee/list")]
         public IActionResult export_volunteer_summary_committee_male_female(AngularFilterModel item)
         {
-
             item.is_volunteer = true;
 
             var model = GetData(item);
@@ -54,9 +53,7 @@ namespace DeskApp.Controllers
                 x.lib_volunteer_committee.name,
 
                 brgy_name = x.person_profile.lib_brgy.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(cx => cx.brgy_code == x.person_profile.brgy_code).brgy_name,
-
-
-
+                
             }).Select(x => new
             {
                 brgy_name = x.Key.brgy_name,
@@ -65,20 +62,115 @@ namespace DeskApp.Controllers
                 x.Key.region_name,
                 committee_name = x.Key.name,
 
-                male_chair = x.Where(xc => xc.person_profile.sex == true && xc.volunteer_committee_position_id ==2).Count(),
+                male_chair = x.Where(xc => xc.person_profile.sex == true && xc.volunteer_committee_position_id == 2).Count(),
                 female_chair = x.Where(t => t.person_profile.sex != true && t.volunteer_committee_position_id == 2).Count(),
 
                 male_member = x.Where(xc => xc.person_profile.sex == true && xc.volunteer_committee_position_id == 1).Count(),
                 female_member = x.Where(t => t.person_profile.sex != true && t.volunteer_committee_position_id == 1).Count(),
-
-
-
-
             });
 
 
             return Ok(export);
         }
+
+        #region ACT Monthly Report - Total number of volunteers per committee
+
+        [HttpPost]
+        [Route("/api/export/report/number_of_volunteers_per_comm/as_of")]
+        public IActionResult export_actreport_asof(AngularFilterModel item)
+        {
+            DateTime? as_of = item.as_of;
+            int? selected_fund_source = item.fund_source_id;
+            item.is_volunteer = true;
+
+            var volunteer_record = db.person_volunteer_record.Where(x => x.start_date <= as_of && x.fund_source_id == selected_fund_source);
+            var person_record = db.person_profile;
+
+            int date_today = DateTime.Now.Year;
+
+            var joined_result = from p in person_record
+                                join v in volunteer_record.Where(x => x.is_deleted != true) on p.person_profile_id equals v.person_profile_id
+                                select v;
+            
+            var export = joined_result
+                .GroupBy(x => new
+                {
+                    x.lib_volunteer_committee.volunteer_committee_id,
+                    x.lib_fund_source.fund_source_id,
+                    x.lib_cycle.name
+                        
+                }).Select(x => new
+                {
+                    cycle_name = x.Key.name,
+                    committee_name = x.Key.volunteer_committee_id,
+                    
+                    count_leader_male = x.Where(xc => xc.person_profile.sex == true && xc.volunteer_committee_position_id == 2).Count(),
+                    count_leader_female = x.Where(xc => xc.person_profile.sex != true && xc.volunteer_committee_position_id == 2).Count(),
+                    count_member_male = x.Where(xc => xc.person_profile.sex == true && xc.volunteer_committee_position_id == 1).Count(),
+                    count_member_female = x.Where(xc => xc.person_profile.sex != true && xc.volunteer_committee_position_id == 1).Count(),
+
+                    count_pantawid_male = x.Where(xc => xc.person_profile.sex == true && xc.person_profile.is_pantawid == true).Count(),
+                    count_pantawid_female = x.Where(xc => xc.person_profile.sex != true && xc.person_profile.is_pantawid == true).Count(),
+                    count_ip_male = x.Where(xc => xc.person_profile.sex == true && xc.person_profile.is_ip == true).Count(),
+                    count_ip_female = x.Where(xc => xc.person_profile.sex != true && xc.person_profile.is_ip == true).Count(),
+                    count_slp_male = x.Where(xc => xc.person_profile.sex == true && xc.person_profile.is_slp == true).Count(),
+                    count_slp_female = x.Where(xc => xc.person_profile.sex != true && xc.person_profile.is_slp == true).Count(),
+                    count_senior_male = x.Where(xc => xc.person_profile.sex == true && ((xc.person_profile.birthdate.HasValue ? (date_today - xc.person_profile.birthdate.Value.Year) : (int?)0) >= 60)).Count(),
+                    count_senior_female = x.Where(xc => xc.person_profile.sex != true && ((xc.person_profile.birthdate.HasValue ? (date_today - xc.person_profile.birthdate.Value.Year) : (int?)0) >= 60)).Count(),
+                });
+            return Ok(export);
+        }
+
+
+
+        [HttpPost]
+        [Route("/api/export/report/number_of_volunteers_per_comm/for_the_period_of")]
+        public IActionResult export_actreport_fortheperiodof(AngularFilterModel item)
+        {
+            DateTime? fortheperiodof_from = item.fortheperiodof_from;
+            DateTime? fortheperiodof_to = item.fortheperiodof_to;
+            int? selected_fund_source = item.fund_source_id;
+            item.is_volunteer = true;
+
+            var volunteer_record = db.person_volunteer_record.Where(x => x.fund_source_id == selected_fund_source && (x.start_date >= fortheperiodof_from && x.start_date <= fortheperiodof_to));
+            var person_record = db.person_profile;
+
+            int date_today = DateTime.Now.Year;
+
+            var joined_result = from p in person_record
+                                join v in volunteer_record.Where(x => x.is_deleted != true) on p.person_profile_id equals v.person_profile_id
+                                select v;
+
+            var export = joined_result
+                .GroupBy(x => new
+                {
+                    x.lib_volunteer_committee.volunteer_committee_id,
+                    x.lib_fund_source.fund_source_id,
+                    x.lib_cycle.name
+
+                }).Select(x => new
+                {
+                    cycle_name = x.Key.name,
+                    committee_name = x.Key.volunteer_committee_id,
+
+                    count_leader_male = x.Where(xc => xc.person_profile.sex == true && xc.volunteer_committee_position_id == 2).Count(),
+                    count_leader_female = x.Where(xc => xc.person_profile.sex != true && xc.volunteer_committee_position_id == 2).Count(),
+                    count_member_male = x.Where(xc => xc.person_profile.sex == true && xc.volunteer_committee_position_id == 1).Count(),
+                    count_member_female = x.Where(xc => xc.person_profile.sex != true && xc.volunteer_committee_position_id == 1).Count(),
+
+                    count_pantawid_male = x.Where(xc => xc.person_profile.sex == true && xc.person_profile.is_pantawid == true).Count(),
+                    count_pantawid_female = x.Where(xc => xc.person_profile.sex != true && xc.person_profile.is_pantawid == true).Count(),
+                    count_ip_male = x.Where(xc => xc.person_profile.sex == true && xc.person_profile.is_ip == true).Count(),
+                    count_ip_female = x.Where(xc => xc.person_profile.sex != true && xc.person_profile.is_ip == true).Count(),
+                    count_slp_male = x.Where(xc => xc.person_profile.sex == true && xc.person_profile.is_slp == true).Count(),
+                    count_slp_female = x.Where(xc => xc.person_profile.sex != true && xc.person_profile.is_slp == true).Count(),
+                    count_senior_male = x.Where(xc => xc.person_profile.sex == true && ((xc.person_profile.birthdate.HasValue ? (date_today - xc.person_profile.birthdate.Value.Year) : (int?)0) >= 60)).Count(),
+                    count_senior_female = x.Where(xc => xc.person_profile.sex != true && ((xc.person_profile.birthdate.HasValue ? (date_today - xc.person_profile.birthdate.Value.Year) : (int?)0) >= 60)).Count(),
+                });
+            return Ok(export);
+        }
+
+        #endregion
 
 
 
@@ -103,34 +195,34 @@ namespace DeskApp.Controllers
 
             var export = result.GroupBy(x => new
             {
+                x.person_profile.person_profile_id,
                 x.person_profile.lib_region.region_name,
                 x.person_profile.lib_province.prov_name,
                 x.person_profile.lib_city.city_name,
-                brgy_name =  x.person_profile.lib_brgy.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(cx => cx.brgy_code == x.person_profile.brgy_code).brgy_name,
-             
-           
-
-            }).Select(x => new
+                brgy_name = x.person_profile.lib_brgy.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(cx => cx.brgy_code == x.person_profile.brgy_code).brgy_name,
+                   
+            }).
+            Select(x => new
             {
                brgy_name = x.Key.brgy_name,
                x.Key.city_name,
                x.Key.prov_name,
                x.Key.region_name,
 
-               male = x.Where(xc => xc.person_profile.sex == true).Count(),
-               female = x.Where(t => t.person_profile.sex != true).Count(),
+                //male = x.Where(xc => xc.person_profile.sex == true).Count(),
+                //female = x.Where(t => t.person_profile.sex != true).Count(),
+               male = x.Where(t => t.person_profile.sex == true).Select(t => t.person_profile_id).Distinct().Count(),
+               female = x.Where(t => t.person_profile.sex != true).Select(t => t.person_profile_id).Distinct().Count(),
+               
+                male_ip = x.Where(t => t.person_profile.sex == true && t.person_profile.is_ip == true).Count(),
+                male_pantawid = x.Where(t => t.person_profile.sex == true && t.person_profile.is_pantawid == true).Count(),
+                male_slp = x.Where(t => t.person_profile.sex == true && t.person_profile.is_slp == true).Count(),
+                male_lgu = x.Where(t => t.person_profile.sex == true && t.person_profile.is_lguofficial == true).Count(),
 
-                no_ip_male = x.Where(t => t.person_profile.sex == true && t.person_profile.is_ip == true).Count(),
-                no_ip_female = x.Where(t => t.person_profile.sex != true && t.person_profile.is_ip == true).Count(),
-
-                no_pantawid_male = x.Where(t => t.person_profile.sex == true && t.person_profile.is_pantawid == true).Count(),
-                no_pantawid_female = x.Where(t => t.person_profile.sex != true && t.person_profile.is_pantawid == true).Count(),
-
-                no_slp_male = x.Where(t => t.person_profile.sex == true && t.person_profile.is_slp == true).Count(),
-                no_slp_female = x.Where(t => t.person_profile.sex != true && t.person_profile.is_slp == true).Count(),
-
-                no_lgu_male = x.Where(t => t.person_profile.sex == true && t.person_profile.is_lguofficial == true).Count(),
-                no_lgu_female = x.Where(t => t.person_profile.sex != true && t.person_profile.is_lguofficial == true).Count(),
+                female_ip = x.Where(t => t.person_profile.sex != true && t.person_profile.is_ip == true).Count(),
+                female_pantawid = x.Where(t => t.person_profile.sex != true && t.person_profile.is_pantawid == true).Count(),
+                female_slp = x.Where(t => t.person_profile.sex != true && t.person_profile.is_slp == true).Count(),
+                female_lgu = x.Where(t => t.person_profile.sex != true && t.person_profile.is_lguofficial == true).Count(),
 
             });
 
@@ -233,7 +325,7 @@ namespace DeskApp.Controllers
 
             var result = from s in model
                          join p in db.person_volunteer_record on s.person_profile_id equals     p.person_profile_id
-
+                        where p.is_deleted != true
                          select new
                          {
                              s.person_profile_id,
@@ -601,11 +693,8 @@ namespace DeskApp.Controllers
             }
             if (item.record_id != null)
             {
-
                 model = model.Where(x => x.person_profile_id == item.record_id);
-
             }
-
             if (item.region_code != null)
             {
                 model = model.Where(m => m.region_code == item.region_code);
@@ -1024,7 +1113,8 @@ namespace DeskApp.Controllers
                         lib_city_city_name = x.lib_city.city_name,
                         lib_province_prov_name = x.lib_province.prov_name,
                         lib_region_region_name = x.lib_region.region_name,
-                        push_status_id = x.push_status_id
+                        push_date = x.push_date,
+                        last_modified_date = x.last_modified_date
 
                     }).Skip(currPages * size).Take(size).ToList(),
             };

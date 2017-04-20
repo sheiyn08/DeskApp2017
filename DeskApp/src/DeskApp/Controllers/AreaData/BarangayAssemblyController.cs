@@ -945,6 +945,171 @@ namespace DeskApp.Controllers
             return Ok(result);
         }
 
+
+        //ACT Monthly Report: --- AS OF
+        [HttpPost]
+        [Route("/api/export/report/participation_rates_per_BAs/as_of")]
+        public IActionResult export_actreport_asof(AngularFilterModel item)
+        {
+            DateTime? as_of = item.as_of;
+            int? selected_fund_source = item.fund_source_id;
+
+            var model = GetData(item);
+
+            var itemsCovered = model.Where(x => x.date_start <= as_of && x.fund_source_id == selected_fund_source);
+
+            var result = itemsCovered.GroupBy(x => new
+            {
+                fund_source = x.lib_fund_source.fund_source_id,
+                cycle_name = x.lib_cycle.name,
+                region_name = x.lib_region.region_name,
+                prov_name = x.lib_province.prov_name,
+                city_name = x.lib_city.city_name,
+                brgy_name = x.lib_brgy.brgy_name,
+            }).
+            Select(x => new
+            {
+                fund_source_id = x.Key.fund_source,
+                cycle_name = x.Key.cycle_name,
+                region_name = x.Key.region_name,
+                prov_name = x.Key.prov_name,
+                city_name = x.Key.city_name,
+                brgy_name = x.Key.brgy_name,
+
+                //household:
+                first_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_household),
+                first_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.total_household_in_barangay),
+                second_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_household),
+                second_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.total_household_in_barangay),
+                third_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_household),
+                third_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.total_household_in_barangay),
+                fourth_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_household),
+                fourth_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.total_household_in_barangay),
+                fifth_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_household),
+                fifth_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.total_household_in_barangay),
+
+                //IP household:
+                first_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_ip_household),
+                first_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.total_household_ip_in_barangay),
+                second_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_ip_household),
+                second_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.total_household_ip_in_barangay),
+                third_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_ip_household),
+                third_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.total_household_ip_in_barangay),
+                fourth_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_ip_household),
+                fourth_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.total_household_ip_in_barangay),
+                fifth_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_ip_household),
+                fifth_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.total_household_ip_in_barangay),
+
+                //male:
+                first_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_atn_male),
+                second_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_atn_male),
+                third_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_atn_male),
+                fourth_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_atn_male),
+                fifth_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_atn_male),
+
+                //female:
+                first_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_atn_female),
+                second_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_atn_female),
+                third_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_atn_female),
+                fourth_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_atn_female),
+                fifth_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_atn_female),
+
+                first_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_atn_male + c.no_atn_female),
+                second_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_atn_male + c.no_atn_female),
+                third_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_atn_male + c.no_atn_female),
+                fourh_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_atn_male + c.no_atn_female),
+                fifth_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_atn_male + c.no_atn_female),
+                                
+            }).ToList();
+
+            return Ok(result);            
+
+        }
+
+        //ACT Monthly Report: --- FOR THE PERIOD OF
+        [HttpPost]
+        [Route("/api/export/report/participation_rates_per_BAs/for_the_period_of")]
+        public IActionResult export_actreport_fortheperiodof(AngularFilterModel item)
+        {
+            DateTime? fortheperiodof_from = item.fortheperiodof_from;
+            DateTime? fortheperiodof_to = item.fortheperiodof_to;
+            int? selected_fund_source = item.fund_source_id;
+
+            var model = GetData(item);
+
+            var itemsCovered = model.Where(x => x.fund_source_id == selected_fund_source && (x.date_start >= fortheperiodof_from && x.date_start <= fortheperiodof_to));
+
+            var result = itemsCovered.GroupBy(x => new
+            {
+                fund_source = x.lib_fund_source.fund_source_id,
+                cycle_name = x.lib_cycle.name,
+                region_name = x.lib_region.region_name,
+                prov_name = x.lib_province.prov_name,
+                city_name = x.lib_city.city_name,
+                brgy_name = x.lib_brgy.brgy_name,
+            }).
+            Select(x => new
+            {
+                fund_source_id = x.Key.fund_source,
+                cycle_name = x.Key.cycle_name,
+                region_name = x.Key.region_name,
+                prov_name = x.Key.prov_name,
+                city_name = x.Key.city_name,
+                brgy_name = x.Key.brgy_name,
+
+                //household:
+                first_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_household),
+                first_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.total_household_in_barangay),
+                second_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_household),
+                second_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.total_household_in_barangay),
+                third_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_household),
+                third_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.total_household_in_barangay),
+                fourth_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_household),
+                fourth_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.total_household_in_barangay),
+                fifth_ba_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_household),
+                fifth_ba_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.total_household_in_barangay),
+
+                //IP household:
+                first_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_ip_household),
+                first_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.total_household_ip_in_barangay),
+                second_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_ip_household),
+                second_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.total_household_ip_in_barangay),
+                third_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_ip_household),
+                third_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.total_household_ip_in_barangay),
+                fourth_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_ip_household),
+                fourth_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.total_household_ip_in_barangay),
+                fifth_ba_ip_hh_represented = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_ip_household),
+                fifth_ba_ip_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.total_household_ip_in_barangay),
+
+                //male:
+                first_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_atn_male),
+                second_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_atn_male),
+                third_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_atn_male),
+                fourth_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_atn_male),
+                fifth_ba_male = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_atn_male),
+
+                //female:
+                first_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_atn_female),
+                second_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_atn_female),
+                third_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_atn_female),
+                fourth_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_atn_female),
+                fifth_ba_female = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_atn_female),
+
+                first_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_atn_male + c.no_atn_female),
+                second_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_atn_male + c.no_atn_female),
+                third_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_atn_male + c.no_atn_female),
+                fourh_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_atn_male + c.no_atn_female),
+                fifth_ba_total_male_female = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_atn_male + c.no_atn_female),
+
+            }).ToList();
+
+            return Ok(result);
+
+        }
+
+
+
+
         [HttpPost]
         [Route("/api/export/barangay_assembly/summary")]
         public IActionResult export_summary(AngularFilterModel item)
@@ -1046,6 +1211,22 @@ namespace DeskApp.Controllers
 
                 fifth_ba_pp_hh_atn = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_pantawid_household),
                 fifth_ba_pp_hh_total = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.total_household_pantawid_in_barangay),
+
+
+                //Pantawid & IP families with atleast one representative:
+                first_ba_pantawid_fam_rep = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_pantawid_family),
+                second_ba_pantawid_fam_rep = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_pantawid_family),
+                third_ba_pantawid_fam_rep = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_pantawid_family),
+                fourth_ba_pantawid_fam_rep = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_pantawid_family),
+                fifth_ba_pantawid_fam_rep = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_pantawid_family),
+
+                first_ba_ip_fam_rep = x.Where(c => c.barangay_assembly_purpose_id == 1).Sum(c => c.no_ip_family),
+                second_ba_ip_fam_rep = x.Where(c => c.barangay_assembly_purpose_id == 2).Sum(c => c.no_ip_family),
+                third_ba_ip_fam_rep = x.Where(c => c.barangay_assembly_purpose_id == 3).Sum(c => c.no_ip_family),
+                fourth_ba_ip_fam_rep = x.Where(c => c.barangay_assembly_purpose_id == 4).Sum(c => c.no_ip_family),
+                fifth_ba_ip_fam_rep = x.Where(c => c.barangay_assembly_purpose_id == 5).Sum(c => c.no_ip_family)
+
+
             }).ToList();
 
             //var export = result.GroupBy(x => new

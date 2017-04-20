@@ -1,0 +1,1194 @@
+﻿
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+
+    <style>
+        .form-group .help-block {
+            display: none;
+        }
+
+        .form-group.has-error .help-block {
+            display: block;
+        }
+
+        .dialogdemoBasicUsage #popupContainer {
+            position: relative;
+        }
+
+        .dialogdemoBasicUsage .footer {
+            width: 100%;
+            text-align: center;
+            margin-left: 20px;
+        }
+
+            .dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+                font-size: 0.8em;
+                margin-top: 50px;
+            }
+
+        .dialogdemoBasicUsage button {
+            width: 200px;
+        }
+
+        .dialogdemoBasicUsage div#status {
+            color: #c60008;
+        }
+
+
+        /*
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        */
+    </style>
+</head>
+
+
+
+
+<body layout="column" class="relative" layout-fill role="main">
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+
+        <md-toolbar md-scroll-shrink>
+            <div class="md-toolbar-tools">Intake Person Profile</div>
+
+
+
+        </md-toolbar>
+
+
+        <md-content flex="" layout-padding="">
+            <form name="myForm" ng-cloak>
+
+                <div class="panel panel-info">
+
+                    <div class="panel-heading">
+                        <h4>General Information</h4>
+
+                    </div>
+
+
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">Region</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                                                ng-required="true"
+                                                ng-options="option.Id as option.Name for option in region_code_options">
+                                            <option value="">[Select Region]</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4" ng-show="data.grs_resolution_status_id == 2">
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="region_code" ng-model="data.grs_feedback_id" id="region_code" class="form-control"
+                                                ng-required="data.grs_resolution_status_id==2"
+                                                ng-options="option.Id as option.Name for option in grs_feedback_id_options">
+                                            <option value="">[Select Feedback]</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">Province</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                                ng-disabled="data.region_code == null"
+                                                ng-required="true"
+                                                ng-options="option.Id as option.Name for option in prov_code_options">
+                                            <option value="">[Select Province]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">Municipality</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                                                ng-required="true"
+                                                ng-disabled="data.prov_code == null"
+                                                ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                                            <option value="">[Select Municipality]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">Barangay</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                                ng-required="true"
+                                                ng-disabled="data.city_code == null"
+                                                ng-options="option.Id as option.Name for option in brgy_code_options">
+                                            <option value="">[Select Barangay]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="panel panel-info">
+
+                    <div class="panel-heading">
+                        <h4>I. Personal Information</h4>
+
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">First Name</label>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <input name="first_name" type="text" ng-model="data.first_name" required placeholder="First Name" class="form-control" />
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">Middle Name</label>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <input name="middle_name" type="text" ng-model="data.middle_name" placeholder="Middle Name" class="form-control" />
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">Last Name</label>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <input name="last_name" type="text" ng-model="data.last_name" required placeholder="Last Name" class="form-control" />
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">Sex</label>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <select name="sex" ng-model="data.sex" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Male'},{'value':false,'text':'Female'}]" ng-selected="data.sex" class="form-control"></select>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="Region:_">No of Children</label>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <input name="no_children" type="number" ng-model="data.no_children" ng-pattern="/^[0-9]{1,7}$/" required placeholder="No of Children" class="form-control" min="0" max="20" />
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label>
+                                        Member of an Indigenous Group?
+                                    </label>
+
+
+
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="ip" ng-model="data.is_ip" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'IP'},{'value':false,'text':'Non IP'}]" ng-selected="data.is_ip" class="form-control"></select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-show="data.is_ip">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+
+
+
+
+                                </div>
+                                <div class="col-md-4">
+
+
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="ip_group" ng-model="data.ip_group_id" id="prov_code" class="form-control" ng-disabled="data.is_ip != true" ng-required="data.is_ip == true"
+                                                ng-enable="data.is_ip == true"
+                                                ng-options="option.Id as option.Name for option in ip_group_id_options">
+                                            <option value="">[Select IP Group]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+                <div class="panel panel-info">
+
+                    <div class="panel-heading">
+                        <h4>III. Employment Information</h4>
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                           
+                                    <div class="col-md-4">
+                                        <label>
+                                            Current Occupation
+                                        </label>
+
+
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select name="occupation_id" ng-model="data.occupation_id" id="prov_code" class="form-control" required
+                                                ng-options="option.Id as option.Name for option in occupation_id_options">
+                                            <option value="">[Select Occupation]</option>
+                                        </select>
+                                    </div>
+                               
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+ 
+                                    <div class="col-md-4">
+                                        <label>
+                                            Is LGU Official
+                                        </label>
+
+
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select name="is_lguofficial" ng-model="data.is_lguofficial" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" ng-selected="data.is_lguofficial" class="form-control"></select>
+
+                                    </div>
+                            
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel-body" ng-show="data.is_lguofficial">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label>LGU Level</label>
+
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="lgu_level_id" ng-model="data.lgu_level_id" id="lgu_level_id" class="form-control" ng-required="data.is_lguofficial == true"
+                                                ng-options="option.Id as option.Name for option in lgu_level_id_options">
+                                            <option value="">[Select LGU Position]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel-body"  ng-show="data.is_lguofficial">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label>LGU Position</label>
+                                   
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" show-errors='{showSuccess: true}'>
+                                        <select name="lgu_position_id" ng-model="data.lgu_position_id" id="lgu_position_id" class="form-control" ng-required="data.is_lguofficial == true"
+                                                ng-options="option.Id as option.Name for option in lgu_position_id_options">
+                                            <option value="">[Select LGU Position]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <div class="panel panel-info">
+
+                    <div class="panel-heading">
+                        <h4>II. Volunteer Information</h4>
+
+                        <md-button class="md-primary md-raised" data-toggle="modal" data-target="#pushServerData">
+                            <i class="ion-android-download"></i>   Add Volunteer Record
+                        </md-button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                Fund Source
+                                            </th>
+                                            <th>
+                                                Cycle
+                                            </th>
+                                            <th>
+                                                Committee
+                                            </th>
+                                            <th>
+                                                Position
+                                            </th>
+                                            <th>
+                                                Date Start
+                                            </th>
+                                            <th>
+                                                Date End
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+                                        <tr ng-repeat="item in person_volunteer_records">
+
+                                            <td>
+                                                <a ng-href="/Entry/volunteer_committee?id={{item.volunteer_committee_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {{item.lib_fund_source_name}}
+
+                                            </td>
+
+                                            <td>
+
+                                                {{item.lib_cycle_name}}
+
+                                            </td>
+                                      
+                                            <td>
+
+                                                {{item.lib_volunteer_committee_name}}
+
+                                            </td>
+                                            <td>
+
+                                                {{item.lib_volunteer_committee_position_name}}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {{item.start_date}}
+
+                                            </td>
+
+                                            <td>
+
+                                                {{item.end_date}}
+
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="panel panel-info">
+
+                    <div class="panel-heading">
+                        <h4>III. KC Trainings Attended</h4>
+
+                     
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                Training Title
+                                            </th>
+                                            <th>
+                                                Start
+                                            </th>
+                                            <th>
+                                                End
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+                                        <tr ng-repeat="item in person_trainings">
+
+                                            <td>
+                                                <a ng-href="/Entry/trainings?id={{item.community_training_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {{item.training_title}}
+
+                                            </td>
+
+                                            <td>
+
+                                                {{item.start_date}}
+
+                                            </td>
+                                      
+
+                                            <td>
+
+                                                {{item.end_date}}
+
+                                            </td>
+
+
+
+
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-info">
+
+                    <div class="panel-heading">
+                        <h4>IV. ERS Work Record</h4>
+
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                ERS Record Id
+                                            </th>
+                                            <th>
+                                                Start
+                                            </th>
+                                            <th>
+                                                End
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+                                        <tr ng-repeat="item in ers_work_record">
+
+                                            <td>
+                                                <a ng-href="/Entry/trainings?id={{item.community_training_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {{item.training_title}}
+
+                                            </td>
+
+                                            <td>
+
+                                                {{item.start_date}}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {{item.end_date}}
+
+                                            </td>
+
+
+
+
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </form>
+        </md-content>
+
+
+
+        <md-content>
+
+            <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid">
+                Save Record
+            </md-button>
+
+     
+        </md-content>
+
+
+
+
+        <form id="pushServerData" class="modal fade" role="dialog" name="volForm" ng-cloak>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Download Data From Server</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="firstName">Fund Source</label>
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="fund_source_id" ng-model="vol.fund_source_id" id="fund_source_id" class="form-control" required
+                                        ng-options="option.Id as option.Name for option in fund_source_id_options">
+                                    <option value="">[Select Fund Source]</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                      
+
+                        <div class="form-group">
+                            <label for="firstName">Cycle</label>
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="cycle_id" ng-model="vol.cycle_id" id="cycle_id" class="form-control" required
+                                        ng-options="option.Id as option.Name for option in cycle_id_options">
+                                    <option value="">[Select Cycle]</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            <label for="firstName">KC Mode</label>
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="cycle_id" ng-model="vol.enrollment_id" id="cycle_id" class="form-control" required
+                                        ng-options="option.Id as option.Name for option in enrollment_id_options">
+                                    <option value="">[Select Cycle]</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="firstName">Committee</label>
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="cycle_id" ng-model="vol.volunteer_committee_id" id="volunteer_committee_id" class="form-control" required
+                                        ng-options="option.Id as option.Name for option in volunteer_committee_id_options">
+                                    <option value="">[Select Committee]</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">Position</label>
+
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="cycle_id" ng-model="vol.volunteer_committee_position_id" id="volunteer_committee_position_id" class="form-control" required
+                                        ng-options="option.Id as option.Name for option in volunteer_committee_position_id_options">
+                                    <option value="">[Select Position]</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+
+               
+                    </div>
+
+
+
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" ng-click="addVolunteer()" ng-disabled="!volForm.$valid">Add Record</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+
+
+    </div>
+
+
+
+
+ 
+
+
+</body>
+
+
+
+
+@section Scripts
+{
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+
+            .controller('AppCtrl', function ($scope, $mdDialog, $http) {
+
+
+                $scope.showConfirm = function (ev) {
+                    // Appending dialog to document.body to cover sidenav in docs app
+                    var confirm = $mdDialog.confirm()
+                          .title('Would you like to save this data?')
+                          .textContent('Iy you opt to save this data, the record will be updated/created.')
+                          .ariaLabel('Lucky day')
+                          .targetEvent(ev)
+                          .ok('Save')
+                          .cancel('Not Yet');
+                    $mdDialog.show(confirm).then(function () {
+                        $scope.loading = true;
+                        alert("Saving");
+
+                    }, function () {
+                        $scope.status = 'You decided to keep your debt.';
+                    });
+                };
+
+
+
+                $scope.data;
+
+                $scope.VolunteerRecords = [];
+
+
+
+                $http.get('/api/offline/v1/profiles/get?id=@ViewBag.id')
+          .then(function (response) {
+
+
+              $scope.loading = true;
+
+              $scope.data = response.data;
+
+
+
+              $http.get('/api/offline/v1/person/trainings/get?id=@ViewBag.id').then(function (response) {
+
+                  $scope.person_trainings = response.data;
+
+              })
+
+
+              $http.get('/api/offline/v1/person/volunteer_record/get?id=@ViewBag.id').then(function (response) {
+
+                  $scope.person_volunteer_records = response.data;
+
+              })
+
+
+              
+
+              $scope.dt_date_intake = new Date(response.data.date_intake);
+              $scope.dt_resolution_date = new Date(response.data.resolution_date);
+
+              $http.get('/api/lib_region')
+         .then(function (response) { $scope.region_code_options = response.data; });
+
+              $http.get('/Api/lib_fund_source/')
+      .then(function (response) { $scope.fund_source_id_options = response.data; });
+
+              $http.get('/api/lib_enrollment')
+      .then(function (response) { $scope.enrollment_id_options = response.data; });
+
+              $http.get('/Api/lib_lgu_level/')
+      .then(function (response) { $scope.lgu_level_id_options = response.data; });
+
+
+              $http.get('/Api/lib_ip_group/')
+      .then(function (response) { $scope.ip_group_id_options = response.data; });
+
+              $http.get('/Api/lib_occupation/')
+         .then(function (response) { $scope.occupation_id_options = response.data; });
+
+              $http.get('/Api/lib_lgu_position/')
+ .then(function (response) { $scope.lgu_position_id_options = response.data; });
+
+
+
+              $http.get('/Api/lib_volunteer_committee/')
+ .then(function (response) { $scope.volunteer_committee_id_options = response.data; });
+
+              $http.get('/Api/lib_volunteer_committee_position/')
+ .then(function (response) { $scope.volunteer_committee_position_id_options = response.data; });
+
+              $scope.loading = false;
+
+              $scope.edit = function () {
+                  this.editMode = !this.editMode;
+              };
+
+
+              $scope.cancel = function () {
+
+                  $http.get('/api/offline/v1/profiles/get?id=@ViewBag.id')
+            .then(function (response) {
+
+                //            this.editMode = false;
+
+                $scope.data = response.data;
+
+                $scope.dt_intake_date = new Date(response.data.intake_date);
+                $scope.dt_resolution_date = new Date(response.data.resolution_date);
+            });
+              }
+
+
+
+
+              $scope.save = function () {
+                  $scope.$broadcast('show-errors-check-validity');
+                  $scope.loading = true;
+                  //       alert(JSON.stringify($scope.data));
+
+                  //'/api/v1/grievances/save'
+
+
+                  $.post('/api/offline/v1/profiles/save', $scope.data).success(function (data) {
+                      $scope.loading = false;
+
+                      window.location.href = data.url;
+
+                  }).error(function (data) {
+
+                      alert(JSON.stringify(data));
+
+
+                      $scope.error = "An Error has occured while Saving! " + data.statusText;
+                      $scope.loading = false;
+                  });
+              };
+          });
+
+
+
+
+                $scope.addVolunteer = function()
+                {
+                    var obj = {
+                        fund_source_id: $scope.vol.fund_source_id,
+                        cycle_id: $scope.vol.cycle_id,
+                        volunteer_committee_id: $scope.vol.volunteer_committee_id,
+                        volunteer_committee_position_id: $scope.vol.volunteer_committee_position_id,
+                        person_profile_id: '@ViewBag.id',
+                        enrollment_id: $scope.vol.enrollment_id
+                    };
+
+
+                    var url = '/api/offline/v1/profiles/volunteer_record/save';
+
+
+                    $.post(url, obj).success(function (data) {
+                        $scope.loading = false;
+
+                        $scope.person_volunteer_records.push(data);
+
+                    }).error(function (data) {
+
+                        alert(JSON.stringify(data));
+
+
+                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                        $scope.loading = false;
+                    });
+
+                  
+   
+
+                }
+
+
+                $scope.$watch('data.region_code', function (newValue, oldValue) {
+
+
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+                        record.prov_code = null;
+                        record.city_code = null;
+                        record.brgy_code = null;
+
+
+                        record.prov_code_options = [];
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+                    else {
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_province?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.prov_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.prov_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = null;
+                        record.city_code = null;
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_city?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.city_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.city_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = null;
+
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_brgy?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.brgy_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+                $scope.$watch('vol.fund_source_id', function (newValue, oldValue) {
+
+
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+                        record.cycle_id = '';
+                  
+                        record.cycle_id_options = [];
+                    }
+                    else {
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/lib_cycle?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.cycle_id_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+
+            })
+
+        .directive('showErrors', function ($timeout, showErrorsConfig) {
+            var getShowSuccess, linkFn;
+            getShowSuccess = function (options) {
+                var showSuccess;
+                showSuccess = showErrorsConfig.showSuccess;
+                if (options && options.showSuccess != null) {
+                    showSuccess = options.showSuccess;
+                }
+                return showSuccess;
+            };
+            linkFn = function (scope, el, attrs, formCtrl) {
+                var blurred, inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses;
+                blurred = false;
+                options = scope.$eval(attrs.showErrors);
+                showSuccess = getShowSuccess(options);
+                inputEl = el[0].querySelector('[name]');
+                inputNgEl = angular.element(inputEl);
+                inputName = inputNgEl.attr('name');
+                if (!inputName) {
+                    throw 'show-errors element has no child input elements with a \'name\' attribute';
+                }
+                inputNgEl.bind('blur', function () {
+                    blurred = true;
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                });
+                scope.$watch(function () {
+                    return formCtrl[inputName] && formCtrl[inputName].$invalid;
+                }, function (invalid) {
+                    if (!blurred) {
+                        return;
+                    }
+                    return toggleClasses(invalid);
+                });
+                scope.$on('show-errors-check-validity', function () {
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                });
+                scope.$on('show-errors-reset', function () {
+                    return $timeout(function () {
+                        el.removeClass('has-error');
+                        el.removeClass('has-success');
+                        return blurred = false;
+                    }, 0, false);
+                });
+                return toggleClasses = function (invalid) {
+                    el.toggleClass('has-error', invalid);
+                    if (showSuccess) {
+                        return el.toggleClass('has-success', !invalid);
+                    }
+                };
+            };
+            return {
+                restrict: 'A',
+                require: '^form',
+                compile: function (elem, attrs) {
+                    if (!elem.hasClass('form-group')) {
+                        throw 'show-errors element does not have the \'form-group\' class';
+                    }
+                    return linkFn;
+                }
+            };
+        }
+      )
+
+        .provider('showErrorsConfig', function () {
+            var _showSuccess;
+            _showSuccess = false;
+            this.showSuccess = function (showSuccess) {
+                return _showSuccess = showSuccess;
+            };
+            this.$get = function () {
+                return { showSuccess: _showSuccess };
+            };
+        });
+
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+}
+
+

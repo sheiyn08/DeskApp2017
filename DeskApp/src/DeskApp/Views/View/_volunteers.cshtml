@@ -1,0 +1,203 @@
+﻿ 
+ 
+@model PagedList.IPagedList<WebApp.DataLayer.Entities.volunteer>
+@using PagedList;
+@{Layout = null;}
+@using PagedList.Mvc;
+
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">  Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount || @Model.TotalItemCount Records</h3>
+
+        <form>
+            <label>Records per page</label>
+            <select class="pagesize" name="FiltPages" id="FiltPages" onchange="filter()">
+                <option value="10"></option>
+
+                <option value="10">10</option>
+
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </form>
+
+        <div class="box-tools">
+            @Html.PagedListPager(Model, page => Url.Action("_volunteers",
+    new
+    {
+        item = ViewBag.FilterModel,
+        page,
+
+    }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "result" }))
+
+
+
+        </div>
+
+    </div>
+
+    <br />
+    <div class="box-body no-padding">
+        <table class="table table-striped">
+            <tr>
+                <th></th>
+
+                <th>
+                    Region
+                </th>
+                <th>
+                    Province
+                </th>
+                <th>
+                    Municipality
+                </th>
+                <th>
+                    Barangay
+                </th>
+
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Middle Name
+                </th>
+                <th>
+                    Birthdate
+                </th>
+                <th>
+                    Sex
+                </th>
+                <th>
+                    Civil Status
+                </th>
+                <th>
+                    Children
+                </th>
+                <th>
+                    Contact
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.is_ip)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.is_ipleader)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.is_pantawid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.is_slp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.is_lguofficial)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.lgu_position_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.education_attainment_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.occupation_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.sector)
+                </th>*@
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-success" href="@Url.Action("Transperson", "Entry" , new { id = item.beneficiary_profile_id})"><i class="fa fa-edit"></i></a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.lib_region.region_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.lib_province.prov_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.lib_city.city_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.lib_brgy.brgy_name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.last_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.first_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.middle_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.birthdate)
+                    </td>
+                    <td>
+                        
+                         @{
+                         string s = "Female";
+                             if(item.beneficiary_profile.sex == true)
+                             {
+                                 s = "Male";
+                             }
+                     
+                         }
+
+                        @s
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.lib_civil_status.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.no_children)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.contact_no)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.is_ip)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.is_ipleader)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.is_pantawid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.is_slp)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.is_lguofficial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.lgu_position_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.education_attainment_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.occupation_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.beneficiary_profile.sector)
+                    </td>*@
+
+                </tr>
+            }
+
+        </table>
+
+    </div><!-- /.box-body -->
+</div><!-- /.box -->

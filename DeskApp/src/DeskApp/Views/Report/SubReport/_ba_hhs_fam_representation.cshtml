@@ -1,0 +1,216 @@
+﻿<div class="panel panel-body" >
+
+
+
+    <h3>KC Municipal Report - Barangay Assembly</h3>
+    <br />
+
+    <h4>Households and Families Participation</h4>
+
+    <br />
+    <br />
+
+ 
+
+
+    @Html.Partial("~/Views/Report/Common/_report_header.cshtml")
+
+
+    <br />
+
+
+
+
+    <div class="row">
+
+        <div class="col-xs-12">A. Household Participation Rate (Total No. of HHs Represented over the Total No. of HHs resifding in the Barangay during the time of BA)</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    Barangay
+                </td>
+                <td align="center">
+                    1st BA
+                </td>
+                <td align="center">
+                    2nd BA
+                </td>
+                <td align="center">
+                    3rd  BA
+                </td>
+                <td align="center">
+                    4th BA
+                </td>
+                <td align="center">
+                    5th BA
+                </td>
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+                <td>
+                    {{item.first_ba_hh_perc == 'NaN' ? "" : item.first_ba_hh_perc}}
+                </td>
+
+
+                <td>
+                    {{item.second_ba_hh_perc == 'NaN' ? "" : item.second_ba_hh_perc}}
+                </td>
+                <td>
+                    {{item.third_ba_hh_perc == 'NaN' ? "" : item.third_ba_hh_perc}}
+                </td>
+                <td>
+                    {{item.fourth_ba_hh_perc == 'NaN' ? "" : item.fourth_ba_hh_perc}}
+                </td>
+                <td>
+                    {{item.fifth_ba_hh_perc == 'NaN' ? "" : item.fifth_ba_hh_perc}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br />
+    <!--IP-->
+    <div class="row">
+
+        <div class="col-xs-12">B. IP Household Participation Rate (Total No. of IP HHs Represented over the Total No. of IP HHs resifding in the Barangay during the time of BA)</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    Barangay
+                </td>
+                <td align="center">
+                    1st BA
+                </td>
+                <td align="center">
+                    2nd BA
+                </td>
+                <td align="center">
+                    3rd  BA
+                </td>
+                <td align="center">
+                    4th BA
+                </td>
+                <td align="center">
+                    5th BA
+                </td>
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+                <td>
+
+                    {{item.first_ba_ip_hh_perc == 'NaN' || item.first_ba_ip_hh_perc == 'Infinity' ? "" : item.first_ba_ip_hh_perc}}
+                </td>
+
+
+                <td>
+                    {{item.second_ba_ip_hh_perc == 'NaN' || item.second_ba_ip_hh_perc == 'Infinity' ? "" : item.second_ba_ip_hh_perc}}
+                </td>
+                <td>
+                    {{item.third_ba_ip_hh_perc == 'NaN' || item.third_ba_ip_hh_perc == 'Infinity' ? "" : item.third_ba_ip_hh_perc}}
+                </td>
+                <td>
+                    {{item.fourth_ba_ip_hh_perc == 'NaN'|| item.fourth_ba_ip_hh_perc == 'Infinity'  ? "" : item.fourth_ba_ip_hh_perc}}
+                </td>
+                <td>
+                    {{item.fifth_ba_ip_hh_perc == 'NaN'|| item.fifth_ba_ip_hh_perc == 'Infinity'  ? "" : item.fifth_ba_ip_hh_perc}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br />
+
+
+    <!--Pantawid Pamilya-->
+    <div class="row">
+
+        <div class="col-xs-12">C. Pantawid Pamilya Household Participation Rate (Total No. of 4Ps HHs Represented over the Total No. of 4Ps HHs resifding in the Barangay during the time of BA)</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    Barangay
+                </td>
+                <td align="center">
+                    1st BA
+                </td>
+                <td align="center">
+                    2nd BA
+                </td>
+                <td align="center">
+                    3rd  BA
+                </td>
+                <td align="center">
+                    4th BA
+                </td>
+                <td align="center">
+                    5th BA
+                </td>
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in list | orderBy: 'brgy_name'">
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+                <td>
+                    {{item.first_ba_pp_hh_perc == 'NaN' || item.first_ba_pp_hh_perc == 'Infinity'?  "" : item.first_ba_pp_hh_perc}}
+                </td>
+
+
+                <td>
+                    {{item.second_ba_pp_hh_perc == 'NaN' || item.second_ba_pp_hh_perc == 'Infinity'? "" : item.second_ba_pp_hh_perc}}
+                </td>
+                <td>
+                    {{item.third_ba_pp_hh_perc == 'NaN' || item.third_ba_pp_hh_perc == 'Infinity'? "" : item.third_ba_pp_hh_perc}}
+                </td>
+                <td>
+                    {{item.fourth_ba_pp_hh_perc == 'NaN'|| item.fourth_ba_pp_hh_perc == 'Infinity' ? "" : item.fourth_ba_pp_hh_perc}}
+                </td>
+                <td>
+                    {{item.fifth_ba_pp_hh_perc == 'NaN' || item.fifth_ba_pp_hh_perc == 'Infinity'? "" : item.fifth_ba_pp_hh_perc}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br />
+
+
+
+    <br />
+</div>

@@ -1,0 +1,169 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+    <style>
+        md-backdrop {
+            position: fixed;
+        }
+    </style>
+
+</head>
+
+<body layout="column">
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+        <md-toolbar md-scroll-shrink>
+            <div class="md-toolbar-tools">Filter Records</div>
+        </md-toolbar>
+
+
+        <md-content>
+
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <label for="Region:_">Region: </label>
+
+                            <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in region_code_options">
+                                <option value="">[Select Region]</option>
+                            </select>
+
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Province:_">Province: </label>
+                            <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                    ng-disabled="data.region_code == null"
+                                    ng-options="option.Id as option.Name for option in prov_code_options">
+                                <option value="">[Select Province]</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Municipality:_">Municipality: </label>
+
+                            <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                                    ng-disabled="data.prov_code == null"
+                                    ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                                <option value="">[Select Municipality]</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Barangay:_">Barangay: </label>
+                            <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                    ng-disabled="data.city_code == null"
+                                    ng-options="option.Id as option.Name for option in brgy_code_options">
+                                <option value="">[Select Barangay]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <label>Office Level: </label>
+                            <select ng-model="office_level_id" id="office_level_id" class="form-control"
+                                    ng-options="option.Id as option.Name for option in office_level_id_options">
+                                <option value="">[Select Office Level]</option>
+                            </select>
+                        </div>
+
+                
+
+                        <div class="col-md-3">
+                            <label for="hiring_status_id">Hiring Status: </label>
+
+                            <select ng-model="hiring_status_id" id="hiring_status_id" class="form-control"
+                                    ng-options="option.Id as option.Name for option in hiring_status_id_options">
+                                <option value="">[Select Hiring Status]</option>
+                            </select>
+                        </div>
+
+ 
+
+
+                    </div>
+                </div>
+            </div>
+
+
+          
+
+        </md-content>
+
+
+
+        <div class="panel-footer">
+            <div class="panel-body">
+                <p>
+
+
+                    <md-button class="md-warn md-raised" ng-click="search()">
+                        <i class="fa fa-filter"></i>  Filter
+                    </md-button>
+
+
+                    <md-button class="md-success md-raised" ng-click="createNew()">
+                        <i class="fa fa-plus"></i>  New Record
+                    </md-button>
+
+
+
+
+                </p>
+
+                @*@Html.Partial("~/Views/shared/sync_get.cshtml")*@
+
+
+
+            </div>
+
+        </div>
+
+
+
+
+
+        @Html.Partial("~/Views/Shared/_pagination.cshtml")
+
+
+        <md-content>
+
+            @Html.Partial("~/Views/View/_people.cshtml")
+        </md-content>
+
+    </div>
+
+    <!--
+    Copyright 2016 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+    -->
+
+
+
+</body>
+
+
+@section Scripts {
+
+    <script src="~/scripts/app/KHRIS/employee_index.js"></script>
+    <script src="~/scripts/directives/paging.js"></script>
+}s

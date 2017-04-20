@@ -47,8 +47,8 @@ namespace DeskApp.DataLayer
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int region_code { get; set; }
         public string region_nick { get; set; }
-
         public string region_name { get; set; }
+        public string psgc { get; set; }
 
     }
 
@@ -59,6 +59,7 @@ namespace DeskApp.DataLayer
         public int prov_code { get; set; }
         public string prov_name { get; set; }
         public int region_code { get; set; }
+        public string psgc { get; set; }
 
         //public virtual lib_region lib_region { get; set; }
 
@@ -71,6 +72,7 @@ namespace DeskApp.DataLayer
         public int city_code { get; set; }
         public string city_name { get; set; }
         public int prov_code { get; set; }
+        public string psgc { get; set; }
 
 
         //public virtual lib_province lib_province { get; set; }
@@ -86,6 +88,7 @@ namespace DeskApp.DataLayer
         public Nullable<byte> brgy_mode { get; set; }
 
         public string district { get; set; }
+        public string psgc { get; set; }
 
         //public virtual lib_city lib_city { get; set; }
     }

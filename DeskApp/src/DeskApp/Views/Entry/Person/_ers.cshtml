@@ -1,0 +1,98 @@
+<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h4> ERS Work Record</h4>
+
+        <p>This lists all the ERS records  by the person through the SPI Module</p>
+
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                Date Reported
+                            </th>
+                            <th>
+                                ERS Work
+                            </th>
+                            <th>
+                                Start
+                            </th>
+                            <th>
+                                End
+                            </th>
+                            <th>
+                                Actual Cash
+                            </th>
+                            <th>
+                                Actual LCC
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="item in person_ers_records">
+
+                            <td>
+                                @*<a ng-href="/Entry/trainings?id={{item.community_training_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>*@
+
+                            </td>
+
+
+                            <td>
+                                {{item.date_reported | date:'MM/dd/yyyy'}}
+
+                            </td> 
+
+                            <td>
+                                {{item.lib_ers_current_work_name}}
+                            </td>
+
+
+                            <td>
+                                {{item.date_started | date:'MM/dd/yyyy'}}
+                            </td>
+
+                            <td>
+                                {{item.date_ended | date:'MM/dd/yyyy'}}
+                            </td>
+
+
+                            <td>
+
+                                {{item.actual_cash}}
+
+                            </td>
+
+
+                            <td>
+
+                                {{item.actual_lcc}}
+
+                            </td>
+
+
+
+
+                        </tr>
+                    </tbody>
+
+                </table>
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

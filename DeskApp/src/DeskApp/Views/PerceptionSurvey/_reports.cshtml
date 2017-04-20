@@ -1,0 +1,118 @@
+﻿<style>
+    .zui-table {
+        border: solid 1px #DDEEEE;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font: normal 13px Arial, sans-serif;
+    }
+
+        .zui-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .zui-table tbody td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+    .zui-table-highlight tbody tr:hover {
+        background-color: lightgray;
+    }
+
+    .zui-table-horizontal tbody td {
+        border-left: none;
+        border-right: none;
+    }
+</style>
+
+
+<div class="panel panel-body">
+    <table class="table zui-table zui-table-horizontal zui-table-highlight">
+        <thead class="thead-inverse">
+            <tr>
+                <th>
+                    Export
+                </th>
+                <th>
+                    Report Description
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>
+                    <a ng-click="report1_exportXls_2015()" class="btn btn-success" title="Download Report"><span data-toggle='tooltip' class="fa fa-file-excel-o"></span></a>
+                <td>
+                    Report 1a: Sex dissagreated responses per item - <strong>2015 VERSION</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a ng-click="report1_exportXls_2016()" class="btn btn-success" title="Download Report"><span data-toggle='tooltip' class="fa fa-file-excel-o"></span></a>
+                <td>
+                    Report 1a: Sex dissagreated responses per item - <strong>2016 VERSION</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a ng-click="report2_exportXls_2015()" class="btn btn-success" title="Download Report"><span data-toggle='tooltip' class="fa fa-file-excel-o"></span></a>
+                <td>
+                    Report 2a: Summary of responses per item from Pantawid, SLP, and IP respondents - <strong>2015 VERSION</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a ng-click="report2_exportXls_2016()" class="btn btn-success" title="Download Report"><span data-toggle='tooltip' class="fa fa-file-excel-o"></span></a>
+                <td>
+                    Report 2b: Summary of responses per item from Pantawid, SLP, and IP respondents - <strong>2016 VERSION</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a ng-click="report3_exportXls()" class="btn btn-success" title="Download Report"><span data-toggle='tooltip' class="fa fa-file-excel-o"></span></a>
+                <td>
+                    Report 3: Summary of respondents
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a ng-click="report4_exportXls_2015()" class="btn btn-success" title="Download Report"><span data-toggle='tooltip' class="fa fa-file-excel-o"></span></a>
+                <td>
+                    Report 4a: Summary of responses - <strong>2015 VERSION</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a ng-click="report4_exportXls_2016()" class="btn btn-success" title="Download Report"><span data-toggle='tooltip' class="fa fa-file-excel-o"></span></a>
+                <td>
+                    Report 4b: Summary of responses - <strong>2016 VERSION</strong>
+                </td>
+            </tr>
+            @*<tr>
+                <td>
+                    <a ng-disabled="true" class="btn btn-info" title="View Report"><i class="fa fa-eye"></i></a>
+                    <a ng-click="report5_exportXls_2015()" class="btn btn-success" title="Download Report"><span data-toggle='tooltip' class="fa fa-file-excel-o"></span></a>
+                <td>
+                    Report 5a: Actual responses of respondents - <strong>2015 VERSION</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a ng-disabled="true" class="btn btn-info" title="View Report"><i class="fa fa-eye"></i></a>
+                    <a ng-click="report5_exportXls_2016()" class="btn btn-success" title="Download Report"><span data-toggle='tooltip' class="fa fa-file-excel-o"></span></a>
+                <td>
+                    Report 5b: Actual responses of respondents - <strong>2016 VERSION</strong>
+                </td>
+            </tr>*@
+        </tbody>
+
+    </table>
+</div>

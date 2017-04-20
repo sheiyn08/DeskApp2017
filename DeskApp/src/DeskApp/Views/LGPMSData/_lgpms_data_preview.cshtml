@@ -1,0 +1,230 @@
+﻿
+
+
+<md-content>
+
+    <div class="col-md-12" style="text-align:center" ng-repeat="item in list">
+        <h3><strong><u>LGPMS DATA</u></strong></h3>
+        <h4><strong>Region: {{item.lib_region_region_name}} || Province: {{item.lib_province_prov_name}} || Municipality: {{item.lib_city_city_name}}</strong></h4>
+        <h5>PSGC Code: <strong>{{item.psgc_code}}</strong></h5>
+    </div>
+
+</md-content>
+
+<md-content>
+
+    <md-tabs md-dynamic-height md-border-bottom>
+
+        <!--1st Tab-->
+        <md-tab label="Overall Performance Index">
+            <div class="panel panel-body" ng-repeat="item in list">
+                <div class="row" style="padding:40px">
+                    <div class="col-md-2">
+                        <h4><strong>2009 (Baseline)</strong></h4>
+                        <br />
+                        <h4><strong>2010</strong></h4>
+                        <br />
+                        <h4><strong>2011</strong></h4>
+                        <br />
+                        <h4><strong>2012</strong></h4>
+                    </div>
+                    <div class="col-md-1">
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <h4>{{item.overall_performance_index_2009}}</h4>
+                        <br />
+                        <h4>{{item.overall_performance_index_2010}}</h4>
+                        <br />
+                        <h4>{{item.overall_performance_index_2011}}</h4>
+                        <br />
+                        <h4>{{item.overall_performance_index_2012}}</h4>
+                    </div>
+                </div>
+            </div>
+        </md-tab>
+
+        <!--2nd Tab-->
+        <md-tab label="I. Administrative Governance">
+            <div class="panel panel-body" ng-repeat="item in list">
+                <div class="row" style="padding:40px">
+                    <div class="col-md-2">
+                        <h4><strong>2009 (Baseline)</strong></h4>
+                        <br />
+                        <h4><strong>2010</strong></h4>
+                        <br />
+                        <h4><strong>2011</strong></h4>
+                        <br />
+                        <h4><strong>2012</strong></h4>
+                    </div>
+                    <div class="col-md-1">
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <h4>{{item.administrative_governance_2009}}</h4>
+                        <br />
+                        <h4>{{item.administrative_governance_2010}}</h4>
+                        <br />
+                        <h4>{{item.administrative_governance_2011}}</h4>
+                        <br />
+                        <h4>{{item.administrative_governance_2012}}</h4>
+                    </div>
+                </div>
+            </div>
+        </md-tab>
+
+        <!--3rd Tab-->
+        <md-tab label="II. Social Governance">
+            <div class="panel panel-body" ng-repeat="item in list">
+                <div class="row" style="padding:40px">
+                    <div class="col-md-2">
+                        <h4><strong>2009 (Baseline)</strong></h4>
+                        <br />
+                        <h4><strong>2010</strong></h4>
+                        <br />
+                        <h4><strong>2011</strong></h4>
+                        <br />
+                        <h4><strong>2012</strong></h4>
+                    </div>
+                    <div class="col-md-1">
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <h4>{{item.social_governance_2009}}</h4>
+                        <br />
+                        <h4>{{item.social_governance_2010}}</h4>
+                        <br />
+                        <h4>{{item.social_governance_2011}}</h4>
+                        <br />
+                        <h4>{{item.social_governance_2012}}</h4>
+                    </div>
+                </div>
+            </div>
+        </md-tab>
+
+        <!--4th Tab-->
+        <md-tab label="III. Economic Governance">
+            <div class="panel panel-body" ng-repeat="item in list">
+                <div class="row" style="padding:40px">
+                    <div class="col-md-2">
+                        <h4><strong>2009 (Baseline)</strong></h4>
+                        <br />
+                        <h4><strong>2010</strong></h4>
+                        <br />
+                        <h4><strong>2011</strong></h4>
+                        <br />
+                        <h4><strong>2012</strong></h4>
+                    </div>
+                    <div class="col-md-1">
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <h4>{{item.economic_governance_2009}}</h4>
+                        <br />
+                        <h4>{{item.economic_governance_2010}}</h4>
+                        <br />
+                        <h4>{{item.economic_governance_2011}}</h4>
+                        <br />
+                        <h4>{{item.economic_governance_2012}}</h4>
+                    </div>
+                </div>
+            </div>
+        </md-tab>
+
+        <!--5th Tab-->
+        <md-tab label="IV. Environmental Governance">
+            <div class="panel panel-body" ng-repeat="item in list">
+                <div class="row" style="padding:40px">
+                    <div class="col-md-2">
+                        <h4><strong>2009 (Baseline)</strong></h4>
+                        <br />
+                        <h4><strong>2010</strong></h4>
+                        <br />
+                        <h4><strong>2011</strong></h4>
+                        <br />
+                        <h4><strong>2012</strong></h4>
+                    </div>
+                    <div class="col-md-1">
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <h4>{{item.environmental_governance_2009}}</h4>
+                        <br />
+                        <h4>{{item.environmental_governance_2010}}</h4>
+                        <br />
+                        <h4>{{item.environmental_governance_2011}}</h4>
+                        <br />
+                        <h4>{{item.environmental_governance_2012}}</h4>
+                    </div>
+                </div>
+            </div>
+        </md-tab>
+
+        <!--6th Tab-->
+        <md-tab label="V. Valuing Fundamentals of Good Governance">
+            <div class="panel panel-body" ng-repeat="item in list">
+                <div class="row" style="padding:40px">
+                    <div class="col-md-2">
+                        <h4><strong>2009 (Baseline)</strong></h4>
+                        <br />
+                        <h4><strong>2010</strong></h4>
+                        <br />
+                        <h4><strong>2011</strong></h4>
+                        <br />
+                        <h4><strong>2012</strong></h4>
+                    </div>
+                    <div class="col-md-1">
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                        <br />
+                        <h4>:</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <h4>{{item.valuing_fundamentals_of_good_gov_2009}}</h4>
+                        <br />
+                        <h4>{{item.valuing_fundamentals_of_good_gov_2010}}</h4>
+                        <br />
+                        <h4>{{item.valuing_fundamentals_of_good_gov_2011}}</h4>
+                        <br />
+                        <h4>{{item.valuing_fundamentals_of_good_gov_2012}}</h4>
+                    </div>
+                </div>
+            </div>
+        </md-tab>
+
+    </md-tabs>
+
+</md-content>

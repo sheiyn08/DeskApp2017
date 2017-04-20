@@ -1,0 +1,111 @@
+﻿
+<script src="~/Scripts/jquery-2.0.3.js"></script>
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<script src="~/bower_components/Knockout/knockout-3.1.0.js"></script>
+<script src="~/bower_components/Knockout/knockout.bindings.js"></script>
+<script src="~/bower_components/Knockout/knockout.mapping-latest.js"></script>
+<script src="~/bower_components/Knockout/knockout.validation.js"></script>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+<link href="~/bower_components/Bootstrap/bootstrap-select.min.css" rel="stylesheet" />
+
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-title">Filter</h3>
+    </div>
+ 
+                <select multiple data-bind="selectPicker: selected_regions, optionsText: 'region_name', optionsValue : 'region_code', selectPickerOptions: { optionsArray: lib_regions }"></select>
+                
+</div>
+
+@*$.post("/Library/GetDropDownMenu", function(data)
+    {
+        alert(data.lib_regions.length);
+        filtermenu.push(data);
+    });*@
+
+
+@*<pre data-bind="text: ko.toJson($data, null, 2)"></pre>*@
+
+<script>
+
+    function ViewModel() {
+        var self = this;
+
+        ko.bindingHandlers.selectPicker = {
+            init: function (element, valueAccessor, allBindingsAccessor) {
+                if ($(element).is('select')) {
+                    if (ko.isObservable(valueAccessor())) {
+                        if ($(element).prop('multiple') && $.isArray(ko.utils.unwrapObservable(valueAccessor()))) {
+                            // in the case of a multiple select where the valueAccessor() is an observableArray, call the default Knockout selectedOptions binding
+                            ko.bindingHandlers.selectedOptions.init(element, valueAccessor, allBindingsAccessor);
+                        } else {
+                            // regular select and observable so call the default value binding
+                            ko.bindingHandlers.value.init(element, valueAccessor, allBindingsAccessor);
+                        }
+                    }
+                    $(element).addClass('selectpicker').selectpicker();
+                }
+            },
+            update: function (element, valueAccessor, allBindingsAccessor) {
+                if ($(element).is('select')) {
+                    var selectPickerOptions = allBindingsAccessor().selectPickerOptions;
+                    if (typeof selectPickerOptions !== 'undefined' && selectPickerOptions !== null) {
+                        var options = selectPickerOptions.optionsArray,
+                            optionsText = selectPickerOptions.optionsText,
+                            optionsValue = selectPickerOptions.optionsValue,
+                            optionsCaption = selectPickerOptions.optionsCaption,
+                            isDisabled = selectPickerOptions.disabledCondition || false,
+                            resetOnDisabled = selectPickerOptions.resetOnDisabled || false;
+                        if (ko.utils.unwrapObservable(options).length > 0) {
+                            // call the default Knockout options binding
+                            ko.bindingHandlers.options.update(element, options, allBindingsAccessor);
+                        }
+                        if (isDisabled && resetOnDisabled) {
+                            // the dropdown is disabled and we need to reset it to its first option
+                            $(element).selectpicker('val', $(element).children('option:first').val());
+                        }
+                        $(element).prop('disabled', isDisabled);
+                    }
+                    if (ko.isObservable(valueAccessor())) {
+                        if ($(element).prop('multiple') && $.isArray(ko.utils.unwrapObservable(valueAccessor()))) {
+                            // in the case of a multiple select where the valueAccessor() is an observableArray, call the default Knockout selectedOptions binding
+                            ko.bindingHandlers.selectedOptions.update(element, valueAccessor);
+                        } else {
+                            // call the default Knockout value binding
+                            ko.bindingHandlers.value.update(element, valueAccessor);
+                        }
+                    }
+
+                    $(element).selectpicker('refresh');
+                }
+            }
+        };
+
+        self.lib_regions = ko.observableArray([]);
+
+
+        self.selected_regions = ko.observableArray([]);
+        //self.filtermenu = ko.observable();
+        self.selected = ko.computed(function () {
+
+            var r = self.selected_regions().length;
+            if (r >= 2) {
+                alert("more than 2");
+            }
+        });
+        $.post("/Library/GetDropDownMenu", function(data)
+           {
+            self.lib_regions(data.lib_regions);
+        });
+
+    }
+
+    $(document).ready(function () {
+        ko.applyBindings(new ViewModel());
+    });
+  
+</script>

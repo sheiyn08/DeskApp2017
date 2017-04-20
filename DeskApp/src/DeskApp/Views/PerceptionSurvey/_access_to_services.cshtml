@@ -1,0 +1,289 @@
+﻿<div class="panel panel-info">
+    <div class="panel panel-heading">
+        <h4>Access to Services and Governance</h4>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-8">
+                <label style="padding-right:25px">There is an adequate number of health facilities in our barangay.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_1" class="form-control"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_1" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row" ng-hide="data.year != 2016"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">The number of educational facilities in our barangay is not enough.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_2" class="form-control"
+                        ng-required="data.year == 2015"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_2" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row" ng-hide="data.year != 2015"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">There is adequate number of educational facilities.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_3" class="form-control"
+                        ng-required="data.year == 2016"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_3" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row" ng-hide="data.year != 2016"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">Our barangay has adequate an number of roads accessed by public vehicles (e.g. transportation of public goods).</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_4" class="form-control"
+                        ng-required="data.year == 2015"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_4" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row" ng-hide="data.year != 2015"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">There is adequate number of roads accessed by public vehicles (e.g. transportation of public goods).</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_5" class="form-control"
+                        ng-required="data.year == 2016"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_5" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row" ng-hide="data.year != 2016"><br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">Potable water is not available to the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_6" class="form-control"
+                        ng-required="data.year == 2015"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_6" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row" ng-hide="data.year != 2015"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">Potable water is accessible to the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_7" class="form-control"
+                        ng-required="data.year == 2016"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_7" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">There is peace and order in the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_8" class="form-control"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_8" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row" ng-hide="data.year != 2015"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">It is easy to go to a health facility.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_9" class="form-control"
+                        ng-required="data.year == 2016"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_9" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row" ng-hide="data.year != 2016"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">School-aged children in our household are able to go to school.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_10" class="form-control"
+                        ng-required="data.year == 2015"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_10" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row" ng-hide="data.year != 2015"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">Children in our household were able to go to school in less time.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_11" class="form-control"
+                        ng-required="data.year == 2016"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_11" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">Our household is able to purchase basic necessities in the market/nearby store.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_12" class="form-control"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_12" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row" ng-hide="data.year != 2016"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">I don’t feel secure from crimes in the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_13" class="form-control"
+                        ng-required="data.year == 2015"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_13" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> 
+        <div class="row" ng-hide="data.year != 2015"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">I feel secure in the community.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_14" class="form-control"
+                        ng-required="data.year == 2016"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_14" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">Our household has access to potable water.</label>
+            </div>
+            <div class="col-md-4">
+                @*<select ng-model="data.access_15" class="form-control"
+                        ng-required="data.year == 2016 && data.year == 2015"
+                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
+                    <option value="">[Select Rating]</option>
+                </select>*@
+                <md-radio-group required ng-model="data.access_15" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div>
+        <div class="row" ng-hide="data.year != 2016"> <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">If I or any of my household is sick, we can easily go to a health center.</label>
+            </div>
+            <div class="col-md-4">
+                <md-radio-group required ng-model="data.access_16" layout="row">
+                    <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
+                    <md-radio-button data-ng-value="2">2</md-radio-button>
+                    <md-radio-button data-ng-value="3">3</md-radio-button>
+                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                </md-radio-group>
+            </div>
+        </div> <br />
+
+    </div> <!--end of panel body-->
+
+</div> <!--end of panel-->

@@ -1,0 +1,270 @@
+﻿<div ng-controller="AppCtrl" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+    <div class="panel panel-success">
+
+        <div class="panel-heading">
+            <h3><strong>LGPMS Records</strong></h3>
+            <h5>General Instruction: Select the Municipality to display.</h5>
+        </div>
+
+        <div class="panel-body">
+            <form name="basicForm">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+
+                            <label for="Region:_">Region</label>
+                            <div class="form-group">
+                                <select name="Region" ng-model="data.region_code" class="form-control" ng-required="true"
+                                        ng-disabled="status"
+                                        ng-options="option.Id as option.Name for option in region_code_options">
+                                    <option value="">[Select Region]</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="Province:_">Province</label>
+                            <div class="form-group">
+                                <select name="Province" ng-model="data.prov_code" class="form-control" ng-required="true"
+                                        ng-disabled="data.region_code == null || status"
+                                        ng-options="option.Id as option.Name for option in prov_code_options">
+                                    <option value="">[Select Province]</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="Municipality:_">Municipality</label>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <select name="Municipality" ng-model="data.city_code" class="form-control" ng-required="true"
+                                            ng-disabled="data.prov_code == null || status"
+                                            ng-options="option.Id as option.Name for option in city_code_options">
+
+
+                                        <option value="">[Select Municipality]</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-6">
+                        <md-button class="md-raised" ng-click="search(); show_div=true" ng-disabled="!basicForm.$valid">
+                            <i class="fa fa-filter"></i>  Filter
+                        </md-button>
+                        <md-button class="md-warn md-raised" ng-click="clear()">
+                            <i class="fa fa-recycle"></i>  Clear
+                        </md-button>
+                        <md-button class="md-primary md-raised" ng-click="printContent()" ng-disabled="!basicForm.$valid">
+                            <i class="fa fa-print"></i>  Print
+                        </md-button>
+                        <md-button class="md-raised md-warn" ng-click="exportToXLS()" ng-disabled="!basicForm.$valid">
+                            <i class="fa fa-file-excel-o"></i>   Export
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h4>Preview</h4>
+        </div>
+        <div ng-show="show_div">
+            @Html.Partial("~/Views/LGPMSData/_lgpms_data_preview.cshtml")
+        </div>
+        <div id="printDiv" name="printDiv" ng-hide="true">
+            @Html.Partial("~/Views/LGPMSData/_lgpms_data_print_export.cshtml")
+        </div>
+    </div>
+   
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+
+            angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']).controller('AppCtrl', function ($scope, $http, $mdDialog, $mdMedia) {
+                $scope.data = {};
+                
+                $scope.data.prov_code = '';
+                $scope.data.region_code = '';
+                $scope.data.city_code = '';
+                
+                $scope.data.psgc_code = '';
+
+                $scope.data.overall_performance_index_2009 = '';
+                $scope.data.overall_performance_index_2010 = '';
+                $scope.data.overall_performance_index_2011 = '';
+                $scope.data.overall_performance_index_2012 = '';
+
+                $scope.data.administrative_governance_2009 = '';
+                $scope.data.administrative_governance_2010 = '';
+                $scope.data.administrative_governance_2011 = '';
+                $scope.data.administrative_governance_2012 = '';
+
+                $scope.data.social_governance_2009 = '';
+                $scope.data.social_governance_2010 = '';
+                $scope.data.social_governance_2011 = '';
+                $scope.data.social_governance_2012 = '';
+
+                $scope.data.economic_governance_2009 = '';
+                $scope.data.economic_governance_2010 = '';
+                $scope.data.economic_governance_2011 = '';
+                $scope.data.economic_governance_2012 = '';
+
+                $scope.data.environmental_governance_2009 = '';
+                $scope.data.environmental_governance_2010 = '';
+                $scope.data.environmental_governance_2011 = '';
+                $scope.data.environmental_governance_2012 = '';
+
+                $scope.data.valuing_fundamentals_of_good_gov_2009 = '';
+                $scope.data.valuing_fundamentals_of_good_gov_2010 = '';
+                $scope.data.valuing_fundamentals_of_good_gov_2011 = '';
+                $scope.data.valuing_fundamentals_of_good_gov_2012 = '';
+
+                function Popup(data) {
+                    var mywindow = window.open('', 'new div', 'height=400,width=600');
+                    mywindow.document.write('<html><head><title>LGPMS Data Records</title>');
+                    mywindow.document.write('<link href="/content/lte/bootstrap/css/bootstrap.css" media="all"  type="text/css"  rel="stylesheet" />');
+
+                    mywindow.document.write('<link href="/css/print.css" type="text/css" rel="stylesheet" media="print"  />');
+
+                    mywindow.document.write('</head><body >');
+                    mywindow.document.write(data);
+                    mywindow.document.write('</body></html>');
+                    mywindow.print();
+                    mywindow.close();
+                    return true;
+                }
+
+                $scope.printContent = function () {
+
+                    Popup($('#printDiv').html());
+
+                }
+
+                $scope.exportToXLS = function () {
+
+                    var a = document.createElement('a');
+                    //getting data from our div that contains the HTML table
+                    var data_type = 'data:application/vnd.ms-excel';
+                    var table_div = document.getElementById('printDiv');
+                    var table_html = table_div.outerHTML.replace(/ /g, '%20');
+                    a.href = data_type + ', ' + table_html;
+                    a.download = 'LGPMS Data Records.xls';
+                    //triggering the function
+                    a.click();
+                    e.preventDefault();
+                }
+                
+                $http.get('/api/online/lib_region')
+            .then(function (response) { $scope.region_code_options = response.data; });
+
+                $scope.loading = false;
+
+                $scope.$watch('data.region_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.data.prov_code = null;
+                        record.data.city_code = null;
+
+                        record.prov_code_options = [];
+                        record.city_code_options = [];
+                    }
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_province?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.prov_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.prov_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.data.city_code = null;
+
+                        record.city_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_city?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.city_code_options = data;
+
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.clear = function () {
+                    $scope.data = {};
+                }
+
+                $scope.search = function () {
+                    $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
+
+                    $.post('/api/export/lgpms_data/all_data', $scope.data).success(function (value) {
+                        $scope.loading = false;
+
+                        $scope.list = value;
+
+                        setTimeout($.unblockUI, 3);
+
+                        $scope.isSearching = false;
+
+                    }).error(function (data) {
+
+                        alert(JSON.stringify(data));
+                        $scope.error = "An Error has occured! " + data.statusText;
+                        $scope.loading = false;
+                    });                    
+
+                };
+
+
+            })
+
+    </script>
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+
+}

@@ -1,0 +1,2386 @@
+﻿
+
+<style>
+    #portfolio {
+        width: 100%;
+        max-width: 600px;
+        margin: 2em auto;
+    }
+
+    #portfolio-sort {
+        text-align: center;
+        padding-bottom: 3px;
+        border-bottom: 1px solid #999;
+        margin-bottom: 1em;
+    }
+
+        #portfolio-sort a {
+            color: #fff;
+            background: #a00;
+            display: inline-block;
+            padding: 3px 9px;
+            text-decoration: none;
+            margin-right: 1em;
+        }
+
+    #portfolio-content {
+        overflow: hidden;
+    }
+
+    div.portfolio-item {
+        float: left;
+        margin: 0 3% 1em 0;
+        width: 29%;
+        height: 10em;
+        line-height: 10;
+        text-align: center;
+    }
+
+    div[data-cat="a"] {
+        background: #ccc;
+    }
+
+    div[data-cat="b"] {
+        background: #666;
+        color: #fff;
+    }
+
+    div[data-cat="c"] {
+        background: #333;
+        color: #fff;
+    }
+</style>
+
+<style>
+    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        moz-appearance: none;
+        margin: 0;
+    }
+
+
+    label {
+        display: inline-block;
+        min-width: 90px;
+    }
+
+    input {
+        border: 1px solid #ccc;
+        padding: 6px;
+        width: 40px;
+        -webkit-border-radius: 3px;
+    }
+
+        input.ng-invalid {
+            background-color: #f79;
+            color: #000;
+        }
+</style>
+
+
+
+<div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">Sub Project Record</div>
+    </md-toolbar>
+
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Details">
+
+
+                <md-content class="md-padding">
+
+
+                    @Html.Partial("~/Views/Entry/SPI/_details.cshtml")
+                </md-content>
+            </md-tab>
+
+
+            <md-tab label="SPCF">
+
+
+                <md-content class="md-padding">
+
+
+                    @Html.Partial("~/Views/Entry/SPI/_sub_project_concept_form.cshtml")
+                </md-content>
+            </md-tab>
+
+
+            <md-tab label="SPCR">
+
+
+                <md-content class="md-padding">
+
+
+                    @Html.Partial("~/Views/Entry/SPI/_sub_project_completion_report.cshtml")
+                </md-content>
+            </md-tab>
+
+
+
+
+            <md-tab label="Financial Information">
+
+
+
+
+                <md-content class="md-padding">
+
+                    @Html.Partial("~/Views/Entry/SPI/_mibf.cshtml")
+
+
+
+
+                </md-content>
+            </md-tab>
+            <md-tab label="Physical Accomplishment">
+
+
+                <form name="phyAccForm">
+
+                    <md-content class="md-padding">
+
+                        @Html.Partial("~/Views/Entry/SPI/_physical_target.cshtml")
+
+
+
+
+                    </md-content>
+                </form>
+            </md-tab>
+            <md-tab label="ERS LIST">
+
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/SPI/_ers.cshtml")
+                </md-content>
+            </md-tab>
+
+
+
+
+
+            <md-tab label="SET">
+
+
+
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/SPI/_set.cshtml")
+                </md-content>
+            </md-tab>
+
+
+            <md-tab label="Orders">
+
+
+
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/SPI/_orders.cshtml")
+                </md-content>
+            </md-tab>
+
+            <md-tab label="Safeguard">
+
+
+
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/SPI/_safeguard.cshtml")
+                </md-content>
+            </md-tab>
+
+
+            <md-tab label="O&M">
+
+
+
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/SPI/_operation_maintainance.cshtml")
+                </md-content>
+            </md-tab>
+
+
+            <md-tab label="Geotagged Images">
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/SPI/_geotagging.cshtml")
+                </md-content>
+            </md-tab>
+
+            @Html.Partial("~/Views/Entry/Common/_attachment.cshtml")
+
+
+        </md-tabs>
+    </md-content>
+    <md-content>
+
+        <ul>
+            <li ng-repeat="(key, errors) in detailsForm.$error track by $index">
+                <strong>{{ key }}</strong> Details errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul>
+            <li ng-repeat="(key, errors) in setForm.$error track by $index">
+                <strong>{{ key }}</strong> SET errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+        <ul>
+            <li ng-repeat="(key, errors) in phyAccForm.$error track by $index">
+                <strong>{{ key }}</strong> Physical Accomplishment Errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+
+
+
+        <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!setForm.$valid || !phyAccForm.$valid || !detailsForm.$valid">
+            Save Record
+        </md-button>
+
+    </md-content>
+</div>
+
+
+
+
+
+@section Scripts
+{
+    <script src="~/scripts/directives/ngAppMax.js"></script>
+    <script src="~/scripts/directives/paging.js"></script>
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache','app-max'])
+            .controller('AppCtrl',
+                function($scope, $mdDialog, $http, $mdToast) {
+
+
+                    $scope.lib_project_type = {};
+
+
+                    $scope.variation_order_options = ["Change Order", "Variation Order", "Additional Changes"];
+
+                    $http.get('/Api/lib_project_type/')
+                        .then(function(response) { $scope.project_type_id_options = response.data; });
+
+                    $http.get('/Api/lib_physical_status/')
+                        .then(function(response) { $scope.physical_status_id_options = response.data; });
+
+                    $http.get('/api/lib_fund_source')
+                        .then(function(response) {
+
+                            $scope.fund_source_id_options = response.data;
+
+                        });
+                    $http.get('/api/online/lib_region')
+                        .then(function(response) {
+
+                            $scope.region_code_options = response.data;
+
+                        });
+
+                    $http.get('/api/lib_ers_current_work')
+                        .then(function(response) {
+
+                            $scope.ers_current_work_id_options = response.data;
+
+                        });
+
+
+                    $http.get('/api/lib_ers_delivery_mode')
+                        .then(function(response) {
+
+                            $scope.ers_delivery_mode_id_options = response.data;
+
+                        });
+
+                    $scope.selected = {};
+
+
+
+                    // gets the template to ng-include for a table row / item
+                    $scope.getTemplate = function(contact) {
+
+
+                        if (contact.person_ers_work_id === $scope.selected.person_ers_work_id) return 'edit';
+                        else return 'display';
+                    };
+
+                    //$scope.reset = function() {
+                    //    $scope.selected = {};
+                    //    $scope.new_worker_record = {};
+                    //};
+
+                    $scope.saveWorker = function(idx) {
+
+                        $scope.selected.sub_project_ers_id = $scope.selected_ers_list_id;
+
+                        $.post('/api/offline/v1/sub_projects/ers/worker/save', $scope.selected)
+                            .success(function (data) {
+
+
+                                $scope.get_ers_summary($scope.selected_ers_list_id);
+
+
+                                $scope.selected.ers_current_work_name = data[0].ers_current_work_name;
+                                $scope.selected.is_skilled = data[0].is_skilled;
+
+
+
+                                $scope.members[idx] = angular.copy($scope.selected);
+                                //     $scope.members.splice(idx, 1);
+                                //  $scope.members.push(data);
+
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('Worker Updated!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+
+                                $scope.reset();
+                            })
+                            .error(function (data) {
+
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+
+
+
+                    };
+
+
+                    $scope.saveNewWorker = function(idx) {
+
+                        $scope.new_worker_record.sub_project_ers_id = $scope.selected_ers_list_id;
+
+                        $.post('/api/offline/v1/sub_projects/ers/worker/save', $scope.new_worker_record)
+                            .success(function (data) {
+
+                                $scope.members.push(data);
+                                $scope.get_ers_summary($scope.selected_ers_list_id);
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('Worker Added!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+                            })
+                            .error(function (data) {
+
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+
+                        $scope.reset();
+                    };
+
+
+
+                    $scope.remove_worker = function (prob, index) {
+
+
+                        var ask = confirm("Do you want to remove this item?");
+                        if (ask == false) {
+                            return false;
+                        }
+
+                        $.post('/api/delete/person_ers_work?id=' + prob.person_ers_work_id)
+                            .success(function (data) {
+
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('Worker Record Removed!')
+                                    .position("bottom right")
+                                    .hideDelay(3000)
+                                );
+
+
+                                $scope.members.splice(index, 1);
+
+                            })
+                            .error(function (data) {
+
+                                alert(JSON.stringify(data));
+
+
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+
+                            });
+
+                    }
+
+
+                    $scope.data = {};
+
+
+                    $scope.SaveCoverage = function(member) {
+
+
+                        var url = '/api/subproject/post_location_coverage?brgy_code=' +
+                            member.brgy_code +
+                            "&id=" +
+                            member.sub_project_unique_id;
+
+
+                        $http.post(url)
+                            .success(function(data) {
+
+
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('Coverage Saved!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+
+                            })
+                            .error(function(data) {
+                                $scope.error = "An Error has occured while Saving! " + data;
+                                $scope.isAddingPax = false;
+                            });
+
+
+                    }
+
+
+                    $scope.VolunteerRecords = [];
+
+
+                    $http.get('/api/offline/v1/sub_project/get?id=@ViewBag.id')
+                        .then(function(response) {
+
+
+                            $scope.loading = true;
+
+                            $scope.data = response.data;
+
+
+
+                            //ATTACHMENTS
+
+
+              $http.get('/api/attachment_list?id=37')
+              .then(function (response) {
+
+                  $scope.attachment_list = response.data;
+
+              });
+
+              $scope.attached_documents = [];
+              $scope.attachment = {};
+              $scope.attachment.mov_list_id = null;
+
+              $scope.sub_project_completion_report_mov_list_id = 41;
+              $scope.sub_project_final_inspection_report_mov_list_id = 42;
+              $scope.sub_project_cert_of_completion_mov_list_id = 43;
+
+
+              $scope.uploadAttachment = function () {
+
+                  //check first if the selected attachment type is categorized as SINGLE attachment
+                  //Single attachment for Sub-project Completion Report (mov_list_id = 41)
+                  //Single attachment for Final Inspection Report (mov_list_id = 42)
+                  //Single attachment for Certificate of Completion and Acceptance (mov_list_id = 43)
+
+                  //if none of these 3 attachment type has been selected, the program will proceed to the usual uploading (allows multiple attachments)
+                  //function name: successful_upload()
+
+                  if ($scope.attachment.mov_list_id == 41){
+                      if ($scope.attached_documents.filter(function (e) {
+                      return e.mov_list_id == 41;
+                      }).length > 0) {
+                          alert("Only single attachment is allowed for Sub-Project Completion Report.");
+                          $scope.attachment = {};
+                      }
+                      else {
+                          $scope.successful_upload();
+                      }
+                  }
+
+                  else if ($scope.attachment.mov_list_id == 42) {
+                      if ($scope.attached_documents.filter(function (e) {
+                      return e.mov_list_id == 42;
+                      }).length > 0) {
+                          alert("Only single attachment is allowed for Final Inspection Report.");
+                          $scope.attachment = {};
+                      }
+                      else {
+                          $scope.successful_upload();
+                      }
+                  }
+
+                  else if ($scope.attachment.mov_list_id == 43) {
+                      if ($scope.attached_documents.filter(function (e) {
+                      return e.mov_list_id == 43;
+                      }).length > 0) {
+                          alert("Only single attachment is allowed for Certificate of Completion and Acceptance.");
+                          $scope.attachment = {};
+                      }
+                      else {
+                          $scope.successful_upload();
+                      }
+                  }
+
+                  else {
+                      $scope.successful_upload();
+                  }
+
+              }
+
+              $scope.successful_upload = function () {
+
+                  var fileUpload = $("#files").get(0);
+                  var files = fileUpload.files;
+                  var data = new FormData();
+                  for (var i = 0; i < files.length ; i++) {
+                      data.append(files[i].name, files[i]);
+                  }
+
+                  $.ajax({
+                      type: "POST",
+                      url: "/Mov/UploadFilesAjax?id="
+                          + '@ViewBag.id'
+                          + "&mov_list_id=" + $scope.attachment.mov_list_id
+
+
+                         + "&region_code=" + $scope.data.region_code
+                         + "&prov_code=" + $scope.data.prov_code
+                              + "&city_code=" + $scope.data.city_code
+                              + "&brgy_code=" + $scope.data.brgy_code
+
+                         + "&fund_source_id=" + $scope.data.fund_source_id
+                              + "&cycle_id=" + $scope.data.cycle_id
+                           + "&enrollment_id=" + $scope.data.enrollment_id,
+
+
+
+                      contentType: false,
+                      processData: false,
+                      data: data,
+                      success: function (message) {
+                          var base = window.location.origin;
+
+                          message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+                          $scope.attached_documents.push(message);
+
+                          $scope.attachment = {};
+                      },
+                      error: function (message) {
+                          alert(JSON.stringify(message.responseText));
+                      }
+                  });
+              }
+
+              $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
+                 .success(function (value) {
+
+                     $scope.attached_documents = value;
+
+                     angular.forEach($scope.attached_documents, function (item) {
+                         var base = window.location.origin;
+
+                         item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
+
+
+                     })
+
+                 });
+
+              $scope.deleteMov = function (removeitem) {
+
+                  var ask = confirm("Are you sure you want to Delete this?");
+
+
+                  if (ask == true) {
+                      $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
+                          $scope.loading = false;
+
+
+
+                          var index = $scope.attached_documents.indexOf(removeitem);
+                          $scope.attached_documents.splice(index, 1);
+
+
+                          alert("Record removed!")
+
+                      }).error(function (data) {
+
+                          alert(JSON.stringify(data));
+
+
+                          $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                          $scope.loading = false;
+                      });
+
+                  }
+
+              }
+              //END ATTACHMENTS
+
+
+                            $scope.data.suspension_order_lists = [];
+                            $scope.data.resume_order_lists = [];
+                            $scope.data.variation_order_lists = [];
+                            $scope.data.community_formation_lists = [];
+
+
+                            $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
+                            $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
+                            $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
+                            $scope.data.brgy_code = $scope.data.brgy_code == 0 ? "" : $scope.data.brgy_code;
+
+
+
+                            $scope.data.modality_id = $scope.data.modality_id == 0 ? "" : $scope.data.modality_id;
+
+                            $scope.data.cycle_id = $scope.data.cycle_id == 0 ? "" : $scope.data.cycle_id;
+
+
+                            $scope.data.project_type_id = $scope.data.project_type_id == 0 ? "" : $scope.data.project_type_id;
+
+
+                            $scope.$watch('data.physical_status_id', function (newValue, oldValue) {
+
+                                if ($scope.data.physical_status_id == 3) {
+                                    $scope.data.Phy_Perc_To_Date = '';
+
+                                    $scope.data.has_t1 = false;
+
+
+                                    $scope.dt_Date_Started = null;
+                                    $scope.data.Date_Started = null;
+
+
+
+                                    $scope.dt_Tranche1date = null;
+                                    $scope.dt_Tranche2date = null;
+                                    $scope.dt_Tranche3date = null;
+
+
+                                }
+
+                                if ($scope.data.physical_status_id != 3) {
+                                    $scope.data.has_t1 = true;
+                                }
+
+                                if ($scope.data.physical_status_id == 1) {
+                                    $scope.data.Phy_Perc_To_Date = 100;
+                                    $scope.data.has_t1 = true;
+                                }
+
+
+
+                                if ($scope.data.physical_status_id == 2) {
+                                    $scope.data.has_t1 = true;
+
+                                    $scope.dt_Date_of_Completion = null;
+
+                                    $scope.data.Date_of_Completion = null;
+
+                                }
+
+
+
+
+
+                            })
+
+
+
+
+                            $scope.$watch('data.has_local_counterpart', function (newValue, oldValue) {
+
+                                if (newValue == false) {
+                                    $scope.data.LCC_Amount = '';
+                                    $scope.data.LCC_Adj = '';
+
+
+
+                                }
+                            })
+
+                            //lumad watch modality
+
+                            $scope.$watch('data.modality_id', function (newValue, oldValue) {
+
+                                if (newValue != 7) {
+                                    $scope.data.is_public_school_for_ip = false;
+
+                                    $scope.data.ncddp_grouping_id_options = [];
+                                    $scope.data.modality_category_id = '';
+
+                                    $scope.data.is_deped_funded = false;
+                                    $scope.data.dep_ed_amount = '';
+
+                                    $scope.data.erfr_project_id = '';
+                                    $scope.erfr_project_id_options = [];
+
+                                }
+
+                                //deped school
+                                if (newValue == 12) {
+                                    $scope.data.project_type_id = 23;
+
+                                }
+                                //non deped
+                                if (newValue != 12) {
+
+                                    $scope.data.dep_ed_amount = '';
+                                }
+                                //non gig
+                                if (newValue != 11) {
+                                    $scope.data.training_category_id = '';
+                                }
+                            });
+
+
+                            $scope.$watch('data.project_type_id', function (newValue, oldValue) {
+                                //non school
+                                if (newValue != 23) {
+                                    $scope.data.is_public_school_for_ip = false;
+                                }
+
+                                //non training
+                                if (newValue != 36) {
+                                    $scope.data.training_category_id = '';
+                                }
+
+                                $http.get('/Api/get_project_type?id=' + newValue)
+                                .then(function (response) {
+
+                                    $scope.lib_project_type = response.data[0];
+
+
+                                });
+                            });
+
+
+
+
+                            if ($scope.data.suspension_order_list != null) {
+                                $scope.data.suspension_order_lists = JSON.parse($scope.data.suspension_order_list);
+                            }
+
+
+                            if ($scope.data.resume_order_list != null) {
+                                $scope.data.resume_order_lists = JSON.parse($scope.data.resume_order_list);
+                            }
+
+                            if ($scope.data.variation_order_list != null) {
+                                $scope.data.variation_order_lists = JSON.parse($scope.data.variation_order_list);
+                            }
+
+                            if ($scope.data.community_formation_list != null) {
+                                $scope.data.community_formation_lists = JSON.parse($scope.data.community_formation_list);
+                            }
+
+
+                            $scope.$watchGroup(['data.brgy_code', 'data.modality_id', 'data.cycle_id'], function (newValues, oldValues, scope) {
+
+                                if ($scope.data.brgy_code != '' && $scope.data.modality_id == 7 && $scope.data.cycle_id != '') {
+
+
+                                    $http.get('/Api/erfr_projects?brgy_code=' + $scope.data.brgy_code + "&cycle_id=" + $scope.data.cycle_id)
+                                  .then(function (response) { $scope.erfr_project_id_options = response.data; });
+
+                                }
+                                else {
+                                    //$scope.data.modality_category_id = '';
+                                    //$scope.ncddp_grouping_id_options = [];
+                                }
+
+                            });
+
+
+
+
+
+                            $scope.data.spcr = [];
+
+                            $scope.pow_total = function ()
+                            {
+
+                                return     ($scope.data.spcr.pow_cdd_cost == undefined ? 0 :  $scope.data.spcr.pow_cdd_cost)
+                                        + ($scope.data.spcr.pow_male_cost == undefined ? 0 :  $scope.data.spcr.pow_male_cost)
+                                        + ($scope.data.spcr.pow_female_cost== undefined ? 0 :  $scope.data.spcr.pow_female_cost)
+                                + ($scope.data.spcr.pow_blgu_cost == undefined ? 0 :  $scope.data.spcr.pow_blgu_cost)
+                                + ($scope.data.spcr.pow_mlgu_cost == undefined ? 0 :  $scope.data.spcr.pow_mlgu_cost)
+                                + ($scope.data.spcr.pow_plgu_cost == undefined ? 0 :  $scope.data.spcr.pow_plgu_cost)
+                                + ($scope.data.spcr.pow_others_cost== undefined ? 0 :  $scope.data.spcr.pow_others_cost);
+
+                            }
+
+
+
+                            $scope.women_total = function ()
+                            {
+
+                                return     ($scope.data.spcr.women_cdd_cost == undefined ? 0 :  $scope.data.spcr.women_cdd_cost)
+                                        + ($scope.data.spcr.women_male_cost == undefined ? 0 :  $scope.data.spcr.women_male_cost)
+                                        + ($scope.data.spcr.women_female_cost== undefined ? 0 :  $scope.data.spcr.women_female_cost)
+                                + ($scope.data.spcr.women_blgu_cost == undefined ? 0 :  $scope.data.spcr.women_blgu_cost)
+                                + ($scope.data.spcr.women_mlgu_cost == undefined ? 0 :  $scope.data.spcr.women_mlgu_cost)
+                                + ($scope.data.spcr.women_plgu_cost == undefined ? 0 :  $scope.data.spcr.women_plgu_cost)
+                                + ($scope.data.spcr.women_others_cost== undefined ? 0 :  $scope.data.spcr.women_others_cost);
+
+                            }
+
+
+                            $scope.training_total = function ()
+                            {
+
+                                return     ($scope.data.spcr.training_cdd_cost == undefined ? 0 :  $scope.data.spcr.training_cdd_cost)
+                                        + ($scope.data.spcr.training_male_cost == undefined ? 0 :  $scope.data.spcr.training_male_cost)
+                                        + ($scope.data.spcr.training_female_cost== undefined ? 0 :  $scope.data.spcr.training_female_cost)
+                                + ($scope.data.spcr.training_blgu_cost == undefined ? 0 :  $scope.data.spcr.training_blgu_cost)
+                                + ($scope.data.spcr.training_mlgu_cost == undefined ? 0 :  $scope.data.spcr.training_mlgu_cost)
+                                + ($scope.data.spcr.training_plgu_cost == undefined ? 0 :  $scope.data.spcr.training_plgu_cost)
+                                + ($scope.data.spcr.training_others_cost== undefined ? 0 :  $scope.data.spcr.training_others_cost);
+
+                            }
+
+                            $scope.management_total = function ()
+                            {
+
+                                return      ($scope.data.spcr.management_cdd_cost == undefined ? 0 :  $scope.data.spcr.management_cdd_cost)
+                                        + ($scope.data.spcr.management_male_cost == undefined ? 0 :  $scope.data.spcr.management_male_cost)
+                                        + ($scope.data.spcr.management_female_cost== undefined ? 0 :  $scope.data.spcr.management_female_cost)
+                                + ($scope.data.spcr.management_blgu_cost == undefined ? 0 :  $scope.data.spcr.management_blgu_cost)
+                                + ($scope.data.spcr.management_mlgu_cost == undefined ? 0 :  $scope.data.spcr.management_mlgu_cost)
+                                + ($scope.data.spcr.management_plgu_cost == undefined ? 0 :  $scope.data.spcr.management_plgu_cost)
+                                + ($scope.data.spcr.management_others_cost== undefined ? 0 :  $scope.data.spcr.management_others_cost);
+
+                            }
+
+
+                            $scope.others_total = function ()
+                            {
+
+
+                                return      ($scope.data.spcr.others_cdd_cost == undefined ? 0 :  $scope.data.spcr.others_cdd_cost)
+                                   + ($scope.data.spcr.others_male_cost == undefined ? 0 :  $scope.data.spcr.others_male_cost)
+                                   + ($scope.data.spcr.others_female_cost== undefined ? 0 :  $scope.data.spcr.others_female_cost)
+                           + ($scope.data.spcr.others_blgu_cost == undefined ? 0 :  $scope.data.spcr.others_blgu_cost)
+                           + ($scope.data.spcr.others_mlgu_cost == undefined ? 0 :  $scope.data.spcr.others_mlgu_cost)
+                           + ($scope.data.spcr.others_plgu_cost == undefined ? 0 :  $scope.data.spcr.others_plgu_cost)
+                           + ($scope.data.spcr.others_others_cost== undefined ? 0 :  $scope.data.spcr.others_others_cost);
+
+                            }
+
+
+
+
+                            $scope.pow_total_lcc = function ()
+                            {
+
+                                return     ($scope.data.spcr.pow_male_cost == undefined ? 0 :  $scope.data.spcr.pow_male_cost)
+                                        + ($scope.data.spcr.pow_female_cost== undefined ? 0 :  $scope.data.spcr.pow_female_cost)
+                                + ($scope.data.spcr.pow_blgu_cost == undefined ? 0 :  $scope.data.spcr.pow_blgu_cost)
+                                + ($scope.data.spcr.pow_mlgu_cost == undefined ? 0 :  $scope.data.spcr.pow_mlgu_cost)
+                                + ($scope.data.spcr.pow_plgu_cost == undefined ? 0 :  $scope.data.spcr.pow_plgu_cost)
+                                + ($scope.data.spcr.pow_others_cost== undefined ? 0 :  $scope.data.spcr.pow_others_cost);
+
+                            }
+
+
+
+                            $scope.women_total_lcc = function ()
+                            {
+
+                                return    ($scope.data.spcr.women_male_cost == undefined ? 0 :  $scope.data.spcr.women_male_cost)
+                                        + ($scope.data.spcr.women_female_cost== undefined ? 0 :  $scope.data.spcr.women_female_cost)
+                                + ($scope.data.spcr.women_blgu_cost == undefined ? 0 :  $scope.data.spcr.women_blgu_cost)
+                                + ($scope.data.spcr.women_mlgu_cost == undefined ? 0 :  $scope.data.spcr.women_mlgu_cost)
+                                + ($scope.data.spcr.women_plgu_cost == undefined ? 0 :  $scope.data.spcr.women_plgu_cost)
+                                + ($scope.data.spcr.women_others_cost== undefined ? 0 :  $scope.data.spcr.women_others_cost);
+
+                            }
+
+
+                            $scope.training_total_lcc = function ()
+                            {
+
+                                return    ($scope.data.spcr.training_male_cost == undefined ? 0 :  $scope.data.spcr.training_male_cost)
+                                        + ($scope.data.spcr.training_female_cost== undefined ? 0 :  $scope.data.spcr.training_female_cost)
+                                + ($scope.data.spcr.training_blgu_cost == undefined ? 0 :  $scope.data.spcr.training_blgu_cost)
+                                + ($scope.data.spcr.training_mlgu_cost == undefined ? 0 :  $scope.data.spcr.training_mlgu_cost)
+                                + ($scope.data.spcr.training_plgu_cost == undefined ? 0 :  $scope.data.spcr.training_plgu_cost)
+                                + ($scope.data.spcr.training_others_cost== undefined ? 0 :  $scope.data.spcr.training_others_cost);
+
+                            }
+
+                            $scope.management_total_lcc = function ()
+                            {
+
+                                return     ($scope.data.spcr.management_male_cost == undefined ? 0 :  $scope.data.spcr.management_male_cost)
+                                        + ($scope.data.spcr.management_female_cost== undefined ? 0 :  $scope.data.spcr.management_female_cost)
+                                + ($scope.data.spcr.management_blgu_cost == undefined ? 0 :  $scope.data.spcr.management_blgu_cost)
+                                + ($scope.data.spcr.management_mlgu_cost == undefined ? 0 :  $scope.data.spcr.management_mlgu_cost)
+                                + ($scope.data.spcr.management_plgu_cost == undefined ? 0 :  $scope.data.spcr.management_plgu_cost)
+                                + ($scope.data.spcr.management_others_cost== undefined ? 0 :  $scope.data.spcr.management_others_cost);
+
+                            }
+
+
+                            $scope.others_total_lcc = function ()
+                            {
+
+                                return    ($scope.data.spcr.others_male_cost == undefined ? 0 :  $scope.data.spcr.others_male_cost)
+                                        + ($scope.data.spcr.others_female_cost== undefined ? 0 :  $scope.data.spcr.others_female_cost)
+                                + ($scope.data.spcr.others_blgu_cost == undefined ? 0 :  $scope.data.spcr.others_blgu_cost)
+                                + ($scope.data.spcr.others_mlgu_cost == undefined ? 0 :  $scope.data.spcr.others_mlgu_cost)
+                                + ($scope.data.spcr.others_plgu_cost == undefined ? 0 :  $scope.data.spcr.others_plgu_cost)
+                                + ($scope.data.spcr.others_others_cost== undefined ? 0 :  $scope.data.spcr.others_others_cost);
+
+                            }
+
+
+                            $scope.grand_total = function()
+                            {
+
+                                return   $scope.pow_total() + $scope.training_total() + $scope.women_total() + $scope.management_total() + $scope.others_total();
+                            }
+
+                            $scope.grand_total_lcc = function()
+                            {
+
+                                return   $scope.pow_total_lcc() + $scope.training_total_lcc() + $scope.women_total_lcc() + $scope.management_total_lcc() + $scope.others_total_lcc();
+                            }
+
+                            $scope.grand_total_lcc_perc = function()
+                            {
+                                return (100* $scope.grand_total_lcc() / $scope.grand_total()).toFixed(2);
+
+                            }
+
+                            $scope.cdd_total = function ()
+                            {
+
+                                return        ($scope.data.spcr.pow_cdd_cost == undefined ? 0 :  $scope.data.spcr.pow_cdd_cost)
+                                          +   ($scope.data.spcr.training_cdd_cost == undefined ? 0 :  $scope.data.spcr.training_cdd_cost)
+                                          +   ($scope.data.spcr.management_cdd_cost == undefined ? 0 :  $scope.data.spcr.management_cdd_cost)
+
+                                          +   ($scope.data.spcr.women_cdd_cost == undefined ? 0 :  $scope.data.spcr.women_cdd_cost)
+                                          +   ($scope.data.spcr.others_cdd_cost == undefined ? 0 :  $scope.data.spcr.others_cdd_cost)
+                            }
+
+                            $scope.cdd_perc = function()
+                            {
+                                return (100* $scope.cdd_total() / $scope.grand_total()).toFixed(2);
+
+                            }
+
+
+                            $scope.men_total = function ()
+                            {
+
+                                return        ($scope.data.spcr.pow_male_cost == undefined ? 0 :  $scope.data.spcr.pow_male_cost)
+                                         +   ($scope.data.spcr.training_male_cost == undefined ? 0 :  $scope.data.spcr.training_male_cost)
+                                         +   ($scope.data.spcr.management_male_cost == undefined ? 0 :  $scope.data.spcr.management_male_cost)
+
+                                         +   ($scope.data.spcr.women_male_cost == undefined ? 0 :  $scope.data.spcr.women_male_cost)
+                                         +   ($scope.data.spcr.others_male_cost == undefined ? 0 :  $scope.data.spcr.others_male_cost)
+                            }
+
+                            $scope.men_perc = function()
+                            {
+
+
+                                return (100* $scope.men_total() / $scope.grand_total()).toFixed(2);
+
+                            }
+
+                            $scope.female_total = function ()
+                            {
+
+                                return        ($scope.data.spcr.pow_female_cost == undefined ? 0 :  $scope.data.spcr.pow_female_cost)
+                                          +   ($scope.data.spcr.training_female_cost == undefined ? 0 :  $scope.data.spcr.training_female_cost)
+                                          +   ($scope.data.spcr.management_female_cost == undefined ? 0 :  $scope.data.spcr.management_female_cost)
+
+                                          +   ($scope.data.spcr.women_female_cost == undefined ? 0 :  $scope.data.spcr.women_female_cost)
+                                          +   ($scope.data.spcr.others_female_cost == undefined ? 0 :  $scope.data.spcr.others_female_cost)
+                            }
+
+                            $scope.female_perc = function()
+                            {
+                                return (100* $scope.female_total() / $scope.grand_total()).toFixed(2);
+
+                            }
+
+
+
+                            $scope.blgu_total = function ()
+                            {
+
+                                return        ($scope.data.spcr.pow_blgu_cost == undefined ? 0 :  $scope.data.spcr.pow_blgu_cost)
+                                          +   ($scope.data.spcr.training_blgu_cost == undefined ? 0 :  $scope.data.spcr.training_blgu_cost)
+                                          +   ($scope.data.spcr.management_blgu_cost == undefined ? 0 :  $scope.data.spcr.management_blgu_cost)
+
+                                          +   ($scope.data.spcr.women_blgu_cost == undefined ? 0 :  $scope.data.spcr.women_blgu_cost)
+                                          +   ($scope.data.spcr.others_blgu_cost == undefined ? 0 :  $scope.data.spcr.others_blgu_cost)
+                            }
+
+                            $scope.blgu_perc = function()
+                            {
+                                return (100* $scope.blgu_total() / $scope.grand_total()).toFixed(2);
+
+                            }
+
+                            $scope.mlgu_total = function ()
+                            {
+
+                                return        ($scope.data.spcr.pow_mlgu_cost == undefined ? 0 :  $scope.data.spcr.pow_mlgu_cost)
+                                          +   ($scope.data.spcr.training_mlgu_cost == undefined ? 0 :  $scope.data.spcr.training_mlgu_cost)
+                                          +   ($scope.data.spcr.management_mlgu_cost == undefined ? 0 :  $scope.data.spcr.management_mlgu_cost)
+
+                                          +   ($scope.data.spcr.women_mlgu_cost == undefined ? 0 :  $scope.data.spcr.women_mlgu_cost)
+                                          +   ($scope.data.spcr.others_mlgu_cost == undefined ? 0 :  $scope.data.spcr.others_mlgu_cost)
+                            }
+
+                            $scope.mlgu_perc = function()
+                            {
+                                return (100* $scope.mlgu_total() / $scope.grand_total()).toFixed(2);
+
+                            }
+
+
+                            $scope.plgu_total = function ()
+                            {
+
+                                return        ($scope.data.spcr.pow_plgu_cost == undefined ? 0 :  $scope.data.spcr.pow_plgu_cost)
+                                          +   ($scope.data.spcr.training_plgu_cost == undefined ? 0 :  $scope.data.spcr.training_plgu_cost)
+                                          +   ($scope.data.spcr.management_plgu_cost == undefined ? 0 :  $scope.data.spcr.management_plgu_cost)
+
+                                          +   ($scope.data.spcr.women_plgu_cost == undefined ? 0 :  $scope.data.spcr.women_plgu_cost)
+                                          +   ($scope.data.spcr.others_plgu_cost == undefined ? 0 :  $scope.data.spcr.others_plgu_cost)
+                            }
+
+                            $scope.plgu_perc = function()
+                            {
+                                return (100* $scope.plgu_total() / $scope.grand_total()).toFixed(2);
+
+                            }
+
+                            $scope.others_others_total = function ()
+                            {
+
+                                return        ($scope.data.spcr.pow_others_cost == undefined ? 0 :  $scope.data.spcr.pow_others_cost)
+                                          +   ($scope.data.spcr.training_others_cost == undefined ? 0 :  $scope.data.spcr.training_others_cost)
+                                          +   ($scope.data.spcr.management_others_cost == undefined ? 0 :  $scope.data.spcr.management_others_cost)
+
+                                          +   ($scope.data.spcr.women_others_cost == undefined ? 0 :  $scope.data.spcr.women_others_cost)
+                                          +   ($scope.data.spcr.others_others_cost == undefined ? 0 :  $scope.data.spcr.others_others_cost)
+                            }
+
+                            $scope.others_others_total_perc = function()
+                            {
+                                return (100* $scope.others_others_total() / $scope.grand_total()).toFixed(2);
+
+                            }
+
+
+
+                            $scope.dt_date_physical_start  =  response.data.date_physical_start == undefined ? null : new Date(response.data.date_physical_start);
+
+
+
+
+                            $scope.dt_date_start_physical_planned = response.data.date_start_physical_planned == undefined ? null : new Date(response.data.date_start_physical_planned);
+
+                            $scope.dt_date_start_physical_actual= response.data.date_start_physical_actual == undefined ? null : new Date(response.data.date_start_physical_actual);
+
+                            $scope.dt_Date_Started =  response.data.Date_Started == undefined ? null: new Date(response.data.Date_Started);
+
+                            $scope.dt_Date_of_Completion =  response.data.Date_of_Completion == undefined ? null : new Date(response.data.Date_of_Completion);
+
+                            $scope.dt_PlannedDate_Completion =response.data.PlannedDate_Completion == undefined ? null: new Date(response.data.PlannedDate_Completion);
+
+                            //$scope.dt_set_date_eval = response.data.set_date_eval == undefined ? null : new Date(response.data.set_date_eval);
+
+                            $scope.today = new Date();
+
+                            $scope.dt_ncip_validated_date = response.data.ncip_validated_date == undefined ? null :new Date(response.data.ncip_validated_date);
+                            $scope.dt_ncip_submitted_date =response.data.ncip_submitted_date == undefined ? null :new Date(response.data.ncip_submitted_date);
+
+
+                            $scope.maxDate = new Date($scope.dt_Date_Started);
+                            $scope.min_start_date = new Date("01/01/2014");
+
+                            $scope.minDateErsStart = new Date($scope.new_ErsList_record.dt_date_reported);
+
+                            $scope.$watch('new_ErsList_record.dt_date_reported',
+                                function(newValue, oldValue) {
+                                    $scope.minDateErsStart = new Date(newValue);
+                                });
+
+
+                            $scope.minSetStart = new Date($scope.dt_Date_of_Completion);
+
+
+                            $scope.$watch('dt_Date_of_Completion',
+                                    function(newValue, oldValue) {
+                                        $scope.minSetStart = new Date(newValue);
+                                    });
+
+
+
+
+
+                            $scope.minDateErsEnd = new Date($scope.new_ErsList_record.dt_date_started);
+
+                            $scope.$watch('new_ErsList_record.dt_date_started',
+                                function(newValue, oldValue) {
+                                    $scope.minDateErsEnd = new Date(newValue);
+                                });
+
+                            //$scope.today = new Date();
+
+                            //$scope.dt_Tranche1date = new Date(response.data.Tranche1date);
+                            //$scope.dt_Tranche2date = new Date(response.data.Tranche2date);
+                            //$scope.dt_Tranche3date = new Date(response.data.Tranche3date);
+
+                            $scope.$watch('dt_Date_Started',
+                                function(newValue, oldValue) {
+                                    $scope.maxDate = new Date(newValue);
+                                });
+
+
+                            $scope.$watch('data.project_type_id',
+                                function(newValue, oldValue) {
+                                    //non school
+                                    if (newValue != 23) {
+                                        $scope.data.is_public_school_for_ip = false;
+                                    }
+
+                                    //non training
+                                    if (newValue != 36) {
+                                        $scope.data.training_category_id = '';
+                                    }
+
+
+                                    $http.get('/Api/get_project_type?id=' + $scope.data.project_type_id)
+                                        .then(function(response) {
+
+
+                                            $scope.lib_project_type = response.data;
+                                            $scope.lib_project_types = JSON.stringify(response.data);
+
+                                        });
+                                });
+
+
+
+                            $scope.$watch('data.has_t1', function (newValue, oldValue) {
+
+                                if (newValue == false) {
+                                    $scope.data.has_t2 = false;
+                                    $scope.data.Tranche1amount = '';
+                                    $scope.data.Tranche1date = '';
+
+                                    $scope.dt_Tranche1date = new Date("1970-01-01");
+                                }
+                            });
+
+
+
+                            $scope.$watch('data.has_t2', function (newValue, oldValue) {
+
+                                if (newValue == false) {
+                                    $scope.data.has_t3 = false;
+                                    $scope.data.Tranche2amount = '';
+                                    $scope.data.Tranche2date = '';
+
+                                    $scope.dt_Tranche2date = new Date("1970-01-01");
+                                }
+                            });
+
+
+                            $scope.$watch('data.has_t3', function (newValue, oldValue) {
+
+                                if (newValue == false) {
+
+                                    $scope.data.Tranche3amount = '';
+                                    $scope.data.Tranche3date = '';
+
+                                    $scope.dt_Tranche3date = new Date("1970-01-01");
+                                }
+                            });
+
+
+
+                            $scope.data.phy_construction_target = parseFloat($scope.data.s_phy_construction_target);
+                            $scope.data.phy_improvement_target = parseFloat($scope.data.s_phy_improvement_target);
+                            $scope.data.phy_rehabilitation_target = parseFloat($scope.data.s_phy_rehabilitation_target);
+                            $scope.data.phy_purchase_target = parseFloat($scope.data.s_phy_purchase_target);
+
+                            $scope.data
+                                .phy_construction_target_secondary =
+                                parseFloat($scope.data.s_phy_construction_target_secondary);
+                            $scope.data
+                                .phy_improvement_target_secondary =
+                                parseFloat($scope.data.s_phy_improvement_target_secondary);
+                            $scope.data
+                                .phy_rehabilitation_targe_secondaryt =
+                                parseFloat($scope.data.s_phy_rehabilitation_target_secondary);
+                            $scope.data
+                                .phy_purchase_target_secondary =
+                                parseFloat($scope.data.s_phy_purchase_target_secondary);
+
+
+
+                            $scope.$watch('data.physical_status_id', function(newValue, oldValue){
+                                if(newValue ==1)
+                                {
+                                    $scope.data.Phy_Perc_To_Date = 100;
+
+
+                                }
+                                if(newValue ==3)
+                                {
+
+                                    $scope.data.Phy_Perc_To_Date = null;
+                                }
+
+
+                            })
+
+                            $scope.$watch('data.community_training_id', function(newValue, oldValue){
+
+                                if(newValue != null)
+                                {
+
+
+                                    $http.get('/api/offline/v1/trainings/get?id='+ newValue)
+                                      .then(function(response) {
+
+
+
+
+                                          $scope.data.pims_mibf_date = response.data.start_date;
+
+                                          $scope.data.dt_pims_mibf_date = new Date(response.data.start_date);
+
+
+                                      });
+                                }
+
+                            })
+
+                            $scope.$watch('data.mibf_prioritization_id', function(newValue, oldValue){
+
+                                if(newValue != null)
+                                {
+
+
+                                    $http.get('/Api/offline/v1/trainings/pra/selected?id='+newValue)
+                                      .then(function(response) {
+
+                                          $scope.data.pims_mibf_cost = response.data.kc_amount;
+                                          $scope.data.pims_mibf_lcc_cost = response.data.lcc_amount;
+
+                                      });
+                                }
+
+                            })
+
+
+                            $scope.$watch('data.has_t1',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+                                        $scope.data.has_t2 = false;
+                                        $scope.data.Tranche1amount = '';
+                                        $scope.data.Tranche1date = '';
+
+                                        $scope.dt_Tranche1date = new Date("1970-01-01");
+                                    }
+                                });
+
+
+                            $scope.$watch('data.has_t2',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+                                        $scope.data.has_t3 = false;
+                                        $scope.data.Tranche2amount = '';
+                                        $scope.data.Tranche2date = '';
+
+                                        $scope.dt_Tranche2date = new Date("1970-01-01");
+                                    }
+                                });
+
+
+                            $scope.$watch('data.has_t3',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+
+                                        $scope.data.Tranche3amount = '';
+                                        $scope.data.Tranche3date = '';
+
+                                        $scope.dt_Tranche3date = new Date("1970-01-01");
+                                    }
+                                });
+
+
+                            $scope.$watch('data.phy_has_construction_target',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+
+                                        $scope.data.phy_construction_target = '';
+                                        $scope.data.phy_construction_actual = '';
+                                    }
+                                });
+
+
+                            $scope.$watch('data.phy_has_improvement_target',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+
+                                        $scope.data.phy_improvement_target = '';
+                                        $scope.data.phy_improvement_actual = '';
+                                    }
+                                });
+                            $scope.$watch('data.phy_has_rehabilitation_target',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+
+                                        $scope.data.phy_rehabilitation_target = '';
+                                        $scope.data.phy_rehabilitation_actual = '';
+                                    }
+                                });
+
+                            $scope.$watch('data.phy_has_purchase_target',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+
+                                        $scope.data.phy_purchase_target = '';
+                                        $scope.data.phy_purchase_actual = '';
+                                    }
+                                });
+
+
+                            //Secondary
+                            $scope.$watch('data.phy_has_construction_target_secondary',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+
+                                        $scope.data.phy_construction_target_secondary = '';
+                                        $scope.data.phy_construction_actual_secondary = '';
+                                    }
+                                });
+
+
+                            $scope.$watch('data.phy_has_improvement_target_secondary',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+
+                                        $scope.data.phy_improvement_target_secondary = '';
+                                        $scope.data.phy_improvement_actual_secondary = '';
+                                    }
+                                });
+                            $scope.$watch('data.phy_has_rehabilitation_target_secondary',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+
+                                        $scope.data.phy_rehabilitation_target_secondary = '';
+                                        $scope.data.phy_rehabilitation_actual_secondary = '';
+                                    }
+                                });
+
+                            $scope.$watch('data.phy_has_purchase_target_secondary',
+                                function(newValue, oldValue) {
+
+                                    if (newValue == false) {
+
+                                        $scope.data.phy_purchase_target_secondary = '';
+                                        $scope.data.phy_purchase_actual_secondary = '';
+                                    }
+                                });
+
+
+                            $http.get('/api/subproject/get_location_coverage?id=@ViewBag.id')
+                                .then(function(response) {
+
+                                    $scope.covered_barangays = response.data;
+                                });
+
+
+                            $http.get('/api/offline/v1/trainings/pra/activity_matching?fund_source_id=' +
+                                    $scope.data.modality_id +
+                                    "&cycle_id=" +
+                                    $scope.data.cycle_id +
+                                    "&city_code=" +
+                                    $scope.data.city_code
+                                )
+                                .then(function(response) {
+
+                                    $scope.pra_activity_matching_options_id = response.data;
+
+                                });
+
+
+                        });
+
+                    $http.get('/api/offline/v1/sub_project/ers/get?id=' + '@ViewBag.id')
+                        .then(function(response) {
+
+
+                            $scope.loading = true;
+
+                            $scope.list_ErsList = response.data;
+
+                        });
+
+                    //------------------------------- Add multiple SET for a subproject: 03-03-17 -------------------------------------------//
+
+                    $scope.set_data = {};
+
+                    //getting list of available sets:
+                    $http.get('/api/offline/v1/sub_project/set/get?id=' + '@ViewBag.id').then(function (response) {
+                        $scope.loading = true;
+                        $scope.list_SET = response.data;
+                    });
+
+                    //refresh list:
+                    $scope.refreshsetlist = function () {
+                        $http.get('/api/offline/v1/sub_project/set/get?id=' + '@ViewBag.id').then(function (response) {
+                            $scope.loading = true;
+                            $scope.list_SET = response.data;
+                        });
+                    };
+                       
+                    $scope.createNewSET = function () {
+                        $scope.create_button_is_clicked = true;
+                    };
+
+                    $scope.compute_for_set_total = function () {
+                        $scope.set_data.set_total_score = ($scope.set_data.set_sp_utilization * .15 == undefined ? 0 : $scope.set_data.set_sp_utilization * .15)
+                                                        + ($scope.set_data.set_organization * .20 == undefined ? 0 : $scope.set_data.set_organization * .20)
+                                                        + ($scope.set_data.set_institutional_linkage * .10 == undefined ? 0 : $scope.set_data.set_institutional_linkage * .10)
+                                                        + ($scope.set_data.set_financial * .15 == undefined ? 0 : $scope.set_data.set_financial * .15)
+                                                        + ($scope.set_data.set_physical * .40 == undefined ? 0 : $scope.set_data.set_physical * .40);
+                        return $scope.set_data.set_total_score;
+                    };
+
+                    //start of edit:
+                    $scope.editset = function (item) {
+                        $scope.edit_button_is_clicked = true;
+                        $scope.create_button_is_clicked = false;
+
+                        $http.get('/api/offline/v1/spi/set/details/get?id=' + item.sub_project_set_id).then(function (response) {
+                            $scope.loading = true;
+                            $scope.set_data = response.data;
+
+                            $scope.dt_set_date_eval = response.data.set_date_eval == undefined ? null : new Date(response.data.set_date_eval);
+                            $scope.set_data.set_physical_description = response.data.set_physical_description;
+                            $scope.set_data.set_sp_utilization = response.data.set_sp_utilization == 0 ? "" : $scope.set_data.set_sp_utilization;
+                            $scope.set_data.set_organization = response.data.set_organization == 0 ? "" : $scope.set_data.set_organization;
+                            $scope.set_data.set_institutional_linkage = response.data.set_institutional_linkage == 0 ? "" : $scope.set_data.set_institutional_linkage;
+                            $scope.set_data.set_physical = response.data.set_physical == 0 ? "" : $scope.set_data.set_physical;
+                            $scope.set_data.set_financial = response.data.set_financial == 0 ? "" : $scope.set_data.set_financial;
+                            $scope.set_data.set_total_score = response.data.set_total_score == 0 ? "" : $scope.set_data.set_total_score;
+
+                            //save when edited:
+                            $scope.saveset = function () {
+                                $.post('/api/offline/v1/sub_projects/set/save', $scope.set_data).success(function (data) {
+                                    $scope.loading = false;
+                                    $('html, body').animate({ scrollTop: '0px' }, 1500);
+                                    $mdToast.show(
+                                                $mdToast.simple()
+                                                .textContent('SET has been updated!')
+                                                .position("top right")
+                                                .hideDelay(3000)
+                                            );
+                                    $scope.set_data.sub_project_set_id = data.sub_project_set_id;
+                                    $scope.cancelset();
+                                    $scope.refreshsetlist();
+                                }).error(function (data) {
+                                    alert(JSON.stringify(data));
+                                    $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                    $scope.loading = false;
+                                });
+                            };
+
+                            //cancel editing:
+                            $scope.cancelset = function () {
+                                $scope.create_button_is_clicked = false;
+                                $scope.edit_button_is_clicked = false;
+                                $scope.set_data = {};
+                            };
+
+                        });
+
+                    }; //end of edit
+
+
+                    //delete set in list
+                    $scope.deleteset = function (removeitem) {
+                        var ask = confirm("Are you sure you want to Delete this?");
+
+                        if (ask === true) {
+                            $.post('/api/delete/sub_project/set?id=' + removeitem.sub_project_set_id).success(function (value) {
+                                $scope.loading = false;
+                                var index = $scope.list_SET.indexOf(removeitem);
+                                $scope.list_SET.splice(index, 1);
+                                $scope.cancelset();
+                                alert("Record removed!");
+                            }).error(function (data) {
+                                alert(JSON.stringify(data));
+                                $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                                $scope.loading = false;
+                            });
+                        }
+                    };
+
+                    //save when newly created:
+                    $scope.saveset = function () {
+
+                        $scope.set_data.sub_project_id = $scope.data.sub_project_id;
+                        $scope.set_data.sub_project_unique_id = $scope.data.sub_project_unique_id;
+
+                        $.post('/api/offline/v1/sub_projects/set/save', $scope.set_data).success(function (data) {
+                            $scope.loading = false;
+                            $('html, body').animate({ scrollTop: '0px' }, 1500);
+                            $mdToast.show(
+                                        $mdToast.simple()
+                                        .textContent('New SET has been saved!')
+                                        .position("top right")
+                                        .hideDelay(3000)
+                                    );
+                            $scope.set_data.sub_project_set_id = data.sub_project_set_id;
+                            $scope.list_SET.push($scope.set_data);
+                            $scope.cancelset();
+                        }).error(function (data) {
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+                    };
+
+                    //cancel creating new SET:
+                    $scope.cancelset = function () {
+                        $scope.create_button_is_clicked = false;
+                        $scope.edit_button_is_clicked = false;
+                        $scope.dt_set_date_eval = '';
+                        $scope.set_data = {};
+                    };
+
+
+                    //------------------------------- end -----------------------------------//
+
+
+                    //ERS LIST
+
+
+                    $scope.addNewErsList = function() {
+                        $scope.new_ErsList = !$scope.new_ErsList;
+                    }
+
+                    $scope.selected_ErsList = {};
+                    $scope.new_ErsList_record = {}
+
+                    $scope.editErsList = function(contact) {
+                        $scope.edit_ErsList = true;
+                        $scope.selected_ErsList = angular.copy(contact);
+                    };
+
+
+                    // gets the template to ng-include for a table row / item
+                    $scope.getErsListTemplate = function(contact) {
+                        if (contact
+                            .mibf_prioritization_id ===
+                            $scope.selected_ErsList.mibf_prioritization_id) return 'editErsListTemplate';
+                        else return 'displayErsListTemplate';
+                    };
+
+                    $scope.reset_ErsList = function() {
+                        $scope.new_ErsList = false;
+                        $scope.edit_ErsList = false;
+                        $scope.selected_ErsList = {};
+                        $scope.new_ErsList_record = {};
+                    };
+
+                    $scope.save_ErsList = function(idx) {
+
+
+                        $.post('/api/offline/v1/trainings/ErsList/save', $scope.selected_ErsList)
+                            .success(function(data) {
+
+
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('ErsList Updated!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+                            })
+                            .error(function(data) {
+
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+
+                        $scope.list_ErsList[idx] = angular.copy($scope.selected_ErsList);
+                        $scope.reset_ErsList();
+                    };
+
+
+                    $scope.new_ErsList_record.community_training_id = $scope.data.community_training_id;
+
+                    $scope.add_ErsList = function() {
+                        $scope.new_ErsList_record.sub_project_id = $scope.data.sub_project_id;
+                        $scope.new_ErsList_record.sub_project_unique_id = $scope.data.sub_project_unique_id;
+
+                        $scope.new_ErsList_record.fund_source_id = $scope.data.modality_id;
+                        $scope.new_ErsList_record.cycle_id = $scope.data.cycle_id;
+                        $scope.new_ErsList_record.region_coe = $scope.data.region_code;
+                        $scope.new_ErsList_record.prov_code = $scope.data.prov_code;
+                        $scope.new_ErsList_record.city_code = $scope.data.city_code;
+                        $scope.new_ErsList_record.brgy_code = $scope.data.brgy_code;
+
+
+                        $scope.new_ErsList_record.created_by = 0;
+                        $scope.new_ErsList_record.created_date = new Date();
+
+
+                        $.post('/api/offline/v1/sub_projects/ers/save', $scope.new_ErsList_record)
+                            .success(function(data) {
+
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('Ers List Added!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+
+
+                                $scope.new_ErsList_record.sub_project_ers_id = data.sub_project_ers_id;
+
+                                $scope.list_ErsList.push($scope.new_ErsList_record);
+                                $scope.reset_ErsList();
+                            })
+                            .error(function(data) {
+                                alert(JSON.stringify(data));
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+
+                    };
+
+                    $scope.remove_ErsList = function(id, idx) {
+
+
+                        var ask = confirm("Are you sure you want to remove this?")
+
+                        if (ask == false) {
+                            return false;
+                        }
+
+                        $.post('/api/delete/sub_project_ers?id=' + id)
+                            .success(function(data) {
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('Ers List Removed!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+                                $scope.list_ErsList.splice(idx, 1);
+                            })
+                            .error(function(data) {
+
+                                alert(JSON.stringify(data.responseText));
+
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+
+                    };
+
+
+                    //END ERS LIST
+
+
+                    //ERS WORKERS
+
+
+                    $scope.addNewWorker = function() {
+                        $scope.new_worker = !$scope.new_worker;
+
+                        if($scope.new_worker == true)
+                        {
+                            $scope.search();
+
+                        }
+
+                    }
+
+
+                    $scope.new_worker_record = {};
+
+
+                    $scope.selected = {};
+
+                    $scope.edit_worker = function(contact) {
+                        $scope.edit_worker_ = true;
+                        $scope.selected = angular.copy(contact);
+                    };
+
+
+                    // gets the template to ng-include for a table row / item
+                    $scope.getTemplate = function(contact) {
+
+
+                        if($scope.selected_ers_delivery_mode == 1)
+                        {
+                            if (contact.person_ers_work_id === $scope.selected.person_ers_work_id) return 'editWorker';
+                            else return 'displayWorker';
+                        }
+
+
+                        if($scope.selected_ers_delivery_mode == 2)
+                        {
+                            if (contact.person_ers_work_id === $scope.selected.person_ers_work_id) return 'editPakyawWorker';
+                            else return 'displayPakyawWorker';
+                        }
+
+
+                        if($scope.selected_ers_delivery_mode == 3)
+                        {
+                            if (contact.person_ers_work_id === $scope.selected.person_ers_work_id) return 'editHaulingWorker';
+                            else return 'displayHaulingWorker';
+                        }
+                    };
+
+                    $scope.reset = function() {
+                        $scope.selected = {};
+                        $scope.edit_worker_ = false;
+
+                        $scope.new_worker_record = {};
+                        $scope.new_worker_ = false;
+                    };
+
+
+                    $scope.hide_ers_worker = function() {
+                        $scope.selected_ers_list = false;
+
+                    }
+
+
+                    $scope.equal_ers_total = function()
+                    {
+                        if($scope.selected_ers_delivery_mode == 1)
+                        {
+                            $scope.selected_total = ($scope.selected.rate_day * $scope.selected.work_days) + ($scope.selected.rate_hour * $scope.selected.work_hours);
+
+                            $scope.selected_actual = $scope.selected.actual_cash + $scope.selected.actual_lcc;
+
+
+                            if($scope.selected_total != $scope.selected_actual)
+                            {
+                                return false;
+                            }
+
+                            return true;
+
+
+                        }
+
+                        if($scope.selected_ers_delivery_mode == 2)
+                        {
+                            $scope.selected_total = ($scope.selected.rate_day * $scope.selected.percent) /100;
+
+                            $scope.selected_actual = $scope.selected.actual_cash + $scope.selected.actual_lcc;
+
+
+                            if($scope.selected_total != $scope.selected_actual)
+                            {
+                                return false;
+                            }
+
+                            return true;
+
+                        }
+
+                        if($scope.selected_ers_delivery_mode == 3)
+                        {
+                            $scope.selected_total = ($scope.selected.rate_hauling * $scope.selected.work_hauling);
+
+                            $scope.selected_actual = $scope.selected.actual_cash + $scope.selected.actual_lcc;
+
+
+                            if($scope.selected_total != $scope.selected_actual)
+                            {
+                                return false;
+                            }
+
+                            return true;
+
+                        }
+
+                    }
+
+                    $scope.equal_ers_total_new = function()
+                    {
+                        if($scope.selected_ers_delivery_mode == 1)
+                        {
+                            $scope.selected_total_new = ($scope.new_worker_record.rate_day * $scope.new_worker_record.work_days) + ($scope.new_worker_record.rate_hour * $scope.new_worker_record.work_hours);
+
+                            $scope.selected_actual_new = $scope.new_worker_record.actual_cash + $scope.new_worker_record.actual_lcc;
+
+
+                            if($scope.selected_total_new != $scope.selected_actual_new)
+                            {
+                                return false;
+                            }
+
+                            return true;
+
+
+                        }
+
+                        if($scope.selected_ers_delivery_mode == 2)
+                        {
+                            $scope.selected_total_new = ($scope.new_worker_record.rate_day * $scope.new_worker_record.percent) /100;
+
+                            $scope.selected_actual_new = $scope.new_worker_record.actual_cash + $scope.new_worker_record.actual_lcc;
+
+
+                            if($scope.selected_total_new != $scope.selected_actual_new)
+                            {
+                                return false;
+                            }
+
+                            return true;
+
+                        }
+
+                        if($scope.selected_ers_delivery_mode == 3)
+                        {
+                            $scope.selected_total_new = ($scope.new_worker_record.rate_hauling * $scope.new_worker_record.work_hauling);
+
+                            $scope.selected_actual_new = $scope.new_worker_record.actual_cash + $scope.new_worker_record.actual_lcc;
+
+
+                            if($scope.selected_total_new != $scope.selected_actual_new)
+                            {
+                                return false;
+                            }
+
+                            return true;
+
+                        }
+
+                    }
+
+                    $scope.show_ers_worker = function(item) {
+
+                        $scope.selected_ers_list = true;
+
+                        $scope.selected_ers_list_id = item.sub_project_ers_id;
+                        $scope.selected_ers_delivery_mode = item.ers_delivery_mode_id;
+
+
+                        $scope.get_ers_summary(item.sub_project_ers_id);
+
+
+                        $http.get('/api/offline/v1/spi/ers/worker/get?id=' + item.sub_project_ers_id)
+                            .then(function(value) {
+
+
+                                $scope.page = value.Page;
+                                $scope.pagesCount = value.TotalPages;
+                                $scope.totalCount = value.TotalCount;
+                                $scope.members = value.data;
+                                $scope.isSearching = false;
+
+
+                                $scope.show_ers_worker_list = true;
+                                $scope.show_spcr_data = false;
+                                $scope.show_profile_data = false;
+                                $scope.show_ers_data = false;
+                                $scope.show_geotagging = false;
+                            });
+                    };
+
+
+                    $scope.filter = {};
+
+                    $scope.filter.region_code = '';
+                    $scope.filter.prov_code = '';
+                    $scope.filter.city_code = '';
+                    $scope.filter.brgy_code = '';
+                    $scope.filter.fund_source_id = '';
+                    $scope.filter.cycle_id = '';
+                    $scope.filter.enrollment_id = '';
+                    $scope.filter.is_male = '';
+                    $scope.filter.is_ip = '';
+                    $scope.filter.ip_group_id = '';
+                    $scope.filter.occupation_id = '';
+                    $scope.filter.is_lguofficial = '';
+                    $scope.filter.lgu_position_id = '';
+                    $scope.filter.education_attainment_id = '';
+                    $scope.filter.civil_status_id = '';
+                    $scope.filter.pageSize = '';
+                    $scope.filter.currPage = '';
+                    $scope.filter.push_status_id = '';
+                    $scope.filter.approval_id = '';
+                    $scope.filter.is_volunteer = '';
+                    $scope.filter.volunteer_committee_position_id = '';
+                    $scope.filter.volunteer_committee_id = '';
+                    $scope.filter.is_worker = '';
+                    $scope.filter.training_category_id = '';
+                    $scope.filter.community_training_id = '';
+                    $scope.filter.grs_intake_level_id = '';
+                    $scope.filter.grs_form_id = '';
+                    $scope.filter.grs_filling_mode_id = '';
+                    $scope.filter.grs_complainant_position_id = '';
+                    $scope.filter.grs_resolution_status_id = '';
+                    $scope.filter.grs_feedback_id = '';
+                    $scope.filter.grs_category_id = '';
+                    $scope.filter.grs_complaint_subject_id = '';
+                    $scope.filter.grs_nature_id = '';
+                    $scope.filter.spi_nature_work_id = '';
+                    $scope.filter.name = '';
+
+
+
+                    $scope.get_ers_summary = function(id)
+                    {
+
+                        $http.get('/api/offline/v1/spi/ers/worker/get/summary?id=' + id)
+                          .then(function(value) {
+
+                              $scope.ers_list_summary = value.data;
+
+                          });
+                    }
+
+
+
+
+                    $scope.search = function(page) {
+                        // alert("birok");
+
+
+                        $scope.filter.pageSize = $scope.pageSize == undefined ? '' : $scope.pageSize;
+                        $scope.filter.currPage = page == undefined ? '' : page;
+                        $scope.filter.sub_project_ers_id = $scope.selected_ers_list_id;
+                        $scope.filter.is_worker = false;
+
+                        //   alert(JSON.stringify($scope.filter));
+
+
+                        $.post('/api/offline/v1/profiles/get_dto', $scope.filter)
+                            .success(function(value) {
+
+                                //  alert("bbbb");
+
+                                $scope.page = value.Page;
+                                $scope.pagesCount = value.TotalPages;
+                                $scope.totalCount = value.TotalCount;
+                                $scope.potentialmembers = value.Items;
+                                $scope.isSearching = false;
+
+
+                            })
+                            .error(function(data) {
+
+                                //    alert("get benes done");
+
+                                $scope.error = "An Error has occured! " + data.statusText;
+                                $scope.loading = false;
+                            });
+
+
+                    };
+
+                    $scope.search();
+
+
+                    $scope.ConfirmParticipation = function(obj, idx) {
+
+                        $scope.new_worker_record = angular.copy(obj);;
+
+
+
+                        $scope.new_worker = !$scope.new_worker;
+                        $scope.new_worker_ = true;
+
+                        //  $scope.potentialmembers.splice(idx, 1);
+
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent('Person Included as Worker!')
+                            .position("bottom right")
+                            .hideDelay(3000)
+                        );
+
+
+                    }
+
+
+
+
+
+                    $http.get('/api/offline/v1/subproject/get_photos?id=@ViewBag.id')
+                        .then(function(response) {
+
+
+                            $scope.myMarkers = [];
+                            $scope.get_data = [];
+
+
+                            $scope.loading = true;
+                            $scope.get_data = response.data;
+
+
+                            //<img ng-src=http://geotagging.dswd.gov.ph/SPPhotos/thumbnails/{{photo.region_code}}/{{photo.UniqueName}}.jpg />
+
+
+
+                            angular.forEach($scope.get_data, function(item)
+                            {
+                                var base = window.location.origin;
+
+
+                                item.url = base +"/SPPhotos/" + item.UniqueName +".jpeg";
+
+
+                            })
+                            //angular.forEach($scope.get_data, function (item) {
+
+                            //    var p = {
+                            //        lat: item.lat,
+                            //        lng: item.lng,
+                            //        compileMessage: "",
+                            //        draggable: false,
+                            //        //   message: '<img ng-src="http://geotagging.dswd.gov.ph/SPPhotos/thumbnails/"+ item.region_code + "/"+ item.UniqueName +".jpg" class="portfolio-item" height="300" width="500">'
+                            //    };
+
+                            //    $scope.myMarkers.push(p);
+
+
+                            //});
+
+
+                            //$scope.data.markers = {};
+                            //angular.extend($scope.data, { angularInterpolatedMessage: "Angular interpolated message!" });
+                            //angular.extend($scope.data, {
+
+
+                            //    markers: $scope.myMarkers
+
+                            //});
+                        });
+
+
+
+                    $scope.$watch('data.community_training_id',
+                        function(newValue, oldValue) {
+
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+                                record.mibf_priority_id = null;
+
+
+                                record.pra_spi_matching_options_id = [];
+
+                            } else {
+
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/offline/v1/trainings/pra/spi_matching?id=' + newValue,
+
+                                })
+                                    .success(function(data, status, headers, config) {
+
+                                        $scope.pra_spi_matching_options_id = data;
+                                    })
+                                    .error(function(data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+
+                    $scope.$watch('data.modality_id',
+                        function(newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+
+                                record.cycle_id = null;
+
+                                record.cycle_id_options = [];
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/lib_cycle?id=' + newValue,
+
+                                })
+                                    .success(function(data, status, headers, config) {
+
+                                        $scope.cycle_id_options = data;
+                                    })
+                                    .error(function(data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+
+
+                    $scope.addSuspension = function () {
+                        $scope.data.suspension_order_lists.push($scope.susp);
+                        $scope.proj = {};
+                    }
+
+                    $scope.removeSuspension = function (index) {
+                        $scope.data.suspension_order_lists.splice(index, 1);
+                    }
+
+
+                    $scope.addResume = function () {
+                        $scope.data.resume_order_lists.push($scope.resume);
+                        $scope.proj = {};
+                    }
+
+                    $scope.removeResume = function (index) {
+                        $scope.data.resume_order_lists.splice(index, 1);
+                    }
+
+                    $scope.addVariation = function () {
+                        $scope.data.variation_order_lists.push($scope.vari);
+                        $scope.proj = {};
+                    }
+
+                    $scope.removeVariation = function (index) {
+                        $scope.data.variation_order_lists.splice(index, 1);
+                    }
+
+
+                    $scope.addOpMain = function () {
+                        $scope.data.community_formation_lists.push($scope.maintain);
+                        $scope.maintain = {};
+                    }
+
+                    $scope.removeOpMain = function (index) {
+                        $scope.data.community_formation_lists.splice(index, 1);
+                    }
+
+
+                    $scope.save = function() {
+
+
+                        $scope.$broadcast('show-errors-check-validity');
+                        $scope.loading = true;
+
+
+                        if ($scope.data.project_status_id == 2 && $scope.data.Phy_Perc_To_Date >= 100) {
+                            alert("Ongoing projects cannot have 100% physical progress");
+                            return false;
+                        }
+
+                        if ($scope.data.physical_status_id != 1) {
+                            $scope.data.Date_of_Completion = '';
+
+                        }
+                        //   alert(JSON.stringify($scope.data.Date_Started));
+
+                        if ($scope.data.physical_status_id == 3) {
+                            $scope.data.Date_Started = '';
+
+                            $scope.Tranche1date = '';
+                            $scope.Tranche2date = '';
+                            $scope.Tranche3date = '';
+                        }
+                        //    alert(JSON.stringify($scope.data.Date_Started));
+
+                        //    alert(JSON.stringify($scope.data.s_phy_construction_target));
+
+                        if ($scope.data.Date_Started == "1/1/1970") {
+                            $scope.data.Date_Started = '';
+                        }
+
+
+
+                        $scope.data.suspension_order_list =  JSON.stringify($scope.data.suspension_order_lists);
+                        $scope.data.resume_order_list = JSON.stringify($scope.data.resume_order_lists);
+                        $scope.data.variation_order_list=  JSON.stringify($scope.data.variation_order_lists);
+                        $scope.data.community_formation_list = JSON.stringify($scope.data.community_formation_lists);
+
+
+
+
+                        $.post('/api/offline/v1/sub_projects/save', $scope.data)
+                            .success(function(data) {
+                                $scope.loading = false;
+
+                                $('html, body').animate({
+                                    scrollTop: '0px'
+                                }, 1500);
+
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('Record Saved!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+
+                                //$scope.check_status();
+                                @*if ($scope.status == false) {
+                                    window.location.href = "/Entry/Trainings?id='@ViewBag.id'";
+                                }*@
+
+                            })
+                            .error(function(data) {
+
+                                alert(JSON.stringify(data));
+
+
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+                    };
+
+
+                    $scope.$watch('data.region_code',
+                        function(newValue, oldValue) {
+
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+                                record.prov_code = null;
+                                record.city_code = null;
+                                record.brgy_code = null;
+
+
+                                record.prov_code_options = [];
+                                record.city_code_options = [];
+                                record.brgy_code_options = [];
+                            } else {
+
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_province?id=' + newValue,
+
+                                })
+                                    .success(function(data, status, headers, config) {
+
+                                        $scope.prov_code_options = data;
+                                    })
+                                    .error(function(data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    $scope.$watch('data.prov_code',
+                        function(newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+
+                                record.brgy_code = null;
+                                record.city_code = null;
+                                record.city_code_options = [];
+                                record.brgy_code_options = [];
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_city?id=' + newValue,
+
+                                })
+                                    .success(function(data, status, headers, config) {
+
+                                        $scope.city_code_options = data;
+                                    })
+                                    .error(function(data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    $scope.$watch('data.city_code',
+                        function(newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+
+                                record.brgy_code = null;
+
+                                record.brgy_code_options = [];
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_brgy?id=' + newValue,
+
+                                })
+                                    .success(function(data, status, headers, config) {
+
+                                        $scope.brgy_code_options = data;
+                                    })
+                                    .error(function(data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+
+                })
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+}
+
+

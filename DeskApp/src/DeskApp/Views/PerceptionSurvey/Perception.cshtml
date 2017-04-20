@@ -1,0 +1,621 @@
+﻿<div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
+    <md-toolbar md-scroll-shrink> 
+        <div class="md-toolbar-tools">
+            <h1>Municipal Talakayan Perception Survey</h1>
+        </div>
+
+    </md-toolbar>
+
+    <md-tabs md-dynamic-height md-border-bottom>
+
+   
+        <md-tab label="Basic Information">
+           <form name="basicForm"> <!--for validation-->
+             @Html.Partial("~/Views/PerceptionSurvey/_basic_information.cshtml")
+           </form>
+        </md-tab>
+        <md-tab label="Perception Survey Questionnaire" ng-disabled="data.year == 0">
+            <div class="panel panel-success">
+                <div class="panel panel-heading">
+                    <h5 style="font-style:italic">
+                        <strong>Instruction: </strong>Indicate your level of agreement on each of the statements below using the following rating scale: <br />
+                        <strong>1 </strong> - Strongly Disagree; <strong>2 </strong> - Disagree; <strong>3 </strong> - Agree; and <strong>4 </strong> - Strongly Agree. <br /><br />
+                        Answer as honestly as possible. Rest assured that your information and responses will be kept confidential.
+                    </h5>
+                </div>
+                <div class="panel panel-body">
+                    @Html.Partial("~/Views/PerceptionSurvey/_trust_and_confidence.cshtml")
+                    @Html.Partial("~/Views/PerceptionSurvey/_access_to_services.cshtml")
+                    @Html.Partial("~/Views/PerceptionSurvey/_participation.cshtml")
+                    @Html.Partial("~/Views/PerceptionSurvey/_disaster_risk.cshtml")
+                </div>
+            </div>
+        </md-tab>
+        @Html.Partial("~/Views/Entry/Common/_attachment.cshtml")
+        
+    </md-tabs>
+    
+
+    <md-content>
+
+
+        <ul>
+            <li ng-repeat="(key, errors) in basicForm.$error track by $index">
+                <strong>{{ key }}</strong> Basic Information
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+
+        </ul>
+
+
+       
+    </md-content>
+
+    <br /> <br />
+
+    <br />
+    <md-container layout="row">
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+            <!--VALIDATION: button Submit will be enabled only if the required fields are populated-->
+            <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!basicForm.$valid">
+                Submit Survey
+            </md-button>
+
+            <md-button class="md-warn md-raised" href="/PerceptionSurvey/Index">
+                Back to List
+            </md-button>
+
+        </div>
+    </md-container>
+
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+            .controller('AppCtrl',
+                function ($scope, $mdDialog, $http, $mdToast) {
+
+
+
+                    $scope.survey_option_answer_id = [{ "Id": 1, "Name": "1 - Strongly Disagree" }, { "Id": 2, "Name": "2 - Disagree" }, { "Id": 3, "Name": "3 - Agree" }, { "Id": 4, "Name": "4 - Strongly Agree" }];
+                    $scope.survey_sex = [{ "Id": 1, "Name": "Male" }, { "Id": 2, "Name": "Female" }];
+                    $scope.survey_year = [{ "Id": 2015, "Name": "2015" }, { "Id": 2016, "Name": "2016" }];
+                    $scope.talakayan_year_options = [{ "Id": 1, "Name": "2015" }, { "Id": 2, "Name": "2016" }, { "Id": 3, "Name": "2017" }, { "Id": 4, "Name": "2018" }, { "Id": 5, "Name": "2019" }];
+
+                    $scope.data;
+
+                    //displaying the previously entered details: EDIT
+                    $http.get('/api/offline/v1/perception_survey/get?id=@ViewBag.id')
+                        .then(function (response) {
+                            $scope.loading = true;
+
+                            $scope.data = response.data;
+
+                            $scope.dt_start_date = response.data.talakayan_date_from == undefined ? null : new Date(response.data.talakayan_date_from);
+                            $scope.dt_end_date = response.data.talakayan_date_to == undefined ? null : new Date(response.data.talakayan_date_to);
+                            $scope.maxDate = new Date($scope.data.dt_start_date);
+
+                            $scope.today = new Date();
+
+                            $scope.$watch('dt_start_date',
+                                function (newValue, oldValue) {
+                                    $scope.maxDate = new Date(newValue);
+                                });
+
+                            //getting survey_date_from and survey_date_to
+
+                            $scope.dt_survey_start_date = response.data.survey_date_from == undefined ? null : new Date(response.data.survey_date_from);
+                            $scope.dt_survey_end_date = response.data.survey_date_to == undefined ? null : new Date(response.data.survey_date_to);
+
+                            $scope.$watch('data.talakayan_yr_id',
+                                function (newValue, oldValue) {
+
+                                    $scope.this_year = new Date().getFullYear();
+
+                                    switch($scope.data.talakayan_yr_id)
+                                    {
+                                        //2015
+                                        case 1:
+                                            if($scope.this_year < 2015)
+                                            {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+                                                return false;
+                                            }
+                                            break;
+                                        //2016
+                                        case 2:
+                                            if ($scope.this_year < 2016) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+                                                return false;
+                                            }
+                                            break;
+                                        //2017
+                                        case 3:
+                                            if ($scope.this_year < 2017) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+                                                return false;
+                                            }
+                                            break;
+                                        //2018
+                                        case 4:
+                                            if ($scope.this_year < 2018) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+                                                return false;
+                                            }
+                                            break;
+                                        //2019
+                                        case 5:
+                                            if ($scope.this_year < 2019) {
+                                                $scope.data.talakayan_yr_id = '';
+                                                alert("Year cannot be made in advance");
+                                                return false;
+                                            }
+                                            break;
+                                    }
+                                    
+                                    //if talakayan year is 2015
+                                    if ($scope.data.talakayan_yr_id == 1) {
+                                        $scope.maxStartDate = new Date("01/01/2015");
+                                        $scope.maxEndDate = new Date("12/31/2015");
+
+                                        $scope.survey_maxEndDate = new Date($scope.data.talakayan_date_to);
+                                    }
+                                    //if talakayan year is 2016
+                                    if ($scope.data.talakayan_yr_id == 2) {
+                                        $scope.maxStartDate = new Date("01/01/2016");
+                                        $scope.maxEndDate = new Date("12/31/2016");
+
+                                        $scope.survey_maxEndDate = new Date($scope.data.talakayan_date_to);
+                                    }
+
+                                    if ($scope.data.talakayan_yr_id == 3) {
+                                        $scope.maxStartDate = new Date("01/01/2017");
+                                        $scope.maxEndDate = new Date();
+
+                                        $scope.survey_maxEndDate = new Date($scope.data.talakayan_date_to);
+                                    }
+
+                                    if ($scope.data.talakayan_yr_id == 4) {
+                                        $scope.maxStartDate = new Date("01/01/2018");
+                                        $scope.maxEndDate = new Date("12/31/2018");
+
+                                        $scope.survey_maxEndDate = new Date($scope.data.talakayan_date_to);
+                                    }
+
+                                    if ($scope.data.talakayan_yr_id == 5) {
+                                        $scope.maxStartDate = new Date("01/01/2019");
+                                        $scope.maxEndDate = new Date("12/31/2019");
+
+                                        $scope.survey_maxEndDate = new Date($scope.data.talakayan_date_to);
+                                    }
+                                });
+
+                            $scope.$watch('dt_end_date',
+                                function (newValue, oldValue) {
+
+                                    $scope.survey_maxEndDate = new Date(newValue);
+
+                                });
+
+                            $scope.$watch('dt_survey_start_date',
+                                function (newValue, oldValue) {
+
+                                    $scope.survey_maxDate = new Date(newValue);
+
+                                });
+
+
+                            $scope.showAttributes = false;
+
+                            $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
+                            $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
+                            $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
+                            $scope.data.brgy_code = $scope.data.brgy_code == 0 ? "" : $scope.data.brgy_code;
+
+                            $scope.data.cycle_id = $scope.data.cycle_id == 0 ? "" : $scope.data.cycle_id;
+
+                            $scope.data.year = $scope.data.year == 0 ? "" : $scope.data.year;
+
+                            $scope.data.talakayan_date_from = $scope.data.talakayan_date_from == 0 ? "" : $scope.data.talakayan_date_from;
+                            $scope.data.talakayan_date_to = $scope.data.talakayan_date_to == 0 ? "" : $scope.data.talakayan_date_to;
+
+                            $scope.data.activity_name = $scope.data.activity_name == 0 ? "" : $scope.data.activity_name;
+                            $scope.data.survey_date_from = $scope.data.survey_date_from == 0 ? "" : $scope.data.survey_date_from;
+                            $scope.data.survey_date_to = $scope.data.survey_date_to == 0 ? "" : $scope.data.survey_date_to;
+
+                            $scope.data.talakayan_yr_id = $scope.data.talakayan_yr_id == 0 ? "" : $scope.data.talakayan_yr_id;
+
+
+                            $scope.$watch('data.year',
+                          function (newValue, oldValue) {
+
+                              if ($scope.data.year == 2016) {
+                                  $scope.data.trust_2 = null;
+                                  $scope.data.trust_4 = null;
+                                  $scope.data.trust_7 = null;
+                                  $scope.data.access_3 = null;
+                                  $scope.data.access_5 = null;
+                                  $scope.data.access_7 = null;
+                                  $scope.data.access_9 = null;
+                                  $scope.data.access_11 = null;
+                                  $scope.data.access_14 = null;
+                                  $scope.data.participation_2 = null;
+                                  $scope.data.participation_6 = null;
+                                  $scope.data.participation_9 = null;
+                                  $scope.data.participation_11 = null;
+                                  $scope.data.disaster_3 = null;
+                                  $scope.data.disaster_5 = null;
+                                  $scope.data.disaster_6 = null;
+                                  $scope.data.disaster_8 = null;
+
+                              }
+                              if ($scope.data.year == 2015) {
+                                  $scope.data.trust_1 = null;
+                                  $scope.data.trust_3 = null;
+                                  $scope.data.trust_8 = null;
+                                  $scope.data.access_2 = null;
+                                  $scope.data.access_4 = null;
+                                  $scope.data.access_6 = null;
+                                  $scope.data.access_10 = null;
+                                  $scope.data.access_13 = null;
+                                  $scope.data.access_16 = null;
+                                  $scope.data.participation_1 = null;
+                                  $scope.data.participation_5 = null;
+                                  $scope.data.participation_8 = null;
+                                  $scope.data.participation_10 = null;
+                                  $scope.data.disaster_1 = null;
+                                  $scope.data.disaster_2 = null;
+                                  $scope.data.disaster_9 = null;
+
+                              }
+
+                          });
+
+                            $scope.$watch('data.participation_10', //participation_10 is for 2016
+                         function (newValue, oldValue) {
+
+                             if ($scope.data.participation_10 == 1) { //if answer to participation_10 is 1, 2, or null THEN particition_12 should be null
+                                 $scope.data.participation_12 = null;
+                             }
+                             if ($scope.data.participation_10 == 2) {
+                                 $scope.data.participation_12 = null;
+                             }
+                             if ($scope.data.participation_10 == null && $scope.data.year == 2016) {
+                                 $scope.data.participation_12 = null;
+                             }
+                             else {
+                                 $scope.data.participation_12 = $scope.data.participation_12;
+                              }
+
+
+                         });
+
+                            $scope.$watch('data.participation_11', //participation_10 is for 2015
+                         function (newValue, oldValue) {
+
+                             if ($scope.data.participation_11 == 1) {
+                                 $scope.data.participation_12 = null;
+                             }
+                             if ($scope.data.participation_11 == 2) {
+                                 $scope.data.participation_12 = null;
+                             }
+                             if ($scope.data.participation_11 == null && $scope.data.year == 2015) {
+                                 $scope.data.participation_12 = null;
+                             }
+                             else {
+                                 $scope.data.participation_12 = $scope.data.participation_12;
+                             }
+                         });
+
+
+
+                            $scope.check_status = function () {
+
+                                $http.get('/api/exists/perception_survey?id=@ViewBag.id')
+                                    .then(function (result) {
+
+
+                                        if (result.data == true) {
+                                            $scope.status = true;
+                                        } else {
+                                            $scope.status = false;
+
+                                        }
+                                    });
+
+                            }
+
+                            $scope.check_status();
+
+                            $http.get('/api/lib_cycle?id=7')
+                                .then(function (response) { $scope.cycle_id_options = response.data; });
+
+                            $http.get('/api/online/lib_region')
+                                .then(function (response) { $scope.region_code_options = response.data; });
+
+                            //$http.get('/Api/lib_ip_group/')
+                            //    .then(function (response) { $scope.ip_group_id_options = response.data; });
+
+                            //$http.get('/api/talakayan_year')
+                            //    .then(function (response) { $scope.talakayan_year_options = response.data; });
+
+                            $scope.loading = false;
+
+
+                            //ATTACHMENTS
+
+
+                            $http.get('/api/attachment_list?id=89')
+                            .then(function (response) {
+                                $scope.attachment_list = response.data;
+                            });
+
+
+                            $scope.attached_documents = [];
+                            $scope.attachment = {};
+                            $scope.attachment.mov_list_id = null;
+
+                            $scope.uploadAttachment = function () {
+                                var fileUpload = $("#files").get(0);
+                                var files = fileUpload.files;
+                                var data = new FormData();
+                                for (var i = 0; i < files.length ; i++) {
+                                    data.append(files[i].name, files[i]);
+                                }
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Mov/UploadFilesAjax?id="
+                                        + '@ViewBag.id'
+                                        + "&mov_list_id=" + $scope.attachment.mov_list_id
+                                        + "&region_code=" + $scope.data.region_code
+                                        + "&prov_code=" + $scope.data.prov_code
+                                        + "&city_code=" + $scope.data.city_code
+                                        + "&brgy_code=" + $scope.data.brgy_code
+                                        + "&fund_source_id=" + $scope.data.fund_source_id
+                                        + "&cycle_id=" + $scope.data.cycle_id
+                                        + "&enrollment_id=" + $scope.data.enrollment_id,
+                                    contentType: false,
+                                    processData: false,
+                                    data: data,
+                                    success: function (message) {
+                                        var base = window.location.origin;
+                                        message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+                                        $scope.attached_documents.push(message);
+                                    },
+                                    error: function (message) {
+                                        alert(JSON.stringify(message.responseText));
+                                    }
+                                });
+                            }
+
+                            $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
+                               .success(function (value) {
+
+
+                                   $scope.attached_documents = value;
+
+                                   angular.forEach($scope.attached_documents, function (item) {
+                                       var base = window.location.origin;
+
+                                       item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
+
+
+                                   })
+
+                               });
+
+
+
+
+                            $scope.deleteMov = function (removeitem) {
+
+
+
+                                var ask = confirm("Are you sure you want to Delete this?");
+
+
+                                if (ask == true) {
+                                    $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
+                                        $scope.loading = false;
+
+
+
+                                        var index = $scope.attached_documents.indexOf(removeitem);
+                                        $scope.attached_documents.splice(index, 1);
+
+
+                                        alert("Record removed!")
+
+                                    }).error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+
+                                        $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+                                }
+
+                            }
+                            //END ATTACHMENTS
+
+                            
+
+
+
+                        //FOR SAVING:
+                            $scope.save = function () {
+
+                                $scope.$broadcast('show-errors-check-validity');
+                                $scope.loading = true;
+
+                                $.post('/api/offline/v1/perception_survey/save', $scope.data)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+                                        $('html, body').animate({
+                                            scrollTop: '0px'
+                                        }, 1500);
+                                        
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Survey Saved!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        $scope.check_status();
+
+                                    })
+                                    .error(function (data) {
+
+                                        alert(JSON.stringify(data));
+
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            }; //end of save function
+
+                        });
+
+                    //-------------------------------------------------------------------------------------------------------------------------//
+
+
+                    $scope.$watch('data.region_code',
+                        function (newValue, oldValue) {
+
+
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+                                record.prov_code = null;
+                                record.city_code = null;
+                                record.brgy_code = null;
+
+
+                                record.prov_code_options = [];
+                                record.city_code_options = [];
+                                record.brgy_code_options = [];
+
+                            } else {
+
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_province?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.prov_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    $scope.$watch('data.prov_code',
+                        function (newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+
+                                record.brgy_code = null;
+                                record.city_code = null;
+                                record.city_code_options = [];
+                                record.brgy_code_options = [];
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_city?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.city_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    $scope.$watch('data.city_code',
+                        function (newValue, oldValue) {
+
+                            var record = $scope;
+
+                            if (newValue == null) {
+
+                                record.brgy_code = null;
+
+                                record.brgy_code_options = [];
+                            } else {
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/online/lib_brgy?id=' + newValue,
+
+                                })
+                                    .success(function (data, status, headers, config) {
+
+                                        $scope.brgy_code_options = data;
+                                    })
+                                    .error(function (data, status, headers, config) {
+
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                            }
+
+                        });
+
+                    //$scope.$watch('data.talakayan_yr_id',
+                    //    function (newValue, oldValue) {
+                    //        var record = $scope;
+                    //            $http({
+                    //                method: 'GET',
+                    //                url: '/api/talakayan_year?id=' + newValue,
+                    //            })
+                    //                .success(function (data, status, headers, config) {
+                    //                    $scope.talakayan_year_options = data;
+                    //                })
+                    //                .error(function (data, status, headers, config) {
+
+                    //                    $scope.message = 'Unexpected Error';
+                    //                });
+
+                    //    });
+
+
+
+
+
+                })
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+}
+
+

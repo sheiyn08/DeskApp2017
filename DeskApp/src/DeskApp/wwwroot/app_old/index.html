@@ -1,0 +1,133 @@
+﻿
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="http://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.css">
+
+    <link href="../lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+    <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" ng-controller="MainMenu">
+                    <li ng-repeat="module in modules">
+                        <a href="#/{{module}}" class="navbar-brand">{{module}}</a>
+                    </li>
+
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+    <div>
+
+        <div ng-controller="MainMenu">
+
+
+            <div>{{name}}</div>
+            <div>{{counter}}</div>
+
+        </div>
+
+
+        <ng-view />
+        <hr />
+
+    </div>
+
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
+    <script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.0.8/angular-material.js"></script>
+
+
+
+
+
+
+    <script src="app/components/grievance/grievanceController.js"></script>
+
+
+    <script type="text/javascript">
+
+
+
+
+
+
+
+        var modules = modules || [];
+
+        angular.module('app', modules);
+
+
+
+
+
+        angular.module('app').controller('MainMenu', function ($scope) {
+            $scope.modules = modules;
+
+            $scope.name = 'angular';
+            $scope.counter = 0;
+
+            $scope.myClick = function () {
+                $scope.counter++;
+                $scope.name = 'ctrl' + $scope.counter;
+            }
+
+
+        });
+
+
+
+        //angular.module('app').directive('myElement', function () {
+        //    return {
+        //        restrict: 'E',
+        //        scope: {
+        //            'myAttr': '=',
+        //            'myCnt': '='
+        //        },
+        //        template: '<button ng-click="myOtherClick()">From Cherbin Directive</button>',
+        //        link: function (scope, iElement, iAttrs) {
+
+        //            scope.myOtherClick = function () {
+        //                scope.myCnt++;
+        //                scope.myAttr = 'mod' + scope.myCnt;
+        //            }
+        //        }
+        //    }
+        //});
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

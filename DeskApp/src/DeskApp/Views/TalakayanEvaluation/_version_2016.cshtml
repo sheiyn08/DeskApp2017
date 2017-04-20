@@ -1,0 +1,502 @@
+﻿<style>
+    .zui-table {
+        border: solid 1px #DDEEEE;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font: normal 13px Arial, sans-serif;
+    }
+
+        .zui-table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #DDEEEE;
+            color: #336B6B;
+            padding: 10px;
+            text-align: left;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        .zui-table tbody td {
+            border: solid 1px #DDEEEE;
+            color: #333;
+            padding: 10px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+    .zui-table-highlight tbody tr:hover {
+        background-color: lightgray;
+    }
+
+    .zui-table-horizontal tbody td {
+        border-left: none;
+        border-right: none;
+    }
+</style>
+
+
+
+<div class="panel panel-success">
+    <!--PARENT-->
+    <div class="panel panel-heading">
+        <h3>Municipal Talakayan Day Evaluation Form 2016 Version</h3><br />
+    </div>
+
+    <div class="panel panel-body">
+        <!--PARENT BODY-->
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h5>
+                    We would like to solicit your feedback on the conduct of the Municipal Talakayan. Please select the item that corresponds to your answer.
+                </h5>
+            </div>
+            <div class="panel panel-body">
+                <table class="table zui-table zui-table-horizontal zui-table-highlight">
+                    <colgroup>
+                        <col span="1" style="width: 70%;">
+                        <col span="1" style="width: 30%;">
+                    </colgroup>
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>
+                                &emsp; Yes &emsp;&emsp;&emsp;&emsp;No
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label>1. Were the objectives fully explained?</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_obj" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label>2. Was time alloted to the different activities sufficient?</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_time_alloted" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label>3. Venue</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">a. Clean</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_venue_a" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">b. Well-ventilated</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_venue_b" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">c. Spacious</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_venue_c" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">d. Well-lighted</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_venue_d" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label>4. Equipped with good sound system</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_sound_system" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label>5. Visual Aids in the presentation are:</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">a. Easily read from where I am seated</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_visual_a" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">b. Attractive</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_visual_b" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">c. Easy to understand</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_visual_c" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label>6. Meals:</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">a. Delicious</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_meals_a" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">b. Sufficient</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_meals_b" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">c. Clean</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_meals_c" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label>7. Did you like the gallery walk?</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_gallery_walk" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label>8. Did you like the Focus Group Discussion?</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_fgd" layout="row">
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> <!--end of 1st body-->
+        </div>  <!--end of panel-info-->
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h5>
+                    Please give your rating that corresponds to the extent you have been satisfied with the following aspects of the Municipal Talakayan.
+                    <br /><br /><strong> 4 - Very Satisfied &emsp;&emsp; 2 - Dissatisified <br /> 3 - Satisfied &emsp;&emsp;&emsp;&emsp;&nbsp; 1 - Very Dissatisfied</strong>
+                </h5>
+            </div>
+            <div class="panel panel-body">
+                <table class="table zui-table zui-table-horizontal zui-table-highlight">
+                    <colgroup>
+                        <col span="1" style="width: 70%;">
+                        <col span="1" style="width: 30%;">
+                    </colgroup>
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th>
+                                Aspects
+                            </th>
+                            <th>
+                                &emsp; 4 &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; 3 &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; 2 &emsp;&emsp;&emsp;&emsp;&nbsp; 1
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label>1. Knowledge gained</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">a. Part 1: Presentation of the Municipal Profile and Development Status of the Municipality</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_knowledge_part1" layout="row">
+                                        <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">b. Part 2: Presentation of the Municipal Development Priorities, Interventions and Gaps</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_knowledge_part2" layout="row">
+                                        <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">c. Part 3: Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_knowledge_part3" layout="row">
+                                        <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">d. Part 4: Gallery Walk</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_knowledge_part4" layout="row">
+                                        <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label style="padding-left:25px">e. Part 5Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_knowledge_part5" layout="row">
+                                        <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <label>2. Overall satisfaction on the conduct of Municipal Talakayan</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-12">
+                                    <md-radio-group required ng-model="data.v2016_overall_satisfaction" layout="row">
+                                        <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> <!--end of 2nd body-->
+        </div>  <!--end of panel-info-->
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h5>
+                    Please evaluate the whole teams' effectiveness in the conduct of the different parts of the Municipal Talakayan
+                </h5>
+            </div>
+            <div class="panel panel-body">
+                <div class="col-md-12">
+                    <md-radio-group required ng-model="data.v2016_team_effectiveness" layout="row">
+                        <md-radio-button data-ng-value="5" class="md-primary">Excellent</md-radio-button>
+                        <md-radio-button data-ng-value="4">Very Good</md-radio-button>
+                        <md-radio-button data-ng-value="3">Good</md-radio-button>
+                        <md-radio-button data-ng-value="2">Poor</md-radio-button>
+                        <md-radio-button data-ng-value="1">Very Poor</md-radio-button>
+                    </md-radio-group>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h5>
+                    Comments or Suggestions:
+                </h5>
+            </div>
+            <div class="panel panel-body">
+                <div class="col-md-12">
+                    <textarea name="v2016_comments" class="form-control" ng-model="data.v2016_comments" placeholder="[Write your comments/suggestions here]"></textarea>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+            </div> <!--end of PARENT panel body-->
+        </div> <!--end of PARENT panel-->

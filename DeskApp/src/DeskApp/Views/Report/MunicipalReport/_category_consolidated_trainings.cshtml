@@ -1,0 +1,329 @@
+﻿@Html.Partial("~/Views/Report/MunicipalReport/_municipal_report_filter.cshtml")
+
+
+@* --------------------- Consolidated Municipal and Barangay Trainings ==> Training Participants --------------------- *@
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 7" id="subreport_7">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Consolidated Municipal and Barangay Trainings</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <b>Region: </b>{{selected_region.Name == null ? "" : selected_region.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Province: </b>{{selected_province.Name == null ? "Across Provinces" : selected_province.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Municipality: </b>{{selected_city.Name == null ? "Across Municipalities" : selected_city.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Portfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Cycle: </b>{{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>KC Mode: </b>{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+            </div>
+        </div>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>A. Male and Female Community Volunteers Participants</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered table-condensed">
+                <tr class="bg-primary">                    
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Category
+                    </td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Training Title
+                    </td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Barangay / Municipal Level?
+                    </td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Actual Date
+                    </td>
+                    <td colspan="4" align="center" style="vertical-align:middle">
+                        Male
+                    </td>
+                    <td colspan="4" align="center" style="vertical-align:middle">
+                        Female
+                    </td>
+                    <td colspan="4" align="center" style="vertical-align:middle">
+                        Total
+                    </td>
+                </tr>
+                <tr class="bg-primary">
+                    <td>
+                        CV
+                    </td>
+                    <td>
+                        Non-CV
+                    </td>
+                    <td>
+                        Total
+                    </td>
+                    <td>
+                        %
+                    </td>
+                    <td>
+                        CV
+                    </td>
+                    <td>
+                        Non-CV
+                    </td>
+                    <td>
+                        Total
+                    </td>
+                    <td>
+                        %
+                    </td>
+                    <td>
+                        CV
+                    </td>
+                    <td>
+                        Non-CV
+                    </td>
+                    <td>
+                        Total
+                    </td>
+                    <td>
+                        %
+                    </td>
+                </tr>
+                <tr ng-repeat="item in consolidated_training_report | orderBy: 'brgy_name'">                    
+                    <td>
+                        {{item.training_category}}
+                    </td>
+                    <td>
+                        {{item.training_title}}
+                    </td>
+                    <td>
+                        {{item.lgu_name}}
+                    </td>
+                    <td>
+                        {{item.start_date | date:'MM/dd/yyyy'}}  - {{item.end_date | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td>
+                        {{item.male_volunteer_participants}}
+                    </td>
+                    <td>
+                        {{item.male_non_volunteer_participants}}                        
+                    </td>
+                    <td>
+                        {{item.male_volunteer_participants + item.male_non_volunteer_participants}}
+                    </td>
+                    <td>
+                        {{item.male_volunteer_participants_perc == 'NaN' || item.male_volunteer_participants_perc == 'Infinity'? "" : item.male_volunteer_participants_perc}}
+                    </td>
+                    <td>
+                        {{item.female_volunteer_participants}}
+                    </td>
+                    <td>
+                        {{item.female_non_volunteer_participants}}
+                    </td>
+                    <td>
+                        {{item.female_volunteer_participants + item.female_non_volunteer_participants}}
+                    </td>
+                    <td>
+                        {{item.female_volunteer_participants_perc == 'NaN' || item.female_volunteer_participants_perc == 'Infinity'? "" : item.female_volunteer_participants_perc}}
+                    </td>
+                    <td>
+                        {{item.male_volunteer_participants + item.female_volunteer_participants}}
+                    </td>
+                    <td>
+                        {{item.male_non_volunteer_participants + item.female_non_volunteer_participants}}
+                    </td>
+                    <td>
+                        {{item.male_volunteer_participants + item.female_volunteer_participants +item.male_non_volunteer_participants + item.female_non_volunteer_participants}}
+                    </td>
+                    <td>
+                        {{item.total_volunteer_participants_perc == 'NaN' || item.total_volunteer_participants_perc == 'Infinity'? "" : item.total_volunteer_participants_perc}}
+                    </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!consolidated_training_report.length">
+                    <td colspan="4"><b>Total</b></td>
+                    <td>{{male_volunteer_participants_subtotal == 'NaN' ? "" : male_volunteer_participants_subtotal}}</td>
+                    <td>{{male_non_volunteer_participants_subtotal == 'NaN' ? "" : male_non_volunteer_participants_subtotal}}</td>
+                    <td>{{male_participants_subtotal == 'NaN' ? "" : male_participants_subtotal}}</td>
+                    <td></td>
+                    <td>{{female_volunteer_participants_subtotal == 'NaN' ? "" : female_volunteer_participants_subtotal}}</td>
+                    <td>{{female_non_volunteer_participants_subtotal == 'NaN' ? "" : female_non_volunteer_participants_subtotal}}</td>
+                    <td>{{female_participants_subtotal == 'NaN' ? "" : female_participants_subtotal}}</td>
+                    <td></td>
+                    <td>{{volunteer_participants_subtotal == 'NaN' ? "" : volunteer_participants_subtotal}}</td>
+                    <td>{{non_volunteer_participants_subtotal == 'NaN' ? "" : non_volunteer_participants_subtotal}}</td>
+                    <td>{{total_participants_subtotal == 'NaN' ? "" : total_participants_subtotal}}</td>
+                    <td></td>
+                </tr>
+                <tr ng-show="!consolidated_training_report.length">
+                    <td colspan="16"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>B. Male and Female IP, 4Ps, SLP and LGU Participants</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Category
+                    </td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Training Title
+                    </td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Barangay / Municipal Level?
+                    </td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        Actual Date
+                    </td>
+                    <td colspan="4" align="center" style="vertical-align:middle">
+                        Male
+                    </td>
+                    <td colspan="4" align="center" style="vertical-align:middle">
+                        Female
+                    </td>
+                    <td colspan="4" align="center" style="vertical-align:middle">
+                        Total
+                    </td>
+                </tr>
+                <tr class="bg-primary">
+                    <td>
+                        IP
+                    </td>
+                    <td>
+                        4Ps
+                    </td>
+                    <td>
+                        SLP
+                    </td>
+                    <td>
+                        LGU
+                    </td>
+                    <td>
+                        IP
+                    </td>
+                    <td>
+                        4Ps
+                    </td>
+                    <td>
+                        SLP
+                    </td>
+                    <td>
+                        LGU
+                    </td>
+                    <td>
+                        IP
+                    </td>
+                    <td>
+                        4Ps
+                    </td>
+                    <td>
+                        SLP
+                    </td>
+                    <td>
+                        LGU
+                    </td>
+                </tr>
+                <tr ng-repeat="item in consolidated_training_report | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.training_category}}
+                    </td>
+                    <td>
+                        {{item.training_title}}
+                    </td>
+                    <td>
+                        {{item.lgu_name}}
+                    </td>
+                    <td>
+                        {{item.start_date | date:'MM/dd/yyyy'}}  - {{item.end_date | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td>
+                        {{item.no_ip_male}}
+                    </td>
+                    <td>
+                        {{item.no_pantawid_male}}
+                    </td>
+                    <td>
+                        {{item.no_slp_male}}
+                    </td>
+                    <td>
+                        {{item.no_lgu_male}}
+                    </td>
+                    <td>
+                        {{item.no_ip_female}}
+                    </td>
+                    <td>
+                        {{item.no_pantawid_female}}
+                    </td>
+                    <td>
+                        {{item.no_slp_female}}
+                    </td>
+                    <td>
+                        {{item.no_lgu_female}}
+                    </td>
+                    <td>
+                        {{item.no_ip_male + item.no_ip_female}}
+                    </td>
+                    <td>
+                        {{item.no_pantawid_male + item.no_pantawid_female}}
+                    </td>
+                    <td>
+                        {{item.no_slp_male + item.no_slp_female}}
+                    </td>
+                    <td>
+                        {{item.no_lgu_male + item.no_lgu_female}}
+                    </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!consolidated_training_report.length">
+                    <td colspan="4"><b>Total</b></td>
+                    <td>{{no_ip_male_subtotal == 'NaN' ? "" : no_ip_male_subtotal}}</td>
+                    <td>{{no_pantawid_male_subtotal == 'NaN' ? "" : no_pantawid_male_subtotal}}</td>
+                    <td>{{no_slp_male_subtotal == 'NaN' ? "" : no_slp_male_subtotal}}</td>
+                    <td>{{no_lgu_male_subtotal == 'NaN' ? "" : no_lgu_male_subtotal}}</td>
+                    <td>{{no_ip_female_subtotal == 'NaN' ? "" : no_ip_female_subtotal}}</td>
+                    <td>{{no_pantawid_female_subtotal == 'NaN' ? "" : no_pantawid_female_subtotal}}</td>
+                    <td>{{no_slp_female_subtotal == 'NaN' ? "" : no_slp_female_subtotal}}</td>
+                    <td>{{no_lgu_female_subtotal == 'NaN' ? "" : no_lgu_female_subtotal}}</td>
+                    <td>{{ip_totalmf_subtotal == 'NaN' ? "" : ip_totalmf_subtotal}}</td>
+                    <td>{{pantawid_totalmf_subtotal == 'NaN' ? "" : pantawid_totalmf_subtotal}}</td>
+                    <td>{{slp_totalmf_subtotal == 'NaN' ? "" : slp_totalmf_subtotal}}</td>
+                    <td>{{lgu_totalmf_subtotal == 'NaN' ? "" : lgu_totalmf_subtotal}}</td>
+                </tr>
+                <tr ng-show="!consolidated_training_report.length">
+                    <td colspan="16"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>
+
+

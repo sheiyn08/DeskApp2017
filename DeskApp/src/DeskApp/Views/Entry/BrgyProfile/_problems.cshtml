@@ -1,0 +1,510 @@
+﻿
+@{Layout = null; }
+
+
+
+
+<div class="panel panel-success">
+
+
+    <div class="panel panel-heading">
+        <h3>Barangay Problems</h3>
+        <P>What are the main problems in the barangay? Identify.</P>
+    </div>
+
+    <div layout="row" layout-margin flex="100">
+
+        <div flex>
+            <label>Problems</label>
+        </div>
+        <div flex>
+            <label>Details</label>
+        </div>
+        <div flex>
+            <label>Are these problems being addressed properly?</label>
+        </div>
+        <div flex>
+            <label>Remarks</label>
+        </div>
+
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+
+        <div flex>
+            <label>Access/Mobility</label>
+        </div>
+        <div flex>
+
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.access_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+
+
+        </div>
+        <div flex>
+
+            <md-radio-group ng-model="data.access_addressed">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.access_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+
+    </div>
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Water/Sanitation</label>
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.water_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+            <md-radio-group ng-model="data.water_address">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.water_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Health and Nutrition</label>
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.health_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+            <md-radio-group ng-model="data.health_address">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.health_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+    </div>
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Literacy/Education</label>
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.literacy_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+
+            <md-radio-group ng-model="data.literacy_addressed">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.literacy_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Employment/Income Generation</label>
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.employment_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+
+
+            <md-radio-group ng-model="data.employment_addressed">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.employment_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Land Ownership/Asset Distribution</label>
+        </div>
+        <div flex>
+
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.landownership_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+            <md-radio-group ng-model="data.landownership_addressed">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+
+
+        </div>
+        <div flex>
+
+
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.landownership_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+
+
+        </div>
+    </div>
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Agricultural Service Facilities(i.e post-harvest)</label>
+        </div>
+        <div flex>
+
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.agriculture_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+            <md-radio-group ng-model="data.agriculture_addressed">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+
+
+
+
+
+        </div>
+        <div flex>
+
+
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.agriculture_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Peace and Order</label>
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.peace_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+            <md-radio-group ng-model="data.peace_addressed">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.peace_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+    </div>
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Environment</label>
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.environment_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+            <md-radio-group ng-model="data.environment_addressed">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.environement_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+    </div>
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Power Supply</label>
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.powersupply_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+
+            <md-radio-group ng-model="data.powersupply_addressed">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.powersupply_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+    </div>
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Communication</label>
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.communication_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+
+            <md-radio-group ng-model="data.communication_addressed">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+
+
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.communication_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+    </div>
+
+
+
+
+    <div layout="row" layout-margin flex="100">
+        <div flex>
+            <label>Others, Specify</label>
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.others_details" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+        <div flex>
+
+
+            <md-radio-group ng-model="data.others_addressed">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false"> No </md-radio-button>
+
+            </md-radio-group>
+
+
+
+        </div>
+        <div flex>
+            <md-input-container class="md-block" flex="100">
+
+                <textarea name="access_details" ng-model="data.others_remarks" md-maxlength="2000" rows="5"
+                          cols="100"
+                          md-select-on-focus="" flex="100"></textarea>
+
+            </md-input-container>
+        </div>
+    </div>
+</div>

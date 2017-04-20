@@ -1,0 +1,360 @@
+﻿<div class="panel panel-body">
+    <div class="row" style="padding:20px">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <strong>Revenue Sources</strong>
+            </div>
+        </div>
+            <md-content>
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>DOF-BLGF</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>DSWD</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>IRA Share</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.ira_share | currency:"₱"}}
+                        </td>
+                        <td style="vertical-align:middle">
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" ng-model="data.mlgu2011_rev_ira_share" min="0" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_rev_ira_share_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Locally-sourced Revenues</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.locally_shared_revenues | currency:"₱"}}
+                        </td>
+                        <td style="vertical-align:middle">
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_rev_locally_sourced" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_rev_locally_sourced_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Other revenues (include sources)</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.other_revenues_total | currency:"₱"}}
+                        </td>
+                        <td style="vertical-align:middle">
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_rev_other_revenues_total" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_rev_other_revenues_total_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Total LGU Income</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.total_lgu_income | currency:"₱"}}
+                        </td>
+                        <td style="vertical-align:middle">
+                            <i>Not Applicable</i>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_rev_total_lgu_income" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_rev_total_lgu_income_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Total LGU Income per Capita*</strong>
+                            <br />
+                            <p style="font-size:smaller"><i>Total LGU Income per Capita = Total LGU Income / 2015 population</i></p>
+                        </td>
+                        <td style="vertical-align:middle">
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.total_lgu_income_raw / data.population_2015 | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_rev_total_lgu_income_per_capita" value="{{data.mlgu2011_rev_total_lgu_income / data.population_2015}}" ng-disabled="true" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_rev_total_lgu_income_per_capita_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Development Fund*</strong>
+                            <br />
+                            <p style="font-size:smaller"><i>Development Fund = IRA Share * 0.2</i></p>
+                        </td>
+                        <td style="vertical-align:middle">
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.result_development_fund | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_rev_devt_fund" value="{{data.mlgu2011_rev_ira_share * 0.2}}" ng-disabled="true" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_rev_devt_fund_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Development Fund per Capita*</strong>
+                            <br />
+                            <p style="font-size:smaller"><i>Development Fund per Capita = Development Fund / 2015 population</i></p>
+                        </td>
+                        <td style="vertical-align:middle">
+                            <i>Not Applicable</i>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.development_fund_raw / data.population_2015 | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_rev_devt_fund_per_capita" value="{{(data.mlgu2011_rev_ira_share * 0.2) / data.population_2015}}" ng-disabled="true" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_rev_devt_fund_per_capita_source" />
+                        </td>
+                    </tr>
+                </table>
+            </md-content>
+    </div>
+    <div class="row" style="padding:20px">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <strong>Sectoral Expenditure</strong>                
+            </div>
+        </div>
+            <md-content>
+                <table class="table table-striped table-compact table-bordered">
+                    <tr style="background-color: #DDEFEF">
+                        <td></td>
+                        <td style="text-align:center">
+                            <strong>DOF-BLGF</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>MLGU</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Source</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>General public services</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.expenditures_gen_public_services | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_ex_gen_public" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_ex_gen_public_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Education, culture, sports, and manpower development</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.expenditures_educ_culture_etc | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_ex_educ" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_ex_educ_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Health Services</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.expenditures_health_services | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_ex_health" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_ex_health_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Labor and employment</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.expenditures_labor_and_employment | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_ex_labor" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_ex_labor_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Housing and community development</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.expenditures_housing_comm_devt | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_ex_housing" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_ex_housing_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Social welfare services</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.expenditures_social_welfare_services | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_ex_social_welfare" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_ex_social_welfare_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Economic services</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.expenditures_economic_services | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_ex_economic" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_ex_economic_source" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <strong>Other purposes</strong>
+                        </td>
+                        <td style="text-align:right; vertical-align:middle">
+                            {{RevenueandExpenditures2011.expenditures_other_purposes | currency:"₱"}}
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="numbersOnly" min="0" ng-model="data.mlgu2011_ex_other_purposes" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="data.mlgu2011_ex_other_purposes_source" />
+                        </td>
+                    </tr>
+                </table>
+            </md-content>
+    </div>
+    <div class="row" style="padding:20px">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <strong>Local Governance Performance Mangement System (LGPMS)</strong>
+            </div>
+        </div>
+            <md-content>
+                <table class="table table-striped table-compact table-bordered">
+                    <colgroup>
+                        <col span="1" style="width: 50%;">
+                        <col span="1" style="width: 50%;">
+                    </colgroup>
+                    <tr style="background-color: #DDEFEF">
+                        <td style="text-align:center">
+                            <strong>Areas</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong>Rating</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Administrative Governance</strong>
+                        </td>
+                        <td>
+                            {{LGPMSlist.administrative_governance_2011}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Social Governance</strong>
+                        </td>
+                        <td>
+                            {{LGPMSlist.social_governance_2011}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Economic Governance</strong>
+                        </td>
+                        <td>
+                            {{LGPMSlist.economic_governance_2011}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Environmental Governance</strong>
+                        </td>
+                        <td>
+                            {{LGPMSlist.environmental_governance_2011}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Valuing Fundamentals of Good Governance</strong>
+                        </td>
+                        <td>
+                            {{LGPMSlist.valuing_fundamentals_of_good_gov_2011}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Overall Performance</strong>
+                        </td>
+                        <td>
+                            {{LGPMSlist.overall_performance_index_2011}}
+                        </td>
+                    </tr>
+                </table>               
+            </md-content>
+    </div>
+</div>
+

@@ -1,0 +1,727 @@
+﻿<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+
+    <style>
+        .form-group .help-block {
+            display: none;
+        }
+
+        .form-group.has-error .help-block {
+            display: block;
+        }
+
+        .dialogdemoBasicUsage #popupContainer {
+            position: relative;
+        }
+
+        .dialogdemoBasicUsage .footer {
+            width: 100%;
+            text-align: center;
+            margin-left: 20px;
+        }
+
+            .dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+                font-size: 0.8em;
+                margin-top: 50px;
+            }
+
+        .dialogdemoBasicUsage button {
+            width: 200px;
+        }
+
+        .dialogdemoBasicUsage div#status {
+            color: #c60008;
+        }
+
+
+        /*
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        */
+    </style>
+</head>
+
+
+
+<div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">Intake Municipal Profile</div>
+    </md-toolbar>
+
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Details">
+                <form name="myForm">
+                    <md-content class="md-padding">
+
+                        @Html.Partial("~/Views/Entry/MuniProfile/_details.cshtml")
+                    </md-content>
+                </form>
+            </md-tab>
+
+
+            <md-tab label="Financial Resources">
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/MuniProfile/_financial.cshtml")
+                </md-content>
+            </md-tab>
+
+            <md-tab label="Socio Economic Information">
+                <form name="socioForm">
+                    <md-content class="md-padding">
+                        @Html.Partial("~/Views/Entry/MuniProfile/_socio_economic.cshtml")
+
+                    </md-content>
+                </form>
+            </md-tab>
+
+
+            <md-tab label="Land Tenure">
+                <form name="tenureForm">
+                    <md-content class="md-padding">
+                        @Html.Partial("~/Views/Entry/MuniProfile/_land_tenure.cshtml")
+                    </md-content>
+                </form>
+            </md-tab>
+
+
+            <md-tab label="Transportation">
+
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/MuniProfile/_mode_of_transportation.cshtml")
+                </md-content>
+            </md-tab>
+
+            @Html.Partial("~/Views/Entry/Common/_attachment.cshtml")
+
+        </md-tabs>
+    </md-content>
+    <md-content>
+
+
+        <ul>
+            <li ng-repeat="(key, errors) in myForm.$error track by $index">
+                <strong>{{ key }}</strong> Details Information
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+
+            <li ng-repeat="(key, errors) in socioForm.$error track by $index">
+                <strong>{{ key }}</strong> Socio Economic Errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+            <li ng-repeat="(key, errors) in tenureForm.$error track by $index">
+                <strong>{{ key }}</strong> Tenure Errors
+                <ul>
+                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+            </li>
+
+        </ul>
+
+
+        <md-container layout="row">
+
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+
+                <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || !socioForm.$valid || !tenureForm.$valid">
+                    Save Record
+                </md-button>
+
+                <md-button class="md-warn md-raised" href="/View/MunicipalProfiles">
+                    Cancel
+                </md-button>
+
+            </div>
+        </md-container>
+    </md-content>
+
+</div>
+
+
+
+
+
+
+
+
+
+@section Scripts
+    {
+    <script src="~/scripts/directives/ngAppMax.js"></script>
+
+    <script>
+
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'app-max'])
+
+            .controller('AppCtrl', function ($scope, $mdDialog, $http, $mdToast) {
+
+
+
+
+                $scope.data;
+
+
+                $http.get('/api/offline/v1/municipal_profile/get?id=@ViewBag.id')
+          .then(function (response) {
+
+
+              $scope.loading = true;
+
+              $scope.data = response.data;
+
+              $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
+              $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
+              $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
+         
+
+
+              $scope.data.fund_source_id = $scope.data.fund_source_id == 0 ? "" : $scope.data.fund_source_id;
+
+              $scope.data.cycle_id = $scope.data.cycle_id == 0 ? "" : $scope.data.cycle_id;
+
+
+
+
+              $scope.maxYear = new Date().getFullYear();
+
+
+           
+
+              $scope.data.financial_sources = [];// JSON.parse($scope.data.financial_sources);
+              $scope.data.gad_activities = [];// = JSON.parse($scope.data.gad_activities);
+              $scope.data.drrm_activities = [];// JSON.parse($scope.data.drrm_activities);
+              $scope.data.transportations = [];// JSON.parse($scope.data.transportations);
+
+
+
+              if ($scope.data.other_source != null) {
+                  $scope.data.financial_sources = JSON.parse($scope.data.other_source);
+              }
+              if ($scope.data.gad_activity != null) {
+                  $scope.data.gad_activities = JSON.parse($scope.data.gad_activity);
+              }
+              if ($scope.data.drrm_activity != null) {
+                  $scope.data.drrm_activities = JSON.parse($scope.data.drrm_activity);
+              }
+              if ($scope.data.transportation != null) {
+                  $scope.data.transportations = JSON.parse($scope.data.transportation);
+              }
+
+
+
+              //ATTACHMENTS
+
+
+              $http.get('/api/attachment_list?id=59')
+              .then(function (response) {
+
+                  $scope.attachment_list = response.data;
+              });
+
+
+              $scope.attached_documents = [];
+              $scope.attachment = {};
+              $scope.attachment.mov_list_id = null;
+
+              $scope.uploadAttachment = function () {
+
+                  if ($scope.attached_documents.filter(function (e) { return e.mov_list_id == $scope.attachment.mov_list_id; }).length > 0) {
+                      alert("Only single attachment is allowed for Municipal Profile Form.");
+                      $scope.attachment = {};
+                  }
+
+                  else {
+                      var fileUpload = $("#files").get(0);
+                      var files = fileUpload.files;
+                      var data = new FormData();
+                      for (var i = 0; i < files.length ; i++) {
+                          data.append(files[i].name, files[i]);
+                      }
+
+
+
+
+                      $.ajax({
+                          type: "POST",
+                          url: "/Mov/UploadFilesAjax?id="
+                              + '@ViewBag.id'
+                              + "&mov_list_id=" + $scope.attachment.mov_list_id
+
+
+                             + "&region_code=" + $scope.data.region_code
+                             + "&prov_code=" + $scope.data.prov_code
+                                  + "&city_code=" + $scope.data.city_code
+                                  + "&brgy_code=" + $scope.data.brgy_code
+
+                             + "&fund_source_id=" + $scope.data.fund_source_id
+                                  + "&cycle_id="
+                               + "&enrollment_id=",
+
+
+
+                          contentType: false,
+                          processData: false,
+                          data: data,
+                          success: function (message) {
+                              var base = window.location.origin;
+
+                              message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+
+                              $scope.attached_documents.push(message);
+
+                              $scope.attachment = {};
+                          },
+                          error: function (message) {
+                              alert(JSON.stringify(message.responseText));
+                          }
+                      });
+                  }
+
+              }
+
+              $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
+                 .success(function (value) {
+
+
+                     $scope.attached_documents = value;
+
+                     angular.forEach($scope.attached_documents, function (item) {
+                         var base = window.location.origin;
+
+                         item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
+
+
+                     })
+
+                 });
+
+
+
+
+              $scope.deleteMov = function (removeitem) {
+
+
+
+                  var ask = confirm("Are you sure you want to Delete this?");
+
+
+                  if (ask == true) {
+                      $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
+                          $scope.loading = false;
+
+                          var index = $scope.attached_documents.indexOf(removeitem);
+                          $scope.attached_documents.splice(index, 1);
+
+                          alert("Record removed!")
+
+                      }).error(function (data) {
+
+                          alert(JSON.stringify(data));
+
+
+                          $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                          $scope.loading = false;
+                      });
+
+                  }
+
+              }
+              //END ATTACHMENTS
+
+
+              $scope.$watch('data.fund_source_id',
+                           function (newValue, oldValue) {
+
+                               var record = $scope;
+
+
+
+                               if (newValue == null) {
+
+                                   record.cycle_id = null;
+
+                                   record.cycle_id_options = [];
+                               } else {
+                                   $http({
+                                       method: 'GET',
+                                       url: '/api/lib_cycle?id=' + newValue,
+
+                                   })
+                                       .success(function (data, status, headers, config) {
+
+                                           $scope.cycle_id_options = data;
+                                       })
+                                       .error(function (data, status, headers, config) {
+
+                                           $scope.message = 'Unexpected Error';
+                                       });
+                               }
+
+                           });
+
+
+
+
+
+
+
+              $scope.dt_date_intake = new Date(response.data.date_intake);
+              $scope.dt_resolution_date = new Date(response.data.resolution_date);
+
+              $http.get('/api/online/lib_region')
+         .then(function (response) { $scope.region_code_options = response.data; });
+
+              $http.get('/Api/lib_fund_source/')
+      .then(function (response) { $scope.fund_source_id_options = response.data; });
+
+              $http.get('/api/lib_enrollment')
+      .then(function (response) { $scope.enrollment_id_options = response.data; });
+
+
+              $http.get('/api/lib_transpo_mode')
+.then(function (response) { $scope.transpo_mode_options = response.data; });
+
+
+
+              $scope.loading = false;
+
+              $scope.edit = function () {
+                  this.editMode = !this.editMode;
+              };
+
+
+              $scope.cancel = function () {
+
+                  $http.get('/api/v1/municipal_profile/get?id=@ViewBag.id')
+            .then(function (response) {
+
+                //            this.editMode = false;
+
+                $scope.data = response.data;
+
+                $scope.dt_intake_date = new Date(response.data.intake_date);
+                $scope.dt_resolution_date = new Date(response.data.resolution_date);
+            });
+              }
+
+
+
+
+
+              $scope.addFinancial = function () {
+
+
+
+
+                  $scope.data.financial_sources.push($scope.financial);
+
+
+
+                  $scope.financial = {};
+              }
+
+              $scope.removeFinancial = function (index) {
+
+                  $scope.data.financial_sources.splice(index, 1);
+
+                  $mdToast.show(
+                                 $mdToast.simple()
+                                 .textContent('Other Financial Sources Removed!')
+                                 .position("top right")
+                                 .hideDelay(5000)
+                             );
+              }
+
+
+              $scope.addGad = function () {
+
+
+
+
+                  $scope.data.gad_activities.push($scope.gad);
+
+
+
+                  $scope.gad = {};
+              }
+
+              $scope.removeGad = function (index) {
+
+                  $scope.data.gad_activities.splice(index, 1);
+
+
+              }
+
+
+
+              $scope.addDrrm = function () {
+
+
+
+
+                  $scope.data.drrm_activities.push($scope.drrm);
+
+
+
+                  $scope.drrm = {};
+              }
+
+              $scope.removeDrrm = function (index) {
+
+                  $scope.data.drrm_activities.splice(index, 1);
+
+
+              }
+
+
+              $scope.addTranspo = function () {
+
+
+
+
+                  $scope.data.transportations.push($scope.transpo);
+
+
+
+                  $scope.transpo = {};
+              }
+
+              $scope.removeTranspo = function (index) {
+
+                  $scope.data.transportations.splice(index, 1);
+
+
+              }
+
+              $scope.save = function () {
+                  $scope.$broadcast('show-errors-check-validity');
+                  $scope.loading = true;
+                  //       alert(JSON.stringify($scope.data));
+
+                  //'/api/v1/grievances/save'
+
+
+                  $scope.data.other_source = JSON.stringify($scope.data.financial_sources);
+                  $scope.data.gad_activity = JSON.stringify($scope.data.gad_activities);
+                  $scope.data.drrm_activity = JSON.stringify($scope.data.drrm_activities);
+                  $scope.data.transportation = JSON.stringify($scope.data.transportations);
+
+
+                  $.post('/api/offline/v1/municipal_profile/save', $scope.data).success(function (data) {
+                      $scope.loading = false;
+
+                      $('html, body').animate({
+                          scrollTop: '0px'
+                      }, 1500);
+
+
+                      $mdToast.show(
+                          $mdToast.simple()
+                          .textContent('Record Saved!')
+                          .position("top right")
+                          .hideDelay(3000)
+                      );
+
+
+                  }).error(function (data) {
+
+                      alert(JSON.stringify(data));
+
+
+                      $scope.error = "An Error has occured while Saving! " + data.statusText;
+                      $scope.loading = false;
+                  });
+              };
+          });
+
+
+
+                $scope.$watch('data.region_code', function (newValue, oldValue) {
+
+
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+                        record.prov_code = null;
+                        record.city_code = null;
+                        record.brgy_code = null;
+
+
+                        record.prov_code_options = [];
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+                    else {
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_province?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.prov_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.prov_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = null;
+                        record.city_code = null;
+                        record.city_code_options = [];
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_city?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.city_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+                $scope.$watch('data.city_code', function (newValue, oldValue) {
+
+                    var record = $scope;
+
+                    if (newValue == null) {
+
+                        record.brgy_code = null;
+
+                        record.brgy_code_options = [];
+                    }
+
+                    else {
+                        $http({
+                            method: 'GET',
+                            url: '/api/online/lib_brgy?id=' + newValue,
+
+                        }).success(function (data, status, headers, config) {
+
+                            $scope.brgy_code_options = data;
+                        }).error(function (data, status, headers, config) {
+
+                            $scope.message = 'Unexpected Error';
+                        });
+                    }
+
+                });
+
+
+
+
+            })
+
+        .directive('showErrors', function ($timeout, showErrorsConfig) {
+            var getShowSuccess, linkFn;
+            getShowSuccess = function (options) {
+                var showSuccess;
+                showSuccess = showErrorsConfig.showSuccess;
+                if (options && options.showSuccess != null) {
+                    showSuccess = options.showSuccess;
+                }
+                return showSuccess;
+            };
+            linkFn = function (scope, el, attrs, formCtrl) {
+                var blurred, inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses;
+                blurred = false;
+                options = scope.$eval(attrs.showErrors);
+                showSuccess = getShowSuccess(options);
+                inputEl = el[0].querySelector('[name]');
+                inputNgEl = angular.element(inputEl);
+                inputName = inputNgEl.attr('name');
+                if (!inputName) {
+                    throw 'show-errors element has no child input elements with a \'name\' attribute';
+                }
+                inputNgEl.bind('blur', function () {
+                    blurred = true;
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                });
+                scope.$watch(function () {
+                    return formCtrl[inputName] && formCtrl[inputName].$invalid;
+                }, function (invalid) {
+                    if (!blurred) {
+                        return;
+                    }
+                    return toggleClasses(invalid);
+                });
+                scope.$on('show-errors-check-validity', function () {
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                });
+                scope.$on('show-errors-reset', function () {
+                    return $timeout(function () {
+                        el.removeClass('has-error');
+                        el.removeClass('has-success');
+                        return blurred = false;
+                    }, 0, false);
+                });
+                return toggleClasses = function (invalid) {
+                    el.toggleClass('has-error', invalid);
+                    if (showSuccess) {
+                        return el.toggleClass('has-success', !invalid);
+                    }
+                };
+            };
+            return {
+                restrict: 'A',
+                require: '^form',
+                compile: function (elem, attrs) {
+                    if (!elem.hasClass('form-group')) {
+                        throw 'show-errors element does not have the \'form-group\' class';
+                    }
+                    return linkFn;
+                }
+            };
+        }
+      )
+
+        .provider('showErrorsConfig', function () {
+            var _showSuccess;
+            _showSuccess = false;
+            this.showSuccess = function (showSuccess) {
+                return _showSuccess = showSuccess;
+            };
+            this.$get = function () {
+                return { showSuccess: _showSuccess };
+            };
+        });
+
+
+
+        /**
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        **/
+
+    </script>
+}
+
+
+

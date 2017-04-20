@@ -1,0 +1,231 @@
+﻿
+
+<body layout="column">
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+        <md-toolbar>
+            <h3 class="md-toolbar-tools">MOVs</h3>
+            <md-divider></md-divider>
+            <div class="md-toolbar-tools">Filter Records</div>
+        </md-toolbar>
+
+
+        <md-content>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label for="Region:_">Region: </label>
+                            <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                                    ng-options="option.Id as option.Name for option in region_code_options">
+                                <option value="">[Select Region]</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="Province:_">Province: </label>
+                            <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                    ng-disabled="data.region_code == null"
+                                    ng-options="option.Id as option.Name for option in prov_code_options">
+                                <option value="">[Select Province]</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="Municipality:_">Municipality: </label>
+                            <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                                    ng-disabled="data.prov_code == null"
+                                    ng-options="option.Id as option.Name for option in city_code_options">
+                                <option value="">[Select Municipality]</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="Barangay:_">Barangay: </label>
+                            <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                    ng-disabled="data.city_code == null"
+                                    ng-options="option.Id as option.Name for option in brgy_code_options">
+                                <option value="">[Select Barangay]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label for="Fund Source:_">Fund Source: </label>
+                            <select class="form-control" ng-model="data.fund_source_id">
+                                <option value=''>[Select Fund Source]</option>
+                                <option ng-repeat="value in fund_source_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="Province:_">Cycle: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="cycle_id" ng-model="data.cycle_id" id="brgy_code" class="form-control"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in cycle_id_options">
+                                    <option value="">[Select Cycle]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="Municipality:_">KC Mode: </label>
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <select name="enrollment_id" ng-model="data.enrollment_id" id="brgy_code" class="form-control"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in enrollment_id_options">
+                                    <option value="">[Select KC Mode]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label for="Fund Source:_">Document Type: </label>
+                            <select class="form-control" ng-model="data.mov_list_id">
+                                <option value=''>[Select Purpose]</option>
+                                <option ng-repeat="value in mov_list_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </md-content>
+
+        <md-content>
+            <md-container layout="row">
+                <div flex="100" layout="row" layout-margin layout-sm="column">
+                    <md-button class="md-primary md-raised" ng-click="search()">
+                        <i class="fa fa-filter"></i>  Filter
+                    </md-button>
+                    <md-button class="md-warn md-raised" ng-click="clear()">
+                        <i class="fa fa-recycle"></i>  Clear
+                    </md-button>
+                    <md-button class="md-success md-raised" ng-click="createNew()">
+                        <i class="fa fa-plus"></i>  New Record
+                    </md-button>
+                    @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+                </div>
+            </md-container>
+        </md-content>
+
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="List">
+                    <md-content class="md-padding">
+                        <md-content>
+                            @Html.Partial("~/Views/Shared/_pagination.cshtml")
+                        </md-content>
+                        <md-content>
+                            <div class="panel panel-body" ng-show="!isSearching">
+                                <table class="table zui-table zui-table-horizontal zui-table-highlight">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                Region
+                                            </th>
+                                            <th>
+                                                Province
+                                            </th>
+                                            <th>
+                                                City
+                                            </th>
+                                            <th>
+                                                Barangay
+                                            </th>
+                                            <th>
+                                                Fund Source
+                                            </th>
+                                            <th>
+                                                Cycle
+                                            </th>
+                                            <th>
+                                                KC Mode
+                                            </th>
+                                            <th>
+                                                Module
+                                            </th>
+                                            <th>
+                                                Purpose
+                                            </th>
+                                            <th>
+                                                Record Id
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in Items">
+                                            <td>                                              
+                                                <a ng-click="delete(item)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
+                                                <a class="btn btn-success" href={{equip.url}}><i class="fa fa-file-pdf-o"></i></a>
+                                            </td>
+                                            <td>
+                                                {{item.lib_region_region_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_province_prov_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_city_city_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_brgy_brgy_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_fund_source_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_cycle_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_enrollment_name}}
+                                            </td>
+                                            <td>
+                                                {{item.module}}
+                                            </td>
+                                            <td>
+                                                {{item.attachment}}
+                                            </td>
+                                            <td>
+                                                {{item.record_id}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </md-content>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+
+    </div>
+
+    <!--
+    Copyright 2016 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+    -->
+
+
+
+</body>
+
+
+@section Scripts {
+    <script src="~/scripts/alasql.min.js"></script>
+    <script src="~/scripts/xlsx.core.min.js"></script>
+
+    <script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/scripts/app/MOV/_index.js"></script>
+    
+    <script src="~/scripts/directives/paging.js"></script>
+}

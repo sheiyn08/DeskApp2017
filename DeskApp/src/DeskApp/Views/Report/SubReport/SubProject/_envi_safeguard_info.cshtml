@@ -1,0 +1,244 @@
+﻿
+
+<div class="panel panel-body">
+
+
+
+    <h3>KC Municipal Report - Environmental and Social Safeguards</h3>
+    <br />
+
+    <h4>Environmental and Social Safeguard Information</h4>
+
+    <br />
+    <br />
+
+    @Html.Partial("~/Views/Report/Common/_report_header.cshtml")
+
+
+    <br />
+
+
+    <div class="row">
+
+        <div class="col-xs-12">A. Safeguard Documents</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    ID
+                </td>
+
+                <td align="center">
+                    Sub Project Name
+                </td>
+
+                <td align="center">
+                    Category
+                </td>
+
+                <td align="center">
+                    Barangay
+                </td>
+
+
+                <td align="center">
+                    With ESMP
+                </td>
+
+                <td align="center">
+                    With ECC
+                </td>
+
+                <td align="center">
+                    With CNC
+                </td>
+
+                <td align="center">
+                    With CP
+                </td>
+
+
+                <td align="center">
+                    With CNO
+                </td>
+
+
+
+
+
+
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in sub_project_list | orderBy: 'brgy_name'">
+
+
+
+                <td>
+                    {{item.geotagging_id}}
+                </td>
+
+
+                <td>
+                    {{item.sub_project_name"}}
+                </td>
+
+
+                <td>
+                    {{item.project_type"}}
+                </td>
+
+
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+                <td>
+                    {{item.with_esmp == true ? "Yes" : "No"}}
+                </td>
+                <td>
+                    {{item.with_ecc == true ? "Yes" : "No"}}
+                </td>
+
+                <td>
+                    {{item.with_cnc == true ? "Yes" : "No"}}
+                </td>
+
+                <td>
+                    {{item.with_cp == true ? "Yes" : "No"}}
+                </td>
+
+
+                <td>
+                    {{item.with_cno == true ? "Yes" : "No"}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+
+
+    <br />
+
+    <div class="row">
+
+        <div class="col-xs-12">B. Land Acquisition</div>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+
+            <tr>
+                <td align="center">
+                    ID
+                </td>
+
+                <td align="center">
+                    Sub Project Name
+                </td>
+
+                <td align="center">
+                    Category
+                </td>
+
+                <td align="center">
+                    Barangay
+                </td>
+
+
+                <td align="center">
+                    With Deed of Donation
+                </td>
+
+                <td align="center">
+                    With Usufruct Agreement
+                </td>
+
+                <td align="center">
+                    With LGU Resolution
+                </td>
+
+                <td align="center">
+                    With DepEd Certification
+                </td>
+
+
+                <td align="center">
+                    Other
+                </td>
+
+
+
+
+
+
+            </tr>
+
+
+
+
+            <tr ng-repeat="item in sub_project_list | orderBy: 'brgy_name'">
+
+
+
+                <td>
+                    {{item.sub_project_id}}
+                </td>
+
+
+                <td>
+                    {{item.sub_project_name"}}
+                </td>
+
+
+                <td>
+                    {{item.project_type"}}
+                </td>
+
+
+
+                <td>
+                    {{item.brgy_name}}
+                </td>
+
+
+                <td>
+                    {{item.land_acq_with_deed_of_donation == true ? "Yes" : "No"}}
+                </td>
+                <td>
+                    {{item.land_acq_with_usfruct == true ? "Yes" : "No"}}
+                </td>
+
+                <td>
+                    {{item.land_acq_with_blgu_resolution == true ? "Yes" : "No"}}
+                </td>
+
+                <td>
+                    {{item.land_acq_with_deped_certification == true ? "Yes" : "No"}}
+                </td>
+
+
+                <td>
+                    {{item.land_acq_with_other_land_acquisition == true ? "Yes" : "No"}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+
+
+    <br />
+</div>
