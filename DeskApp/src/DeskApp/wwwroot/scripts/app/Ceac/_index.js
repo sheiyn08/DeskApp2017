@@ -386,7 +386,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.createNew = function () {
 
 
-        window.location.href = "/Entry/Trainings";
+        window.location.href = "/Entry/CeacTracking";
     };
 
     $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');

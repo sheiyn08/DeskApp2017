@@ -360,10 +360,10 @@
                 <b>Region: </b>{{selected_region.Name}}
             </div>
             <div class="col-md-3">
-                <b>Province: </b>{{selected_province.Name}}
+                <b>Province: </b>{{selected_province.Name == null ? "Across Provinces" : selected_province.Name}}
             </div>
             <div class="col-md-3">
-                <b>Municipality: </b>{{selected_city.Name}}
+                <b>Municipality: </b>{{selected_city.Name == null ? "Across Municipalities" : selected_city.Name}}
             </div>
         </div>
         <div class="row">
@@ -385,7 +385,7 @@
 
         <div class="row">
             <table class="table table-bordered">
-                <tr>
+                <tr class="bg-primary">
                     <td align="center">
                         Barangay
                     </td>
@@ -435,6 +435,9 @@
                         </li>
                     </td>
                 </tr>
+                <tr ng-show="!playersToFilter().length">
+                    <td colspan="7"><i>No results to show.</i> </td>
+                </tr>
             </table>
         </div> <br />
 
@@ -444,7 +447,7 @@
 
         <div class="row">
             <table class="table table-bordered">
-                <tr>
+                <tr class="bg-primary">
                     <td align="center">
                         Barangay
                     </td>
@@ -495,6 +498,9 @@
                         {{item.sex}}
                     </td>                    
                 </tr>
+                <tr ng-show="!playersToFilter().length">
+                    <td colspan="7"><i>No results to show.</i> </td>
+                </tr>
             </table>
         </div> 
 
@@ -526,10 +532,10 @@
                 <b>Region: </b>{{selected_region.Name}}
             </div>
             <div class="col-md-3">
-                <b>Province: </b>{{selected_province.Name}}
+                <b>Province: </b>{{selected_province.Name == null ? "Across Provinces" : selected_province.Name}}
             </div>
             <div class="col-md-3">
-                <b>Municipality: </b>{{selected_city.Name}}
+                <b>Municipality: </b>{{selected_city.Name == null ? "Across Municipalities" : selected_city.Name}}
             </div>
         </div>
         <div class="row">

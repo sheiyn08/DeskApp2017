@@ -85,7 +85,7 @@ namespace DeskApp.DataLayer
                 first_name = x.first_name,
                 middle_name = x.middle_name,
                 birthdate = x.birthdate,
-                sex = x.sex,
+                sex = x.sex.Value,
                 civil_status_id = x.civil_status_id,
                 no_children = x.no_children,
                 contact_no = x.contact_no,
