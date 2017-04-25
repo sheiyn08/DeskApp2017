@@ -337,6 +337,13 @@
 
                                         $scope.list_volunteer = response.data;
 
+                                        $scope.startDate = new Date($scope.new_volunteer_record.dt_start_date);
+                                        $scope.maxEndDate_today = new Date();
+
+                                        $scope.$watch('new_volunteer_record.dt_start_date', function (newValue, oldValue) {
+                                            $scope.startDate = new Date(newValue);
+                                        });
+
 
                                         angular.forEach($scope.list_volunteer,
                                             function (todo) {

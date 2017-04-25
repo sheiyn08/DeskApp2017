@@ -145,7 +145,7 @@
             angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']).controller('AppCtrl', function ($scope, $http, $mdDialog, $mdMedia) {
 
                 $scope.data = {};
-
+                
                 $scope.selected_subreport = {};
                 $scope.selected_region = {};
                 $scope.selected_province = {};
@@ -217,7 +217,7 @@
                         $scope.selected_category_name = "Community Volunteers";
                         $scope.show_cv_div = true;
                         $scope.hide_category_list = true;
-                        $scope.subreport_list = [{ "id": "8", "name": "Summary of Male and Female CVs" }, { "id": "10", "name": "List of Community Volunteers" }, { "id": "11", "name": "List of Community Volunteers across Cycles" }]
+                        $scope.subreport_list = [{ "id": "8", "name": "Summary of Male and Female CVs" }, { "id": "10", "name": "List of Community Volunteers" }]
                     }
                     else if (category_id == 7) {
                         $scope.selected_category_name = "Municipal Inter-Barangay Forum / Municipal Forum";
@@ -922,21 +922,44 @@
                     }
 
                     else if ($scope.selected_subreport.id == 10) {
-                        $.post('/api/export/person_profile/simple/list', $scope.data).success(function (value) {
-                            $scope.loading = false;
-                            $scope.volunteer_list = value;
-                            $scope.isSearching = false;
 
-                        }).error(function (data) {
-                            alert(JSON.stringify(data));
-                            $scope.error = "An Error has occured while Saving! " + data.statusText;
-                            $scope.loading = false;
-                        });
+                        if ($scope.selected_fund.Name == null && $scope.selected_cycle.Name == null) {
+                            //alert("No selected fund source and cycle");
+                            $.post('/api/export/person_profile/simple/list', $scope.data).success(function (value) {
+                                $scope.loading = false;
+                                $scope.volunteer_list = value;
+                                $scope.isSearching = false;
+
+                            }).error(function (data) {
+                                alert(JSON.stringify(data));
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+                        }
+                        else {
+                            //alert("Your selected fund source: " + $scope.selected_fund.Name + "; your selected cycle: " + $scope.selected_cycle.Name);
+                            $.post('/api/export/person_profile/volunteer_per_committee', $scope.data).success(function (value) {
+                                $scope.loading = false;
+                                $scope.volunteer_list = value;
+                                $scope.isSearching = false;
+
+                            }).error(function (data) {
+                                alert(JSON.stringify(data));
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });                            
+                        }                        
 
                         var indexedTeams = [];
+                        var indexedCommittee = [];
 
                         $scope.playersToFilter = function () {
                             indexedTeams = [];
+                            return $scope.volunteer_list;
+                        }
+
+                        $scope.committeesToFilter = function () {
+                            indexedCommittee = [];
                             return $scope.volunteer_list;
                         }
 
@@ -947,6 +970,15 @@
                             }
                             return teamIsNew;
                         }
+
+                        $scope.filterCommittee = function (player) {
+                            var teamIsNew = indexedCommittee.indexOf(player.volunteer_committee_id) == -1;
+                            if (teamIsNew) {
+                                indexedTeams.push(player.volunteer_committee_id);
+                            }
+                            return teamIsNew;
+                        }
+
                     }
 
                     else if ($scope.selected_subreport.id == 11) {
@@ -1214,8 +1246,6 @@
                     } 
                 };
 
-                ////    mywindow.document.write('<scr'+'ipt type="text/javascript">$(window).load(function() { window.print(); window.close(); });</scr'+'ipt>');
-
                 function Popup(data) {
                     var mywindow = window.open('', 'new div', 'height=400,width=600');
 
@@ -1225,16 +1255,13 @@
                     mywindow.document.write('</head><body>');
                     mywindow.document.write(data);
 
-                    //mywindow.document.write('<scr' + 'ipt type="text/javascript">$(window).load(function() { window.print(); window.close(); });</scr' + 'ipt>');
                     mywindow.document.write('<scr' + 'ipt type="text/javascript">function PrintPage() { window.print(); window.close(); } window.onload = PrintPage;</scr' + 'ipt>');
 
                     mywindow.document.write('</body></html>');
 
                     mywindow.document.close();
-                    mywindow.document.focus();
+                    //mywindow.document.focus(); ---->> originally included but after migrating to DeskApp2017, error is received: focus is not a function; hence, commenting this line of code.
 
-                    //mywindow.print();
-                    //mywindow.close();
                     return true;
                 }
 

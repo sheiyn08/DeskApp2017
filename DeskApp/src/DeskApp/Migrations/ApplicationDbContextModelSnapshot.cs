@@ -13,7 +13,7 @@ namespace DeskApp.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-alpha1-21829");
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
             modelBuilder.Entity("DeskApp.DataLayer.act_report_other_activities", b =>
                 {
@@ -4751,6 +4751,18 @@ namespace DeskApp.Migrations
 
                     b.Property<int?>("socio_econ_hhs_3");
 
+                    b.Property<string>("socio_econ_seasonality_from_1");
+
+                    b.Property<string>("socio_econ_seasonality_from_2");
+
+                    b.Property<string>("socio_econ_seasonality_from_3");
+
+                    b.Property<string>("socio_econ_seasonality_to_1");
+
+                    b.Property<string>("socio_econ_seasonality_to_2");
+
+                    b.Property<string>("socio_econ_seasonality_to_3");
+
                     b.Property<string>("transportation");
 
                     b.Property<int?>("year_source");
@@ -5453,7 +5465,7 @@ namespace DeskApp.Migrations
 
                     b.Property<string>("sector");
 
-                    b.Property<bool>("sex");
+                    b.Property<bool?>("sex");
 
                     b.Property<string>("sitio");
 
@@ -6561,7 +6573,7 @@ namespace DeskApp.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<string>("Email")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -6572,10 +6584,10 @@ namespace DeskApp.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
 
@@ -6588,7 +6600,7 @@ namespace DeskApp.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -6611,10 +6623,10 @@ namespace DeskApp.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<string>("Name")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -6689,8 +6701,6 @@ namespace DeskApp.Migrations
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserRoles");
                 });

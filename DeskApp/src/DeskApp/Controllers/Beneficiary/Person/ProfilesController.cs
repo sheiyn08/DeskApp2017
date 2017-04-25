@@ -322,10 +322,11 @@ namespace DeskApp.Controllers
         public IActionResult person_profile_simple(AngularFilterModel item)
         {
             var model = GetData(item);
-
+            
             var result = from s in model
-                         join p in db.person_volunteer_record on s.person_profile_id equals     p.person_profile_id
-                        where p.is_deleted != true
+                         join p in db.person_volunteer_record
+                         on s.person_profile_id equals p.person_profile_id
+                         where p.is_deleted != true
                          select new
                          {
                              s.person_profile_id,
@@ -379,6 +380,54 @@ namespace DeskApp.Controllers
                          };
 
             return Ok(result);
+        }
+        
+        [Route("api/export/person_profile/volunteer_per_committee")]
+        public IActionResult volunteer_per_committee(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            int? selected_cycle = item.cycle_id;
+            int? selected_fund_source = item.fund_source_id;
+
+            var result = from s in model
+                         join p in db.person_volunteer_record
+                         on s.person_profile_id equals p.person_profile_id
+                         where p.is_deleted != true
+                         select new
+                         {
+                             s.person_profile_id,
+
+                             s.first_name,
+                             s.middle_name,
+                             s.last_name,
+                             sex = s.sex == true ? "Male" : "Female",
+                             s.birthdate,
+                             age = s.birthdate == null ? "" : (DateTime.Now.Year - s.birthdate.Value.Year).ToString(),
+                             committee = p.lib_volunteer_committee.name,
+                             position = p.lib_volunteer_committee_position.name,
+                             brgy_name = s.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(x => x.brgy_code == s.brgy_code).brgy_name,
+                             cycle_id = p.lib_cycle.cycle_id,
+                             fund_source_id = p.fund_source_id
+                         };
+
+            var items = result
+                .Select(x => new
+                {
+                    cycle_id = x.cycle_id,
+                    fund_source_id = x.fund_source_id,
+                    first_name = x.first_name,
+                    middle_name = x.middle_name,
+                    last_name = x.last_name,
+                    sex = x.sex,
+                    age = x.age,
+                    committee = x.committee,
+                    position = x.position,
+                    brgy_name = x.brgy_name
+                })
+                .Where(x => x.fund_source_id == selected_fund_source && x.cycle_id == item.cycle_id);
+
+            return Ok(items);
         }
 
 
@@ -736,6 +785,23 @@ namespace DeskApp.Controllers
                 model = model.Where(m => m.approval_id == item.approval_id);
             }
 
+            //try:
+            if (item.fund_source_id != null)
+            {
+                if (item.cycle_id != null)
+                {
+                    model = from s in model
+                            where
+                                (from o in
+                                    db.person_volunteer_record.Where(x => x.fund_source_id == item.fund_source_id && x.cycle_id == item.cycle_id && x.is_deleted != true)
+                                 select o.person_profile_id)
+                                    .Contains(s.person_profile_id)
+                            select s;
+                }
+            }            
+            //end try
+
+
 
             if (item.is_ip != null)
             {
@@ -1050,9 +1116,6 @@ namespace DeskApp.Controllers
             }
             return model;
         }
-
-
-
 
         [HttpGet]
         [Route("api/dashboard/person/volunteers")]

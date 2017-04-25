@@ -234,7 +234,12 @@
                                 <label> Type of Organization </label>
                             </div>
                             <div flex flex-sm="100">
-
+                                <select name="Type of Organization" ng-model="data.organization_id" id="KC Mode" class="form-control"
+                                        ng-disabled="status"
+                                        ng-required="true"
+                                        ng-options="option.Id as option.Name for option in organization_id_options">
+                                    <option value="">[Select Organization Type]</option>
+                                </select>
 
                             </div>
                         </div>

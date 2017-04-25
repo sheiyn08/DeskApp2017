@@ -121,7 +121,7 @@
                                 <label> Male </label>
                             </div>
                             <div flex flex-sm="100">
-                                <input name="No of Male" class="form-control" ng-model="data.no_male" min="0" />
+                                <input name="No of Male" type="number" class="form-control" ng-model="data.no_male" ng-pattern="/^[0-9]{1,9}$/" min="0" />
                             </div>
                         </div>
                         <div flex="100" layout="row" layout-margin layout-sm="row">
@@ -129,12 +129,12 @@
                                 <label> Female </label>
                             </div>
                             <div flex flex-sm="100">
-                                <input name="No of Female" class="form-control" ng-model="data.no_female" min="0" />
+                                <input name="No of Female" type="number" class="form-control" ng-model="data.no_female" ng-pattern="/^[0-9]{1,9}$/" min="0" />
                             </div>
                         </div>
                         <div flex="100" layout="row" layout-margin layout-sm="row">
                             <div flex flex-sm="100">
-                                <label> No. of meetings conducted </label>
+                                <label> Frequency of Meetings </label>
                             </div>
                             <div flex flex-sm="100">
                                 <input name="Frequency" class="form-control" ng-model="data.frequency" min="0" />

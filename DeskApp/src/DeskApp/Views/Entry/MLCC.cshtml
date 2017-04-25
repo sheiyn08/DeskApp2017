@@ -25,10 +25,10 @@
             margin-left: 20px;
         }
 
-            .dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+        .dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
                 font-size: 0.8em;
                 margin-top: 50px;
-            }
+        }            
 
         .dialogdemoBasicUsage button {
             width: 200px;
@@ -54,263 +54,181 @@
     </md-toolbar>
 
     <md-content>
-
+        <form name="myForm">
             <md-tabs md-dynamic-height md-border-bottom>
 
                 <md-tab label="Details">
                     <md-content class="md-padding">
-                        <form name="myForm">
                             @Html.Partial("~/Views/Entry/MLCC/_details.cshtml")
-                        </form>
                     </md-content>
                 </md-tab>
 
-
-
                 <md-tab label="PLGU">
-
                     <md-content class="md-padding">
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>Category</div>
                             <div flex>Planned</div>
                             <div flex>Actual</div>
                             <div flex>Balance</div>
                         </div>
-
                         <br />
                         <div class="layout-row" layout-margin flex>
-
-
                             <div flex>CBIS</div>
-                            <div flex><input type="number" min="0" ng-model="data.cbis_plgu_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.cbis_plgu_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" name="PLGU: CBIS (Planned)" ng-model="data.cbis_plgu_planned" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" name="PLGU: CBIS (Actual)" ng-model="data.cbis_plgu_actual" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.cbis_plgu_planned - data.cbis_plgu_actual}}</div>
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>M&E</div>
-                            <div flex><input type="number" min="0" ng-model="data.me_plgu_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.me_plgu_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" name="PLGU: M&E (Planned)" ng-model="data.me_plgu_planned" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" name="PLGU: M&E (Actual)" ng-model="data.me_plgu_actual" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.me_plgu_planned - data.me_plgu_actual}}</div>
-
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>SPI</div>
-                            <div flex><input type="number" min="0" ng-model="data.spi_plgu_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.spi_plgu_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" name="PLGU: SPI (Planned)" ng-model="data.spi_plgu_planned" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" name="PLGU: SPI (Actual)" ng-model="data.spi_plgu_actual" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.spi_plgu_planned - data.spi_plgu_actual}}</div>
-
-
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>Total</div>
                             <div flex> {{data.cbis_plgu_planned + data.me_plgu_planned + data.spi_plgu_planned}}</div>
                             <div flex>{{data.cbis_plgu_actual + data.me_plgu_actual + data.spi_plgu_actual}}</div>
                             <div flex>{{(data.cbis_plgu_planned + data.me_plgu_planned + data.spi_plgu_planned) - (data.cbis_plgu_actual + data.me_plgu_actual + data.spi_plgu_actual)}}</div>
-
-
                         </div>
                     </md-content>
                 </md-tab>
 
-
-
                 <md-tab label="MLGU">
-
-
-
-
-
                     <md-content class="md-padding">
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>Category</div>
                             <div flex>Planned</div>
                             <div flex>Actual</div>
                             <div flex>Balance</div>
                         </div>
-
                         <br />
                         <div class="layout-row" layout-margin flex>
-
-
                             <div flex>CBIS</div>
-                            <div flex><input type="number" min="0" ng-model="data.cbis_mlgu_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.cbis_mlgu_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" name="MLGU: CBIS (Planned)" ng-model="data.cbis_mlgu_planned" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" name="MLGU: CBIS (Actual)" ng-model="data.cbis_mlgu_actual" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.cbis_mlgu_planned - data.cbis_mlgu_actual}}</div>
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>M&E</div>
-                            <div flex><input type="number" min="0" ng-model="data.me_mlgu_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.me_mlgu_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" name="MLGU: M&E (Planned)" ng-model="data.me_mlgu_planned" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" name="MLGU: M&E (Actual)" ng-model="data.me_mlgu_actual" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.me_mlgu_planned - data.me_mlgu_actual}}</div>
-
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>SPI</div>
-                            <div flex><input type="number" min="0" ng-model="data.spi_mlgu_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.spi_mlgu_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" name="MLGU: SPI (Planned)" ng-model="data.spi_mlgu_planned" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" name="MLGU: SPI (Actual)" ng-model="data.spi_mlgu_actual" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.spi_mlgu_planned - data.spi_mlgu_actual}}</div>
-
-
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>Total</div>
                             <div flex> {{data.cbis_mlgu_planned + data.me_mlgu_planned + data.spi_mlgu_planned}}</div>
                             <div flex>{{data.cbis_mlgu_actual + data.me_mlgu_actual + data.spi_mlgu_actual}}</div>
                             <div flex>{{(data.cbis_mlgu_planned + data.me_mlgu_planned + data.spi_mlgu_planned) - (data.cbis_mlgu_actual + data.me_mlgu_actual + data.spi_mlgu_actual)}}</div>
-
-
                         </div>
                     </md-content>
                 </md-tab>
 
-
-
                 <md-tab label="BLGU">
-
-
-
-
-
                     <md-content class="md-padding">
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>Category</div>
                             <div flex>Planned</div>
                             <div flex>Actual</div>
                             <div flex>Balance</div>
                         </div>
-
                         <br />
                         <div class="layout-row" layout-margin flex>
-
-
                             <div flex>CBIS</div>
-                            <div flex><input type="number" min="0" ng-model="data.cbis_blgu_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.cbis_blgu_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" name="BLGU: CBIS (Planned)" ng-model="data.cbis_blgu_planned" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" name="BLGU: CBIS (Actual)" ng-model="data.cbis_blgu_actual" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.cbis_blgu_planned - data.cbis_blgu_actual}}</div>
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>M&E</div>
-                            <div flex><input type="number" min="0" ng-model="data.me_blgu_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.me_blgu_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" name="BLGU: M&E (Planned)" ng-model="data.me_blgu_planned" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" name="BLGU: M&E (Actual)" ng-model="data.me_blgu_actual" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.me_blgu_planned - data.me_blgu_actual}}</div>
-
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>SPI</div>
-                            <div flex><input type="number" min="0" ng-model="data.spi_blgu_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.spi_blgu_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" name="BLGU: SPI (Planned)" ng-model="data.spi_blgu_planned" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" name="BLGU: SPI (Actual)" ng-model="data.spi_blgu_actual" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.spi_blgu_planned - data.spi_blgu_actual}}</div>
-
-
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>Total</div>
                             <div flex> {{data.cbis_blgu_planned + data.me_blgu_planned + data.spi_blgu_planned}}</div>
                             <div flex>{{data.cbis_blgu_actual + data.me_blgu_actual + data.spi_blgu_actual}}</div>
                             <div flex>{{(data.cbis_blgu_planned + data.me_blgu_planned + data.spi_blgu_planned) - (data.cbis_blgu_actual + data.me_blgu_actual + data.spi_blgu_actual)}}</div>
-
-
                         </div>
                     </md-content>
                 </md-tab>
 
-
                 <md-tab label="Others">
-
-
-
-
-
                     <md-content class="md-padding">
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>Category</div>
                             <div flex>Planned</div>
                             <div flex>Actual</div>
                             <div flex>Balance</div>
                         </div>
-
                         <br />
                         <div class="layout-row" layout-margin flex>
-
-
                             <div flex>CBIS</div>
-                            <div flex><input type="number" min="0" ng-model="data.cbis_others_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.cbis_others_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" name="Others: CBIS (Planned)" ng-model="data.cbis_others_planned" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" name="Others: CBIS (Actual)" ng-model="data.cbis_others_actual" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.cbis_others_planned - data.cbis_others_actual}}</div>
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>M&E</div>
-                            <div flex><input type="number" min="0" ng-model="data.me_others_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.me_others_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" ng-model="data.me_others_planned" class="form-control" name="Others: M&E (Planned)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" ng-model="data.me_others_actual" class="form-control" name="Others: M&E (Actual)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.me_others_planned - data.me_others_actual}}</div>
-
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>SPI</div>
-                            <div flex><input type="number" min="0" ng-model="data.spi_others_planned" class="form-control" name="" /></div>
-                            <div flex><input type="number" min="0" ng-model="data.spi_others_actual" class="form-control" name="" /></div>
+                            <div flex><input type="number" min="0" ng-model="data.spi_others_planned" class="form-control" name="Others: SPI (Planned)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
+                            <div flex><input type="number" min="0" ng-model="data.spi_others_actual" class="form-control" name="Others: SPI (Actual)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" /></div>
                             <div flex>{{data.spi_others_planned - data.spi_others_actual}}</div>
-
-
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>Total</div>
                             <div flex> {{data.cbis_others_planned + data.me_others_planned + data.spi_others_planned}}</div>
                             <div flex>{{data.cbis_others_actual + data.me_others_actual + data.spi_others_actual}}</div>
                             <div flex>{{(data.cbis_others_planned + data.me_others_planned + data.spi_others_planned) - (data.cbis_others_actual + data.me_others_actual + data.spi_others_actual)}}</div>
-
-
                         </div>
                     </md-content>
                 </md-tab>
 
                 <md-tab label="Total">
-
-
-
-
-
                     <md-content class="md-padding">
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>Category</div>
                             <div flex>Planned</div>
                             <div flex>Actual</div>
                             <div flex>Balance</div>
                         </div>
-
                         <br />
                         <div class="layout-row" layout-margin flex>
-
-
                             <div flex>CBIS</div>
                             <div flex>{{data.cbis_others_planned + data.cbis_plgu_planned + data.cbis_mlgu_planned + data.cbis_blgu_planned}}</div>
                             <div flex>{{data.cbis_others_actual + data.cbis_plgu_actual + data.cbis_mlgu_actual + data.cbis_blgu_actual}}</div>
@@ -318,32 +236,24 @@
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>M&E</div>
                             <div flex>{{data.me_others_planned + data.me_plgu_planned + data.me_mlgu_planned + data.me_blgu_planned}}</div>
                             <div flex>{{data.me_others_actual + data.me_plgu_actual + data.me_mlgu_actual + data.me_blgu_actual}}</div>
                             <div flex>{{(data.me_others_planned + data.me_plgu_planned + data.me_mlgu_planned + data.me_blgu_planned) - (data.me_others_actual + data.me_plgu_actual + data.me_mlgu_actual + data.me_blgu_actual)}}</div>
-
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>SPI</div>
                             <div flex>{{data.spi_others_planned + data.spi_plgu_planned + data.spi_mlgu_planned + data.spi_blgu_planned}}</div>
                             <div flex>{{data.spi_others_actual + data.spi_plgu_actual + data.spi_mlgu_actual + data.spi_blgu_actual}}</div>
                             <div flex>{{(data.spi_others_planned + data.spi_plgu_planned + data.spi_mlgu_planned + data.spi_blgu_planned) - (data.spi_others_actual + data.spi_plgu_actual + data.spi_mlgu_actual + data.spi_blgu_actual)}}</div>
-
-
-
                         </div>
                         <br />
                         <div class="layout-row" layout-margin flex>
-
                             <div flex>Total</div>
                             <div flex>{{data.cbis_others_planned + data.cbis_plgu_planned + data.cbis_mlgu_planned + data.cbis_blgu_planned +data.me_others_planned + data.me_plgu_planned + data.me_mlgu_planned + data.me_blgu_planned+data.spi_others_planned + data.spi_plgu_planned + data.spi_mlgu_planned + data.spi_blgu_planned}}</div>
                             <div flex>{{data.cbis_others_actual + data.cbis_plgu_actual + data.cbis_mlgu_actual + data.cbis_blgu_actual +data.me_others_actual + data.me_plgu_actual + data.me_mlgu_actual + data.me_blgu_actual+data.spi_others_actual + data.spi_plgu_actual + data.spi_mlgu_actual + data.spi_blgu_actual}}</div>
                             <div flex>{{(data.cbis_others_planned + data.cbis_plgu_planned + data.cbis_mlgu_planned + data.cbis_blgu_planned +data.me_others_planned + data.me_plgu_planned + data.me_mlgu_planned + data.me_blgu_planned+data.spi_others_planned + data.spi_plgu_planned + data.spi_mlgu_planned + data.spi_blgu_planned)-(data.cbis_others_actual + data.cbis_plgu_actual + data.cbis_mlgu_actual + data.cbis_blgu_actual +data.me_others_actual + data.me_plgu_actual + data.me_mlgu_actual + data.me_blgu_actual+data.spi_others_actual + data.spi_plgu_actual + data.spi_mlgu_actual + data.spi_blgu_actual)}}</div>
-
                         </div>
                     </md-content>
                 </md-tab>
@@ -351,13 +261,10 @@
                 @Html.Partial("~/Views/Entry/Common/_attachment.cshtml")
 
             </md-tabs>
-
-    </md-content>
-
-   
+        </form>  
+    </md-content>   
 
     <md-content>
-
         <ul>
             <li ng-repeat="(key, errors) in myForm.$error track by $index">
                 <strong>{{ key }}</strong> errors
@@ -367,26 +274,17 @@
             </li>
         </ul>
         <md-container layout="row">
-
-
-
-
-
-
-
             <div flex="100" layout="row" layout-margin layout-sm="column">
-
                 <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid">
                     Save Record
                 </md-button>
-
                 <md-button class="md-warn md-raised" href="/View/MLCC">
                     Cancel
                 </md-button>
-
             </div>
         </md-container>
     </md-content>
+
 </div>
 
 

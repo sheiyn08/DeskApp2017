@@ -717,6 +717,22 @@
                                 }
                             })
 
+
+                            $scope.$watch('data.land_ownership_private_titled', function (newValue, oldValue) {
+                                if (newValue == false) {
+                                    $scope.data.land_aq_deed_of_donation = '';
+                                    $scope.data.land_aq_unsfruct = '';
+                                    $scope.data.land_aq_private_right_of_way_agreement = '';
+                                    $scope.data.land_aq_private_permit_to_construct = '';
+                                }
+                            })
+
+                            $scope.$watch('data.land_ownership_private_untitled', function (newValue, oldValue) {
+                                if (newValue == false) {
+                                    $scope.data.land_aq_private_quit_claim = '';
+                                }
+                            })
+
                             //lumad watch modality
 
                             $scope.$watch('data.modality_id', function (newValue, oldValue) {

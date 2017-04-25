@@ -449,13 +449,13 @@
             <table class="table table-bordered">
                 <tr class="bg-primary">
                     <td align="center">
-                        Barangay
-                    </td>
-                    <td align="center">
                         Committee
                     </td>
                     <td align="center">
                         Position
+                    </td>
+                    <td align="center">
+                        Barangay
                     </td>
                     <td align="center">
                         Sur Name
@@ -471,32 +471,40 @@
                     </td>
 
                 </tr>
-                <tr ng-repeat="item in playersToFilter() | filter:filterTeams | orderBy: 'brgy_name'">
+                <tr ng-repeat="item in committeesToFilter() | filter:filterCommittee | orderBy: 'committee'">
                     <td>
-                        {{item.brgy_name}}
+                        {{item.committee}}
                     </td>
                     <td>
-                        <li ng-repeat="player in volunteer_list | filter:{person_profile_id: item.person_profile_id}">
-                            {{player.committee}}
-                        </li>
-                    </td>
-                    <td>
-                        <li ng-repeat="player in volunteer_list | filter:{person_profile_id: item.person_profile_id}">
+                        <li ng-repeat="player in volunteer_list | filter:item.committee">
                             {{player.position}}
                         </li>
                     </td>
                     <td>
-                        {{item.last_name}}
+                        <li ng-repeat="player in volunteer_list | filter:item.committee">
+                            {{player.brgy_name}}
+                        </li>                        
                     </td>
                     <td>
-                        {{item.first_name}}
+                        <li ng-repeat="player in volunteer_list | filter:item.committee">
+                            {{player.last_name}}
+                        </li>
                     </td>
                     <td>
-                        {{item.age}}
+                        <li ng-repeat="player in volunteer_list | filter:item.committee">
+                            {{player.first_name}}
+                        </li>
                     </td>
                     <td>
-                        {{item.sex}}
-                    </td>                    
+                        <li ng-repeat="player in volunteer_list | filter:item.committee">
+                            {{player.age}}
+                        </li>
+                    </td>
+                    <td>
+                        <li ng-repeat="player in volunteer_list | filter:item.committee">
+                            {{player.sex}}
+                        </li>
+                    </td>                                     
                 </tr>
                 <tr ng-show="!playersToFilter().length">
                     <td colspan="7"><i>No results to show.</i> </td>

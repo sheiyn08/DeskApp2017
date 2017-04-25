@@ -17,9 +17,7 @@
                     <label for="Region:_">Date of First Appointment</label>
                 </div>
                 <div class="col-md-4">
-
                     <md-datepicker name="Appointment Date" md-min-date="today" ng-model="dt_date_appointment" md-placeholder="Enter date" ng-change="data.date_appointment = dt_date_appointment.toISOString()"  md-max-date="today"></md-datepicker>
-
                 </div>
 
 
@@ -124,20 +122,26 @@
 
 
                             <td>
-
-
-                                <md-datepicker name="Start of Term" ng-required="new_volunteer" ng-model="new_volunteer_record.dt_start_date" ng-change="new_volunteer_record.start_date = new_volunteer_record.dt_start_date.toISOString()"></md-datepicker>
-
-
-
-
+                                <md-datepicker
+                                               name="Start of Term" 
+                                               ng-required="new_volunteer" 
+                                               ng-model="new_volunteer_record.dt_start_date" 
+                                               md-placeholder="Enter date" 
+                                               ng-change="new_volunteer_record.start_date = new_volunteer_record.dt_start_date.toISOString()"
+                                               md-min-date="maxStartDate" 
+                                               md-max-date="maxEndDate_today">
+                                </md-datepicker>
                             </td>
 
                             <td>
-
-                                <md-datepicker name="End of Term"   ng-model="new_volunteer_record.dt_end_date" ng-change="new_volunteer_record.end_date = new_volunteer_record.dt_end_date.toISOString()"></md-datepicker>
-
-
+                                <md-datepicker name="End of Term"
+                                               ng-required="new_volunteer"
+                                               ng-model="new_volunteer_record.dt_end_date" 
+                                               md-placeholder="Enter date"
+                                               ng-change="new_volunteer_record.end_date = new_volunteer_record.dt_end_date.toISOString()"
+                                               md-min-date="startDate"
+                                               md-max-date="maxEndDate_today">
+                                </md-datepicker>
                             </td>
 
 
