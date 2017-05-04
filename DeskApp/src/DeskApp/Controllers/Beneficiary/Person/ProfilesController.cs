@@ -735,10 +735,7 @@ namespace DeskApp.Controllers
             //for single sync
             if (!string.IsNullOrEmpty(item.name))
             {
-                model = model.Where(x => x.first_name.Contains(item.name) || x.last_name.Contains(item.name)
-           //     || (x.first_name + " " + x.last_name).Contains(item.name)
-                );
-
+                model = model.Where(x => x.first_name.Contains(item.name) || x.last_name.Contains(item.name));
             }
             if (item.record_id != null)
             {
@@ -959,7 +956,7 @@ namespace DeskApp.Controllers
                             select s;
                 }
             }
-
+            
             if (item.sub_project_ers_id != null)
             {
                 //this gets the Non ERS workers for this LIST
@@ -1137,6 +1134,72 @@ namespace DeskApp.Controllers
             return Ok(result);
 
 
+        }
+
+        //[HttpPost]
+        //[Route("api/offline/v1/get/potential_ers_workers")]
+        //public PagedCollection<person_profileDTO> GetPotentialERSWorkers(AngularFilterModel item)
+        //{
+        //    var pp = db.person_profile.Where(x => x.is_deleted != true);
+        //    var totalCount = pp.Count();
+        //    int currPages = item.currPage ?? 0;
+        //    int size = item.pageSize ?? 10;
+
+        //    return new PagedCollection<person_profileDTO>()
+        //    {
+        //        Page = currPages,
+        //        TotalCount = totalCount,
+        //        TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+        //        Items = pp.OrderBy(x => x.last_name)
+        //        .Select(
+        //            x => new person_profileDTO
+        //            {
+        //                person_profile_id = x.person_profile_id,
+        //                first_name = x.first_name,
+        //                middle_name = x.middle_name,
+        //                last_name = x.last_name,
+        //                sex = x.sex.Value,
+        //                birthdate = x.birthdate,
+        //                lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
+        //                lib_city_city_name = x.lib_city.city_name,
+        //                lib_province_prov_name = x.lib_province.prov_name,
+        //                lib_region_region_name = x.lib_region.region_name
+
+        //            }).Skip(currPages * size).Take(size).ToList(),
+        //    };
+        //}
+
+        [HttpPost]
+        [Route("api/offline/v1/get/potential_ers_workers")]
+        public PagedCollection<dynamic> GetPotentialERSWorkers(AngularFilterModel item)
+        {
+            var pp = GetData(item);
+            var totalCount = pp.Count();
+            int currPages = item.currPage ?? 0;
+            int size = item.pageSize ?? 10;
+
+            return new PagedCollection<dynamic>()
+            {
+                Page = currPages,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+                Items = pp.OrderBy(x => x.last_name)
+                .Select(
+                    x => new 
+                    {
+                        person_profile_id = x.person_profile_id,
+                        first_name = x.first_name,
+                        middle_name = x.middle_name,
+                        last_name = x.last_name,
+                        sex = x.sex.Value,
+                        birthdate = x.birthdate,
+                        lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
+                        lib_city_city_name = x.lib_city.city_name,
+                        lib_province_prov_name = x.lib_province.prov_name,
+                        lib_region_region_name = x.lib_region.region_name
+
+                    }).Skip(currPages * size).Take(size).ToList(),
+            };
         }
 
 
@@ -2157,5 +2220,138 @@ namespace DeskApp.Controllers
         //}
 
         #endregion
+
+
+        //------------------------------------------------------------------ ORIGINAL CODE FOR SAVING ERS WORKER --------------------------------------------//  
+        //[Route("api/offline/v1/sub_projects/ers/worker/save")] 
+        //public async Task<IActionResult> SaveERSWorker(person_ers_work model, bool? api)
+        //{
+        //    var record = db.person_ers_work.AsNoTracking().FirstOrDefault(x => x.person_profile_id == model.person_profile_id && x.sub_project_ers_id == model.sub_project_ers_id && x.is_deleted != true);
+
+        //    if (record == null)
+        //    {
+        //        if (api != true)
+        //        {
+        //            //   model.push_status_id = 2;
+        //            //  model.push_date = null;
+        //            model.approval_id = 3;
+        //        }
+        //        model.created_by = 0;
+        //        model.created_date = DateTime.Now;
+        //        model.is_deleted = false;
+        //        db.person_ers_work.Add(model);
+
+        //        try
+        //        {
+        //            await db.SaveChangesAsync();
+        //            if (api == true)
+        //            {
+        //                return Ok();
+        //            }
+
+        //            var person =
+        //                db.person_ers_work
+        //                .Include(x => x.lib_ers_current_work)
+        //                .Include(x => x.person_profile)
+        //                .Where(x => x.person_ers_work_id == model.person_ers_work_id).Select(s => new
+        //                {
+        //                    s.person_profile.first_name,
+        //                    s.person_profile.last_name,
+        //                    s.person_profile.person_profile_id,
+        //                    s.ers_current_work_id,
+        //                    ers_current_work_name = s.lib_ers_current_work.name,
+        //                    s.rate_day,
+        //                    s.rate_hour,
+        //                    s.actual_cash,
+        //                    s.actual_lcc,
+        //                    s.plan_cash,
+        //                    s.plan_lcc,
+        //                    s.work_days,
+        //                    s.work_hours,
+        //                    s.work_hauling,
+        //                    s.rate_hauling,
+        //                    s.unit_hauling,
+        //                    s.percent,
+        //                    s.sub_project_ers_id,
+        //                    s.person_ers_work_id,
+        //                    s.person_profile.sex,
+        //                    s.person_profile.contact_no,
+        //                });
+        //            return Ok(person.FirstOrDefault());
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+
+        //    else
+        //    {
+        //        // model.push_date = null;
+        //        if (api != true)
+        //        {
+        //            //   model.push_status_id = 3;
+        //            model.approval_id = 3;
+        //        }
+        //        model.person_ers_work_id = record.person_ers_work_id;
+        //        model.created_by = record.created_by;
+        //        model.created_date = record.created_date;
+        //        model.last_modified_by = 0;
+        //        model.last_modified_date = DateTime.Now;
+        //        db.Entry(model).State = EntityState.Modified;
+
+        //        try
+        //        {
+        //            await db.SaveChangesAsync();
+
+        //            if (api == true)
+        //            {
+        //                return Ok();
+        //            }
+
+        //            var person =
+        //              db.person_ers_work
+        //              .Include(x => x.lib_ers_current_work)
+        //            .Include(x => x.person_profile)
+        //              .Where(x => x.person_ers_work_id == model.person_ers_work_id).Select(s => new
+        //              {
+        //                  s.person_profile.first_name,
+        //                  s.person_profile.last_name,
+        //                  s.person_profile.person_profile_id,
+        //                  s.ers_current_work_id,
+        //                  ers_current_work_name = s.lib_ers_current_work.name,
+        //                  s.rate_day,
+        //                  s.rate_hour,
+        //                  s.actual_cash,
+        //                  s.actual_lcc,
+        //                  s.plan_cash,
+        //                  s.plan_lcc,
+        //                  s.work_days,
+        //                  s.work_hours,
+        //                  s.work_hauling,
+        //                  s.rate_hauling,
+        //                  s.unit_hauling,
+        //                  s.percent,
+        //                  s.sub_project_ers_id,
+        //                  s.person_ers_work_id,
+        //                  s.person_profile.sex,
+        //                  s.person_profile.contact_no,
+        //              });
+
+        //            return Ok(person);
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+        //}
+        //------------------------------------------------------------------- END ORIGINAL CODE ------------------------------------------------------------//
+
+
+
+
+
+
     }
 }

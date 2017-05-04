@@ -82,13 +82,16 @@ namespace DeskApp.Controllers
             var model = db.person_ers_work
                 .Include(x => x.lib_ers_current_work)
                 .Include(x => x.person_profile)
-                .Where(x => x.sub_project_ers_id == id && x.is_deleted != true);
+                .Where(x => x.sub_project_ers_id == id && x.is_deleted != true)
+                .OrderBy(x => x.created_date);
 
             var result = from s in model
                          select new
                          {
                              s.person_profile.first_name,
                              s.person_profile.last_name,
+                             s.person_profile.middle_name,
+                             s.person_profile.birthdate,
                              s.person_profile.person_profile_id,
                              s.ers_current_work_id,
                              ers_current_work_name = s.lib_ers_current_work.name,

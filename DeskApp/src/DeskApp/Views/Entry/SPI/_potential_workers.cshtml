@@ -75,9 +75,30 @@
 
  <div class="panel panel-success">
 
-
-
-
+     <md-content>
+         <md-container layout="row">
+             <div flex="100" layout="row" layout-margin layout-sm="column">
+                 <div flex="50" flex-sm="100">
+                     <h4>Page {{page + 1}} of {{pagesCount}} || {{totalCount}} Records</h4>
+                     <br />
+                     <div flex="50">
+                         <select name="quarter" ng-model="pageSize" ng-options="obj.value as obj.text for obj in [{'value':5,'text':'5'},{'value':10,'text':'10'},{'value':20,'text':'20'}]" ng-selected="pageSize" class="form-control" ng-change="search()">
+                             <option value="">[Records to Show]</option>
+                         </select>
+                     </div>
+                 </div>
+                 <div flex="50" flex-sm="100" layout-align="end start">
+                     <demo-pager page="{{page}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" search-func="search(page)" layout-align="end start">
+                     </demo-pager>
+                 </div>
+             </div>
+         </md-container>
+         
+         <div ng-show="isSearching">
+             <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+         </div>
+     </md-content>
+     
     <md-table-container>
         <table class="table zui-table zui-table-horizontal zui-table-highlight" ng-show="!isSearching">
             <thead>
@@ -159,6 +180,4 @@
 
     </md-table-container>
 
-
-    @Html.Partial("~/Views/Shared/_pagination.cshtml")
 </div>

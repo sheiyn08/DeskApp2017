@@ -489,8 +489,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
 
     $scope.showAdvanced = function (ev) {
-        alert(JSON.stringify($scope.list_of_selected_items));
-
+        
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 
         $mdDialog.show({
