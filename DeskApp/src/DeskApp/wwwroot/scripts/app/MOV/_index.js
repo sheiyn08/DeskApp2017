@@ -87,6 +87,9 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $http.get('/api/all_lib_enrollment')
 .then(function (response) { $scope.enrollment_id_options = response.data; });
 
+    $http.get('/api/mov_list')
+.then(function (response) { $scope.mov_list_id_options = response.data; });
+
  
 
  
@@ -246,6 +249,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         $scope.isSearching = true;
 
         $.post('/api/offline/v1/attachments/get_dto', $scope.data).success(function (value) {
+                        
             $scope.loading = false;
             var base = window.location.origin;
          

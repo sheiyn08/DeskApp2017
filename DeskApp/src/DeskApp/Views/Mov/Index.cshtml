@@ -2,119 +2,116 @@
 
 <body layout="column">
     <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+        
         <md-toolbar>
-            <h3 class="md-toolbar-tools">MOVs</h3>
-            <md-divider></md-divider>
-            <div class="md-toolbar-tools">Filter Records</div>
+            <div class="md-toolbar-tools">MOVs</div>
         </md-toolbar>
 
-
         <md-content>
+            <br />
 
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-3">
-                            <label for="Region:_">Region: </label>
-                            <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
-                                    ng-options="option.Id as option.Name for option in region_code_options">
-                                <option value="">[Select Region]</option>
-                            </select>
+            <div class="panel panel-success" style="margin:25px">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <h4><b>FILTER RECORDS BY:</b></h4>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <label for="Province:_">Province: </label>
-                            <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
-                                    ng-disabled="data.region_code == null"
-                                    ng-options="option.Id as option.Name for option in prov_code_options">
-                                <option value="">[Select Province]</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="Municipality:_">Municipality: </label>
-                            <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
-                                    ng-disabled="data.prov_code == null"
-                                    ng-options="option.Id as option.Name for option in city_code_options">
-                                <option value="">[Select Municipality]</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="Barangay:_">Barangay: </label>
-                            <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
-                                    ng-disabled="data.city_code == null"
-                                    ng-options="option.Id as option.Name for option in brgy_code_options">
-                                <option value="">[Select Barangay]</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-3">
-                            <label for="Fund Source:_">Fund Source: </label>
-                            <select class="form-control" ng-model="data.fund_source_id">
-                                <option value=''>[Select Fund Source]</option>
-                                <option ng-repeat="value in fund_source_id_options" value="{{value.Id}}">{{value.Name}}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="Province:_">Cycle: </label>
-                            <div class="form-group" show-errors='{showSuccess: true}'>
-                                <select name="cycle_id" ng-model="data.cycle_id" id="brgy_code" class="form-control"
-                                        ng-required="true"
-                                        ng-options="option.Id as option.Name for option in cycle_id_options">
-                                    <option value="">[Select Cycle]</option>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="Region:_">Region: </label>
+                                <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                                        ng-options="option.Id as option.Name for option in region_code_options">
+                                    <option value="">[Select Region]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Province:_">Province: </label>
+                                <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                        ng-disabled="data.region_code == null"
+                                        ng-options="option.Id as option.Name for option in prov_code_options">
+                                    <option value="">[Select Province]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Municipality:_">Municipality: </label>
+                                <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                                        ng-disabled="data.prov_code == null"
+                                        ng-options="option.Id as option.Name for option in city_code_options">
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Barangay:_">Barangay: </label>
+                                <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                        ng-disabled="data.city_code == null"
+                                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                                    <option value="">[Select Barangay]</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <label for="Municipality:_">KC Mode: </label>
-                            <div class="form-group" show-errors='{showSuccess: true}'>
-                                <select name="enrollment_id" ng-model="data.enrollment_id" id="brgy_code" class="form-control"
-                                        ng-required="true"
-                                        ng-options="option.Id as option.Name for option in enrollment_id_options">
-                                    <option value="">[Select KC Mode]</option>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="Fund Source:_">Fund Source: </label>
+                                <select class="form-control" ng-model="data.fund_source_id">
+                                    <option value=''>[Select Fund Source]</option>
+                                    <option ng-repeat="value in fund_source_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Province:_">Cycle: </label>
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="cycle_id" ng-model="data.cycle_id" id="brgy_code" class="form-control"
+                                            ng-required="true"
+                                            ng-options="option.Id as option.Name for option in cycle_id_options">
+                                        <option value="">[Select Cycle]</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Municipality:_">KC Mode: </label>
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="enrollment_id" ng-model="data.enrollment_id" id="brgy_code" class="form-control"
+                                            ng-required="true"
+                                            ng-options="option.Id as option.Name for option in enrollment_id_options">
+                                        <option value="">[Select KC Mode]</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="Fund Source:_">Document Type: </label>
+                                <select class="form-control" ng-model="data.mov_list_id">
+                                    <option value=''>[Select Purpose]</option>
+                                    <option ng-repeat="value in mov_list_id_options" value="{{value.Id}}">{{value.Name}}</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div><br />
                 </div>
             </div>
 
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-3">
-                            <label for="Fund Source:_">Document Type: </label>
-                            <select class="form-control" ng-model="data.mov_list_id">
-                                <option value=''>[Select Purpose]</option>
-                                <option ng-repeat="value in mov_list_id_options" value="{{value.Id}}">{{value.Name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+            <div flex="100" layout="row" layout-margin layout-sm="column" style="margin:20px">
+                <a class="btn btn-primary" ng-click="search()">
+                    <i class="fa fa-filter fa-lg"></i> Filter
+                </a>
+                <a class="btn btn-warning" ng-click="clear()">
+                    <i class="fa fa-recycle fa-lg"></i>  Clear
+                </a>
+                @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
             </div>
 
         </md-content>
 
-        <md-content>
-            <md-container layout="row">
-                <div flex="100" layout="row" layout-margin layout-sm="column">
-                    <md-button class="md-primary md-raised" ng-click="search()">
-                        <i class="fa fa-filter"></i>  Filter
-                    </md-button>
-                    <md-button class="md-warn md-raised" ng-click="clear()">
-                        <i class="fa fa-recycle"></i>  Clear
-                    </md-button>
-                    <md-button class="md-success md-raised" ng-click="createNew()">
-                        <i class="fa fa-plus"></i>  New Record
-                    </md-button>
-                    @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
-                </div>
-            </md-container>
-        </md-content>
+        <br />
 
         <md-content>
             <md-tabs md-dynamic-height md-border-bottom>
@@ -157,15 +154,15 @@
                                                 Purpose
                                             </th>
                                             <th>
-                                                Record Id
+                                                Attached Date
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="item in Items">
                                             <td>                                              
-                                                <a ng-click="delete(item)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
-                                                <a class="btn btn-success" href={{equip.url}}><i class="fa fa-file-pdf-o"></i></a>
+                                                <a ng-click="delete(item)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Attachment' class='glyphicon glyphicon-trash'></span></a>
+                                                <a class="btn btn-success" href={{item.url}} target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                                             </td>
                                             <td>
                                                 {{item.lib_region_region_name}}
@@ -195,7 +192,7 @@
                                                 {{item.attachment}}
                                             </td>
                                             <td>
-                                                {{item.record_id}}
+                                                {{item.created_date | date:'MM/dd/yyyy'}}
                                             </td>
                                         </tr>
                                     </tbody>
