@@ -241,7 +241,7 @@
                         $scope.selected_category_name = "Grievance Installation";
                         $scope.show_grievance_installation_div = true;
                         $scope.hide_category_list = true;
-                        $scope.subreport_list = [{ "id": "18", "name": "Grievance Installation Status at Barangay" }]
+                        $scope.subreport_list = [{ "id": "18", "name": "Grievance Installation Status at the Barangay" }, { "id": "9", "name": "Grievance Installation Status at the ACT" }]
                     }
                     else if (category_id == 11) {
                         $scope.selected_category_name = "Environmental and Social Safeguards";
@@ -666,19 +666,140 @@
                     }
 
                     else if ($scope.selected_subreport.id == 4) {
-                        //nothing to display pa
+                        $.post('/api/export/muniandbrgy_training_participants/list', $scope.data).success(function (value) {
+                            $scope.loading = false;
+                            $scope.subreport4_training_participants = value;
+                            $scope.totalRows = $scope.subreport4_training_participants.length;
+
+                            $scope.num_of_trainings_total = 0;
+                            $scope.male_volunteer_participants_subtotal = 0;
+                            $scope.male_non_volunteer_participants_subtotal = 0;
+                            $scope.male_participants_subtotal = 0;
+                            $scope.female_volunteer_participants_subtotal = 0;
+                            $scope.female_non_volunteer_participants_subtotal = 0;
+                            $scope.female_participants_subtotal = 0;
+                            $scope.volunteer_participants_subtotal = 0;
+                            $scope.non_volunteer_participants_subtotal = 0;
+                            $scope.total_participants_subtotal = 0;
+
+                            $scope.no_ip_male_subtotal = 0;
+                            $scope.no_pantawid_male_subtotal = 0;
+                            $scope.no_slp_male_subtotal = 0;
+                            $scope.no_lgu_male_subtotal = 0;
+                            $scope.no_ip_female_subtotal = 0;
+                            $scope.no_pantawid_female_subtotal = 0;
+                            $scope.no_slp_female_subtotal = 0;
+                            $scope.no_lgu_female_subtotal = 0;
+                            $scope.ip_totalmf_subtotal = 0;
+                            $scope.pantawid_totalmf_subtotal = 0;
+                            $scope.slp_totalmf_subtotal = 0;
+                            $scope.lgu_totalmf_subtotal = 0;
+
+                            angular.forEach($scope.subreport4_training_participants,
+                                function (todo) {
+                                    todo.male_volunteer_participants_perc = (100 * todo.male_volunteer_participants / (todo.male_non_volunteer_participants + todo.male_volunteer_participants)).toFixed(2);
+                                    todo.female_volunteer_participants_perc = (100 * todo.female_volunteer_participants / (todo.female_non_volunteer_participants + todo.female_volunteer_participants)).toFixed(2);
+                                    todo.total_volunteer_participants_perc = (((todo.male_volunteer_participants + todo.female_volunteer_participants) / (todo.male_volunteer_participants + todo.female_volunteer_participants + todo.male_non_volunteer_participants + todo.female_non_volunteer_participants)) * 100).toFixed(2);
+
+                                    $scope.num_of_trainings_total += todo.num_of_trainings;
+
+                                    $scope.male_volunteer_participants_subtotal += todo.male_volunteer_participants;
+                                    $scope.male_non_volunteer_participants_subtotal += todo.male_non_volunteer_participants;
+                                    $scope.male_participants_subtotal += (todo.male_volunteer_participants + todo.male_non_volunteer_participants);
+                                    $scope.female_volunteer_participants_subtotal += todo.female_volunteer_participants;
+                                    $scope.female_non_volunteer_participants_subtotal += todo.female_non_volunteer_participants;
+                                    $scope.female_participants_subtotal += (todo.female_volunteer_participants + todo.female_non_volunteer_participants);
+                                    $scope.volunteer_participants_subtotal += (todo.male_volunteer_participants + todo.female_volunteer_participants);
+                                    $scope.non_volunteer_participants_subtotal += (todo.male_non_volunteer_participants + todo.female_non_volunteer_participants);
+                                    $scope.total_participants_subtotal += ((todo.male_volunteer_participants + todo.female_volunteer_participants) + (todo.male_non_volunteer_participants + todo.female_non_volunteer_participants));
+
+                                    $scope.no_ip_male_subtotal += todo.no_ip_male;
+                                    $scope.no_pantawid_male_subtotal += todo.no_pantawid_male;
+                                    $scope.no_slp_male_subtotal += todo.no_slp_male;
+                                    $scope.no_lgu_male_subtotal += todo.no_lgu_male;
+                                    $scope.no_ip_female_subtotal += todo.no_ip_female;
+                                    $scope.no_pantawid_female_subtotal += todo.no_pantawid_female;
+                                    $scope.no_slp_female_subtotal += todo.no_slp_female;
+                                    $scope.no_lgu_female_subtotal += todo.no_lgu_female;
+                                    $scope.ip_totalmf_subtotal += (todo.no_ip_male + todo.no_ip_female);
+                                    $scope.pantawid_totalmf_subtotal += (todo.no_pantawid_male + todo.no_pantawid_female);
+                                    $scope.slp_totalmf_subtotal += (todo.no_slp_male + todo.no_slp_female);
+                                    $scope.lgu_totalmf_subtotal += (todo.no_lgu_male + todo.no_lgu_female);
+
+
+                                });
+
+                            $scope.isSearching = false;
+                            $scope.data.lgu_level_id = null;
+
+                        }).error(function (data) {
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
                     }
 
                     else if ($scope.selected_subreport.id == 5) {
                         $scope.data.lgu_level_id = 1;
-                        $.post('/api/export/community_training/list', $scope.data).success(function (value) {
+                        $.post('/api/export/muniandbrgy_trainings_provided_to_brgy/list', $scope.data).success(function (value) {
                             $scope.loading = false;
-                            $scope.training_report = value;
+                            $scope.trainings_provided_to_brgy = value;
+                            $scope.totalRows = $scope.trainings_provided_to_brgy.length;
 
-                            angular.forEach($scope.training_report,
+                            $scope.num_of_trainings_total = 0;
+                            $scope.male_volunteer_participants_subtotal = 0;
+                            $scope.male_non_volunteer_participants_subtotal = 0;
+                            $scope.male_participants_subtotal = 0;
+                            $scope.female_volunteer_participants_subtotal = 0;
+                            $scope.female_non_volunteer_participants_subtotal = 0;
+                            $scope.female_participants_subtotal = 0;
+                            $scope.volunteer_participants_subtotal = 0;
+                            $scope.non_volunteer_participants_subtotal = 0;
+                            $scope.total_participants_subtotal = 0;
+
+                            $scope.no_ip_male_subtotal = 0;
+                            $scope.no_pantawid_male_subtotal = 0;
+                            $scope.no_slp_male_subtotal = 0;
+                            $scope.no_lgu_male_subtotal = 0;
+                            $scope.no_ip_female_subtotal = 0;
+                            $scope.no_pantawid_female_subtotal = 0;
+                            $scope.no_slp_female_subtotal = 0;
+                            $scope.no_lgu_female_subtotal = 0;
+                            $scope.ip_totalmf_subtotal = 0;
+                            $scope.pantawid_totalmf_subtotal = 0;
+                            $scope.slp_totalmf_subtotal = 0;
+                            $scope.lgu_totalmf_subtotal = 0;
+
+                            angular.forEach($scope.trainings_provided_to_brgy,
                                 function (todo) {
                                     todo.male_volunteer_participants_perc = (100 * todo.male_volunteer_participants / (todo.male_non_volunteer_participants + todo.male_volunteer_participants)).toFixed(2);
                                     todo.female_volunteer_participants_perc = (100 * todo.female_volunteer_participants / (todo.female_non_volunteer_participants + todo.female_volunteer_participants)).toFixed(2);
+                                    todo.total_volunteer_participants_perc = (((todo.male_volunteer_participants + todo.female_volunteer_participants) / (todo.male_volunteer_participants + todo.female_volunteer_participants + todo.male_non_volunteer_participants + todo.female_non_volunteer_participants)) * 100).toFixed(2);
+
+                                    $scope.num_of_trainings_total += todo.num_of_trainings;
+
+                                    $scope.male_volunteer_participants_subtotal += todo.male_volunteer_participants;
+                                    $scope.male_non_volunteer_participants_subtotal += todo.male_non_volunteer_participants;
+                                    $scope.male_participants_subtotal += (todo.male_volunteer_participants + todo.male_non_volunteer_participants);
+                                    $scope.female_volunteer_participants_subtotal += todo.female_volunteer_participants;
+                                    $scope.female_non_volunteer_participants_subtotal += todo.female_non_volunteer_participants;
+                                    $scope.female_participants_subtotal += (todo.female_volunteer_participants + todo.female_non_volunteer_participants);
+                                    $scope.volunteer_participants_subtotal += (todo.male_volunteer_participants + todo.female_volunteer_participants);
+                                    $scope.non_volunteer_participants_subtotal += (todo.male_non_volunteer_participants + todo.female_non_volunteer_participants);
+                                    $scope.total_participants_subtotal += ((todo.male_volunteer_participants + todo.female_volunteer_participants) + (todo.male_non_volunteer_participants + todo.female_non_volunteer_participants));
+
+                                    $scope.no_ip_male_subtotal += todo.no_ip_male;
+                                    $scope.no_pantawid_male_subtotal += todo.no_pantawid_male;
+                                    $scope.no_slp_male_subtotal += todo.no_slp_male;
+                                    $scope.no_lgu_male_subtotal += todo.no_lgu_male;
+                                    $scope.no_ip_female_subtotal += todo.no_ip_female;
+                                    $scope.no_pantawid_female_subtotal += todo.no_pantawid_female;
+                                    $scope.no_slp_female_subtotal += todo.no_slp_female;
+                                    $scope.no_lgu_female_subtotal += todo.no_lgu_female;
+                                    $scope.ip_totalmf_subtotal += (todo.no_ip_male + todo.no_ip_female);
+                                    $scope.pantawid_totalmf_subtotal += (todo.no_pantawid_male + todo.no_pantawid_female);
+                                    $scope.slp_totalmf_subtotal += (todo.no_slp_male + todo.no_slp_female);
+                                    $scope.lgu_totalmf_subtotal += (todo.no_lgu_male + todo.no_lgu_female);
                                 });
 
                             $scope.isSearching = false;
@@ -917,9 +1038,7 @@
                         });
                     }
 
-                    else if ($scope.selected_subreport.id == 9) {
-                        //cancelled - same as subreport_id 8
-                    }
+                    //subreport_id number 9 is cancelled but will be used for new report: Grievance Installation Status at the ACT
 
                     else if ($scope.selected_subreport.id == 10) {
 
@@ -1033,10 +1152,20 @@
                         $.post('/api/export/grievance_record/barangay_summary', $scope.data).success(function (value) {
                             $scope.loading = false;
                             $scope.grievance_intake_brgy = value;
+                            $scope.totalRows = $scope.grievance_intake_brgy.length;
+
+                            $scope.total_intakes = 0;
+                            $scope.total_resolved = 0;
+                            $scope.total_pending = 0;
+
                             $scope.isSearching = false;
                             angular.forEach($scope.grievance_intake_brgy,
                                 function (todo) {
                                     todo.perc_resolved = (100 * todo.resolved / (todo.total)).toFixed(2);
+                                    $scope.total_intakes += todo.total;
+                                    $scope.total_resolved += todo.resolved;
+                                    $scope.total_pending += todo.pending;
+                                    
                                 });
                         }).error(function (data) {
                             alert(JSON.stringify(data));
@@ -1047,10 +1176,19 @@
                         $.post('/api/export/grievance_record/nature_summary', $scope.data).success(function (value) {
                             $scope.loading = false;
                             $scope.grievance_intake_nature = value;
+                            $scope.totalRows = $scope.grievance_intake_nature.length;
+
+                            $scope.total_intakes = 0;
+                            $scope.total_resolved = 0;
+                            $scope.total_pending = 0;
+
                             $scope.isSearching = false;
                             angular.forEach($scope.grievance_intake_nature,
                                 function (todo) {
                                     todo.perc_resolved = (100 * todo.resolved / (todo.total)).toFixed(2);
+                                    $scope.total_intakes += todo.total;
+                                    $scope.total_resolved += todo.resolved;
+                                    $scope.total_pending += todo.pending;
                                 });
                         }).error(function (data) {
                             alert(JSON.stringify(data));
@@ -1061,7 +1199,23 @@
                         $.post('/api/export/grievance_record/category_summary', $scope.data).success(function (value) {
                             $scope.loading = false;
                             $scope.grievance_intake_category = value;
+                            $scope.totalRows = $scope.grievance_intake_category.length;
+
+                            $scope.total_intakes = 0;
+                            $scope.total_count_type_a = 0;
+                            $scope.total_count_type_b = 0;
+                            $scope.total_count_type_c = 0;
+
                             $scope.isSearching = false;
+
+                            angular.forEach($scope.grievance_intake_category,
+                                function (todo) {
+                                    $scope.total_intakes += todo.total;
+                                    $scope.total_count_type_a += todo.type_a;
+                                    $scope.total_count_type_b += todo.type_b;
+                                    $scope.total_count_type_c += todo.type_c;
+                                });
+
                         }).error(function (data) {
                             alert(JSON.stringify(data));
                             $scope.error = "An Error has occured while Saving! " + data.statusText;
@@ -1070,10 +1224,61 @@
                     }
 
                     else if ($scope.selected_subreport.id == 18) {
+                        $scope.data.lgu_level_id = 1; //brgy level
                         $.post('/api/export/grievance_installation/list', $scope.data).success(function (value) {
                             $scope.loading = false;
                             $scope.grievance_installation = value;
+                            $scope.totalRows = $scope.grievance_installation.length;
+
+                            $scope.count_date_orientation = 0;
+                            $scope.count_date_voliden = 0;
+                            $scope.count_date_training = 0;
+                            $scope.count_date_inspect = 0;
+                            $scope.count_grievance_box = 0;
+
+                            angular.forEach($scope.grievance_installation,
+                                function (todo) {
+                                    $scope.count_date_orientation += todo.brgy_count_with_date_orientation;
+                                    $scope.count_date_voliden += todo.brgy_count_with_date_voliden;
+                                    $scope.count_date_training += todo.brgy_count_with_date_training;
+                                    $scope.count_date_inspect += todo.brgy_count_with_date_inspect;
+                                    $scope.count_grievance_box += todo.brgy_count_with_grievance_box;
+                                });
+
                             $scope.isSearching = false;
+                            $scope.data.lgu_level_id = null;
+
+                        }).error(function (data) {
+                            alert(JSON.stringify(data));
+                            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            $scope.loading = false;
+                        });
+                    }
+
+                    else if ($scope.selected_subreport.id == 9) {
+                        $scope.data.lgu_level_id = 2; //municipal level
+                        $.post('/api/export/grievance_installation/list', $scope.data).success(function (value) {
+                            $scope.loading = false;
+                            $scope.grievance_installation_act = value;
+                            $scope.totalRows = $scope.grievance_installation_act.length;
+
+                            $scope.count_date_orientation = 0;
+                            $scope.count_date_ffcomm = 0;
+                            $scope.count_date_training = 0;
+                            $scope.count_date_inspect = 0;
+                            $scope.count_grievance_box = 0;
+
+                            angular.forEach($scope.grievance_installation_act,
+                                function (todo) {
+                                    $scope.count_date_orientation += todo.act_count_with_date_orientation;
+                                    $scope.count_date_ffcomm += todo.act_count_with_date_ffcomm;
+                                    $scope.count_date_training += todo.act_count_with_date_training;
+                                    $scope.count_date_inspect += todo.act_count_with_date_inspect;
+                                    $scope.count_grievance_box += todo.act_count_with_grievance_box;
+                                });
+
+                            $scope.isSearching = false;
+                            $scope.data.lgu_level_id = null;
                         }).error(function (data) {
                             alert(JSON.stringify(data));
                             $scope.error = "An Error has occured while Saving! " + data.statusText;

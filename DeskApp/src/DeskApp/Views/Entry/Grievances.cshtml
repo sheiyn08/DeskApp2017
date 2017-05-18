@@ -95,7 +95,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group" show-errors='{showSuccess: true}'>
 
-                                                    <md-datepicker name="Date Intake" ng-model="dt_date_intake" ng-disabled="data.training_category_id !=null" md-placeholder="Enter date" ng-change="data.date_intake = dt_date_intake.toISOString()" required md-min-date="maxStartDate" md-max-date="today"></md-datepicker>
+                                                    <md-datepicker name="Date Intake" ng-model="dt_date_intake" ng-disabled="data.training_category_id !=null" md-placeholder="Enter date" ng-change="data.date_intake = dt_date_intake.toISOString()" ng-required="true" md-min-date="minStartDate" md-max-date="today"></md-datepicker>
 
 
                                                 </div>
@@ -846,29 +846,22 @@
 
               $scope.loading = true;
               $scope.data = response.data;
-
-              //$scope.dt_date_intake = response.data.date_intake == undefined ? null : new Date(response.data.date_intake);
-              $scope.dt_resolution_date = response.data.resolution_date == undefined ? null : new Date(response.data.resolution_date);
-
-              $scope.maxStartDate = new Date("01/01/2014");
-              $scope.maxDate = new Date($scope.dt_date_intake);
-              $scope.today = new Date();
               
+              $scope.dt_date_intake = response.data.date_intake == undefined ? null : new Date(response.data.date_intake);
+              
+              $scope.minStartDate = new Date("01/01/2014");
+              $scope.today = new Date();
+              $scope.maxDate = new Date($scope.dt_date_intake);                           
 
-              $scope.$watch('dt_date_intake', function (newValue, oldValue) {
-                  $scope.maxDate = new Date(newValue);
-              });
-
-              //$scope.dt_date_intake = new Date(response.data.date_intake);
-              //$scope.dt_resolution_date = new Date(response.data.resolution_date);
-
-
+              
+              
               $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
               $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
               $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
               $scope.data.brgy_code = $scope.data.brgy_code == 0 ? "" : $scope.data.brgy_code;
               $scope.data.fund_source_id = $scope.data.fund_source_id == 0 ? "" : $scope.data.fund_source_id;
 
+             
 
               $scope.data.grs_form_id = $scope.data.grs_form_id == 0 ? "" : $scope.data.grs_form_id;
               $scope.data.grs_intake_level_id = $scope.data.grs_intake_level_id == 0 ? "" : $scope.data.grs_intake_level_id;
@@ -878,6 +871,12 @@
               $scope.data.grs_category_id = $scope.data.grs_category_id == 0 ? "" : $scope.data.grs_category_id;
               $scope.data.grs_complaint_subject_id = $scope.data.grs_complaint_subject_id == 0 ? "" : $scope.data.grs_complaint_subject_id;
               $scope.data.sex_id = $scope.data.sex_id == 0 ? "" : $scope.data.sex_id;
+
+              
+              $scope.dt_resolution_date = response.data.resolution_date == undefined ? null : new Date(response.data.resolution_date);
+
+
+              
 
               $scope.$watch('data.intake_area_level', function (newValue, oldValue) {
                   if ($scope.data.intake_area_level == 1) {
@@ -944,6 +943,10 @@
                       });
               }
 
+              $scope.$watch('dt_date_intake', function (newValue, oldValue) {
+                  $scope.maxDate = new Date(newValue);
+              });
+
               $scope.check_status();
 
 
@@ -996,7 +999,7 @@
               $http.get('/Api/lib_grs_intake_officer/')
         .then(function (response) { $scope.grs_intake_officer_id_options = response.data; });
 
-
+              
 
               $scope.loading = false;
 

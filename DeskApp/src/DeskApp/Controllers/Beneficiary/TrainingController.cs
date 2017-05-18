@@ -392,8 +392,143 @@ namespace DeskApp.Controllers
         }
 
 
+        [Route("api/export/muniandbrgy_training_participants/list")]
+        public IActionResult subreport4_training_participants_list(AngularFilterModel item)
+        {
+            var ct_model = GetData(item);
+            var pt_model = db.person_training.Where(pt => pt.is_participant == true && pt.is_deleted != true);
+            
+            var result = from ct in ct_model                         
+                         group ct by new { ct.lgu_level_id, ct.lib_training_category.name } into grp
+                         join pt in pt_model on grp.FirstOrDefault().community_training_id equals pt.community_training_id
+                         orderby grp.Key.name
+                         select new
+                         {
+                             training_category = grp.Key.name,
+                             lgu_level_id = grp.Key.lgu_level_id,
+                             num_of_trainings = grp.Count(),
 
-    
+                             male_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex == true && x.is_deleted != true)
+                                                            where
+                                                                 (from o in
+                                                                     db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                     && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                  select o.person_profile_id)
+                                                                     .Contains(i.person_profile_id)
+                                                            select i).Count(),
+
+                             male_non_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex == true && x.is_deleted != true)
+                                                                where
+                                                                     !(from o in
+                                                                           db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                           && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                       select o.person_profile_id)
+                                                                         .Contains(i.person_profile_id)
+                                                                select i).Count(),
+
+                             female_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex != true && x.is_deleted != true)
+                                                            where
+                                                                 (from o in
+                                                                     db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                     && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                  select o.person_profile_id)
+                                                                     .Contains(i.person_profile_id)
+                                                            select i).Count(),
+
+                             female_non_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex != true && x.is_deleted != true)
+                                                                  where
+                                                                       !(from o in
+                                                                             db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                             && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                         select o.person_profile_id)
+                                                                           .Contains(i.person_profile_id)
+                                                                  select i).Count(),
+
+                             no_ip_male = db.person_training.Count(x => x.person_profile.sex == true && x.person_profile.is_ip == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_pantawid_male = db.person_training.Count(x => x.person_profile.sex == true && x.person_profile.is_pantawid == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_slp_male = db.person_training.Count(x => x.person_profile.sex == true && x.person_profile.is_slp == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_lgu_male = db.person_training.Count(x => x.person_profile.sex == true && x.person_profile.is_lguofficial == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+
+                             no_ip_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_ip == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_pantawid_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_pantawid == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_slp_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_slp == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_lgu_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_lguofficial == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             
+                         };
+
+
+            return Ok(result);
+        }
+
+
+        [Route("api/export/muniandbrgy_trainings_provided_to_brgy/list")]
+        public IActionResult subreport5_training_provided_to_brgy_list(AngularFilterModel item)
+        {
+            var ct_model = GetData(item);
+            var pt_model = db.person_training.Where(pt => pt.is_participant == true && pt.is_deleted != true);
+
+            var result = from ct in ct_model
+                         group ct by new { ct.lib_brgy.brgy_name, ct.lib_training_category.name } into grp
+                         join pt in pt_model on grp.FirstOrDefault().community_training_id equals pt.community_training_id
+                         orderby grp.Key.name
+                         select new
+                         {
+                             training_category = grp.Key.name,
+                             brgy_name = grp.Key.brgy_name,
+                             num_of_trainings = grp.Count(),
+
+                             male_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex == true && x.is_deleted != true)
+                                                            where
+                                                                 (from o in
+                                                                     db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                     && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                  select o.person_profile_id)
+                                                                     .Contains(i.person_profile_id)
+                                                            select i).Count(),
+
+                             male_non_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex == true && x.is_deleted != true)
+                                                                where
+                                                                     !(from o in
+                                                                           db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                           && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                       select o.person_profile_id)
+                                                                         .Contains(i.person_profile_id)
+                                                                select i).Count(),
+
+                             female_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex != true && x.is_deleted != true)
+                                                              where
+                                                                   (from o in
+                                                                       db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                       && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                    select o.person_profile_id)
+                                                                       .Contains(i.person_profile_id)
+                                                              select i).Count(),
+
+                             female_non_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex != true && x.is_deleted != true)
+                                                                  where
+                                                                       !(from o in
+                                                                             db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                             && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                         select o.person_profile_id)
+                                                                           .Contains(i.person_profile_id)
+                                                                  select i).Count(),
+
+                             no_ip_male = db.person_training.Count(x => x.person_profile.sex == true && x.person_profile.is_ip == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_pantawid_male = db.person_training.Count(x => x.person_profile.sex == true && x.person_profile.is_pantawid == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_slp_male = db.person_training.Count(x => x.person_profile.sex == true && x.person_profile.is_slp == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_lgu_male = db.person_training.Count(x => x.person_profile.sex == true && x.person_profile.is_lguofficial == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+
+                             no_ip_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_ip == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_pantawid_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_pantawid == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_slp_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_slp == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+                             no_lgu_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_lguofficial == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
+
+                         };
+
+
+            return Ok(result);
+        }
+
         private IQueryable<community_training> GetData(AngularFilterModel item)
 
         {

@@ -53,14 +53,17 @@
 
 <div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
 
-    <div style="margin:5px">
+    @*<div style="margin:5px">
         <a class="btn btn-warning" ng-click="cancel()">
             <i class="fa fa-close fa-lg"></i> &nbsp; Back to list
         </a>
     </div>
-    <br />
+    <br />*@
 
     <div class="panel panel-info">
+        <div class="panel panel-heading">
+            <h4>Area Coordinating Team Monthly Accomplishment Report</h4>
+        </div>
         <div class="panel panel-body">
             <form name="reportdetailsForm">
                 <fieldset class="standard">
@@ -151,7 +154,6 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th></th>
                                     <th>Activity Name</th>
                                     <th>Target Date</th>
                                     <th>Actual Date of Conduct</th>
@@ -159,7 +161,6 @@
                                 </tr>
                             </thead>
                             <tr ng-repeat="item in ceac_list">
-                                <td>{{$index + 1}}</td>
                                 <td>{{item.lib_training_category_name}}</td>
                                 <td>{{item.plan_start | date:'MM/dd/yyyy'}} - {{item.plan_end | date:'MM/dd/yyyy'}}</td>
                                 <td>{{item.actual_start | date:'MM/dd/yyyy'}} - {{item.actual_end | date:'MM/dd/yyyy'}}</td>
@@ -172,7 +173,7 @@
                                 </td>
                             </tr>
                             <tr ng-show="!ceac_list.length">
-                                <td colspan="5"><i>No results to show.</i> </td>
+                                <td colspan="4"><i>No results to show.</i> </td>
                             </tr>
                         </table>
                     </div>
@@ -772,26 +773,26 @@
             };
 
             //Part C number 3:
-            $scope.getTrainingsFacilitated = function () {
-                if ($scope.data.report_coverage == 1) {
-                    $.post('/api/export/report/trainings_facilitated/for_the_period_of', $scope.data).success(function (value) {
-                        $scope.trainings_facilitated_list = value;
-                    }).error(function (data) {
-                        alert(JSON.stringify(data));
-                        $scope.error = "An Error has occured while Saving! " + data.statusText;
-                        $scope.loading = false;
-                    });
-                }
-                if ($scope.data.report_coverage == 2) {
-                    $.post('/api/export/report/trainings_facilitated/as_of', $scope.data).success(function (value) {
-                        $scope.trainings_facilitated_list = value;
-                    }).error(function (data) {
-                        alert(JSON.stringify(data));
-                        $scope.error = "An Error has occured while Saving! " + data.statusText;
-                        $scope.loading = false;
-                    });
-                }
-            };
+            //$scope.getTrainingsFacilitated = function () {
+            //    if ($scope.data.report_coverage == 1) {
+            //        $.post('/api/export/report/trainings_facilitated/for_the_period_of', $scope.data).success(function (value) {
+            //            $scope.trainings_facilitated_list = value;
+            //        }).error(function (data) {
+            //            alert(JSON.stringify(data));
+            //            $scope.error = "An Error has occured while Saving! " + data.statusText;
+            //            $scope.loading = false;
+            //        });
+            //    }
+            //    if ($scope.data.report_coverage == 2) {
+            //        $.post('/api/export/report/trainings_facilitated/as_of', $scope.data).success(function (value) {
+            //            $scope.trainings_facilitated_list = value;
+            //        }).error(function (data) {
+            //            alert(JSON.stringify(data));
+            //            $scope.error = "An Error has occured while Saving! " + data.statusText;
+            //            $scope.loading = false;
+            //        });
+            //    }
+            //};
 
 
 

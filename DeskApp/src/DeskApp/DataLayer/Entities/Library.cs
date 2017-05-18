@@ -89,6 +89,7 @@ namespace DeskApp.DataLayer
 
         public string district { get; set; }
         public string psgc { get; set; }
+        
 
         //public virtual lib_city lib_city { get; set; }
     }

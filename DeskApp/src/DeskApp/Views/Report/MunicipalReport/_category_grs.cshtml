@@ -45,7 +45,7 @@
 
         <div class="row">
             <table class="table table-bordered">
-                <tr>
+                <tr class="bg-primary">
                     <td align="center">
                         Barangay
                     </td>
@@ -64,7 +64,7 @@
                 </tr>
                 <tr ng-repeat="item in grievance_intake_brgy | orderBy: 'brgy_name'">
                     <td>
-                        {{item.brgy_name}}
+                        {{item.brgy_name == '' ? "(No indicated Barangay)" : item.brgy_name}}
                     </td>
                     <td>
                         {{item.total}}
@@ -79,6 +79,16 @@
                         {{item.pending}}
                     </td>
                 </tr>
+                <tr class="bg-gray" ng-hide="!grievance_intake_brgy.length">
+                    <td><b>Percentage (%)</b></td>
+                    <td></td>
+                    <td>{{(total_resolved / total_intakes) * 100}}%</td>
+                    <td></td>
+                    <td>{{(total_pending / total_intakes) * 100}}%</td>
+                </tr>
+                <tr ng-show="!grievance_intake_brgy.length">
+                    <td colspan="5"><i>No results to show.</i> </td>
+                </tr>
             </table>
         </div>
         
@@ -90,7 +100,7 @@
 
         <div class="row">
             <table class="table table-bordered">
-                <tr>
+                <tr class="bg-primary">
                     <td align="center">
                         Type
                     </td>
@@ -116,12 +126,23 @@
                     </td>
                     <td>
                         {{item.resolved}}
-                    </td>                   <td>
+                    </td>                   
+                    <td>
                         {{item.perc_resolved == 'NaN' ? "" : item.perc_resolved}}
                     </td>
                     <td>
                         {{item.pending}}
                     </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!grievance_intake_nature.length">
+                    <td><b>Percentage (%)</b></td>
+                    <td></td>
+                    <td>{{(total_resolved / total_intakes) * 100}}%</td>
+                    <td></td>
+                    <td>{{(total_pending / total_intakes) * 100}}%</td>
+                </tr>
+                <tr ng-show="!grievance_intake_nature.length">
+                    <td colspan="5"><i>No results to show.</i> </td>
                 </tr>
             </table>
         </div>
@@ -129,12 +150,46 @@
         <br />
 
         <div class="row">
-            <div class="col-md-12"><strong>C. Breakdown of Grievances by Category and Type</strong></div>
+            <div class="col-md-12"><strong>C. Pending Grievances</strong></div>
         </div>
 
         <div class="row">
             <table class="table table-bordered">
-                <tr>
+                <tr class="bg-primary">
+                    <td align="center">
+                        Type
+                    </td>
+                    <td align="center">
+                        No. of Pending
+                    </td>
+                </tr>
+                <tr ng-repeat="item in grievance_intake_nature | orderBy: 'brgy_name'">
+                    <td>
+                        {{item.name}}
+                    </td>
+                    <td>
+                        {{item.pending}}
+                    </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!grievance_intake_nature.length">
+                    <td><b>Total</b></td>
+                    <td>{{total_pending}}</td>
+                </tr>
+                <tr ng-show="!grievance_intake_nature.length">
+                    <td colspan="2"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>D. Breakdown of Grievances by Category and Type</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
                     <td align="center">
                         Category
                     </td>
@@ -142,7 +197,7 @@
                         Total
                     </td>
                     <td align="center">
-                        No. Type A.
+                        No. Type A
                     </td>
                     <td align="center">
                         No. of Type B
@@ -151,7 +206,7 @@
                         No. of Type C
                     </td>
                 </tr>
-                <tr ng-repeat="item in grievance_intake_category | orderBy: 'brgy_name'">
+                <tr ng-repeat="item in grievance_intake_category">
                     <td>
                         {{item.name}}
                     </td>
@@ -167,6 +222,16 @@
                     <td>
                         {{item.type_c}}
                     </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!grievance_intake_category.length">
+                    <td><b>Total</b></td>
+                    <td>{{total_intakes}}</td>
+                    <td>{{total_count_type_a}}</td>
+                    <td>{{total_count_type_b}}</td>
+                    <td>{{total_count_type_c}}</td>
+                </tr>
+                <tr ng-show="!grievance_intake_category.length">
+                    <td colspan="5"><i>No results to show.</i> </td>
                 </tr>
             </table>
         </div>        

@@ -273,7 +273,6 @@ D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Entities\sub_project_workers.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\dof_blgf_financial_data.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\lgpms_data.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\mlgu_financial_data.cs
-D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\municipal_financial_profile.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\muni_financial_profile.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\perception_survey.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\talakayan_eval.cs
@@ -290,8 +289,8 @@ D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\spi_ers.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\spi_spcr_mapping.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\sub_project_mapping.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\training_mapping.cs
-D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170425061926_apr25mig_addcolumnstomuniprofile.cs
-D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170425061926_apr25mig_addcolumnstomuniprofile.Designer.cs
+D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170516070541_may16freshdb.cs
+D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170516070541_may16freshdb.Designer.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\ApplicationDbContextModelSnapshot.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Models\ApplicationUser.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs

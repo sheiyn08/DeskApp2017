@@ -29,17 +29,21 @@
                 <label for="Region:_">e-RFR Sub Project ID</label>
             </div>
             <div flex>
-                <select name="erfr_project_id" ng-model="data.erfr_project_id" class="form-control" ng-disabled="data.modality_id !=7"
+                <select name="erfr_project_id" ng-model="data.erfr_project_id" class="form-control" ng-disabled="true"
                         ng-options="option.Id as option.Name for option in erfr_project_id_options">
                     <option value="">[Select SPID]</option>
                 </select>
+                @*<select name="erfr_project_id" ng-model="data.erfr_project_id" class="form-control" ng-disabled="data.modality_id !=7"
+                        ng-options="option.Id as option.Name for option in erfr_project_id_options">
+                    <option value="">[Select SPID]</option>
+                </select>*@
                 <div ng-messages="myForm.erfr_project_id.$error">
                     <div ng-message="required" class="error">SPID is required. Dropdown will be available once barangay is selected!</div>
 
                 </div>
                 <i>This can be found on "http://erfrs.dswd.gov.ph/"</i>
-                <br />
-                <i>*Ensure that this is the correct Sub project ID (SPID) for the project being added and <b>not</b> the RFR ID.</i>
+                @*<br />
+                <i>*Ensure that this is the correct Sub project ID (SPID) for the project being added and <b>not</b> the RFR ID.</i>*@
             </div>
         </div>
 

@@ -240,8 +240,8 @@
 
 
                             $scope.dt_birthdate = $scope.data.birthdate == undefined ? null : new Date($scope.data.birthdate);
-                           
-                            $scope.dt_date_appointment = new Date($scope.data.date_appointment);
+
+                            $scope.today = new Date();
 
                             $scope.check_status = function () {
 
@@ -336,6 +336,14 @@
                                     .then(function (response) {
 
                                         $scope.list_volunteer = response.data;
+
+                                        $scope.dt_date_appointment = $scope.data.date_appointment == undefined ? null : new Date($scope.data.date_appointment);
+
+                                        //$scope.dt_date_appointment = new Date($scope.data.date_appointment);
+                                        $scope.minDateAppointment = new Date("01/01/1970");
+
+                                        $scope.maxDateAppointment = new Date();
+
 
                                         $scope.startDate = new Date($scope.new_volunteer_record.dt_start_date);
                                         $scope.maxEndDate_today = new Date();

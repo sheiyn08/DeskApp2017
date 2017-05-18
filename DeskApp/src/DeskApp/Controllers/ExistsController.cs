@@ -73,14 +73,7 @@ namespace DeskApp.Controllers
         {
             return db.mlgu_financial_data.Count(e => e.mlgu_financial_data_record_id == id) > 0;
         }
-
-        [HttpGet]
-        [Route("municipal_financial_profile")]
-
-        public bool municipal_financial_profile(Guid id)
-        {
-            return db.municipal_financial_profile.Count(e => e.municipal_financial_profile_id == id) > 0;
-        }
+        
 
         [HttpGet]
         [Route("muni_financial_profile")]

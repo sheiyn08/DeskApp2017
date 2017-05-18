@@ -74,6 +74,20 @@ namespace DeskApp.Controllers
                              phone_no = data.phone_no,
 
                              remarks = data.remarks,
+                             
+                             brgy_count_with_date_orientation = db.grs_installation.Count(x => x.date_orientation != null && x.lgu_level_id == 1),
+                             brgy_count_with_date_voliden = db.grs_installation.Count(x => x.date_voliden != null && x.lgu_level_id == 1),
+                             brgy_count_with_date_ffcomm = db.grs_installation.Count(x => x.date_ffcomm != null && x.lgu_level_id == 1),
+                             brgy_count_with_date_training = db.grs_installation.Count(x => x.date_training != null && x.lgu_level_id == 1),
+                             brgy_count_with_date_inspect = db.grs_installation.Count(x => x.date_inspect != null && x.lgu_level_id == 1),
+                             brgy_count_with_grievance_box = db.grs_installation.Count(x => x.is_boxinstalled == true && x.lgu_level_id == 1),
+
+                             act_count_with_date_orientation = db.grs_installation.Count(x => x.date_orientation != null && x.lgu_level_id == 2),
+                             act_count_with_date_voliden = db.grs_installation.Count(x => x.date_voliden != null && x.lgu_level_id == 2),
+                             act_count_with_date_ffcomm = db.grs_installation.Count(x => x.date_ffcomm != null && x.lgu_level_id == 2),
+                             act_count_with_date_training = db.grs_installation.Count(x => x.date_training != null && x.lgu_level_id == 2),
+                             act_count_with_date_inspect = db.grs_installation.Count(x => x.date_inspect != null && x.lgu_level_id == 2),
+                             act_count_with_grievance_box = db.grs_installation.Count(x => x.is_boxinstalled == true && x.lgu_level_id == 2),
 
                          };
 

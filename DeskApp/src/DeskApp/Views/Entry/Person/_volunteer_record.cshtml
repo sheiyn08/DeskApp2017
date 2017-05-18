@@ -17,7 +17,7 @@
                     <label for="Region:_">Date of First Appointment</label>
                 </div>
                 <div class="col-md-4">
-                    <md-datepicker name="Appointment Date" md-min-date="today" ng-model="dt_date_appointment" md-placeholder="Enter date" ng-change="data.date_appointment = dt_date_appointment.toISOString()"  md-max-date="today"></md-datepicker>
+                    <md-datepicker name="Appointment Date" ng-model="dt_date_appointment" md-placeholder="Enter date" ng-change="data.date_appointment = dt_date_appointment.toISOString()" md-min-date="minDateAppointment" md-max-date="maxDateAppointment"></md-datepicker>
                 </div>
 
 

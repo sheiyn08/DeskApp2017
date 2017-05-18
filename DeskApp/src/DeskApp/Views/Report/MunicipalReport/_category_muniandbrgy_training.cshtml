@@ -42,8 +42,8 @@
         </div>
 
         <div class="row">
-            <table class="table table-bordered table-condensed">
-                <tr>
+            <table class="table table-bordered">
+                <tr class="bg-primary">
                     <td rowspan="2" align="center" style="vertical-align:middle">
                         Category
                     </td>
@@ -60,7 +60,7 @@
                         Total
                     </td>
                 </tr>
-                <tr>
+                <tr class="bg-primary">
                     <td>
                         CV
                     </td>
@@ -98,9 +98,9 @@
                         %
                     </td>
                 </tr>
-                <tr ng-repeat="item in training_report">
+                <tr ng-repeat="item in subreport4_training_participants">
                     <td>
-                        {{item.training_category}}
+                        {{item.lgu_level_id == '1' ? item.training_category + " (Barangay/Community Level)" : item.training_category + " (Municipal Level)"}}
                     </td>
                     <td>
                         {{item.num_of_trainings}}
@@ -138,7 +138,29 @@
                     <td>
                         {{item.male_volunteer_participants + item.female_volunteer_participants +item.male_non_volunteer_participants + item.female_non_volunteer_participants}}
                     </td>
+                    <td>
+                        {{item.total_volunteer_participants_perc == 'NaN' || item.total_volunteer_participants_perc == 'Infinity'? "" : item.total_volunteer_participants_perc}}
+                    </td>
+                </tr>
+
+                <tr class="bg-gray" ng-hide="!subreport4_training_participants.length">
+                    <td><b>Total</b></td>
+                    <td>{{num_of_trainings_total == 'NaN' ? "" : num_of_trainings_total}}</td>
+                    <td>{{male_volunteer_participants_subtotal == 'NaN' ? "" : male_volunteer_participants_subtotal}}</td>
+                    <td>{{male_non_volunteer_participants_subtotal == 'NaN' ? "" : male_non_volunteer_participants_subtotal}}</td>
+                    <td>{{male_participants_subtotal == 'NaN' ? "" : male_participants_subtotal}}</td>
                     <td></td>
+                    <td>{{female_volunteer_participants_subtotal == 'NaN' ? "" : female_volunteer_participants_subtotal}}</td>
+                    <td>{{female_non_volunteer_participants_subtotal == 'NaN' ? "" : female_non_volunteer_participants_subtotal}}</td>
+                    <td>{{female_participants_subtotal == 'NaN' ? "" : female_participants_subtotal}}</td>
+                    <td></td>
+                    <td>{{volunteer_participants_subtotal == 'NaN' ? "" : volunteer_participants_subtotal}}</td>
+                    <td>{{non_volunteer_participants_subtotal == 'NaN' ? "" : non_volunteer_participants_subtotal}}</td>
+                    <td>{{total_participants_subtotal == 'NaN' ? "" : total_participants_subtotal}}</td>
+                    <td></td>
+                </tr>
+                <tr ng-show="!subreport4_training_participants.length">
+                    <td colspan="14"><i>No results to show.</i> </td>
                 </tr>
             </table>
         </div>
@@ -151,7 +173,7 @@
 
         <div class="row">
             <table class="table table-bordered">
-                <tr>
+                <tr class="bg-primary">
                     <td rowspan="2" align="center" style="vertical-align:middle">
                         Category
                     </td>
@@ -168,7 +190,7 @@
                         Total
                     </td>
                 </tr>
-                <tr>
+                <tr class="bg-primary">
                     <td>
                         IP
                     </td>
@@ -206,9 +228,9 @@
                         LGU
                     </td>
                 </tr>
-                <tr ng-repeat="item in training_report">
+                <tr ng-repeat="item in subreport4_training_participants">
                     <td>
-                        {{item.training_category}}
+                        {{item.lgu_level_id == '1' ? item.training_category + " (Barangay/Community Level)" : item.training_category + " (Municipal Level)"}}
                     </td>
                     <td>
                         {{item.num_of_trainings}}
@@ -249,6 +271,26 @@
                     <td>
                         {{item.no_lgu_male + item.no_lgu_female}}
                     </td>
+                </tr>
+
+                <tr class="bg-gray" ng-hide="!subreport4_training_participants.length">
+                    <td><b>Total</b></td>
+                    <td>{{num_of_trainings_total == 'NaN' ? "" : num_of_trainings_total}}</td>
+                    <td>{{no_ip_male_subtotal == 'NaN' ? "" : no_ip_male_subtotal}}</td>
+                    <td>{{no_pantawid_male_subtotal == 'NaN' ? "" : no_pantawid_male_subtotal}}</td>
+                    <td>{{no_slp_male_subtotal == 'NaN' ? "" : no_slp_male_subtotal}}</td>
+                    <td>{{no_lgu_male_subtotal == 'NaN' ? "" : no_lgu_male_subtotal}}</td>
+                    <td>{{no_ip_female_subtotal == 'NaN' ? "" : no_ip_female_subtotal}}</td>
+                    <td>{{no_pantawid_female_subtotal == 'NaN' ? "" : no_pantawid_female_subtotal}}</td>
+                    <td>{{no_slp_female_subtotal == 'NaN' ? "" : no_slp_female_subtotal}}</td>
+                    <td>{{no_lgu_female_subtotal == 'NaN' ? "" : no_lgu_female_subtotal}}</td>
+                    <td>{{ip_totalmf_subtotal == 'NaN' ? "" : ip_totalmf_subtotal}}</td>
+                    <td>{{pantawid_totalmf_subtotal == 'NaN' ? "" : pantawid_totalmf_subtotal}}</td>
+                    <td>{{slp_totalmf_subtotal == 'NaN' ? "" : slp_totalmf_subtotal}}</td>
+                    <td>{{lgu_totalmf_subtotal == 'NaN' ? "" : lgu_totalmf_subtotal}}</td>
+                </tr>
+                <tr ng-show="!subreport4_training_participants.length">
+                    <td colspan="14"><i>No results to show.</i> </td>
                 </tr>
             </table>
         </div>
@@ -303,12 +345,12 @@
 
 
         <div class="row">
-            <div class="col-md-12"><strong>A. Male and Female Community Volunteers Participants</strong></div>
+            <div class="col-md-12"><strong>A. Male and Female Community Volunteers Participants (Unique Count per Category)</strong></div>
         </div>
 
         <div class="row">
-            <table class="table table-bordered table-condensed">
-                <tr>
+            <table class="table table-bordered">
+                <tr class="bg-primary">
                     <td rowspan="2" align="center" style="vertical-align:middle">
                         Barangay
                     </td>
@@ -317,9 +359,6 @@
                     </td>
                     <td rowspan="2" align="center" style="vertical-align:middle">
                         # of Trainings
-                    </td>
-                    <td rowspan="2" align="center" style="vertical-align:middle">
-                        Actual Date
                     </td>
                     <td colspan="4" align="center" style="vertical-align:middle">
                         Male
@@ -331,7 +370,7 @@
                         Total
                     </td>
                 </tr>
-                <tr>
+                <tr class="bg-primary">
                     <td>
                         CV
                     </td>
@@ -370,7 +409,7 @@
                     </td>
                 </tr>
 
-                <tr ng-repeat="item in training_report | orderBy: 'brgy_name'">
+                <tr ng-repeat="item in trainings_provided_to_brgy | orderBy: 'brgy_name'">
                     <td>
                         {{item.brgy_name}}
                     </td>
@@ -378,11 +417,7 @@
                         {{item.training_category}}
                     </td>
                     <td>
-                        @*{{item.training_title}}*@
-                        {{item.bgry_num_of_trainings}}
-                    </td>
-                    <td>
-                        {{item.start_date | date:'MM/dd/yyyy'}}  - {{item.end_date | date:'MM/dd/yyyy'}}
+                        {{item.num_of_trainings}}
                     </td>
                     <td>
                         {{item.male_volunteer_participants}}
@@ -417,21 +452,43 @@
                     <td>
                         {{item.male_volunteer_participants + item.female_volunteer_participants +item.male_non_volunteer_participants + item.female_non_volunteer_participants}}
                     </td>
+                    <td>
+                        {{item.total_volunteer_participants_perc == 'NaN' || item.total_volunteer_participants_perc == 'Infinity'? "" : item.total_volunteer_participants_perc}}
+                    </td>
+                </tr>
+
+                <tr class="bg-gray" ng-hide="!trainings_provided_to_brgy.length">
+                    <td colspan="2"><b>Total</b></td>
+                    <td>{{num_of_trainings_total == 'NaN' ? "" : num_of_trainings_total}}</td>
+                    <td>{{male_volunteer_participants_subtotal == 'NaN' ? "" : male_volunteer_participants_subtotal}}</td>
+                    <td>{{male_non_volunteer_participants_subtotal == 'NaN' ? "" : male_non_volunteer_participants_subtotal}}</td>
+                    <td>{{male_participants_subtotal == 'NaN' ? "" : male_participants_subtotal}}</td>
+                    <td></td>
+                    <td>{{female_volunteer_participants_subtotal == 'NaN' ? "" : female_volunteer_participants_subtotal}}</td>
+                    <td>{{female_non_volunteer_participants_subtotal == 'NaN' ? "" : female_non_volunteer_participants_subtotal}}</td>
+                    <td>{{female_participants_subtotal == 'NaN' ? "" : female_participants_subtotal}}</td>
+                    <td></td>
+                    <td>{{volunteer_participants_subtotal == 'NaN' ? "" : volunteer_participants_subtotal}}</td>
+                    <td>{{non_volunteer_participants_subtotal == 'NaN' ? "" : non_volunteer_participants_subtotal}}</td>
+                    <td>{{total_participants_subtotal == 'NaN' ? "" : total_participants_subtotal}}</td>
                     <td></td>
                 </tr>
+                <tr ng-show="!trainings_provided_to_brgy.length">
+                    <td colspan="15"><i>No results to show.</i> </td>
+                </tr>
+
             </table>
         </div>
 
         <br />
 
         <div class="row">
-
             <div class="col-md-12"><strong>B. Male and Female IP, 4Ps, SLP and LGU Participants</strong></div>
         </div>
 
         <div class="row">
             <table class="table table-bordered">
-                <tr>
+                <tr class="bg-primary">
                     <td rowspan="2" align="center" style="vertical-align:middle">
                         Barangay
                     </td>
@@ -440,9 +497,6 @@
                     </td>
                     <td rowspan="2" align="center" style="vertical-align:middle">
                         # of Trainings
-                    </td>
-                    <td rowspan="2" align="center" style="vertical-align:middle">
-                        Actual Date
                     </td>
                     <td colspan="4" align="center" style="vertical-align:middle">
                         Male
@@ -455,7 +509,7 @@
                     </td>
                 </tr>
 
-                <tr>
+                <tr class="bg-primary">
                     <td>
                         IP
                     </td>
@@ -494,7 +548,7 @@
                     </td>
                 </tr>
 
-                <tr ng-repeat="item in training_report | orderBy: 'brgy_name'">
+                <tr ng-repeat="item in trainings_provided_to_brgy | orderBy: 'brgy_name'">
                     <td>
                         {{item.brgy_name}}
                     </td>
@@ -502,11 +556,7 @@
                         {{item.training_category}}
                     </td>
                     <td>
-                        @*{{item.training_title}}*@
-                        {{item.bgry_num_of_trainings}}
-                    </td>
-                    <td>
-                        {{item.start_date | date:'MM/dd/yyyy'}}  - {{item.end_date | date:'MM/dd/yyyy'}}
+                        {{item.num_of_trainings}}
                     </td>
                     <td>
                         {{item.no_ip_male}}
@@ -545,6 +595,27 @@
                         {{item.no_lgu_male + item.no_lgu_female}}
                     </td>
                 </tr>
+
+                <tr class="bg-gray" ng-hide="!trainings_provided_to_brgy.length">
+                    <td colspan="2"><b>Total</b></td>
+                    <td>{{num_of_trainings_total == 'NaN' ? "" : num_of_trainings_total}}</td>
+                    <td>{{no_ip_male_subtotal == 'NaN' ? "" : no_ip_male_subtotal}}</td>
+                    <td>{{no_pantawid_male_subtotal == 'NaN' ? "" : no_pantawid_male_subtotal}}</td>
+                    <td>{{no_slp_male_subtotal == 'NaN' ? "" : no_slp_male_subtotal}}</td>
+                    <td>{{no_lgu_male_subtotal == 'NaN' ? "" : no_lgu_male_subtotal}}</td>
+                    <td>{{no_ip_female_subtotal == 'NaN' ? "" : no_ip_female_subtotal}}</td>
+                    <td>{{no_pantawid_female_subtotal == 'NaN' ? "" : no_pantawid_female_subtotal}}</td>
+                    <td>{{no_slp_female_subtotal == 'NaN' ? "" : no_slp_female_subtotal}}</td>
+                    <td>{{no_lgu_female_subtotal == 'NaN' ? "" : no_lgu_female_subtotal}}</td>
+                    <td>{{ip_totalmf_subtotal == 'NaN' ? "" : ip_totalmf_subtotal}}</td>
+                    <td>{{pantawid_totalmf_subtotal == 'NaN' ? "" : pantawid_totalmf_subtotal}}</td>
+                    <td>{{slp_totalmf_subtotal == 'NaN' ? "" : slp_totalmf_subtotal}}</td>
+                    <td>{{lgu_totalmf_subtotal == 'NaN' ? "" : lgu_totalmf_subtotal}}</td>
+                </tr>
+                <tr ng-show="!trainings_provided_to_brgy.length">
+                    <td colspan="15"><i>No results to show.</i> </td>
+                </tr>
+
             </table>
         </div>
 

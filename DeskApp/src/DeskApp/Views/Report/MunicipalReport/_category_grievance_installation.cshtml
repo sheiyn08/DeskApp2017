@@ -1,7 +1,7 @@
 ﻿@Html.Partial("~/Views/Report/MunicipalReport/_municipal_report_filter.cshtml")
 
 
-@* --------------------- Grievance Installation ==> Status of Filed Grievances Across Cycles --------------------- *@
+@* --------------------- Grievance Installation ==> Grievance Installation Status at the Barangay --------------------- *@
 
 <div class="panel panel-info" ng-show="selected_subreport.id == 18" id="subreport_18">
     <div class="panel panel-body">
@@ -40,23 +40,26 @@
         <br /><br />
 
         <div class="row">
-            <div class="col-md-12"><strong>A. Barangay Grievance Monitoring</strong></div>
+            <div class="col-md-12"><strong>Installation Status at the Barangay (Checklist)</strong></div>
         </div>
 
         <div class="row">
             <table class="table table-bordered">
-                <tr>
+                <tr class="bg-primary">
                     <td align="center">
                         Barangay
                     </td>
                     <td align="center">
-                        With GRS Orientation
+                        GRS Orientation
                     </td>
                     <td align="center">
-                        With GRS Volunteers Identified
+                        GRS Volunteers Identified
                     </td>
                     <td align="center">
-                        With IEC Materials
+                        GRS Training
+                    </td>
+                    <td align="center">
+                        IEC Materials Inspection
                     </td>
                     <td align="center">
                         With GRS Box
@@ -67,17 +70,31 @@
                         {{item.brgy_name}}
                     </td>
                     <td>
-                        {{item.date_orientation != null ? "Yes" : "No"}}
+                        {{item.date_orientation | date:'MM/dd/yyyy'}}
                     </td>
                     <td>
-                        {{item.date_voliden != null ? "Yes" : "No"}}
+                        {{item.date_voliden | date:'MM/dd/yyyy'}}
                     </td>
                     <td>
-                        {{item.date_inspect != null ? "Yes" : "No"}}
+                        {{item.date_training | date:'MM/dd/yyyy'}}
                     </td>
                     <td>
-                        {{item.with_grievance_box == true ? "Yes" : "No"}}
+                        {{item.date_inspect | date:'MM/dd/yyyy'}}
                     </td>
+                    <td>
+                        {{item.with_grievance_box}}
+                    </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!grievance_installation.length">
+                    <td><b>Count</b></td>
+                    <td>{{count_date_orientation}}</td>
+                    <td>{{count_date_voliden}}</td>
+                    <td>{{count_date_training}}</td>
+                    <td>{{count_date_inspect}}</td>
+                    <td>{{count_grievance_box}}</td>
+                </tr>
+                <tr ng-show="!grievance_installation.length">
+                    <td colspan="6"><i>No results to show.</i> </td>
                 </tr>
             </table>
         </div>
@@ -91,3 +108,109 @@
 </div>
 
 
+
+@* --------------------- Grievance Installation ==> Grievance Installation Status at the ACT --------------------- *@
+
+<div class="panel panel-info" ng-show="selected_subreport.id == 9" id="subreport_9">
+    <div class="panel panel-body">
+
+        <div style="float:right">
+            Report Generated: {{dateGenerated}}
+        </div>
+
+        <h3>KC Municipal Report - Grievance Installation</h3>
+        <h4>{{selected_subreport.name}}</h4>
+
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <b>Region: </b>{{selected_region.Name == null ? "" : selected_region.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Province: </b>{{selected_province.Name == null ? "Across Provinces" : selected_province.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Municipality: </b>{{selected_city.Name == null ? "Across Municipalities" : selected_city.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Portfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>Cycle: </b>{{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
+            </div>
+            <div class="col-md-3">
+                <b>KC Mode: </b>{{selected_enrollment.Name  == null ? "Across KC Modes" : selected_enrollment.Name}}
+            </div>
+        </div>
+        <br /><br />
+
+        <div class="row">
+            <div class="col-md-12"><strong>Installation Status at the ACT (Checklist)</strong></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered">
+                <tr class="bg-primary">
+                    <td align="center">
+                        Barangay
+                    </td>
+                    <td align="center">
+                        GRS Orientation
+                    </td>
+                    <td align="center">
+                        MLGU Commitment for GRS
+                    </td>
+                    <td align="center">
+                        GRS Training
+                    </td>
+                    <td align="center">
+                        IEC Materials Inspection
+                    </td>
+                    <td align="center">
+                        With GRS Box
+                    </td>
+                </tr>
+                <tr ng-repeat="item in grievance_installation_act | orderBy: 'city_name'">
+                    <td>
+                        {{item.city_name}}
+                    </td>
+                    <td>
+                        {{item.date_orientation | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td>
+                        {{item.date_ffcomm | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td>
+                        {{item.date_training | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td>
+                        {{item.date_inspect | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td>
+                        {{item.with_grievance_box}}
+                    </td>
+                </tr>
+                <tr class="bg-gray" ng-hide="!grievance_installation_act.length">
+                    <td><b>Count</b></td>
+                    <td>{{count_date_orientation}}</td>
+                    <td>{{count_date_ffcomm}}</td>
+                    <td>{{count_date_training}}</td>
+                    <td>{{count_date_inspect}}</td>
+                    <td>{{count_grievance_box}}</td>
+                </tr>
+                <tr ng-show="!grievance_installation_act.length">
+                    <td colspan="6"><i>No results to show.</i> </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="panel panel-body" style="margin:10px">
+        @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+    </div>
+
+</div>
