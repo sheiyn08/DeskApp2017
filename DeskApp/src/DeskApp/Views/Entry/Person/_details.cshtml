@@ -58,25 +58,22 @@
                 </div>
             </div>
         </div>
-
-
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-4">
-                        <label for="Region:_">Sex</label>
-                    </div>
-                    <div class="col-md-4">
-
-                        <select name="Sex" ng-model="data.sex" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Male'},{'value':false,'text':'Female'}]" ng-selected="data.sex" class="form-control"></select>
-
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-
+          
+     <div class="panel-body">
+         <div class="row">
+             <div class="col-md-12">
+                 <div class="col-md-4">
+                     <label>Sex</label>
+                 </div>
+                 <div class="col-md-4">
+                     <select name="Sex" ng-model="data.sex" class="form-control" ng-required="true"
+                             ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Male'},{'value':false,'text':'Female'}]">
+                         <option value="">[Select Sex]</option>
+                     </select>
+                 </div>
+             </div>
+         </div>
+     </div>
 
 
      <div class="panel-body">

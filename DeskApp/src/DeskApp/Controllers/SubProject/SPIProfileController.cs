@@ -549,50 +549,182 @@ namespace DeskApp.Controllers
             }
         }
 
+        //------------------------------------------------------------------ ORIGINAL CODE FOR SAVING ERS WORKER --------------------------------------------//  
+        //[Route("api/offline/v1/sub_projects/ers/worker/save")] 
+        //public async Task<IActionResult> SaveERSWorker(person_ers_work model, bool? api)
+        //{
+        //    var record = db.person_ers_work.AsNoTracking().FirstOrDefault(x => x.person_profile_id == model.person_profile_id && x.sub_project_ers_id == model.sub_project_ers_id && x.is_deleted != true);
 
+        //    if (record == null)
+        //    {
+        //        if (api != true)
+        //        {
+        //            //   model.push_status_id = 2;
+        //            //  model.push_date = null;
+        //            model.approval_id = 3;
+        //        }
+        //        model.created_by = 0;
+        //        model.created_date = DateTime.Now;
+        //        model.is_deleted = false;
+        //        db.person_ers_work.Add(model);
 
+        //        try
+        //        {
+        //            await db.SaveChangesAsync();
+        //            if (api == true)
+        //            {
+        //                return Ok();
+        //            }
 
-        [Route("api/offline/v1/sub_projects/ers/worker/save")]
+        //            var person =
+        //                db.person_ers_work
+        //                .Include(x => x.lib_ers_current_work)
+        //                .Include(x => x.person_profile)
+        //                .Where(x => x.person_ers_work_id == model.person_ers_work_id).Select(s => new
+        //                {
+        //                    s.person_profile.first_name,
+        //                    s.person_profile.last_name,
+        //                    s.person_profile.person_profile_id,
+        //                    s.ers_current_work_id,
+        //                    ers_current_work_name = s.lib_ers_current_work.name,
+        //                    s.rate_day,
+        //                    s.rate_hour,
+        //                    s.actual_cash,
+        //                    s.actual_lcc,
+        //                    s.plan_cash,
+        //                    s.plan_lcc,
+        //                    s.work_days,
+        //                    s.work_hours,
+        //                    s.work_hauling,
+        //                    s.rate_hauling,
+        //                    s.unit_hauling,
+        //                    s.percent,
+        //                    s.sub_project_ers_id,
+        //                    s.person_ers_work_id,
+        //                    s.person_profile.sex,
+        //                    s.person_profile.contact_no,
+        //                });
+        //            return Ok(person.FirstOrDefault());
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+
+        //    else
+        //    {
+        //        // model.push_date = null;
+        //        if (api != true)
+        //        {
+        //            //   model.push_status_id = 3;
+        //            model.approval_id = 3;
+        //        }
+        //        model.person_ers_work_id = record.person_ers_work_id;
+        //        model.created_by = record.created_by;
+        //        model.created_date = record.created_date;
+        //        model.last_modified_by = 0;
+        //        model.last_modified_date = DateTime.Now;
+        //        db.Entry(model).State = EntityState.Modified;
+
+        //        try
+        //        {
+        //            await db.SaveChangesAsync();
+
+        //            if (api == true)
+        //            {
+        //                return Ok();
+        //            }
+
+        //            var person =
+        //              db.person_ers_work
+        //              .Include(x => x.lib_ers_current_work)
+        //            .Include(x => x.person_profile)
+        //              .Where(x => x.person_ers_work_id == model.person_ers_work_id).Select(s => new
+        //              {
+        //                  s.person_profile.first_name,
+        //                  s.person_profile.last_name,
+        //                  s.person_profile.person_profile_id,
+        //                  s.ers_current_work_id,
+        //                  ers_current_work_name = s.lib_ers_current_work.name,
+        //                  s.rate_day,
+        //                  s.rate_hour,
+        //                  s.actual_cash,
+        //                  s.actual_lcc,
+        //                  s.plan_cash,
+        //                  s.plan_lcc,
+        //                  s.work_days,
+        //                  s.work_hours,
+        //                  s.work_hauling,
+        //                  s.rate_hauling,
+        //                  s.unit_hauling,
+        //                  s.percent,
+        //                  s.sub_project_ers_id,
+        //                  s.person_ers_work_id,
+        //                  s.person_profile.sex,
+        //                  s.person_profile.contact_no,
+        //              });
+
+        //            return Ok(person);
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+        //}
+        //------------------------------------------------------------------- END ORIGINAL CODE ------------------------------------------------------------//
+
+            
+        #region New ERS: Worker can be added multiple times in one ERS 05-02-17
+
+        //check if user already exists on the current ERS:
+        [Route("api/offline/v1/sub_project/ers/worker_existence/get")]
+        public bool check_if_worker_exists(Guid person_id, Guid ers_id)
+        {
+            var worker = db.person_ers_work.Where(x => x.person_profile_id == person_id && x.sub_project_ers_id == ers_id && x.is_deleted != true).ToList();
+
+            if (worker.Count() >= 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        //save for NEW record:
+        [Route("api/offline/v1/sub_projects/ers/new_worker/save")]
         public async Task<IActionResult> SaveERSWorker(person_ers_work model, bool? api)
         {
+            var record = db.person_ers_work.AsNoTracking().FirstOrDefault(x => x.person_ers_work_id == model.person_ers_work_id);
 
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
-
-            var record = db.person_ers_work.AsNoTracking().FirstOrDefault(x => x.person_profile_id == model.person_profile_id && x.sub_project_ers_id == model.sub_project_ers_id && x.is_deleted != true);
-
+            //if saving a new record:
             if (record == null)
             {
-
-
+                //inner if
                 if (api != true)
                 {
-                    //   model.push_status_id = 2;
-                    //  model.push_date = null;
+                    model.push_status_id = 2;
+                    model.push_date = null;
                     model.approval_id = 3;
                 }
-
+                //end inner if
 
                 model.created_by = 0;
                 model.created_date = DateTime.Now;
-
                 model.is_deleted = false;
                 db.person_ers_work.Add(model);
-
 
                 try
                 {
                     await db.SaveChangesAsync();
-
                     if (api == true)
                     {
                         return Ok();
-
                     }
-
 
                     var person =
                         db.person_ers_work
@@ -600,14 +732,14 @@ namespace DeskApp.Controllers
                         .Include(x => x.person_profile)
                         .Where(x => x.person_ers_work_id == model.person_ers_work_id).Select(s => new
                         {
-
                             s.person_profile.first_name,
                             s.person_profile.last_name,
                             s.person_profile.person_profile_id,
+                            s.person_profile.middle_name,
+                            s.person_profile.birthdate,
+                            s.person_profile.sex,
                             s.ers_current_work_id,
                             ers_current_work_name = s.lib_ers_current_work.name,
-
-
                             s.rate_day,
                             s.rate_hour,
                             s.actual_cash,
@@ -616,60 +748,41 @@ namespace DeskApp.Controllers
                             s.plan_lcc,
                             s.work_days,
                             s.work_hours,
-
                             s.work_hauling,
                             s.rate_hauling,
                             s.unit_hauling,
                             s.percent,
-
-
-
-
-
-
-
-
-
-
                             s.sub_project_ers_id,
-
                             s.person_ers_work_id,
-                            s.person_profile.sex,
                             s.person_profile.contact_no,
                         });
 
-
-
                     return Ok(person.FirstOrDefault());
-
-
-
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
-            }
+
+            } //end-if
+
+
+            //else, saving existing record based on person_ers_work_id
             else
             {
-                // model.push_date = null;
-
-
                 if (api != true)
                 {
-                    //   model.push_status_id = 3;
+                    model.push_status_id = 3;
                     model.approval_id = 3;
                 }
+                else
+                {
+                    model.push_status_id = 1;
+                }
 
-                model.person_ers_work_id = record.person_ers_work_id;
-
-
+                model.push_date = null;
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
 
@@ -678,60 +791,87 @@ namespace DeskApp.Controllers
                 try
                 {
                     await db.SaveChangesAsync();
-
-
-                    if (api == true)
-                    {
-                        return Ok();
-
-                    }
-
-                    var person =
-                      db.person_ers_work
-                      .Include(x => x.lib_ers_current_work)
-                    .Include(x => x.person_profile)
-                      .Where(x => x.person_ers_work_id == model.person_ers_work_id).Select(s => new
-                      {
-
-                          s.person_profile.first_name,
-                          s.person_profile.last_name,
-                          s.person_profile.person_profile_id,
-                          s.ers_current_work_id,
-                          ers_current_work_name = s.lib_ers_current_work.name,
-
-
-                          s.rate_day,
-                          s.rate_hour,
-                          s.actual_cash,
-                          s.actual_lcc,
-                          s.plan_cash,
-                          s.plan_lcc,
-                          s.work_days,
-
-                          s.work_hours,
-
-                          s.work_hauling,
-                          s.rate_hauling,
-                          s.unit_hauling,
-                          s.percent,
-
-                          s.sub_project_ers_id,
-
-                          s.person_ers_work_id,
-                          s.person_profile.sex,
-                          s.person_profile.contact_no,
-                      });
-
-                    return Ok(person);
+                    return Ok();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     return BadRequest();
                 }
             }
+
+        }
+
+        //save for EDIT record:    
+        [Route("api/offline/v1/sub_projects/ers/edit_worker/save")]
+        public async Task<IActionResult> SaveEditedERSWorker(person_ers_work model, bool? api)
+        {
+            var record = db.person_ers_work.AsNoTracking().FirstOrDefault(x => x.person_profile_id == model.person_profile_id && x.sub_project_ers_id == model.sub_project_ers_id && x.is_deleted != true);
+
+            if (api != true)
+            {
+                model.approval_id = 3;
+            }
+
+            model.person_ers_work_id = record.person_ers_work_id;
+            model.created_by = record.created_by;
+            model.created_date = record.created_date;
+            model.last_modified_by = 0;
+            model.last_modified_date = DateTime.Now;
+            db.Entry(model).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+
+                if (api == true)
+                {
+                    return Ok();
+                }
+
+                var person = db.person_ers_work
+                    .Include(x => x.lib_ers_current_work)
+                    .Include(x => x.person_profile)
+                    .Where(x => x.person_ers_work_id == model.person_ers_work_id).Select(s => new
+                    {
+                        s.person_profile.first_name,
+                        s.person_profile.last_name,
+                        s.person_profile.person_profile_id,
+                        s.person_profile.middle_name,
+                        s.person_profile.birthdate,
+                        s.person_profile.sex,
+                        s.ers_current_work_id,
+                        ers_current_work_name = s.lib_ers_current_work.name,
+                        s.rate_day,
+                        s.rate_hour,
+                        s.actual_cash,
+                        s.actual_lcc,
+                        s.plan_cash,
+                        s.plan_lcc,
+                        s.work_days,
+                        s.work_hours,
+                        s.work_hauling,
+                        s.rate_hauling,
+                        s.unit_hauling,
+                        s.percent,
+                        s.sub_project_ers_id,
+                        s.person_ers_work_id,
+                        s.person_profile.contact_no,
+                    });
+
+                return Ok(person);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
+
         }
 
         #endregion
+
+        
+
+        #endregion ERS
 
         #region GetSETData
         private IQueryable<sub_project_set> GetSETData(

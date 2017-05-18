@@ -76,7 +76,7 @@ namespace DeskApp.DataLayer.Eval
         public int? disaster_8 { get; set; }
         public int? disaster_9 { get; set; }
         
-        public int talakayan_yr_id { get; set; }        
+        public int talakayan_yr_id { get; set; }     
         
     }
 

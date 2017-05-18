@@ -262,9 +262,13 @@
 {
     <script src="~/scripts/directives/ngAppMax.js"></script>
     <script src="~/scripts/directives/paging.js"></script>
+    <script src="~/scripts/alasql.min.js"></script>
+    <script src="~/scripts/xlsx.core.min.js"></script>
+    <script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
     <script>
 
-        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache','app-max'])
+        angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'app-max', 'pims-pager'])
             .controller('AppCtrl',
                 function($scope, $mdDialog, $http, $mdToast) {
 
@@ -324,73 +328,6 @@
                     //    $scope.selected = {};
                     //    $scope.new_worker_record = {};
                     //};
-
-                    $scope.saveWorker = function(idx) {
-
-                        $scope.selected.sub_project_ers_id = $scope.selected_ers_list_id;
-
-                        $.post('/api/offline/v1/sub_projects/ers/worker/save', $scope.selected)
-                            .success(function (data) {
-
-
-                                $scope.get_ers_summary($scope.selected_ers_list_id);
-
-
-                                $scope.selected.ers_current_work_name = data[0].ers_current_work_name;
-                                $scope.selected.is_skilled = data[0].is_skilled;
-
-
-
-                                $scope.members[idx] = angular.copy($scope.selected);
-                                //     $scope.members.splice(idx, 1);
-                                //  $scope.members.push(data);
-
-                                $mdToast.show(
-                                    $mdToast.simple()
-                                    .textContent('Worker Updated!')
-                                    .position("top right")
-                                    .hideDelay(3000)
-                                );
-
-                                $scope.reset();
-                            })
-                            .error(function (data) {
-
-                                $scope.error = "An Error has occured while Saving! " + data.statusText;
-                                $scope.loading = false;
-                            });
-
-
-
-
-                    };
-
-
-                    $scope.saveNewWorker = function(idx) {
-
-                        $scope.new_worker_record.sub_project_ers_id = $scope.selected_ers_list_id;
-
-                        $.post('/api/offline/v1/sub_projects/ers/worker/save', $scope.new_worker_record)
-                            .success(function (data) {
-
-                                $scope.members.push(data);
-                                $scope.get_ers_summary($scope.selected_ers_list_id);
-                                $mdToast.show(
-                                    $mdToast.simple()
-                                    .textContent('Worker Added!')
-                                    .position("top right")
-                                    .hideDelay(3000)
-                                );
-                            })
-                            .error(function (data) {
-
-                                $scope.error = "An Error has occured while Saving! " + data.statusText;
-                                $scope.loading = false;
-                            });
-
-
-                        $scope.reset();
-                    };
 
 
 
@@ -714,6 +651,22 @@
 
 
 
+                                }
+                            })
+
+
+                            $scope.$watch('data.land_ownership_private_titled', function (newValue, oldValue) {
+                                if (newValue == false) {
+                                    $scope.data.land_aq_deed_of_donation = '';
+                                    $scope.data.land_aq_unsfruct = '';
+                                    $scope.data.land_aq_private_right_of_way_agreement = '';
+                                    $scope.data.land_aq_private_permit_to_construct = '';
+                                }
+                            })
+
+                            $scope.$watch('data.land_ownership_private_untitled', function (newValue, oldValue) {
+                                if (newValue == false) {
+                                    $scope.data.land_aq_private_quit_claim = '';
                                 }
                             })
 
@@ -1224,6 +1177,8 @@
                                 }
                             });
 
+                            
+
 
 
                             $scope.data.phy_construction_target = parseFloat($scope.data.s_phy_construction_target);
@@ -1474,7 +1429,7 @@
                             $scope.list_SET = response.data;
                         });
                     };
-                       
+
                     $scope.createNewSET = function () {
                         $scope.create_button_is_clicked = true;
                     };
@@ -1738,15 +1693,11 @@
                         if($scope.new_worker == true)
                         {
                             $scope.search();
-
                         }
-
                     }
 
-
                     $scope.new_worker_record = {};
-
-
+                    //$scope.new_worker_record;
                     $scope.selected = {};
 
                     $scope.edit_worker = function(contact) {
@@ -1907,8 +1858,7 @@
 
                         $scope.selected_ers_list_id = item.sub_project_ers_id;
                         $scope.selected_ers_delivery_mode = item.ers_delivery_mode_id;
-
-
+                        
                         $scope.get_ers_summary(item.sub_project_ers_id);
 
 
@@ -1991,15 +1941,19 @@
                         // alert("birok");
 
 
-                        $scope.filter.pageSize = $scope.pageSize == undefined ? '' : $scope.pageSize;
-                        $scope.filter.currPage = page == undefined ? '' : page;
-                        $scope.filter.sub_project_ers_id = $scope.selected_ers_list_id;
-                        $scope.filter.is_worker = false;
+                        $scope.filter.pageSize = $scope.pageSize === undefined ? '' : $scope.pageSize;
+                        $scope.filter.currPage = page === undefined ? '' : page;
+                        //$scope.filter.sub_project_ers_id = $scope.selected_ers_list_id;
+                        //$scope.filter.is_worker = false;
+
+                        $scope.isSearching = true;
+
+                        $scope.isSearching = true;
 
                         //   alert(JSON.stringify($scope.filter));
 
 
-                        $.post('/api/offline/v1/profiles/get_dto', $scope.filter)
+                        $.post('/api/offline/v1/get/potential_ers_workers', $scope.filter)
                             .success(function(value) {
 
                                 //  alert("bbbb");
@@ -2026,26 +1980,151 @@
                     $scope.search();
 
 
-                    $scope.ConfirmParticipation = function(obj, idx) {
+                    $scope.ConfirmParticipation = function (obj, idx) {
 
-                        $scope.new_worker_record = angular.copy(obj);;
+                        $scope.selected_person_profile_id = obj.person_profile_id;
 
+                        $scope.new_worker_record.sub_project_ers_id = $scope.selected_ers_list_id;
+                        $scope.new_worker_record.person_profile_id = $scope.selected_person_profile_id;
+                        
+                        //if the selected user is already added to this ERS, ask confirmation to user:
+                        $http.post('/api/offline/v1/sub_project/ers/worker_existence/get?person_id=' + $scope.new_worker_record.person_profile_id + "&ers_id=" + $scope.new_worker_record.sub_project_ers_id)
+                            .success(function (result) {
+                                $scope.worker_exists = result;
 
+                                if ($scope.worker_exists == true) {
+                                    var ask = confirm("This person has already been added to this ERS. Include it anyway?");
 
-                        $scope.new_worker = !$scope.new_worker;
-                        $scope.new_worker_ = true;
+                                    if (ask == false) {
+                                        $scope.search(); //to uncheck the currently selected person
+                                        return false;
+                                    }
+                                    else {
+                                        $scope.selected_worker_details = angular.copy(obj);
+                                        $scope.selected_person_profile_id = obj.person_profile_id;
 
-                        //  $scope.potentialmembers.splice(idx, 1);
+                                        $scope.new_worker_record.sub_project_ers_id = $scope.selected_ers_list_id;
+                                        $scope.new_worker_record.person_profile_id = $scope.selected_person_profile_id;
 
-                        $mdToast.show(
-                            $mdToast.simple()
-                            .textContent('Person Included as Worker!')
-                            .position("bottom right")
-                            .hideDelay(3000)
-                        );
+                                        $scope.new_worker = !$scope.new_worker;
+                                        $scope.new_worker_ = true;
 
+                                        $mdToast.show($mdToast.simple()
+                                                .textContent('Person Included as Worker!')
+                                                .hideDelay(3000));
+                                    }
+                                }
+                                else {
+                                    //alert("Checked and verified that this person has no record in this ERS.");
+                                    $scope.selected_worker_details = angular.copy(obj);
+                                    $scope.selected_person_profile_id = obj.person_profile_id;
 
+                                    $scope.new_worker_record.sub_project_ers_id = $scope.selected_ers_list_id;
+                                    $scope.new_worker_record.person_profile_id = $scope.selected_person_profile_id;
+
+                                    $scope.new_worker = !$scope.new_worker;
+                                    $scope.new_worker_ = true;
+
+                                    $mdToast.show($mdToast.simple()
+                                            .textContent('Person Included as Worker!')
+                                            .hideDelay(3000));
+                                }
+                            });
                     }
+
+
+                    //----------------------------------------------------- OLD: ------------------------------------------------------------//
+                    //$scope.saveNewWorker = function (idx) {
+
+                    //    $scope.new_worker_record.sub_project_ers_id = $scope.selected_ers_list_id;
+
+                    //    $.post('/api/offline/v1/sub_projects/ers/worker/save', $scope.new_worker_record)
+                    //        .success(function (data) {
+
+                    //            $scope.members.push(data);
+                    //            $scope.get_ers_summary($scope.selected_ers_list_id);
+                    //            $mdToast.show(
+                    //                $mdToast.simple()
+                    //                .textContent('Worker Added!')
+                    //                .position("top right")
+                    //                .hideDelay(3000)
+                    //            );
+                    //        })
+                    //        .error(function (data) {
+
+                    //            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                    //            $scope.loading = false;
+                    //        });
+
+
+                    //    $scope.reset();
+                    //};
+                    
+                    //add and save NEW WORKER to current ERS:
+                    $scope.saveNewWorker = function () {
+
+                        $scope.new_worker_record.sub_project_ers_id = $scope.selected_ers_list_id;
+
+                        $.post('/api/offline/v1/sub_projects/ers/new_worker/save', $scope.new_worker_record)
+                                    .success(function (data) {
+                                        $scope.members.push(data);
+                                        $scope.get_ers_summary($scope.selected_ers_list_id);
+                                        $('html, body').animate({
+                                            scrollTop: '0px'
+                                        }, 1500);
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Worker Added!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+                                        
+                                    })
+                                    .error(function (data) {
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+
+                        $scope.reset();
+                        
+                    }; //end of saveNewWorker
+                    
+
+                    //save EXISTING WORKER:
+                    $scope.saveWorker = function (idx) {
+
+                        $scope.selected.sub_project_ers_id = $scope.selected_ers_list_id;
+
+                        $.post('/api/offline/v1/sub_projects/ers/edit_worker/save', $scope.selected)
+                            .success(function (data) {
+
+                                $scope.get_ers_summary($scope.selected_ers_list_id);
+                                $scope.selected.ers_current_work_name = data[0].ers_current_work_name;
+                                $scope.selected.is_skilled = data[0].is_skilled;
+                                $scope.members[idx] = angular.copy($scope.selected);
+                                $('html, body').animate({
+                                    scrollTop: '0px'
+                                }, 1500);
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                    .textContent('Worker Updated!')
+                                    .position("top right")
+                                    .hideDelay(3000)
+                                );
+
+                                $scope.reset();
+                            })
+                            .error(function (data) {
+
+                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                $scope.loading = false;
+                            });
+                    };
+                    //end saveWorker - EDIT
+
+
+
+                    //========================================== END ERS =================================================//
 
 
 
@@ -2381,6 +2460,7 @@
         **/
 
     </script>
+
 }
 
 

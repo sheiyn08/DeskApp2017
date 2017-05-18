@@ -47,9 +47,7 @@ namespace DeskApp.Data
         public DbSet<dof_blgf_financial_data> dof_blgf_financial_data { get; set; }
         public DbSet<mlgu_financial_data> mlgu_financial_data { get; set; }
         public DbSet<lgpms_data> lgpms_data { get; set; }
-
-        public DbSet<municipal_financial_profile> municipal_financial_profile { get; set; }
-
+        
         public DbSet<muni_financial_profile> muni_financial_profile { get; set; }
 
         #endregion

@@ -1,4 +1,57 @@
 ﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+
+    <style>
+        .form-group .help-block {
+            display: none;
+        }
+
+        .form-group.has-error .help-block {
+            display: block;
+        }
+
+        .dialogdemoBasicUsage #popupContainer {
+            position: relative;
+        }
+
+        .dialogdemoBasicUsage .footer {
+            width: 100%;
+            text-align: center;
+            margin-left: 20px;
+        }
+
+            .dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+                font-size: 0.8em;
+                margin-top: 50px;
+            }
+
+        .dialogdemoBasicUsage button {
+            width: 200px;
+        }
+
+        .dialogdemoBasicUsage div#status {
+            color: #c60008;
+        }
+
+        input.ng-invalid {
+            background-color: #f79;
+            color: #000;
+        }
+
+
+        /*
+        Copyright 2016 Google Inc. All Rights Reserved.
+        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+        */
+    </style>
+</head>
+
 
 
 
@@ -121,7 +174,7 @@
                                 <label> Male </label>
                             </div>
                             <div flex flex-sm="100">
-                                <input name="No of Male" class="form-control" ng-model="data.no_male" min="0" />
+                                <input name="No of Male" type="number" class="form-control" ng-model="data.no_male" ng-pattern="/^[0-9]{1,9}$/" min="0" />
                             </div>
                         </div>
                         <div flex="100" layout="row" layout-margin layout-sm="row">
@@ -129,12 +182,12 @@
                                 <label> Female </label>
                             </div>
                             <div flex flex-sm="100">
-                                <input name="No of Female" class="form-control" ng-model="data.no_female" min="0" />
+                                <input name="No of Female" type="number" class="form-control" ng-model="data.no_female" ng-pattern="/^[0-9]{1,9}$/" min="0" />
                             </div>
                         </div>
                         <div flex="100" layout="row" layout-margin layout-sm="row">
                             <div flex flex-sm="100">
-                                <label> No. of meetings conducted </label>
+                                <label> Frequency of Meetings </label>
                             </div>
                             <div flex flex-sm="100">
                                 <input name="Frequency" class="form-control" ng-model="data.frequency" min="0" />

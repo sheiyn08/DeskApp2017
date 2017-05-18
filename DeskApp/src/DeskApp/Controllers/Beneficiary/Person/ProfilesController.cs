@@ -322,10 +322,11 @@ namespace DeskApp.Controllers
         public IActionResult person_profile_simple(AngularFilterModel item)
         {
             var model = GetData(item);
-
+            
             var result = from s in model
-                         join p in db.person_volunteer_record on s.person_profile_id equals     p.person_profile_id
-                        where p.is_deleted != true
+                         join p in db.person_volunteer_record
+                         on s.person_profile_id equals p.person_profile_id
+                         where p.is_deleted != true
                          select new
                          {
                              s.person_profile_id,
@@ -379,6 +380,54 @@ namespace DeskApp.Controllers
                          };
 
             return Ok(result);
+        }
+        
+        [Route("api/export/person_profile/volunteer_per_committee")]
+        public IActionResult volunteer_per_committee(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            int? selected_cycle = item.cycle_id;
+            int? selected_fund_source = item.fund_source_id;
+
+            var result = from s in model
+                         join p in db.person_volunteer_record
+                         on s.person_profile_id equals p.person_profile_id
+                         where p.is_deleted != true
+                         select new
+                         {
+                             s.person_profile_id,
+
+                             s.first_name,
+                             s.middle_name,
+                             s.last_name,
+                             sex = s.sex == true ? "Male" : "Female",
+                             s.birthdate,
+                             age = s.birthdate == null ? "" : (DateTime.Now.Year - s.birthdate.Value.Year).ToString(),
+                             committee = p.lib_volunteer_committee.name,
+                             position = p.lib_volunteer_committee_position.name,
+                             brgy_name = s.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(x => x.brgy_code == s.brgy_code).brgy_name,
+                             cycle_id = p.lib_cycle.cycle_id,
+                             fund_source_id = p.fund_source_id
+                         };
+
+            var items = result
+                .Select(x => new
+                {
+                    cycle_id = x.cycle_id,
+                    fund_source_id = x.fund_source_id,
+                    first_name = x.first_name,
+                    middle_name = x.middle_name,
+                    last_name = x.last_name,
+                    sex = x.sex,
+                    age = x.age,
+                    committee = x.committee,
+                    position = x.position,
+                    brgy_name = x.brgy_name
+                })
+                .Where(x => x.fund_source_id == selected_fund_source && x.cycle_id == item.cycle_id);
+
+            return Ok(items);
         }
 
 
@@ -686,10 +735,7 @@ namespace DeskApp.Controllers
             //for single sync
             if (!string.IsNullOrEmpty(item.name))
             {
-                model = model.Where(x => x.first_name.Contains(item.name) || x.last_name.Contains(item.name)
-           //     || (x.first_name + " " + x.last_name).Contains(item.name)
-                );
-
+                model = model.Where(x => x.first_name.Contains(item.name) || x.last_name.Contains(item.name));
             }
             if (item.record_id != null)
             {
@@ -735,6 +781,23 @@ namespace DeskApp.Controllers
             {
                 model = model.Where(m => m.approval_id == item.approval_id);
             }
+
+            //try:
+            if (item.fund_source_id != null)
+            {
+                if (item.cycle_id != null)
+                {
+                    model = from s in model
+                            where
+                                (from o in
+                                    db.person_volunteer_record.Where(x => x.fund_source_id == item.fund_source_id && x.cycle_id == item.cycle_id && x.is_deleted != true)
+                                 select o.person_profile_id)
+                                    .Contains(s.person_profile_id)
+                            select s;
+                }
+            }            
+            //end try
+
 
 
             if (item.is_ip != null)
@@ -893,7 +956,7 @@ namespace DeskApp.Controllers
                             select s;
                 }
             }
-
+            
             if (item.sub_project_ers_id != null)
             {
                 //this gets the Non ERS workers for this LIST
@@ -1051,9 +1114,6 @@ namespace DeskApp.Controllers
             return model;
         }
 
-
-
-
         [HttpGet]
         [Route("api/dashboard/person/volunteers")]
         public IActionResult dash_volunteer()
@@ -1074,6 +1134,72 @@ namespace DeskApp.Controllers
             return Ok(result);
 
 
+        }
+
+        //[HttpPost]
+        //[Route("api/offline/v1/get/potential_ers_workers")]
+        //public PagedCollection<person_profileDTO> GetPotentialERSWorkers(AngularFilterModel item)
+        //{
+        //    var pp = db.person_profile.Where(x => x.is_deleted != true);
+        //    var totalCount = pp.Count();
+        //    int currPages = item.currPage ?? 0;
+        //    int size = item.pageSize ?? 10;
+
+        //    return new PagedCollection<person_profileDTO>()
+        //    {
+        //        Page = currPages,
+        //        TotalCount = totalCount,
+        //        TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+        //        Items = pp.OrderBy(x => x.last_name)
+        //        .Select(
+        //            x => new person_profileDTO
+        //            {
+        //                person_profile_id = x.person_profile_id,
+        //                first_name = x.first_name,
+        //                middle_name = x.middle_name,
+        //                last_name = x.last_name,
+        //                sex = x.sex.Value,
+        //                birthdate = x.birthdate,
+        //                lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
+        //                lib_city_city_name = x.lib_city.city_name,
+        //                lib_province_prov_name = x.lib_province.prov_name,
+        //                lib_region_region_name = x.lib_region.region_name
+
+        //            }).Skip(currPages * size).Take(size).ToList(),
+        //    };
+        //}
+
+        [HttpPost]
+        [Route("api/offline/v1/get/potential_ers_workers")]
+        public PagedCollection<dynamic> GetPotentialERSWorkers(AngularFilterModel item)
+        {
+            var pp = GetData(item);
+            var totalCount = pp.Count();
+            int currPages = item.currPage ?? 0;
+            int size = item.pageSize ?? 10;
+
+            return new PagedCollection<dynamic>()
+            {
+                Page = currPages,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+                Items = pp.OrderBy(x => x.last_name)
+                .Select(
+                    x => new 
+                    {
+                        person_profile_id = x.person_profile_id,
+                        first_name = x.first_name,
+                        middle_name = x.middle_name,
+                        last_name = x.last_name,
+                        sex = x.sex.Value,
+                        birthdate = x.birthdate,
+                        lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
+                        lib_city_city_name = x.lib_city.city_name,
+                        lib_province_prov_name = x.lib_province.prov_name,
+                        lib_region_region_name = x.lib_region.region_name
+
+                    }).Skip(currPages * size).Take(size).ToList(),
+            };
         }
 
 
@@ -1107,7 +1233,7 @@ namespace DeskApp.Controllers
                         first_name = x.first_name,
                         middle_name = x.middle_name,
                         last_name = x.last_name,
-                        sex = x.sex,
+                        sex = x.sex.Value,
                         birthdate = x.birthdate,
                         lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
                         lib_city_city_name = x.lib_city.city_name,
@@ -1146,7 +1272,7 @@ namespace DeskApp.Controllers
                             first_name = x.first_name,
                             middle_name = x.middle_name,
                             last_name = x.last_name,
-                            sex = x.sex,
+                            sex = x.sex.Value,
                             birthdate = x.birthdate,
                             lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
                             lib_city_city_name = x.lib_city.city_name,
@@ -1184,7 +1310,7 @@ namespace DeskApp.Controllers
                             first_name = x.first_name,
                             middle_name = x.middle_name,
                             last_name = x.last_name,
-                            sex = x.sex,
+                            sex = x.sex.Value,
                             birthdate = x.birthdate,
                             lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
                             lib_city_city_name = x.lib_city.city_name,
@@ -1222,7 +1348,7 @@ namespace DeskApp.Controllers
                             first_name = x.first_name,
                             middle_name = x.middle_name,
                             last_name = x.last_name,
-                            sex = x.sex,
+                            sex = x.sex.Value,
                             birthdate = x.birthdate,
                             lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
                             lib_city_city_name = x.lib_city.city_name,
@@ -2094,5 +2220,138 @@ namespace DeskApp.Controllers
         //}
 
         #endregion
+
+
+        //------------------------------------------------------------------ ORIGINAL CODE FOR SAVING ERS WORKER --------------------------------------------//  
+        //[Route("api/offline/v1/sub_projects/ers/worker/save")] 
+        //public async Task<IActionResult> SaveERSWorker(person_ers_work model, bool? api)
+        //{
+        //    var record = db.person_ers_work.AsNoTracking().FirstOrDefault(x => x.person_profile_id == model.person_profile_id && x.sub_project_ers_id == model.sub_project_ers_id && x.is_deleted != true);
+
+        //    if (record == null)
+        //    {
+        //        if (api != true)
+        //        {
+        //            //   model.push_status_id = 2;
+        //            //  model.push_date = null;
+        //            model.approval_id = 3;
+        //        }
+        //        model.created_by = 0;
+        //        model.created_date = DateTime.Now;
+        //        model.is_deleted = false;
+        //        db.person_ers_work.Add(model);
+
+        //        try
+        //        {
+        //            await db.SaveChangesAsync();
+        //            if (api == true)
+        //            {
+        //                return Ok();
+        //            }
+
+        //            var person =
+        //                db.person_ers_work
+        //                .Include(x => x.lib_ers_current_work)
+        //                .Include(x => x.person_profile)
+        //                .Where(x => x.person_ers_work_id == model.person_ers_work_id).Select(s => new
+        //                {
+        //                    s.person_profile.first_name,
+        //                    s.person_profile.last_name,
+        //                    s.person_profile.person_profile_id,
+        //                    s.ers_current_work_id,
+        //                    ers_current_work_name = s.lib_ers_current_work.name,
+        //                    s.rate_day,
+        //                    s.rate_hour,
+        //                    s.actual_cash,
+        //                    s.actual_lcc,
+        //                    s.plan_cash,
+        //                    s.plan_lcc,
+        //                    s.work_days,
+        //                    s.work_hours,
+        //                    s.work_hauling,
+        //                    s.rate_hauling,
+        //                    s.unit_hauling,
+        //                    s.percent,
+        //                    s.sub_project_ers_id,
+        //                    s.person_ers_work_id,
+        //                    s.person_profile.sex,
+        //                    s.person_profile.contact_no,
+        //                });
+        //            return Ok(person.FirstOrDefault());
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+
+        //    else
+        //    {
+        //        // model.push_date = null;
+        //        if (api != true)
+        //        {
+        //            //   model.push_status_id = 3;
+        //            model.approval_id = 3;
+        //        }
+        //        model.person_ers_work_id = record.person_ers_work_id;
+        //        model.created_by = record.created_by;
+        //        model.created_date = record.created_date;
+        //        model.last_modified_by = 0;
+        //        model.last_modified_date = DateTime.Now;
+        //        db.Entry(model).State = EntityState.Modified;
+
+        //        try
+        //        {
+        //            await db.SaveChangesAsync();
+
+        //            if (api == true)
+        //            {
+        //                return Ok();
+        //            }
+
+        //            var person =
+        //              db.person_ers_work
+        //              .Include(x => x.lib_ers_current_work)
+        //            .Include(x => x.person_profile)
+        //              .Where(x => x.person_ers_work_id == model.person_ers_work_id).Select(s => new
+        //              {
+        //                  s.person_profile.first_name,
+        //                  s.person_profile.last_name,
+        //                  s.person_profile.person_profile_id,
+        //                  s.ers_current_work_id,
+        //                  ers_current_work_name = s.lib_ers_current_work.name,
+        //                  s.rate_day,
+        //                  s.rate_hour,
+        //                  s.actual_cash,
+        //                  s.actual_lcc,
+        //                  s.plan_cash,
+        //                  s.plan_lcc,
+        //                  s.work_days,
+        //                  s.work_hours,
+        //                  s.work_hauling,
+        //                  s.rate_hauling,
+        //                  s.unit_hauling,
+        //                  s.percent,
+        //                  s.sub_project_ers_id,
+        //                  s.person_ers_work_id,
+        //                  s.person_profile.sex,
+        //                  s.person_profile.contact_no,
+        //              });
+
+        //            return Ok(person);
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+        //}
+        //------------------------------------------------------------------- END ORIGINAL CODE ------------------------------------------------------------//
+
+
+
+
+
+
     }
 }

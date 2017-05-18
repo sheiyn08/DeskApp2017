@@ -28,6 +28,8 @@ namespace DeskApp.DataLayer
 
     public class AngularFilterModel
     {
+        public Guid? person_profile_id { get; set; }
+
         public int? mov_list_id { get; set; }
         //public int? age_bracket { get; set; }
         public int? project_type_id { get; set; }

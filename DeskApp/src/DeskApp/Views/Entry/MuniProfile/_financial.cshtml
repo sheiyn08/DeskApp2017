@@ -105,6 +105,20 @@
 
         </div>
         <md-divider></md-divider>
+
+        @*Additional: 04-25-17 Workitem# 351 (alloc_econ already available on db)*@
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <div flex="50" flex-sm="100">
+                <label>Economic Sector</label>
+            </div>
+            <div flex="50" flex-sm="100">
+                <input type="number" name="alloc_env" ng-model="data.alloc_econ" required class="form-control" min="0">
+            </div>
+        </div>
+        <md-divider></md-divider>
+
+
         <div flex="100" layout="row" layout-margin layout-sm="column">
 
             <div flex="50" flex-sm="100">
@@ -223,7 +237,7 @@
             </div>
 
             <div flex="50" flex-sm="100">
-                {{data.alloc_env + data.alloc_infra +data.alloc_basic + data.alloc_inst + data.alloc_gender + data.alloc_drrm + data.alloc_others }}
+                {{data.alloc_env + data.alloc_econ + data.alloc_infra +data.alloc_basic + data.alloc_inst + data.alloc_gender + data.alloc_drrm + data.alloc_others }}
             </div>
 
 

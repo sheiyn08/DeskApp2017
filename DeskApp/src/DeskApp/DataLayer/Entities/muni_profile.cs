@@ -87,13 +87,13 @@ namespace DeskApp.DataLayer
         public string socio_econ_activity_3 { get; set; }
         public double? socio_econ_amount_3 { get; set; }
 
-
-
-
-
-
-
-
+        //additional: 4-25-17 Workitem 351
+        public string socio_econ_seasonality_from_1 { get; set; }
+        public string socio_econ_seasonality_to_1 { get; set; }
+        public string socio_econ_seasonality_from_2 { get; set; }
+        public string socio_econ_seasonality_to_2 { get; set; }
+        public string socio_econ_seasonality_from_3 { get; set; }
+        public string socio_econ_seasonality_to_3 { get; set; }
 
 
         /// <summary>

@@ -53,7 +53,7 @@ namespace DeskApp.DataLayer
         public string first_name { get; set; }
         public string middle_name { get; set; }
         public DateTime? birthdate { get; set; }
-        public bool sex { get; set; }
+        public bool? sex { get; set; }
         public int? civil_status_id { get; set; }
         public int? no_children { get; set; }
 

@@ -148,8 +148,8 @@ namespace DeskApp.Controllers
                            {
                                x.Key.brgy_name,
                                resolved = x.Count(c => c.grs_resolution_status_id == 1),
-                               pending = x.Count(c => c.grs_resolution_status_id == 2),
-                               on_going = x.Count(c => c.grs_resolution_status_id == 3),
+                               on_going = x.Count(c => c.grs_resolution_status_id == 2),
+                               pending = x.Count(c => c.grs_resolution_status_id == 3),
                                total = x.Count()
                            });
 
@@ -195,8 +195,8 @@ namespace DeskApp.Controllers
                            {
                                name = x.Key.name,
                                resolved = x.Count(c => c.grs_resolution_status_id == 1),
-                               pending = x.Count(c => c.grs_resolution_status_id == 2),
-                               on_going = x.Count(c => c.grs_resolution_status_id == 3),
+                               on_going = x.Count(c => c.grs_resolution_status_id == 2),
+                               pending = x.Count(c => c.grs_resolution_status_id == 3),
                                total = x.Count(),
                            });
 
@@ -732,14 +732,14 @@ namespace DeskApp.Controllers
                 item.grievance_record_id = Guid.NewGuid();
                 item.push_status_id = 3;
                 item.created_by = 0;
-                item.grs_intake_officer_id = 5;
-                item.grs_intake_level_id = 5;
+                //item.grs_intake_officer_id = 5;
+                //item.grs_intake_level_id = 5;
 
 
                 item.created_date = DateTime.Now;
                 item.approval_id = 3;
                 item.is_deleted = false;
-                item.date_intake = DateTime.Now;
+                //item.date_intake = DateTime.Now; --
 
 
                 model = item;

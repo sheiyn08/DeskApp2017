@@ -170,6 +170,8 @@
 
                 $scope.data;
 
+                $scope.seasonality_options = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 
                 $http.get('/api/offline/v1/municipal_profile/get?id=@ViewBag.id')
           .then(function (response) {

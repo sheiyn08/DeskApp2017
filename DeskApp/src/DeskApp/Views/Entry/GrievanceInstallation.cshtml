@@ -199,7 +199,7 @@
                             <label> GRS volunteers identified</label>
                         </div>
                         <div flex flex-sm="100">
-                            <md-datepicker name="date_voliden" ng-model="dt_date_voliden" md-placeholder="Enter date" ng-change="data.date_voliden = dt_date_voliden.toISOString()" required md-max-date="today"></md-datepicker>
+                            <md-datepicker name="date_voliden" ng-model="dt_date_voliden" md-placeholder="Enter date" ng-change="data.date_voliden = dt_date_voliden.toISOString()" ng-required="data.lgu_level_id ==1" md-max-date="today"></md-datepicker>
                         </div>
                     </div>
 
@@ -209,7 +209,7 @@
                             <label> Municipal document on MLGU commitment for GRS</label>
                         </div>
                         <div flex flex-sm="100">
-                            <md-datepicker name="date_ffcomm" ng-model="dt_date_ffcomm" md-placeholder="Enter date" ng-change="data.date_ffcomm = dt_date_ffcomm.toISOString()" required md-max-date="today"></md-datepicker>
+                            <md-datepicker name="date_ffcomm" ng-model="dt_date_ffcomm" md-placeholder="Enter date" ng-change="data.date_ffcomm = dt_date_ffcomm.toISOString()" ng-required="data.lgu_level_id ==2" md-max-date="today"></md-datepicker>
                         </div>
                     </div>
 
@@ -220,7 +220,7 @@
                             <label ng-show="data.lgu_level_id==2"> GRS Training for ACT/MCT</label>
                         </div>
                         <div flex flex-sm="100">
-                            <md-datepicker name="date_voliden" ng-model="dt_date_training" md-placeholder="Enter date" ng-change="data.date_training = dt_date_training.toISOString()" required md-max-date="today"></md-datepicker>
+                            <md-datepicker name="date_training" ng-model="dt_date_training" md-placeholder="Enter date" ng-change="data.date_training = dt_date_training.toISOString()" required md-max-date="today"></md-datepicker>
                         </div>
                     </div>
 
