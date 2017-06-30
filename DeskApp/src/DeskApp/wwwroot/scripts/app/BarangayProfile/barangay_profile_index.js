@@ -71,13 +71,13 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.checkAll = function () {
 
         if ($scope.data.check_all) {
-            alert("Size of array: " + $scope.Items.length);
+            //alert("Size of array: " + $scope.Items.length);
             for (var i = 0; i < $scope.Items.length; i++) {
                 $scope.list_of_selected_items.push($scope.Items[i]);
             }
         } else {
             $scope.list_of_selected_items = [];
-            alert("Array emptied.");
+            //alert("Array emptied.");
         }
         angular.forEach($scope.Items, function (item) {
             item.is_item_selected = $scope.data.check_all; //ito yung nag checheck sa bawat item; sineset as true yung kada item if naka check yung select all checkbox        
@@ -135,7 +135,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     //    $http.get('/Api/lib_training_category?lgu_level_id=' + $scope.lgu_level_id)
     //.then(function (response) { $scope.training_category_id_options = response.data; });
 
-
+    
 
 
 
@@ -270,32 +270,47 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     }
 
 
+    $http.get('/api/report_list?id=32')
+   .then(function (response) {
+
+       $scope.report_list = response.data;
+   });
+
+    $scope.exportXls = function (dlUrl, name) {
+
+        $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
+
+        $.post(dlUrl, $scope.data).success(function (value) {
+            $scope.loading = false;
+
+
+            $scope.exported_data = value;
+
+            setTimeout($.unblockUI, 10);
+
+            alasql('SELECT * INTO XLSX("' + name + '.xlsx' + '",{headers:true}) FROM ?', [$scope.exported_data]);
+
+            $scope.isSearching = false;
+
+        }).error(function (data) {
+
+            alert(JSON.stringify(data));
+
+
+            $scope.error = "An Error has occured while Saving! " + data.statusText;
+            $scope.loading = false;
+        });
+
+    }
+
+
     $scope.search = function (page) {
 
         $scope.data.pageSize = $scope.pageSize == undefined ? '' : $scope.pageSize;
         $scope.data.currPage = page == undefined ? '' : page;
 
         $scope.isSearching = true;
-
         $scope.isSearching = true;
-
-        //if (($scope.data.filter_by_recent_edit) && (!$scope.data.filter_by_recent_add)) {
-        
-        //}
-
-        //else if ((!$scope.data.filter_by_recent_edit) && ($scope.data.filter_by_recent_add)) {
-        
-        //}
-
-        //else if (($scope.data.filter_by_recent_edit) && ($scope.data.filter_by_recent_add)) {
-        
-        //}
-
-        //else {
-
-        //}
-
-
 
         if (($scope.data.filter_by_recent_edit) && (!$scope.data.filter_by_recent_add)) {
 
@@ -434,44 +449,40 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
     };
  
- 
+
+    //$scope.exportXls = function () {
 
 
-    $scope.exportXls = function () {
+    //  //  $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
+
+    // //   $scope.exportData = function () {
+    //        alasql('SELECT * INTO XLSX("downloads.xlsx",{headers:true}) FROM ?', [$scope.Items]);
+    //  //  };
+
+    //    //$.ajax({
+    //    //    type: "POST",
+    //    //    url: "/Export/barangay_profile",
+    //    //    data: {
+    //    //        item: $scope.data,
+
+    //    //    },
+    //    //    success: function (viewHTML) {
+    //    //        window.location.href = "/Export/GetExcel?id=" + viewHTML;
+    //    //        setTimeout($.unblockUI, 10);
+
+    //    //    },
+    //    //    error: function (errorData) {
+    //    //        onError(errorData);
+    //    //        setTimeout($.unblockUI, 10);
+    //    //    }
+
+    //    //});
 
 
-      //  $.blockUI({ message: '<h1><img src="@Url.Content("~/Content/Images/loading.gif")" /></h1> Processing...' });
-
-     //   $scope.exportData = function () {
-            alasql('SELECT * INTO XLSX("downloads.xlsx",{headers:true}) FROM ?', [$scope.Items]);
-      //  };
-
-        //$.ajax({
-        //    type: "POST",
-        //    url: "/Export/barangay_profile",
-        //    data: {
-        //        item: $scope.data,
-
-        //    },
-        //    success: function (viewHTML) {
-        //        window.location.href = "/Export/GetExcel?id=" + viewHTML;
-        //        setTimeout($.unblockUI, 10);
-
-        //    },
-        //    error: function (errorData) {
-        //        onError(errorData);
-        //        setTimeout($.unblockUI, 10);
-        //    }
-
-        //});
+    //}
 
 
-    }
-
-
-    $scope.createNew = function () {
-
-       
+    $scope.createNew = function () {       
         window.location.href = "/Entry/BarangayProfile";
     }
 
@@ -536,7 +547,6 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
 
         if ($scope.list_of_selected_items.length > 0) {
             alert("Only selected item/s will be uploaded as you wish.");
-            alert("Array size: " + $scope.list_of_selected_items.length);
 
             //call API that will update the push_status_id
 

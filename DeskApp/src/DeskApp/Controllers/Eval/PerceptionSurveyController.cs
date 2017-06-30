@@ -181,6 +181,7 @@ namespace DeskApp.Controllers
                     activity_name = x.activity_name,
                     talakayan_yr_id = x.talakayan_yr_id,   
                     push_date = x.push_date,
+                    push_status_id = x.push_status_id,
                     last_modified_date = x.last_modified_date                 
 
                 }).Skip(currPages * size).Take(size).ToList(),
@@ -225,6 +226,7 @@ namespace DeskApp.Controllers
                     activity_name = x.activity_name,
                     talakayan_yr_id = x.talakayan_yr_id,
                     push_date = x.push_date,
+                    push_status_id = x.push_status_id,
                     last_modified_date = x.last_modified_date
 
                 }).Skip(currPages * size).Take(size).ToList(),
@@ -267,6 +269,7 @@ namespace DeskApp.Controllers
                     activity_name = x.activity_name,
                     talakayan_yr_id = x.talakayan_yr_id,
                     push_date = x.push_date,
+                    push_status_id = x.push_status_id,
                     last_modified_date = x.last_modified_date
 
                 }).Skip(currPages * size).Take(size).ToList(),
@@ -311,6 +314,7 @@ namespace DeskApp.Controllers
                         activity_name = x.activity_name,
                         talakayan_yr_id = x.talakayan_yr_id,
                         push_date = x.push_date,
+                        push_status_id = x.push_status_id,
                         last_modified_date = x.last_modified_date
 
                     }).Skip(currPages * size).Take(size).ToList(),
@@ -5563,14 +5567,18 @@ namespace DeskApp.Controllers
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
                 }
-                else
+
+                //because api is set to TRUE in sync/get
+                if (api == true)
                 {
                     model.push_status_id = 1;
+                    model.is_deleted = false;
                 }
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.is_deleted = false;
+
                 db.perception_survey.Add(model);
                 
                 try
@@ -5586,15 +5594,13 @@ namespace DeskApp.Controllers
             else
             {
                 model.push_date = null;
+
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
                 }
-                else
-                {
-                    model.push_status_id = 1;
-                }
+
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
                 model.last_modified_by = 0;

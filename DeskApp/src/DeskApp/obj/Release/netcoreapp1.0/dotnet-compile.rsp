@@ -1,11 +1,12 @@
---temp-output:D:\DeskApp2017\DeskApp\src\DeskApp\obj\Release\netcoreapp1.0\
---out:D:\DeskApp2017\DeskApp\src\DeskApp\bin\Release\netcoreapp1.0\DeskApp.dll
+--temp-output:D:\DeskApp2017\DeskApp\src\DeskApp\obj\release\netcoreapp1.0\
+--out:D:\DeskApp2017\DeskApp\src\DeskApp\bin\release\netcoreapp1.0\DeskApp.dll
 --define:RELEASE
 --define:TRACE
 --define:NETCOREAPP1_0
 --suppress-warning:CS1701
 --suppress-warning:CS1702
 --suppress-warning:CS1705
+--platform:x86
 --optimize:True
 --emit-entry-point:True
 --output-name:DeskApp
@@ -217,7 +218,7 @@
 --reference:C:\Users\ACER\.nuget\packages\System.Threading.Timer\4.3.0\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\ACER\.nuget\packages\System.Xml.ReaderWriter\4.3.0\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\ACER\.nuget\packages\System.Xml.XDocument\4.3.0\ref\netstandard1.3\System.Xml.XDocument.dll
---resource:"D:\DeskApp2017\DeskApp\src\DeskApp\obj\Release\netcoreapp1.0\DeskAppdotnet-compile.deps.json",DeskApp.deps.json
+--resource:"D:\DeskApp2017\DeskApp\src\DeskApp\obj\release\netcoreapp1.0\DeskAppdotnet-compile.deps.json",DeskApp.deps.json
 D:\DeskApp2017\DeskApp\src\DeskApp\Program.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Startup.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\TableNamer.cs
@@ -305,7 +306,6 @@ D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Entities\sub_project_workers.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\dof_blgf_financial_data.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\lgpms_data.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\mlgu_financial_data.cs
-D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\municipal_financial_profile.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\muni_financial_profile.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\perception_survey.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Eval\talakayan_eval.cs
@@ -322,8 +322,8 @@ D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\spi_ers.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\spi_spcr_mapping.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\sub_project_mapping.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\training_mapping.cs
-D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170509055721_may9_freshdb.cs
-D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170509055721_may9_freshdb.Designer.cs
+D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170619005730_initial_june19.cs
+D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170619005730_initial_june19.Designer.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\ApplicationDbContextModelSnapshot.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Models\ApplicationUser.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs

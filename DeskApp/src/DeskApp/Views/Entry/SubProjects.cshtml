@@ -247,7 +247,7 @@
 
 
 
-        <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!setForm.$valid || !phyAccForm.$valid || !detailsForm.$valid">
+        <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!phyAccForm.$valid || !detailsForm.$valid">
             Save Record
         </md-button>
 
@@ -483,7 +483,7 @@
               }
 
               $scope.successful_upload = function () {
-
+                  $.blockUI({ message: '<br>Processing...<br><br>' });
                   var fileUpload = $("#files").get(0);
                   var files = fileUpload.files;
                   var data = new FormData();
@@ -517,8 +517,9 @@
 
                           message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
                           $scope.attached_documents.push(message);
-
                           $scope.attachment = {};
+                          setTimeout($.unblockUI, 3);
+                          angular.element("input[type='file']").val(null);
                       },
                       error: function (message) {
                           alert(JSON.stringify(message.responseText));

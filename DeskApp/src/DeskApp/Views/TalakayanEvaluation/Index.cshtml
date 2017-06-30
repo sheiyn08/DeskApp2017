@@ -91,7 +91,10 @@
             <a class="btn btn-warning" ng-click="clear()">
                 <i class="fa fa-recycle fa-lg"></i>  Clear
             </a>
-            @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+            <a class="btn btn-primary" ng-click="showAlert()">
+                <i class="fa fa-cloud fa-lg"></i>   Synchronize
+            </a>
+            @*@Html.Partial("~/Views/Shared/_sync_dialog.cshtml")*@
         </div>
         <div style="margin:25px">
 
@@ -111,6 +114,10 @@
                     </md-content>
                 </md-content>
             </md-tab>
+            <md-tab label="DOWNLOADS" ng-click="GotoTalakayanReport()">
+                @*------ Page will be re-directed to Reports -------*@
+            </md-tab>
+            @*@Html.Partial("~/Views/View/Common/_download.cshtml")*@
         </md-tabs>
     </md-content>
 

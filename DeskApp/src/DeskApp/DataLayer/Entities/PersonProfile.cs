@@ -77,6 +77,10 @@ namespace DeskApp.DataLayer
         public int? occupation_id { get; set; }
         //  public int? sector { get; set; }
         public string sector { get; set; }
+
+        //added: May 30 2017 to match the exisiting column on WebApp
+        public int idenity { get; set; }
+
         [JsonIgnore]
         public virtual lib_region lib_region { get; set; }
         [JsonIgnore]

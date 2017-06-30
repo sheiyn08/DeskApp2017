@@ -161,6 +161,7 @@ namespace DeskApp.Controllers.Eval
                     lib_province_prov_name = x.lib_province.prov_name,
                     lib_region_region_name = x.lib_region.region_name,
                     push_date = x.push_date,
+                    push_status_id = x.push_status_id,
                     last_modified_date = x.last_modified_date
 
                 }).Skip(currPages * size).Take(size).ToList(),
@@ -203,6 +204,7 @@ namespace DeskApp.Controllers.Eval
                         lib_province_prov_name = x.lib_province.prov_name,
                         lib_region_region_name = x.lib_region.region_name,
                         push_date = x.push_date,
+                        push_status_id = x.push_status_id,
                         last_modified_date = x.last_modified_date
 
                     }).Skip(currPages * size).Take(size).ToList(),
@@ -243,6 +245,7 @@ namespace DeskApp.Controllers.Eval
                         lib_province_prov_name = x.lib_province.prov_name,
                         lib_region_region_name = x.lib_region.region_name,
                         push_date = x.push_date,
+                        push_status_id = x.push_status_id,
                         last_modified_date = x.last_modified_date
 
                     }).Skip(currPages * size).Take(size).ToList(),
@@ -283,6 +286,7 @@ namespace DeskApp.Controllers.Eval
                         lib_province_prov_name = x.lib_province.prov_name,
                         lib_region_region_name = x.lib_region.region_name,
                         push_date = x.push_date,
+                        push_status_id = x.push_status_id,
                         last_modified_date = x.last_modified_date
 
                     }).Skip(currPages * size).Take(size).ToList(),
@@ -866,16 +870,20 @@ namespace DeskApp.Controllers.Eval
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
                 }
 
+                //because api is set to TRUE in sync/get
+                if (api == true)
+                {
+                    model.push_status_id = 1;
+                    model.is_deleted = false;
+                }
 
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-
-                model.is_deleted = false;
                 db.talakayan_eval.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -883,11 +891,11 @@ namespace DeskApp.Controllers.Eval
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
             }
+
+
             else
             {
                 model.push_date = null;

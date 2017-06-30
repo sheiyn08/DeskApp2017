@@ -365,8 +365,6 @@
                         $.post('/api/export/muni_financial_profile/lgpms_all_data', $scope.data).success(function (value) {
                             $scope.loading = false;
 
-                            //alert(JSON.stringify(value));
-
                             $scope.LGPMSlist = value;
                             
                             setTimeout($.unblockUI, 3);

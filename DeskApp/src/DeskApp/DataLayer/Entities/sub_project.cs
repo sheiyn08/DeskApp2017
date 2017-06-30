@@ -157,6 +157,9 @@ namespace DeskApp.DataLayer
 
         public string dep_ed_amount { get; set; }
 
+        //May 30, 2017 add column to match column in geotagging (replacement for dep_ed_amount string)
+        public decimal? _dep_ed_amount { get; set; }
+
         public string ip_groups { get; set; }
 
 
@@ -518,6 +521,41 @@ namespace DeskApp.DataLayer
 
         public string bub_unique_id { get; set; }
         //    public IEnumerable<sub_project_coverage> sub_project_coverage { get; set; }
+
+
+        #region May 30, 2017 Additional field: Enhancements
+        public int? replaced_sub_project_id { get; set; }
+        public int? mode_id { get; set; }
+        public bool? is_incentive { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_lgu_led { get; set; }
+        public bool? is_multiple_sps { get; set; }
+        public decimal? target_tranching_first { get; set; }
+        public decimal? target_tranching_second { get; set; }
+        public decimal? target_tranching_third { get; set; }
+        //public bool? with_variation { get; set; }
+        public bool? is_sp_functional { get; set; }
+        public bool? is_enhancement_functionality { get; set; }
+        public int? variation_physical_status_id { get; set; }
+        public DateTime? variation_date_started { get; set; }
+        public double? variation_phy_perc_to_date { get; set; }
+        public DateTime? variation_target_date_completion { get; set; }
+        public DateTime? variation_actual_date_completion { get; set; }
+        //public bool? has_sc_essc { get; set; }
+        public bool? has_cadt { get; set; }
+        public bool? has_on_process { get; set; }
+        public bool? has_cadteable { get; set; }
+        public bool? has_ncip { get; set; }
+        public DateTime? ncip_date { get; set; }
+        public bool? has_validation_conducted { get; set; }
+        public DateTime? validation_conducted_date { get; set; }
+        public DateTime? sc_cp_date { get; set; }
+        public DateTime? sc_cno_date { get; set; }
+        public bool? right_of_way_agreement { get; set; }
+        public bool? permit_to_construct_enter { get; set; }
+        public bool? quit_claim { get; set; }
+
+        #endregion
     }
 
 

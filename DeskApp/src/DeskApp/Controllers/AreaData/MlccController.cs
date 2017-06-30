@@ -29,8 +29,7 @@ namespace DeskApp.Controllers.AreaData
             db = context;
 
         }
-
-
+        
 
         private IQueryable<municipal_lcc> GetData(
                AngularFilterModel item
@@ -231,7 +230,7 @@ namespace DeskApp.Controllers.AreaData
                             .Include(x => x.lib_fund_source)
                             .Include(x => x.lib_cycle)
                             .Include(x => x.lib_enrollment)
-                           .OrderBy(x => x.municipal_lcc_id)
+                            .OrderByDescending(x => x.history)
                            .Select(x => new
                            {
                                lib_city_city_name = x.lib_city.city_name,
@@ -242,6 +241,8 @@ namespace DeskApp.Controllers.AreaData
                                lib_enrollment_name = x.lib_enrollment.name,
                                municipal_lcc_id = x.municipal_lcc_id,
                                push_date = x.push_date,
+                               push_status_id = x.push_status_id,
+                               history = x.history,
                                last_modified_date = x.last_modified_date
                            })
                            .Skip(currPages * size).Take(size).ToList(),
@@ -284,6 +285,7 @@ namespace DeskApp.Controllers.AreaData
                                lib_enrollment_name = x.lib_enrollment.name,
                                municipal_lcc_id = x.municipal_lcc_id,
                                push_date = x.push_date,
+                               push_status_id = x.push_status_id,
                                last_modified_date = x.last_modified_date
                            })
                            .Skip(currPages * size).Take(size).ToList(),
@@ -326,6 +328,7 @@ namespace DeskApp.Controllers.AreaData
                                lib_enrollment_name = x.lib_enrollment.name,
                                municipal_lcc_id = x.municipal_lcc_id,
                                push_date = x.push_date,
+                               push_status_id = x.push_status_id,
                                last_modified_date = x.last_modified_date
                            })
                            .Skip(currPages * size).Take(size).ToList(),
@@ -368,6 +371,7 @@ namespace DeskApp.Controllers.AreaData
                                lib_enrollment_name = x.lib_enrollment.name,
                                municipal_lcc_id = x.municipal_lcc_id,
                                push_date = x.push_date,
+                               push_status_id = x.push_status_id,
                                last_modified_date = x.last_modified_date
                            })
                            .Skip(currPages * size).Take(size).ToList(),
@@ -420,44 +424,125 @@ namespace DeskApp.Controllers.AreaData
 
 
 
+        //OLD:
+        //[Route("api/offline/v1/mlcc/save")]
+        //public async Task<IActionResult> Save(municipal_lcc model, bool? is_ba, bool? api)
+        //{
+
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest();
+        //    }
+
+
+
+
+        //    var record = db.municipal_lcc.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code
+
+        //    && x.fund_source_id == model.fund_source_id
+        //    && x.cycle_id == model.cycle_id
+        //    && x.enrollment_id == model.enrollment_id
+
+
+        //    );
+
+        //    model.no_of_barangays = db.lib_brgy.Count(x => x.city_code == model.city_code);
+
+        //    if (record == null)
+        //    {
+
+
+
+        //        model.created_by = 0;
+        //        model.created_date = DateTime.Now;
+        //        model.approval_id = 3;
+        //        model.is_deleted = false;
+
+
+        //        if (api == true)
+        //        {
+        //            model.push_status_id = 1;
+        //        }
+
+        //        db.municipal_lcc.Add(model);
+
+
+        //        try
+        //        {
+        //            await db.SaveChangesAsync();
+        //            return Ok();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        model.push_date = null;
+
+        //        model.push_status_id = 3;
+
+        //        if (api == true)
+        //        {
+        //            model.push_status_id = 1;
+        //        }
+
+        //        model.municipal_lcc_id = record.municipal_lcc_id;
+
+
+
+        //        model.created_by = record.created_by;
+        //        model.created_date = record.created_date;
+
+
+        //        model.last_modified_by = 0;
+        //        model.last_modified_date = DateTime.Now;
+
+        //        db.Entry(model).State = EntityState.Modified;
+
+        //        try
+        //        {
+        //            await db.SaveChangesAsync();
+        //            return Ok();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+        //}
+
+        
+            
+            
+        ////NEW: await Save(item, false, true); in sync/get
         [Route("api/offline/v1/mlcc/save")]
         public async Task<IActionResult> Save(municipal_lcc model, bool? is_ba, bool? api)
         {
-
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-
-
-
-            var record = db.municipal_lcc.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code
-
-            && x.fund_source_id == model.fund_source_id
-            && x.cycle_id == model.cycle_id
-            && x.enrollment_id == model.enrollment_id
-
-
-            );
-
+            var record = db.municipal_lcc.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code && x.history == model.history);
+            
             model.no_of_barangays = db.lib_brgy.Count(x => x.city_code == model.city_code);
 
             if (record == null)
             {
+                if (api != true)
+                {
+                    model.push_status_id = 2;
+                    model.push_date = null;
 
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.approval_id = 3;
+                    model.is_deleted = false;
+                }
 
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.approval_id = 3;
-                model.is_deleted = false;
-
-
+                //because api is set to TRUE in sync/get
                 if (api == true)
                 {
                     model.push_status_id = 1;
+                    model.is_deleted = false;
                 }
 
                 db.municipal_lcc.Add(model);
@@ -473,25 +558,21 @@ namespace DeskApp.Controllers.AreaData
                     return BadRequest();
                 }
             }
+
+
             else
             {
                 model.push_date = null;
 
-                model.push_status_id = 3;
-
-                if (api == true)
+                if (api != true)
                 {
-                    model.push_status_id = 1;
+                    model.push_status_id = 3;
                 }
-
+                
                 model.municipal_lcc_id = record.municipal_lcc_id;
-
-
-
+                
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
 
@@ -508,6 +589,7 @@ namespace DeskApp.Controllers.AreaData
                 }
             }
         }
+
 
 
         [HttpPost]

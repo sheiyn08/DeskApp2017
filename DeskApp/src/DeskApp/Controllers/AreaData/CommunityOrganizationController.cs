@@ -156,6 +156,7 @@ namespace DeskApp.Controllers
                         lib_cycle_name = x.lib_cycle.name,
                         name = x.name,
                         push_date = x.push_date,
+                        push_status_id = x.push_status_id,
                         last_modified_date = x.last_modified_date
                     }).Skip(currPages * size).Take(size).ToList(),
             };
@@ -192,7 +193,9 @@ namespace DeskApp.Controllers
                         lib_lgu_level_name = x.lib_lgu_level.name,
                         lib_cycle_name = x.lib_cycle.name,
                         name = x.name,
-                        last_modified_date = x.last_modified_date
+                        last_modified_date = x.last_modified_date,
+                        push_date = x.push_date,
+                        push_status_id = x.push_status_id,
 
                     }).Skip(currPages * size).Take(size).ToList(),
             };
@@ -229,7 +232,9 @@ namespace DeskApp.Controllers
                         lib_lgu_level_name = x.lib_lgu_level.name,
                         lib_cycle_name = x.lib_cycle.name,
                         name = x.name,
-                        last_modified_date = x.last_modified_date
+                        last_modified_date = x.last_modified_date,
+                        push_date = x.push_date,
+                        push_status_id = x.push_status_id,
 
                     }).Skip(currPages * size).Take(size).ToList(),
             };
@@ -266,7 +271,9 @@ namespace DeskApp.Controllers
                         lib_lgu_level_name = x.lib_lgu_level.name,
                         lib_cycle_name = x.lib_cycle.name,
                         name = x.name,
-                        last_modified_date = x.last_modified_date
+                        last_modified_date = x.last_modified_date,
+                        push_date = x.push_date,
+                        push_status_id = x.push_status_id,
 
                     }).Skip(currPages * size).Take(size).ToList(),
             };
@@ -329,24 +336,25 @@ namespace DeskApp.Controllers
 
             if (record == null)
             {
-
-
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
-
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.approval_id = 3;
+                    model.is_deleted = false;
                 }
 
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.approval_id = 3;
-                model.is_deleted = false;
+                //because api is set to TRUE in sync/get
+                if (api == true)
+                {
+                    model.push_status_id = 1;
+                    model.is_deleted = false;
+                }
 
                 db.community_organization.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -357,22 +365,19 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
+
+
             else
             {
                 model.push_date = null;
-
 
                 if (api != true)
                 {
                     model.push_status_id = 3;
                 }
-
-
-
+                
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
 

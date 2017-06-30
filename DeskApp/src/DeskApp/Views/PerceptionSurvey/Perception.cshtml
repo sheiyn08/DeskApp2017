@@ -77,13 +77,13 @@
 
 @section Scripts
 {
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+
     <script>
 
         angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
             .controller('AppCtrl',
                 function ($scope, $mdDialog, $http, $mdToast) {
-
-
 
                     $scope.survey_option_answer_id = [{ "Id": 1, "Name": "1 - Strongly Disagree" }, { "Id": 2, "Name": "2 - Disagree" }, { "Id": 3, "Name": "3 - Agree" }, { "Id": 4, "Name": "4 - Strongly Agree" }];
                     $scope.survey_sex = [{ "Id": 1, "Name": "Male" }, { "Id": 2, "Name": "Female" }];
@@ -164,7 +164,7 @@
                                             }
                                             break;
                                     }
-                                    
+
                                     //if talakayan year is 2015
                                     if ($scope.data.talakayan_yr_id == 1) {
                                         $scope.maxStartDate = new Date("01/01/2015");
@@ -368,6 +368,7 @@
                             $scope.attachment.mov_list_id = null;
 
                             $scope.uploadAttachment = function () {
+                                $.blockUI({ message: '<br>Processing...<br><br>' });
                                 var fileUpload = $("#files").get(0);
                                 var files = fileUpload.files;
                                 var data = new FormData();
@@ -393,6 +394,9 @@
                                         var base = window.location.origin;
                                         message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
                                         $scope.attached_documents.push(message);
+                                        $scope.attachment = {};
+                                        setTimeout($.unblockUI, 3);
+                                        angular.element("input[type='file']").val(null);
                                     },
                                     error: function (message) {
                                         alert(JSON.stringify(message.responseText));

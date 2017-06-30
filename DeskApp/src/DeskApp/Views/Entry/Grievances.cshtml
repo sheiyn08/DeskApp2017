@@ -79,7 +79,7 @@
                                 </div>
 
                                 <div class="panel-heading" ng-show="data.training_category_id != null">
-                                    <h4>* This is taken Directly from Activities, some fields cannot be updated in this module (Location, date intake, etc)</h4>
+                                    <h5><i>* This is taken directly from Activities, some fields cannot be updated in this module (Location, date intake, etc)</i></h5>
 
                                 </div>
 
@@ -144,7 +144,7 @@
 
                                         <div class="form-group" show-errors='{showSuccess: true}'>
 
-                                            <md-datepicker name="Date Intake" ng-model="dt_resolution_date" md-placeholder="Enter date" ng-change="data.resolution_date = dt_resolution_date.toISOString()" ng-required="data.grs_resolution_status_id == 1" md-min-date="maxDate" md-max-date="today"></md-datepicker>
+                                            <md-datepicker name="Date Addressed" ng-model="dt_resolution_date" md-placeholder="Enter date" ng-change="data.resolution_date = dt_resolution_date.toISOString()" ng-required="data.grs_resolution_status_id == 1" md-min-date="maxDate" md-max-date="today"></md-datepicker>
                                             <p class="help-block" ng-if="myForm.dt_resolution_date.$error.required">Date of Intake required</p>
 
                                         </div>
@@ -811,6 +811,7 @@
 
 @section Scripts
 {
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
     <script>
 
         angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
@@ -846,22 +847,22 @@
 
               $scope.loading = true;
               $scope.data = response.data;
-              
+
               $scope.dt_date_intake = response.data.date_intake == undefined ? null : new Date(response.data.date_intake);
-              
+
               $scope.minStartDate = new Date("01/01/2014");
               $scope.today = new Date();
-              $scope.maxDate = new Date($scope.dt_date_intake);                           
+              $scope.maxDate = new Date($scope.dt_date_intake);
 
-              
-              
+
+
               $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
               $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
               $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
               $scope.data.brgy_code = $scope.data.brgy_code == 0 ? "" : $scope.data.brgy_code;
               $scope.data.fund_source_id = $scope.data.fund_source_id == 0 ? "" : $scope.data.fund_source_id;
 
-             
+
 
               $scope.data.grs_form_id = $scope.data.grs_form_id == 0 ? "" : $scope.data.grs_form_id;
               $scope.data.grs_intake_level_id = $scope.data.grs_intake_level_id == 0 ? "" : $scope.data.grs_intake_level_id;
@@ -872,11 +873,11 @@
               $scope.data.grs_complaint_subject_id = $scope.data.grs_complaint_subject_id == 0 ? "" : $scope.data.grs_complaint_subject_id;
               $scope.data.sex_id = $scope.data.sex_id == 0 ? "" : $scope.data.sex_id;
 
-              
+
               $scope.dt_resolution_date = response.data.resolution_date == undefined ? null : new Date(response.data.resolution_date);
 
 
-              
+
 
               $scope.$watch('data.intake_area_level', function (newValue, oldValue) {
                   if ($scope.data.intake_area_level == 1) {
@@ -897,7 +898,7 @@
               });
 
 
-              
+
 
 
               $scope.$watch('data.is_ip', function (newValue, oldValue) {
@@ -999,7 +1000,7 @@
               $http.get('/Api/lib_grs_intake_officer/')
         .then(function (response) { $scope.grs_intake_officer_id_options = response.data; });
 
-              
+
 
               $scope.loading = false;
 
@@ -1033,7 +1034,7 @@
                   }
 
                   else {
-
+                      $.blockUI({ message: '<br>Processing...<br><br>' });
                       var fileUpload = $("#files").get(0);
                       var files = fileUpload.files;
                       var data = new FormData();
@@ -1062,6 +1063,8 @@
                               message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
                               $scope.attached_documents.push(message);
                               $scope.attachment = {};
+                              setTimeout($.unblockUI, 3);
+                              angular.element("input[type='file']").val(null);
                           },
                           error: function (message) {
                               alert(JSON.stringify(message.responseText));

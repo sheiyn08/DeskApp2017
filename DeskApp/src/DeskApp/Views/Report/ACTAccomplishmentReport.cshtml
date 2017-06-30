@@ -155,6 +155,7 @@
                             <thead>
                                 <tr>
                                     <th>Activity Name</th>
+                                    <th>Barangay</th>
                                     <th>Target Date</th>
                                     <th>Actual Date of Conduct</th>
                                     <th>Status  of Schedule</th>
@@ -162,6 +163,7 @@
                             </thead>
                             <tr ng-repeat="item in ceac_list">
                                 <td>{{item.lib_training_category_name}}</td>
+                                <td>{{item.brgy_name}}</td>
                                 <td>{{item.plan_start | date:'MM/dd/yyyy'}} - {{item.plan_end | date:'MM/dd/yyyy'}}</td>
                                 <td>{{item.actual_start | date:'MM/dd/yyyy'}} - {{item.actual_end | date:'MM/dd/yyyy'}}</td>
                                 <td>

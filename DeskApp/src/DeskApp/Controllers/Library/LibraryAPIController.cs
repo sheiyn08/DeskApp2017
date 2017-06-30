@@ -208,12 +208,12 @@ namespace DeskApp.Controllers
             //BLGU
             if (lgu_level_id == 1)
             {
-                return Json(db.lib_training_category.Where(x => x.is_active != null && x.is_barangay != null && x.is_ceac_tracking_only != true).OrderBy(x => x.name).Select(x => new { Id = x.training_category_id, Name = x.description }));
+                return Json(db.lib_training_category.Where(x => x.is_active != false && x.is_barangay != null && x.is_ceac_tracking_only != true).OrderBy(x => x.name).Select(x => new { Id = x.training_category_id, Name = x.description }));
                 
             }
             else
             {
-                return Json(db.lib_training_category.Where(x => x.is_active != null && x.is_municipality != null && x.is_ceac_tracking_only != true).OrderBy(x => x.name).Select(x => new { Id = x.training_category_id, Name = x.description }));
+                return Json(db.lib_training_category.Where(x => x.is_active != false && x.is_municipality != null && x.is_ceac_tracking_only != true).OrderBy(x => x.name).Select(x => new { Id = x.training_category_id, Name = x.description }));
                 
             }
 
@@ -296,6 +296,17 @@ namespace DeskApp.Controllers
             return Json(db.lib_training_category.Where(x => x.brgy_sort_order != null).OrderBy(x => x.brgy_sort_order).Select(x => new { Id = x.training_category_id, Name = x.name }));
 
         }
+
+
+        //add: June 6, 2017
+        [Route("api/offline/lib_organization")]
+        public ActionResult lib_organization()
+        {
+            return Json(db.lib_organization.Select(x => new { Id = x.organization_id, Name = x.name }));
+
+        }
+
+
 
         //[Route("api/lib_indigenous_groups")]
         //public ActionResult GetIPGroups()

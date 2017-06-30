@@ -158,6 +158,7 @@
 @section Scripts
     {
     <script src="~/scripts/directives/ngAppMax.js"></script>
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
 
     <script>
 
@@ -184,7 +185,7 @@
               $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
               $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
               $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
-         
+
 
 
               $scope.data.fund_source_id = $scope.data.fund_source_id == 0 ? "" : $scope.data.fund_source_id;
@@ -197,7 +198,7 @@
               $scope.maxYear = new Date().getFullYear();
 
 
-           
+
 
               $scope.data.financial_sources = [];// JSON.parse($scope.data.financial_sources);
               $scope.data.gad_activities = [];// = JSON.parse($scope.data.gad_activities);
@@ -243,6 +244,7 @@
                   }
 
                   else {
+                      $.blockUI({ message: '<br>Processing...<br><br>' });
                       var fileUpload = $("#files").get(0);
                       var files = fileUpload.files;
                       var data = new FormData();
@@ -276,12 +278,12 @@
                           data: data,
                           success: function (message) {
                               var base = window.location.origin;
-
                               message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
 
                               $scope.attached_documents.push(message);
-
                               $scope.attachment = {};
+                              setTimeout($.unblockUI, 3);
+                              angular.element("input[type='file']").val(null);
                           },
                           error: function (message) {
                               alert(JSON.stringify(message.responseText));

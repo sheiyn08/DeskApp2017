@@ -683,11 +683,7 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/trainings/get_dto")]
         public PagedCollection<community_trainingDTO> GetDTO(AngularFilterModel item)
         {
-
-
             var model = GetData(item);
-
-
 
             var totalCount = model.Count();
 
@@ -696,19 +692,49 @@ namespace DeskApp.Controllers
 
             return new PagedCollection<community_trainingDTO>()
             {
-               
-
                 TotalSync = model.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).Count(),
-
                 TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
-
-
                 Page = currPages,
                 TotalCount = totalCount,
                 TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+                
+                Items = model.OrderBy(x => x.community_training_id)
+                .Select(x => new community_trainingDTO
+                {
+                    community_training_id = x.community_training_id,
+                    lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
+                    lib_city_city_name = x.lib_city.city_name,
+                    lib_province_prov_name = x.lib_province.prov_name,
+                    lib_region_region_name = x.lib_region.region_name,
+                    lib_lgu_level_name = x.lib_lgu_level.name,
+                    lib_training_category_name = x.lib_training_category.name,
+                    training_title = x.training_title,
+                    lib_fund_source_name = x.lib_fund_source.name,
+                    lib_cycle_name = x.lib_cycle.name,
+                    lib_enrollment_name = x.lib_enrollment.name,
+                    push_date = x.push_date,
+                    push_status_id = x.push_status_id,
+                    last_modified_date = x.last_modified_date
+                }).Skip(currPages * size).Take(size).ToList(),
+            };
+        }
 
+        [HttpPost]
+        [Route("api/offline/v1/trainings/get_recently_edited")]
+        public PagedCollection<community_trainingDTO> get_recently_edited(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            var totalCount = model.Where(x => x.push_status_id != 1 && (x.push_status_id == 3 && x.is_deleted != true)).Count();
+            int currPages = item.currPage ?? 0;
+            int size = item.pageSize ?? 10;
 
-                //   Items = model.OrderBy(x => x.training_title).Skip(currPages * size).Select(community_trainingDTO.SELECT).Take(size).ToList()
+            return new PagedCollection<community_trainingDTO>()
+            {
+                TotalSync = model.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).Count(),
+                TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
+                Page = currPages,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
 
                 Items = model.OrderBy(x => x.community_training_id)
                 .Select(x => new community_trainingDTO
@@ -725,10 +751,91 @@ namespace DeskApp.Controllers
                     lib_cycle_name = x.lib_cycle.name,
                     lib_enrollment_name = x.lib_enrollment.name,
                     push_date = x.push_date,
+                    push_status_id = x.push_status_id,
                     last_modified_date = x.last_modified_date
-                }).Skip(currPages * size).Take(size).ToList(),
+                })
+                .Where(x => x.push_status_id != 1 && (x.push_status_id == 3 && x.is_deleted != true))
+                .Skip(currPages * size).Take(size).ToList(),
+            };
+        }
 
+        [HttpPost]
+        [Route("api/offline/v1/trainings/get_recently_added")]
+        public PagedCollection<community_trainingDTO> get_recently_added(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            var totalCount = model.Where(x => x.push_status_id != 1 && (x.push_status_id == 2 && x.is_deleted != true)).Count();
+            int currPages = item.currPage ?? 0;
+            int size = item.pageSize ?? 10;
 
+            return new PagedCollection<community_trainingDTO>()
+            {
+                TotalSync = model.Where(x => x.push_status_id != 1 && (x.push_status_id == 2 && x.is_deleted != true)).Count(),
+                TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
+                Page = currPages,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+
+                Items = model.OrderBy(x => x.community_training_id)
+                .Select(x => new community_trainingDTO
+                {
+                    community_training_id = x.community_training_id,
+                    lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
+                    lib_city_city_name = x.lib_city.city_name,
+                    lib_province_prov_name = x.lib_province.prov_name,
+                    lib_region_region_name = x.lib_region.region_name,
+                    lib_lgu_level_name = x.lib_lgu_level.name,
+                    lib_training_category_name = x.lib_training_category.name,
+                    training_title = x.training_title,
+                    lib_fund_source_name = x.lib_fund_source.name,
+                    lib_cycle_name = x.lib_cycle.name,
+                    lib_enrollment_name = x.lib_enrollment.name,
+                    push_date = x.push_date,
+                    push_status_id = x.push_status_id,
+                    last_modified_date = x.last_modified_date
+                })
+                .Where(x => x.push_status_id != 1 && (x.push_status_id == 2 && x.is_deleted != true))
+                .Skip(currPages * size).Take(size).ToList(),
+            };
+        }
+
+        [HttpPost]
+        [Route("api/offline/v1/trainings/get_recently_edited_and_added")]
+        public PagedCollection<community_trainingDTO> get_recently_edited_and_added(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            var totalCount = model.Where(x => x.push_status_id != 1 && ((x.push_status_id == 2 || x.push_status_id == 3) && x.is_deleted != true)).Count();
+            int currPages = item.currPage ?? 0;
+            int size = item.pageSize ?? 10;
+
+            return new PagedCollection<community_trainingDTO>()
+            {
+                TotalSync = model.Where(x => x.push_status_id != 1 && ((x.push_status_id == 2 || x.push_status_id == 3) && x.is_deleted != true)).Count(),
+                TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
+                Page = currPages,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+
+                Items = model.OrderBy(x => x.community_training_id)
+                .Select(x => new community_trainingDTO
+                {
+                    community_training_id = x.community_training_id,
+                    lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
+                    lib_city_city_name = x.lib_city.city_name,
+                    lib_province_prov_name = x.lib_province.prov_name,
+                    lib_region_region_name = x.lib_region.region_name,
+                    lib_lgu_level_name = x.lib_lgu_level.name,
+                    lib_training_category_name = x.lib_training_category.name,
+                    training_title = x.training_title,
+                    lib_fund_source_name = x.lib_fund_source.name,
+                    lib_cycle_name = x.lib_cycle.name,
+                    lib_enrollment_name = x.lib_enrollment.name,
+                    push_date = x.push_date,
+                    push_status_id = x.push_status_id,
+                    last_modified_date = x.last_modified_date
+                })
+                .Where(x => x.push_status_id != 1 && ((x.push_status_id == 2 || x.push_status_id == 3) && x.is_deleted != true))
+                .Skip(currPages * size).Take(size).ToList(),
             };
         }
 
@@ -984,50 +1091,48 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/trainings/save")]
         public async Task<IActionResult> Save(community_training model, bool? api)
         {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest();
+            //}
 
             var record = db.community_training.AsNoTracking().FirstOrDefault(x => x.community_training_id == model.community_training_id);
 
             if (record == null)
             {
-
-
+                
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
+
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
                 }
-                else
+
+                //because api is set to TRUE in sync/get
+                if (api == true)
                 {
                     model.push_status_id = 1;
+                    model.is_deleted = false;
                 }
 
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-
-                model.is_deleted = false;
                 db.community_training.Add(model);
 
 
                 try
                 {
                     await db.SaveChangesAsync();
-
                     await SaveTracking(model, false);
-
                     return Ok();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
+                
             }
             else
             {
@@ -1039,16 +1144,9 @@ namespace DeskApp.Controllers
                     model.push_status_id = 3;
                     model.approval_id = 3;
                 }
-
-                else
-                {
-                    model.push_status_id = 1;
-                }
-
+                
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
 
@@ -1058,7 +1156,6 @@ namespace DeskApp.Controllers
                 {
                     await db.SaveChangesAsync();
                     await SaveTracking(model, false);
-
                     return Ok();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -1225,10 +1322,13 @@ namespace DeskApp.Controllers
 
                 record.actual_start = model.start_date;
                 record.actual_end = model.end_date;
+                //test: RDR 06/21/17 to test if deleted training's record will be cleared in CEAC tracking
+                record.reference_id = model.community_training_id;
 
-
-                if (record.actual_end != null && record.actual_start != null) record.implementation_status_id = 1;
-
+                if (record.actual_end != null && record.actual_start != null) {
+                    record.implementation_status_id = 1;
+                }
+                
 
                 if (record.implementation_status_id == 1)
                 {
@@ -1418,10 +1518,10 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                var items_preselected = db.community_training.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.community_training.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any()) {
-                    var items = db.community_training.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                    var items = db.community_training.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
                     if (record_id != null)
                     {
@@ -1441,14 +1541,14 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            item.push_status_id = 4;
-                            item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
+                            //item.push_status_id = 4;
+                            //item.push_date = DateTime.Now;
+                            //await db.SaveChangesAsync();
                         }
                     }
                 }
                 else {
-                    var items = db.community_training.Where(x => x.push_status_id == 5 && x.is_deleted != true);
+                    var items = db.community_training.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
 
                     if (record_id != null)
                     {
@@ -1468,9 +1568,9 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            item.push_status_id = 4;
-                            item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
+                            //item.push_status_id = 4;
+                            //item.push_date = DateTime.Now;
+                            //await db.SaveChangesAsync();
                         }
                     }
                 }  
@@ -1915,7 +2015,7 @@ namespace DeskApp.Controllers
                 // var model = new auth_messages();
 
 
-                var items = db.person_training.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                var items = db.person_training.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
                 if (record_id != null)
                 {
@@ -1984,7 +2084,7 @@ namespace DeskApp.Controllers
                 // var model = new auth_messages();
 
 
-                var items = db.psa_problem.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                var items = db.psa_problem.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
                 if (record_id != null)
                 {
@@ -2051,7 +2151,7 @@ namespace DeskApp.Controllers
                 // var model = new auth_messages();
 
 
-                var items = db.psa_solution.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                var items = db.psa_solution.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
 
 
@@ -2116,7 +2216,7 @@ namespace DeskApp.Controllers
                 // var model = new auth_messages();
 
 
-                var items = db.mibf_criteria.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                var items = db.mibf_criteria.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
 
 
@@ -2180,7 +2280,7 @@ namespace DeskApp.Controllers
                 // var model = new auth_messages();
 
 
-                var items = db.mibf_prioritization.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                var items = db.mibf_prioritization.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
 
 

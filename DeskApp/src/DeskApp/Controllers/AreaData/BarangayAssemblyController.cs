@@ -49,7 +49,7 @@ namespace DeskApp.Controllers
                     training_category_id = 42;
                     break;
                 case 5:
-                    training_category_id = 42;
+                    training_category_id = 43;
                     break;
             }
 
@@ -99,17 +99,10 @@ namespace DeskApp.Controllers
             else
             {
                 id = ceac_list.ceac_list_id;
-
-
             }
 
             if (record == null)
             {
-
-
-
-
-
                 var training_cat = db.lib_training_category.FirstOrDefault(x => x.training_category_id == training_category_id);
 
                 if (training_cat.is_ceac != true)
@@ -118,12 +111,12 @@ namespace DeskApp.Controllers
                 }
 
 
-                if (api != true)
-                {
-                    model.push_status_id = 2;
-                    model.push_date = null;
+                //if (api != true)
+                //{
+                //    model.push_status_id = 2;
+                //    model.push_date = null;
 
-                }
+                //}
 
 
 
@@ -189,13 +182,13 @@ namespace DeskApp.Controllers
             }
             else
             {
-                model.push_date = null;
+                //model.push_date = null;
 
 
-                if (api != true)
-                {
-                    model.push_status_id = 3;
-                }
+                //if (api != true)
+                //{
+                //    model.push_status_id = 3;
+                //}
 
                 record.actual_start = model.date_start;
                 record.actual_end = model.date_end;
@@ -454,46 +447,29 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/barangay_assembly/save")]
         public async Task<IActionResult> Save(brgy_assembly model, bool? api)
         {
-
-
-
-
             var record = db.brgy_assembly.AsNoTracking().FirstOrDefault(x => x.brgy_assembly_id == model.brgy_assembly_id);
 
             if (record == null)
             {
-
-                //var exists = db.brgy_assembly.FirstOrDefault(x =>
-                //x.brgy_assembly_id == model.brgy_assembly_id
-                //    );
-
-                //if (exists != null)
-                //{
-                //    //  if (api != true)
-                //    ////  {
-                //    return
-                //        BadRequest(
-                //            new
-                //            {
-                //                message = "Record Already Exist for this Activity, Edit this instead?",
-                //                id = exists.brgy_assembly_id
-                //            });
-                //    // }
-                //}
-
-
+                
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
 
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.approval_id = 3;
+                    model.is_deleted = false;
                 }
 
+                //because api is set to TRUE in sync/get
+                if (api == true)
+                {
+                    model.push_status_id = 1;
+                    model.is_deleted = false;
+                }
 
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.approval_id = 3;
-                model.is_deleted = false;
 
                 db.brgy_assembly.Add(model);
 
@@ -501,8 +477,6 @@ namespace DeskApp.Controllers
                 try
                 {
                     await db.SaveChangesAsync();
-
-
                     await SaveTracking(model, false);
                     return Ok(model);
                 }
@@ -535,9 +509,7 @@ namespace DeskApp.Controllers
                 try
                 {
                     await db.SaveChangesAsync();
-
                     await SaveTracking(model, false);
-
                     return Ok();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -757,11 +729,11 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
                 
-                var items_preselected = db.brgy_assembly.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.brgy_assembly.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.brgy_assembly.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).ToList();
+                    var items = db.brgy_assembly.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true)).ToList();
                     foreach (var item in items)
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -775,7 +747,7 @@ namespace DeskApp.Controllers
                     }
                 }
                 else {
-                    var items = db.brgy_assembly.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                    var items = db.brgy_assembly.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true)).ToList();
                     foreach (var item in items)
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -811,7 +783,7 @@ namespace DeskApp.Controllers
 
                 // var model = new auth_messages();
 
-                var items = db.brgy_assembly_ip.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).ToList();
+                var items = db.brgy_assembly_ip.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true)).ToList();
                 foreach (var item in items)
                 {
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -822,6 +794,10 @@ namespace DeskApp.Controllers
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
                         await db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
             }
@@ -853,11 +829,15 @@ namespace DeskApp.Controllers
                              kc_mode = s.lib_enrollment.name,
                              ba_purpose = s.lib_barangay_assembly_purpose.name,
 
+                             ba_start = s.date_start,
+                             ba_end = s.date_end,
+                             ba_venue = s.venue,
+
                              highlights = @s.highlights,
 
 
 
-                             s.no_families,
+                             //s.no_families,
                              s.no_household,
 
                              s.no_atn_male,
@@ -876,7 +856,7 @@ namespace DeskApp.Controllers
                              s.no_ip_family,
 
                              s.total_household_in_barangay,
-                             s.total_families_in_barangay,
+                             //s.total_families_in_barangay,
 
                              is_sector_academe = s.is_sector_academe != null ? "Yes" : "",
                              is_sector_business = s.is_sector_business != null ? "Yes" : "",

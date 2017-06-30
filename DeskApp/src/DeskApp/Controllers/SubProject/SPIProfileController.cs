@@ -22,6 +22,7 @@ namespace DeskApp.Controllers
     public class SPIProfileController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        public static string test_url = @"http://10.10.10.157:8079";
         public static string geoUrl = @"http://geotagging.dswd.gov.ph";
 
 
@@ -236,7 +237,8 @@ namespace DeskApp.Controllers
                 try
                 {
                     await db.SaveChangesAsync();
-                    return Ok(model);
+                    //return Ok(model);
+                    return Ok(); //modified June 2, 2017 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -254,7 +256,8 @@ namespace DeskApp.Controllers
                 try
                 {
                     await db.SaveChangesAsync();
-                    return Ok(model);
+                    //return Ok(model);
+                    return Ok(); //modified June 2, 2017 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -315,7 +318,8 @@ namespace DeskApp.Controllers
                 try
                 {
                     await db.SaveChangesAsync();
-                    return Ok(model);
+                    //return Ok(model);
+                    return Ok(); //modified June 2, 2017 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -326,14 +330,15 @@ namespace DeskApp.Controllers
             }
             else
             {
-                model.Id = record.Id;
+                //model.Id = record.Id; //commented June 2, 2017
 
                 db.Entry(model).State = EntityState.Modified;
 
                 try
                 {
                     await db.SaveChangesAsync();
-                    return Ok(model);
+                    //return Ok(model);
+                    return Ok(); //modified June 2, 2017 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -490,8 +495,8 @@ namespace DeskApp.Controllers
 
                 if (api != true)
                 {
-                    //   model.push_status_id = 2;
-                    //  model.push_date = null;
+                    model.push_status_id = 2;
+                    model.push_date = null;
                     model.approval_id = 3;
                 }
 
@@ -510,28 +515,21 @@ namespace DeskApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
             }
             else
             {
-                // model.push_date = null;
-
-
+                model.push_date = null;
+                
                 if (api != true)
                 {
-                    //   model.push_status_id = 3;
-                    model.approval_id = 3;
+                    model.push_status_id = 3;
+                    //model.approval_id = 3;
                 }
-
-
-
+                
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
 
@@ -775,10 +773,7 @@ namespace DeskApp.Controllers
                     model.push_status_id = 3;
                     model.approval_id = 3;
                 }
-                else
-                {
-                    model.push_status_id = 1;
-                }
+                
 
                 model.push_date = null;
                 model.created_by = record.created_by;
@@ -1017,7 +1012,8 @@ namespace DeskApp.Controllers
                         lib_fund_source_name = db.lib_fund_source.FirstOrDefault(c => c.fund_source_id == x.modality_id).name,
                         lib_cycle_name = x.lib_cycle.name,
                         Phy_Perc_To_Date = x.Phy_Perc_To_Date,
-                        last_updated_date = x.last_updated_date
+                        last_updated_date = x.last_updated_date,
+                        push_status_id = x.push_status_id,
                     })
                     .Take(size).ToList(),
                 };
@@ -1056,7 +1052,8 @@ namespace DeskApp.Controllers
                         sub_project_name = x.sub_project_name,
                         lib_fund_source_name = db.lib_fund_source.FirstOrDefault(c => c.fund_source_id == x.modality_id).name,
                         lib_cycle_name = x.lib_cycle.name,
-                        Phy_Perc_To_Date = x.Phy_Perc_To_Date
+                        Phy_Perc_To_Date = x.Phy_Perc_To_Date,
+                        push_status_id = x.push_status_id,
                     })
                     .Take(size).ToList(),
             };
@@ -1095,7 +1092,8 @@ namespace DeskApp.Controllers
                         sub_project_name = x.sub_project_name,
                         lib_fund_source_name = db.lib_fund_source.FirstOrDefault(c => c.fund_source_id == x.modality_id).name,
                         lib_cycle_name = x.lib_cycle.name,
-                        Phy_Perc_To_Date = x.Phy_Perc_To_Date
+                        Phy_Perc_To_Date = x.Phy_Perc_To_Date,
+                        push_status_id = x.push_status_id,
                     })
                     .Take(size).ToList(),
             };
@@ -1134,7 +1132,8 @@ namespace DeskApp.Controllers
                         sub_project_name = x.sub_project_name,
                         lib_fund_source_name = db.lib_fund_source.FirstOrDefault(c => c.fund_source_id == x.modality_id).name,
                         lib_cycle_name = x.lib_cycle.name,
-                        Phy_Perc_To_Date = x.Phy_Perc_To_Date
+                        Phy_Perc_To_Date = x.Phy_Perc_To_Date,
+                        push_status_id = x.push_status_id,
                     })
                     .Take(size).ToList(),
             };
@@ -1144,18 +1143,7 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/sub_projects/save")]
         public async Task<IActionResult> Save(sub_project model, bool? api)
         {
-            // return Ok(model);
-
-            //if (!ModelState.IsValid)
-            
-            //{
-            //    return BadRequest();
-            //}
-
-
-
-
-            if(api != true)
+            if (api != true)
             {
                 int physical_status_category_id = 0;
                 //category 1
@@ -1202,7 +1190,7 @@ namespace DeskApp.Controllers
                 model.physical_status_category_id = physical_status_category_id;
 
 
-                
+
 
                 if (model.physical_status_id == 1 && model.Date_of_Completion == null)
                 {
@@ -1285,35 +1273,27 @@ namespace DeskApp.Controllers
             }
 
             var record = db.sub_project.AsNoTracking().FirstOrDefault(x => x.sub_project_unique_id == model.sub_project_unique_id);
-
-
-
+            
 
             if (record == null)
-            {
-
-
+            {                
                 if (api != true)
                 {
                     model.push_status_id = 2;
-                    //  model.push_date = null;
-                    //    model.approval_id = 3;
-
+                    model.created_by = "";
+                    model.created_date = DateTime.Now;
+                    model.IsActive = true;
                 }
-                else
+
+                //because api is set to TRUE in sync/get
+                if (api == true)
                 {
                     model.push_status_id = 1;
+                    model.IsActive = true;
                 }
 
-
-                model.created_by = "";
-                model.created_date = DateTime.Now;
-
-                model.IsActive = true;
                 db.sub_project.Add(model);
-
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -1321,40 +1301,26 @@ namespace DeskApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
             }
             else
             {
-                // model.push_date = null;
-
+                //model.push_date = null; -- no push_date column for sub_project
 
                 if (api != true)
                 {
-                    //   model.push_status_id = 3;
+                    model.push_status_id = 3;
                     model.approval_id = 3;
                 }
-                else
-                {
-
-                }
-
-
 
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
-
-
+                model.created_date = record.created_date;                
                 model.last_updated_by = "";
                 model.last_updated_date = DateTime.Now;
 
                 db.Entry(model).State = EntityState.Modified;
-
-
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -1702,19 +1668,14 @@ namespace DeskApp.Controllers
 
                         if (record == null)
                         {
-
-
-
-                       
-                            item.push_status_id = 1;
+                            //item.push_status_id = 1;
 
                             db.sub_project_coverage.Add(item);
 
 
                             try
                             {
-                                await db.SaveChangesAsync();
- 
+                                await db.SaveChangesAsync(); 
                             }
                             catch (DbUpdateConcurrencyException)
                             {
@@ -1723,10 +1684,9 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-
-                            item.id = record.id;
-
-                            item.sub_project_id = record.sub_project_id;
+                            //Commented: June 2, 2017
+                            //item.id = record.id;
+                            //item.sub_project_id = record.sub_project_id;
  
 
                             db.Entry(item).State =  EntityState.Modified;

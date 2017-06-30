@@ -20,7 +20,7 @@
                 <label for="Region:_">Geotagging SP ID</label>
             </div>
             <div flex>
-                <input type="number" min="0" name="Geotagging SP ID" class="form-control" ng-model="data.geotagging_spid" ng-required="true" />               
+                <input type="number" min="0" name="Geotagging SP ID" class="form-control" ng-model="data.sub_project_id" ng-required="data.modality_id == 7" ng-disabled="data.sub_project_id !=null"/>               
             </div>
         </div>
 
@@ -52,7 +52,7 @@
                 <label for="Region:_">Sub Project Name</label>
             </div>
             <div flex>
-                <input class="form-control" ng-model='data.sub_project_name' required name="sub_project_name" />
+                <input class="form-control" ng-model='data.sub_project_name' required name="sub_project_name" ng-disabled="true" />
                 <div ng-messages="myForm.sub_project_name.$error">
                     <div ng-message="required" class="error">Sub Project Name is required.</div>
                 </div>
@@ -64,7 +64,7 @@
                 <label for="Region:_">Project type</label>
             </div>
             <div flex>
-                <select name="project_type_id" ng-model="data.project_type_id" class="form-control" ng-disabled="data.modality_id == 12" required
+                <select name="project_type_id" ng-model="data.project_type_id" class="form-control" ng-disabled="true" required
                         ng-options="option.Id as option.Name for option in project_type_id_options">
                     <option value="">[Select Project Type]</option>
                 </select>
@@ -81,7 +81,7 @@
             <div flex>Public School for IP (Lumad)?</div>
             <div flex>
 
-                <md-checkbox ng-model="data.is_public_school_for_ip" aria-label="Checkbox 1">
+                <md-checkbox ng-model="data.is_public_school_for_ip" aria-label="Checkbox 1" ng-disabled="true">
 
                 </md-checkbox>
 

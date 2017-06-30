@@ -56,10 +56,10 @@ namespace DeskApp.Controllers
                 
             }).Select(x => new
             {
+                region_name = x.Key.region_name,
+                province_name = x.Key.prov_name,
+                city_name = x.Key.city_name,
                 brgy_name = x.Key.brgy_name,
-                x.Key.city_name,
-                x.Key.prov_name,
-                x.Key.region_name,
                 committee_name = x.Key.name,
 
                 male_chair = x.Where(xc => xc.person_profile.sex == true && xc.volunteer_committee_position_id == 2).Count(),
@@ -204,10 +204,10 @@ namespace DeskApp.Controllers
             }).
             Select(x => new
             {
-               brgy_name = x.Key.brgy_name,
-               x.Key.city_name,
-               x.Key.prov_name,
-               x.Key.region_name,
+                region_name = x.Key.region_name,
+                province_name = x.Key.prov_name,
+                city_name = x.Key.city_name,
+                brgy_name = x.Key.brgy_name,
 
                 //male = x.Where(xc => xc.person_profile.sex == true).Count(),
                 //female = x.Where(t => t.person_profile.sex != true).Count(),
@@ -240,6 +240,11 @@ namespace DeskApp.Controllers
             var result = from s in model
                          select new
                          {
+                             s.lib_region.region_name,
+                             s.lib_province.prov_name,
+                             s.lib_city.city_name,
+                             s.lib_brgy.brgy_name,
+
                              s.person_profile_id,
 
                              s.first_name,
@@ -331,6 +336,11 @@ namespace DeskApp.Controllers
                          {
                              s.person_profile_id,
 
+                             s.lib_region.region_name,
+                             s.lib_province.prov_name,
+                             s.lib_city.city_name,
+                             brgy_name = s.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(x => x.brgy_code == s.brgy_code).brgy_name,
+
                              s.first_name,
                              s.middle_name,
                              s.last_name,
@@ -343,7 +353,7 @@ namespace DeskApp.Controllers
                              committee = p.lib_volunteer_committee.name,
                              position = p .lib_volunteer_committee_position.name,
 
-                             brgy_name = s.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(x => x.brgy_code == s.brgy_code).brgy_name,
+                             
 
                              marital_status = s.lib_civil_status.name,
 
@@ -398,6 +408,12 @@ namespace DeskApp.Controllers
                          {
                              s.person_profile_id,
 
+                             s.lib_region.region_name,
+                             s.lib_province.prov_name,
+                             s.lib_city.city_name,
+                             brgy_name = s.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(x => x.brgy_code == s.brgy_code).brgy_name,
+
+
                              s.first_name,
                              s.middle_name,
                              s.last_name,
@@ -406,7 +422,7 @@ namespace DeskApp.Controllers
                              age = s.birthdate == null ? "" : (DateTime.Now.Year - s.birthdate.Value.Year).ToString(),
                              committee = p.lib_volunteer_committee.name,
                              position = p.lib_volunteer_committee_position.name,
-                             brgy_name = s.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(x => x.brgy_code == s.brgy_code).brgy_name,
+                             
                              cycle_id = p.lib_cycle.cycle_id,
                              fund_source_id = p.fund_source_id
                          };
@@ -414,6 +430,11 @@ namespace DeskApp.Controllers
             var items = result
                 .Select(x => new
                 {
+                    region_name = x.region_name,
+                    prov_name = x.prov_name,
+                    city_name = x.city_name,
+                    brgy_name = x.brgy_name,
+
                     cycle_id = x.cycle_id,
                     fund_source_id = x.fund_source_id,
                     first_name = x.first_name,
@@ -422,8 +443,7 @@ namespace DeskApp.Controllers
                     sex = x.sex,
                     age = x.age,
                     committee = x.committee,
-                    position = x.position,
-                    brgy_name = x.brgy_name
+                    position = x.position,                    
                 })
                 .Where(x => x.fund_source_id == selected_fund_source && x.cycle_id == item.cycle_id);
 
@@ -457,18 +477,15 @@ namespace DeskApp.Controllers
 
             }).Select(x => new
             {
+                region_name = x.Key.lib_region.region_name,
+                prov_name = x.Key.lib_province.prov_name,
+                city_name = x.Key.lib_city.city_name,
+                brgy_name = x.Key.lib_brgy.brgy_name,
 
                 fund_source_name = x.Key.lib_fund_source.name,
                 cycle_name = x.Key.lib_cycle.name,
                 kc_mode = x.Key.lib_enrollment.name,
-                region_name = x.Key.lib_region.region_name,
-
-                prov_name = x.Key.lib_province.prov_name,
-
-                city_name = x.Key.lib_city.city_name,
-                brgy_name = x.Key.lib_brgy.brgy_name,
-
-
+                
                 no_of_ait_head = x.Where(c => c.volunteer_committee_id == 1 && c.volunteer_committee_position_id == 2).Count(),
                 no_of_ait_member = x.Where(c => c.volunteer_committee_id == 1 && c.volunteer_committee_position_id == 1).Count(),
                 no_of_bac_head = x.Where(c => c.volunteer_committee_id == 2 && c.volunteer_committee_position_id == 2).Count(),
@@ -611,6 +628,11 @@ namespace DeskApp.Controllers
                          select new
                          {
                              s.person_profile_id,
+
+                             s.lib_region.region_name,
+                             s.lib_province.prov_name,
+                             s.lib_city.city_name,
+                             s.lib_brgy.brgy_name,
 
                              s.first_name,
                              s.middle_name,
@@ -1240,6 +1262,7 @@ namespace DeskApp.Controllers
                         lib_province_prov_name = x.lib_province.prov_name,
                         lib_region_region_name = x.lib_region.region_name,
                         push_date = x.push_date,
+                        push_status_id = x.push_status_id,
                         last_modified_date = x.last_modified_date
 
                     }).Skip(currPages * size).Take(size).ToList(),
@@ -1277,7 +1300,9 @@ namespace DeskApp.Controllers
                             lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
                             lib_city_city_name = x.lib_city.city_name,
                             lib_province_prov_name = x.lib_province.prov_name,
-                            lib_region_region_name = x.lib_region.region_name
+                            lib_region_region_name = x.lib_region.region_name,
+                            push_date = x.push_date,
+                            push_status_id = x.push_status_id,
 
                         }).Skip(currPages * size).Take(size).ToList(),
             };
@@ -1315,7 +1340,9 @@ namespace DeskApp.Controllers
                             lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
                             lib_city_city_name = x.lib_city.city_name,
                             lib_province_prov_name = x.lib_province.prov_name,
-                            lib_region_region_name = x.lib_region.region_name
+                            lib_region_region_name = x.lib_region.region_name,
+                            push_date = x.push_date,
+                            push_status_id = x.push_status_id,
 
                         }).Skip(currPages * size).Take(size).ToList(),
             };
@@ -1353,7 +1380,9 @@ namespace DeskApp.Controllers
                             lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
                             lib_city_city_name = x.lib_city.city_name,
                             lib_province_prov_name = x.lib_province.prov_name,
-                            lib_region_region_name = x.lib_region.region_name
+                            lib_region_region_name = x.lib_region.region_name,
+                            push_date = x.push_date,
+                            push_status_id = x.push_status_id,
 
                         }).Skip(currPages * size).Take(size).ToList(),
             };
@@ -1371,16 +1400,12 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/profiles/save")]
         public async Task<IActionResult> Save(person_profile model, bool? api)
         {
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest();
+            //}
 
-
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var record =
-                db.person_profile.AsNoTracking().FirstOrDefault(x => x.person_profile_id == model.person_profile_id);
+            var record = db.person_profile.AsNoTracking().FirstOrDefault(x => x.person_profile_id == model.person_profile_id);
 
             if (record == null)
             {
@@ -1391,16 +1416,20 @@ namespace DeskApp.Controllers
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
                 }
 
+                //because api is set to TRUE in sync/get
+                if (api == true)
+                {
+                    model.push_status_id = 1;
+                    model.is_deleted = false;
+                }
 
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-
-                model.is_deleted = false;
                 db.person_profile.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -1408,11 +1437,10 @@ namespace DeskApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
             }
+
             else
             {
                 model.push_date = null;
@@ -1424,12 +1452,8 @@ namespace DeskApp.Controllers
                     model.approval_id = 3;
                 }
 
-
-
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
 
@@ -1533,10 +1557,6 @@ namespace DeskApp.Controllers
                     foreach (var item in model.ToList())
                     {
                         await Save(item, true);
-
-
-
-
                     }
 
                     await GetVolunteer(username, password, city_code, record_id);
@@ -1640,11 +1660,11 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                var items_preselected = db.person_profile.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.person_profile.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.person_profile.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                    var items = db.person_profile.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
                    
                     if (record_id != null)
                     {
@@ -1658,19 +1678,19 @@ namespace DeskApp.Controllers
                         if (response.IsSuccessStatusCode)
                         {
                             item.push_status_id = 1;
-                            item.push_date = DateTime.Now;
+                             item.push_date = DateTime.Now;
                             await db.SaveChangesAsync();
                         }
                         else
                         {
-                            item.push_status_id = 4;
-                            item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
+                            //item.push_status_id = 4;
+                            //item.push_date = DateTime.Now;
+                            //await db.SaveChangesAsync();
                         }
                     }
                 }
                 else {
-                    var items = db.person_profile.Where(x => x.push_status_id == 5 && x.is_deleted != true);
+                    var items = db.person_profile.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
                     if (record_id != null)
                     {
                         items = items.Where(x => x.person_profile_id == record_id);
@@ -1687,9 +1707,9 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            item.push_status_id = 4;
-                            item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
+                            //item.push_status_id = 4;
+                            //item.push_date = DateTime.Now;
+                            //await db.SaveChangesAsync();
                         }
                     }
                 }  
@@ -1715,7 +1735,7 @@ namespace DeskApp.Controllers
 
                 // var model = new auth_messages();
 
-                var items = db.person_volunteer_record.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted != true));
+                var items = db.person_volunteer_record.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
                 if (record_id != null)
                 {
@@ -1737,9 +1757,9 @@ namespace DeskApp.Controllers
                     }
                     else
                     {
-                        item.push_status_id = 4;
-                        item.push_date = DateTime.Now;
-                        await db.SaveChangesAsync();
+                        //item.push_status_id = 4;
+                        //item.push_date = DateTime.Now;
+                        //await db.SaveChangesAsync();
                     }
                 }
             }
@@ -1886,33 +1906,40 @@ namespace DeskApp.Controllers
 
                 if (api != true)
                 {
-                    if (model.volunteer_committee_position_id == 2)
-                    {
-                        if (db.person_volunteer_record.Count(x => x.person_profile_id == model.person_profile_id &&
+                    if (db.person_volunteer_record.Count(x => x.person_profile_id == model.person_profile_id &&
                                                                   x.cycle_id == model.cycle_id &&
-                                                                  x.volunteer_committee_position_id == 2 &&
-                                                                  x.enrollment_id == model.enrollment_id &&
-                                                                  x.is_deleted != true) > 0)
-                        {
-
-                            return BadRequest("Cannot be head for more than 1 committee");
-                        }
-                    }
-
-                    else
-                    {
-                        if (db.person_volunteer_record.Count(x => x.person_profile_id == model.person_profile_id &&
-                                                                  x.cycle_id == model.cycle_id &&
-                                                                  x.volunteer_committee_position_id == 1 &&
-                                                                  model.volunteer_committee_position_id == 1 &&
                                                                   x.volunteer_committee_id == model.volunteer_committee_id &&
-                                                                  x.enrollment_id == model.enrollment_id &&
                                                                   x.is_deleted != true) > 0)
-                        {
-
-                            return BadRequest("Cannot be member  for more same  committee twice");
-                        }
+                    {
+                        return BadRequest("Volunteer cannot be a CHAIR or MEMBER on the same committee and cycle.");
                     }
+
+                    ////checking for CHAIR:
+                    //if (model.volunteer_committee_position_id == 2)
+                    //{
+                    //    if (db.person_volunteer_record.Count(x => x.person_profile_id == model.person_profile_id &&
+                    //                                              x.cycle_id == model.cycle_id &&
+                    //                                              x.volunteer_committee_id == model.volunteer_committee_id &&
+                    //                                              x.volunteer_committee_position_id == 2 &&
+                    //                                              x.is_deleted != true) > 0)
+                    //    {
+                    //        return BadRequest("Volunteer cannot be a CHAIR on the same committee and cycle.");
+                    //    }
+                    //}
+
+                    ////checking for MEMBER:
+                    //else
+                    //{
+                    //    if (db.person_volunteer_record.Count(x => x.person_profile_id == model.person_profile_id &&
+                    //                                              x.cycle_id == model.cycle_id &&
+                    //                                              x.volunteer_committee_id == model.volunteer_committee_id &&
+                    //                                              x.volunteer_committee_position_id == 1 &&
+                    //                                              x.is_deleted != true) > 0)
+                    //    {
+                    //        return BadRequest("Volunteer cannot be a MEMBER on the same committee and cycle.");
+                    //    }
+                    //}
+
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;

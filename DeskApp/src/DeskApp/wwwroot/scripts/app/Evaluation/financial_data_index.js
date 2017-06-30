@@ -19,6 +19,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
     $scope.list_of_selected_items = [];
 
+    $scope.showAlert = function () {
+        alert("Synchronize functionality for this module is temporarily unavailable.");
+    };
+
     window.onbeforeunload = function () {
         if ($scope.list_of_selected_items.length > 0 || $scope.needToConfirm == true) { //if value is true
             return "You have checked items for uploading. Click the Synchronize button to proceed with uploading or leave this page and changes made will not be saved."
@@ -80,6 +84,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
             });
         }
     }
+
+    $scope.GotoFinancialReport = function () {
+        window.location.href = "/Report/municipalfinancialprofile";
+    };
 
 
 
@@ -189,6 +197,41 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.clear = function () {
         $scope.data = {};
         $scope.search();
+        $scope.recently_edited_is_checked = false;
+        $scope.recently_added_is_checked = false;
+    }
+
+    $http.get('/api/report_list?id=92')
+   .then(function (response) {
+
+       $scope.report_list = response.data;
+   });
+
+
+    $scope.exportXls = function (dlUrl, name) {
+
+        $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
+
+        $.post(dlUrl, $scope.data).success(function (value) {
+            $scope.loading = false;
+
+
+            $scope.exported_data = value;
+
+            setTimeout($.unblockUI, 10);
+
+            alasql('SELECT * INTO XLSX("' + name + '.xlsx' + '",{headers:true}) FROM ?', [$scope.exported_data]);
+
+            $scope.isSearching = false;
+
+        }).error(function (data) {
+
+            alert(JSON.stringify(data));
+
+
+            $scope.error = "An Error has occured while Saving! " + data.statusText;
+            $scope.loading = false;
+        });
     }
 
 
@@ -199,10 +242,9 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         $scope.data.currPage = page == undefined ? '' : page;
 
         $scope.isSearching = true;
-
         $scope.isSearching = true;
 
-        $.post('/api/offline/v1/muni_financial_profile/get_search', $scope.data).success(function (value) {
+        $.post('/api/offline/v1/muni_financial_profile/get_dto', $scope.data).success(function (value) {
 
             $scope.loading = false;
 

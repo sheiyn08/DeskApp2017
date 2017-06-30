@@ -15,35 +15,35 @@ namespace DeskApp.DataLayer.Eval
 
         public int psgc_code { get; set; }
 
-        public int? overall_performance_index_2009 { get; set; }
-        public int? overall_performance_index_2010 { get; set; }
-        public int? overall_performance_index_2011 { get; set; }
-        public int? overall_performance_index_2012 { get; set; }
+        public float? overall_performance_index_2009 { get; set; }
+        public float? overall_performance_index_2010 { get; set; }
+        public float? overall_performance_index_2011 { get; set; }
+        public float? overall_performance_index_2012 { get; set; }
 
-        public int? administrative_governance_2009 { get; set; }
-        public int? administrative_governance_2010 { get; set; }
-        public int? administrative_governance_2011 { get; set; }
-        public int? administrative_governance_2012 { get; set; }
+        public float? administrative_governance_2009 { get; set; }
+        public float? administrative_governance_2010 { get; set; }
+        public float? administrative_governance_2011 { get; set; }
+        public float? administrative_governance_2012 { get; set; }
 
-        public int? social_governance_2009 { get; set; }
-        public int? social_governance_2010 { get; set; }
-        public int? social_governance_2011 { get; set; }
-        public int? social_governance_2012 { get; set; }
+        public float? social_governance_2009 { get; set; }
+        public float? social_governance_2010 { get; set; }
+        public float? social_governance_2011 { get; set; }
+        public float? social_governance_2012 { get; set; }
 
-        public int? economic_governance_2009 { get; set; }
-        public int? economic_governance_2010 { get; set; }
-        public int? economic_governance_2011 { get; set; }
-        public int? economic_governance_2012 { get; set; }
+        public float? economic_governance_2009 { get; set; }
+        public float? economic_governance_2010 { get; set; }
+        public float? economic_governance_2011 { get; set; }
+        public float? economic_governance_2012 { get; set; }
 
-        public int? environmental_governance_2009 { get; set; }
-        public int? environmental_governance_2010 { get; set; }
-        public int? environmental_governance_2011 { get; set; }
-        public int? environmental_governance_2012 { get; set; }
+        public float? environmental_governance_2009 { get; set; }
+        public float? environmental_governance_2010 { get; set; }
+        public float? environmental_governance_2011 { get; set; }
+        public float? environmental_governance_2012 { get; set; }
 
-        public int? valuing_fundamentals_of_good_gov_2009 { get; set; }
-        public int? valuing_fundamentals_of_good_gov_2010 { get; set; }
-        public int? valuing_fundamentals_of_good_gov_2011 { get; set; }
-        public int? valuing_fundamentals_of_good_gov_2012 { get; set; }
+        public float? valuing_fundamentals_of_good_gov_2009 { get; set; }
+        public float? valuing_fundamentals_of_good_gov_2010 { get; set; }
+        public float? valuing_fundamentals_of_good_gov_2011 { get; set; }
+        public float? valuing_fundamentals_of_good_gov_2012 { get; set; }
 
     }
 

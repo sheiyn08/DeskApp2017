@@ -30,6 +30,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
     $scope.list_of_selected_items = [];
 
+    $scope.showAlert = function () {
+        alert("Synchronize functionality for this module is temporarily unavailable.");
+    };
+
     window.onbeforeunload = function () {
         if ($scope.list_of_selected_items.length > 0 || $scope.needToConfirm == true) { //if value is true
             return "You have checked items for uploading. Click the Synchronize button to proceed with uploading or leave this page and changes made will not be saved."
@@ -90,6 +94,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.loading = false;
             });
         }
+    };
+
+    $scope.GotoTalakayanReport = function () {
+        window.location.href = "/Report/evaluation";
     };
 
 
@@ -188,28 +196,26 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         $scope.search();
     };
 
+    $http.get('/api/report_list?id=90')
+   .then(function (response) {
 
-    //SEARCH/FILTER function on Index
-    $scope.search = function (page) {
+       $scope.report_list = response.data;
+   });
 
-        $scope.data.pageSize = $scope.pageSize === undefined ? '' : $scope.pageSize;
-        $scope.data.currPage = page === undefined ? '' : page;
 
-        $scope.isSearching = true;
+    $scope.exportXls = function (dlUrl, name) {
 
-        $scope.isSearching = true;
+        $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
 
-        $.post('/api/offline/v1/talakayan_eval/get_dto', $scope.data).success(function (value) {
+        $.post(dlUrl, $scope.data).success(function (value) {
             $scope.loading = false;
 
-            // alert(JSON.stringify(value));
-            $scope.TotalUnAuthorized = value.TotalUnAuthorized;
-            $scope.TotalSync = value.TotalSync;
-            //  $scope.itemsToSync = value.data.itemsToSync;
-            $scope.page = value.Page;
-            $scope.pagesCount = value.TotalPages;
-            $scope.totalCount = value.TotalCount;
-            $scope.Items = value.Items;
+
+            $scope.exported_data = value;
+
+            setTimeout($.unblockUI, 10);
+
+            alasql('SELECT * INTO XLSX("' + name + '.xlsx' + '",{headers:true}) FROM ?', [$scope.exported_data]);
 
             $scope.isSearching = false;
 
@@ -221,6 +227,84 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
             $scope.error = "An Error has occured while Saving! " + data.statusText;
             $scope.loading = false;
         });
+    }
+
+
+    //SEARCH/FILTER function on Index
+    $scope.search = function (page) {
+
+        $scope.data.pageSize = $scope.pageSize === undefined ? '' : $scope.pageSize;
+        $scope.data.currPage = page === undefined ? '' : page;
+        $scope.isSearching = true;
+        $scope.isSearching = true;
+
+        if (($scope.data.filter_by_recent_edit) && (!$scope.data.filter_by_recent_add)) {
+            $.post('/api/offline/v1/talakayan_eval/get_recently_edited', $scope.data).success(function (value) {
+                $scope.loading = false;
+                $scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                $scope.TotalSync = value.TotalSync;
+                $scope.page = value.Page;
+                $scope.pagesCount = value.TotalPages;
+                $scope.totalCount = value.TotalCount;
+                $scope.Items = value.Items;
+                $scope.isSearching = false;
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                $scope.loading = false;
+            });
+        }
+
+        else if ((!$scope.data.filter_by_recent_edit) && ($scope.data.filter_by_recent_add)) {
+            $.post('/api/offline/v1/talakayan_eval/get_recently_added', $scope.data).success(function (value) {
+                $scope.loading = false;
+                $scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                $scope.TotalSync = value.TotalSync;
+                $scope.page = value.Page;
+                $scope.pagesCount = value.TotalPages;
+                $scope.totalCount = value.TotalCount;
+                $scope.Items = value.Items;
+                $scope.isSearching = false;
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                $scope.loading = false;
+            });
+        }
+
+        else if (($scope.data.filter_by_recent_edit) && ($scope.data.filter_by_recent_add)) {
+            $.post('/api/offline/v1/talakayan_eval/get_recently_edited_and_added', $scope.data).success(function (value) {
+                $scope.loading = false;
+                $scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                $scope.TotalSync = value.TotalSync;
+                $scope.page = value.Page;
+                $scope.pagesCount = value.TotalPages;
+                $scope.totalCount = value.TotalCount;
+                $scope.Items = value.Items;
+                $scope.isSearching = false;
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                $scope.loading = false;
+            });
+        }
+
+        else {
+            $.post('/api/offline/v1/talakayan_eval/get_dto', $scope.data).success(function (value) {
+                $scope.loading = false;
+                $scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                $scope.TotalSync = value.TotalSync;
+                $scope.page = value.Page;
+                $scope.pagesCount = value.TotalPages;
+                $scope.totalCount = value.TotalCount;
+                $scope.Items = value.Items;
+                $scope.isSearching = false;
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                $scope.loading = false;
+            });
+        }
 
 
     };

@@ -49,6 +49,7 @@ namespace DeskApp.DataLayer
                 old_id = x.old_id,
                 push_date = x.push_date,
                 last_modified_date = x.last_modified_date,
+                push_status_id = x.push_status_id
 
             };
 

@@ -51,6 +51,8 @@ namespace DeskApp.Controllers
                     old_id = x.old_id,
                     ceac_activity_id = x.ceac_activity_id,
 
+                    brgy_name = x.lib_brgy.brgy_name,
+
                     plan_start = x.plan_start,
                     plan_end = x.plan_end,
                     actual_start = x.actual_start,
@@ -701,6 +703,7 @@ namespace DeskApp.Controllers
                .Include(x => x.lib_city)
                .Include(x => x.lib_lgu_level)
                 .Include(x => x.lib_training_category)
+                .Where(x => x.is_deleted != true)
 
             .Select(x =>
                    new
@@ -1125,7 +1128,7 @@ namespace DeskApp.Controllers
                 
                 if (!items_preselected.Any())
                 { 
-                    var items = db.ceac_tracking.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).ToList();
+                    var items = db.ceac_list.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).ToList();
                     foreach (var item in items)
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -1137,11 +1140,16 @@ namespace DeskApp.Controllers
                             item.push_date = DateTime.Now;
                             await db.SaveChangesAsync();
                         }
+                        else
+                        {
+                            return BadRequest();
+                        }
                     }
 
                 }
                 else {
-                    var items = db.ceac_tracking.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                    var items = db.ceac_list.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                    
                     foreach (var item in items)
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");

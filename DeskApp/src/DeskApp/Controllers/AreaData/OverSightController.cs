@@ -231,10 +231,7 @@ namespace DeskApp.Controllers
           
         [Route("api/offline/v1/oversight_committee/save")]
         public async Task<IActionResult> Save(oversight_committee model, bool? api)
-        {
-
-
-         
+        {       
 
             var record = db.oversight_committee.AsNoTracking().FirstOrDefault(x => x.oversight_committee_id == model.oversight_committee_id);
 
@@ -246,14 +243,19 @@ namespace DeskApp.Controllers
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
-
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.approval_id = 3;
+                    model.is_deleted = false;
                 }
 
+                //because api is set to TRUE in sync/get
+                if (api == true)
+                {
+                    model.push_status_id = 1;
+                    model.is_deleted = false;
+                }
 
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.approval_id = 3;
-                model.is_deleted = false;
 
                 db.oversight_committee.Add(model);
 
@@ -268,6 +270,8 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
+
+
             else
             {
                 model.push_date = null;
@@ -278,12 +282,8 @@ namespace DeskApp.Controllers
                     model.push_status_id = 3;
                 }
 
-
-
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
 

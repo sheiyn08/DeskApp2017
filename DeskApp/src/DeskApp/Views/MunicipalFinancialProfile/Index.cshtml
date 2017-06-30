@@ -21,14 +21,14 @@
                     </div>
                 </div><br />
 
-                <div class="row">
+                @*<div class="row">
                     <div class="col-md-3">
                         <md-checkbox ng-model="data.filter_by_recent_edit" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Edited</b> record</md-checkbox>
                     </div>
                     <div class="col-md-3">
-                        <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
+                        <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_added_is_checked=true">Recently <b>Added</b> record</md-checkbox>
                     </div>
-                </div><br />
+                </div><br />*@
 
                 <div class="row">
                     <div class="col-md-3">
@@ -87,7 +87,10 @@
             <a class="btn btn-warning" ng-click="clear()">
                 <i class="fa fa-recycle fa-lg"></i>  Clear
             </a>
-            @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+            <a class="btn btn-primary" ng-click="showAlert()">
+                <i class="fa fa-cloud fa-lg"></i>   Synchronize
+            </a>
+            @*@Html.Partial("~/Views/Shared/_sync_dialog.cshtml")*@
         </div>
         <div style="margin:25px">
 
@@ -108,6 +111,10 @@
                     </md-content>
                 </md-content>
             </md-tab>
+            <md-tab label="DOWNLOADS" ng-click="GotoFinancialReport()">
+                @*------ Page will be re-directed to Reports -------*@
+            </md-tab>
+            @*@Html.Partial("~/Views/View/Common/_download.cshtml")*@
         </md-tabs>
     </md-content>
 

@@ -52,7 +52,7 @@
 
                     <div flex>Total Number of Beneficiaries </div>
                     <div flex>
-                        <input type="number" min="0" name="No of HH Beneficiaries" class="form-control" ng-model="data.NoOfHH" ng-app-max="{{ data.no_target_families }}" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/"/>
+                        <input type="number" min="0" name="No of HH Beneficiaries" class="form-control" ng-model="data.NoOfHH" ng-app-max="{{ data.no_target_families }}" ng-disabled="true" ng-pattern="/^[0-9]{1,7}$/"/>
                     </div>
                     <div flex>
                         <input type="number" min="0" class="form-control" name="No of Families" ng-model="data.no_target_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/"/>
