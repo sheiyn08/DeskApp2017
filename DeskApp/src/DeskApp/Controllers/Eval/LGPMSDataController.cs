@@ -43,112 +43,11 @@ namespace DeskApp.Controllers.Eval
             {
                 model = model.Where(m => m.city_code == item.city_code);
             }
-            if (item.psgc_code != null)
-            {
-                model = model.Where(m => m.psgc_code == item.psgc_code);
-            }
-
-            //if (item.overall_performance_index_2009 != null)
+            //if (item.psgc_code != null)
             //{
-            //    model = model.Where(m => m.overall_performance_index_2009 == item.overall_performance_index_2009);
+            //    model = model.Where(m => m.psgc_code == item.psgc_code);
             //}
-            //if (item.overall_performance_index_2010 != null)
-            //{
-            //    model = model.Where(m => m.overall_performance_index_2010 == item.overall_performance_index_2010);
-            //}
-            //if (item.overall_performance_index_2011 != null)
-            //{
-            //    model = model.Where(m => m.overall_performance_index_2011 == item.overall_performance_index_2011);
-            //}
-            //if (item.overall_performance_index_2012 != null)
-            //{
-            //    model = model.Where(m => m.overall_performance_index_2012 == item.overall_performance_index_2012);
-            //}
-
-            //if (item.administrative_governance_2009 != null)
-            //{
-            //    model = model.Where(m => m.administrative_governance_2009 == item.administrative_governance_2009);
-            //}
-            //if (item.administrative_governance_2010 != null)
-            //{
-            //    model = model.Where(m => m.administrative_governance_2010 == item.administrative_governance_2010);
-            //}
-            //if (item.administrative_governance_2011 != null)
-            //{
-            //    model = model.Where(m => m.administrative_governance_2011 == item.administrative_governance_2011);
-            //}
-            //if (item.administrative_governance_2012 != null)
-            //{
-            //    model = model.Where(m => m.administrative_governance_2012 == item.administrative_governance_2012);
-            //}
-
-            //if (item.social_governance_2009 != null)
-            //{
-            //    model = model.Where(m => m.social_governance_2009 == item.social_governance_2009);
-            //}
-            //if (item.social_governance_2010 != null)
-            //{
-            //    model = model.Where(m => m.social_governance_2010 == item.social_governance_2010);
-            //}
-            //if (item.social_governance_2011 != null)
-            //{
-            //    model = model.Where(m => m.social_governance_2011 == item.social_governance_2011);
-            //}
-            //if (item.social_governance_2012 != null)
-            //{
-            //    model = model.Where(m => m.social_governance_2012 == item.social_governance_2012);
-            //}
-
-            //if (item.economic_governance_2009 != null)
-            //{
-            //    model = model.Where(m => m.economic_governance_2009 == item.economic_governance_2009);
-            //}
-            //if (item.economic_governance_2010 != null)
-            //{
-            //    model = model.Where(m => m.economic_governance_2010 == item.economic_governance_2010);
-            //}
-            //if (item.economic_governance_2011 != null)
-            //{
-            //    model = model.Where(m => m.economic_governance_2011 == item.economic_governance_2011);
-            //}
-            //if (item.economic_governance_2012 != null)
-            //{
-            //    model = model.Where(m => m.economic_governance_2012 == item.economic_governance_2012);
-            //}
-
-            //if (item.environmental_governance_2009 != null)
-            //{
-            //    model = model.Where(m => m.environmental_governance_2009 == item.environmental_governance_2009);
-            //}
-            //if (item.environmental_governance_2010 != null)
-            //{
-            //    model = model.Where(m => m.environmental_governance_2010 == item.environmental_governance_2010);
-            //}
-            //if (item.environmental_governance_2011 != null)
-            //{
-            //    model = model.Where(m => m.environmental_governance_2011 == item.environmental_governance_2011);
-            //}
-            //if (item.environmental_governance_2012 != null)
-            //{
-            //    model = model.Where(m => m.environmental_governance_2012 == item.environmental_governance_2012);
-            //}
-
-            //if (item.valuing_fundamentals_of_good_gov_2009 != null)
-            //{
-            //    model = model.Where(m => m.valuing_fundamentals_of_good_gov_2009 == item.valuing_fundamentals_of_good_gov_2009);
-            //}
-            //if (item.valuing_fundamentals_of_good_gov_2010 != null)
-            //{
-            //    model = model.Where(m => m.valuing_fundamentals_of_good_gov_2010 == item.valuing_fundamentals_of_good_gov_2010);
-            //}
-            //if (item.valuing_fundamentals_of_good_gov_2011 != null)
-            //{
-            //    model = model.Where(m => m.valuing_fundamentals_of_good_gov_2011 == item.valuing_fundamentals_of_good_gov_2011);
-            //}
-            //if (item.valuing_fundamentals_of_good_gov_2012 != null)
-            //{
-            //    model = model.Where(m => m.valuing_fundamentals_of_good_gov_2012 == item.valuing_fundamentals_of_good_gov_2012);
-            //}
+            
             
             return model;
         }

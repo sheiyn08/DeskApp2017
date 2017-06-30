@@ -484,6 +484,7 @@ namespace DeskApp.Controllers
                     lib_grs_resolution_status_name = x.lib_grs_resolution_status.name,
                     lib_grs_category_name = x.lib_grs_category.name,
                     push_date = x.push_date,
+                    push_status_id = x.push_status_id,
                     last_modified_date = x.last_modified_date
 
                 }).Skip(currPages * size).Take(size).ToList(),
@@ -520,7 +521,8 @@ namespace DeskApp.Controllers
                     lib_city_city_name = x.lib_city.city_name,
                     lib_province_prov_name = x.lib_province.prov_name,
                     lib_region_region_name = x.lib_region.region_name,
-
+                    push_date = x.push_date,
+                    push_status_id = x.push_status_id,
                     lib_fund_source_name = x.lib_fund_source.name,
 
                     sender_name = x.sender_name,
@@ -563,7 +565,8 @@ namespace DeskApp.Controllers
                     lib_city_city_name = x.lib_city.city_name,
                     lib_province_prov_name = x.lib_province.prov_name,
                     lib_region_region_name = x.lib_region.region_name,
-
+                    push_date = x.push_date,
+                    push_status_id = x.push_status_id,
                     lib_fund_source_name = x.lib_fund_source.name,
 
                     sender_name = x.sender_name,
@@ -606,7 +609,8 @@ namespace DeskApp.Controllers
                     lib_city_city_name = x.lib_city.city_name,
                     lib_province_prov_name = x.lib_province.prov_name,
                     lib_region_region_name = x.lib_region.region_name,
-
+                    push_date = x.push_date,
+                    push_status_id = x.push_status_id,
                     lib_fund_source_name = x.lib_fund_source.name,
 
                     sender_name = x.sender_name,
@@ -642,7 +646,6 @@ namespace DeskApp.Controllers
                 if (model.grievance_record_id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
                 {
                     model.grievance_record_id = Guid.NewGuid();
-
                 }
 
                 if (api != true)
@@ -650,24 +653,25 @@ namespace DeskApp.Controllers
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
+
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+                }
+
+                //because api is set to TRUE in sync/get
+                if (api == true)
+                {
+                    model.push_status_id = 1;
+                    model.is_deleted = false;
                 }
 
                 //pincos work around
                 model.grs_intake_officer_id = 5;
                 model.grs_intake_level_id = 5;
-
-
-
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-
-                model.is_deleted = false;
+               
                 db.grievance_record.Add(model);
-
-                //var errorList = ModelState.Values.SelectMany(m => m.Errors)
-                //               .Select(e => e.ErrorMessage)
-                //               .ToList();
+                
 
                 try
                 {
@@ -676,11 +680,11 @@ namespace DeskApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
             }
+
+
             else
             {
                 model.push_date = null;
@@ -692,12 +696,8 @@ namespace DeskApp.Controllers
                     model.approval_id = 3;
                 }
 
-
-
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
 
@@ -954,11 +954,11 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                var items_preselected = db.grievance_record.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.grievance_record.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.grievance_record.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                    var items = db.grievance_record.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
                     if (record_id != null)
                     {
@@ -978,14 +978,14 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            item.push_status_id = 4;
-                            item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
+                            //item.push_status_id = 4;
+                            //item.push_date = DateTime.Now;
+                            //await db.SaveChangesAsync();
                         }
                     }
                 }
                 else {
-                    var items = db.grievance_record.Where(x => x.push_status_id == 5 && x.is_deleted != true);
+                    var items = db.grievance_record.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
 
                     if (record_id != null)
                     {
@@ -1005,9 +1005,9 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            item.push_status_id = 4;
-                            item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
+                            //item.push_status_id = 4;
+                            //item.push_date = DateTime.Now;
+                            //await db.SaveChangesAsync();
                         }
                     }
                 }
@@ -1114,7 +1114,7 @@ namespace DeskApp.Controllers
                 // var model = new auth_messages();
 
 
-                var items = db.grievance_record_discussion.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                var items = db.grievance_record_discussion.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
                 if (record_id != null)
                 {
@@ -1143,9 +1143,9 @@ namespace DeskApp.Controllers
                     }
                     else
                     {
-                        item.push_status_id = 4;
-                        item.push_date = DateTime.Now;
-                        await db.SaveChangesAsync();
+                        //item.push_status_id = 4;
+                        //item.push_date = DateTime.Now;
+                        //await db.SaveChangesAsync();
                     }
                 }
 

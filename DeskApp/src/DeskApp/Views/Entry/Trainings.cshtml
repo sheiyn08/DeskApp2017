@@ -158,6 +158,7 @@
 @section Scripts {
     <script src="~/scripts/directives/paging.js"></script>
     <script src="~/scripts/directives/show-errors.js"></script>
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
     <script>
 
         angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'pims-pager'])
@@ -436,32 +437,34 @@
 
                             $scope.list_problems = [];
 
-                            $http
-                                .get('/api/offline/v1/trainings/psa/problem/get_mapped?community_training_id=@ViewBag.id')
-                                .then(function (red) {
-                                    $scope.list_problems = red.data;
+                            $scope.get_problems_and_solutions = function () {
+                                $http.get('/api/offline/v1/trainings/psa/problem/get_mapped?community_training_id=@ViewBag.id')
+                                                        .then(function (red) {
+                                                            $scope.list_problems = red.data;
+
+                                                            angular.forEach($scope.list_problems,
+                                                                function (todo) {
+                                                                    $http
+                                                                        .get('/api/offline/v1/trainings/psa/problem/get_solution?id=' + todo.psa_problem_id)
+                                                                        .then(function (response) {
 
 
-                                    angular.forEach($scope.list_problems,
-                                        function (todo) {
+                                                                            todo.solutions = response.data;
+                                                                            
+                                                                        })
+                                                                        .then(function () {
+                                                                            $scope.isSearching = false;                                                                            
+                                                                        });
 
 
-                                            $http
-                                                .get('/api/offline/v1/trainings/psa/problem/get_solution?id=' + todo.psa_problem_id)
-                                                .then(function (response) {
+                                                                });
+
+                                                        });
 
 
-                                                    todo.solutions = response.data;
+                            };
 
-                                                })
-                                                .then(function () {
-                                                    $scope.isSearching = false;
-                                                });
-
-
-                                        });
-
-                                })
+                            $scope.get_problems_and_solutions();
 
 
                             $scope.list_criterias = [];
@@ -469,7 +472,7 @@
                             $http.get('/api/offline/v1/trainings/csw/get_mapped?community_training_id=@ViewBag.id')
                                 .then(function (red) {
                                     $scope.list_criterias = red.data;
-                                })
+                                });
 
 
                             $scope.ConfirmParticipation = function (member) {
@@ -548,14 +551,11 @@
 
                             $scope.addProblem = function () {
 
-
                                 $.post('/api/offline/v1/trainings/psa/problem/save', $scope.prob_model)
                                     .success(function (data) {
                                         $scope.loading = false;
 
-
                                         $scope.list_problems.push(data.Result);
-
 
                                         $mdToast.show(
                                             $mdToast.simple()
@@ -564,6 +564,8 @@
                                             .hideDelay(3000)
                                         );
 
+                                        $scope.prob_model.problem = '';
+                                        $scope.prob_model.psa_problem_category_id = '';
 
                                         $scope.prob = {};
                                         $scope.prob.list_criterias = [];
@@ -575,10 +577,7 @@
 
                                     })
                                     .error(function (data) {
-
                                         alert(JSON.stringify(data));
-
-
                                         $scope.error = "An Error has occured while Saving! " + data.statusText;
                                         $scope.loading = false;
                                     });
@@ -587,8 +586,8 @@
 
                             $scope.sol = {};
 
-
                             $scope.addSolution = function (pro, idx) {
+                                $.blockUI({ message: '<br>Processing...<br><br>' });
 
                                 var obj = {
                                     solution: pro.solution,
@@ -596,10 +595,10 @@
                                     psa_problem_id: pro.psa_problem_id,
                                 };
 
-
                                 $.post('/api/offline/v1/trainings/psa/solution/save', obj)
                                     .success(function (data) {
                                         $scope.loading = false;
+                                        setTimeout($.unblockUI, 3);
 
                                         $mdToast.show(
                                             $mdToast.simple()
@@ -608,9 +607,8 @@
                                             .hideDelay(3000)
                                         );
 
-
-
-                                        $scope.list_problems[idx].solutions.push(data);
+                                        //$scope.list_problems[idx].solutions.push(data); -- original push
+                                        $scope.get_problems_and_solutions(); //----temporary resolution to push RDR 06-30-2017                                        
                                         pro.solution = '';
                                     })
                                     .error(function (data) {
@@ -629,13 +627,27 @@
                             $scope.criteria_model.criteria = '';
                             $scope.criteria_model.community_training_id = '@ViewBag.id';
 
+                            //RDR 06-28-17: User should not be able to encode if Rate is 100 or more
+                            //check if total rate (CSW) is 100
+                            $scope.check_total_rate = function () {
+                                $http.get('/api/offline/v1/trainings/csw/check_total_rate?id=@ViewBag.id')
+                                    .then(function (result) {
+                                        if (result.data == true) {
+                                            $scope.total_rate_is_onehundred = true;
+                                        } else {
+                                            $scope.total_rate_is_onehundred = false;
+                                        }
+                                    });
+                            };
+
+                            $scope.check_total_rate();
 
                             $scope.addCriteria = function () {
-
 
                                 $.post('/api/offline/v1/trainings/csw/save', $scope.criteria_model)
                                     .success(function (data) {
                                         $scope.loading = false;
+                                        $scope.check_total_rate();
 
                                         $mdToast.show(
                                             $mdToast.simple()
@@ -671,7 +683,7 @@
 
                                 $.post('/api/offline/v1/trainings/csw/delete?id=' + prob.mibf_criteria_id)
                                     .success(function (data) {
-
+                                        $scope.check_total_rate();
                                         $mdToast.show(
                                             $mdToast.simple()
                                             .textContent('Criteria Removed!')
@@ -696,7 +708,7 @@
 
                             $scope.removeProblem = function (prob, index) {
 
-                                var ask = confirm("Do you want to remove this item?");
+                                var ask = confirm("Are you sure you want to delete this item? Deleting Problem will also delete the Proposed Solution/s.");
                                 if (ask == false) {
                                     return false;
                                 }
@@ -774,7 +786,7 @@
                             }
 
                             $scope.selected_pra = {};
-                            $scope.new_pra_record = {}
+                            $scope.new_pra_record = {};
 
                             $scope.editPra = function (contact) {
                                 $scope.edit_pra = true;
@@ -901,7 +913,7 @@
                             $scope.attached_documents = [];
                             $scope.attachment = {};
                             $scope.attachment.mov_list_id = null;
-                                                  
+
                             $scope.uploadAttachment = function () {
 
                                 if ($scope.attachment.mov_list_id == 11) {
@@ -931,12 +943,14 @@
                                 else {
                                     $scope.successful_upload();
                                 }
-                                
+
                             }
 
 
                             $scope.successful_upload = function () {
-                                
+
+                                $.blockUI({ message: '<br>Processing...<br><br>' });
+
                                 var fileUpload = $("#files").get(0);
                                 var files = fileUpload.files;
                                 var data = new FormData();
@@ -971,6 +985,8 @@
                                         message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
                                         $scope.attached_documents.push(message);
                                         $scope.attachment = {};
+                                        setTimeout($.unblockUI, 3);
+                                        angular.element("input[type='file']").val(null);
                                     },
                                     error: function (message) {
                                         alert(JSON.stringify(message.responseText));

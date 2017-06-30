@@ -25,10 +25,10 @@
                 <tr>
                     <td></td>
                     <td>
-                        Rate
+                        <b>Rate</b>
                     </td>
                     <td>
-                        Criteria
+                        <b>Criteria</b>
                     </td>
                 </tr>
 
@@ -44,24 +44,26 @@
                     </tr>
 
                 </tbody>
-                <tr>
+                <tr ng-hide="total_rate_is_onehundred">
 
 
                     <td>
                         <a class="btn btn-success" flex="1" ng-click="addCriteria()" ng-disabled="!criteriaForm.$valid"><i class="fa fa-check"></i></a>
                     </td>
-                    <td><input type="number" class="form-control" placeholder="Rate" ng-model="criteria_model.rate" required name="Rate" /></td>
-                    <td><input type="text" class="form-control" placeholder="Criteria" ng-model="criteria_model.criteria" required name="Criteria" /></td>
+                    <td><input type="number" class="form-control" placeholder="Rate" ng-model="criteria_model.rate" ng-required="!total_rate_is_onehundred" name="Rate" /></td>
+                    <td><input type="text" class="form-control" placeholder="Criteria" ng-model="criteria_model.criteria" ng-required="!total_rate_is_onehundred" name="Criteria" /></td>
 
 
                 </tr>
 
             </table>
 
-           
-
         </form>
 </md-container>
+
+     <div ng-show="total_rate_is_onehundred">
+         <span style="font-size:small; font-weight:500; color:red; margin:20px"><i>**Total Rate reached 100% already.</i></span>
+     </div>
 
     
     <md-list-item layout-margin>
@@ -69,10 +71,10 @@
 
 
 
-        <md-button class="md-primary md-raised" ng-show="criteriaForm.$valid" ng-click="addCriteria()">
+        @*<md-button class="md-primary md-raised" ng-show="criteriaForm.$valid" ng-click="addCriteria()" ng-hide="total_rate_is_onehundred">
    
             Add Criteria
-        </md-button>
+        </md-button>*@
 
 
         <ul>

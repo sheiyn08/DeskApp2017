@@ -307,32 +307,88 @@ $scope.delete = function (removeitem) {
         $scope.isSearching = true;
 
 
+        if (($scope.data.filter_by_recent_edit) && (!$scope.data.filter_by_recent_add)) {
 
-        $scope.isSearching = true;
+            $.post('/api/offline/v1/trainings/get_recently_edited', $scope.data).success(function (value) {
+                $scope.loading = false;
 
-        $.post('/api/offline/v1/trainings/get_dto', $scope.data).success(function (value) {
-            $scope.loading = false;
-
-            // alert(JSON.stringify(value));
-
-          $scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                $scope.TotalUnAuthorized = value.TotalUnAuthorized;
                 $scope.TotalSync = value.TotalSync;
-            $scope.page = value.Page;
-            $scope.pagesCount = value.TotalPages;
-            $scope.totalCount = value.TotalCount;
-            $scope.Items = value.Items;
+                $scope.page = value.Page;
+                $scope.pagesCount = value.TotalPages;
+                $scope.totalCount = value.TotalCount;
+                $scope.Items = value.Items;
+
+                $scope.isSearching = false;
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                $scope.loading = false;
+            });
+        }
+
+        else if ((!$scope.data.filter_by_recent_edit) && ($scope.data.filter_by_recent_add)) {
+
+            $.post('/api/offline/v1/trainings/get_recently_added', $scope.data).success(function (value) {
+                $scope.loading = false;
+
+                $scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                $scope.TotalSync = value.TotalSync;
+                $scope.page = value.Page;
+                $scope.pagesCount = value.TotalPages;
+                $scope.totalCount = value.TotalCount;
+                $scope.Items = value.Items;
+
+                $scope.isSearching = false;
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                $scope.loading = false;
+            });
+        }
+
+        else if (($scope.data.filter_by_recent_edit) && ($scope.data.filter_by_recent_add)) {
+
+            $.post('/api/offline/v1/trainings/get_recently_edited_and_added', $scope.data).success(function (value) {
+                $scope.loading = false;
+
+                $scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                $scope.TotalSync = value.TotalSync;
+                $scope.page = value.Page;
+                $scope.pagesCount = value.TotalPages;
+                $scope.totalCount = value.TotalCount;
+                $scope.Items = value.Items;
+
+                $scope.isSearching = false;
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                $scope.loading = false;
+            });
+        }
+
+        else {
+            $.post('/api/offline/v1/trainings/get_dto', $scope.data).success(function (value) {
+                $scope.loading = false;
+                
+                $scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                $scope.TotalSync = value.TotalSync;
+                $scope.page = value.Page;
+                $scope.pagesCount = value.TotalPages;
+                $scope.totalCount = value.TotalCount;
+                $scope.Items = value.Items;
+
+                $scope.isSearching = false;
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                $scope.loading = false;
+            });
+        }
 
 
-            $scope.isSearching = false;
 
-        }).error(function (data) {
-
-            alert(JSON.stringify(data));
-
-
-            $scope.error = "An Error has occured while Saving! " + data.statusText;
-            $scope.loading = false;
-        });
+        
 
 
     };

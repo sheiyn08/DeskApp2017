@@ -42,6 +42,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
     $scope.grs_resolution_status_id;
 
+    $scope.showAlert = function () {
+        alert("Synchronize functionality for this module is temporarily unavailable.");
+    };
+
 
 
   $scope.delete = function (removeitem) {

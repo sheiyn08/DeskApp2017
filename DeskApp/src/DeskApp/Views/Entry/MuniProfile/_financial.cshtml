@@ -1,79 +1,85 @@
-﻿<div class="panel panel-success">
+﻿
+<div class="panel panel-success">
     <div class="panel panel-heading">
         <h3>Financial Source</h3>
         <p>What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?</p>
     </div>
 
+    <div class="panel-body">
+        <form name="financial_sourceForm">
 
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
 
-    <form name="financial_sourceForm">
-
-
-
-
-
-        <div flex="100" layout="row" layout-margin layout-sm="column">
-            <div flex="50" flex-sm="100"></div>
-            <div flex="50" flex-sm="100">
-                <label>Fund Source</label>
-
+                </div>
+                <div flex="50" flex-sm="100">
+                    <p style="font-size:medium; font-weight:700">Fund Source</p>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <p style="font-size:medium; font-weight:700">Amount</p>
+                </div>
             </div>
 
-            <div flex="50" flex-sm="100">
-                <label>Amount</label>
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
 
+                </div>
+                <div flex="50" flex-sm="100">
+                    IRA
+                </div>
+                <div flex="50" flex-sm="100">
+                    <input min="0" name="IRA" class="form-control" required ng-model="data.ira_amount" type="number" />
+                </div>
             </div>
 
-        </div>
+            <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="item in data.financial_sources">
+                <div flex="50" flex-sm="100">
+                    <a class="btn btn-info" style="margin-right:5px" ng-click="edit_is_selected=true; editFinancial(item)" ng-hide="edit_is_selected"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="removeFinancial($index)" ng-hide="edit_is_selected"><i class="fa fa-trash"></i></a>
 
-        <div flex="100" layout="row" layout-margin layout-sm="column">
-            <div flex="50" flex-sm="100"></div>
-            <div flex="50" flex-sm="100">
-                IRA
+                    <a class="btn btn-success" style="margin-right:5px" ng-click="edit_is_selected=false; saveEditedFinancial(item)" ng-show="edit_is_selected"><i class="fa fa-check"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditFinancial(item); edit_is_selected=false" ng-show="edit_is_selected"><i class="fa fa-close"></i></a>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span ng-hide="edit_is_selected">{{item.name}}</span>
+                    <input ng-model="item.name" class="form-control" required ng-show="edit_is_selected" />
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span ng-hide="edit_is_selected">{{item.amount}}</span>
+                    <input ng-model="item.amount" type="number" class="form-control" required min="0" ng-show="edit_is_selected"/>
+                </div>
+            </div>
+            
+            @*THIS IS FOR NEW ENTRY:*@
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
+                    <a class="btn btn-success" ng-disabled="!financial_sourceForm.$valid" ng-click="addFinancial()"><i class="fa fa-plus"></i></a>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <input ng-model="item.name" class="form-control" required />
+                </div>
+
+                <div flex="50" flex-sm="100">
+                    <input ng-model="item.amount" type="number" class="form-control" required min="0" />
+                </div>
             </div>
 
-            <div flex="50" flex-sm="100">
-
-                <input min="0" name="IRA" class="form-control" required ng-model="data.ira_amount" type="number" />
-            </div>
-       
-        </div>
-        <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="item in data.financial_sources">
-            <div flex="50" flex-sm="100">
-                <a class="btn btn-danger" ng-click="removeFinancial($index)"><i class="fa fa-trash"></i></a>
-            </div>
-            <div flex="50" flex-sm="100">
-
-                {{item.name}}
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
+                </div>
+                <div flex="50" flex-sm="100">
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span style="font-size:medium"><b>{{computeFinancialSourcesTotal('amount') | currency:"₱"}}</b></span>
+                </div>
             </div>
 
-            <div flex="50" flex-sm="100">
-                {{item.amount}}
-            </div>
+            <i>*Indicate IRA before adding other sources</i>
 
-        </div>
-    
-
-
-        <div flex="100" layout="row" layout-margin layout-sm="column">
-            <div flex="50" flex-sm="100">
-                <a class="btn btn-success" ng-disabled="!financial_sourceForm.$valid" ng-click="addFinancial()"><i class="fa fa-plus"></i></a>
-            </div>
-            <div flex="50" flex-sm="100">
-
-                <input ng-model="financial.name" class="form-control" required />
-            </div>
-
-            <div flex="50" flex-sm="100">
-                <input ng-model="financial.amount" type="number" class="form-control" required min="0" />
-            </div>
-
-        </div>
-        <i>*Indicate IRA before adding other sources</i>
-    </form>
-
-
+        </form>
+    </div>
 </div>
+
 
 
 <div class="panel panel-success">
@@ -248,117 +254,140 @@
 
 </div>
 
+
+
 <div class="panel panel-success">
     <div class="panel panel-heading">
         <h3>GAD Utilization</h3>
         <p>How was GAD Fund utilized by the municipality?</p>
-        <p>@*What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?*@</p>
-    </div>
-    <div flex="100" layout="row" layout-margin layout-sm="column">
-        <div flex="50" flex-sm="100">
-
-        </div>
-        <div flex="50" flex-sm="100">
-
-            Activity
-        </div>
-
-        <div flex="50" flex-sm="100">
-            Amount
-        </div>
-
     </div>
 
-    <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="item in data.gad_activities">
-        <div flex="50" flex-sm="100">
-            <a class="btn btn-danger" ng-click="removeGad($index)"><i class="fa fa-trash"></i></a>
-        </div>
-        <div flex="50" flex-sm="100">
+    <div class="panel-body">
+        <form name="gadForm">
 
-            {{item.name}}
-        </div>
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
 
-        <div flex="50" flex-sm="100">
-            {{item.amount}}
-        </div>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <p style="font-size:medium; font-weight:700">Activity</p>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <p style="font-size:medium; font-weight:700">Amount</p>
+                </div>
+            </div>
+            
+            <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="gad in data.gad_activities">
+                <div flex="50" flex-sm="100">
+                    <a class="btn btn-info" style="margin-right:5px" ng-click="gad_edit_is_selected=true; editGad(gad)" ng-hide="gad_edit_is_selected"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="removeGad($index)" ng-hide="gad_edit_is_selected"><i class="fa fa-trash"></i></a>
 
+                    <a class="btn btn-success" style="margin-right:5px" ng-click="gad_edit_is_selected=false; saveEditedGad(gad)" ng-show="gad_edit_is_selected"><i class="fa fa-check"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditGad(gad); gad_edit_is_selected=false" ng-show="gad_edit_is_selected"><i class="fa fa-close"></i></a>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span ng-hide="gad_edit_is_selected">{{gad.gad_activity}}</span>
+                    <input ng-model="gad.gad_activity" class="form-control" required ng-show="gad_edit_is_selected" />
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span ng-hide="gad_edit_is_selected">{{gad.gad_amount}}</span>
+                    <input ng-model="gad.gad_amount" type="number" class="form-control" required min="0" ng-show="gad_edit_is_selected" />
+                </div>
+            </div>
+
+            @*THIS IS FOR NEW ENTRY:*@
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
+                    <a class="btn btn-success" ng-disabled="!gadForm.$valid" ng-click="addGad()"><i class="fa fa-plus"></i></a>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <input ng-model="gad.gad_activity" class="form-control" required />
+                </div>
+
+                <div flex="50" flex-sm="100">
+                    <input ng-model="gad.gad_amount" type="number" class="form-control" required min="0" />
+                </div>
+            </div>
+
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
+                </div>
+                <div flex="50" flex-sm="100">
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span style="font-size:medium"><b>{{computeGadTotal('gad_amount') | currency:"₱"}}</b></span>
+                </div>
+            </div>
+            
+        </form>
     </div>
-
-    <form name="gadForm">
-        <div flex="100" layout="row" layout-margin layout-sm="column">
-            <div flex="50" flex-sm="100">
-                <a class="btn btn-success" ng-disabled="!gadForm.$valid" ng-click="addGad()"><i class="fa fa-plus"></i></a>
-            </div>
-            <div flex="50" flex-sm="100">
-
-                <input ng-model="gad.name" class="form-control" required />
-            </div>
-
-            <div flex="50" flex-sm="100">
-                <input ng-model="gad.amount" type="number" class="form-control" required min="0" />
-            </div>
-
-        </div>
-    </form>
-
-
-
 </div>
+
 
 <div class="panel panel-success">
     <div class="panel panel-heading">
         <h3>DRRM Utilization</h3>
         <p>How was DRRM Fund utilized by the municipality?</p>
-        <p>@*What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?*@</p>
-    </div>
-    <div flex="100" layout="row" layout-margin layout-sm="column">
-        <div flex="50" flex-sm="100">
-
-        </div>
-        <div flex="50" flex-sm="100">
-
-            Activity
-        </div>
-
-        <div flex="50" flex-sm="100">
-            Amount
-        </div>
-
     </div>
 
-    <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="item in data.drrm_activities">
-        <div flex="50" flex-sm="100">
-            <a class="btn btn-danger" ng-click="removeDrrm($index)"><i class="fa fa-trash"></i></a>
-        </div>
-        <div flex="50" flex-sm="100">
+    <div class="panel-body">
+        <form name="drrmForm">
 
-            {{item.name}}
-        </div>
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
 
-        <div flex="50" flex-sm="100">
-            {{item.amount}}
-        </div>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <p style="font-size:medium; font-weight:700">Activity</p>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <p style="font-size:medium; font-weight:700">Amount</p>
+                </div>
+            </div>
 
+            <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="drrm in data.drrm_activities">
+                <div flex="50" flex-sm="100">
+                    <a class="btn btn-info" style="margin-right:5px" ng-click="drrm_edit_is_selected=true; editDRRM(drrm)" ng-hide="drrm_edit_is_selected"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="removeDRRM($index)" ng-hide="drrm_edit_is_selected"><i class="fa fa-trash"></i></a>
+
+                    <a class="btn btn-success" style="margin-right:5px" ng-click="drrm_edit_is_selected=false; saveEditedDRRM(drrm)" ng-show="drrm_edit_is_selected"><i class="fa fa-check"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditDRRM(drrm); drrm_edit_is_selected=false" ng-show="drrm_edit_is_selected"><i class="fa fa-close"></i></a>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span ng-hide="drrm_edit_is_selected">{{drrm.drrm_activity}}</span>
+                    <input ng-model="drrm.drrm_activity" class="form-control" required ng-show="drrm_edit_is_selected" />
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span ng-hide="drrm_edit_is_selected">{{drrm.drrm_amount}}</span>
+                    <input ng-model="drrm.drrm_amount" type="number" class="form-control" required min="0" ng-show="drrm_edit_is_selected" />
+                </div>
+            </div>
+
+            @*THIS IS FOR NEW ENTRY:*@
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
+                    <a class="btn btn-success" ng-disabled="!drrmForm.$valid" ng-click="addDRRM()"><i class="fa fa-plus"></i></a>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <input ng-model="drrm.drrm_activity" class="form-control" required />
+                </div>
+
+                <div flex="50" flex-sm="100">
+                    <input ng-model="drrm.drrm_amount" type="number" class="form-control" required min="0" />
+                </div>
+            </div>
+
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
+                </div>
+                <div flex="50" flex-sm="100">
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span style="font-size:medium"><b>{{computeDRRMTotal('drrm_amount') | currency:"₱"}}</b></span>
+                </div>
+            </div>
+
+        </form>
     </div>
-
-    <form name="drrmForm">
-        <div flex="100" layout="row" layout-margin layout-sm="column">
-            <div flex="50" flex-sm="100">
-                <a class="btn btn-success" ng-disabled="!drrmForm.$valid" ng-click="addDrrm()"><i class="fa fa-plus"></i></a>
-            </div>
-            <div flex="50" flex-sm="100">
-
-                <input ng-model="drrm.name" class="form-control" required />
-            </div>
-
-            <div flex="50" flex-sm="100">
-                <input ng-model="drrm.amount" type="number" class="form-control" required min="0" />
-            </div>
-
-        </div>
-    </form>
-
-
-
 </div>
 

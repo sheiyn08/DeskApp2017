@@ -127,7 +127,10 @@
             <a class="btn btn-warning" ng-click="clear()">
                 <i class="fa fa-recycle fa-lg"></i>  Clear
             </a>
-            @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+            <a class="btn btn-primary" ng-click="showAlert()">
+                <i class="fa fa-cloud fa-lg"></i>   Synchronize
+            </a>
+            @*@Html.Partial("~/Views/Shared/_sync_dialog.cshtml")*@
         </div>
         <div style="margin:25px">
             
@@ -137,16 +140,20 @@
 
     <md-content>
         <md-tabs md-dynamic-height md-border-bottom>
-            <md-tab label="RESULTS">
+            <md-tab label="LIST">
                 <md-content class="md-padding">
                     <md-content>
                         @Html.Partial("~/Views/Shared/_pagination.cshtml")
                     </md-content>
-                <md-content>
+                    <md-content>
                         @Html.Partial("~/Views/PerceptionSurvey/_surveyrecords.cshtml") 
                     </md-content>
                 </md-content>
             </md-tab>
+            <md-tab label="DOWNLOADS" ng-click="GotoPerceptionReport()">
+                @*------ Page will be re-directed to Reports -------*@
+            </md-tab>
+            @*@Html.Partial("~/Views/View/Common/_download.cshtml") ------------ hide*@
         </md-tabs>
     </md-content>
 

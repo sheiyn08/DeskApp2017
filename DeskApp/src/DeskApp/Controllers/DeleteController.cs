@@ -56,20 +56,75 @@ namespace DeskApp.Controllers
         [Route("training")]
         public async Task<IActionResult> Training(Guid id)
         {
-
-
             var record = db.community_training.FirstOrDefault(x => x.community_training_id == id);
+            var ceac_record = db.ceac_tracking.FirstOrDefault(x => x.reference_id == id);
 
+            //if training DOES NOT EXISTS on ceac tracking
+            if (ceac_record == null)
+            {
+                //go with the usual delete
+                record.is_deleted = true;
+                record.push_status_id = 3;
+            }
 
-            record.is_deleted = true;
-            record.push_status_id = 3;
+            //if training EXISTS on ceac tracking
+            else {
+                record.is_deleted = true;
+                record.push_status_id = 3;
+
+                ceac_record.reference_id = null; //reference id in ceac_tracking table allows null values
+                ceac_record.actual_start = null;
+                ceac_record.actual_end = null;
+                ceac_record.catch_start = null;
+                ceac_record.catch_end = null;
+                ceac_record.actual_start = null;
+                ceac_record.actual_end = null;
+                ceac_record.implementation_status_id = 2;
+                ceac_record.push_status_id = 3;
+
+                ////check if existing record has plan dates or catch up dates, any of the four
+                //if (ceac_record.plan_start != null || ceac_record.plan_end != null || ceac_record.catch_start != null || ceac_record.catch_end != null)
+                //{
+                //    record.is_deleted = true;
+                //    record.push_status_id = 3;
+
+                //    ceac_record.reference_id = null; //reference id in ceac_tracking table allows null values
+                //    ceac_record.actual_start = null;
+                //    ceac_record.actual_end = null;
+                //    ceac_record.catch_start = null;
+                //    ceac_record.catch_end = null;
+                //    ceac_record.actual_start = null;
+                //    ceac_record.actual_end = null;
+                //    ceac_record.implementation_status_id = 2;
+                //    ceac_record.push_status_id = 3;
+                //}
+                ////else, if andun lang naman si record at wala naman plan date or catch up, okay lang to delete
+                //else
+                //{
+                //    record.is_deleted = true;
+                //    record.push_status_id = 3;
+
+                //    ceac_record.actual_start = null;
+                //    ceac_record.actual_end = null;
+                //    ceac_record.implementation_status_id = 2;
+                //    ceac_record.push_status_id = 3;
+                //}
+            }
+
+            //record.is_deleted = true;
+            //record.push_status_id = 3;
+
+            //ceac_record.actual_start = null;
+            //ceac_record.actual_end = null;
+            //ceac_record.implementation_status_id = 2;
+            //ceac_record.push_status_id = 3;
 
             await db.SaveChangesAsync();
 
             return Ok();
 
         }
-
+        
         [HttpPost]
         [Route("grievance_installation")]
         public async Task<IActionResult> GRSInstallation(Guid id)

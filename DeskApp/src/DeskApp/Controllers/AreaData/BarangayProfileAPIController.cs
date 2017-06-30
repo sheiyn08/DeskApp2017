@@ -185,6 +185,218 @@ namespace DeskApp.Controllers
         }
 
 
+        #region Brgy Profile Downloads
+
+        [Route("api/export/barangay_profile/list")]
+        public IActionResult export_list(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            var result = from s in model
+                         select new
+                         {
+                             s.brgy_profile_id,
+                                                             
+                             s.lib_region.region_name,
+                             s.lib_province.prov_name,
+                             s.lib_city.city_name,
+                             s.lib_brgy.brgy_name,
+                             no_of_sitio = s.no_sitios,
+                             inclusive_years_of_kc = s.year_source,
+                             fund_source = s.lib_fund_source.name,
+                             cycle = s.lib_cycle.name,
+
+                             total_no_of_household = s.no_households,
+                             total_no_of_families = s.no_families, 
+                             no_of_male = s.no_male,
+                             no_of_female = s.no_female,
+                             no_of_male_children_ages_0_to_5 = s.no_male0_5,
+                             no_of_female_children_ages_0_to_5 = s.no_female0_5,
+                             no_of_male_ages_6_to_12 = s.no_male6_12,
+                             no_of_female_ages_6_to_12 = s.no_female6_12,
+                             no_of_male_ages_13_to_17 = s.no_male13_16,
+                             no_of_female_ages_13_to_17 = s.no_female13_16,
+                             total_male_voting_population = s.no_voting_male,   
+                             total_female_voting_population = s.no_voting_female,
+                             total_male_labor_force = s.no_labor_male,
+                             total_female_labor_force = s.no_labor_female,
+
+                             is_poblacion = s.is_poblacion == true ? "Yes" : "No",
+                             hrs_travel_time_to_poblacion_if_not_poblacion = s.hrs_totown,
+                             mins_travel_time_to_poblacion_if_not_poblacion = s.mins_totown,
+                             no_of_km_if_not_poblacion = s.km_frmtown,
+
+                             is_upland = s.is_upland == true ? "Yes" : "No",
+                             is_hilly = s.is_hilly == true ? "Yes" : "No",
+                             is_lowland = s.is_lowland == true ? "Yes" : "No",
+                             is_island = s.is_island == true ? "Yes" : "No",
+                             is_coastal = s.is_coastal == true ? "Yes" : "No",
+                             is_brgy_isolated = s.is_isolated == true ? "Yes" : "No",
+
+                             is_brgy_affected_by_armed_conflict = s.is_armedconflict == true ? "Yes" : "No",
+                             is_brgy_affected_by_political_and_ejk = s.is_poldispute == true ? "Yes" : "No",
+                             is_brgy_affected_by_family_and_genderbased_violence = s.is_genderviolence == true ? "Yes" : "No",
+                             is_brgy_affected_by_rido_war = s.is_rido_war == true ? "Yes" : "No",
+                             is_brgy_affected_by_crime = s.is_crime == true ? "Yes" : "No",
+                             armed_conflict_area_details = s.baragay_additiondetails,
+
+                             no_of_pantawid_hh = s.no_pantawid_household,
+                             no_of_pantawid_family = s.no_pantawid_family,
+                             no_of_slp_hh = s.no_slp_household,
+                             no_of_slp_family = s.no_slp_family,
+
+                             s.alloc_env,
+                             s.alloc_econ,
+                             s.alloc_infra,
+                             s.alloc_basic,
+                             s.alloc_inst,
+                             s.alloc_gender,
+                             s.alloc_drrm,
+                             s.alloc_others,
+                             allocation_total = s.alloc_env + s.alloc_econ + s.alloc_infra + s.alloc_basic + s.alloc_inst + s.alloc_gender + s.alloc_drrm + s.alloc_others,
+
+                             has_bank = s.has_bank,
+                             has_barangayhall = s.has_barangay_hall,
+                             has_cap_agri = s.has_cap_agri,
+                             has_cap_org_dev = s.has_cap_org_dev,
+                             has_cap_others = s.has_cap_others,
+                             has_cementery = s.has_cementery,
+                             has_college = s.has_college,
+                             has_credit = s.has_credit,
+                             has_daycare = s.has_daycare,
+                             has_drainage = s.has_drainage,
+                             has_electricity = s.has_electricity,
+                             has_elementary = s.has_elementary,
+                             has_emergency_service = s.has_emergency_service,
+                             has_evac_center = s.has_evac_center,
+                             has_harvest = s.has_harvest,
+                             has_health = s.has_health,
+                             has_hospital = s.has_hospital,
+                             has_housing = s.has_housing,
+                             has_irrigation = s.has_irrigation,
+                             has_miniport = s.has_miniport,
+                             has_multipurpose = s.has_multipurpose,
+                             has_secondary = s.has_secondary,
+                             has_stores = s.has_stores,
+                             has_tanod = s.has_tanod,
+                             has_telecom = s.has_telecom,
+                             has_tribal = s.has_tribal,
+                             has_waste = s.has_waste,
+                             has_water_supply_system = s.has_water_supply_system,
+                             nearest_bank = s.nearest_bank,
+                             nearest_barangay_hall = s.nearest_barangay_hall,
+                             nearest_cap_agri = s.nearest_cap_agri,
+                             nearest_cap_health = s.nearest_cap_health,
+                             nearest_cap_org_dev = s.nearest_cap_org_dev,
+                             nearest_cap_others = s.nearest_cap_others,
+                             nearest_cementery = s.nearest_cementery,
+
+                             s.access_details,
+                             s.access_addressed,
+                             s.access_remarks,
+                             s.water_details,
+                             s.water_address,
+                             s.water_remarks,
+                             s.health_details,
+                             s.health_address,
+                             s.health_remarks,
+                             s.literacy_details,
+                             s.literacy_addressed,
+                             s.literacy_remarks,
+                             s.employment_details,
+                             s.employment_addressed,
+                             s.employment_remarks,
+                             s.landownership_details,
+                             s.landownership_addressed,
+                             s.landownership_remarks,
+                             s.agriculture_details,
+                             s.agriculture_addressed,
+                             s.agriculture_remarks,
+                             s.peace_details,
+                             s.peace_addressed,
+                             s.peace_remarks,
+                             s.environment_details,
+                             s.environment_addressed,
+                             s.environment_remarks,
+                             s.powersupply_details,
+                             s.powersupply_addressed,
+                             s.powersupply_remarks,
+                             s.communication_details,
+                             s.communication_addressed,
+                             s.communication_remarks,
+                             s.others_details,
+                             s.others_addressed,
+                             s.others_remarks,
+
+                             s.health_number_0_5_value,
+                             s.health_number_0_5_reference,
+                             s.children_0_5_value,
+                             s.children_0_5_reference,
+                             s.pregnant_died_value,
+                             s.pregnant_died_reference,
+                             s.pregnant_total_value,
+                             s.pregnant_total_reference,
+                             s.malnourished_0_5value,
+                             s.malnourished_0_5reference,
+                             s.total_malnourished_0_5value,
+                             s.safewater_value,
+                             s.safewater_reference,
+                             s.sanity_value,
+                             s.sanity_reference,
+                             s.totalsanity_value,
+                             s.totalsanity_reference,
+                             s.squatting_value,
+                             s.squatting_reference,
+                             s.totalsquatting_value,
+                             s.totalsquatting_reference,
+                             s.makeshift_value,
+                             s.makeshift_reference,
+                             s.totalmakeshift_value,
+                             s.totalmakeshift_reference,
+                             s.victimized_value,
+                             s.victimized_reference,
+                             s.totalvictimized_value,
+                             s.totalvictimized_reference,
+                             s.threshold_value,
+                             s.threshold_reference,
+                             s.totalthreshold_value,
+                             s.totalthreshold_reference,
+                             s.incomeless_value,
+                             s.incomeless_reference,
+                             s.totalincomeless_value,
+                             s.totalincomeless_reference,
+                             s.lessthan_3_meals_value,
+                             s.lessthan_3_meals_reference,
+                             s.totallessthan_3_meals_value,
+                             s.children_6_12_elem_value,
+                             s.children_6_12_elem_reference,
+                             s.totalchildren_6_12_elem_value,
+                             s.children_13_16_secondary_value,
+                             s.laborforce_value,
+                             s.laborforce_reference,
+                             s.totallaborforce_value,
+                             s.totallaborforce_reference,
+                             s.totalsafewater_value,
+                             s.totalsafewater_reference,
+                             s.tot_malnourished_0_5_ref,
+                             s.tot_lessthan_3_meals_ref,
+                             s.totchild_6_12_elem_ref,
+                             s.child_13_16_secondary_ref,
+                             s.totchild_13_16_secondary_ref,
+                             s.totchild_13_16_secondary_val,
+
+
+                         };
+
+
+            return Ok(result);
+        }
+
+        #endregion
+
+
+
+
 
 
 
@@ -257,13 +469,18 @@ namespace DeskApp.Controllers
                     model.push_status_id = 2;
                     model.push_date = null;
 
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.approval_id = 3;
+                    model.is_deleted = false;
                 }
 
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.approval_id = 3;
-                model.is_deleted = false;
+                //because api is set to TRUE in sync/get
+                if (api == true)
+                {
+                    model.push_status_id = 1;
+                    model.is_deleted = false;
+                }
 
                 db.brgy_profile.Add(model);
 
@@ -278,15 +495,17 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
+
+
             else
             {
                 model.push_date = null;
 
 
-                if (api != true)
-                {
-                    model.push_status_id = 3;
-                }
+                    if (api != true)
+                    {
+                        model.push_status_id = 3;
+                    }
 
                 //SET KEY
                 model.brgy_profile_id = record.brgy_profile_id;
@@ -556,7 +775,7 @@ namespace DeskApp.Controllers
                         await Save(item, true);
                     }
 
-                    GetOnlineEca(username, password, city_code, record_id);
+                    await GetOnlineEca(username, password, city_code, record_id);
 
                     return Ok();
                 }
@@ -604,11 +823,11 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
                 
-                var items_preselected = db.brgy_profile.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.brgy_profile.Where(x => x.push_status_id == 5).ToList();
                 
                 if (!items_preselected.Any())
                 { //check if the list (items_preselected) is empty which means no items were selected
-                    var items = db.brgy_profile.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                    var items = db.brgy_profile.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
                     if (record_id != null)
                     {
@@ -617,7 +836,7 @@ namespace DeskApp.Controllers
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-                        HttpResponseMessage response = client.PostAsync("api/offline/v1/barangay_profile/sync_push", data).Result;
+                        HttpResponseMessage response = client.PostAsync("api/offline/v1/barangay_profile/save", data).Result;
 
                         if (response.IsSuccessStatusCode)
                         {
@@ -632,7 +851,7 @@ namespace DeskApp.Controllers
                     }
                 }
                 else {
-                    var items = db.brgy_profile.Where(x => x.push_status_id == 5 && x.is_deleted != true);
+                    var items = db.brgy_profile.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
 
                     if (record_id != null)
                     {
@@ -642,7 +861,7 @@ namespace DeskApp.Controllers
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-                        HttpResponseMessage response = client.PostAsync("api/offline/v1/barangay_profile/sync_push", data).Result;
+                        HttpResponseMessage response = client.PostAsync("api/offline/v1/barangay_profile/save", data).Result;
 
                         if (response.IsSuccessStatusCode)
                         {
@@ -678,7 +897,7 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
                 
-                var items = db.brgy_eca.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                var items = db.brgy_eca.Where(x => x.push_status_id != 1 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
                 
                 foreach (var item in items.ToList())
                 {
@@ -710,6 +929,7 @@ namespace DeskApp.Controllers
 
             return true;
         }
+
 
         public async Task<bool> GetOnlineEca(string username, string password, string city_code = null, Guid? record_id = null)
         {

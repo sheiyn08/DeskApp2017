@@ -44,8 +44,20 @@ namespace DeskApp.Controllers
             return Ok(training.ToList());
         }
 
+        //checking if Rate is 100:
+        [HttpGet]
+        [Route("check_total_rate")]
+        public bool check_total_rate(Guid id)
+        {
+            double? total_rate = db.mibf_criteria
+                .Where(x => x.community_training_id == id && x.is_deleted != true)
+                .Sum(x => x.rate);
+            
+            //total_rate = total_rate + model.rate;
 
-
+            return total_rate >= 100;
+        }
+        
         [Route("save")]
         public async Task<IActionResult> SaveCSW(mibf_criteria model, bool? api)
         {
@@ -68,10 +80,10 @@ namespace DeskApp.Controllers
                         .Sum(x => x.rate);
 
                 rates = rates + model.rate;
-
+                
                 if (rates > 100)
                 {
-                    return BadRequest("Total of Rates is > 100");
+                    return BadRequest("Total Rate reached 100% already. Please check.");
                 }
 
 
@@ -114,7 +126,7 @@ namespace DeskApp.Controllers
 
                 if (rates > 100)
                 {
-                    return BadRequest("Total of Rates is > 100");
+                    return BadRequest("Total Rate reached 100% already. Please check.");
                 }
 
 

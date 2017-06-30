@@ -176,6 +176,7 @@
 
 @section Scripts
 {
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
     <script>
 
         angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
@@ -252,10 +253,10 @@
               }
 
               $scope.check_status();
-         
+
 
               $scope.data.kc_equipments = [];
-         
+
 
 
               if ($scope.data.kc_equipment_list != null) {
@@ -266,11 +267,11 @@
 
 
 
-                
+
 
                   $scope.data.kc_equipments.push($scope.equipment);
 
-                 
+
 
                   $scope.equipment = {};
               }
@@ -278,7 +279,7 @@
               $scope.removeEquipment = function (index) {
                   $scope.data.kc_equipments.splice(index, 1);
 
-                
+
               }
 
               $http.get('/api/online/lib_region')
@@ -331,10 +332,26 @@
               $scope.attached_documents = [];
               $scope.attachment = {};
               $scope.attachment.mov_list_id = null;
-              
+
               $scope.uploadAttachment = function () {
 
-                  if ($scope.attached_documents.filter(function (e) { return e.mov_list_id == $scope.attachment.mov_list_id; }).length > 0) {
+                  if ($scope.attachment.mov_list_id == 16) {
+                      if ($scope.attached_documents.filter(function (e) {
+                      return e.mov_list_id == 16;
+                      }).length > 0) {
+                          alert("Only single attachment is allowed for PTA Integration Plans Checklist.");
+                          $scope.attachment = {};
+                      }
+                      else {
+                          $scope.successful_upload();
+                      }
+                  }
+
+                  else {
+                      $scope.successful_upload();
+                  }
+
+                  @*if ($scope.attached_documents.filter(function (e) { return e.mov_list_id == $scope.attachment.mov_list_id; }).length > 0) {
                       alert("Only single attachment is allowed for PTA Integration Plans Checklist.");
                       $scope.attachment = {};
                   }
@@ -373,18 +390,64 @@
                           data: data,
                           success: function (message) {
                               var base = window.location.origin;
-
                               message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
-
                               $scope.attached_documents.push(message);
                               $scope.attachment = {};
 
+                              setTimeout($.unblockUI, 6);
                           },
                           error: function (message) {
                               alert(JSON.stringify(message.responseText));
                           }
                       });
+                  }*@
+
+              }
+
+              $scope.successful_upload = function () {
+                  $.blockUI({ message: '<br>Processing...<br><br>' });
+                  var fileUpload = $("#files").get(0);
+                  var files = fileUpload.files;
+                  var data = new FormData();
+                  for (var i = 0; i < files.length ; i++) {
+                      data.append(files[i].name, files[i]);
                   }
+
+                  $.ajax({
+                      type: "POST",
+                      url: "/Mov/UploadFilesAjax?id="
+                          + '@ViewBag.id'
+                          + "&mov_list_id=" + $scope.attachment.mov_list_id
+
+
+                         + "&region_code=" + $scope.data.region_code
+                         + "&prov_code=" + $scope.data.prov_code
+                              + "&city_code=" + $scope.data.city_code
+                              + "&brgy_code=" + $scope.data.brgy_code
+
+                         + "&fund_source_id=" + $scope.data.fund_source_id
+                              + "&cycle_id=" + $scope.data.cycle_id
+                           + "&enrollment_id=" + $scope.data.enrollment_id,
+
+
+
+                      contentType: false,
+                      processData: false,
+                      data: data,
+                      success: function (message) {
+                          var base = window.location.origin;
+
+                          message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+                          $scope.attached_documents.push(message);
+                          $scope.attachment = {};
+                          setTimeout($.unblockUI, 3);
+                          angular.element("input[type='file']").val(null);
+                      },
+                      error: function (message) {
+                          alert(JSON.stringify(message.responseText));
+                      }
+                  });
+
 
               }
 

@@ -348,6 +348,7 @@ namespace DeskApp.DataLayer
         public int talakayan_yr_id { get; set; }
         public string name { get; set; }
     }
+    
     #endregion
 
     //#region MLGU Year

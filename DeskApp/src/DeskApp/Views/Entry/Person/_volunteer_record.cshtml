@@ -133,9 +133,9 @@
                                 </md-datepicker>
                             </td>
 
+                            @*removed end of term required*@
                             <td>
                                 <md-datepicker name="End of Term"
-                                               ng-required="new_volunteer"
                                                ng-model="new_volunteer_record.dt_end_date" 
                                                md-placeholder="Enter date"
                                                ng-change="new_volunteer_record.end_date = new_volunteer_record.dt_end_date.toISOString()"

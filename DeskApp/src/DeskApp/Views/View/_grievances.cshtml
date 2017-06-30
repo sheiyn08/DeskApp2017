@@ -95,8 +95,11 @@
                 <td style="vertical-align:middle">
                     {{item.lib_grs_resolution_status_name}}
                 </td>
-                <td style="vertical-align:middle" ng-show="item.push_date==null">
+                <td style="vertical-align:middle" ng-show="item.push_status_id == 2 || item.push_status_id == 3">
                     <mark>(For Uploading)</mark>
+                </td>
+                <td style="vertical-align:middle" ng-show="item.push_date == null && item.push_status_id == 1">
+                    N/A
                 </td>
                 <td style="vertical-align:middle" ng-show="item.push_date!=null">
                     {{item.push_date | date:'MM/dd/yyyy'}}

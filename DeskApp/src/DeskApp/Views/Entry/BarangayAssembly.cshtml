@@ -177,11 +177,13 @@
 
 
                             <div flex="25">
-                                <input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_families" placeholder="Rep Families in Barangay" />
+                                @*<input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_families" placeholder="Rep Families in Barangay" />*@
+                                NA
                             </div>
 
                             <div flex="25">
-                                <input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_families_in_barangay" placeholder="Total Families in Barangay" />
+                                @*<input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_families_in_barangay" placeholder="Total Families in Barangay" />*@
+                                NA
                             </div>
 
 
@@ -335,7 +337,7 @@
 
                         <md-input-container class="md-block" flex="100">
 
-                            <textarea placeholder="Place your highlights on this area" name="Highlights" ng-model="data.highlights" md-maxlength="2000" rows="5"
+                            <textarea placeholder="Place your highlights on this area" name="Highlights" ng-model="data.highlights" md-maxlength="5000" rows="5"
                                       cols="100"
                                       md-select-on-focus="" flex="100"></textarea>
 
@@ -474,6 +476,7 @@
 @section Scripts {
     <script src="~/scripts/directives/ngAppMax.js"></script>
     <script src="~/scripts/directives/numeric-directive.js"></script>
+<script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
     <script>
 
         angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'app-max', 'purplefox.numeric'])
@@ -482,7 +485,7 @@
 
 
 
-           
+
 
 
 
@@ -518,12 +521,12 @@
                                  $scope.represented_groups = response.data;
                              });
 
- 
-                      
 
 
-                        
-           
+
+
+
+
 
 
 
@@ -589,7 +592,7 @@
                             $scope.dt_date_intake = new Date(response.data.date_start);
 
                             //ATTACHMENTS
-                      
+
 
                             $http.get('/api/attachment_list?id=1')
                             .then(function (response) {
@@ -604,16 +607,30 @@
 
                             $scope.uploadAttachment = function () {
 
-                               
+                                if ($scope.attachment.mov_list_id == 52) {
+                                    if ($scope.attached_documents.filter(function (e) {
+                                    return e.mov_list_id == 52;
+                                    }).length > 0) {
+                                        alert("Only single attachment is allowed for Barangay Resolution/s.");
+                                        $scope.attachment = {};
+                                    }
+                                    else {
+                                        $scope.successful_upload();
+                                    }
+                                }
 
-                                var fileUpload = $("#files").get(0);
+                                else {
+                                    $scope.successful_upload();
+                                }
+
+                                @*var fileUpload = $("#files").get(0);
                                 var files = fileUpload.files;
                                 var data = new FormData();
                                 for (var i = 0; i < files.length ; i++) {
                                     data.append(files[i].name, files[i]);
                                 }
 
-
+                                $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Please wait.....' });
 
 
                                 $.ajax({
@@ -646,8 +663,59 @@
 
                                         $scope.attachment = {};
 
+                                        setTimeout($.unblockUI, 6);
+
                                         //    alert(JSON.stringify(message));
- 
+
+                                    },
+                                    error: function (message) {
+                                        alert(JSON.stringify(message.responseText));
+                                    }
+                                });*@
+
+
+                            }
+
+                            $scope.successful_upload = function () {
+
+                                $.blockUI({ message: '<br>Processing...<br><br>' });
+
+                                var fileUpload = $("#files").get(0);
+                                var files = fileUpload.files;
+                                var data = new FormData();
+                                for (var i = 0; i < files.length ; i++) {
+                                    data.append(files[i].name, files[i]);
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Mov/UploadFilesAjax?id="
+                                        + '@ViewBag.id'
+                                        + "&mov_list_id=" + $scope.attachment.mov_list_id
+
+
+                                       + "&region_code=" + $scope.data.region_code
+                                       + "&prov_code=" + $scope.data.prov_code
+                                            + "&city_code=" + $scope.data.city_code
+                                            + "&brgy_code=" + $scope.data.brgy_code
+
+                                       + "&fund_source_id=" + $scope.data.fund_source_id
+                                            + "&cycle_id=" + $scope.data.cycle_id
+                                         + "&enrollment_id=" + $scope.data.enrollment_id,
+
+
+
+                                    contentType: false,
+                                    processData: false,
+                                    data: data,
+                                    success: function (message) {
+                                        var base = window.location.origin;
+
+                                        message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+                                        $scope.attached_documents.push(message);
+                                        $scope.attachment = {};
+                                        setTimeout($.unblockUI, 3);
+                                        angular.element("input[type='file']").val(null);
                                     },
                                     error: function (message) {
                                         alert(JSON.stringify(message.responseText));
@@ -657,9 +725,11 @@
 
                             }
 
+
+
                             $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
                                .success(function (value) {
- 
+
 
                                    $scope.attached_documents = value;
 
@@ -670,10 +740,10 @@
 
 
                                    })
-                                  
+
                                });
 
-                       
+
 
 
                             $scope.deleteMov = function (removeitem) {
@@ -882,7 +952,7 @@
                                 $scope.loading = true;
 
 
-                                $scope.data.date_intake = $scope.data.start_date;
+                                $scope.data.date_intake = $scope.data.date_start;
 
                                 $scope.data.grs_filling_mode_id = 8;
 

@@ -98,18 +98,13 @@ namespace DeskApp.Controllers.Eval
         #endregion
 
         [HttpPost]
-        [Route("api/offline/v1/muni_financial_profile/get_search")]
+        [Route("api/offline/v1/muni_financial_profile/get_dto")]
         public PagedCollection<dynamic> GetAll(AngularFilterModel item)
         {
-
             var model = GetData(item);
-
             var totalCount = model.Count();
-
             int currPages = item.currPage ?? 0;
             int size = item.pageSize ?? 10;
-
-
 
             //THIS PART IS FOR RETRIEVING RECORDS TO BE DISPLAYED ON THE LIST
             return new PagedCollection<dynamic>()
@@ -118,7 +113,6 @@ namespace DeskApp.Controllers.Eval
                 TotalCount = totalCount,
                 TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
                 TotalSync = model.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).Count(),
-
                 TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
 
                 Items = model.OrderBy(x => x.created_date)
@@ -130,10 +124,10 @@ namespace DeskApp.Controllers.Eval
                     lib_province_prov_name = x.lib_province.prov_name,
                     lib_region_region_name = x.lib_region.region_name,
                     lib_cycle_name = x.lib_cycle.name,
-                    push_status_id = x.push_status_id
+                    push_status_id = x.push_status_id,
+                    push_date = x.push_date
 
                 }).Skip(currPages * size).Take(size).ToList(),
-
             };
 
         }
@@ -1031,14 +1025,20 @@ namespace DeskApp.Controllers.Eval
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
                     model.approval_id = 3;
                 }
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
 
-                model.is_deleted = false;
-                db.muni_financial_profile.Add(model);
-                
+                //because api is set to TRUE in sync/get
+                if (api == true)
+                {
+                    model.push_status_id = 1;
+                    model.is_deleted = false;
+                }
+
+                db.muni_financial_profile.Add(model);                
 
                 try
                 {
@@ -1050,6 +1050,8 @@ namespace DeskApp.Controllers.Eval
                     return BadRequest();
                 }
             }
+
+
             else
             {
                 model.push_date = null;
@@ -1062,7 +1064,6 @@ namespace DeskApp.Controllers.Eval
 
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
 

@@ -257,6 +257,8 @@
 
 @section Scripts
 {
+
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
     <script>
 
         angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
@@ -365,7 +367,7 @@
                   }
 
                   else {
-
+                      $.blockUI({ message: '<br>Processing...<br><br>' });
                       var fileUpload = $("#files").get(0);
                       var files = fileUpload.files;
                       var data = new FormData();
@@ -394,6 +396,8 @@
                               message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
                               $scope.attached_documents.push(message);
                               $scope.attachment = {};
+                              setTimeout($.unblockUI, 3);
+                              angular.element("input[type='file']").val(null);
                           },
                           error: function (message) {
                               alert(JSON.stringify(message.responseText));

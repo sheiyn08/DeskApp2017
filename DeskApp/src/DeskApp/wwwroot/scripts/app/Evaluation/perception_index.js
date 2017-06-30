@@ -57,6 +57,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
     $scope.list_of_selected_items = [];
 
+    $scope.showAlert = function () {
+        alert("Synchronize functionality for this module is temporarily unavailable.");
+    };
+
     window.onbeforeunload = function () {
         if ($scope.list_of_selected_items.length > 0 || $scope.needToConfirm == true) { //if value is true
             return "You have checked items for uploading. Click the Synchronize button to proceed with uploading or leave this page and changes made will not be saved."
@@ -118,6 +122,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.loading = false;
             });
         }
+    };
+
+    $scope.GotoPerceptionReport = function () {
+        window.location.href = "/Report/talakayan";
     };
 
 
@@ -260,68 +268,116 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         $scope.recently_added_is_checked = false;
     };
 
+    $http.get('/api/report_list?id=89')
+   .then(function (response) {
+
+       $scope.report_list = response.data;
+   });
+
+
+    $scope.exportXls = function (dlUrl, name) {
+
+        $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
+
+        $.post(dlUrl, $scope.data).success(function (value) {
+            $scope.loading = false;
+
+
+            $scope.exported_data = value;
+
+            setTimeout($.unblockUI, 10);
+
+            alasql('SELECT * INTO XLSX("' + name + '.xlsx' + '",{headers:true}) FROM ?', [$scope.exported_data]);
+
+            $scope.isSearching = false;
+
+        }).error(function (data) {
+
+            alert(JSON.stringify(data));
+
+
+            $scope.error = "An Error has occured while Saving! " + data.statusText;
+            $scope.loading = false;
+        });
+
+    }
+
 
     $scope.search = function (page) {
 
         $scope.data.pageSize = $scope.pageSize === undefined ? '' : $scope.pageSize;
         $scope.data.currPage = page === undefined ? '' : page;
-
+        $scope.isSearching = true;
         $scope.isSearching = true;
 
-        $scope.isSearching = true;
-
-        if ($scope.recently_edited_is_checked === true) {
+        if (($scope.data.filter_by_recent_edit) && (!$scope.data.filter_by_recent_add)) {
             $.post('/api/offline/v1/perception_survey/get_recently_edited', $scope.data).success(function (value) {
                 $scope.loading = false;
-
-                // alert(JSON.stringify(value));
                 $scope.TotalUnAuthorized = value.TotalUnAuthorized;
                 $scope.TotalSync = value.TotalSync;
-                //  $scope.itemsToSync = value.data.itemsToSync;
                 $scope.page = value.Page;
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
-
-
                 $scope.isSearching = false;
-
             }).error(function (data) {
-
                 alert(JSON.stringify(data));
-
-
                 $scope.error = "An Error has occured while Saving! " + data.statusText;
                 $scope.loading = false;
             });
+        }
 
+        else if ((!$scope.data.filter_by_recent_edit) && ($scope.data.filter_by_recent_add)) {
+            $.post('/api/offline/v1/perception_survey/get_recently_added', $scope.data).success(function (value) {
+                $scope.loading = false;
+                $scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                $scope.TotalSync = value.TotalSync;
+                $scope.page = value.Page;
+                $scope.pagesCount = value.TotalPages;
+                $scope.totalCount = value.TotalCount;
+                $scope.Items = value.Items;
+                $scope.isSearching = false;
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                $scope.loading = false;
+            });
+        }
+
+        else if (($scope.data.filter_by_recent_edit) && ($scope.data.filter_by_recent_add)) {
+            $.post('/api/offline/v1/perception_survey/get_recently_edited_and_added', $scope.data).success(function (value) {
+                $scope.loading = false;
+                $scope.TotalUnAuthorized = value.TotalUnAuthorized;
+                $scope.TotalSync = value.TotalSync;
+                $scope.page = value.Page;
+                $scope.pagesCount = value.TotalPages;
+                $scope.totalCount = value.TotalCount;
+                $scope.Items = value.Items;
+                $scope.isSearching = false;
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                $scope.loading = false;
+            });
         }
 
         else {
             $.post('/api/offline/v1/perception_survey/get_dto', $scope.data).success(function (value) {
                 $scope.loading = false;
-
-                // alert(JSON.stringify(value));
                 $scope.TotalUnAuthorized = value.TotalUnAuthorized;
                 $scope.TotalSync = value.TotalSync;
-                //  $scope.itemsToSync = value.data.itemsToSync;
                 $scope.page = value.Page;
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
-
-
                 $scope.isSearching = false;
-
             }).error(function (data) {
-
                 alert(JSON.stringify(data));
-
-
                 $scope.error = "An Error has occured while Saving! " + data.statusText;
                 $scope.loading = false;
             });
         }
+
 
     };
 

@@ -472,29 +472,20 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
         $scope.isSearching = true;
         $scope.total = 0;
         $scope.finished = 0;
-
         var credentials;
-
         var username = $scope.username;
-        var password = $scope.password;
-
-       
+        var password = $scope.password;       
 
         $http.post('/sync/get/barangay_assembly?username=' + username + "&password=" + password + "&city_code=" + $scope.city_code +"&record_id="
         ).success(function (data) {
-$scope.false = true;
-
+            $scope.false = true;
             $mdDialog.cancel();
             location.reload();
             $scope.isSearching = false;
         }).error(function (data) {
-
             $scope.error = "An Error has occured while Saving! " + data.statusText;
             $scope.loading = false;
         });
-        $scope.false = true;
-        $mdDialog.cancel();
-         location.reload();
     };
 
     $scope.syncPost = function () {
@@ -520,7 +511,10 @@ $scope.false = true;
                     $scope.isAddingItem = false;
                     //inner http.post -- actual sync:
                     $http.post('/sync/post/barangay_assembly?username=' + username + "&password=" + password).success(function (data) {
-                        //not sure why this is empty
+                        $scope.false = true;
+                        $scope.isSearching = false;
+                        location.reload();
+                        $mdDialog.cancel();
                     }).error(function (data) {
                         $scope.error = "An Error has occured while Uploading Data! " + data.statusText;
                         $scope.loading = false;

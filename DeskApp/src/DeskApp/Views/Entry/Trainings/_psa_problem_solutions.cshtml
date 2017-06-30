@@ -6,6 +6,94 @@
 
     <div class="panel-heading">
         <h4>Identified Problems and Solutions</h4>
+        <p>Please Encode Problems <strong>according to Rank Order (First - Last)</strong></p>
+        <br />
+        <form name="problemForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <select name="prob.Problem category" ng-model="prob_model.psa_problem_category_id" class="form-control" required
+                                ng-options="option.Id as option.Name for option in psa_problem_category_id_options">
+                            <option value="">[Select Problem Category]</option>
+                        </select>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" placeholder="Problem" ng-model="prob_model.problem" required name="prob.problem" />
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-info" ng-disabled="!problemForm.$valid" ng-click="addProblem()">Add Problem</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br />
+    </div>
+
+    <div class="panel-body">
+        <br />
+        <table class="table zui-table zui-table-horizontal zui-table-highlight bordered">
+            <tr>
+                <td width="10%"></td>
+                <td width="10%">
+                    <b>Rank</b>
+                </td>
+                <td width="20%">
+                    <b>Problem</b>
+                </td>
+                <td width="60%">
+                    <b>Proposed Solution/s</b>
+                </td>
+            </tr>
+            <tbody ng-repeat="prob in list_problems">
+                <tr>
+                    <td>
+                        <a class="btn btn-warning" ng-click="removeProblem(prob, $index)">Remove Problem</a>
+                    </td>
+                    <td>
+                        {{prob.rank}}
+                    </td>
+                    <td>
+                        {{prob.problem}}
+                    </td>
+                    <td>
+                        <table class="table no-border no-hover">
+                            <tr ng-repeat="sols in prob.solutions">
+                                <td width="10%">
+                                    <a class="btn btn-danger" ng-click="removeSolution(sols, $index, prob)"><i class="fa fa-trash"></i></a>
+                                </td>
+                                <td width="80%">
+                                    {{sols.solution}}
+                                </td>
+                                <td width="10%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="text" class="form-control" placeholder="Solution" ng-model="prob.solution" required name="solution" />
+                                </td>
+                                <td>
+                                    <a class="btn btn-info" ng-click="addSolution(prob, $index)" ng-disabled="prob.solution == null">Add Solution</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    
+
+</div>
+
+
+
+@*<h1>--- OLD ---</h1>
+
+<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h4>Identified Problems and Solutions</h4>
 
         <p>Please Encode Problems <strong>According to Rank Order (First - Last)</strong></p>
 
@@ -30,7 +118,7 @@
                 </div>
 
                 <div flex layout="row" ng-repeat="sols in prob.solutions">
-
+                    {{$index}}
                     <div flex><a class="btn btn-danger" ng-click="removeSolution(sols, $index, prob)"><i class="fa fa-trash"></i></a></div>
                     <div flex>
                         {{sols.solution}}
@@ -58,7 +146,6 @@
         <md-list-item layout-margin>
 
             <form name="problemForm" layout="row" layout-margin flex="100">
-                @*<input type="text" class="form-control"   placeholder="Rank" ng-model="prob_model.rank" required name="prob.rank" flex="10" />*@
 
                 <input type="text" class="form-control" placeholder="Problem" ng-model="prob_model.problem" required name="prob.problem" flex="60" />
 
@@ -83,7 +170,6 @@
         </ul>
 
         <md-button class="md-primary md-raised" ng-click="addProblem()">
-            <!--ng-disabled="!problemForm.$valid">-->
             Add Problem
         </md-button>
 
@@ -93,4 +179,4 @@
 
 
 
-</div>
+</div>*@

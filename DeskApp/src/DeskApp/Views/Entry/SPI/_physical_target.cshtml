@@ -13,9 +13,9 @@
             <label for="Region:_">  With Tariff?</label>
         </div>
         <div class="col-md-8">
-            <md-radio-group ng-required="true" name="With Tariff" ng-model="data.with_tariff">
-                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
+            <md-radio-group name="With Tariff" ng-model="data.with_tariff">
+                <md-radio-button data-ng-value="true" class="md-primary" ng-disabled="true">Yes</md-radio-button>
+                <md-radio-button data-ng-value="false" ng-disabled="true"> No </md-radio-button>
             </md-radio-group>
         </div>
     </div>
@@ -80,7 +80,8 @@
             </div>*@
         </div>
         <div class="col-md-4">
-            <md-datepicker name="Date_Started" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_Date_Started" md-placeholder="Enter date" ng-change="data.Date_Started = dt_Date_Started.toISOString()" md-max-date="today"></md-datepicker>
+            @*<md-datepicker name="Date_Started" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_Date_Started" md-placeholder="Enter date" ng-change="data.Date_Started = dt_Date_Started.toISOString()" md-max-date="today"></md-datepicker>*@
+            <md-datepicker name="Date_Started" ng-disabled="true" ng-model="dt_Date_Started"></md-datepicker>
             <div ng-messages="myForm.Date_Started.$error">
                 <div ng-message="required" class="error">*Date Started is required for Completed Projects</div>
             </div>
@@ -92,10 +93,12 @@
             <label for="Region:_">Date Started / Physical </label>
         </div>
         <div class="col-md-4">
-            <md-datepicker name="Physical Date Start Target" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_date_start_physical_planned" md-placeholder="Enter date" ng-change="data.date_start_physical_planned = dt_date_start_physical_planned.toISOString()" md-max-date="today"></md-datepicker>  
+            @*<md-datepicker name="Physical Date Start Target" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_date_start_physical_planned" md-placeholder="Enter date" ng-change="data.date_start_physical_planned = dt_date_start_physical_planned.toISOString()" md-max-date="today"></md-datepicker>*@  
+            <md-datepicker name="Physical Date Start Target" ng-disabled="true" ng-model="dt_date_start_physical_planned"></md-datepicker>
         </div>
         <div class="col-md-4">
-            <md-datepicker md-max-date="today" name="Physical Date Start Actual" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_date_start_physical_actual" md-placeholder="Enter date" ng-change="data.date_start_physical_actual = dt_date_start_physical_actual.toISOString()"></md-datepicker>
+            @*<md-datepicker md-max-date="today" name="Physical Date Start Actual" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_date_start_physical_actual" md-placeholder="Enter date" ng-change="data.date_start_physical_actual = dt_date_start_physical_actual.toISOString()"></md-datepicker>*@
+            <md-datepicker name="Physical Date Start Actual" ng-disabled="true" ng-model="dt_date_start_physical_actual"></md-datepicker>
             <div ng-messages="myForm.date_physical_start.$error">
                 <div ng-message="required" class="error">*Date Started is required for Completed Projects</div>
             </div>
@@ -107,10 +110,12 @@
             <label for="Region:_">  Date of Completion</label>
         </div>
         <div class="col-md-4">
-            <md-datepicker ng-required="true" name="Date of Completion Target" ng-model="dt_PlannedDate_Completion" md-placeholder="Enter date" ng-change="data.PlannedDate_Completion = dt_PlannedDate_Completion.toISOString()"></md-datepicker>           
+            <md-datepicker name="Date of Completion Target" ng-disabled="true" ng-model="dt_PlannedDate_Completion"></md-datepicker>
+            @*<md-datepicker ng-required="true" name="Date of Completion Target" ng-model="dt_PlannedDate_Completion" md-placeholder="Enter date" ng-change="data.PlannedDate_Completion = dt_PlannedDate_Completion.toISOString()"></md-datepicker>*@           
         </div>
         <div class="col-md-4">
-            <md-datepicker md-max-date="today" ng-required="data.physical_status_id ==1" ng-disabled="data.physical_status_id !=1" name="Date of Completion Actual" ng-model="dt_Date_of_Completion" md-placeholder="Enter date" ng-change="data.Date_of_Completion = dt_Date_of_Completion.toISOString()"></md-datepicker>           
+            <md-datepicker name="Date of Completion Actual" ng-disabled="true" ng-model="dt_Date_of_Completion"></md-datepicker>
+            @*<md-datepicker md-max-date="today" ng-required="data.physical_status_id ==1" ng-disabled="data.physical_status_id !=1" name="Date of Completion Actual" ng-model="dt_Date_of_Completion" md-placeholder="Enter date" ng-change="data.Date_of_Completion = dt_Date_of_Completion.toISOString()"></md-datepicker>*@           
         </div>
     </div>
 
@@ -133,7 +138,7 @@
 
     <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_construction_target == true">
         <div flex>
-            <md-checkbox ng-model="data.phy_has_construction_target" aria-label="Checkbox 1">
+            <md-checkbox ng-model="data.phy_has_construction_target" aria-label="Checkbox 1" ng-disabled="true">
             </md-checkbox>
         </div>
         <div flex>
@@ -143,16 +148,18 @@
             {{lib_project_type.phy_construction_unit}}
         </div>
         <div flex>
-            <input class="form-control" name="Construction Target" type="number" ng-model="data.phy_construction_target" ng-change="data.s_phy_construction_target = data.phy_construction_target" ng-disabled="!data.phy_has_construction_target" />
+            @*ng-disabled="!data.phy_has_construction_target"*@
+            <input class="form-control" name="Construction Target" type="number" ng-model="data.phy_construction_target" ng-change="data.s_phy_construction_target = data.phy_construction_target" ng-disabled="true" />
         </div>
         <div flex>
-            <input class="form-control" name="Construction Actual" type="number" ng-model="data.phy_construction_actual" ng-change="data.s_phy_construction_actual = data.phy_construction_actual" ng-disabled="!data.phy_has_construction_target" />
+            @*ng-disabled="!data.phy_has_construction_target"*@
+            <input class="form-control" name="Construction Actual" type="number" ng-model="data.phy_construction_actual" ng-change="data.s_phy_construction_actual = data.phy_construction_actual" ng-disabled="true" />
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_improvement_target ==true">
         <div flex>
-            <md-checkbox ng-model="data.phy_has_improvement_target" aria-label="Checkbox 1">
+            <md-checkbox ng-model="data.phy_has_improvement_target" aria-label="Checkbox 1" ng-disabled="true">
             </md-checkbox>
         </div>
         <div flex>
@@ -162,16 +169,18 @@
             {{lib_project_type.phy_improvement_unit}}
         </div>
         <div flex>
-            <input class="form-control" name="Improvement Target" type="number" ng-model="data.phy_improvement_target" ng-change="data.s_phy_improvement_target = data.phy_improvement_target" ng-disabled="!data.phy_has_improvement_target" />
+            @*ng-disabled="!data.phy_has_improvement_target"*@ 
+            <input class="form-control" name="Improvement Target" type="number" ng-model="data.phy_improvement_target" ng-change="data.s_phy_improvement_target = data.phy_improvement_target" ng-disabled="true" />
         </div>
         <div flex>
-            <input class="form-control" name="Improvement Actual" type="number" ng-model="data.phy_improvement_actual" ng-change="data.s_phy_improvement_actual = data.phy_improvement_actual" ng-disabled="!data.phy_has_improvement_target" />
+            @*ng-disabled="!data.phy_has_improvement_target"*@
+            <input class="form-control" name="Improvement Actual" type="number" ng-model="data.phy_improvement_actual" ng-change="data.s_phy_improvement_actual = data.phy_improvement_actual" ng-disabled="true" />
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_rehabilitation_target">
         <div flex>
-            <md-checkbox ng-model="data.phy_has_rehabilitation_target" aria-label="Checkbox 1">
+            <md-checkbox ng-model="data.phy_has_rehabilitation_target" aria-label="Checkbox 1" ng-disabled="true">
             </md-checkbox>
         </div>
         <div flex>
@@ -181,10 +190,12 @@
             {{lib_project_type.phy_rehabilitation_unit}}
         </div>
         <div flex>
-            <input class="form-control" name="Rehab Target" type="number" ng-model="data.phy_rehabilitation_target" ng-change="data.s_phy_rehabilitation_target = data.phy_rehabilitation_target" ng-disabled="!data.phy_has_rehabilitation_target" />
+            @*ng-disabled="!data.phy_has_rehabilitation_target"*@
+            <input class="form-control" name="Rehab Target" type="number" ng-model="data.phy_rehabilitation_target" ng-change="data.s_phy_rehabilitation_target = data.phy_rehabilitation_target" ng-disabled="true" />
         </div>
         <div flex>
-            <input class="form-control" name="Rehab Actual" type="number" ng-model="data.phy_rehabilitation_actual" ng-change="data.s_phy_rehabilitation_actual = data.phy_rehabilitation_actual" ng-disabled="!data.phy_has_rehabilitation_target" />
+            @*ng-disabled="!data.phy_has_rehabilitation_target"*@
+            <input class="form-control" name="Rehab Actual" type="number" ng-model="data.phy_rehabilitation_actual" ng-change="data.s_phy_rehabilitation_actual = data.phy_rehabilitation_actual" ng-disabled="true" />
         </div>
     </div>
 
@@ -200,10 +211,12 @@
             {{lib_project_type.phy_purchase_unit}}
         </div>
         <div flex>
-            <input class="form-control" type="number" ng-model="data.phy_purchase_target" ng-change="data.s_phy_purchase_target = data.phy_purchase_target" ng-disabled="!data.phy_has_purchase_target" />
+            @*ng-disabled="!data.phy_has_purchase_target"*@
+            <input class="form-control" type="number" ng-model="data.phy_purchase_target" ng-change="data.s_phy_purchase_target = data.phy_purchase_target" ng-disabled="true"/>
         </div>
         <div flex>
-            <input class="form-control" type="number" ng-model="data.phy_purchase_actual" ng-change="data.s_phy_purchase_actual = data.phy_purchase_actual" ng-disabled="!data.phy_has_purchase_target" />
+            @*ng-disabled="!data.phy_has_purchase_target"*@
+            <input class="form-control" type="number" ng-model="data.phy_purchase_actual" ng-change="data.s_phy_purchase_actual = data.phy_purchase_actual" ng-disabled="true"/>
         </div>
     </div>
     
@@ -211,7 +224,7 @@
 
     <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_construction_target_secondary == true">
         <div flex>
-            <md-checkbox ng-model="data.phy_has_construction_target_secondary" aria-label="Checkbox 1">
+            <md-checkbox ng-model="data.phy_has_construction_target_secondary" aria-label="Checkbox 1" ng-disabled="true">
             </md-checkbox>
         </div>
         <div flex>
@@ -221,16 +234,18 @@
             {{lib_project_type.phy_construction_unit_secondary}}
         </div>
         <div flex>
-            <input class="form-control" type="number" ng-model="data.phy_construction_target_secondary" ng-change="data.s_phy_construction_target_secondary = data.phy_construction_target_secondary" ng-disabled="!data.phy_has_construction_target_secondary" />
+            @*ng-disabled="!data.phy_has_construction_target_secondary"*@
+            <input class="form-control" type="number" ng-model="data.phy_construction_target_secondary" ng-change="data.s_phy_construction_target_secondary = data.phy_construction_target_secondary"  />
         </div>
         <div flex>
-            <input class="form-control" type="number" ng-model="data.phy_construction_actual_secondary" ng-change="data.s_phy_construction_actual_secondary = data.phy_construction_actual_secondary" ng-disabled="!data.phy_has_construction_target_secondary" />
+            @*ng-disabled="!data.phy_has_construction_target_secondary"*@
+            <input class="form-control" type="number" ng-model="data.phy_construction_actual_secondary" ng-change="data.s_phy_construction_actual_secondary = data.phy_construction_actual_secondary"  />
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_improvement_target_secondary ==true">
         <div flex>
-            <md-checkbox ng-model="data.phy_has_improvement_target_secondary" aria-label="Checkbox 1">
+            <md-checkbox ng-model="data.phy_has_improvement_target_secondary" aria-label="Checkbox 1" ng-disabled="true">
             </md-checkbox>
         </div>
         <div flex>
@@ -240,16 +255,18 @@
             {{lib_project_type.phy_improvement_unit_secondary}}
         </div>
         <div flex>
-            <input class="form-control" type="number" ng-model="data.phy_improvement_target_secondary" ng-change="data.s_phy_improvement_target_secondary = data.phy_improvement_target_secondary" ng-disabled="!data.phy_has_improvement_target_secondary" />
+            @*ng-disabled="!data.phy_has_improvement_target_secondary"*@
+            <input class="form-control" type="number" ng-model="data.phy_improvement_target_secondary" ng-change="data.s_phy_improvement_target_secondary = data.phy_improvement_target_secondary"  />
         </div>
         <div flex>
-            <input class="form-control" type="number" ng-model="data.phy_improvement_actual_secondary" ng-change="data.s_phy_improvement_actual_secondary = data.phy_improvement_actual_secondary" ng-disabled="!data.phy_has_improvement_target_secondary" />
+            @*ng-disabled="!data.phy_has_improvement_target_secondary"*@
+            <input class="form-control" type="number" ng-model="data.phy_improvement_actual_secondary" ng-change="data.s_phy_improvement_actual_secondary = data.phy_improvement_actual_secondary" />
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_rehabilitation_target_secondary">
         <div flex>
-            <md-checkbox ng-model="data.phy_has_rehabilitation_target_secondary" aria-label="Checkbox 1">
+            <md-checkbox ng-model="data.phy_has_rehabilitation_target_secondary" aria-label="Checkbox 1" ng-disabled="true">
             </md-checkbox>
         </div>
         <div flex>
@@ -259,16 +276,18 @@
             {{lib_project_type.phy_rehabilitation_unit_secondary}}
         </div>
         <div flex>
-            <input class="form-control" type="number" ng-model="data.phy_rehabilitation_target_secondary" ng-change="data.s_phy_rehabilitation_target_secondary = data.phy_rehabilitation_target_secondary" ng-disabled="!data.phy_has_rehabilitation_target_secondary" />
+            @*ng-disabled="!data.phy_has_rehabilitation_target_secondary"*@
+            <input class="form-control" type="number" ng-model="data.phy_rehabilitation_target_secondary" ng-change="data.s_phy_rehabilitation_target_secondary = data.phy_rehabilitation_target_secondary"  />
         </div>
         <div flex>
-            <input class="form-control" type="number" ng-model="data.phy_rehabilitation_actual_secondary" ng-change="data.s_phy_rehabilitation_actual_secondary = data.phy_rehabilitation_actual_secondary" ng-disabled="!data.phy_has_rehabilitation_target_secondary" />
+            @*ng-disabled="!data.phy_has_rehabilitation_target_secondary"*@
+            <input class="form-control" type="number" ng-model="data.phy_rehabilitation_actual_secondary" ng-change="data.s_phy_rehabilitation_actual_secondary = data.phy_rehabilitation_actual_secondary"  />
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_purchase_target_secondary">
         <div flex>
-            <md-checkbox ng-model="data.phy_has_purchase_target_secondary" aria-label="Checkbox 1">
+            <md-checkbox ng-model="data.phy_has_purchase_target_secondary" aria-label="Checkbox 1" ng-disabled="true">
             </md-checkbox>
         </div>
         <div flex>
@@ -278,10 +297,12 @@
             {{lib_project_type.phy_purchase_unit_secondary}}
         </div>
         <div flex>
-            <input class="form-control" type="number" ng-model="data.phy_purchase_target_secondary" ng-change="data.s_phy_purchase_target_secondary = data.phy_purchase_target_secondary" ng-disabled="!data.phy_has_purchase_target_secondary" />
+            @*ng-disabled="!data.phy_has_purchase_target_secondary"*@
+            <input class="form-control" type="number" ng-model="data.phy_purchase_target_secondary" ng-change="data.s_phy_purchase_target_secondary = data.phy_purchase_target_secondary"  />
         </div>
         <div flex>
-            <input class="form-control" type="number" ng-model="data.phy_purchase_actual_secondary" ng-change="data.s_phy_purchase_target_secondary = data.phy_purchase_target_secondary" ng-disabled="!data.phy_has_purchase_target_secondary" />
+            @*ng-disabled="!data.phy_has_purchase_target_secondary"*@
+            <input class="form-control" type="number" ng-model="data.phy_purchase_actual_secondary" ng-change="data.s_phy_purchase_target_secondary = data.phy_purchase_target_secondary"  />
         </div>
     </div>
 

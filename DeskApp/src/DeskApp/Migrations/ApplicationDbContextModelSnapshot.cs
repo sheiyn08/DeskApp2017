@@ -1862,33 +1862,33 @@ namespace DeskApp.Migrations
 
                     b.Property<int>("city_code");
 
-                    b.Property<int?>("expenditures_economic_services");
+                    b.Property<float?>("expenditures_economic_services");
 
-                    b.Property<int?>("expenditures_educ_culture_etc");
+                    b.Property<float?>("expenditures_educ_culture_etc");
 
-                    b.Property<int?>("expenditures_gen_public_services");
+                    b.Property<float?>("expenditures_gen_public_services");
 
-                    b.Property<int?>("expenditures_health_services");
+                    b.Property<float?>("expenditures_health_services");
 
-                    b.Property<int?>("expenditures_housing_comm_devt");
+                    b.Property<float?>("expenditures_housing_comm_devt");
 
-                    b.Property<int?>("expenditures_labor_and_employment");
+                    b.Property<float?>("expenditures_labor_and_employment");
 
-                    b.Property<int?>("expenditures_other_purposes");
+                    b.Property<float?>("expenditures_other_purposes");
 
-                    b.Property<int?>("expenditures_social_welfare_services");
+                    b.Property<float?>("expenditures_social_welfare_services");
 
-                    b.Property<int?>("extraordinary_receipts");
+                    b.Property<float?>("extraordinary_receipts");
 
-                    b.Property<int?>("inter_local_transfers");
+                    b.Property<float?>("inter_local_transfers");
 
-                    b.Property<int?>("ira_share");
+                    b.Property<float?>("ira_share");
 
-                    b.Property<int?>("locally_shared_revenues");
+                    b.Property<float?>("locally_shared_revenues");
 
-                    b.Property<int?>("other_revenues_total");
+                    b.Property<float?>("other_revenues_total");
 
-                    b.Property<int?>("other_shares_natl_tax");
+                    b.Property<float?>("other_shares_natl_tax");
 
                     b.Property<int>("prov_code");
 
@@ -1896,7 +1896,7 @@ namespace DeskApp.Migrations
 
                     b.Property<int>("region_code");
 
-                    b.Property<int?>("total_lgu_income");
+                    b.Property<float?>("total_lgu_income");
 
                     b.Property<int>("year_id");
 
@@ -1915,39 +1915,39 @@ namespace DeskApp.Migrations
                 {
                     b.Property<int>("lgpms_data_id");
 
-                    b.Property<int?>("administrative_governance_2009");
+                    b.Property<float?>("administrative_governance_2009");
 
-                    b.Property<int?>("administrative_governance_2010");
+                    b.Property<float?>("administrative_governance_2010");
 
-                    b.Property<int?>("administrative_governance_2011");
+                    b.Property<float?>("administrative_governance_2011");
 
-                    b.Property<int?>("administrative_governance_2012");
+                    b.Property<float?>("administrative_governance_2012");
 
                     b.Property<int>("city_code");
 
-                    b.Property<int?>("economic_governance_2009");
+                    b.Property<float?>("economic_governance_2009");
 
-                    b.Property<int?>("economic_governance_2010");
+                    b.Property<float?>("economic_governance_2010");
 
-                    b.Property<int?>("economic_governance_2011");
+                    b.Property<float?>("economic_governance_2011");
 
-                    b.Property<int?>("economic_governance_2012");
+                    b.Property<float?>("economic_governance_2012");
 
-                    b.Property<int?>("environmental_governance_2009");
+                    b.Property<float?>("environmental_governance_2009");
 
-                    b.Property<int?>("environmental_governance_2010");
+                    b.Property<float?>("environmental_governance_2010");
 
-                    b.Property<int?>("environmental_governance_2011");
+                    b.Property<float?>("environmental_governance_2011");
 
-                    b.Property<int?>("environmental_governance_2012");
+                    b.Property<float?>("environmental_governance_2012");
 
-                    b.Property<int?>("overall_performance_index_2009");
+                    b.Property<float?>("overall_performance_index_2009");
 
-                    b.Property<int?>("overall_performance_index_2010");
+                    b.Property<float?>("overall_performance_index_2010");
 
-                    b.Property<int?>("overall_performance_index_2011");
+                    b.Property<float?>("overall_performance_index_2011");
 
-                    b.Property<int?>("overall_performance_index_2012");
+                    b.Property<float?>("overall_performance_index_2012");
 
                     b.Property<int>("prov_code");
 
@@ -1955,21 +1955,21 @@ namespace DeskApp.Migrations
 
                     b.Property<int>("region_code");
 
-                    b.Property<int?>("social_governance_2009");
+                    b.Property<float?>("social_governance_2009");
 
-                    b.Property<int?>("social_governance_2010");
+                    b.Property<float?>("social_governance_2010");
 
-                    b.Property<int?>("social_governance_2011");
+                    b.Property<float?>("social_governance_2011");
 
-                    b.Property<int?>("social_governance_2012");
+                    b.Property<float?>("social_governance_2012");
 
-                    b.Property<int?>("valuing_fundamentals_of_good_gov_2009");
+                    b.Property<float?>("valuing_fundamentals_of_good_gov_2009");
 
-                    b.Property<int?>("valuing_fundamentals_of_good_gov_2010");
+                    b.Property<float?>("valuing_fundamentals_of_good_gov_2010");
 
-                    b.Property<int?>("valuing_fundamentals_of_good_gov_2011");
+                    b.Property<float?>("valuing_fundamentals_of_good_gov_2011");
 
-                    b.Property<int?>("valuing_fundamentals_of_good_gov_2012");
+                    b.Property<float?>("valuing_fundamentals_of_good_gov_2012");
 
                     b.HasKey("lgpms_data_id");
 
@@ -5173,6 +5173,8 @@ namespace DeskApp.Migrations
 
                     b.Property<string>("household_id");
 
+                    b.Property<int>("idenity");
+
                     b.Property<int?>("ip_group_id");
 
                     b.Property<bool?>("is_bdc");
@@ -5736,6 +5738,8 @@ namespace DeskApp.Migrations
 
                     b.Property<long?>("Year");
 
+                    b.Property<decimal?>("_dep_ed_amount");
+
                     b.Property<double?>("actual_breakdown");
 
                     b.Property<int?>("actual_female");
@@ -5830,6 +5834,10 @@ namespace DeskApp.Migrations
 
                     b.Property<bool?>("has_before_photo");
 
+                    b.Property<bool?>("has_cadt");
+
+                    b.Property<bool?>("has_cadteable");
+
                     b.Property<bool?>("has_closed_account");
 
                     b.Property<bool?>("has_ip_presence");
@@ -5837,6 +5845,10 @@ namespace DeskApp.Migrations
                     b.Property<bool?>("has_local_counterpart");
 
                     b.Property<bool?>("has_marker");
+
+                    b.Property<bool?>("has_ncip");
+
+                    b.Property<bool?>("has_on_process");
 
                     b.Property<bool?>("has_onm_group");
 
@@ -5866,6 +5878,8 @@ namespace DeskApp.Migrations
 
                     b.Property<bool?>("has_turnover_certificate");
 
+                    b.Property<bool?>("has_validation_conducted");
+
                     b.Property<bool?>("has_variation");
 
                     b.Property<string>("ip_groups");
@@ -5878,11 +5892,23 @@ namespace DeskApp.Migrations
 
                     b.Property<bool?>("is_duplicate");
 
+                    b.Property<bool?>("is_enhancement_functionality");
+
+                    b.Property<bool?>("is_incentive");
+
                     b.Property<bool?>("is_kalahi_funded");
+
+                    b.Property<bool?>("is_lgu_led");
+
+                    b.Property<bool?>("is_multiple_sps");
 
                     b.Property<bool?>("is_public_school_for_ip");
 
                     b.Property<bool?>("is_pulled_from_pra");
+
+                    b.Property<bool?>("is_savings");
+
+                    b.Property<bool?>("is_sp_functional");
 
                     b.Property<bool?>("is_updated");
 
@@ -5934,9 +5960,13 @@ namespace DeskApp.Migrations
 
                     b.Property<int>("modality_id");
 
+                    b.Property<int?>("mode_id");
+
                     b.Property<string>("mode_of_implementation");
 
                     b.Property<int?>("movement_id");
+
+                    b.Property<DateTime?>("ncip_date");
 
                     b.Property<bool?>("ncip_submitted");
 
@@ -6014,6 +6044,8 @@ namespace DeskApp.Migrations
 
                     b.Property<string>("path");
 
+                    b.Property<bool?>("permit_to_construct_enter");
+
                     b.Property<int?>("photos");
 
                     b.Property<decimal?>("phy_construction_actual");
@@ -6086,11 +6118,17 @@ namespace DeskApp.Migrations
 
                     b.Property<int?>("push_status_id");
 
+                    b.Property<bool?>("quit_claim");
+
                     b.Property<int>("region_code");
+
+                    b.Property<int?>("replaced_sub_project_id");
 
                     b.Property<string>("resume_order_list");
 
                     b.Property<string>("rfr_status");
+
+                    b.Property<bool?>("right_of_way_agreement");
 
                     b.Property<string>("s_phy_construction_actual");
 
@@ -6124,6 +6162,10 @@ namespace DeskApp.Migrations
 
                     b.Property<string>("s_phy_rehabilitation_target_secondary");
 
+                    b.Property<DateTime?>("sc_cno_date");
+
+                    b.Property<DateTime?>("sc_cp_date");
+
                     b.Property<DateTime?>("set_date_eval");
 
                     b.Property<double?>("set_financial");
@@ -6155,13 +6197,31 @@ namespace DeskApp.Migrations
 
                     b.Property<int?>("target_male");
 
+                    b.Property<decimal?>("target_tranching_first");
+
+                    b.Property<decimal?>("target_tranching_second");
+
+                    b.Property<decimal?>("target_tranching_third");
+
                     b.Property<int?>("training_category_id");
+
+                    b.Property<DateTime?>("validation_conducted_date");
 
                     b.Property<bool?>("validation_status_others");
 
                     b.Property<string>("validation_status_others_input");
 
+                    b.Property<DateTime?>("variation_actual_date_completion");
+
+                    b.Property<DateTime?>("variation_date_started");
+
                     b.Property<string>("variation_order_list");
+
+                    b.Property<double?>("variation_phy_perc_to_date");
+
+                    b.Property<int?>("variation_physical_status_id");
+
+                    b.Property<DateTime?>("variation_target_date_completion");
 
                     b.Property<bool?>("with_cadt");
 

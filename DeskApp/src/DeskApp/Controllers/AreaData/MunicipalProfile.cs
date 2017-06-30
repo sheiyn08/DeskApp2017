@@ -254,23 +254,27 @@ namespace DeskApp.Controllers
 
             var record = db.muni_profile.AsNoTracking().FirstOrDefault(x => x.muni_profile_id == model.muni_profile_id);
 
+            //if record is not existing:
             if (record == null)
             {
-
-
+                //because api is not set (null) in save from script:
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
 
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.approval_id = 3;
+                    model.is_deleted = false;
                 }
 
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.approval_id = 3;
-                model.is_deleted = false;
-
+                //because api is set to TRUE in sync/get
+                if (api == true) {
+                    model.push_status_id = 1;
+                    model.is_deleted = false;
+                }
+                
                 db.muni_profile.Add(model);
 
 
@@ -284,6 +288,8 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
+
+            //if record already exists, meaning this is saving on edit:
             else
             {
                 model.push_date = null;
@@ -404,11 +410,11 @@ namespace DeskApp.Controllers
 
                 // ----------------------------- NEW CODE: ------------------------------------ //
 
-                var items_preselected = db.muni_profile.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.muni_profile.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 { 
-                    var items = db.muni_profile.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                    var items = db.muni_profile.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
 
                     if (record_id != null)
                     {
@@ -429,7 +435,7 @@ namespace DeskApp.Controllers
                 }
                 else
                 {
-                    var items = db.muni_profile.Where(x => x.push_status_id == 5 && x.is_deleted != true);
+                    var items = db.muni_profile.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
                     if (record_id != null)
                     {
                         items = items.Where(x => x.muni_profile_id == record_id);

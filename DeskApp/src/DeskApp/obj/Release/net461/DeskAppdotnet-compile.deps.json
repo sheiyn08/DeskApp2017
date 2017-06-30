@@ -9,7 +9,7 @@
       "TRACE",
       "NET461"
     ],
-    "platform": "x64",
+    "platform": "x86",
     "optimize": true,
     "emitEntryPoint": true
   },
@@ -3575,7 +3575,7 @@
     "System.Diagnostics.DiagnosticSource/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-S7z/ARtRxDygqv8f9VlC42M4eqCninL29ijZY0SyU/5r25X/H1vzC14P19DDEArKempVnjSJlX2XR5wGrWzKOw=="
+      "sha512": "sha512-tD6kosZnTAGdrEa0tZSuFyunMbt/5KYDnHdndJYGqZoNy00XVXyACd5d6KnE1YgYv3ne2CjtAfNXo/fwEhnKUA=="
     },
     "System.Diagnostics.FileVersionInfo/4.0.0": {
       "type": "package",
@@ -3795,7 +3795,7 @@
     "System.Text.Encodings.Web/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Yc1XficqB5ae0yuwAfO8I9dbVW/B0txYWGIhyq/XeJFwWcaSvjyBlRtcuZzpwMS3f57FYoO7EZP1bV16+iHk0A=="
+      "sha512": "sha512-ilLTKoirqw+Mbt+6x1MOxZKEwflasdP5WNuo5m5rKSXtAqazlEDqdyBH1XbvENuDQUtKNeP48CI1dyDNlEAeOA=="
     },
     "System.Text.RegularExpressions/4.0.10.0": {
       "type": "referenceassembly",

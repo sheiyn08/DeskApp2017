@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DeskApp.DataLayer.Entities;
 using Microsoft.AspNetCore.Authorization;
+using DeskApp.DataLayer.Eval;
 
 namespace DeskApp.Controllers
 {
@@ -21,6 +22,7 @@ namespace DeskApp.Controllers
     {
 
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        public static string test_url = @"http://10.10.10.157:8079";
         public static string geoUrl = @"http://geotagging.dswd.gov.ph";
 
         private readonly ApplicationDbContext db;
@@ -2589,6 +2591,182 @@ namespace DeskApp.Controllers
 
 
         #endregion
+
+        #region Municipal Financial Data
+
+        public void lgpms_data(string username, string password)
+        {
+
+            string token = username + ":" + password;
+
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+
+
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                //setup client
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/lgpms_data").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+
+                    var model = JsonConvert.DeserializeObject<List<lgpms_data>>(responseJson.Result);
+
+                    foreach (var item in model)
+
+                        if (db.lgpms_data.AsNoTracking().FirstOrDefault(x => x.lgpms_data_id == item.lgpms_data_id) == null)
+                        {
+                            db.lgpms_data.Add(item);
+                            db.SaveChanges();
+
+                        }
+                        else
+                        {
+
+                            db.Entry(item).State = EntityState.Modified;
+
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+
+                            }
+                        }
+
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+        public void dof_blgf_financial_data(string username, string password)
+        {
+
+            string token = username + ":" + password;
+
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+
+
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                //setup client
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/dof_blgf_financial_data").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+
+                    var model = JsonConvert.DeserializeObject<List<dof_blgf_financial_data>>(responseJson.Result);
+
+                    foreach (var item in model)
+
+                        if (db.dof_blgf_financial_data.AsNoTracking().FirstOrDefault(x => x.dof_blgf_financial_data_record_id == item.dof_blgf_financial_data_record_id) == null)
+                        {
+                            db.dof_blgf_financial_data.Add(item);
+                            db.SaveChanges();
+
+                        }
+                        else
+                        {
+
+                            db.Entry(item).State = EntityState.Modified;
+
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+
+                            }
+                        }
+
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+        #endregion
+
+        #region Library update for type of org (Community Organizations module)
+        public void lib_organization(string username, string password)
+        {
+
+            string token = username + ":" + password;
+
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+
+
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                //setup client
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/lib_organization").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+
+                    var model = JsonConvert.DeserializeObject<List<lib_organization>>(responseJson.Result);
+
+                    foreach (var item in model)
+
+                        if (db.lib_organization.AsNoTracking().FirstOrDefault(x => x.organization_id == item.organization_id) == null)
+                        {
+                            db.lib_organization.Add(item);
+                            db.SaveChanges();
+
+                        }
+                        else
+                        {
+
+                            db.Entry(item).State = EntityState.Modified;
+
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+
+                            }
+                        }
+
+                }
+                else
+                {
+
+                }
+            }
+        }
+        #endregion
+
+
         public ActionResult UpdateLibrary(string username, string password)
         {
             string token = username + ":" + password;
@@ -2688,7 +2866,7 @@ namespace DeskApp.Controllers
             lib_major_classification(username, password);
             lib_project_type(username, password);
 
-             
+
             table_name(username, password);
 
 
@@ -2705,6 +2883,11 @@ namespace DeskApp.Controllers
             lib_disaster(username, password);
 
             mov_list(username, password);
+
+            lgpms_data(username, password);
+            dof_blgf_financial_data(username, password);
+
+            lib_organization(username, password);
 
             return Ok();
 

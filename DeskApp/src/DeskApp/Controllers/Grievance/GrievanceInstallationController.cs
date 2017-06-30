@@ -196,6 +196,7 @@ namespace DeskApp.Controllers
                     lib_lgu_level_name = x.lib_lgu_level.name,
                     lib_cycle_name = x.lib_cycle.name,
                     push_date = x.push_date,
+                    push_status_id = x.push_status_id,
                     last_modified_date = x.last_modified_date
 
                 }).Skip(currPages * size).Take(size).ToList(),
@@ -231,7 +232,9 @@ namespace DeskApp.Controllers
                         lib_region_region_name = x.lib_region.region_name,
                         lib_fund_source_name = x.lib_fund_source.name,
                         lib_lgu_level_name = x.lib_lgu_level.name,
-                        lib_cycle_name = x.lib_cycle.name
+                        lib_cycle_name = x.lib_cycle.name,
+                        push_date = x.push_date,
+                        push_status_id = x.push_status_id,
                     }).Skip(currPages * size).Take(size).ToList(),
             };
         }
@@ -265,7 +268,9 @@ namespace DeskApp.Controllers
                         lib_region_region_name = x.lib_region.region_name,
                         lib_fund_source_name = x.lib_fund_source.name,
                         lib_lgu_level_name = x.lib_lgu_level.name,
-                        lib_cycle_name = x.lib_cycle.name
+                        lib_cycle_name = x.lib_cycle.name,
+                        push_date = x.push_date,
+                        push_status_id = x.push_status_id,
                     }).Skip(currPages * size).Take(size).ToList(),
             };
         }
@@ -299,7 +304,9 @@ namespace DeskApp.Controllers
                         lib_region_region_name = x.lib_region.region_name,
                         lib_fund_source_name = x.lib_fund_source.name,
                         lib_lgu_level_name = x.lib_lgu_level.name,
-                        lib_cycle_name = x.lib_cycle.name
+                        lib_cycle_name = x.lib_cycle.name,
+                        push_date = x.push_date,
+                        push_status_id = x.push_status_id,
                     }).Skip(currPages * size).Take(size).ToList(),
             };
         }
@@ -311,39 +318,41 @@ namespace DeskApp.Controllers
         {
 
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest();
+            //}
 
             var record = db.grs_installation.AsNoTracking()
             .FirstOrDefault(x => 
-            
+                x.grs_installation_id == model.grs_installation_id &&            
                 x.brgy_code == model.brgy_code && 
                 x.city_code == model.city_code && 
                 x.cycle_id == model.cycle_id && 
                 x.lgu_level_id == model.lgu_level_id &&
                 x.fund_source_id == model.fund_source_id &&
-                x.is_deleted != true
-            
+                x.is_deleted != true            
             );
 
             if (record == null)
             {
-
-
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
                 }
 
+                //because api is set to TRUE in sync/get
+                if (api == true)
+                {
+                    model.push_status_id = 1;
+                    model.is_deleted = false;
+                }
 
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-
-                model.is_deleted = false;
                 db.grs_installation.Add(model);
  
 
@@ -354,11 +363,10 @@ namespace DeskApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
             }
+
             else
             {
                 model.push_date = null;
@@ -371,10 +379,9 @@ namespace DeskApp.Controllers
                 }
 
 
-                model.grs_installation_id = record.grs_installation_id;
+                //model.grs_installation_id = record.grs_installation_id;
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
 
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
@@ -526,11 +533,11 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
                 
-                var items_preselected = db.grs_installation.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.grs_installation.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.grs_installation.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+                    var items = db.grs_installation.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
                     if (record_id != null)
                     {
                         items = items.Where(x => x.grs_installation_id == record_id);
@@ -548,14 +555,14 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            item.push_status_id = 4;
-                            item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
+                            //item.push_status_id = 4;
+                            //item.push_date = DateTime.Now;
+                            //await db.SaveChangesAsync();
                         }
                     }
                 }
                 else {
-                    var items = db.grs_installation.Where(x => x.push_status_id == 5 && x.is_deleted != true);
+                    var items = db.grs_installation.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
                     if (record_id != null)
                     {
                         items = items.Where(x => x.grs_installation_id == record_id);
@@ -573,9 +580,9 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            item.push_status_id = 4;
-                            item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
+                            //item.push_status_id = 4;
+                            //item.push_date = DateTime.Now;
+                            //await db.SaveChangesAsync();
                         }
                     }
 

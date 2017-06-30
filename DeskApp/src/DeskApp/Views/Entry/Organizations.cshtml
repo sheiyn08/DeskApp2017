@@ -585,6 +585,7 @@
 
 @section Scripts
 {
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
     <script>
 
         angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
@@ -667,15 +668,17 @@
 
 
               $http.get('/api/online/lib_region')
-         .then(function (response) { $scope.region_code_options = response.data; });
+                  .then(function (response) { $scope.region_code_options = response.data; });
 
               $http.get('/Api/lib_fund_source/')
-      .then(function (response) { $scope.fund_source_id_options = response.data; });
+                  .then(function (response) { $scope.fund_source_id_options = response.data; });
 
 
               $http.get('/api/lib_enrollment')
-                            .then(function (response) { $scope.enrollment_id_options = response.data; });
+                  .then(function (response) { $scope.enrollment_id_options = response.data; });
 
+              $http.get('/api/offline/lib_organization')
+                  .then(function (response) { $scope.organization_id_options = response.data; });
 
 
 
@@ -728,7 +731,7 @@
 
               $scope.uploadAttachment = function () {
 
-
+                  $.blockUI({ message: '<br>Processing...<br><br>' });
 
                   var fileUpload = $("#files").get(0);
                   var files = fileUpload.files;
@@ -766,12 +769,10 @@
 
                           message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
 
-
-
                           $scope.attached_documents.push(message);
-
-                          //    alert(JSON.stringify(message));
-
+                          $scope.attachment = {};
+                          setTimeout($.unblockUI, 3);
+                          angular.element("input[type='file']").val(null);
                       },
                       error: function (message) {
                           alert(JSON.stringify(message.responseText));

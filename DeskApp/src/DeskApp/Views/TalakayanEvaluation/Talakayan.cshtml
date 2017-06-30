@@ -66,6 +66,8 @@
 
 @section Scripts
 {
+
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
     <script>
 
         angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
@@ -131,7 +133,7 @@
 
                             $scope.data.talakayan_date_start = $scope.data.talakayan_date_start == 0 ? "" : $scope.data.talakayan_date_start;
                             $scope.data.talakayan_date_end = $scope.data.talakayan_date_end == 0 ? "" : $scope.data.talakayan_date_end;
-                                                        
+
                             $scope.data.evaluation_date_start = $scope.data.evaluation_date_start == 0 ? "" : $scope.data.evaluation_date_start;
                             $scope.data.evaluation_date_end = $scope.data.evaluation_date_end == 0 ? "" : $scope.data.evaluation_date_end;
 
@@ -377,7 +379,7 @@
 
                             $scope.uploadAttachment = function () {
 
-
+                                $.blockUI({ message: '<br>Processing...<br><br>' });
 
                                 var fileUpload = $("#files").get(0);
                                 var files = fileUpload.files;
@@ -415,11 +417,10 @@
 
                                         message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
 
-
-
                                         $scope.attached_documents.push(message);
-
-                                        //    alert(JSON.stringify(message));
+                                        $scope.attachment = {};
+                                        setTimeout($.unblockUI, 3);
+                                        angular.element("input[type='file']").val(null);
 
                                     },
                                     error: function (message) {

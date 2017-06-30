@@ -491,6 +491,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.showAdvanced = function (ev) {
         
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+        window.onbeforeunload = null;
 
         $mdDialog.show({
             controller: DialogController,
@@ -601,6 +602,7 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
                     $scope.isAddingItem = false;
                     //inner http.post -- actual sync:
                     $http.post('/sync/post/profiles?username=' + username + "&password=" + password + "&record_id=").success(function (data) {
+                        $scope.needToConfirm = false;
                         $scope.false = true;
                         $scope.isSearching = false;
                         location.reload();
@@ -621,6 +623,7 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
             alert("You did not select any item to upload. Hence, system will upload items that are newly created and/or edited.");
             //inner http.post -- actual sync:
             $http.post('/sync/post/profiles?username=' + username + "&password=" + password + "&record_id=").success(function (data) {
+                $scope.needToConfirm = false;
                 $scope.false = true;
                 $scope.isSearching = false;
                 location.reload();

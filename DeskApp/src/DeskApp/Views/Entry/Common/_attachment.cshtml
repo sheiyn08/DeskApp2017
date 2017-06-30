@@ -72,19 +72,19 @@
                         <form name="attachmentForm">
                             <div class="col-md-3">
                                 <label>Attachment Type</label>
-                                <select class="form-control" name="Attachment" ng-model="attachment.mov_list_id" id="brgy_code" ng-style="hegi"
+                                <select class="form-control" name="Attachment" ng-model="attachment.mov_list_id" id="brgy_code" ng-style="hegi" ng-required="true"
                                         ng-options="option.Id as option.Name for option in attachment_list">
                                     <option value="">[Select Attachment Type]</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label><br /></label>
-                                <input class="form-control" type="file" ng-required="true" max="1" id="files" name="files" multiple/>
+                                <input class="form-control" ng-model="attachment.pdf_document" type="file" ng-required="true" max="1" id="files" name="files" multiple/>
                             </div>
                         </form>
                         <div class="col-md-1">
                             <label><br /></label><br />
-                            <a class="btn btn-success" ng-click="uploadAttachment()" ng-disabled="!attachmentForm.$valid"><i class="fa fa-check"></i></a>
+                            <a class="btn btn-success" ng-click="uploadAttachment()" ng-disabled="!attachment.mov_list_id &&  !attachment.pdf_document"><i class="fa fa-check"></i></a>
                         </div>
                         @*<div class="col-md-1">
                             <label><br /></label>

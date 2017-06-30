@@ -14,6 +14,7 @@ namespace DeskApp.DataLayer
     {
         [Key]
         public Guid grs_installation_id { get; set; }
+
         public string old_id { get; set; }
 
     

@@ -190,17 +190,21 @@
                                                 KC Mode
                                             </th>
                                             <th style="vertical-align:middle">
+                                                As of
+                                            </th>
+                                            <th style="vertical-align:middle">
                                                 Date Uploaded
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="item in Items | orderBy: item.last_modified_date">
+                                        <tr ng-repeat="item in Items">
                                             <td style="text-align:center; vertical-align:middle">
-                                                <md-checkbox ng-model="item.is_item_selected" ng-change="itemSelectedforSync(item)" aria-label="false"></md-checkbox> {{item.is_item_selected == true ? "Selected" : ""}}
+                                                <md-checkbox ng-model="item.is_item_selected" ng-change="itemSelectedforSync(item)" aria-label="false"></md-checkbox> {{item.is_item_selected == true ? "Selected" : ""}}                                                
                                             </td>
                                             <td style="vertical-align:middle">
                                                 <a ng-href="/Entry/MLCC?id={{item.municipal_lcc_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+                                                <a ng-click="delete(item)" class="btn btn-warning" title="Delete Record"><span data-toggle='tooltip' class='glyphicon glyphicon-trash'></span></a>
                                             </td>
                                             <td style="vertical-align:middle">
                                                 {{item.lib_region_region_name}}
@@ -220,8 +224,14 @@
                                             <td style="vertical-align:middle">
                                                 {{item.lib_enrollment_name}}
                                             </td>
-                                            <td style="vertical-align:middle" ng-show="item.push_date==null">
+                                            <td style="vertical-align:middle">
+                                                {{item.history | date:'MM/dd/yyyy'}}
+                                            </td>
+                                            <td style="vertical-align:middle" ng-show="item.push_status_id == 2 || item.push_status_id == 3">
                                                 <mark>(For Uploading)</mark>
+                                            </td>
+                                            <td style="vertical-align:middle" ng-show="item.push_date == null && item.push_status_id == 1">
+                                                N/A
                                             </td>
                                             <td style="vertical-align:middle" ng-show="item.push_date!=null">
                                                 {{item.push_date | date:'MM/dd/yyyy'}}
