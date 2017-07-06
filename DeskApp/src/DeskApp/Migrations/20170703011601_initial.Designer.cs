@@ -8,8 +8,8 @@ using DeskApp.Data;
 namespace DeskApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170619005730_initial_june19")]
-    partial class initial_june19
+    [Migration("20170703011601_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

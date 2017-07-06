@@ -6,7 +6,6 @@
 --suppress-warning:CS1701
 --suppress-warning:CS1702
 --suppress-warning:CS1705
---platform:x86
 --optimize:False
 --emit-entry-point:True
 --output-name:DeskApp
@@ -322,8 +321,8 @@ D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\spi_ers.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\spi_spcr_mapping.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\sub_project_mapping.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\training_mapping.cs
-D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170619005730_initial_june19.cs
-D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170619005730_initial_june19.Designer.cs
+D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170703011601_initial.cs
+D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170703011601_initial.Designer.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\ApplicationDbContextModelSnapshot.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Models\ApplicationUser.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs
