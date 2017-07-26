@@ -4,11 +4,11 @@
 
 
 
-<div class="panel panel-success">
+<div class="panel panel-info">
 
 
     <div class="panel panel-heading">
-        <h3>Barangay Problems</h3>
+        <h4>Barangay Problems</h4>
         <P>What are the main problems in the barangay? Identify.</P>
     </div>
 
@@ -30,8 +30,6 @@
     </div>
 
 
-
-
     <div layout="row" layout-margin flex="100">
 
         <div flex>
@@ -41,7 +39,7 @@
 
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.access_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.access_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -51,8 +49,9 @@
         </div>
         <div flex>
 
-            <md-radio-group ng-model="data.access_addressed">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.access_addressed" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -63,7 +62,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.access_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.access_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -71,7 +70,6 @@
         </div>
 
     </div>
-
 
 
     <div layout="row" layout-margin flex="100">
@@ -81,7 +79,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.water_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.water_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -89,8 +87,9 @@
         </div>
         <div flex>
 
-            <md-radio-group ng-model="data.water_address">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.water_address" layout="row">
+            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -99,15 +98,13 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.water_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.water_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
             </md-input-container>
         </div>
     </div>
-
-
 
 
     <div layout="row" layout-margin flex="100">
@@ -117,7 +114,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.health_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.health_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -125,8 +122,9 @@
         </div>
         <div flex>
 
-            <md-radio-group ng-model="data.health_address">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.health_address" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -137,14 +135,13 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.health_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.health_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
             </md-input-container>
         </div>
     </div>
-
 
 
     <div layout="row" layout-margin flex="100">
@@ -154,7 +151,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.literacy_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.literacy_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -163,8 +160,9 @@
         <div flex>
 
 
-            <md-radio-group ng-model="data.literacy_addressed">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.literacy_addressed" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -176,15 +174,13 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.literacy_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.literacy_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
             </md-input-container>
         </div>
     </div>
-
-
 
 
     <div layout="row" layout-margin flex="100">
@@ -194,7 +190,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.employment_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.employment_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -204,8 +200,9 @@
 
 
 
-            <md-radio-group ng-model="data.employment_addressed">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.employment_addressed" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -217,15 +214,13 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.employment_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.employment_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
             </md-input-container>
         </div>
     </div>
-
-
 
 
     <div layout="row" layout-margin flex="100">
@@ -236,7 +231,7 @@
 
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.landownership_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.landownership_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -244,8 +239,9 @@
         </div>
         <div flex>
 
-            <md-radio-group ng-model="data.landownership_addressed">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.landownership_addressed" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -260,7 +256,7 @@
 
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.landownership_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.landownership_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -279,7 +275,7 @@
 
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.agriculture_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.agriculture_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -287,8 +283,9 @@
         </div>
         <div flex>
 
-            <md-radio-group ng-model="data.agriculture_addressed">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.agriculture_addressed" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -306,15 +303,13 @@
 
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.agriculture_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.agriculture_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
             </md-input-container>
         </div>
     </div>
-
-
 
 
     <div layout="row" layout-margin flex="100">
@@ -324,7 +319,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.peace_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.peace_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -332,8 +327,9 @@
         </div>
         <div flex>
 
-            <md-radio-group ng-model="data.peace_addressed">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.peace_addressed" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -345,14 +341,13 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.peace_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.peace_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
             </md-input-container>
         </div>
     </div>
-
 
 
     <div layout="row" layout-margin flex="100">
@@ -362,7 +357,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.environment_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.environment_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -370,8 +365,9 @@
         </div>
         <div flex>
 
-            <md-radio-group ng-model="data.environment_addressed">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.environment_addressed" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -383,14 +379,13 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.environement_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.environement_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
             </md-input-container>
         </div>
     </div>
-
 
 
     <div layout="row" layout-margin flex="100">
@@ -400,7 +395,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.powersupply_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.powersupply_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -409,8 +404,9 @@
         <div flex>
 
 
-            <md-radio-group ng-model="data.powersupply_addressed">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.powersupply_addressed" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -421,14 +417,13 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.powersupply_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.powersupply_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
             </md-input-container>
         </div>
     </div>
-
 
 
     <div layout="row" layout-margin flex="100">
@@ -438,7 +433,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.communication_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.communication_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -447,8 +442,9 @@
         <div flex>
 
 
-            <md-radio-group ng-model="data.communication_addressed">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.communication_addressed" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -461,15 +457,13 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.communication_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.communication_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
             </md-input-container>
         </div>
     </div>
-
-
 
 
     <div layout="row" layout-margin flex="100">
@@ -479,7 +473,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.others_details" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.others_details" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 
@@ -488,8 +482,9 @@
         <div flex>
 
 
-            <md-radio-group ng-model="data.others_addressed">
-            <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button><md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
+            <md-radio-group ng-model="data.others_addressed" layout="row">
+                <md-radio-button data-ng-value="" class="md-primary">N/A</md-radio-button>
+                <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
             </md-radio-group>
@@ -500,7 +495,7 @@
         <div flex>
             <md-input-container class="md-block" flex="100">
 
-                <textarea name="access_details" ng-model="data.others_remarks" md-maxlength="2000" rows="5"
+                <textarea name="access_details" ng-model="data.others_remarks" md-maxlength="2000" rows="3"
                           cols="100"
                           md-select-on-focus="" flex="100"></textarea>
 

@@ -70,6 +70,7 @@
                     </td>
                     <td style="vertical-align:middle">
                         <a ng-href="/Entry/subprojects?id={{item.sub_project_unique_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+                        <a ng-click="delete(item)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
                     </td>
                     <td style="vertical-align:middle">
                         {{item.lib_region_region_name}}

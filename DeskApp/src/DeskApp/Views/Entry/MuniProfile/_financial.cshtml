@@ -1,7 +1,7 @@
 ﻿
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>Financial Source</h3>
+        <h4>Financial Source</h4>
         <p>What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?</p>
     </div>
 
@@ -82,9 +82,9 @@
 
 
 
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>Financial Allocation</h3>
+        <h4>Financial Allocation</h4>
         <p>          How were municipal funds allocated in the previous year?</p>
     </div>
 
@@ -243,7 +243,7 @@
             </div>
 
             <div flex="50" flex-sm="100">
-                {{data.alloc_env + data.alloc_econ + data.alloc_infra +data.alloc_basic + data.alloc_inst + data.alloc_gender + data.alloc_drrm + data.alloc_others }}
+                <label>{{data.alloc_env + data.alloc_econ + data.alloc_infra +data.alloc_basic + data.alloc_inst + data.alloc_gender + data.alloc_drrm + data.alloc_others | currency:"₱"}}</label>
             </div>
 
 
@@ -256,9 +256,9 @@
 
 
 
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>GAD Utilization</h3>
+        <h4>GAD Utilization</h4>
         <p>How was GAD Fund utilized by the municipality?</p>
     </div>
 
@@ -324,9 +324,9 @@
 </div>
 
 
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>DRRM Utilization</h3>
+        <h4>DRRM Utilization</h4>
         <p>How was DRRM Fund utilized by the municipality?</p>
     </div>
 

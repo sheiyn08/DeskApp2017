@@ -39,375 +39,227 @@
             <md-tab label="Details">
                 <form name="praForm">
                     <md-content class="md-padding">
-
-
-
-                        @Html.Partial("~/Views/Entry/Common/_rpmb.cshtml")
-
-                        @Html.Partial("~/Views/Entry/Common/_fce.cshtml")
-
-                        @Html.Partial("~/Views/Entry/Common/_ba_sed.cshtml")
-
-                    </md-content>
+                        <div class="panel panel-info">
+                            <div class="panel panel-heading">
+                                <h4>Basic Details</h4>
+                            </div>
+                            @Html.Partial("~/Views/Entry/Common/_rpmb.cshtml")
+                            @Html.Partial("~/Views/Entry/Common/_ba_sed.cshtml")
+                        </div>
+                        
+                    </md-content>  
+                    
                 </form>
-
             </md-tab>
 
 
             <md-tab label="Attendance">
-
                 <form name="attendanceForm">
-
                     <md-content class="md-padding">
-                        <div flex="100" layout="column" layout-margin layout-sm="column">
-                            <h3>Barangay/Community Assembly Attendance Sheet</h3>
+                        <div class="panel panel-info">
+                            <div class="panel panel-heading">
+                                <h4>Barangay/Community Assembly Attendance Sheet</h4>
+                            </div>
 
+                            <md-list-item layout-margin flex="100" class="md-padding">
+                                <div flex="25">Attendees</div>
+                                <div flex="25">Male</div>
+                                <div flex="25">Female</div>
+                                <div flex="25">Total</div>
+                            </md-list-item>
+                            <md-list-item layout-margin flex="100" class="md-padding">
+                                <div flex="25">No of. person</div>
+                                <div flex="25">
+                                    <input name="Male Attendance" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_atn_male" placeholder="Male Attendees" />
+                                </div>
+                                <div flex="25">
+                                    <input name="Female Attendance" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_atn_female" placeholder="Female Attendees" />
+                                </div>
+                                <div flex="25"> {{data.no_atn_male + data.no_atn_female}}</div>
+                            </md-list-item>
+                            <md-list-item layout-margin flex="100" class="md-padding">
+                                <div flex="25">No of. IP</div>
+                                <div flex="25">
+                                    <input placeholder="Male IP" name="Male IP" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_male" />
+                                </div>
+                                <div flex="25">
+                                    <input placeholder="Female IP" name="Female IP" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_female" />
+                                </div>
+                                <div flex="25"> {{data.no_ip_male + data.no_ip_female}}</div>
+                            </md-list-item>
+                            <md-list-item layout-margin flex="100" class="md-padding">
+                                <div flex="25">No of. 60 years +</div>
+                                <div flex="25">
+                                    <input placeholder="Male Senior" name="Male Senior" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_old_male" />
+                                </div>
+                                <div flex="25">
+                                    <input placeholder="Female Senior" name="Female Senior" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_old_female" />
+                                </div>
+                                <div flex="25"> {{data.no_old_female + data.no_old_male}}</div>
+                            </md-list-item>
+                            <md-list-item layout-margin flex="100" class="md-padding">
+                                <div flex="25">No of. B/LGU</div>
+                                <div flex="25">
+                                    <input placeholder="Male LGU" name="Male LGU" required class="form-control" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" ng-model="data.no_lgu_male" />
+                                </div>
+                                <div flex="25">
+                                    <input placeholder="Female LGU" name="Female LGU" required class="form-control" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" ng-model="data.no_lgu_female" />
+                                </div>
+                                <div flex="25"> {{data.no_lgu_female + data.no_lgu_male}}</div>
+                            </md-list-item>
+                        
                         </div>
-
-                    </md-content>
-
-
-                    <md-content class="md-padding">
-
-                        <md-list-item layout-margin flex="100" class="md-padding">
-
-
-                            <div flex="25">Attendees</div>
-                            <div flex="25">Male</div>
-                            <div flex="25">Female</div>
-                            <div flex="25">Total</div>
-
-                        </md-list-item>
-
-                        <md-list-item layout-margin flex="100" class="md-padding">
-
-
-                            <div flex="25">No of. person</div>
-                            <div flex="25">
-                                <input name="Male Attendance" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_atn_male" placeholder="Male Attendees" />
-                            </div>
-                            <div flex="25">
-                                <input name="Female Attendance" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_atn_female" placeholder="Female Attendees" />
-                            </div>
-                            <div flex="25"> {{data.no_atn_male + data.no_atn_female}}</div>
-
-                        </md-list-item>
-
-                        <md-list-item layout-margin flex="100" class="md-padding">
-
-
-                            <div flex="25">No of. IP</div>
-                            <div flex="25">
-                                <input placeholder="Male IP" name="Male IP" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_male" />
-                            </div>
-                            <div flex="25">
-                                <input placeholder="Female IP" name="Female IP" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_female" />
-                            </div>
-                            <div flex="25"> {{data.no_ip_male + data.no_ip_female}}</div>
-
-                        </md-list-item>
-
-                        <md-list-item layout-margin flex="100" class="md-padding">
-
-                            <div flex="25">No of. 60 years +</div>
-                            <div flex="25">
-                                <input placeholder="Male Senior" name="Male Senior" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_old_male" />
-                            </div>
-                            <div flex="25">
-                                <input placeholder="Female Senior" name="Female Senior" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_old_female" />
-                            </div>
-                            <div flex="25"> {{data.no_old_female + data.no_old_male}}</div>
-
-                        </md-list-item>
-
-                        <md-list-item layout-margin flex="100" class="md-padding">
-
-                            <div flex="25">No of. B/LGU</div>
-                            <div flex="25">
-                                <input placeholder="Male LGU" name="Male LGU" required class="form-control" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" ng-model="data.no_lgu_male" />
-                            </div>
-                            <div flex="25">
-                                <input placeholder="Female LGU" name="Female LGU" required class="form-control" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" ng-model="data.no_lgu_female" />
-                            </div>
-                            <div flex="25"> {{data.no_lgu_female + data.no_lgu_male}}</div>
-
-
-                        </md-list-item>
-
-
                     </md-content>
                 </form>
             </md-tab>
 
             <md-tab label="Household / Family Information">
-
                 <form name="hhForm">
                     <md-content class="md-padding">
-                        <div flex="100" layout="column" layout-margin layout-sm="column">
-                            <h3>Household / Family Information</h3>
+                        <div class="panel panel-info">
+                            <div class="panel panel-heading">
+                                <h4>Household / Family Information</h4>
+                            </div>
+
+                            <md-list-item layout-margin flex="100">
+                                <div flex="25">Category</div>
+                                <div flex="25">Families Represented</div>
+                                <div flex="25">Total Families in Barangay</div>
+                                <div flex="25">%Families Rep.</div>
+                                <div flex="25">Household Represented</div>
+                                <div flex="25">Total Household in Barangay</div>
+                                <div flex="25">%HHs Rep.</div>
+                            </md-list-item>
+
+                            <md-list-item layout-margin flex="100">
+                                <div flex="25">Population (ALL)</div>
+                                <div flex="25">
+                                    @*<input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_families" placeholder="Rep Families in Barangay" />*@
+                                    NA
+                                </div>
+                                <div flex="25">
+                                    @*<input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_families_in_barangay" placeholder="Total Families in Barangay" />*@
+                                    NA
+                                </div>
+                                <div flex="25">{{100 *(data.total_families_in_barangay == undefined || data.total_families_in_barangay == 0) ? 0 :100 * data.no_families / data.total_families_in_barangay }}</div>
+                                <div flex="25">
+                                    <input name="Represented Households" ng-app-max="{{ data.total_household_in_barangay }}" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_household" placeholder="Rep Households in Barangay" />
+                                </div>
+                                <div flex="25">
+                                    <input name="Total Households" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_in_barangay" placeholder="Total Households in Barangay" />
+                                </div>
+                                <div flex="25">{{100 *(data.total_household_in_barangay == undefined || data.total_household_in_barangay == 0) ? 0 :100 * data.no_household / data.total_household_in_barangay }}</div>
+                            </md-list-item>
+                            <md-divider></md-divider>
+
+                            <md-list-item layout-margin flex="100" class="md-padding">
+                                <div flex="25">Pantawid</div>
+                                <div flex="25">
+                                    <input name="Represented Pantawid Families" ng-app-max="{{ data.no_pantawid_family_in_barangay }}" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_pantawid_family" placeholder="Rep Pantawid Family" />
+                                </div>
+                                <div flex="25">
+                                    <input name="Total Pantawid Families" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_pantawid_family_in_barangay" placeholder="Total Pantawid Family" />
+                                </div>
+                                <div flex="25">{{100 *(data.no_pantawid_family_in_barangay == undefined || data.no_pantawid_family_in_barangay == 0) ? 0 :100 * data.no_pantawid_family / data.no_pantawid_family_in_barangay }}</div>
+                                <div flex="25">
+                                    <input name="Represented Pantawid Households" ng-app-max="{{ data.total_household_pantawid_in_barangay }}" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_pantawid_household" placeholder="Rep Pantawid Household" />
+                                </div>
+                                <div flex="25">
+                                    <input name="Total Pantawid Households" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_pantawid_in_barangay" placeholder="Total Pantawid Household in Barangay" />
+                                </div>
+                                <div flex="25">{{100 *(data.total_household_pantawid_in_barangay == undefined || data.total_household_pantawid_in_barangay == 0) ? 0 :100 * data.no_pantawid_household / data.total_household_pantawid_in_barangay }}</div>
+                            </md-list-item>
+                            <md-divider></md-divider>
+
+                            <md-list-item layout-margin flex="100" class="md-padding">
+                                <div flex="25">SLP</div>
+                                <div flex="25">
+                                    <input type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_slp_family" placeholder="Rep SLP Famility" />
+                                </div>
+                                <div flex="25">
+                                    <input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_slp_family_in_barangay" placeholder="Total SLP Famility" />
+                                </div>
+                                <div flex="25">{{100 *(data.no_slp_family_in_barangay == undefined || data.no_slp_family_in_barangay == 0) ? 0 :100 * data.no_slp_family / data.no_slp_family_in_barangay }}</div>
+                                <div flex="25">
+                                    <input type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_slp_household" placeholder="Rep SLP Household" />
+                                </div>
+                                <div flex="25">
+                                    <input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_slp_in_barangay" placeholder="Total SLP Household in Barangay" />
+                                </div>
+                                <div flex="25">{{100 *(data.total_household_slp_in_barangay == undefined || data.total_household_slp_in_barangay == 0) ? 0 :100 * data.no_slp_household / data.total_household_slp_in_barangay }}</div>
+                            </md-list-item>
+                            <md-divider></md-divider>
+
+                            <md-list-item layout-margin flex="100" class="md-padding">
+                                <div flex="25">IP</div>
+                                <div flex="25">
+                                    <input name="Represented IP Families" ng-app-max="{{ data.no_ip_family_in_barangay }}" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_family" placeholder="Rep IP Family" />
+                                </div>
+                                <div flex="25">
+                                    <input name="Total IP Families" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_family_in_barangay" placeholder="Total IP Family in Barangay" />
+                                </div>
+                                <div flex="25">{{100 *(data.no_ip_family_in_barangay == undefined || data.no_ip_family_in_barangay == 0) ? 0 :100 * data.no_ip_family / data.no_ip_family_in_barangay }}</div>
+                                <div flex="25">
+                                    <input name="Represented IP Households" ng-app-max="{{data.total_household_ip_in_barangay}}" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_household" placeholder="Rep IP Household" />
+                                </div>
+                                <div flex="25">
+                                    <input name="Total IP Households" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_ip_in_barangay" placeholder="Total IP Household in Barangay" />
+                                </div>
+                                <div flex="25">{{(data.total_household_ip_in_barangay == undefined || data.total_household_ip_in_barangay == 0) ? 0 : 100 * data.no_ip_household / data.total_household_ip_in_barangay }}</div>
+                            </md-list-item>
 
                         </div>
-
                     </md-content>
-
-
-                    <md-content class="md-padding">
-
-
-                        <md-list-item layout-margin flex="100">
-                            <div flex="25">Category</div>
-                            <div flex="25">Families Represented</div>
-
-                            <div flex="25">Total Families in Barangay</div>
-                            <div flex="25">%Families Rep.</div>
-
-
-
-                            <div flex="25">Household Represented</div>
-                            <div flex="25">Total Household in Barangay</div>
-                            <div flex="25">%HHs Rep.</div>
-
-                        </md-list-item>
-
-                        <md-list-item layout-margin flex="100">
-
-
-
-                            <div flex="25">Population (ALL)</div>
-
-
-                            <div flex="25">
-                                @*<input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_families" placeholder="Rep Families in Barangay" />*@
-                                NA
-                            </div>
-
-                            <div flex="25">
-                                @*<input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_families_in_barangay" placeholder="Total Families in Barangay" />*@
-                                NA
-                            </div>
-
-
-
-                            <div flex="25">{{100 *(data.total_families_in_barangay == undefined || data.total_families_in_barangay == 0) ? 0 :100 * data.no_families / data.total_families_in_barangay }}</div>
-
-
-
-
-
-                            <div flex="25">
-                                <input name="Represented Households" ng-app-max="{{ data.total_household_in_barangay }}" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_household" placeholder="Rep Households in Barangay" />
-                            </div>
-
-
-
-                            <div flex="25">
-                                <input name="Total Households" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_in_barangay" placeholder="Total Households in Barangay" />
-                            </div>
-
-
-                            <div flex="25">{{100 *(data.total_household_in_barangay == undefined || data.total_household_in_barangay == 0) ? 0 :100 * data.no_household / data.total_household_in_barangay }}</div>
-
-
-
-
-
-                        </md-list-item>
-                        <md-divider></md-divider>
-
-
-
-                        <md-list-item layout-margin flex="100" class="md-padding">
-
-
-                            <div flex="25">Pantawid</div>
-                            <div flex="25">
-                                <input name="Represented Pantawid Families" ng-app-max="{{ data.no_pantawid_family_in_barangay }}" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_pantawid_family" placeholder="Rep Pantawid Family" />
-                            </div>
-
-                            <div flex="25">
-                                <input name="Total Pantawid Families" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_pantawid_family_in_barangay" placeholder="Total Pantawid Family" />
-                            </div>
-                            <div flex="25">{{100 *(data.no_pantawid_family_in_barangay == undefined || data.no_pantawid_family_in_barangay == 0) ? 0 :100 * data.no_pantawid_family / data.no_pantawid_family_in_barangay }}</div>
-
-
-                            <div flex="25">
-                                <input name="Represented Pantawid Households" ng-app-max="{{ data.total_household_pantawid_in_barangay }}" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_pantawid_household" placeholder="Rep Pantawid Household" />
-                            </div>
-
-
-
-                            <div flex="25">
-                                <input name="Total Pantawid Households" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_pantawid_in_barangay" placeholder="Total Pantawid Household in Barangay" />
-                            </div>
-
-                            <div flex="25">{{100 *(data.total_household_pantawid_in_barangay == undefined || data.total_household_pantawid_in_barangay == 0) ? 0 :100 * data.no_pantawid_household / data.total_household_pantawid_in_barangay }}</div>
-
-                        </md-list-item>
-                        <md-divider></md-divider>
-                        <md-list-item layout-margin flex="100" class="md-padding">
-
-                            <div flex="25">SLP</div>
-                            <div flex="25">
-                                <input type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_slp_family" placeholder="Rep SLP Famility" />
-                            </div>
-                            <div flex="25">
-                                <input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_slp_family_in_barangay" placeholder="Total SLP Famility" />
-                            </div>
-
-
-                            <div flex="25">{{100 *(data.no_slp_family_in_barangay == undefined || data.no_slp_family_in_barangay == 0) ? 0 :100 * data.no_slp_family / data.no_slp_family_in_barangay }}</div>
-
-
-                            <div flex="25">
-                                <input type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_slp_household" placeholder="Rep SLP Household" />
-                            </div>
-                            <div flex="25">
-                                <input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_slp_in_barangay" placeholder="Total SLP Household in Barangay" />
-                            </div>
-
-                            <div flex="25">{{100 *(data.total_household_slp_in_barangay == undefined || data.total_household_slp_in_barangay == 0) ? 0 :100 * data.no_slp_household / data.total_household_slp_in_barangay }}</div>
-
-
-                        </md-list-item>
-
-
-                        <md-divider></md-divider>
-                        <md-list-item layout-margin flex="100" class="md-padding">
-
-                            <div flex="25">IP</div>
-                            <div flex="25">
-                                <input name="Represented IP Families" ng-app-max="{{ data.no_ip_family_in_barangay }}" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_family" placeholder="Rep IP Family" />
-                            </div>
-                            <div flex="25">
-                                <input name="Total IP Families" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_family_in_barangay" placeholder="Total IP Family in Barangay" />
-                            </div>
-                            <div flex="25">{{100 *(data.no_ip_family_in_barangay == undefined || data.no_ip_family_in_barangay == 0) ? 0 :100 * data.no_ip_family / data.no_ip_family_in_barangay }}</div>
-
-
-
-                            <div flex="25">
-                                <input name="Represented IP Households" ng-app-max="{{data.total_household_ip_in_barangay}}" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_household" placeholder="Rep IP Household" />
-                            </div>
-                            <div flex="25">
-                                <input name="Total IP Households" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_ip_in_barangay" placeholder="Total IP Household in Barangay" />
-                            </div>
-
-                            <div flex="25">{{(data.total_household_ip_in_barangay == undefined || data.total_household_ip_in_barangay == 0) ? 0 : 100 * data.no_ip_household / data.total_household_ip_in_barangay }}</div>
-
-
-
-                            @*<label>Part width</label>
-                                <input name="partWidth" min="10" ng-model="partWidth" placeholder="mm" required type="number">
-                                <br>
-                                <label>Cutter width</label>
-                                <input name="cutterwidth" min="10" ng-app-max="{{ partWidth }}" ng-model="cutterWidth" placeholder="mm" required type="number">*@
-
-
-
-                        </md-list-item>
-
-
-                    </md-content>
-
-
-
-
                 </form>
             </md-tab>
+
             <md-tab label="Highlights">
-
-
                 <form name="highlightsForm">
-
-
-
-
                     <md-content class="md-padding">
-                        <div flex="100" layout="column" layout-margin layout-sm="column">
-                            <h3>Highlights</h3>
-
+                        <div class="panel panel-info">
+                            <div class="panel panel-heading">
+                                <h4>Highlights</h4>
+                            </div>
+                            <md-input-container class="md-block" flex="100" style="padding:20px">
+                                <textarea placeholder="Place your highlights on this area" name="Highlights" ng-model="data.highlights" md-maxlength="5000" rows="5"
+                                          cols="100"
+                                          md-select-on-focus="" flex="100"></textarea>
+                            </md-input-container>
                         </div>
-
-                    </md-content>
-
-                    <md-content class="md-padding">
-
-
-
-
-                        <md-input-container class="md-block" flex="100">
-
-                            <textarea placeholder="Place your highlights on this area" name="Highlights" ng-model="data.highlights" md-maxlength="5000" rows="5"
-                                      cols="100"
-                                      md-select-on-focus="" flex="100"></textarea>
-
-                        </md-input-container>
-
-
-
-
                     </md-content>
                 </form>
             </md-tab>
-
-
+            
             <md-tab label="Sectors">
-
                 <md-content class="md-padding">
                     @Html.Partial("~/Views/Entry/Person/_sectors.cshtml")
                 </md-content>
-
-
             </md-tab>
-
 
             <md-tab label="Represented IPs" ng-disabled="!status">
-
                 <md-content class="md-padding">
-
-
-
                     @Html.Partial("~/Views/Entry/BrgyAssembly/_indigenous_groups.cshtml")
-
-
-
                 </md-content>
-
-
             </md-tab>
+
             <md-tab label="IP Leaders" ng-disabled="!status">
-
                 <md-content class="md-padding">
-
-
-
                     @Html.Partial("~/Views/Entry/BrgyAssembly/ip_leaders.cshtml")
-
-
-
                 </md-content>
-
-
             </md-tab>
+
             <md-tab label="PINCOs and Grievances" ng-disabled="!status">
                 @*<md-content class="md-padding">
                         <div flex="100" layout="column" layout-margin layout-sm="column">
                             <h3>PINCOS</h3>
-
                         </div>
-
                     </md-content>*@
                 <md-content class="md-padding">
-
                     @Html.Partial("~/Views/Entry/Common/_pincos.cshtml")
-
-
                 </md-content>
             </md-tab>
+
             @Html.Partial("~/Views/Entry/Common/_attachment.cshtml")
-
-
-
 
         </md-tabs>
 
@@ -692,17 +544,13 @@
                                     url: "/Mov/UploadFilesAjax?id="
                                         + '@ViewBag.id'
                                         + "&mov_list_id=" + $scope.attachment.mov_list_id
-
-
-                                       + "&region_code=" + $scope.data.region_code
-                                       + "&prov_code=" + $scope.data.prov_code
-                                            + "&city_code=" + $scope.data.city_code
-                                            + "&brgy_code=" + $scope.data.brgy_code
-
-                                       + "&fund_source_id=" + $scope.data.fund_source_id
-                                            + "&cycle_id=" + $scope.data.cycle_id
-                                         + "&enrollment_id=" + $scope.data.enrollment_id,
-
+                                        + "&region_code=" + $scope.data.region_code
+                                        + "&prov_code=" + $scope.data.prov_code
+                                        + "&city_code=" + $scope.data.city_code
+                                        + "&brgy_code=" + $scope.data.brgy_code
+                                        + "&fund_source_id=" + $scope.data.fund_source_id
+                                        + "&cycle_id=" + $scope.data.cycle_id
+                                        + "&enrollment_id=" + $scope.data.enrollment_id,
 
 
                                     contentType: false,
@@ -750,7 +598,7 @@
 
 
 
-                                var ask = confirm("Are you sure you want to Delete this?");
+                                var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
 
 
                                 if (ask == true) {

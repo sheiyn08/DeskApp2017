@@ -1,13 +1,14 @@
-﻿<div class="panel panel-success">
+﻿<div class="panel panel-info">
     <div class="panel-heading">
-        <h3><strong>Safeguards Information</strong></h3>
+        <h4>Safeguards Information</h4>
     </div>
     <div class="panel panel-body">
-
-        <div class="panel panel-success">
-            <div class="panel panel-heading">
-                <h4>Necessary Documents / Permits Accomplishments</h4>
-            </div>
+        <md-content>
+            
+            <h4 style="color:dodgerblue">Necessary Documents / Permits Accomplishments</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="row">
                     <div class="col-md-4">
@@ -46,30 +47,29 @@
                     </div>
                 </div>
                 @*<div class="row">
-                        <div class="col-md-4">
-                            With CP?
-                        </div>
-                        <div class="col-md-8">
-                            <md-checkbox ng-model="data.has_sc_cp" aria-label="Checkbox 1">
-                            </md-checkbox>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            With CNO?
-                        </div>
-                        <div class="col-md-8">
-                            <md-checkbox ng-model="data.has_sc_cno" aria-label="Checkbox 1">
-                            </md-checkbox>
-                        </div>
-                    </div>*@
+                <div class="col-md-4">
+                    With CP?
+                </div>
+                <div class="col-md-8">
+                    <md-checkbox ng-model="data.has_sc_cp" aria-label="Checkbox 1">
+                    </md-checkbox>
+                </div>
             </div>
-        </div>
-
-        <div class="panel panel-success">
-            <div class="panel panel-heading">
-                <h4>Indigenous Peoples</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    With CNO?
+                </div>
+                <div class="col-md-8">
+                    <md-checkbox ng-model="data.has_sc_cno" aria-label="Checkbox 1">
+                    </md-checkbox>
+                </div>
+            </div>*@
             </div>
+            
+            <h4 style="color:dodgerblue">Indigenous Peoples</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="row">
                     <div class="col-md-4">
@@ -83,12 +83,11 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="panel panel-success">
-            <div class="panel panel-heading">
-                <h4>Ancestral Domain Status</h4>
-            </div>
+            <h4 style="color:dodgerblue">Ancestral Domain Status</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="row">
                     <div class="col-md-4">
@@ -118,12 +117,11 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="panel panel-success">
-            <div class="panel panel-heading">
-                <h4>Validation Status</h4>
-            </div>
+
+            <h4 style="color:dodgerblue">Validation Status</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="row">
                     <div class="col-md-4">
@@ -186,12 +184,11 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="panel panel-success">
-            <div class="panel panel-heading">
-                <h4>Land Acquisition - Land Ownership and Tenurial Instrument</h4>
-            </div>
+            <h4 style="color:dodgerblue">Land Acquisition - Land Ownership and Tenurial Instrument</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -308,7 +305,7 @@
                         Permit/Clearance
                     </div>
                     <div class="col-md-1">
-                        <md-checkbox ng-model="data.land_aq_permit" aria-label="Checkbox 1" ng-disabled="true">
+                        <md-checkbox ng-model="data.land_aq_other" aria-label="Checkbox 1" ng-disabled="true">
                         </md-checkbox>
                     </div>
                     <div class="col-md-1">
@@ -316,16 +313,19 @@
                     </div>
                     <div class="col-md-4">
                         @*<input type="text" ng-model="data.land_aq_permit_issued_by" class="form-control" ng-disabled="!data.land_aq_permit" ng-required="data.land_aq_permit" name="land_aq_permit_issued_by" />*@
-                        <input type="text" ng-model="data.land_aq_permit_issued_by" class="form-control" ng-disabled="true" />
+                        <input type="text" ng-model="data.other_land_acquisition" class="form-control" ng-disabled="true" />
                     </div>
                 </div>
             </div>
-        </div>
+
+
+        </md-content>
+
     </div>
 </div>
 
 
-<div>
+@*<div>*@
     @*<div class="col-md-6">*@
 
     @*<div class="row">
@@ -927,7 +927,7 @@
 
 
         </div>*@
-</div>
+@*</div>*@
 
 
                

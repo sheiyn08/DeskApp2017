@@ -1,8 +1,8 @@
 ﻿
 
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>Conflict Affected/Pantawid Pamiya and SLP Beneficiaries</h3>
+        <h4>Conflict Affected/Pantawid Pamiya and SLP Beneficiaries</h4>
     </div>
 
     <div layout="row" layout-margin flex="100">
@@ -12,7 +12,7 @@
         <div flex="50">
             <div flex="50">
                 <md-checkbox aria-label="Checkbox 1" ng-model="data.is_armedconflict" ng-change="data.is_brgyaffected = data.is_armedconflict" id="is_isolated">
-                    {{ data.is_brgyaffected == true ? "Yes" : "No" }}
+                    {{ data.is_brgyaffected == true ? "Yes" : "" }}
                 </md-checkbox>
             </div>
         </div>
@@ -32,11 +32,17 @@
                     </md-checkbox>*@
 
                 <md-checkbox ng-model="data.is_poldispute" aria-label="Checkbox 1">
-                    Political and extra judicial killing: {{ data.is_poldispute == true ? "Yes" : "No" }}
+                    Political and extra judicial killing : <strong>{{ data.is_poldispute == true ? "Yes" : "" }}</strong>
                 </md-checkbox>
-                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_genderviolence" id="is_genderviolence">Family and gender-based violence</md-checkbox>
-                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_rido_war" id="is_rido_war">RIDO or clan wars/Tribal wars or 'pangayao'</md-checkbox>
-                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_crime" id="is_crime">Crime</md-checkbox>
+                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_genderviolence" id="is_genderviolence">
+                    Family and gender-based violence : <strong>{{ data.is_genderviolence == true ? "Yes" : "" }}</strong>
+                </md-checkbox>
+                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_rido_war" id="is_rido_war">
+                    RIDO or clan wars/Tribal wars or 'pangayao' : <strong>{{ data.is_rido_war == true ? "Yes" : "" }}</strong>
+                </md-checkbox>
+                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_crime" id="is_crime">
+                    Crime : <strong>{{ data.is_crime == true ? "Yes" : "" }}</strong>
+                </md-checkbox>
             </div>
         </div>
     </div>

@@ -109,6 +109,9 @@
                             <a class="btn btn-info" ng-click="next()" ng-disabled="!reportdetailsForm.$valid">
                                 Next &nbsp;<i class="fa fa-arrow-down fa-lg"></i>
                             </a>
+                            <a class="btn btn-warning" ng-click="print()" ng-disabled="!reportdetailsForm.$valid">
+                                Print &nbsp;<i class="fa fa-print fa-lg"></i>
+                            </a>
                         </div>
                     </div>
                     <br />
@@ -124,482 +127,924 @@
                     <legend class="sample">
                         <i class="fa fa-circle-o"></i>&nbsp; Preview
                     </legend>
-                    <h3 style="text-align:center"><b>Area Coordinating Team Monthly Accomplishment Report</b></h3>
-                    <div style="text-align:center">
-                        <label ng-show="data.report_coverage == 1">For the period of {{data.fortheperiodof_from | date: 'longDate'}} to {{data.fortheperiodof_to | date: 'longDate'}}</label>
-                        <label ng-show="data.report_coverage == 2">As of {{data.as_of | date: 'longDate'}}</label>
-                        <br />
-                        <label>
-                            Fund Source:
-                            {{data.fund_source_id == '1' ? "KC1": ""}}
-                            {{data.fund_source_id == '2' ? "PAMANA" : ""}}
-                            {{data.fund_source_id == '3' ? "MCC" : ""}}
-                            {{data.fund_source_id == '4' ? "AF" : ""}}
-                            {{data.fund_source_id == '5' ? "AUSAid" : ""}}
-                            {{data.fund_source_id == '6' ? "PODER" : ""}}
-                            {{data.fund_source_id == '7' ? "NCDDP" : ""}}
-                            {{data.fund_source_id == '8' ? "BUB" : ""}}
-                            {{data.fund_source_id == '9' ? "JFPR" : ""}}
-                            {{data.fund_source_id == '10' ? "DFAT" : ""}}
-                            {{data.fund_source_id == '11' ? "GIG" : ""}}
-                            {{data.fund_source_id == '12' ? "Construction of Lumad Schools" : ""}}
-                            {{data.fund_source_id == '13' ? "GOP" : ""}}
-                        </label>
-                    </div>
-
-                    @*Part A: CEAC Activites Conducted*@
-
-                    <div class="row" style="padding:15px">
-                        <label><u>A.	CEAC Activities Conducted (including municipal and barangay trainings)</u></label>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Activity Name</th>
-                                    <th>Barangay</th>
-                                    <th>Target Date</th>
-                                    <th>Actual Date of Conduct</th>
-                                    <th>Status  of Schedule</th>
-                                </tr>
-                            </thead>
-                            <tr ng-repeat="item in ceac_list">
-                                <td>{{item.lib_training_category_name}}</td>
-                                <td>{{item.brgy_name}}</td>
-                                <td>{{item.plan_start | date:'MM/dd/yyyy'}} - {{item.plan_end | date:'MM/dd/yyyy'}}</td>
-                                <td>{{item.actual_start | date:'MM/dd/yyyy'}} - {{item.actual_end | date:'MM/dd/yyyy'}}</td>
-                                <td>
-                                    {{item.actual_start < item.plan_start ? "Ahead of Schedule" : ""}}
-                                    {{item.actual_start == item.plan_start ? "On-time" : ""}}
-                                    {{item.actual_start == item.max7days ? "On-time" : ""}}
-                                    {{((item.actual_start > item.plan_start) && (item.actual_start < item.max7days)) ? "On-time" : ""}}
-                                    {{item.actual_start > item.max7days ? "Delayed" : ""}}
-                                </td>
-                            </tr>
-                            <tr ng-show="!ceac_list.length">
-                                <td colspan="4"><i>No results to show.</i> </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    @*Part B: Other Activites Conducted*@
-
-                    <div class="row" style="padding:15px">
-                        <label><u>B.	Other Activities Conducted (including trainings attended at the S/RPMO level, meetings, etc.)</u></label>
-                        <br /><br />
-                        <fieldset class="inner">
+                    @*---------------------------------- PREVIEW DIV ------------------------------------------*@
+                    <div id="act_report_previewDiv">
+                        <h3 style="text-align:center"><b>Area Coordinating Team Monthly Accomplishment Report</b></h3>
+                        <div style="text-align:center">
+                            <label ng-show="data.report_coverage == 1">For the period of {{data.fortheperiodof_from | date: 'longDate'}} to {{data.fortheperiodof_to | date: 'longDate'}}</label>
+                            <label ng-show="data.report_coverage == 2">As of {{data.as_of | date: 'longDate'}}</label>
                             <br />
-                            <div class="row" style="margin-left:5px">
-                                <div class="col-md-2">
-                                    Activity Name
-                                </div>
-                                <div class="col-md-5">
-                                    <input type="text" class="form-control" ng-model="act.otheractivity_name" placeholder="(Activity Name)" ng-required="true" />
-                                </div>
-                            </div>
-                            <br />
-                            <div class="row" style="margin-left:5px">
-                                <div class="col-md-2">
-                                    Conduct Date
-                                </div>
-                                <div class="col-md-2">
-                                    <md-datepicker ng-model="dt_otheractivity_conductdate_from" md-placeholder="From" ng-change="act.otheractivity_conductdate_from = dt_otheractivity_conductdate_from.toISOString()" ng-required="true" md-min-date="otheractivity_minStartDate" md-max-date="otheractivity_maxStartDate"></md-datepicker>
-                                </div>
-                                <div class="col-md-2">
-                                    <md-datepicker ng-model="dt_otheractivity_conductdate_to" md-placeholder="To" ng-change="act.otheractivity_conductdate_to = dt_otheractivity_conductdate_to.toISOString()" ng-required="true" md-min-date="otheractivity_minEndDate" md-max-date="otheractivity_maxEndDate"></md-datepicker>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="row" style="margin-left:5px">
-                                <div class="col-md-2">
-                                    Remarks
-                                </div>
-                                <div class="col-md-5">
-                                    <input type="text" class="form-control" ng-model="act.otheractivity_remarks" placeholder="(Remarks)" />
-                                </div>
-                            </div>
-                            <br />
-                            <div class="row" style="margin-left:5px">
-                                <div class="col-md-1">
-                                    <a class="btn btn-success" ng-click="addOtherActivity()" ng-disabled="!reportTemplateForm.$valid"><i class="fa fa-check"></i>&nbsp; Add Activity</a>
-                                </div>
-                            </div>
-                            <br />
+                            <label>
+                                Fund Source:
+                                {{data.fund_source_id == '1' ? "KC1": ""}}
+                                {{data.fund_source_id == '2' ? "PAMANA" : ""}}
+                                {{data.fund_source_id == '3' ? "MCC" : ""}}
+                                {{data.fund_source_id == '4' ? "AF" : ""}}
+                                {{data.fund_source_id == '5' ? "AUSAid" : ""}}
+                                {{data.fund_source_id == '6' ? "PODER" : ""}}
+                                {{data.fund_source_id == '7' ? "NCDDP" : ""}}
+                                {{data.fund_source_id == '8' ? "BUB" : ""}}
+                                {{data.fund_source_id == '9' ? "JFPR" : ""}}
+                                {{data.fund_source_id == '10' ? "DFAT" : ""}}
+                                {{data.fund_source_id == '11' ? "GIG" : ""}}
+                                {{data.fund_source_id == '12' ? "Construction of Lumad Schools" : ""}}
+                                {{data.fund_source_id == '13' ? "GOP" : ""}}
+                            </label>
+                        </div>
 
-                        </fieldset>
+                        @*Part A: CEAC Activites Conducted*@
 
-                        <br /><br />
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Activity Name</th>
-                                    <th>Actual Date of Conduct</th>
-                                    <th>Remarks</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tr ng-repeat="item in other_activities_list">
-                                <td>{{$index + 1}}</td>
-                                <td>{{item.otheractivity_name}}</td>
-                                <td>{{item.otheractivity_conductdate_from | date:'MM/dd/yyyy'}} - {{item.otheractivity_conductdate_to | date:'MM/dd/yyyy'}}</td>
-                                <td>{{item.otheractivity_remarks}}</td>
-                                <td><a class="btn btn-warning" ng-click="removeOtherActivity($index)" title="Remove this Activity from the list"><i class="fa fa-close"></i></a></td>
-                            </tr>
-                            <tr ng-show="!other_activities_list.length">
-                                <td colspan="5"><i>No results to show.</i> </td>
-                            </tr>
-                        </table>
-                        <br />
-                    </div>
-
-                    @*Part C1: Pariticipation Rates per BAs Conducted*@
-
-                    <div class="row" style="padding:15px">
-                        <label><u>C.	Accomplishments/Outputs</u></label>
-                        <br /><br />
-                        <label style="margin: 5px"> 1. Participation Rates per BAs conducted</label>
-
-                        <br /><br />
-                        <div style="overflow:auto">
+                        <div class="row" style="padding:15px">
+                            <label><u>A.	CEAC Activities Conducted (including municipal and barangay trainings)</u></label>
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th rowspan="3" style="vertical-align:middle; text-align:center">Cycle</th>
-                                        <th rowspan="3" style="vertical-align:middle; text-align:center">Barangay</th>
-                                        <th colspan="8" style="vertical-align:middle; text-align:center">First BA</th>
-                                        <th colspan="8" style="vertical-align:middle; text-align:center">Second BA</th>
-                                        <th colspan="8" style="vertical-align:middle; text-align:center">Third BA</th>
-                                        <th colspan="8" style="vertical-align:middle; text-align:center">Fourth BA</th>
-                                        <th colspan="8" style="vertical-align:middle; text-align:center">Fifth BA</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Household Represented</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">IP Household Represented</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
-                                        <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
-                                        <th style="vertical-align:middle; text-align:center">No.</th>
-                                        <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                        <th>Activity Name</th>
+                                        <th>Barangay</th>
+                                        <th>Target Date</th>
+                                        <th>Actual Date of Conduct</th>
+                                        <th>Status  of Schedule</th>
                                     </tr>
                                 </thead>
-                                <tr ng-repeat="item in ba_list">
-                                    <td>{{item.cycle_name}}</td>
+                                <tr ng-repeat="item in ceac_list">
+                                    <td>{{item.lib_training_category_name}}</td>
                                     <td>{{item.brgy_name}}</td>
-
-                                    <td>{{item.first_ba_hh_represented}}</td>
+                                    <td>{{item.plan_start | date:'MM/dd/yyyy'}} - {{item.plan_end | date:'MM/dd/yyyy'}}</td>
+                                    <td>{{item.actual_start | date:'MM/dd/yyyy'}} - {{item.actual_end | date:'MM/dd/yyyy'}}</td>
                                     <td>
-                                        {{((item.first_ba_hh_represented / item.first_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_hh_represented / item.first_ba_hh_total) * 100 | number: 2) + "%"}}
-                                        {{item.first_ba_hh_represented == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.first_ba_ip_hh_represented}}</td>
-                                    <td>
-                                        {{((item.first_ba_ip_hh_represented / item.first_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_ip_hh_represented / item.first_ba_ip_hh_total) * 100 | number: 2) + "%"}}
-                                        {{item.first_ba_ip_hh_represented == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.first_ba_male}}</td>
-                                    <td>
-                                        {{((item.first_ba_male / item.first_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_male / item.first_ba_total_male_female) * 100 | number: 2) + "%"}}
-                                        {{item.first_ba_male == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.first_ba_female}}</td>
-                                    <td>
-                                        {{((item.first_ba_female / item.first_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_female / item.first_ba_total_male_female) * 100 | number: 2) + "%"}}
-                                        {{item.first_ba_female == 0 ? "" : ""}}
-                                    </td>
-
-                                    <td>{{item.second_ba_hh_represented}}</td>
-                                    <td>
-                                        {{((item.second_ba_hh_represented / item.second_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_hh_represented / item.second_ba_hh_total) * 100 | number: 2) + "%"}}
-                                        {{item.second_ba_hh_represented == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.second_ba_ip_hh_represented}}</td>
-                                    <td>
-                                        {{((item.second_ba_ip_hh_represented / item.second_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_ip_hh_represented / item.second_ba_ip_hh_total) * 100 | number: 2) + "%"}}
-                                        {{item.second_ba_ip_hh_represented == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.second_ba_male}}</td>
-                                    <td>
-                                        {{((item.second_ba_male / item.second_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_male / item.second_ba_total_male_female) * 100 | number: 2) + "%"}}
-                                        {{item.second_ba_male == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.second_ba_female}}</td>
-                                    <td>
-                                        {{((item.second_ba_female / item.second_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_female / item.second_ba_total_male_female) * 100 | number: 2) + "%"}}
-                                        {{item.second_ba_female == 0 ? "" : ""}}
-                                    </td>
-
-                                    <td>{{item.third_ba_hh_represented}}</td>
-                                    <td>
-                                        {{((item.third_ba_hh_represented / item.third_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_hh_represented / item.third_ba_hh_total) * 100 | number: 2) + "%"}}
-                                        {{item.third_ba_hh_represented == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.third_ba_ip_hh_represented}}</td>
-                                    <td>
-                                        {{((item.third_ba_ip_hh_represented / item.third_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_ip_hh_represented / item.third_ba_ip_hh_total) * 100 | number: 2) + "%"}}
-                                        {{item.third_ba_ip_hh_represented == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.third_ba_male}}</td>
-                                    <td>
-                                        {{((item.third_ba_male / item.third_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_male / item.third_ba_total_male_female) * 100 | number: 2) + "%"}}
-                                        {{item.third_ba_male == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.third_ba_female}}</td>
-                                    <td>
-                                        {{((item.third_ba_female / item.third_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_female / item.third_ba_total_male_female) * 100 | number: 2) + "%"}}
-                                        {{item.third_ba_female == 0 ? "" : ""}}
-                                    </td>
-
-                                    <td>{{item.fourth_ba_hh_represented}}</td>
-                                    <td>
-                                        {{((item.fourth_ba_hh_represented / item.fourth_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_hh_represented / item.fourth_ba_hh_total) * 100 | number: 2) + "%"}}
-                                        {{item.fourth_ba_hh_represented == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.fourth_ba_ip_hh_represented}}</td>
-                                    <td>
-                                        {{((item.fourth_ba_ip_hh_represented / item.fourth_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_ip_hh_represented / item.fourth_ba_ip_hh_total) * 100 | number: 2) + "%"}}
-                                        {{item.fourth_ba_ip_hh_represented == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.fourth_ba_male}}</td>
-                                    <td>
-                                        {{((item.fourth_ba_male / item.fourth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_male / item.fourth_ba_total_male_female) * 100 | number: 2) + "%"}}
-                                        {{item.fourth_ba_male == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.fourth_ba_female}}</td>
-                                    <td>
-                                        {{((item.fourth_ba_female / item.fourth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_female / item.fourth_ba_total_male_female) * 100 | number: 2) + "%"}}
-                                        {{item.fourth_ba_female == 0 ? "" : ""}}
-                                    </td>
-
-                                    <td>{{item.fifth_ba_hh_represented}}</td>
-                                    <td>
-                                        {{((item.fifth_ba_hh_represented / item.fifth_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_hh_represented / item.fifth_ba_hh_total) * 100 | number: 2) + "%"}}
-                                        {{item.fifth_ba_hh_represented == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.fifth_ba_ip_hh_represented}}</td>
-                                    <td>
-                                        {{((item.fifth_ba_ip_hh_represented / item.fifth_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_ip_hh_represented / item.fifth_ba_ip_hh_total) * 100 | number: 2) + "%"}}
-                                        {{item.fifth_ba_ip_hh_represented == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.fifth_ba_male}}</td>
-                                    <td>
-                                        {{((item.fifth_ba_male / item.fifth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_male / item.fifth_ba_total_male_female) * 100 | number: 2) + "%"}}
-                                        {{item.fifth_ba_male == 0 ? "" : ""}}
-                                    </td>
-                                    <td>{{item.fifth_ba_female}}</td>
-                                    <td>
-                                        {{((item.fifth_ba_female / item.fifth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_female / item.fifth_ba_total_male_female) * 100 | number: 2) + "%"}}
-                                        {{item.fifth_ba_female == 0 ? "" : ""}}
+                                        {{item.actual_start < item.plan_start ? "Ahead of Schedule" : ""}}
+                                        {{item.actual_start == item.plan_start ? "On-time" : ""}}
+                                        {{item.actual_start == item.max7days ? "On-time" : ""}}
+                                        {{((item.actual_start > item.plan_start) && (item.actual_start < item.max7days)) ? "On-time" : ""}}
+                                        {{item.actual_start > item.max7days ? "Delayed" : ""}}
                                     </td>
                                 </tr>
-                                <tr ng-show="!ba_list.length">
-                                    <td colspan="42"><i>No results to show.</i> </td>
+                                <tr ng-show="!ceac_list.length">
+                                    <td colspan="4"><i>No results to show.</i> </td>
                                 </tr>
                             </table>
                         </div>
-                    </div>                                        
 
-                    @*Part C2: Pariticipation Rates per BAs Conducted*@
+                        @*Part B: Other Activites Conducted*@
 
-                    <div class="row" style="padding:15px">
-                        
-                        <label style="margin: 5px"> 2. Total Number of Volunteers per Committee</label>
+                        <div class="row" style="padding:15px">
+                            <label><u>B.	Other Activities Conducted (including trainings attended at the S/RPMO level, meetings, etc.)</u></label>
+                            <br /><br />
+                            <fieldset class="inner">
+                                <br />
+                                <div class="row" style="margin-left:5px">
+                                    <div class="col-md-2">
+                                        Activity Name
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" ng-model="act.otheractivity_name" placeholder="(Activity Name)" ng-required="true" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row" style="margin-left:5px">
+                                    <div class="col-md-2">
+                                        Conduct Date
+                                    </div>
+                                    <div class="col-md-2">
+                                        <md-datepicker ng-model="dt_otheractivity_conductdate_from" md-placeholder="From" ng-change="act.otheractivity_conductdate_from = dt_otheractivity_conductdate_from.toISOString()" ng-required="true" md-min-date="otheractivity_minStartDate" md-max-date="otheractivity_maxStartDate"></md-datepicker>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <md-datepicker ng-model="dt_otheractivity_conductdate_to" md-placeholder="To" ng-change="act.otheractivity_conductdate_to = dt_otheractivity_conductdate_to.toISOString()" ng-required="true" md-min-date="otheractivity_minEndDate" md-max-date="otheractivity_maxEndDate"></md-datepicker>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row" style="margin-left:5px">
+                                    <div class="col-md-2">
+                                        Remarks
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" ng-model="act.otheractivity_remarks" placeholder="(Remarks)" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row" style="margin-left:5px">
+                                    <div class="col-md-1">
+                                        <a class="btn btn-success" ng-click="addOtherActivity()" ng-disabled="!reportTemplateForm.$valid"><i class="fa fa-check"></i>&nbsp; Add Activity</a>
+                                    </div>
+                                </div>
+                                <br />
 
-                        <br /><br />
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th rowspan="2" style="vertical-align:middle; text-align:center">Cycle</th>
-                                    <th rowspan="2" style="vertical-align:middle; text-align:center">Committee</th>
-                                    <th colspan="2" style="vertical-align:middle; text-align:center">Leader</th>
-                                    <th colspan="2" style="vertical-align:middle; text-align:center">Member</th>
+                            </fieldset>
+
+                            <br /><br />
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Activity Name</th>
+                                        <th>Actual Date of Conduct</th>
+                                        <th>Remarks</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in other_activities_list">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{item.otheractivity_name}}</td>
+                                    <td>{{item.otheractivity_conductdate_from | date:'MM/dd/yyyy'}} - {{item.otheractivity_conductdate_to | date:'MM/dd/yyyy'}}</td>
+                                    <td>{{item.otheractivity_remarks}}</td>
+                                    <td><a class="btn btn-warning" ng-click="removeOtherActivity($index)" title="Remove this Activity from the list"><i class="fa fa-close"></i></a></td>
                                 </tr>
-                                <tr>
-                                    <th style="vertical-align:middle; text-align:center">Male</th>
-                                    <th style="vertical-align:middle; text-align:center">Female</th>
-                                    <th style="vertical-align:middle; text-align:center">Male</th>
-                                    <th style="vertical-align:middle; text-align:center">Female</th>
+                                <tr ng-show="!other_activities_list.length">
+                                    <td colspan="5"><i>No results to show.</i> </td>
                                 </tr>
-                            </thead>
-                            <tr ng-repeat="item in volunteers_per_committee_list">
-                                <td>{{item.cycle_name}}</td>
-                                <td>
-                                    {{item.committee_name == '1' ? "AIT": ""}}
-                                    {{item.committee_name == '2' ? "BAC" : ""}}
-                                    {{item.committee_name == '3' ? "BGD" : ""}}
-                                    {{item.committee_name == '4' ? "BRT" : ""}}
-                                    {{item.committee_name == '5' ? "CMT" : ""}}
-                                    {{item.committee_name == '6' ? "GRS" : ""}}
-                                    {{item.committee_name == '7' ? "MIT" : ""}}
-                                    {{item.committee_name == '8' ? "OAM" : ""}}
-                                    {{item.committee_name == '9' ? "PIT" : ""}}
-                                    {{item.committee_name == '10' ? "PPT" : ""}}
-                                    {{item.committee_name == '11' ? "PSA" : ""}}
-                                    {{item.committee_name == '12' ? "PT" : ""}}
-                                </td>
-                                <td>{{item.count_leader_male}}</td>
-                                <td>{{item.count_leader_female}}</td>
-                                <td>{{item.count_member_male}}</td>
-                                <td>{{item.count_member_female}}</td>
-                            </tr>
-                            <tr ng-show="!volunteers_per_committee_list.length">
-                                <td colspan="6"><i>No results to show.</i> </td>
-                            </tr>
-                        </table>
-                        <br />
+                            </table>
+                            <br />
+                        </div>
 
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th rowspan="2" style="vertical-align:middle; text-align:center">Cycle</th>
-                                    <th rowspan="2" style="vertical-align:middle; text-align:center">Committee</th>
-                                    <th colspan="2" style="vertical-align:middle; text-align:center">Pantawid</th>
-                                    <th colspan="2" style="vertical-align:middle; text-align:center">IP</th>
-                                    <th colspan="2" style="vertical-align:middle; text-align:center">SLP</th>
-                                    <th colspan="2" style="vertical-align:middle; text-align:center">Senior Citizen</th>
+                        @*Part C1: Pariticipation Rates per BAs Conducted*@
+
+                        <div class="row" style="padding:15px">
+                            <label><u>C.	Accomplishments/Outputs</u></label>
+                            <br /><br />
+                            <label style="margin: 5px"> 1. Participation Rates per BAs conducted</label>
+
+                            <br /><br />
+                            <div style="overflow:auto">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="3" style="vertical-align:middle; text-align:center">Cycle</th>
+                                            <th rowspan="3" style="vertical-align:middle; text-align:center">Barangay</th>
+                                            <th colspan="8" style="vertical-align:middle; text-align:center">First BA</th>
+                                            <th colspan="8" style="vertical-align:middle; text-align:center">Second BA</th>
+                                            <th colspan="8" style="vertical-align:middle; text-align:center">Third BA</th>
+                                            <th colspan="8" style="vertical-align:middle; text-align:center">Fourth BA</th>
+                                            <th colspan="8" style="vertical-align:middle; text-align:center">Fifth BA</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Household Represented</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">IP Household Represented</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="item in ba_list">
+                                        <td>{{item.cycle_name}}</td>
+                                        <td>{{item.brgy_name}}</td>
+
+                                        <td>{{item.first_ba_hh_represented}}</td>
+                                        <td>
+                                            {{((item.first_ba_hh_represented / item.first_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_hh_represented / item.first_ba_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.first_ba_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.first_ba_ip_hh_represented}}</td>
+                                        <td>
+                                            {{((item.first_ba_ip_hh_represented / item.first_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_ip_hh_represented / item.first_ba_ip_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.first_ba_ip_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.first_ba_male}}</td>
+                                        <td>
+                                            {{((item.first_ba_male / item.first_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_male / item.first_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.first_ba_male == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.first_ba_female}}</td>
+                                        <td>
+                                            {{((item.first_ba_female / item.first_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_female / item.first_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.first_ba_female == 0 ? "" : ""}}
+                                        </td>
+
+                                        <td>{{item.second_ba_hh_represented}}</td>
+                                        <td>
+                                            {{((item.second_ba_hh_represented / item.second_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_hh_represented / item.second_ba_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.second_ba_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.second_ba_ip_hh_represented}}</td>
+                                        <td>
+                                            {{((item.second_ba_ip_hh_represented / item.second_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_ip_hh_represented / item.second_ba_ip_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.second_ba_ip_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.second_ba_male}}</td>
+                                        <td>
+                                            {{((item.second_ba_male / item.second_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_male / item.second_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.second_ba_male == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.second_ba_female}}</td>
+                                        <td>
+                                            {{((item.second_ba_female / item.second_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_female / item.second_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.second_ba_female == 0 ? "" : ""}}
+                                        </td>
+
+                                        <td>{{item.third_ba_hh_represented}}</td>
+                                        <td>
+                                            {{((item.third_ba_hh_represented / item.third_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_hh_represented / item.third_ba_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.third_ba_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.third_ba_ip_hh_represented}}</td>
+                                        <td>
+                                            {{((item.third_ba_ip_hh_represented / item.third_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_ip_hh_represented / item.third_ba_ip_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.third_ba_ip_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.third_ba_male}}</td>
+                                        <td>
+                                            {{((item.third_ba_male / item.third_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_male / item.third_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.third_ba_male == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.third_ba_female}}</td>
+                                        <td>
+                                            {{((item.third_ba_female / item.third_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_female / item.third_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.third_ba_female == 0 ? "" : ""}}
+                                        </td>
+
+                                        <td>{{item.fourth_ba_hh_represented}}</td>
+                                        <td>
+                                            {{((item.fourth_ba_hh_represented / item.fourth_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_hh_represented / item.fourth_ba_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.fourth_ba_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fourth_ba_ip_hh_represented}}</td>
+                                        <td>
+                                            {{((item.fourth_ba_ip_hh_represented / item.fourth_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_ip_hh_represented / item.fourth_ba_ip_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.fourth_ba_ip_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fourth_ba_male}}</td>
+                                        <td>
+                                            {{((item.fourth_ba_male / item.fourth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_male / item.fourth_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.fourth_ba_male == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fourth_ba_female}}</td>
+                                        <td>
+                                            {{((item.fourth_ba_female / item.fourth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_female / item.fourth_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.fourth_ba_female == 0 ? "" : ""}}
+                                        </td>
+
+                                        <td>{{item.fifth_ba_hh_represented}}</td>
+                                        <td>
+                                            {{((item.fifth_ba_hh_represented / item.fifth_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_hh_represented / item.fifth_ba_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.fifth_ba_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fifth_ba_ip_hh_represented}}</td>
+                                        <td>
+                                            {{((item.fifth_ba_ip_hh_represented / item.fifth_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_ip_hh_represented / item.fifth_ba_ip_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.fifth_ba_ip_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fifth_ba_male}}</td>
+                                        <td>
+                                            {{((item.fifth_ba_male / item.fifth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_male / item.fifth_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.fifth_ba_male == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fifth_ba_female}}</td>
+                                        <td>
+                                            {{((item.fifth_ba_female / item.fifth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_female / item.fifth_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.fifth_ba_female == 0 ? "" : ""}}
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="!ba_list.length">
+                                        <td colspan="42"><i>No results to show.</i> </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        @*Part C2: Pariticipation Rates per BAs Conducted*@
+
+                        <div class="row" style="padding:15px">
+
+                            <label style="margin: 5px"> 2. Total Number of Volunteers per Committee</label>
+
+                            <br /><br />
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Cycle</th>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Committee</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Leader</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Member</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in volunteers_per_committee_list">
+                                    <td>{{item.cycle_name}}</td>
+                                    <td>
+                                        {{item.committee_name == '1' ? "AIT": ""}}
+                                        {{item.committee_name == '2' ? "BAC" : ""}}
+                                        {{item.committee_name == '3' ? "BGD" : ""}}
+                                        {{item.committee_name == '4' ? "BRT" : ""}}
+                                        {{item.committee_name == '5' ? "CMT" : ""}}
+                                        {{item.committee_name == '6' ? "GRS" : ""}}
+                                        {{item.committee_name == '7' ? "MIT" : ""}}
+                                        {{item.committee_name == '8' ? "OAM" : ""}}
+                                        {{item.committee_name == '9' ? "PIT" : ""}}
+                                        {{item.committee_name == '10' ? "PPT" : ""}}
+                                        {{item.committee_name == '11' ? "PSA" : ""}}
+                                        {{item.committee_name == '12' ? "PT" : ""}}
+                                    </td>
+                                    <td>{{item.count_leader_male}}</td>
+                                    <td>{{item.count_leader_female}}</td>
+                                    <td>{{item.count_member_male}}</td>
+                                    <td>{{item.count_member_female}}</td>
                                 </tr>
-                                <tr>
-                                    <th style="vertical-align:middle; text-align:center">Male</th>
-                                    <th style="vertical-align:middle; text-align:center">Female</th>
-                                    <th style="vertical-align:middle; text-align:center">Male</th>
-                                    <th style="vertical-align:middle; text-align:center">Female</th>
-                                    <th style="vertical-align:middle; text-align:center">Male</th>
-                                    <th style="vertical-align:middle; text-align:center">Female</th>
-                                    <th style="vertical-align:middle; text-align:center">Male</th>
-                                    <th style="vertical-align:middle; text-align:center">Female</th>
+                                <tr ng-show="!volunteers_per_committee_list.length">
+                                    <td colspan="6"><i>No results to show.</i> </td>
                                 </tr>
-                            </thead>
-                            <tr ng-repeat="item in volunteers_per_committee_list">
-                                <td>{{item.cycle_name}}</td>
-                                <td>
-                                    {{item.committee_name == '1' ? "AIT": ""}}
-                                    {{item.committee_name == '2' ? "BAC" : ""}}
-                                    {{item.committee_name == '3' ? "BGD" : ""}}
-                                    {{item.committee_name == '4' ? "BRT" : ""}}
-                                    {{item.committee_name == '5' ? "CMT" : ""}}
-                                    {{item.committee_name == '6' ? "GRS" : ""}}
-                                    {{item.committee_name == '7' ? "MIT" : ""}}
-                                    {{item.committee_name == '8' ? "OAM" : ""}}
-                                    {{item.committee_name == '9' ? "PIT" : ""}}
-                                    {{item.committee_name == '10' ? "PPT" : ""}}
-                                    {{item.committee_name == '11' ? "PSA" : ""}}
-                                    {{item.committee_name == '12' ? "PT" : ""}}
-                                </td>
-                                <td>{{item.count_pantawid_male}}</td>
-                                <td>{{item.count_pantawid_female}}</td>
-                                <td>{{item.count_ip_male}}</td>
-                                <td>{{item.count_ip_female}}</td>
-                                <td>{{item.count_slp_male}}</td>
-                                <td>{{item.count_slp_female}}</td>
-                                <td>{{item.count_senior_male}}</td>
-                                <td>{{item.count_senior_female}}</td>
-                            </tr>
-                            <tr ng-show="!volunteers_per_committee_list.length">
-                                <td colspan="10"><i>No results to show.</i> </td>
-                            </tr>
-                        </table>
-                    </div>
+                            </table>
+                            <br />
 
-                    @*Part C3: List and date of Trainings (Municipal and Barangay) Facilitated with Data on Total number of Participants Trained*@
-
-                    <div class="row" style="padding:15px">
-
-                        <label style="margin: 5px"> 3. Trainings (Municipal and Barangay) Facilitated with Data on Total number of Participants Trained</label>
-
-                        <br /><br />
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th rowspan="2" style="vertical-align:middle; text-align:center">Cycle</th>
-                                    <th rowspan="2" style="vertical-align:middle; text-align:center">Training Category</th>
-                                    <th rowspan="2" style="vertical-align:middle; text-align:center">Training Title</th>
-                                    <th rowspan="2" style="vertical-align:middle; text-align:center">Date Conducted</th>
-                                    <th colspan="2" style="vertical-align:middle; text-align:center">LGUs</th>
-                                    <th colspan="2" style="vertical-align:middle; text-align:center">Community Volunteers</th>
-                                    <th colspan="2" style="vertical-align:middle; text-align:center">Other Community Members</th>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Cycle</th>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Committee</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Pantawid</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">IP</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">SLP</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Senior Citizen</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in volunteers_per_committee_list">
+                                    <td>{{item.cycle_name}}</td>
+                                    <td>
+                                        {{item.committee_name == '1' ? "AIT": ""}}
+                                        {{item.committee_name == '2' ? "BAC" : ""}}
+                                        {{item.committee_name == '3' ? "BGD" : ""}}
+                                        {{item.committee_name == '4' ? "BRT" : ""}}
+                                        {{item.committee_name == '5' ? "CMT" : ""}}
+                                        {{item.committee_name == '6' ? "GRS" : ""}}
+                                        {{item.committee_name == '7' ? "MIT" : ""}}
+                                        {{item.committee_name == '8' ? "OAM" : ""}}
+                                        {{item.committee_name == '9' ? "PIT" : ""}}
+                                        {{item.committee_name == '10' ? "PPT" : ""}}
+                                        {{item.committee_name == '11' ? "PSA" : ""}}
+                                        {{item.committee_name == '12' ? "PT" : ""}}
+                                    </td>
+                                    <td>{{item.count_pantawid_male}}</td>
+                                    <td>{{item.count_pantawid_female}}</td>
+                                    <td>{{item.count_ip_male}}</td>
+                                    <td>{{item.count_ip_female}}</td>
+                                    <td>{{item.count_slp_male}}</td>
+                                    <td>{{item.count_slp_female}}</td>
+                                    <td>{{item.count_senior_male}}</td>
+                                    <td>{{item.count_senior_female}}</td>
                                 </tr>
-                                <tr>
-                                    <th style="vertical-align:middle; text-align:center">Male</th>
-                                    <th style="vertical-align:middle; text-align:center">Female</th>
-                                    <th style="vertical-align:middle; text-align:center">Male</th>
-                                    <th style="vertical-align:middle; text-align:center">Female</th>
-                                    <th style="vertical-align:middle; text-align:center">Male</th>
-                                    <th style="vertical-align:middle; text-align:center">Female</th>
+                                <tr ng-show="!volunteers_per_committee_list.length">
+                                    <td colspan="10"><i>No results to show.</i> </td>
                                 </tr>
-                            </thead>
-                            <tr ng-repeat="item in trainings_facilitated_list">
-                                <td>{{item.cycle_name}}</td>
-                                <td>{{item.training_category}}</td>
-                                <td>{{item.training_title}}</td>
-                                <td>{{item.start_date | date:'MM/dd/yyyy'}} - {{item.end_date | date:'MM/dd/yyyy'}}</td>
-                                <td>{{item.count_lgu_male}}</td>
-                                <td>{{item.count_lgu_female}}</td>
-                                <td>{{item.count_volunteer_male}}</td>
-                                <td>{{item.count_volunteer_female}}</td>
-                                <td>{{item.count_other_member_male}}</td>
-                                <td>{{item.count_other_member_female}}</td>
-                            </tr>
-                            <tr ng-show="!trainings_facilitated_list.length">
-                                <td colspan="9"><i>No results to show.</i> </td>
-                            </tr>
-                        </table>
-                        <br />
-                    </div>
+                            </table>
+                        </div>
 
+                        @*Part C3: List and date of Trainings (Municipal and Barangay) Facilitated with Data on Total number of Participants Trained*@
 
+                        <div class="row" style="padding:15px">
+
+                            <label style="margin: 5px"> 3. Trainings (Municipal and Barangay) Facilitated with Data on Total number of Participants Trained</label>
+
+                            <br /><br />
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Cycle</th>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Training Category</th>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Training Title</th>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Date Conducted</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">LGUs</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Community Volunteers</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Other Community Members</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in trainings_facilitated_list">
+                                    <td>{{item.cycle_name}}</td>
+                                    <td>{{item.training_category}}</td>
+                                    <td>{{item.training_title}}</td>
+                                    <td>{{item.start_date | date:'MM/dd/yyyy'}} - {{item.end_date | date:'MM/dd/yyyy'}}</td>
+                                    <td>{{item.count_lgu_male}}</td>
+                                    <td>{{item.count_lgu_female}}</td>
+                                    <td>{{item.count_volunteer_male}}</td>
+                                    <td>{{item.count_volunteer_female}}</td>
+                                    <td>{{item.count_other_member_male}}</td>
+                                    <td>{{item.count_other_member_female}}</td>
+                                </tr>
+                                <tr ng-show="!trainings_facilitated_list.length">
+                                    <td colspan="9"><i>No results to show.</i> </td>
+                                </tr>
+                            </table>
+                            <br />
+                        </div>
+                    </div> @*end of previewDiv*@
+
+                    
+                    @*---------------------------------- PRINT DIV ------------------------------------------*@
+                    <div id="act_report_printDiv" ng-hide="true">
+                        <h3 style="text-align:center"><b>Area Coordinating Team Monthly Accomplishment Report</b></h3>
+                        <div style="text-align:center">
+                            <label ng-show="data.report_coverage == 1">For the period of {{data.fortheperiodof_from | date: 'longDate'}} to {{data.fortheperiodof_to | date: 'longDate'}}</label>
+                            <label ng-show="data.report_coverage == 2">As of {{data.as_of | date: 'longDate'}}</label>
+                            <br />
+                            <label>
+                                Fund Source:
+                                {{data.fund_source_id == '1' ? "KC1": ""}}
+                                {{data.fund_source_id == '2' ? "PAMANA" : ""}}
+                                {{data.fund_source_id == '3' ? "MCC" : ""}}
+                                {{data.fund_source_id == '4' ? "AF" : ""}}
+                                {{data.fund_source_id == '5' ? "AUSAid" : ""}}
+                                {{data.fund_source_id == '6' ? "PODER" : ""}}
+                                {{data.fund_source_id == '7' ? "NCDDP" : ""}}
+                                {{data.fund_source_id == '8' ? "BUB" : ""}}
+                                {{data.fund_source_id == '9' ? "JFPR" : ""}}
+                                {{data.fund_source_id == '10' ? "DFAT" : ""}}
+                                {{data.fund_source_id == '11' ? "GIG" : ""}}
+                                {{data.fund_source_id == '12' ? "Construction of Lumad Schools" : ""}}
+                                {{data.fund_source_id == '13' ? "GOP" : ""}}
+                            </label>
+                        </div>
+
+                        @*Part A: CEAC Activites Conducted*@
+
+                        <div class="row" style="padding:15px">
+                            <label><u>A.	CEAC Activities Conducted (including municipal and barangay trainings)</u></label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Activity Name</th>
+                                        <th>Barangay</th>
+                                        <th>Target Date</th>
+                                        <th>Actual Date of Conduct</th>
+                                        <th>Status  of Schedule</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in ceac_list">
+                                    <td>{{item.lib_training_category_name}}</td>
+                                    <td>{{item.brgy_name}}</td>
+                                    <td>{{item.plan_start | date:'MM/dd/yyyy'}} - {{item.plan_end | date:'MM/dd/yyyy'}}</td>
+                                    <td>{{item.actual_start | date:'MM/dd/yyyy'}} - {{item.actual_end | date:'MM/dd/yyyy'}}</td>
+                                    <td>
+                                        {{item.actual_start < item.plan_start ? "Ahead of Schedule" : ""}}
+                                        {{item.actual_start == item.plan_start ? "On-time" : ""}}
+                                        {{item.actual_start == item.max7days ? "On-time" : ""}}
+                                        {{((item.actual_start > item.plan_start) && (item.actual_start < item.max7days)) ? "On-time" : ""}}
+                                        {{item.actual_start > item.max7days ? "Delayed" : ""}}
+                                    </td>
+                                </tr>
+                                <tr ng-show="!ceac_list.length">
+                                    <td colspan="4"><i>No results to show.</i> </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        @*Part B: Other Activites Conducted*@
+
+                        <div class="row" style="padding:15px">
+                            <label><u>B.	Other Activities Conducted (including trainings attended at the S/RPMO level, meetings, etc.)</u></label>
+                            
+                            <br /><br />
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Activity Name</th>
+                                        <th>Actual Date of Conduct</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in other_activities_list">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{item.otheractivity_name}}</td>
+                                    <td>{{item.otheractivity_conductdate_from | date:'MM/dd/yyyy'}} - {{item.otheractivity_conductdate_to | date:'MM/dd/yyyy'}}</td>
+                                    <td>{{item.otheractivity_remarks}}</td>
+                                </tr>
+                                <tr ng-show="!other_activities_list.length">
+                                    <td colspan="5"><i>No results to show.</i> </td>
+                                </tr>
+                            </table>
+                            <br />
+                        </div>
+
+                        @*Part C1: Pariticipation Rates per BAs Conducted*@
+
+                        <div class="row" style="padding:15px">
+                            <label><u>C.	Accomplishments/Outputs</u></label>
+                            <br /><br />
+                            <label style="margin: 5px"> 1. Participation Rates per BAs conducted</label>
+
+                            <br /><br />
+                            <div style="overflow:auto">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="3" style="vertical-align:middle; text-align:center">Cycle</th>
+                                            <th rowspan="3" style="vertical-align:middle; text-align:center">Barangay</th>
+                                            <th colspan="8" style="vertical-align:middle; text-align:center">First BA</th>
+                                            <th colspan="8" style="vertical-align:middle; text-align:center">Second BA</th>
+                                            <th colspan="8" style="vertical-align:middle; text-align:center">Third BA</th>
+                                            <th colspan="8" style="vertical-align:middle; text-align:center">Fourth BA</th>
+                                            <th colspan="8" style="vertical-align:middle; text-align:center">Fifth BA</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Household Represented</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">IP Household Represented</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">IP Household</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Male</th>
+                                            <th colspan="2" style="vertical-align:middle; text-align:center">Female</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                            <th style="vertical-align:middle; text-align:center">No.</th>
+                                            <th style="vertical-align:middle; text-align:center">Percentage</th>
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="item in ba_list">
+                                        <td>{{item.cycle_name}}</td>
+                                        <td>{{item.brgy_name}}</td>
+
+                                        <td>{{item.first_ba_hh_represented}}</td>
+                                        <td>
+                                            {{((item.first_ba_hh_represented / item.first_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_hh_represented / item.first_ba_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.first_ba_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.first_ba_ip_hh_represented}}</td>
+                                        <td>
+                                            {{((item.first_ba_ip_hh_represented / item.first_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_ip_hh_represented / item.first_ba_ip_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.first_ba_ip_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.first_ba_male}}</td>
+                                        <td>
+                                            {{((item.first_ba_male / item.first_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_male / item.first_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.first_ba_male == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.first_ba_female}}</td>
+                                        <td>
+                                            {{((item.first_ba_female / item.first_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.first_ba_female / item.first_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.first_ba_female == 0 ? "" : ""}}
+                                        </td>
+
+                                        <td>{{item.second_ba_hh_represented}}</td>
+                                        <td>
+                                            {{((item.second_ba_hh_represented / item.second_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_hh_represented / item.second_ba_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.second_ba_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.second_ba_ip_hh_represented}}</td>
+                                        <td>
+                                            {{((item.second_ba_ip_hh_represented / item.second_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_ip_hh_represented / item.second_ba_ip_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.second_ba_ip_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.second_ba_male}}</td>
+                                        <td>
+                                            {{((item.second_ba_male / item.second_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_male / item.second_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.second_ba_male == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.second_ba_female}}</td>
+                                        <td>
+                                            {{((item.second_ba_female / item.second_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.second_ba_female / item.second_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.second_ba_female == 0 ? "" : ""}}
+                                        </td>
+
+                                        <td>{{item.third_ba_hh_represented}}</td>
+                                        <td>
+                                            {{((item.third_ba_hh_represented / item.third_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_hh_represented / item.third_ba_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.third_ba_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.third_ba_ip_hh_represented}}</td>
+                                        <td>
+                                            {{((item.third_ba_ip_hh_represented / item.third_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_ip_hh_represented / item.third_ba_ip_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.third_ba_ip_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.third_ba_male}}</td>
+                                        <td>
+                                            {{((item.third_ba_male / item.third_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_male / item.third_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.third_ba_male == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.third_ba_female}}</td>
+                                        <td>
+                                            {{((item.third_ba_female / item.third_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.third_ba_female / item.third_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.third_ba_female == 0 ? "" : ""}}
+                                        </td>
+
+                                        <td>{{item.fourth_ba_hh_represented}}</td>
+                                        <td>
+                                            {{((item.fourth_ba_hh_represented / item.fourth_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_hh_represented / item.fourth_ba_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.fourth_ba_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fourth_ba_ip_hh_represented}}</td>
+                                        <td>
+                                            {{((item.fourth_ba_ip_hh_represented / item.fourth_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_ip_hh_represented / item.fourth_ba_ip_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.fourth_ba_ip_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fourth_ba_male}}</td>
+                                        <td>
+                                            {{((item.fourth_ba_male / item.fourth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_male / item.fourth_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.fourth_ba_male == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fourth_ba_female}}</td>
+                                        <td>
+                                            {{((item.fourth_ba_female / item.fourth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fourth_ba_female / item.fourth_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.fourth_ba_female == 0 ? "" : ""}}
+                                        </td>
+
+                                        <td>{{item.fifth_ba_hh_represented}}</td>
+                                        <td>
+                                            {{((item.fifth_ba_hh_represented / item.fifth_ba_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_hh_represented / item.fifth_ba_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.fifth_ba_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fifth_ba_ip_hh_represented}}</td>
+                                        <td>
+                                            {{((item.fifth_ba_ip_hh_represented / item.fifth_ba_ip_hh_total) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_ip_hh_represented / item.fifth_ba_ip_hh_total) * 100 | number: 2) + "%"}}
+                                            {{item.fifth_ba_ip_hh_represented == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fifth_ba_male}}</td>
+                                        <td>
+                                            {{((item.fifth_ba_male / item.fifth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_male / item.fifth_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.fifth_ba_male == 0 ? "" : ""}}
+                                        </td>
+                                        <td>{{item.fifth_ba_female}}</td>
+                                        <td>
+                                            {{((item.fifth_ba_female / item.fifth_ba_total_male_female) * 100 | number: 2) == 100.00 ? "100%" : ((item.fifth_ba_female / item.fifth_ba_total_male_female) * 100 | number: 2) + "%"}}
+                                            {{item.fifth_ba_female == 0 ? "" : ""}}
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="!ba_list.length">
+                                        <td colspan="42"><i>No results to show.</i> </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        @*Part C2: Pariticipation Rates per BAs Conducted*@
+
+                        <div class="row" style="padding:15px">
+
+                            <label style="margin: 5px"> 2. Total Number of Volunteers per Committee</label>
+
+                            <br /><br />
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Cycle</th>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Committee</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Leader</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Member</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in volunteers_per_committee_list">
+                                    <td>{{item.cycle_name}}</td>
+                                    <td>
+                                        {{item.committee_name == '1' ? "AIT": ""}}
+                                        {{item.committee_name == '2' ? "BAC" : ""}}
+                                        {{item.committee_name == '3' ? "BGD" : ""}}
+                                        {{item.committee_name == '4' ? "BRT" : ""}}
+                                        {{item.committee_name == '5' ? "CMT" : ""}}
+                                        {{item.committee_name == '6' ? "GRS" : ""}}
+                                        {{item.committee_name == '7' ? "MIT" : ""}}
+                                        {{item.committee_name == '8' ? "OAM" : ""}}
+                                        {{item.committee_name == '9' ? "PIT" : ""}}
+                                        {{item.committee_name == '10' ? "PPT" : ""}}
+                                        {{item.committee_name == '11' ? "PSA" : ""}}
+                                        {{item.committee_name == '12' ? "PT" : ""}}
+                                    </td>
+                                    <td>{{item.count_leader_male}}</td>
+                                    <td>{{item.count_leader_female}}</td>
+                                    <td>{{item.count_member_male}}</td>
+                                    <td>{{item.count_member_female}}</td>
+                                </tr>
+                                <tr ng-show="!volunteers_per_committee_list.length">
+                                    <td colspan="6"><i>No results to show.</i> </td>
+                                </tr>
+                            </table>
+                            <br />
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Cycle</th>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Committee</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Pantawid</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">IP</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">SLP</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Senior Citizen</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in volunteers_per_committee_list">
+                                    <td>{{item.cycle_name}}</td>
+                                    <td>
+                                        {{item.committee_name == '1' ? "AIT": ""}}
+                                        {{item.committee_name == '2' ? "BAC" : ""}}
+                                        {{item.committee_name == '3' ? "BGD" : ""}}
+                                        {{item.committee_name == '4' ? "BRT" : ""}}
+                                        {{item.committee_name == '5' ? "CMT" : ""}}
+                                        {{item.committee_name == '6' ? "GRS" : ""}}
+                                        {{item.committee_name == '7' ? "MIT" : ""}}
+                                        {{item.committee_name == '8' ? "OAM" : ""}}
+                                        {{item.committee_name == '9' ? "PIT" : ""}}
+                                        {{item.committee_name == '10' ? "PPT" : ""}}
+                                        {{item.committee_name == '11' ? "PSA" : ""}}
+                                        {{item.committee_name == '12' ? "PT" : ""}}
+                                    </td>
+                                    <td>{{item.count_pantawid_male}}</td>
+                                    <td>{{item.count_pantawid_female}}</td>
+                                    <td>{{item.count_ip_male}}</td>
+                                    <td>{{item.count_ip_female}}</td>
+                                    <td>{{item.count_slp_male}}</td>
+                                    <td>{{item.count_slp_female}}</td>
+                                    <td>{{item.count_senior_male}}</td>
+                                    <td>{{item.count_senior_female}}</td>
+                                </tr>
+                                <tr ng-show="!volunteers_per_committee_list.length">
+                                    <td colspan="10"><i>No results to show.</i> </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        @*Part C3: List and date of Trainings (Municipal and Barangay) Facilitated with Data on Total number of Participants Trained*@
+
+                        <div class="row" style="padding:15px">
+
+                            <label style="margin: 5px"> 3. Trainings (Municipal and Barangay) Facilitated with Data on Total number of Participants Trained</label>
+
+                            <br /><br />
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Cycle</th>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Training Category</th>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Training Title</th>
+                                        <th rowspan="2" style="vertical-align:middle; text-align:center">Date Conducted</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">LGUs</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Community Volunteers</th>
+                                        <th colspan="2" style="vertical-align:middle; text-align:center">Other Community Members</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                        <th style="vertical-align:middle; text-align:center">Male</th>
+                                        <th style="vertical-align:middle; text-align:center">Female</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in trainings_facilitated_list">
+                                    <td>{{item.cycle_name}}</td>
+                                    <td>{{item.training_category}}</td>
+                                    <td>{{item.training_title}}</td>
+                                    <td>{{item.start_date | date:'MM/dd/yyyy'}} - {{item.end_date | date:'MM/dd/yyyy'}}</td>
+                                    <td>{{item.count_lgu_male}}</td>
+                                    <td>{{item.count_lgu_female}}</td>
+                                    <td>{{item.count_volunteer_male}}</td>
+                                    <td>{{item.count_volunteer_female}}</td>
+                                    <td>{{item.count_other_member_male}}</td>
+                                    <td>{{item.count_other_member_female}}</td>
+                                </tr>
+                                <tr ng-show="!trainings_facilitated_list.length">
+                                    <td colspan="9"><i>No results to show.</i> </td>
+                                </tr>
+                            </table>
+                            <br />
+                        </div>
+
+                        <div class="panel panel-body" style="margin:10px">
+                            @Html.Partial("~/Views/Report/Common/_report_footer_template.cshtml")
+                        </div>
+
+                    </div> @*end of printDiv*@
 
                 </fieldset>
             </form>
@@ -651,6 +1096,26 @@
                 $scope.getNumberofVolunteersperCommittee();
                 $scope.getTrainingsFacilitated();
             };
+
+            $scope.print = function () {
+                Popup($('#act_report_printDiv').html());
+            };
+
+            function Popup(data) {
+                var mywindow = window.open('', 'new div', 'height=400,width=600');
+                mywindow.document.write('<html><head><title>ACT Accomplishment Report</title>');
+                mywindow.document.write('<link href="/content/lte/bootstrap/css/bootstrap.css" media="all"  type="text/css"  rel="stylesheet" />');
+                mywindow.document.write('<link href="/css/print.css" type="text/css" rel="stylesheet" media="print"  />');
+                mywindow.document.write('</head><body>');
+                mywindow.document.write(data);
+                mywindow.document.write('<scr' + 'ipt type="text/javascript">function PrintPage() { window.print(); window.close(); } window.onload = PrintPage;</scr' + 'ipt>');
+                mywindow.document.write('</body></html>');
+                mywindow.document.close();
+                //mywindow.document.focus(); ---->> originally included but after migrating to DeskApp2017, error is received: focus is not a function; hence, commenting this line of code.
+
+                return true;
+            };
+
 
             $scope.$watch('dt_fortheperiodof_from', function (newValue, oldValue) {
                 $scope.minEndDate = new Date(newValue);

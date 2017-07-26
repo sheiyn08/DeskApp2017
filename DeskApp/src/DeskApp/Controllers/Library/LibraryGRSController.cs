@@ -113,7 +113,7 @@ namespace KnightDev.Controllers.Library
         public ActionResult lib_ip_group()
         {
             var source = db.lib_ip_group.AsQueryable();
-            return Json(source.Where(x => x.is_active != null).Select(x => new { Id = x.ip_group_id, Name = x.name }));
+            return Json(source.Where(x => x.is_active != null).Select(x => new { Id = x.ip_group_id, Name = x.name }).OrderBy(x => x.Name));
 
         }
 

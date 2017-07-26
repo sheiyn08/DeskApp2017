@@ -49,34 +49,20 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
 
   $scope.delete = function (removeitem) {
-
-
-
-        var ask = confirm("Are you sure you want to Delete this?");
-
-
+      var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
         if (ask == true) {
-            $.post('/api/delete/attachments?id=' + removeitem.attached_document_id).success(function (value) {
+            $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
                 $scope.loading = false;
-
-
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
-
-
-                alert("Record removed!")
-
+                alert("Attachment removed!");
+                $scope.search();
             }).error(function (data) {
-
                 alert(JSON.stringify(data));
-
-
                 $scope.error = "An Error has occured while Deleting! " + data.statusText;
                 $scope.loading = false;
             });
-
         }
-
     }
 
 

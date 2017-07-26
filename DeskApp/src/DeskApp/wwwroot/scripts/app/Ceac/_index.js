@@ -68,6 +68,24 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         }
     };
 
+
+    $scope.delete = function (removeitem) {
+        var ask = confirm("Are you sure you want to Delete this?");
+        if (ask == true) {
+            $.post('/api/delete/ceac_list?id=' + removeitem.ceac_list_id).success(function (value) {
+                $scope.loading = false;
+                var index = $scope.Items.indexOf(removeitem);
+                $scope.Items.splice(index, 1);
+                alert("Record removed!");
+            }).error(function (data) {
+                alert(JSON.stringify(data));
+                $scope.error = "An Error has occured while Deleting! " + data.statusText;
+                $scope.loading = false;
+            });
+        }
+    };
+
+
     $scope.checkAll = function () {
 
         if ($scope.data.check_all) {

@@ -5,7 +5,7 @@
 
 
 
-<div class="panel panel-success">
+<div class="panel panel-info">
 
     <div class="panel-heading">
         <h4>Municipal Inter Barangay Forum Information / Municipal Forum</h4>
@@ -93,8 +93,7 @@
             </div>
 
             <div flex>
-
-                <input type="number" disabled class="form-control" ng-model="data.Kalahi_Amount" />
+                <input type="number" disabled class="form-control" ng-model="data.Kalahi_Amount" />{{data.Kalahi_Amount | currency:"₱"}}
             </div>
 
         </div>
@@ -145,7 +144,7 @@
 
 </div>
 
-<div class="panel panel-success">
+<div class="panel panel-info">
 
     <div class="panel-heading">
         <h4>  ERFR Release Information</h4>
@@ -202,8 +201,8 @@
             <div flex>First Tranche </div>
 
             <div flex> @*ng-disabled="!data.has_t1"*@
-                <md-datepicker md-min-date="min_start_date" md-max-date="today" name="dt_Tranche1date" ng-disabled="true" ng-required="data.has_t1" ng-model="dt_Tranche1date"  ng-change="data.Tranche1date = dt_Tranche1date.toISOString()"></md-datepicker>
-
+                @*<md-datepicker md-min-date="min_start_date" md-max-date="today" name="dt_Tranche1date" ng-disabled="true" ng-required="data.has_t1" ng-model="data.Tranche1date"  ng-change="data.Tranche1date = dt_Tranche1date.toISOString()"></md-datepicker>*@                
+                <md-datepicker ng-disabled="true" ng-model="dt_Tranche1date"></md-datepicker>
                 <div ng-messages="myForm.dt_Tranche1date.$error">
                     <div ng-message="required" class="error">*Date is required.</div>
                     <div ng-message="required" class="error">*For Pure LCC, set amount to Zero.</div>
@@ -211,7 +210,7 @@
             </div>
 
             <div flex> @*ng-disabled="!data.has_t1"*@
-                <input ng-model="data.Tranche1amount" ng-disabled="true" class="form-control" ng-required="data.physical_status_id != 3" name="Tranche1amount" type="number" min="0" />
+                <input ng-model="data.Tranche1amount" ng-disabled="true" class="form-control" ng-required="data.physical_status_id != 3" name="Tranche1amount" type="number" min="0" />{{data.Tranche1amount | currency:"₱"}}
 
                 <div ng-messages="myForm.Tranche1amount.$error">
                     <div ng-message="required" class="error">*Tranche Amount required.</div>
@@ -220,8 +219,7 @@
             </div>
 
             <div flex ng-show="data.modality_id ==7">
-
-                {{data.erfr_t1}}
+                {{data.erfr_t1 | currency:"₱"}}
             </div>
 
             @*additional field for Amount Utilized (first tranche)*@
@@ -250,8 +248,9 @@
             <div flex>
                 @*ng-disabled="!data.has_t2"*@
 
-                <md-datepicker  md-min-date="min_start_date" md-max-date="today" name="dt_Tranche2date" ng-disabled="true" ng-required="data.has_t2" ng-model="dt_Tranche2date"  ng-change="data.Tranche2date = dt_Tranche2date.toISOString()"></md-datepicker>
-
+                @*<md-datepicker  md-min-date="min_start_date" md-max-date="today" name="dt_Tranche2date" ng-disabled="true" ng-required="data.has_t2" ng-model="dt_Tranche2date"  ng-change="data.Tranche2date = dt_Tranche2date.toISOString()"></md-datepicker>*@
+                @*<i class="fa fa-calendar"></i>&emsp;{{data.Tranche2date | date : 'MM/dd/yyyy'}}*@
+                <md-datepicker ng-disabled="true" ng-model="dt_Tranche2date"></md-datepicker>
                 <div ng-messages="myForm.dt_Tranche2date.$error">
                     <div ng-message="required" class="error">*Date  is required.</div>
 
@@ -261,7 +260,7 @@
 
             </div>
             <div flex> @*ng-disabled="!data.has_t2"*@
-                <input ng-model="data.Tranche2amount" ng-disabled="true" class="form-control" name="Tranche2amount" ng-required="data.has_t2" type="number" min="0" />
+                <input ng-model="data.Tranche2amount" ng-disabled="true" class="form-control" name="Tranche2amount" ng-required="data.has_t2" type="number" min="0" />{{data.Tranche2amount | currency:"₱"}}
 
                 <div ng-messages="myForm.Tranche2amount.$error">
                     <div ng-message="required" class="error">*Tranche Amount required.</div>
@@ -271,8 +270,7 @@
 
 
             <div flex ng-show="data.modality_id ==7">
-
-                {{data.erfr_t2}}
+                {{data.erfr_t2 | currency:"₱"}}
             </div>
 
             @*additional field for Amount Utilized (second tranche)*@
@@ -303,8 +301,9 @@
             <div flex>
                 @*ng-disabled="!data.has_t3"*@
 
-                <md-datepicker  md-min-date="min_start_date" md-max-date="today" name="dt_Tranche3date" ng-disabled="true" ng-required="data.has_t3" ng-model="dt_Tranche3date" ng-change="data.Tranche3date = dt_Tranche3date.toISOString()"></md-datepicker>
-
+                @*<md-datepicker  md-min-date="min_start_date" md-max-date="today" name="dt_Tranche3date" ng-disabled="true" ng-required="data.has_t3" ng-model="dt_Tranche3date" ng-change="data.Tranche3date = dt_Tranche3date.toISOString()"></md-datepicker>*@
+                <md-datepicker ng-disabled="true" ng-model="dt_Tranche3date"></md-datepicker>
+                @*<i class="fa fa-calendar"></i>&emsp;{{data.Tranche3date | date : 'MM/dd/yyyy'}}*@
                 <div ng-messages="myForm.dt_Tranche3date.$error">
                     <div ng-message="required" class="error">*Date  is required.</div>
 
@@ -315,7 +314,7 @@
             </div>
             <div flex>
                 @*ng-disabled="!data.has_t3"*@
-                <input ng-model="data.Tranche3amount" ng-disabled="true" class="form-control" name="Tranche3amount" ng-required="data.has_t3" type="number" min="0" />
+                <input ng-model="data.Tranche3amount" ng-disabled="true" class="form-control" name="Tranche3amount" ng-required="data.has_t3" type="number" min="0" />{{data.Tranche3amount | currency:"₱"}}
 
                 <div ng-messages="myForm.Tranche3amount.$error">
                     <div ng-message="required" class="error">*Tranche Amount required.</div>
@@ -324,8 +323,7 @@
             </div>
             
             <div flex ng-show="data.modality_id ==7">
-
-                {{data.erfr_t3}}
+                {{data.erfr_t3 | currency:"₱"}}
             </div>
 
             @*additional field for Amount Utilized (third tranche)*@
@@ -344,7 +342,7 @@
 
         <div layout="row" layout-margin flex="100">
             <div flex>
-                <small>   Total Amount Released</small>
+                <label>   Total Amount Released</label>
             </div>
 
             <div flex>  </div>
@@ -354,17 +352,15 @@
             </div>
 
             <div flex>
-                {{data.Tranche1amount + data.Tranche2amount + data.Tranche3amount}}
+                <label>{{data.Tranche1amount + data.Tranche2amount + data.Tranche3amount | currency:"₱"}}</label>
             </div>
 
             <div flex ng-show="data.modality_id == 7">
-                {{data.erfr_t1 + data.erfr_t2 + data.erfr_t3}}
-
+                <label>{{data.erfr_t1 + data.erfr_t2 + data.erfr_t3 | currency:"₱"}}</label>
             </div>
 
             <div flex ng-show="data.modality_id == 7">
-                {{data.Tranche1amount_utilized + data.Tranche2amount_utilized + data.Tranche3amount_utilized}}
-
+                <label>{{data.Tranche1amount_utilized + data.Tranche2amount_utilized + data.Tranche3amount_utilized | currency:"₱"}}</label>
             </div>
 
         </div>

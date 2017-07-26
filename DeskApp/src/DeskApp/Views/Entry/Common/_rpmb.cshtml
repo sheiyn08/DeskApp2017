@@ -1,148 +1,86 @@
 ﻿
 @{Layout = null; }
 
-
-
-
-    <md-container layout="row">
-
-
-
-        <div flex="100" layout="row" layout-margin layout-sm="column">
-
-
-
-            <div flex="25" flex-sm="100">
-
-                <label for="Region:_">Region</label>
-
-
-
-                <select name="Region" ng-model="data.region_code" id="region_code" class="form-control"
-                        required
-                        ng-disabled="status"
-                        ng-options="option.Id as option.Name for option in region_code_options">
-                    <option value="">[Select Region]</option>
-                </select>
-
-
-
-
-
-            </div>
-
-
-            <div flex="25" flex-sm="100">
-                <label for="Province:_">Province: </label>
-
-                <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
-                        ng-disabled="data.region_code == null || status"
-                        ng-required="true"
-                        ng-options="option.Id as option.Name for option in prov_code_options">
-                    <option value="">[Select Province]</option>
-                </select>
-
-            </div>
-
-            <div flex="25" flex-sm="100">
-                <label for="Municipality:_">Municipality: </label>
-
-
-                <select name="City" ng-model="data.city_code" id="city_code" class="form-control"
-                        ng-required="true"
-                        ng-disabled="data.prov_code == null || status"
-                        ng-options="option.Id as option.Name for option in city_code_options">
-
-
-                    <option value="">[Select Municipality]</option>
-                </select>
-
-
-            </div>
-
-
-
-            <div flex="25" flex-sm="100">
-                <label for="Barangay:_">Barangay: </label>
-
-
-                <select name="Barangay" ng-model="data.brgy_code" id="brgy_code" class="form-control"
-                        ng-required="true"
-                        ng-disabled="data.city_code == null || status"
-                        ng-options="option.Id as option.Name for option in brgy_code_options">
-
-
-                    <option value="">[Select Barangay]</option>
-                </select>
-
-
-            </div>
-
-
+<md-container layout="row">
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+        <div flex="25" flex-sm="100">
+            <label for="Region:_">Region</label>
+            <select name="Region" ng-model="data.region_code" id="region_code" class="form-control"
+                    required
+                    ng-disabled="status"
+                    ng-options="option.Id as option.Name for option in region_code_options">
+                <option value="">[Select Region]</option>
+            </select>
         </div>
-
-
-
-    </md-container>
- 
-
- 
-    <md-container layout="row">
-
-
-        <div flex="100" layout="row" layout-margin layout-sm="column">
-
-
-
-            <div flex="25" flex-sm="100">
-
-                <label for="FundSource:_">Fund Source</label>
-
-
-
-                <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
-                        ng-required="true"
-                        ng-disabled="status"
-                        ng-options="option.Id as option.Name for option in fund_source_id_options">
-                    <option value="">[Select Fund Source]</option>
-                </select>
-
-
-
-            </div>
-
-
-            <div flex="25" flex-sm="100">
-                <label for="Province:_">Cycle: </label>
-
-                <select name="Cycle" ng-model="data.cycle_id" id="Cycle" class="form-control"
-                        ng-disabled="status"
-                        required
-                        ng-options="option.Id as option.Name for option in cycle_id_options">
-                    <option value="">[Select Cycle]</option>
-                </select>
-
-
-            </div>
-
-            <div flex="25" flex-sm="100">
-                <label for="Municipality:_">KC Mode: </label>
-
-                <select name="KC Mode" ng-model="data.enrollment_id" id="KC Mode" class="form-control"
-                        ng-disabled="status"
-                        ng-required="true"
-                        ng-options="option.Id as option.Name for option in enrollment_id_options">
-                    <option value="">[Select KC Mode]</option>
-                </select>
-
-
-
-            </div>
-
+        <div flex="25" flex-sm="100">
+            <label for="Province:_">Province </label>
+            <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
+                    ng-disabled="data.region_code == null || status"
+                    ng-required="true"
+                    ng-options="option.Id as option.Name for option in prov_code_options">
+                <option value="">[Select Province]</option>
+            </select>
         </div>
+        <div flex="25" flex-sm="100">
+            <label for="Municipality:_">Municipality </label>
+            <select name="City" ng-model="data.city_code" id="city_code" class="form-control"
+                    ng-required="true"
+                    ng-disabled="data.prov_code == null || status"
+                    ng-options="option.Id as option.Name for option in city_code_options">
+                <option value="">[Select Municipality]</option>
+            </select>
+        </div>
+        <div flex="25" flex-sm="100">
+            <label for="Barangay:_">Barangay </label>
+            <select name="Barangay" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                    ng-required="true"
+                    ng-disabled="data.city_code == null || status"
+                    ng-options="option.Id as option.Name for option in brgy_code_options">
+                <option value="">[Select Barangay]</option>
+            </select>
+        </div>
+    </div>
+</md-container>
 
-    </md-container>
+<md-container layout="row">
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+        <div flex="25" flex-sm="100">
+            <label for="FundSource:_">Fund Source</label>
+            <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
+                    ng-required="true"
+                    ng-disabled="status"
+                    ng-options="option.Id as option.Name for option in fund_source_id_options">
+                <option value="">[Select Fund Source]</option>
+            </select>
+        </div>
+        <div flex="25" flex-sm="100">
+            <label for="Province:_">Cycle </label>
+            <select name="Cycle" ng-model="data.cycle_id" id="Cycle" class="form-control"
+                    ng-disabled="status"
+                    required
+                    ng-options="option.Id as option.Name for option in cycle_id_options">
+                <option value="">[Select Cycle]</option>
+            </select>
+        </div>
+        <div flex="25" flex-sm="100">
+            <label for="Municipality:_">KC Mode </label>
+            <select name="KC Mode" ng-model="data.enrollment_id" id="KC Mode" class="form-control"
+                    ng-disabled="status"
+                    ng-required="true"
+                    ng-options="option.Id as option.Name for option in enrollment_id_options">
+                <option value="">[Select KC Mode]</option>
+            </select>
+        </div>
+        <div flex="25" flex-sm="100"></div>
+    </div>
+</md-container>
 
+
+
+
+
+
+    
 
 
  

@@ -1,172 +1,86 @@
-﻿@*<div class="row">
-        <div class="col-md-4">
-            With IP presence in the Barangay?
-
-        </div>
-        <div class="col-md-8">
-
-            <md-checkbox ng-model="data.has_ip_presence" aria-label="Checkbox 1">
-            </md-checkbox>
-        </div>
-
-    </div>*@
-
-<div class="panel panel-success">
+﻿
+<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>Sub Project Completion Report</h3>
+        <h4>Sub Project Completion Report</h4>
     </div>
 
-
     <div class="panel panel-body">
-        <div class="panel panel-success">
-            <div class="panel panel-heading">
+        <md-content>
+            <h4 style="color:dodgerblue">Project Beneficiaries (Actual)</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
 
-                <h3>General Information</h3>
-
+            <div layout="row" layout-padding flex="100">
+                <div flex></div>
+                <div flex>Households</div>
+                <div flex>Families</div>
             </div>
-
-          
-            <md-content>
-
-
-                <div layout="row" layout-padding flex="100">
-
-                    <div flex></div>
-                    <div flex>Households</div>
-                    <div flex>Families</div>
-                </div>
-
-
-                <md-divider></md-divider>
-
-                <div layout="row" layout-padding flex="100">
-
-                    <div flex>Total Number of Beneficiaries </div>
-                    <div flex>
-                        <input type="number" min="0" name="No of HH Beneficiaries" class="form-control" ng-model="data.NoOfHHActual" ng-app-max="{{ data.no_actual_families }}" ng-pattern="/^[0-9]{1,7}$/" ng-required="data.physical_status_id !=3" ng-disabled="true" />
-                    </div>
-                    <div flex>
-                        <input type="number" min="0" class="form-control" name="No of Families" ng-model="data.no_actual_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
-                    </div>
-                </div>
-
-
-                <md-divider></md-divider>
-                <div layout="row" layout-padding flex="100">
-
-                    <div flex>Total Pantawid Beneficiaries</div>
-                    <div flex>
-                        <input type="number" class="form-control" name="No of Pantawid Households" ng-model="data.no_actual_pantawid_households" ng-app-max="{{ data.no_actual_pantawid_families }}"  ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true"/>
-                    </div>
-
-                    <div flex>
-                        <input type="number" class="form-control" name="No of Pantawid Families" ng-model="data.no_actual_pantawid_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true"/>
-                    </div>
-                </div>
-
-
-
-                <md-divider></md-divider>
-
-                <div layout="row" layout-padding flex="100">
-
-                    <div flex>Total SLP Beneficiaries</div>
-                    <div flex>
-                        <input type="number" class="form-control" name="No of SLP Households" ng-model="data.no_actual_slp_households" ng-app-max="{{ data.no_actual_slp_families }}"  ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true"/>
-                    </div>
-
-                    <div flex>
-                        <input type="number" class="form-control" name="No of SLP Families" ng-model="data.no_actual_slp_families" ng-required="data.physical_status_id !=3"  ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true"/>
-                    </div>
-                </div>
-
-
-
-
-
-                <md-divider></md-divider>
-
-
-                <div layout="row" layout-padding flex="100">
-
-                    <div flex>Total IP Beneficiaries</div>
-                    <div flex>
-                        <input type="number" class="form-control" name="No of IP Households" ng-model="data.no_actual_ip_households" ng-app-max="{{ data.no_actual_ip_families }}"  ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true"/>
-                    </div>
-
-                    <div flex>
-                        <input type="number" class="form-control" name="No of IP Families" ng-model="data.no_actual_ip_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true"/>
-                    </div>
-                </div>
-
-
-
-
-
-
-                <md-divider></md-divider>
-            </md-content>
-
-
-            <md-content>
-
-
-                <div layout="row" layout-padding flex="100">
-
-                    <div flex></div>
-                    <div flex>Male</div>
-                    <div flex>Female</div>
-                </div>
-
-
-                <md-divider></md-divider>
-
-                <div layout="row" layout-padding flex="100">
-
-                    <div flex>Total   Beneficiaries </div>
-                    <div flex>
-                        <input type="number" min="0" name="No of Male Beneficiaries" class="form-control" ng-model="data.no_actual_male" ng-required="data.physical_status_id !=3"  ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true"/>
-                    </div>
-                    <div flex>
-                        <input type="number" min="0" class="form-control" name="No Female Beneficiaries" ng-model="data.no_actual_female" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true"/>
-                    </div>
-                </div>
-
-
-            </md-content>
-
-        </div>
-    </div>
-
-
-    <div class="panel panel-body">
-        <div class="panel panel-success">
-
-            <div class="panel-heading">
-                <h3>Covered Barangays</h3>
-                <p>Place a check on the left most corner to indicate that the barangay is benefiting from the project</p>
-
-            </div>
-
-
-
-
-
-            <div layout="row" layout-margin flex="100">
-
-
-                <br />
-                <label><i>Search...</i></label>
-                <input ng-model="searchBrgy" class="form-control" ng-disabled="true"/>
-            </div>
-
-
-
-
-            <div layout="row" layout-margin flex="100">
-
+            <md-divider></md-divider>
+            <div layout="row" layout-padding flex="100">
+                <div flex>Total Number of Beneficiaries </div>
                 <div flex>
+                    <input type="number" min="0" name="No of HH Beneficiaries" class="form-control" ng-model="data.NoOfHHActual" ng-app-max="{{ data.no_actual_families }}" ng-pattern="/^[0-9]{1,7}$/" ng-required="data.physical_status_id !=3" ng-disabled="true" />
+                </div>
+                <div flex>
+                    <input type="number" min="0" class="form-control" name="No of Families" ng-model="data.no_actual_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                </div>
+            </div>
+            <md-divider></md-divider>
+            <div layout="row" layout-padding flex="100">
+                <div flex>Total Pantawid Beneficiaries</div>
+                <div flex>
+                    <input type="number" class="form-control" name="No of Pantawid Households" ng-model="data.no_actual_pantawid_households" ng-app-max="{{ data.no_actual_pantawid_families }}" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                </div>
+                <div flex>
+                    <input type="number" class="form-control" name="No of Pantawid Families" ng-model="data.no_actual_pantawid_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                </div>
+            </div>
+            <md-divider></md-divider>
+            <div layout="row" layout-padding flex="100">
+                <div flex>Total SLP Beneficiaries</div>
+                <div flex>
+                    <input type="number" class="form-control" name="No of SLP Households" ng-model="data.no_actual_slp_households" ng-app-max="{{ data.no_actual_slp_families }}" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                </div>
+                <div flex>
+                    <input type="number" class="form-control" name="No of SLP Families" ng-model="data.no_actual_slp_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                </div>
+            </div>
+            <md-divider></md-divider>
+            <div layout="row" layout-padding flex="100">
+                <div flex>Total IP Beneficiaries</div>
+                <div flex>
+                    <input type="number" class="form-control" name="No of IP Households" ng-model="data.no_actual_ip_households" ng-app-max="{{ data.no_actual_ip_families }}" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                </div>
+                <div flex>
+                    <input type="number" class="form-control" name="No of IP Families" ng-model="data.no_actual_ip_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                </div>
+            </div>
+            <md-divider></md-divider>
+            <div layout="row" layout-padding flex="100">
+                <div flex></div>
+                <div flex>Male</div>
+                <div flex>Female</div>
+            </div>
+            <md-divider></md-divider>
+            <div layout="row" layout-padding flex="100">
+                <div flex>Total   Beneficiaries </div>
+                <div flex>
+                    <input type="number" min="0" name="No of Male Beneficiaries" class="form-control" ng-model="data.no_actual_male" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                </div>
+                <div flex>
+                    <input type="number" min="0" class="form-control" name="No Female Beneficiaries" ng-model="data.no_actual_female" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                </div>
+            </div>
 
+            <br /><br />
+            <h4 style="color:dodgerblue">Covered Barangays</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <br />
+            <div layout="row" layout-margin flex="100">
+                <div flex>
                     <table class="table" ng-show="data.sub_project_id >0">
                         <tr>
                             <td>
@@ -176,129 +90,24 @@
                                 Selected?
                             </td>
                         </tr>
-
                         <tbody>
                             <tr ng-repeat="item in covered_barangays | filter: searchBrgy">
                                 <td>
                                     {{item.brgy_name}}
                                 </td>
-
                                 <td>
                                     @*<md-checkbox ng-model="item.Selected" aria-label="Checkbox 1" ng-click="SaveCoverage(item)" ng-disabled="true">*@
                                     <md-checkbox ng-model="item.Selected" aria-label="Checkbox 1" ng-disabled="true">
                                     </md-checkbox>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
-
                 </div>
-
             </div>
-        </div>
+
+        </md-content>
     </div>
-
-    @*<div class="panel panel-body">
-
-
-
-
-
-        <div class="panel panel-success">
-            <div class="panel panel-heading">
-
-                <h3>Sub-project Description</h3>
-                <p>The sub-project is completed with the following work items and activities constructed/implemented by the concerned community/ies</p>
-
-            </div>
-
-
-            <div class="panel panel-body">
-                <div class="row">
-                    <div class="col-md-1">
-
-                    </div>
-                    <div class="col-md-2">
-                        Item of Works
-                    </div>
-                    <div class="col-md-2">
-                        Quantity
-                    </div>
-                    <div class="col-md-2">
-                        Unit
-                    </div>
-                    <div class="col-md-2">
-                        Unit Cost
-                    </div>
-                    <div class="col-md-2">
-                        Total
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-body" ng-repeat="item in data.sub_project_descriptions">
-                <div class="row">
-                    <div class="col-md-1">
-
-                    </div>
-                    <div class="col-md-2">
-                        {{item.name}}
-                    </div>
-                    <div class="col-md-2">
-                        {{item.quantity}}
-                    </div>
-                    <div class="col-md-2">
-                        {{item.unit}}
-                    </div>
-                    <div class="col-md-2">
-                        {{item.unit_cost}}
-                    </div>
-                    <div class="col-md-2">
-                        {{item.total}}
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-body" >
-                <div class="row">
-                    <div class="col-md-1">
-                        <a class="btn btn-success"><i class="fa fa-plus"></i></a>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="text" ng-model="desc.name" class="form-control" />
-                    </div>
-                    <div class="col-md-2">
-                        <input type="number" min="0" ng-model="desc.quantity" class="form-control" />
-                    </div>
-                    <div class="col-md-2">
-                        <input type="text" ng-model="desc.unit" class="form-control" />
-                    </div>
-                    <div class="col-md-2">
-                        <input type="number" ng-model="desc.unit_cost" class="form-control" />
-                    </div>
-                    <div class="col-md-2">
-                         {{desc.quantity * desc.unit_cost}}
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </div>*@
 
 </div>
 

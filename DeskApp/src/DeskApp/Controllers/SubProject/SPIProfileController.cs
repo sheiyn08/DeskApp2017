@@ -215,56 +215,56 @@ namespace DeskApp.Controllers
             return Ok(result);
         }
 
-        private async Task<IActionResult> SaveERFR(erfr_sub_project model, bool? api)
-        {
+        //private async Task<IActionResult> SaveERFR(erfr_sub_project model, bool? api)
+        //{
 
 
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
+        //    //if (!ModelState.IsValid)
+        //    //{
+        //    //    return BadRequest();
+        //    //}
 
-            var record = db.erfr_sub_project.AsNoTracking().FirstOrDefault(x => x.SPID == model.SPID);
+        //    var record = db.erfr_sub_project.AsNoTracking().FirstOrDefault(x => x.SPID == model.SPID);
 
-            if (record == null)
-            {
-
-
-
-                db.erfr_sub_project.Add(model);
+        //    if (record == null)
+        //    {
 
 
-                try
-                {
-                    await db.SaveChangesAsync();
-                    //return Ok(model);
-                    return Ok(); //modified June 2, 2017 
-                }
-                catch (DbUpdateConcurrencyException)
-                {
+
+        //        db.erfr_sub_project.Add(model);
 
 
-                    return BadRequest();
-                }
-            }
-            else
-            {
+        //        try
+        //        {
+        //            await db.SaveChangesAsync();
+        //            //return Ok(model);
+        //            return Ok(); //modified June 2, 2017 
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
 
 
-                db.Entry(model).State = EntityState.Modified;
+        //            return BadRequest();
+        //        }
+        //    }
+        //    else
+        //    {
 
-                try
-                {
-                    await db.SaveChangesAsync();
-                    //return Ok(model);
-                    return Ok(); //modified June 2, 2017 
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return BadRequest();
-                }
-            }
-        }
+
+        //        db.Entry(model).State = EntityState.Modified;
+
+        //        try
+        //        {
+        //            await db.SaveChangesAsync();
+        //            //return Ok(model);
+        //            return Ok(); //modified June 2, 2017 
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+        //}
 
         private async Task<IActionResult> SaveSPPhotos(SPPhoto model, bool? api)
         {
@@ -290,8 +290,11 @@ namespace DeskApp.Controllers
                 string savePath = path01 + @"\wwwroot\SPPhotos\" + model.UniqueName.ToString() + ".jpeg";
 
                 string sub_project = db.sub_project.Find(model.sub_project_unique_id).region_code.ToString();
-
-                if (sub_project.Length == 8) sub_project = "0" + sub_project;
+               
+                if (sub_project.Length == 8)
+                {
+                    sub_project = "0" + sub_project;
+                }                   
 
 
                 string url = @"http://geotagging.dswd.gov.ph/" + "SPPhotos/thumbnails/" + sub_project + "/" + model.UniqueName + ".jpg";
@@ -901,7 +904,10 @@ namespace DeskApp.Controllers
         private IQueryable<sub_project> GetData(AngularFilterModel item)
 
         {
-            var model = db.sub_project.AsQueryable(); //.Where(x => x.IsActive == true).AsQueryable();
+            var model = db.sub_project.Where(x => x.IsActive == true).AsQueryable();
+            //old:
+            //var model = db.sub_project.AsQueryable();
+
 
             //for single sync
 
@@ -1421,7 +1427,7 @@ namespace DeskApp.Controllers
 
                     await GetOnlineERSWorkers(username, password, city_code, record_id);
 
-                    await GetOnlineERFR(username, password, city_code, record_id);
+                    //await GetOnlineERFR(username, password, city_code, record_id);
 
                     await GetOnlinePhotos(username, password, city_code, record_id);
 
@@ -1534,53 +1540,53 @@ namespace DeskApp.Controllers
 
         }
 
-        public async Task<bool> GetOnlineERFR(string username, string password, string city_code = null, int? record_id = null)
-        {
+        //public async Task<bool> GetOnlineERFR(string username, string password, string city_code = null, int? record_id = null)
+        //{
 
 
 
-            string token = username + ":" + password;
+        //    string token = username + ":" + password;
 
-            byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
-            string key = Convert.ToBase64String(toBytes);
-
-            using (var client = new HttpClient())
-            {
-                //setup client
-                client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-                HttpResponseMessage response = client.GetAsync("api/offline/v1/erfr/projects/get_by_city_code?city_code=" + city_code + "&id=" + record_id).Result;
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseJson = response.Content.ReadAsStringAsync();
-
-                    var all = JsonConvert.DeserializeObject<List<erfr_sub_project>>(responseJson.Result);
+        //    byte[] toBytes = Encoding.ASCII.GetBytes(token);
 
 
+        //    string key = Convert.ToBase64String(toBytes);
 
-                    foreach (var item in all.ToList())
-                    {
-                        await SaveERFR(item, true);
-                    }
+        //    using (var client = new HttpClient())
+        //    {
+        //        //setup client
+        //        client.BaseAddress = new Uri(url);
+        //        client.DefaultRequestHeaders.Accept.Clear();
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //        client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+        //        // var model = new auth_messages();
+
+        //        HttpResponseMessage response = client.GetAsync("api/offline/v1/erfr/projects/get_by_city_code?city_code=" + city_code + "&id=" + record_id).Result;
+
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var responseJson = response.Content.ReadAsStringAsync();
+
+        //            var all = JsonConvert.DeserializeObject<List<erfr_sub_project>>(responseJson.Result);
 
 
-        }
+
+        //            foreach (var item in all.ToList())
+        //            {
+        //                await SaveERFR(item, true);
+        //            }
+
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+
+
+        //}
 
         public async Task<bool> GetOnlinePhotos(string username, string password, string city_code = null, int? record_id = null)
         {

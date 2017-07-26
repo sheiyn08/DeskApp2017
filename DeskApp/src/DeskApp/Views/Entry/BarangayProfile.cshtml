@@ -80,12 +80,9 @@
     <md-content>
         <md-tabs md-dynamic-height md-border-bottom>
             <md-tab label="Details">
-                    <form name="myForm">
-
-                        @Html.Partial("~/Views/Entry/BrgyProfile/_details.cshtml")
-                    </form>
-
-              
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/BrgyProfile/_details.cshtml")
+                </md-content>              
             </md-tab>
            <md-tab label="Population">
 
@@ -453,14 +450,13 @@
                               + "&city_code=" + $scope.data.city_code
                               + "&brgy_code=" + $scope.data.brgy_code
                               + "&fund_source_id=" + $scope.data.fund_source_id
-                              + "&cycle_id="
+                              + "&cycle_id=" + $scope.data.cycle_id
                               + "&enrollment_id=",
                           contentType: false,
                           processData: false,
                           data: data,
                           success: function (message) {
                               var base = window.location.origin;
-
                               message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
                               $scope.attached_documents.push(message);
                               $scope.attachment = {};
@@ -486,7 +482,7 @@
                  });
 
               $scope.deleteMov = function (removeitem) {
-                  var ask = confirm("Are you sure you want to Delete this?");
+                  var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
                   if (ask == true) {
                       $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
                           $scope.loading = false;

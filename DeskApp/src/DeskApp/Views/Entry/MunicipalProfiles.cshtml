@@ -257,21 +257,15 @@
 
                       $.ajax({
                           type: "POST",
-                          url: "/Mov/UploadFilesAjax?id="
-                              + '@ViewBag.id'
-                              + "&mov_list_id=" + $scope.attachment.mov_list_id
-
-
-                             + "&region_code=" + $scope.data.region_code
-                             + "&prov_code=" + $scope.data.prov_code
-                                  + "&city_code=" + $scope.data.city_code
-                                  + "&brgy_code=" + $scope.data.brgy_code
-
-                             + "&fund_source_id=" + $scope.data.fund_source_id
-                                  + "&cycle_id="
-                               + "&enrollment_id=",
-
-
+                          url: "/Mov/UploadFilesAjax?id=" + '@ViewBag.id'
+                                + "&mov_list_id=" + $scope.attachment.mov_list_id
+                                + "&region_code=" + $scope.data.region_code
+                                + "&prov_code=" + $scope.data.prov_code
+                                + "&city_code=" + $scope.data.city_code
+                                + "&brgy_code=" + $scope.data.brgy_code
+                                + "&fund_source_id=" + $scope.data.fund_source_id
+                                + "&cycle_id=" + $scope.data.cycle_id
+                                + "&enrollment_id=",
 
                           contentType: false,
                           processData: false,
@@ -316,7 +310,7 @@
 
 
 
-                  var ask = confirm("Are you sure you want to Delete this?");
+                  var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
 
 
                   if (ask == true) {
@@ -422,70 +416,196 @@
 
 
 
+              //$scope.addFinancial = function () {
+
+
+
+
+              //    $scope.data.financial_sources.push($scope.financial);
+
+
+
+              //    $scope.financial = {};
+              //}
+
+              //$scope.removeFinancial = function (index) {
+
+              //    $scope.data.financial_sources.splice(index, 1);
+
+              //    $mdToast.show(
+              //                   $mdToast.simple()
+              //                   .textContent('Other Financial Sources Removed!')
+              //                   .position("top right")
+              //                   .hideDelay(5000)
+              //               );
+              //}
+              
+              //$scope.addGad = function () {
+
+
+
+
+              //    $scope.data.gad_activities.push($scope.gad);
+
+
+
+              //    $scope.gad = {};
+              //}
+
+              //$scope.removeGad = function (index) {
+
+              //    $scope.data.gad_activities.splice(index, 1);
+
+
+              //}
+              
+              //$scope.addDrrm = function () {
+
+
+
+
+              //    $scope.data.drrm_activities.push($scope.drrm);
+
+
+
+              //    $scope.drrm = {};
+              //}
+
+              //$scope.removeDrrm = function (index) {
+
+              //    $scope.data.drrm_activities.splice(index, 1);
+
+
+              //}
+
+
+
+              //-------------- Enhancement: 07-06-17 Add edit for FINANCIAL RESOURCES > Financial Source
+
               $scope.addFinancial = function () {
+                  $scope.data.financial_sources.push($scope.item);
+                  $scope.item = {};
+              };
+
+              $scope.removeFinancial = function (financial) {
+                  $scope.data.financial_sources.splice(financial, 1);
+              };
+
+              $scope.editFinancial = function (financial) {
+                  $scope.editing = $scope.data.financial_sources.indexOf(financial);
+                  financial.backupName = angular.copy(financial.name);
+                  financial.backupAmount = angular.copy(financial.amount);
+              };
+
+              $scope.saveEditedFinancial = function (financial) {
+                  delete financial.backupName;
+                  delete financial.backupAmount;
+              };
+
+              $scope.cancelEditFinancial = function (financial) {
+                  financial.name = angular.copy(financial.backupName);
+                  financial.amount = angular.copy(financial.backupAmount);
+                  delete financial.backupName;
+                  delete financial.backupAmount;
+              };
+
+              $scope.computeFinancialSourcesTotal = function (sum) {
+                  var total = 0;
+                  var ira_amount = $scope.data.ira_amount;
+                  angular.forEach($scope.data.financial_sources, function (el) {
+                      total += el[sum];
+                  });
+                  return total + ira_amount;
+              };
 
 
-
-
-                  $scope.data.financial_sources.push($scope.financial);
-
-
-
-                  $scope.financial = {};
-              }
-
-              $scope.removeFinancial = function (index) {
-
-                  $scope.data.financial_sources.splice(index, 1);
-
-                  $mdToast.show(
-                                 $mdToast.simple()
-                                 .textContent('Other Financial Sources Removed!')
-                                 .position("top right")
-                                 .hideDelay(5000)
-                             );
-              }
-
+              //-------------- Enhancement: 07-06-17 Add edit for FINANCIAL RESOURCES > GAD Utilization
 
               $scope.addGad = function () {
-
-
-
-
                   $scope.data.gad_activities.push($scope.gad);
-
-
-
                   $scope.gad = {};
-              }
+              };
 
-              $scope.removeGad = function (index) {
+              $scope.removeGad = function (gad) {
+                  $scope.data.gad_activities.splice(gad, 1);
+              };
 
-                  $scope.data.gad_activities.splice(index, 1);
+              $scope.editGad = function (gad) {
+                  $scope.editing = $scope.data.gad_activities.indexOf(gad);
+                  gad.backupGadActivity = angular.copy(gad.gad_activity);
+                  gad.backupGadAmount = angular.copy(gad.gad_amount);
+              };
+
+              $scope.saveEditedGad = function (gad) {
+                  delete gad.backupGadActivity;
+                  delete gad.backupGadAmount;
+              };
+
+              $scope.cancelEditGad = function (gad) {
+                  gad.gad_activity = angular.copy(gad.backupGadActivity);
+                  gad.gad_amount = angular.copy(gad.backupGadAmount);
+                  delete gad.backupGadActivity;
+                  delete gad.backupGadAmount;
+              };
+
+              $scope.computeGadTotal = function (sum) {
+                  var total = 0;
+                  angular.forEach($scope.data.gad_activities, function (el) {
+                      total += el[sum];
+                  });
+                  return total;
+              };
 
 
-              }
+              //-------------- Enhancement: 07-06-17 Add edit for FINANCIAL RESOURCES > DRRM Utilization
 
-
-
-              $scope.addDrrm = function () {
-
-
-
-
+              $scope.addDRRM = function () {
                   $scope.data.drrm_activities.push($scope.drrm);
-
-
-
                   $scope.drrm = {};
-              }
+              };
 
-              $scope.removeDrrm = function (index) {
+              $scope.removeDRRM = function (drrm) {
+                  $scope.data.drrm_activities.splice(drrm, 1);
+              };
 
-                  $scope.data.drrm_activities.splice(index, 1);
+              $scope.editDRRM = function (drrm) {
+                  $scope.editing = $scope.data.drrm_activities.indexOf(drrm);
+                  drrm.backupDRRMActivity = angular.copy(drrm.drrm_activity);
+                  drrm.backupDRRMAmount = angular.copy(drrm.drrm_amount);
+              };
+
+              $scope.saveEditedDRRM = function (drrm) {
+                  delete drrm.backupDRRMActivity;
+                  delete drrm.backupDRRMAmount;
+              };
+
+              $scope.cancelEditDRRM = function (drrm) {
+                  drrm.drrm_activity = angular.copy(drrm.backupDRRMActivity);
+                  drrm.drrm_amount = angular.copy(drrm.backupDRRMAmount);
+                  delete drrm.backupDRRMActivity;
+                  delete drrm.backupDRRMAmount;
+              };
+
+              $scope.computeDRRMTotal = function (sum) {
+                  var total = 0;
+                  angular.forEach($scope.data.drrm_activities, function (el) {
+                      total += el[sum];
+                  });
+                  return total;
+              };
 
 
-              }
+
+
+
+
+
+
+
+
+
+
+
 
 
               $scope.addTranspo = function () {

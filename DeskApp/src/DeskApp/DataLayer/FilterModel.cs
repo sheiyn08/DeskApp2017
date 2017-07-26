@@ -24,6 +24,8 @@ namespace DeskApp.DataLayer
         public int TotalUnAuthorized { get; set; }
         public int TotalForDeletion { get; set; }
         public IEnumerable<T> Items { get; set; }
+        //added July 10, 2017 to be used for displaying count of participants already added on a specific training
+        public int TotalCountParticipants { get; set; } 
     }
 
     public class AngularFilterModel

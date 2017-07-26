@@ -50,7 +50,29 @@ namespace DeskApp.Controllers
 
         }
 
+        [HttpPost]
+        [Route("sub_project")]
+        public async Task<IActionResult> SubProject(Guid id)
+        {
+            var record = db.sub_project.FirstOrDefault(x => x.sub_project_unique_id == id);
+            record.IsActive = false;
+            record.push_status_id = 3;
 
+            await db.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("ceac_list")]
+        public async Task<IActionResult> CEACTracking(Guid id)
+        {
+            var record = db.ceac_list.FirstOrDefault(x => x.ceac_list_id == id);
+            record.is_deleted = true;
+            record.push_status_id = 3;
+
+            await db.SaveChangesAsync();
+            return Ok();
+        }
 
         [HttpPost]
         [Route("training")]

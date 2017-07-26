@@ -1,144 +1,108 @@
-﻿<div class="panel panel-success">
+﻿<div class="panel panel-info">
     <div class="panel-heading">
         <h4>Community Association Formation Tracking</h4>
 
     </div>
     <div class="panel panel-body">
 
-
-
-
-
         <form name="onmForm">
 
-            <div class="panel panel-success">
-              
-
-                <div class="layout-row" layout-margin flex>
-                    <div flex>
-
-                    </div>
-                    <div flex>
-                        Name of Community Association
-                    </div>
-                    <div flex>
-                        Date Formed / Organized
-                    </div>
-                    <div flex>
-                        Date Registered 
-                    </div>
-                    <div flex>
-                        Name of Accredition Entity
-                    </div>
-                    <div flex>
-                        Date Constitution and by Laws Approved
-                    </div>
-                    <div flex>
-                        Date O&M policies prepared and ratified
-                    </div>
-                    <div flex>
-                        Date Detailed O&M plan prepared and approved
-                    </div>
-                    <div flex>
-                        Capacity Building activities conducted
-                    </div>
-                     
+            <div class="layout-row" layout-margin flex>
+                <div flex>
                 </div>
-
-
-                <div class="layout-row" layout-margin flex ng-repeat="equip in data.community_formation_lists">
-
-                    <div flex>
-                        <a class="btn btn-danger" ng-click="removeOpMain($index)"><i class="fa fa-trash"></i></a>
-                    </div>
-                    <div flex>
-                        {{equip.name}}
-                    </div>
-                    <div flex>
-                     {{equip.date_formed | date:'MM/dd/yyyy'}}
-                    </div>
-                    <div flex>
-                        {{equip.date_registered | date:'MM/dd/yyyy'}}
-                    </div>
-                    @*Name of Accredition Entity*@
-                    <div flex>
-                        {{equip.registed_with}}
-                    </div>
-                    <div flex>
-                      {{equip.date_consti | date:'MM/dd/yyyy'}}
-                    </div>
-                    <div flex>
-                        {{equip.date_policy | date:'MM/dd/yyyy'}}
-                    </div>
-
-                    <div flex>
-                        {{equip.date_plan | date:'MM/dd/yyyy'}}
-                    </div>
-
-                    <div flex>
-                        {{equip.capacity}}
-                    </div>
+                <div flex>
+                    Name of Community Association
                 </div>
-
-
-                <div class="layout-row" layout-margin flex md-padding>
-                    <div flex>
-                        <a class="btn btn-success" ng-click="addOpMain()" ng-disabled="!onmForm.$valid"><i class="fa fa-plus"></i></a>
-                    </div>
-                    <div flex>
-                        <input type="text" required name="Equipment Name" ng-model="maintain.name" class="form-control" />
-                    </div>
-             
-                    <div flex>
-
-                        <md-datepicker  name="Date " ng-model="maintain.date_formed" md-placeholder="Enter date"
-                                       md-max-date="today" class="form-control"></md-datepicker>
-                    </div>
-
-                    <div flex>
-
-                        <md-datepicker name="Date " ng-model="maintain.date_registered" md-placeholder="Enter date"
-                                       md-max-date="today" class="form-control"></md-datepicker>
-                    </div>
-                    <div flex>
-
-                        <md-datepicker name="Date " ng-model="maintain.registed_with" md-placeholder="Enter date"
-                                       md-max-date="today" class="form-control"></md-datepicker>
-                    </div>
-
-                    <div flex>
-
-                        <md-datepicker name="Date " ng-model="maintain.date_consti" md-placeholder="Enter date"
-                                       md-max-date="today" class="form-control"></md-datepicker>
-                    </div>
-
-                    <div flex>
-
-                        <md-datepicker name="Date " ng-model="maintain.date_policy" md-placeholder="Enter date"
-                                       md-max-date="today" class="form-control"></md-datepicker>
-                    </div>
-
-                    <div flex>
-
-                        <md-datepicker name="Date " ng-model="maintain.date_plan" md-placeholder="Enter date"
-                                       md-max-date="today" class="form-control"></md-datepicker>
-                    </div>
-
-                    <div flex>
-
-                      <input type="text" ng-model="maintain.capacity" class="form-control" />
-                    </div>
+                <div flex>
+                    Date Formed / Organized
                 </div>
-
-
-
+                <div flex>
+                    Date Registered
+                </div>
+                <div flex>
+                    Name of Accredition Entity
+                </div>
+                <div flex>
+                    Date Constitution and by Laws Approved
+                </div>
+                <div flex>
+                    Date O&M policies prepared and ratified
+                </div>
+                <div flex>
+                    Date Detailed O&M plan prepared and approved
+                </div>
+                <div flex>
+                    Capacity Building activities conducted
+                </div>
             </div>
 
-       
+            <div class="layout-row" layout-margin flex ng-repeat="equip in data.community_formation_lists">
+                <div flex>
+                    <a class="btn btn-danger" ng-click="removeOpMain($index)"><i class="fa fa-trash"></i></a>
+                </div>
+                <div flex>
+                    {{equip.name}}
+                </div>
+                <div flex>
+                    {{equip.date_formed | date:'MM/dd/yyyy'}}
+                </div>
+                <div flex>
+                    {{equip.date_registered | date:'MM/dd/yyyy'}}
+                </div>
+                @*Name of Accredition Entity*@
+                <div flex>
+                    {{equip.registed_with}}
+                </div>
+                <div flex>
+                    {{equip.date_consti | date:'MM/dd/yyyy'}}
+                </div>
+                <div flex>
+                    {{equip.date_policy | date:'MM/dd/yyyy'}}
+                </div>
+                <div flex>
+                    {{equip.date_plan | date:'MM/dd/yyyy'}}
+                </div>
+                <div flex>
+                    {{equip.capacity}}
+                </div>
+            </div>
+
+            <div class="layout-row" layout-margin flex md-padding>
+                <div flex>
+                    <a class="btn btn-success" ng-click="addOpMain()" ng-disabled="!onmForm.$valid"><i class="fa fa-plus"></i></a>
+                </div>
+                <div flex>
+                    <input type="text" required name="Equipment Name" ng-model="maintain.name" class="form-control" />
+                </div>
+                <div flex>
+                    <md-datepicker name="Date " ng-model="maintain.date_formed" md-placeholder="Enter date"
+                                   md-max-date="today" class="form-control"></md-datepicker>
+                </div>
+                <div flex>
+                    <md-datepicker name="Date " ng-model="maintain.date_registered" md-placeholder="Enter date"
+                                   md-max-date="today" class="form-control"></md-datepicker>
+                </div>
+                <div flex>
+                    <input type="text" name="Name of Accreditation Entity" ng-model="maintain.registed_with" class="form-control" />
+                </div>
+                <div flex>
+                    <md-datepicker name="Date " ng-model="maintain.date_consti" md-placeholder="Enter date"
+                                   md-max-date="today" class="form-control"></md-datepicker>
+                </div>
+                <div flex>
+                    <md-datepicker name="Date " ng-model="maintain.date_policy" md-placeholder="Enter date"
+                                   md-max-date="today" class="form-control"></md-datepicker>
+                </div>
+                <div flex>
+                    <md-datepicker name="Date " ng-model="maintain.date_plan" md-placeholder="Enter date"
+                                   md-max-date="today" class="form-control"></md-datepicker>
+                </div>
+                <div flex>
+                    <input type="text" ng-model="maintain.capacity" class="form-control" />
+                </div>
+            </div>                   
 
         </form>
 
-
     </div>
-
 </div>

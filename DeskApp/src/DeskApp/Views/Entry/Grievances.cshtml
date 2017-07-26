@@ -336,7 +336,7 @@
                             <div class="panel panel-info">
 
                                 <div class="panel-heading">
-                                    <h4>I. Complainants/Sender/Observers's Information</h4>
+                                    <h4>I. Complainants/Sender/Observer's Information</h4>
 
                                 </div>
 
@@ -349,7 +349,7 @@
                                             </div>
                                             <div class="col-md-4">
 
-                                                <select name="Type of Sender" required ng-model="data.is_individual" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Individual Filling'},{'value':false,'text':'Group Filling'}]" ng-selected="data.is_individual" class="form-control" ng-disabled="data.grs_form_id ==1">
+                                                <select name="Type of Sender" required ng-model="data.is_individual" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Individual Filing'},{'value':false,'text':'Group Filing'}]" ng-selected="data.is_individual" class="form-control" ng-disabled="data.grs_form_id ==1">
 
                                                     <option value="">[Select Type]</option>
                                                 </select>
@@ -706,7 +706,7 @@
 
                             <form name="discussionForm" ng-cloak>
 
-                                <div class="panel panel-danger">
+                                <div class="panel panel-info">
 
                                     <div class="panel-heading">
                                         <h4>GRS Discussions</h4>
@@ -1052,7 +1052,7 @@
                               + "&city_code=" + $scope.data.city_code
                               + "&brgy_code=" + $scope.data.brgy_code
                               + "&fund_source_id=" + $scope.data.fund_source_id
-                              + "&cycle_id="
+                              + "&cycle_id=" + $scope.data.cycle_id
                               + "&enrollment_id=",
                           contentType: false,
                           processData: false,
@@ -1085,7 +1085,7 @@
                  });
 
               $scope.deleteMov = function (removeitem) {
-                  var ask = confirm("Are you sure you want to Delete this?");
+                  var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
                   if (ask == true) {
                       $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
                           $scope.loading = false;

@@ -409,6 +409,8 @@
 
                             $scope.data = response.data;
 
+                            
+
 
 
                             //ATTACHMENTS
@@ -544,7 +546,7 @@
 
               $scope.deleteMov = function (removeitem) {
 
-                  var ask = confirm("Are you sure you want to Delete this?");
+                  var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
 
 
                   if (ask == true) {
@@ -1074,6 +1076,7 @@
                             $scope.dt_ncip_validated_date = response.data.ncip_validated_date == undefined ? null :new Date(response.data.ncip_validated_date);
                             $scope.dt_ncip_submitted_date =response.data.ncip_submitted_date == undefined ? null :new Date(response.data.ncip_submitted_date);
 
+                            //$scope.data.with_tariff = $scope.data.with_tariff == null ? false : $scope.data.with_tariff;
 
                             $scope.maxDate = new Date($scope.dt_Date_Started);
                             $scope.min_start_date = new Date("01/01/2014");
@@ -1107,9 +1110,9 @@
 
                             //$scope.today = new Date();
 
-                            //$scope.dt_Tranche1date = new Date(response.data.Tranche1date);
-                            //$scope.dt_Tranche2date = new Date(response.data.Tranche2date);
-                            //$scope.dt_Tranche3date = new Date(response.data.Tranche3date);
+                            $scope.dt_Tranche1date = response.data.Tranche1date == null ? "" : new Date(response.data.Tranche1date);
+                            $scope.dt_Tranche2date = response.data.Tranche2date == null ? "" : new Date(response.data.Tranche2date);
+                            $scope.dt_Tranche3date = response.data.Tranche3date == null ? "" : new Date(response.data.Tranche3date);
 
                             $scope.$watch('dt_Date_Started',
                                 function(newValue, oldValue) {
@@ -1441,7 +1444,7 @@
                                                         + ($scope.set_data.set_institutional_linkage * .10 == undefined ? 0 : $scope.set_data.set_institutional_linkage * .10)
                                                         + ($scope.set_data.set_financial * .15 == undefined ? 0 : $scope.set_data.set_financial * .15)
                                                         + ($scope.set_data.set_physical * .40 == undefined ? 0 : $scope.set_data.set_physical * .40);
-                        return $scope.set_data.set_total_score;
+                        return $scope.set_data.set_total_score.toFixed(2);
                     };
 
                     //start of edit:
@@ -1980,6 +1983,12 @@
 
                     $scope.search();
 
+                    $scope.clear_ers_search = function () {
+                        $scope.filter.name = '';
+                        $scope.filter.brgy_code = '';
+                        $scope.search();
+                    };
+
 
                     $scope.ConfirmParticipation = function (obj, idx) {
 
@@ -2141,17 +2150,13 @@
 
                             $scope.loading = true;
                             $scope.get_data = response.data;
-
-
-                            //<img ng-src=http://geotagging.dswd.gov.ph/SPPhotos/thumbnails/{{photo.region_code}}/{{photo.UniqueName}}.jpg />
-
-
-
+                            
                             angular.forEach($scope.get_data, function(item)
                             {
                                 var base = window.location.origin;
 
-
+                                item.photo_url = 'http://geotagging.dswd.gov.ph/SPPhotos/thumbnails/' + $scope.data.region_code + '/' + item.UniqueName + '.jpg'
+                                //sample: item.photo_url = 'http://geotagging.dswd.gov.ph/SPPhotos/thumbnails/060000000/412ed1f5-2527-458c-9db2-27f14fdfe3f6.jpg';
                                 item.url = base +"/SPPhotos/" + item.UniqueName +".jpeg";
 
 
@@ -2248,29 +2253,29 @@
 
                     $scope.addSuspension = function () {
                         $scope.data.suspension_order_lists.push($scope.susp);
-                        $scope.proj = {};
+                        $scope.susp = {};
                     }
 
-                    $scope.removeSuspension = function (index) {
+                    $scope.removeSuspension = function (susp, index) {
                         $scope.data.suspension_order_lists.splice(index, 1);
                     }
 
 
                     $scope.addResume = function () {
                         $scope.data.resume_order_lists.push($scope.resume);
-                        $scope.proj = {};
+                        $scope.resume = {};
                     }
 
-                    $scope.removeResume = function (index) {
+                    $scope.removeResume = function (resume, index) {
                         $scope.data.resume_order_lists.splice(index, 1);
                     }
 
                     $scope.addVariation = function () {
                         $scope.data.variation_order_lists.push($scope.vari);
-                        $scope.proj = {};
+                        $scope.vari = {};
                     }
 
-                    $scope.removeVariation = function (index) {
+                    $scope.removeVariation = function (vari, index) {
                         $scope.data.variation_order_lists.splice(index, 1);
                     }
 
