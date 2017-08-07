@@ -7,11 +7,11 @@
 <form name="detailsForm">
 
 
-    <div class="panel panel-success">
+    <div class="panel panel-info">
 
         <div class="panel-heading">
-            <h4>General Information</h4>
-            <p>Please check if these are the correct information for the project being updated.</p>
+            <h4>Basic Information</h4>
+            <p>Below information are directly taken from the Geotagging WebApp.</p>
 
         </div>
 
@@ -20,7 +20,7 @@
                 <label for="Region:_">Geotagging SP ID</label>
             </div>
             <div flex>
-                <input type="number" min="0" name="Geotagging SP ID" class="form-control" ng-model="data.sub_project_id" ng-required="data.modality_id == 7" ng-disabled="data.sub_project_id !=null"/>               
+                <input type="number" min="0" name="Geotagging SP ID" class="form-control" ng-model="data.sub_project_id" ng-required="data.modality_id == 7" ng-disabled="data.sub_project_id != 0"/>               
             </div>
         </div>
 
@@ -29,10 +29,11 @@
                 <label for="Region:_">e-RFR Sub Project ID</label>
             </div>
             <div flex>
-                <select name="erfr_project_id" ng-model="data.erfr_project_id" class="form-control" ng-disabled="true"
+                <input class="form-control" ng-model="data.erfr_project_id" ng-disabled="true"/>               
+                @*<select name="erfr_project_id" ng-model="data.erfr_project_id" class="form-control" ng-disabled="true"
                         ng-options="option.Id as option.Name for option in erfr_project_id_options">
                     <option value="">[Select SPID]</option>
-                </select>
+                </select>*@
                 @*<select name="erfr_project_id" ng-model="data.erfr_project_id" class="form-control" ng-disabled="data.modality_id !=7"
                         ng-options="option.Id as option.Name for option in erfr_project_id_options">
                     <option value="">[Select SPID]</option>

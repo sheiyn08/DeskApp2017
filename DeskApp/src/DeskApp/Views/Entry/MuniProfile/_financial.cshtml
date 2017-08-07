@@ -1,7 +1,7 @@
 ﻿
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>Financial Source</h3>
+        <h4>Financial Source</h4>
         <p>What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?</p>
     </div>
 
@@ -82,10 +82,11 @@
 
 
 
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>Financial Allocation</h3>
-        <p>          How were municipal funds allocated in the previous year?</p>
+        <h4>Financial Allocation</h4>
+        <p ng-show="data.profile_=='brgy'">          How were Barangay Funds allocated in the previous year?</p>
+        <p ng-show="data.profile_=='muni'">          How were Municipal Funds allocated in the previous year?</p>
     </div>
 
     <form name="financial_allocationForm" flex="100">
@@ -243,7 +244,7 @@
             </div>
 
             <div flex="50" flex-sm="100">
-                {{data.alloc_env + data.alloc_econ + data.alloc_infra +data.alloc_basic + data.alloc_inst + data.alloc_gender + data.alloc_drrm + data.alloc_others }}
+                <label>{{data.alloc_env + data.alloc_econ + data.alloc_infra +data.alloc_basic + data.alloc_inst + data.alloc_gender + data.alloc_drrm + data.alloc_others | currency:"₱"}}</label>
             </div>
 
 
@@ -256,9 +257,9 @@
 
 
 
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>GAD Utilization</h3>
+        <h4>GAD Utilization</h4>
         <p>How was GAD Fund utilized by the municipality?</p>
     </div>
 
@@ -286,12 +287,12 @@
                     <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditGad(gad); gad_edit_is_selected=false" ng-show="gad_edit_is_selected"><i class="fa fa-close"></i></a>
                 </div>
                 <div flex="50" flex-sm="100">
-                    <span ng-hide="gad_edit_is_selected">{{gad.gad_activity}}</span>
-                    <input ng-model="gad.gad_activity" class="form-control" required ng-show="gad_edit_is_selected" />
+                    <span ng-hide="gad_edit_is_selected">{{gad.name}}</span>
+                    <input ng-model="gad.name" class="form-control" required ng-show="gad_edit_is_selected" />
                 </div>
                 <div flex="50" flex-sm="100">
-                    <span ng-hide="gad_edit_is_selected">{{gad.gad_amount}}</span>
-                    <input ng-model="gad.gad_amount" type="number" class="form-control" required min="0" ng-show="gad_edit_is_selected" />
+                    <span ng-hide="gad_edit_is_selected">{{gad.amount}}</span>
+                    <input ng-model="gad.amount" type="number" class="form-control" required min="0" ng-show="gad_edit_is_selected" />
                 </div>
             </div>
 
@@ -301,11 +302,11 @@
                     <a class="btn btn-success" ng-disabled="!gadForm.$valid" ng-click="addGad()"><i class="fa fa-plus"></i></a>
                 </div>
                 <div flex="50" flex-sm="100">
-                    <input ng-model="gad.gad_activity" class="form-control" required />
+                    <input ng-model="gad.name" class="form-control" required />
                 </div>
 
                 <div flex="50" flex-sm="100">
-                    <input ng-model="gad.gad_amount" type="number" class="form-control" required min="0" />
+                    <input ng-model="gad.amount" type="number" class="form-control" required min="0" />
                 </div>
             </div>
 
@@ -315,7 +316,7 @@
                 <div flex="50" flex-sm="100">
                 </div>
                 <div flex="50" flex-sm="100">
-                    <span style="font-size:medium"><b>{{computeGadTotal('gad_amount') | currency:"₱"}}</b></span>
+                    <span style="font-size:medium"><b>{{computeGadTotal('amount') | currency:"₱"}}</b></span>
                 </div>
             </div>
             
@@ -324,9 +325,9 @@
 </div>
 
 
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>DRRM Utilization</h3>
+        <h4>DRRM Utilization</h4>
         <p>How was DRRM Fund utilized by the municipality?</p>
     </div>
 
@@ -354,12 +355,12 @@
                     <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditDRRM(drrm); drrm_edit_is_selected=false" ng-show="drrm_edit_is_selected"><i class="fa fa-close"></i></a>
                 </div>
                 <div flex="50" flex-sm="100">
-                    <span ng-hide="drrm_edit_is_selected">{{drrm.drrm_activity}}</span>
-                    <input ng-model="drrm.drrm_activity" class="form-control" required ng-show="drrm_edit_is_selected" />
+                    <span ng-hide="drrm_edit_is_selected">{{drrm.name}}</span>
+                    <input ng-model="drrm.name" class="form-control" required ng-show="drrm_edit_is_selected" />
                 </div>
                 <div flex="50" flex-sm="100">
-                    <span ng-hide="drrm_edit_is_selected">{{drrm.drrm_amount}}</span>
-                    <input ng-model="drrm.drrm_amount" type="number" class="form-control" required min="0" ng-show="drrm_edit_is_selected" />
+                    <span ng-hide="drrm_edit_is_selected">{{drrm.amount}}</span>
+                    <input ng-model="drrm.amount" type="number" class="form-control" required min="0" ng-show="drrm_edit_is_selected" />
                 </div>
             </div>
 
@@ -369,11 +370,11 @@
                     <a class="btn btn-success" ng-disabled="!drrmForm.$valid" ng-click="addDRRM()"><i class="fa fa-plus"></i></a>
                 </div>
                 <div flex="50" flex-sm="100">
-                    <input ng-model="drrm.drrm_activity" class="form-control" required />
+                    <input ng-model="drrm.name" class="form-control" required />
                 </div>
 
                 <div flex="50" flex-sm="100">
-                    <input ng-model="drrm.drrm_amount" type="number" class="form-control" required min="0" />
+                    <input ng-model="drrm.amount" type="number" class="form-control" required min="0" />
                 </div>
             </div>
 
@@ -383,11 +384,11 @@
                 <div flex="50" flex-sm="100">
                 </div>
                 <div flex="50" flex-sm="100">
-                    <span style="font-size:medium"><b>{{computeDRRMTotal('drrm_amount') | currency:"₱"}}</b></span>
+                    <span style="font-size:medium"><b>{{computeDRRMTotal('amount') | currency:"₱"}}</b></span>
                 </div>
             </div>
 
         </form>
     </div>
 </div>
-
+	

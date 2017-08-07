@@ -80,12 +80,9 @@
     <md-content>
         <md-tabs md-dynamic-height md-border-bottom>
             <md-tab label="Details">
-                    <form name="myForm">
-
-                        @Html.Partial("~/Views/Entry/BrgyProfile/_details.cshtml")
-                    </form>
-
-              
+                <md-content class="md-padding">
+                    @Html.Partial("~/Views/Entry/BrgyProfile/_details.cshtml")
+                </md-content>              
             </md-tab>
            <md-tab label="Population">
 
@@ -297,6 +294,8 @@
               $scope.loading = true;
 
               $scope.data = response.data;
+
+              $scope.data.profile_ = "brgy";
               
 
               $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
@@ -453,14 +452,13 @@
                               + "&city_code=" + $scope.data.city_code
                               + "&brgy_code=" + $scope.data.brgy_code
                               + "&fund_source_id=" + $scope.data.fund_source_id
-                              + "&cycle_id="
+                              + "&cycle_id=" + $scope.data.cycle_id
                               + "&enrollment_id=",
                           contentType: false,
                           processData: false,
                           data: data,
                           success: function (message) {
                               var base = window.location.origin;
-
                               message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
                               $scope.attached_documents.push(message);
                               $scope.attachment = {};
@@ -486,7 +484,7 @@
                  });
 
               $scope.deleteMov = function (removeitem) {
-                  var ask = confirm("Are you sure you want to Delete this?");
+                  var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
                   if (ask == true) {
                       $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
                           $scope.loading = false;
@@ -558,8 +556,8 @@
 
               $scope.editGad = function (gad) {
                   $scope.editing = $scope.data.gad_activities.indexOf(gad);
-                  gad.backupGadActivity = angular.copy(gad.gad_activity);
-                  gad.backupGadAmount = angular.copy(gad.gad_amount);
+                  gad.backupGadActivity = angular.copy(gad.name);
+                  gad.backupGadAmount = angular.copy(gad.amount);
               };
 
               $scope.saveEditedGad = function (gad) {
@@ -568,8 +566,8 @@
               };
 
               $scope.cancelEditGad = function (gad) {
-                  gad.gad_activity = angular.copy(gad.backupGadActivity);
-                  gad.gad_amount = angular.copy(gad.backupGadAmount);
+                  gad.name = angular.copy(gad.backupGadActivity);
+                  gad.amount = angular.copy(gad.backupGadAmount);
                   delete gad.backupGadActivity;
                   delete gad.backupGadAmount;
               };
@@ -596,8 +594,8 @@
 
               $scope.editDRRM = function (drrm) {
                   $scope.editing = $scope.data.drrm_activities.indexOf(drrm);
-                  drrm.backupDRRMActivity = angular.copy(drrm.drrm_activity);
-                  drrm.backupDRRMAmount = angular.copy(drrm.drrm_amount);
+                  drrm.backupDRRMActivity = angular.copy(drrm.name);
+                  drrm.backupDRRMAmount = angular.copy(drrm.amount);
               };
 
               $scope.saveEditedDRRM = function (drrm) {
@@ -606,8 +604,8 @@
               };
 
               $scope.cancelEditDRRM = function (drrm) {
-                  drrm.drrm_activity = angular.copy(drrm.backupDRRMActivity);
-                  drrm.drrm_amount = angular.copy(drrm.backupDRRMAmount);
+                  drrm.name = angular.copy(drrm.backupDRRMActivity);
+                  drrm.amount = angular.copy(drrm.backupDRRMAmount);
                   delete drrm.backupDRRMActivity;
                   delete drrm.backupDRRMAmount;
               };

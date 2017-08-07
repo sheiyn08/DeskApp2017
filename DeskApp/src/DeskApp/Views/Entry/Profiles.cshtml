@@ -614,58 +614,44 @@
                                 $scope.attachment2 = 'CDD Sub-Project Workers Basic Profile';
 
                                 
-                                if ($scope.attached_documents.filter(function (e) {
-                                    return e.mov_list_id == $scope.attachment.mov_list_id;
-                                }).length > 0) {
-                                    alert("Only single attachment is allowed for each attachment type/form.");
-                                    $scope.attachment = {};
+                                $.blockUI({ message: '<br>Processing...<br><br>' });
+                                var fileUpload = $("#files").get(0);
+                                var files = fileUpload.files;
+                                var data = new FormData();
+                                for (var i = 0; i < files.length ; i++) {
+                                    data.append(files[i].name, files[i]);
                                 }
 
-                                else {
-                                    $.blockUI({ message: '<br>Processing...<br><br>' });
-                                    var fileUpload = $("#files").get(0);
-                                    var files = fileUpload.files;
-                                    var data = new FormData();
-                                    for (var i = 0; i < files.length ; i++) {
-                                        data.append(files[i].name, files[i]);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Mov/UploadFilesAjax?id="
+                                        + '@ViewBag.id'
+                                        + "&mov_list_id=" + $scope.attachment.mov_list_id
+                                        + "&region_code=" + $scope.data.region_code
+                                        + "&prov_code=" + $scope.data.prov_code
+                                        + "&city_code=" + $scope.data.city_code
+                                        + "&brgy_code=" + $scope.data.brgy_code
+                                        + "&fund_source_id=" + $scope.data.fund_source_id
+                                        + "&cycle_id=" + $scope.data.cycle_id
+                                        + "&enrollment_id=" + $scope.data.enrollment_id,
+
+                                    contentType: false,
+                                    processData: false,
+                                    data: data,
+                                    success: function (message) {
+                                        var base = window.location.origin;
+                                        
+                                        message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
+
+                                        $scope.attached_documents.push(message);
+                                        $scope.attachment = {};
+                                        setTimeout($.unblockUI, 3);
+                                        angular.element("input[type='file']").val(null);
+                                    },
+                                    error: function (message) {
+                                        alert(JSON.stringify(message.responseText));
                                     }
-
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "/Mov/UploadFilesAjax?id="
-                                            + '@ViewBag.id'
-                                            + "&mov_list_id=" + $scope.attachment.mov_list_id
-
-
-                                           + "&region_code=" + $scope.data.region_code
-                                           + "&prov_code=" + $scope.data.prov_code
-                                                + "&city_code=" + $scope.data.city_code
-                                                + "&brgy_code=" + $scope.data.brgy_code
-
-                                           + "&fund_source_id=" + $scope.data.fund_source_id
-                                                + "&cycle_id=" + $scope.data.cycle_id
-                                             + "&enrollment_id=" + $scope.data.enrollment_id,
-
-
-
-                                        contentType: false,
-                                        processData: false,
-                                        data: data,
-                                        success: function (message) {
-                                            var base = window.location.origin;
-
-                                            message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
-                                            
-                                            $scope.attached_documents.push(message);
-                                            $scope.attachment = {};
-                                            setTimeout($.unblockUI, 3);
-                                            angular.element("input[type='file']").val(null);
-                                        },
-                                        error: function (message) {
-                                            alert(JSON.stringify(message.responseText));
-                                        }
-                                    });
-                                }
+                                });
 
                                 
 
@@ -740,7 +726,7 @@
 
 
 
-                                var ask = confirm("Are you sure you want to Delete this?");
+                                var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
 
 
                                 if (ask == true) {
@@ -776,7 +762,6 @@
 
                                 $scope.$broadcast('show-errors-check-validity');
                                 $scope.loading = true;
-                                //       alert(JSON.stringify($scope.data));
 
                                 //'/api/v1/grievances/save'
                                 $scope.data.other_training = JSON.stringify($scope.data.other_trainings);

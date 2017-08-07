@@ -1,69 +1,79 @@
 ﻿ 
-<div class="panel panel-success">
+<div class="panel panel-info">
     <div class="panel panel-heading">
         <h4>Geotagged Images</h4>
         <p>This portion is used to display the geotagged images of the sub project. Actual approval, uploading should be done via the mobile App or the geotagging website.</p>
     </div>
 
+    <div class="panel panel-body">
+        <div class="col-md-12">
+            <ul class="portfolio-content col-md-4" ng-repeat="photo in get_data">
+                <li data-bind="visible: visible" class="portfolio-item">
+                    <div class="item-inner">
 
-    <div class="col-md-12">
-        <ul class="portfolio-content col-md-4" ng-repeat="photo in get_data">
-            <li data-bind="visible: visible" class="portfolio-item">
-                <div class="item-inner">
 
-
-                    <img ng-src={{photo.url}}  />
-
-                    <small>
-
-                        Approval: <span>{{photo.approval_name}}</span>
+                        <img ng-src={{photo.photo_url}} />
                         <br />
+                        <small>
 
-                        GetDateTaken: <span>{{photo.GetDateTaken}}</span>
-                        <br />
-                        GpsDateTimeStamp: <span>{{photo.GpsDateTimeStamp}}</span>
+                            Approval: <span>{{photo.approval_name == '1' ? "NPMO Approved" : ""}}</span>
+                            <span>{{photo.approval_name == '2' ? "RPMO Approved" : ""}}</span>
+                            <span>{{photo.approval_name == '3' ? "SRPMO Approved" : ""}}</span>
+                            <span>{{photo.approval_name == '4' ? "SRPMO Disapproved" : ""}}</span>
+                            <span>{{photo.approval_name == '5' ? "ACT Approved" : ""}}</span>
+                            <span>{{photo.approval_name == '6' ? "ACT Disapproved" : ""}}</span>
+                            <span>{{photo.approval_name == '7' ? "ACT Uploaded" : ""}}</span>
+                            <br />
 
-                        <br />
-                        Latitude: <span>{{photo.lat}}</span>
-                        <br />
-                        Longitude: <span>{{photo.lng}}</span>
-                        <br />
-                        Uploader: <span>{{photo.uploaded_by}}</span>
-                        <br />
-                        Upload date: <span>{{photo.uploaded_date}}</span>
+                            GetDateTaken: <span>{{photo.GetDateTaken}}</span>
+                            <br />
+                            GpsDateTimeStamp: <span>{{photo.GpsDateTimeStamp}}</span>
 
-
-
-                    </small>
-
-
-
-                </div>
-
-                @*@if (User.Identity.IsAuthenticated)
-                {
-
-                    <a class="btn btn-xs btn-success" data-toggle="tooltip" role="button" data-placement="top" title="" data-original-title="Approval" ng-click="approve(photo)" ng-show="is_authorized">
-                        <i class="glyphicon glyphicon-check"></i>
-                    </a>
-
-                    <a class="btn btn-xs btn-warning" data-placement="top" data-toggle="tooltip" title="" data-original-title="Rotate (90 Degrees)" ng-click="rotate(photo)" ng-show="is_authorized">
-                        <i class="glyphicon glyphicon-circle-arrow-right"></i>
-                    </a>
+                            <br />
+                            Latitude: <span>{{photo.lat}}</span>
+                            <br />
+                            Longitude: <span>{{photo.lng}}</span>
+                            <br />
+                            Uploader: <span>{{photo.uploaded_by}}</span>
+                            <br />
+                            Upload date: <span>{{photo.uploaded_date}}</span>
 
 
 
-                                        <a class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Image" ng-click="delete(photo)" ng-show="is_authorized">
-                                            <i class="glyphicon glyphicon-trash"></i>
-                                        </a>
-
-                }*@
-
-                <br />
-                <br />
-            </li>
+                        </small>
 
 
-        </ul>
+
+                    </div>
+
+                    @*@if (User.Identity.IsAuthenticated)
+                    {
+
+                        <a class="btn btn-xs btn-success" data-toggle="tooltip" role="button" data-placement="top" title="" data-original-title="Approval" ng-click="approve(photo)" ng-show="is_authorized">
+                            <i class="glyphicon glyphicon-check"></i>
+                        </a>
+
+                        <a class="btn btn-xs btn-warning" data-placement="top" data-toggle="tooltip" title="" data-original-title="Rotate (90 Degrees)" ng-click="rotate(photo)" ng-show="is_authorized">
+                            <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                        </a>
+
+
+
+                                            <a class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Image" ng-click="delete(photo)" ng-show="is_authorized">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                            </a>
+
+                    }*@
+
+                    <br />
+                    <br />
+                </li>
+
+
+            </ul>
+        </div>
     </div>
+
+
+    
 </div>

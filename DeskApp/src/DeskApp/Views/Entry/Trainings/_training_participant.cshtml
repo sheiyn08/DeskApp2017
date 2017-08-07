@@ -3,7 +3,7 @@
 
 
 
-<div class="panel panel-success">
+<div class="panel panel-info">
 
     <div class="panel-heading">
         <h4>Training Participants</h4>
@@ -14,7 +14,7 @@
 </div>
 
 
-<div ng-show="isAddingPax">Wait a moment.....saving participant in database.</div>
+@*<div ng-show="isAddingPax">Wait a moment.....saving participant in database.</div> ---- replaced with block screen message*@
 
 <div ng-show="isAddingPax">
 
@@ -23,51 +23,39 @@
 
 
 <div class="panel panel-success">
-
-
-
-
     <div class="row">
-        <div class="col-md-12">
-
+        <div class="col-md-12" style="margin:15px">
+            <h4>For faster search of participant/s, input name of person and/or Barangay name.</h4>
+            <p><i>Note: List below only reflect the list in Person Profile Module, if name of participant doesn't appear here, double check if the person has record encoded in Person Profile Module.</i></p>
+            <br />
             <div class="col-md-3">
-                <label>Name</label>
-                <input class="form-control" placeholder="Name" ng-model="filter.name" ng-changed="search()" />
+                <input class="form-control" placeholder="Search by name" ng-model="filter.name" ng-changed="search()" />
             </div>
-
-
-
             <div class="col-md-3">
-                <label>Barangay</label>
                 <select name="brgy_code" ng-model="filter.brgy_code" id="brgy_code" class="form-control"
                         ng-options="option.Id as option.Name for option in brgy_code_options">
-                    <option value="">[Select Barangay]</option>
+                    <option value="">[Search by Barangay]</option>
                 </select>
             </div>
-
-
-
             <div class="col-md-3">
-                <label>Trained</label>
-                <select ng-model="filter.is_trained" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                <select ng-model="filter.is_trained" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Show participants already added in this training'},{'value':false,'text':'Show participants not yet added in this training'}]" class="form-control">
                     <option value=''>[Select Option]</option>
                 </select>
             </div>
-
-
-        </div>
-
-        <div class="col-md-12">
-            <div class="col-md-3">
-                <md-button class="md-primary md-raised" ng-click="search()">
-                    <i class="fa fa-filter"></i>  Filter
-                </md-button>
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="margin:15px">
+            <div class="col-md-6">
+                <a class="btn btn-primary" ng-click="search()">
+                    <i class="fa fa-filter fa-lg"></i> Search
+                </a>
+                <a class="btn btn-warning" ng-click="clear_search()">
+                    <i class="fa fa-recycle fa-lg"></i>  Clear search
+                </a>
             </div>
         </div>
     </div>
-
-
-
 
 </div>
 
@@ -79,7 +67,8 @@
             <div flex="100" layout="row" layout-margin layout-sm="column">
                 <div flex="50" flex-sm="100">
                     <h4>Page {{page + 1}} of {{pagesCount}} || {{totalCount}} Records</h4>
-                    <br />
+                    <div flex="20" flex-sm="100" class="label label-info">Count of Participants added on this training: {{totalCountParticipants}}</div>
+                    <br /><br />
                     <div flex="50">
                         <select name="quarter" ng-model="pageSize" ng-options="obj.value as obj.text for obj in [{'value':5,'text':'5'},{'value':10,'text':'10'},{'value':20,'text':'20'}]" ng-selected="pageSize" class="form-control" ng-change="search()">
                             <option value="">[Records to Show]</option>

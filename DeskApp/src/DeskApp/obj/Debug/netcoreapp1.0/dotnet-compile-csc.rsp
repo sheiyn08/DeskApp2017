@@ -4,7 +4,6 @@
 -nowarn:CS1701
 -nowarn:CS1702
 -nowarn:CS1705
--platform:x86
 -debug:full
 -nostdlib
 -nologo
@@ -316,8 +315,8 @@
 "D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\spi_spcr_mapping.cs"
 "D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\sub_project_mapping.cs"
 "D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\training_mapping.cs"
-"D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170619005730_initial_june19.cs"
-"D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170619005730_initial_june19.Designer.cs"
+"D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170803002252_initial.cs"
+"D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170803002252_initial.Designer.cs"
 "D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\ApplicationDbContextModelSnapshot.cs"
 "D:\DeskApp2017\DeskApp\src\DeskApp\Models\ApplicationUser.cs"
 "D:\DeskApp2017\DeskApp\src\DeskApp\Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs"

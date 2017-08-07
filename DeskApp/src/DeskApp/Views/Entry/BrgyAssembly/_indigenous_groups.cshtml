@@ -4,12 +4,11 @@
 
 
 
-    <div class="panel panel-success">
+    <div class="panel panel-info">
 
         <div class="panel-heading">
             <h4>Represented IP Groups</h4>
-            <p>Tick Box on the Corresponding Sector Represented</p>
-            <p><i>Tis will automatically be saved upon ticking the box</i></p>
+            <p>Tick box on the corresponding Sector represented</p>
         </div>
 
 
@@ -35,12 +34,12 @@
                             Group
                         </td>
                         <td>
-                            Represented?
+                            Represented? <i>(This will be automatically saved upon ticking the box)</i>
                         </td>
                     </tr>
 
                     <tbody>
-                        <tr ng-repeat="item in represented_groups | filter: searchGroups">
+                        <tr ng-repeat="item in represented_groups | filter: searchGroups | orderBy: 'ip_group_name'">
                             <td>
                                 {{item.ip_group_name}}
                             </td>

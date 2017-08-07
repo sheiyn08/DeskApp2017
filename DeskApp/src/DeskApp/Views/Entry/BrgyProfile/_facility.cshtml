@@ -1,6 +1,6 @@
-﻿<div class="panel panel-success">
+﻿<div class="panel panel-info">
     <div class="panel panel-heading">
-        <h3>Facilities</h3>
+        <h4>Facilities</h4>
         <p>Which of the following establishments and services are available in the barangay? If not available, how far is your barangay to the nearest establishment/service provider? </p>
     </div>
 
@@ -9,8 +9,8 @@
     <div layout="row" layout-margin flex="100">
         <div flex>	Facility / Establishment	</div>
         <div flex>	Identity if Available	</div>
-        <div flex>	If none, distance to nearest facility(hours)	</div>
-        <div flex>	Mode of Transpo	</div>
+        <div flex>	If none, distance to nearest facility (hours)	</div>
+        <div flex>	Mode of Transportation	</div>
     </div>
 
 
@@ -18,7 +18,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Bank	</div><div flex>
-            <md-radio-group ng-required="true" name="With Bank" ng-model="data.has_bank">
+            <md-radio-group ng-required="true" name="With Bank" ng-model="data.has_bank" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -38,7 +38,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Barangay Hall	</div><div flex>
-            <md-radio-group ng-required="true" name="With Barangay Hall" ng-model="data.has_barangay_hall">
+            <md-radio-group ng-required="true" name="With Barangay Hall" ng-model="data.has_barangay_hall" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -55,7 +55,7 @@
 
     <div layout="row" ng-required="true" name="With Training (Agriculture)" layout-margin flex="100">
         <div flex>	Training (Agriculture)	</div><div flex>
-            <md-radio-group ng-model="data.has_cap_agri">
+            <md-radio-group ng-model="data.has_cap_agri" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -73,7 +73,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Training (Health)	</div><div flex>
-            <md-radio-group ng-required="true" name="With Training(Health)" ng-model="data.has_cap_health">
+            <md-radio-group ng-required="true" name="With Training(Health)" ng-model="data.has_cap_health" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -91,7 +91,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Training (Org Development)	</div><div flex>
-            <md-radio-group ng-required="true" name="With Training(Org Development)" ng-model="data.has_cap_org_dev">
+            <md-radio-group ng-required="true" name="With Training(Org Development)" ng-model="data.has_cap_org_dev" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -109,7 +109,7 @@
 
     <div layout="row"  layout-margin flex="100">
         <div flex>	Training (Others)	</div><div flex>
-            <md-radio-group ng-required="true" name="With Training(others)" ng-model="data.has_cap_others">
+            <md-radio-group ng-required="true" name="With Training(others)" ng-model="data.has_cap_others" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -127,7 +127,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Cemetery	</div><div flex>
-            <md-radio-group ng-required="true" name="With Cementery" ng-model="data.has_cementery">
+            <md-radio-group ng-required="true" name="With Cementery" ng-model="data.has_cementery" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -145,7 +145,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	College / Universities	</div><div flex>
-            <md-radio-group ng-required="true" name="With College / Universities" ng-model="data.has_college">
+            <md-radio-group ng-required="true" name="With College / Universities" ng-model="data.has_college" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -163,7 +163,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Credit Facility	</div><div flex>
-            <md-radio-group ng-required="true" name="With Credit Facility" ng-model="data.has_credit">
+            <md-radio-group ng-required="true" name="With Credit Facility" ng-model="data.has_credit" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -181,7 +181,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Day Care Centers	</div><div flex>
-            <md-radio-group ng-required="true" name="With Day Care Centers" ng-model="data.has_daycare">
+            <md-radio-group ng-required="true" name="With Day Care Centers" ng-model="data.has_daycare" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -197,7 +197,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Drainage System	</div><div flex>
-            <md-radio-group ng-required="true" name="With Drainage System" ng-model="data.has_drainage">
+            <md-radio-group ng-required="true" name="With Drainage System" ng-model="data.has_drainage" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -215,7 +215,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Electricity	</div><div flex>
-            <md-radio-group ng-required="true" name="With Electricity" ng-model="data.has_electricity">
+            <md-radio-group ng-required="true" name="With Electricity" ng-model="data.has_electricity" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -233,7 +233,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Elementary School	</div><div flex>
-            <md-radio-group ng-required="true" name="With Elementary School" ng-model="data.has_elementary">
+            <md-radio-group ng-required="true" name="With Elementary School" ng-model="data.has_elementary" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -251,7 +251,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Emergency Services	</div><div flex>
-            <md-radio-group ng-required="true" name="With Emergency Services" ng-model="data.has_emergency_service">
+            <md-radio-group ng-required="true" name="With Emergency Services" ng-model="data.has_emergency_service" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -269,7 +269,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Evacuation Center	</div><div flex>
-            <md-radio-group ng-required="true" name="With Evacuation Center" ng-model="data.has_evac_center">
+            <md-radio-group ng-required="true" name="With Evacuation Center" ng-model="data.has_evac_center" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -287,7 +287,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Harvest Facility	</div><div flex>
-            <md-radio-group ng-required="true" name="With Harvest Facility" ng-model="data.has_harvest">
+            <md-radio-group ng-required="true" name="With Harvest Facility" ng-model="data.has_harvest" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -305,7 +305,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Health Center	</div><div flex>
-            <md-radio-group ng-required="true" name="With Health Center" ng-model="data.has_health">
+            <md-radio-group ng-required="true" name="With Health Center" ng-model="data.has_health" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -323,7 +323,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Hospital	</div><div flex>
-            <md-radio-group ng-required="true" name="With Hospital" ng-model="data.has_hospital">
+            <md-radio-group ng-required="true" name="With Hospital" ng-model="data.has_hospital" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -341,7 +341,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Housing Projects	</div><div flex>
-            <md-radio-group ng-required="true" name="With Housing Project" ng-model="data.has_housing">
+            <md-radio-group ng-required="true" name="With Housing Project" ng-model="data.has_housing" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -359,7 +359,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Irrigation	</div><div flex>
-            <md-radio-group  ng-required="true" name="With Irrigation" ng-model="data.has_irrigation">
+            <md-radio-group  ng-required="true" name="With Irrigation" ng-model="data.has_irrigation" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -376,7 +376,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Market Place	</div><div flex>
-            <md-radio-group ng-required="true" name="With Market Place" ng-model="data.has_market">
+            <md-radio-group ng-required="true" name="With Market Place" ng-model="data.has_market" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -394,7 +394,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Mini Port	</div><div flex>
-            <md-radio-group  ng-required="true" name="With Mini Port" ng-model="data.has_miniport">
+            <md-radio-group  ng-required="true" name="With Mini Port" ng-model="data.has_miniport" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -411,7 +411,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Multi Purpose Building	</div><div flex>
-            <md-radio-group ng-required="true" name="With Multi Purpose Building" ng-model="data.has_multipurpose">
+            <md-radio-group ng-required="true" name="With Multi Purpose Building" ng-model="data.has_multipurpose" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -428,7 +428,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Secondary School</div><div flex>
-            <md-radio-group ng-required="true" name="With Secondary Schools" ng-model="data.has_secondary">
+            <md-radio-group ng-required="true" name="With Secondary Schools" ng-model="data.has_secondary" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -445,7 +445,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Stores	</div><div flex>
-            <md-radio-group ng-required="true" name="With Stores" ng-model="data.has_stores">
+            <md-radio-group ng-required="true" name="With Stores" ng-model="data.has_stores" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -462,7 +462,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Tanod / Police	</div><div flex>
-            <md-radio-group ng-required="true" name="With Tanod / Police" ng-model="data.has_tanod">
+            <md-radio-group ng-required="true" name="With Tanod / Police" ng-model="data.has_tanod" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -479,7 +479,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Telecommunications Access	</div><div flex>
-            <md-radio-group ng-required="true" name="With Telecommunications Access" ng-model="data.has_telecom">
+            <md-radio-group ng-required="true" name="With Telecommunications Access" ng-model="data.has_telecom" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -496,7 +496,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Tribal Hall	</div><div flex>
-            <md-radio-group ng-required="true" name="With Tribal Hall" ng-model="data.has_tribal">
+            <md-radio-group ng-required="true" name="With Tribal Hall" ng-model="data.has_tribal" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -513,7 +513,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Waste Facility	</div><div flex>
-            <md-radio-group ng-required="true" name="With Waste Facility" ng-model="data.has_waste">
+            <md-radio-group ng-required="true" name="With Waste Facility" ng-model="data.has_waste" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 
@@ -530,7 +530,7 @@
 
     <div layout="row" layout-margin flex="100">
         <div flex>	Water Supply System	</div><div flex>
-            <md-radio-group ng-required="true" name="With Water Supply System" ng-model="data.has_water_supply_system">
+            <md-radio-group ng-required="true" name="With Water Supply System" ng-model="data.has_water_supply_system" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                 <md-radio-button data-ng-value="false"> No </md-radio-button>
 

@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-4">
-                        <label>Sub Report:</label>
+                        <label>Sub Report</label>
                         <div class="form-group">
                             <select name="Region" ng-model="selected_subreport" id="region_code" class="form-control"
                                     ng-disabled="status"
@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-3">
-                        <label>Region:</label>
+                        <label>Region</label>
                         <div class="form-group">
                             <select name="Region" ng-model="selected_region" id="region_code" class="form-control"
                                     ng-disabled="status"
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label>Province: </label>
+                        <label>Province </label>
                         <div class="form-group">
                             <select name="Province" ng-model="selected_province" id="prov_code" class="form-control"
                                     ng-disabled="selected_region.Id == null || status"
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label>Municipality: </label>
+                        <label>Municipality </label>
                         <div class="form-group">
                             <div class="form-group">
                                 <select name="Municipality" ng-model="selected_city" id="city_code" class="form-control"
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="col-md-3" ng-show="selected_subreport.id == 1 || selected_subreport.id == 2 || selected_subreport.id == 4 || selected_subreport.id == 5 || selected_subreport.id == 6">
-                        <label>Barangay: </label>
+                        <label>Barangay </label>
                         <div class="form-group">
                             <div class="form-group">
                                 <select name="Barangay" ng-model="selected_brgy" id="brgy_code" class="form-control"
@@ -76,18 +76,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-3">
-                        <label>Portfolio:</label>
+                        <label>Project</label>
                         <div class="form-group">
                             <select name="Fund Source" ng-model="selected_fund" id="fund_source_id" class="form-control"
                                     ng-required="true"
                                     ng-disabled="status"
                                     ng-options="option as option.Name for option in fund_source_id_options">
-                                <option value="">[Select Portfolio]</option>
+                                <option value="">[Select Project]</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-3" ng-hide="selected_subreport.id == 4 || selected_subreport.id == 9 || selected_subreport.id == 11 || selected_subreport.id == 13 || selected_subreport.id == 16 || selected_subreport.id == 17 || selected_subreport.id == 23 || selected_subreport.id == 24 || selected_subreport.id == 27 || selected_subreport.id == 28">
-                        <label>Cycle: </label>
+                        <label>Cycle </label>
                         <div class="form-group">
                             <select name="Cycle" ng-model="selected_cycle" id="cycle_id" class="form-control"                                    
                                     ng-required="true"
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label>KC Mode: </label>
+                        <label>KC Mode </label>
                         <div class="form-group">
                             <select name="KC Mode" ng-model="selected_enrollment" id="enrollment_id" class="form-control"
                                     ng-disabled="status"
@@ -113,7 +113,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-3" ng-show="selected_subreport.id == 12">
-                        <label>Status:</label>
+                        <label>Status</label>
                         <div class="form-group">
                             <select name="Priority" ng-model="selected_priority" class="form-control"
                                     ng-disabled="status"

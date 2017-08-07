@@ -229,7 +229,7 @@ namespace DeskApp.Controllers
         public IActionResult GetUploaded(Guid id)
         {
 
-            var model = db.attached_document.Include(x => x.mov_list).Where(x => x.record_id == id);
+            var model = db.attached_document.Include(x => x.mov_list).Where(x => x.record_id == id && x.is_deleted != true);
 
             return Ok(model);
         }
@@ -286,27 +286,152 @@ namespace DeskApp.Controllers
 
         }
 
+        #region Delete Attachment:
 
+        //[WebMethod]
+        //public static bool DeleteFile(string fileName)
+        //{
+        //    try
+        //    {
+        //        File.Delete(fileName);
+        //        return true;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        ////delete file on MOVs folder
+        //[HttpGet]
+        //public IActionResult DeleteFileAjax(Guid id)
+        //{
+        //    var path = PlatformServices.Default.Application.ApplicationBasePath;
+        //    string source_path = path + @"\wwwroot\MOVs\";
+
+        //    if (Directory.Exists(source_path))
+        //    {
+        //        string[] filePaths = Directory.GetFiles(path);
+        //        List<ListItem> files = new List<ListItem>();
+        //        htmlStr = "<table class='tblDocList'><tr class='trDocListHead'><td colspan='3'>Existing Documents</td></tr>";
+        //        foreach (string filePath in filePaths)
+        //        {
+        //            files.Add(new ListItem(Path.GetFileName(filePath), filePath));
+        //            htmlStr += "<tr class='trDataRow'>";
+        //            htmlStr += "<td class='tdFileName'>" + Path.GetFileName(filePath) + "</td>";
+        //            htmlStr += "<td class='tdDownloadLink'><a href class='downloadLink' name='" + filePath + "'>Download</a></td>";
+        //            htmlStr += "<td class='tdDownloadLink'><a href class='deleteLink' name='" + filePath + "'>Delete</a></td>";
+        //            htmlStr += "</tr>";
+        //        }
+        //        htmlStr += "</table>";
+
+        //    }
+
+
+
+
+
+
+            
+
+        //    if (source_path.Any()) {
+        //        //delete the file
+        //    }
+
+        //    long size = 0;
+        //    var files = Request.Form.Files;
+        //    foreach (var file in files)
+        //    {
+        //        if (files.Count() != 1)
+        //        {
+        //            return BadRequest("Select 1 File to upload only");
+        //        }
+
+        //        var filename = ContentDispositionHeaderValue
+        //                        .Parse(file.ContentDisposition)
+        //                        .FileName
+        //                        .Trim('"');
+
+
+        //        if (!filename.Contains("pdf"))
+        //        {
+        //            return BadRequest("Upload PDF Files Only");
+        //        }
+
+        //        Guid attached_document_id = Guid.NewGuid();
+
+        //        var path01 = PlatformServices.Default.Application.ApplicationBasePath;
+
+        //        string savePath = path01 + @"\wwwroot\MOVs\" + attached_document_id.ToString() + ".pdf";
+                
+        //        size += file.Length;
+
+
+        //        using (FileStream fs = System.IO.File.Create(savePath))
+        //        {
+        //            file.CopyTo(fs);
+        //            fs.Flush();
+        //        }
+
+        //        var model = new attached_document
+        //        {
+        //            attached_document_id = attached_document_id,
+        //            record_id = id,
+        //            region_code = region_code,
+        //            prov_code = prov_code,
+        //            city_code = city_code,
+        //            brgy_code = brgy_code,
+        //            fund_source_id = fund_source_id,
+        //            cycle_id = cycle_id,
+        //            enrollment_id = enrollment_id,
+        //            push_status_id = 2,
+        //            approval_id = 3,
+        //            created_by = 1,
+        //            created_date = DateTime.Now,
+        //            mov_list_id = mov_list_id,
+        //        };
+
+        //        db.attached_document.Add(model);
+
+        //        db.SaveChanges();
+
+        //        //string message = "File Uploaded Successfully";
+
+
+        //        model.mov_list = db.mov_list.Find(mov_list_id);
+
+        //        return Ok(model);
+        //    }
+
+        //    return BadRequest();
+
+        //}
+
+
+
+        #endregion
 
 
         [HttpPost]
         [Route("api/delete/attached_document")]
         public async Task<IActionResult> attached_document_delete(Guid id)
         {
-
-
             var record = db.attached_document.FirstOrDefault(x => x.attached_document_id == id);
-
-
             record.is_deleted = true;
             record.push_status_id = 3;
 
-            await db.SaveChangesAsync();
+            //added: July 17
+            //string sourceDir = @"D:\DeskApp2017\DeskApp\src\DeskApp\bin\Debug\netcoreapp1.0\win10-x64\wwwroot\MOVs";
+            var path01 = PlatformServices.Default.Application.ApplicationBasePath;
+            string savePath = path01 + @"\wwwroot\MOVs\" + id.ToString() + ".pdf";
 
+            System.IO.File.Delete(savePath);
+            
+            await db.SaveChangesAsync();
             return Ok();
 
         }
-
+        
 
 
 

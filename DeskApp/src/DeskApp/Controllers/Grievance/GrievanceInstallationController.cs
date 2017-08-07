@@ -93,6 +93,8 @@ namespace DeskApp.Controllers
 
             return Ok(result);
         }
+
+
         #endregion  
 
         private IQueryable<grs_installation> GetData(AngularFilterModel item

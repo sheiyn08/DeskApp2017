@@ -5,30 +5,19 @@
 
     <div flex="100" layout="row" layout-margin layout-sm="column">
 
-
-        <div flex="" flex-sm="100">
-
-            <label for="Region:_">Purpose</label>
-
-
-
- 
+        <div flex="25" flex-sm="100">
+            <label for="Region:_">Purpose</label> 
                 <select name="Purpose" ng-model="data.barangay_assembly_purpose_id" id="brgy_code" class="form-control"
                         ng-required="true"
                               ng-disabled="status"
                         ng-options="option.Id as option.Name for option in barangay_assembly_purpose_id_options">
                     <option value="">[Select Barangay Assembly Purpose]</option>
-                </select>
-          
-
-
-
-
+                </select>  
         </div>
 
 
-        <div flex="" flex-sm="100">
-            <label for="Province:_">Date Start: </label>
+        <div flex="25" flex-sm="100">
+            <label for="Province:_">Date Start </label>
 
 
             <md-datepicker name="Date Start" ng-model="dt_start_date" md-placeholder="Enter date" ng-change="data.date_start = dt_start_date.toISOString()" required md-min-date="maxStartDate" md-max-date="today"></md-datepicker>
@@ -37,8 +26,8 @@
 
         </div>
 
-        <div flex="" flex-sm="100">
-            <label for="Municipality:_">Date End: </label>
+        <div flex="25" flex-sm="100">
+            <label for="Municipality:_">Date End </label>
 
             <md-datepicker name="Date End" ng-model="dt_end_date" md-placeholder="Enter date" ng-change="data.date_end = dt_end_date.toISOString()" required md-min-date="maxDate" md-max-date="today"></md-datepicker>
 
@@ -46,12 +35,12 @@
 
         </div>
        
-        <div class="col-md-3">
+        <div flex="25" flex-sm="100">
 
             <label for="Region:_">Venue</label>
 
 
-            <div class="form-group" show-errors='{showSuccess: true}'>
+            <div class="form-group">
                 <input class="form-control" name="venue" ng-model="data.venue" required />
 
 

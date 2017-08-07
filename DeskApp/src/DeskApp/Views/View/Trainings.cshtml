@@ -52,11 +52,11 @@
                     <md-container layout="row">
                         <div flex="100" layout="row" layout-margin layout-sm="column">
                             <div flex="50" flex-sm="100">
-                                <label for="Title:_">Title: </label>
+                                <label for="Title:_">Title </label>
                                 <input type="text" class="form-control" ng-model="data.name" required name="training_title" />
                             </div>
                             <div flex="25" flex-sm="100">
-                                <label for="LGU Level:_">Training/Activity Level: </label>
+                                <label for="LGU Level:_">Training/Activity Level </label>
                                 <select name="lgu_level_id" ng-model="data.lgu_level_id" id="region_code" class="form-control"
                                         ng-required="true"
                                         ng-options="option.Id as option.Name for option in lgu_level_id_options">
@@ -64,7 +64,7 @@
                                 </select>
                             </div>
                             <div flex="25" flex-sm="100">
-                                <label for="Training Category:_">Training Category: </label>
+                                <label for="Training Category:_">Training Category </label>
                                 <select name="training_category_id" ng-model="data.training_category_id" id="region_code" class="form-control"
                                         ng-required="true"
                                         ng-disabled="lgu_level_id ==''"
@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                             <div flex="25" flex-sm="100">
-                                <label for="Province:_">Province: </label>
+                                <label for="Province:_">Province </label>
                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                     <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
                                             ng-disabled="data.region_code == null"
@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                             <div flex="25" flex-sm="100">
-                                <label for="Municipality:_">Municipality: </label>
+                                <label for="Municipality:_">Municipality </label>
                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                     <div class="form-group" show-errors='{showSuccess: true}'>
                                         <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                             <div flex="25" flex-sm="100">
-                                <label for="Barangay:_">Barangay: </label>
+                                <label for="Barangay:_">Barangay </label>
                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                     <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
                                             ng-required="data.lgu_level_id ==1"
@@ -126,17 +126,17 @@
                     <md-container layout="row">
                         <div flex="100" layout="row" layout-margin layout-sm="column">
                             <div flex="25" flex-sm="100">
-                                <label for="Region:_">Fund Source</label>
+                                <label for="Region:_">Project</label>
                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                     <select name="fund_source_id" ng-model="data.fund_source_id" id="brgy_code" class="form-control"
                                             ng-required="true"
                                             ng-options="option.Id as option.Name for option in fund_source_id_options">
-                                        <option value="">[Select Fund Source]</option>
+                                        <option value="">[Select Project]</option>
                                     </select>
                                 </div>
                             </div>
                             <div flex="25" flex-sm="100">
-                                <label for="Province:_">Cycle: </label>
+                                <label for="Province:_">Cycle </label>
                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                     <select name="cycle_id" ng-model="data.cycle_id" id="brgy_code" class="form-control"
                                             ng-required="true"
@@ -146,7 +146,7 @@
                                 </div>
                             </div>
                             <div flex="25" flex-sm="100">
-                                <label for="Municipality:_">KC Mode: </label>
+                                <label for="Municipality:_">KC Mode </label>
                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                     <select name="enrollment_id" ng-model="data.enrollment_id" id="brgy_code" class="form-control"
                                             ng-required="true"

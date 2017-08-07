@@ -166,7 +166,7 @@
                         { "id": "6", "name": "Community Volunteers" },
                         //{ "id": "7", "name": "Municipal Inter-Barangay Forum / Municipal Forum" },
                         //{ "id": "8", "name": "Participatory Situation Analysis" },
-                        { "id": "9", "name": "Grievance Redness System (Intake)" },
+                        { "id": "9", "name": "Grievance Redress System (Intake)" },
                         { "id": "10", "name": "Grievance Installation" }
                         //{ "id": "11", "name": "Environmental and Social Safeguards" },
                         //{ "id": "12", "name": "Employment Record during Sub-Project Implementation" },
@@ -232,7 +232,7 @@
                         $scope.subreport_list = [{ "id": "15", "name": "Priority Problems and Proposed Solutions" }]
                     }
                     else if (category_id == 9) {
-                        $scope.selected_category_name = "Grievance Redness System (Intake)";
+                        $scope.selected_category_name = "Grievance Redress System (Intake)";
                         $scope.show_grs_div = true;
                         $scope.hide_category_list = true;
                         $scope.subreport_list = [{ "id": "17", "name": "Status of Filed Grievances across Cycles" }]
@@ -1229,7 +1229,7 @@
                             $scope.loading = false;
                             $scope.grievance_installation = value;
                             $scope.totalRows = $scope.grievance_installation.length;
-
+                            
                             $scope.count_date_orientation = 0;
                             $scope.count_date_voliden = 0;
                             $scope.count_date_training = 0;
@@ -1238,11 +1238,21 @@
 
                             angular.forEach($scope.grievance_installation,
                                 function (todo) {
-                                    $scope.count_date_orientation += todo.brgy_count_with_date_orientation;
-                                    $scope.count_date_voliden += todo.brgy_count_with_date_voliden;
-                                    $scope.count_date_training += todo.brgy_count_with_date_training;
-                                    $scope.count_date_inspect += todo.brgy_count_with_date_inspect;
-                                    $scope.count_grievance_box += todo.brgy_count_with_grievance_box;
+                                    if (todo.date_orientation != null) {
+                                        $scope.count_date_orientation = $scope.count_date_orientation + 1;
+                                    }
+                                    if (todo.date_voliden != null) {
+                                        $scope.count_date_voliden = $scope.count_date_voliden + 1;
+                                    }
+                                    if (todo.date_training != null) {
+                                        $scope.count_date_training = $scope.count_date_training + 1;
+                                    }
+                                    if (todo.date_inspect != null) {
+                                        $scope.count_date_inspect = $scope.count_date_inspect + 1;
+                                    }
+                                    if (todo.with_grievance_box == 'Yes') {
+                                        $scope.count_grievance_box = $scope.count_grievance_box + 1;
+                                    }
                                 });
 
                             $scope.isSearching = false;
@@ -1253,6 +1263,7 @@
                             $scope.error = "An Error has occured while Saving! " + data.statusText;
                             $scope.loading = false;
                         });
+
                     }
 
                     else if ($scope.selected_subreport.id == 9) {
@@ -1270,11 +1281,26 @@
 
                             angular.forEach($scope.grievance_installation_act,
                                 function (todo) {
-                                    $scope.count_date_orientation += todo.act_count_with_date_orientation;
-                                    $scope.count_date_ffcomm += todo.act_count_with_date_ffcomm;
-                                    $scope.count_date_training += todo.act_count_with_date_training;
-                                    $scope.count_date_inspect += todo.act_count_with_date_inspect;
-                                    $scope.count_grievance_box += todo.act_count_with_grievance_box;
+                                    if (todo.date_orientation != null) {
+                                        $scope.count_date_orientation = $scope.count_date_orientation + 1;
+                                    }
+                                    if (todo.date_ffcomm != null) {
+                                        $scope.count_date_ffcomm = $scope.count_date_ffcomm + 1;
+                                    }
+                                    if (todo.date_training != null) {
+                                        $scope.count_date_training = $scope.count_date_training + 1;
+                                    }
+                                    if (todo.date_inspect != null) {
+                                        $scope.count_date_inspect = $scope.count_date_inspect + 1;
+                                    }
+                                    if (todo.with_grievance_box == 'Yes') {
+                                        $scope.count_grievance_box = $scope.count_grievance_box + 1;
+                                    }
+                                    //$scope.count_date_orientation += todo.act_count_with_date_orientation;
+                                    //$scope.count_date_ffcomm += todo.act_count_with_date_ffcomm;
+                                    //$scope.count_date_training += todo.act_count_with_date_training;
+                                    //$scope.count_date_inspect += todo.act_count_with_date_inspect;
+                                    //$scope.count_grievance_box += todo.act_count_with_grievance_box;
                                 });
 
                             $scope.isSearching = false;

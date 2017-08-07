@@ -521,7 +521,7 @@ namespace DeskApp.Controllers.AreaData
         [Route("api/offline/v1/mlcc/save")]
         public async Task<IActionResult> Save(municipal_lcc model, bool? is_ba, bool? api)
         {
-            var record = db.municipal_lcc.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code && x.history == model.history);
+            var record = db.municipal_lcc.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code && x.history == model.history && x.cycle_id == model.cycle_id);
             
             model.no_of_barangays = db.lib_brgy.Count(x => x.city_code == model.city_code);
 

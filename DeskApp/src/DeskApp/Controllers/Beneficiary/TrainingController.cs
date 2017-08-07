@@ -1186,13 +1186,14 @@ namespace DeskApp.Controllers
             );
 
             var ceac_list = db.ceac_list.AsNoTracking().FirstOrDefault(x =>
-                                                x.city_code == model.city_code
-                                                &&
+                                                x.city_code == model.city_code &&
                                                 x.cycle_id == model.cycle_id &&
-                                                x.enrollment_id == model.enrollment_id);
+                                                x.enrollment_id == model.enrollment_id &&
+                                                x.is_deleted != true);
 
             Guid id = Guid.NewGuid();
 
+            
             if (ceac_list == null)
             {
                 var ceac = new ceac_list
@@ -1274,14 +1275,17 @@ namespace DeskApp.Controllers
                     plan_end = model.plan_date_end,
                     plan_start = model.plan_date_start,
 
-                    implementation_status_id = 1,
+                    implementation_status_id = 1, //conducted or not yet conducted
                     ceac_tracking_id = Guid.NewGuid(),
 
                     lgu_level_id = model.lgu_level_id
 
                 };
 
-                if (ceac.actual_end != null && ceac.actual_start != null) ceac.implementation_status_id = 1;
+                if (ceac.actual_end != null && ceac.actual_start != null)
+                {
+                    ceac.implementation_status_id = 1;
+                } 
 
 
                 if (ceac.implementation_status_id == 1)

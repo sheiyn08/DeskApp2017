@@ -757,7 +757,11 @@ namespace DeskApp.Controllers
             //for single sync
             if (!string.IsNullOrEmpty(item.name))
             {
-                model = model.Where(x => x.first_name.Contains(item.name) || x.last_name.Contains(item.name));
+                string converted_name = item.name.ToLower();
+
+                model = model.Where(x => x.first_name.ToLower().Contains(converted_name) || x.last_name.ToLower().Contains(converted_name));
+                
+                //model = model.Where(x => x.first_name.Contains(item.name) || x.last_name.Contains(item.name));
             }
             if (item.record_id != null)
             {
@@ -1238,6 +1242,7 @@ namespace DeskApp.Controllers
             var totalCount = model.Count();
             int currPages = item.currPage ?? 0;
             int size = item.pageSize ?? 10;
+            int person_training_count = db.person_training.Count(x => x.is_participant == true && x.community_training_id == item.community_training_id);
 
             return new PagedCollection<person_profileDTO>()
             {
@@ -1247,6 +1252,7 @@ namespace DeskApp.Controllers
                 Page = currPages,
                 TotalCount = totalCount,
                 TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+                TotalCountParticipants = person_training_count,
                 Items = model.OrderBy(x => x.created_date)
                 .Select(
                     x => new person_profileDTO
@@ -2025,7 +2031,7 @@ namespace DeskApp.Controllers
 
             var model = from s in db.person_training.Where(x => x.person_profile_id == id)
                         join p in db.community_training on s.community_training_id equals p.community_training_id
-                        where s.is_participant == true
+                        where s.is_participant == true && p.is_deleted != true
                         select p;
 
 

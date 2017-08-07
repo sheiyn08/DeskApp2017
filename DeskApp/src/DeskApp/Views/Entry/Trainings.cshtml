@@ -225,8 +225,6 @@
                         $scope.filter.pageSize = $scope.pageSize == undefined ? '' : $scope.pageSize;
                         $scope.filter.currPage = page == undefined ? '' : page;
 
-
-
                         $.post('/api/offline/v1/profiles/get_dto', $scope.filter)
                             .success(function (value) {
 
@@ -236,7 +234,7 @@
                                 $scope.totalCount = value.TotalCount;
                                 $scope.members = value.Items;
                                 $scope.isSearching = false;
-
+                                $scope.totalCountParticipants = value.TotalCountParticipants;
 
                                 angular.forEach($scope.members,
                                     function (todo) {
@@ -244,7 +242,7 @@
 
                                         $http
                                             .post('/Api/offline/v1/trainings/CheckParticipation?person_profile_id=' + todo.person_profile_id + "&community_training_id=" + '@ViewBag.id')
-                                            .then(function (response) {
+                                            .then(function (response) {                                                
 
                                                 if (response.data == true) {
                                                     todo.is_participant = true;
@@ -271,6 +269,13 @@
                             });
 
 
+                    };
+
+                    $scope.clear_search = function () {
+                        $scope.filter.name = '';
+                        $scope.filter.brgy_code = '';
+                        $scope.filter.is_trained = '';
+                        $scope.search();
                     };
 
 
@@ -487,15 +492,20 @@
                                     !member.is_participant +
                                     "&api=false";
 
-
+                                $.blockUI({ message: '<br>Wait a moment.....saving participant/changes in database.<br><br>' });
                                 $scope.isAddingPax = true;
 
                                 $http.post(url)
                                     .success(function (data) {
-
-
                                         $scope.isAddingPax = false;
+                                        setTimeout($.unblockUI, 2);
 
+                                        if (member.is_participant == true) {
+                                            $scope.totalCountParticipants = $scope.totalCountParticipants + 1;
+                                        }
+                                        else {
+                                            $scope.totalCountParticipants = $scope.totalCountParticipants - 1;
+                                        }
                                     })
                                     .error(function (data) {
                                         $scope.error = "An Error has occured while Saving! " + data;
@@ -963,16 +973,13 @@
                                     url: "/Mov/UploadFilesAjax?id="
                                         + '@ViewBag.id'
                                         + "&mov_list_id=" + $scope.attachment.mov_list_id
-
-
-                                       + "&region_code=" + $scope.data.region_code
-                                       + "&prov_code=" + $scope.data.prov_code
-                                            + "&city_code=" + $scope.data.city_code
-                                            + "&brgy_code=" + $scope.data.brgy_code
-
-                                       + "&fund_source_id=" + $scope.data.fund_source_id
-                                            + "&cycle_id=" + $scope.data.cycle_id
-                                         + "&enrollment_id=" + $scope.data.enrollment_id,
+                                        + "&region_code=" + $scope.data.region_code
+                                        + "&prov_code=" + $scope.data.prov_code
+                                        + "&city_code=" + $scope.data.city_code
+                                        + "&brgy_code=" + $scope.data.brgy_code
+                                        + "&fund_source_id=" + $scope.data.fund_source_id
+                                        + "&cycle_id=" + $scope.data.cycle_id
+                                        + "&enrollment_id=" + $scope.data.enrollment_id,
 
 
 
@@ -1019,7 +1026,7 @@
 
 
 
-                                var ask = confirm("Are you sure you want to Delete this?");
+                                var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
 
 
                                 if (ask == true) {

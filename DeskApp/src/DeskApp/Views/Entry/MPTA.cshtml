@@ -85,13 +85,12 @@
             </md-tab>
 
             <md-tab label="Transparency">
-
-                <form name="transparencyForm">
-                    @Html.Partial("~/Views/Entry/MPTA/_transparency.cshtml")
+                <md-content class="md-padding">
+                    <form name="transparencyForm">
+                        @Html.Partial("~/Views/Entry/MPTA/_transparency.cshtml")
                     </form>
-
-
-</md-tab>
+                </md-content>
+            </md-tab>
 
     
 
@@ -471,7 +470,7 @@
 
 
               $scope.deleteMov = function (removeitem) {
-                  var ask = confirm("Are you sure you want to Delete this?");
+                  var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
 
                   if (ask == true) {
                       $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {

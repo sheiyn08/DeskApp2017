@@ -53,27 +53,24 @@
                 $scope.data.expenditures_economic_services = '';
                 $scope.data.expenditures_other_purposes = '';
 
-               
+                $scope.printContent = function () {
+                    Popup($('#printDiv').html());
+                }
+
+                //new:
                 function Popup(data) {
                     var mywindow = window.open('', 'new div', 'height=400,width=600');
                     mywindow.document.write('<html><head><title>DOF-BLGF Financial Data</title>');
                     mywindow.document.write('<link href="/content/lte/bootstrap/css/bootstrap.css" media="all"  type="text/css"  rel="stylesheet" />');
-
                     mywindow.document.write('<link href="/css/print.css" type="text/css" rel="stylesheet" media="print"  />');
-
-                    mywindow.document.write('</head><body >');
+                    mywindow.document.write('</head><body>');
                     mywindow.document.write(data);
+                    mywindow.document.write('<scr' + 'ipt type="text/javascript">function PrintPage() { window.print(); window.close(); } window.onload = PrintPage;</scr' + 'ipt>');
                     mywindow.document.write('</body></html>');
-                    mywindow.print();
-                    mywindow.close();
+                    mywindow.document.close();
+                    //mywindow.document.focus(); ---->> originally included but after migrating to DeskApp2017, error is received: focus is not a function; hence, commenting this line of code.
+
                     return true;
-                }
-
-                $scope.printContent = function () {
-
-                    Popup($('#printDiv').html());
-
-
                 }
 
                 $scope.exportToXLS = function () {

@@ -1,6 +1,6 @@
 ﻿
 
-<div class="panel panel-success">
+<div class="panel panel-info">
 
     <div class="panel panel-heading">
         <h4>Sustainability Evaluation Test</h4>
@@ -16,10 +16,12 @@
     
     @*INDEX:*@
     <div class="panel-body" ng-hide="create_button_is_clicked || edit_button_is_clicked">
-        <div class="panel panel-info" ng-show="data.physical_status_id == 1">
-            <div class="panel panel-heading">
-                <h5>Existing SET Records for this Sub-Project</h5>
-            </div>
+        <md-content ng-show="data.physical_status_id == 1">
+            <h4 style="color:dodgerblue">Existing SET Records for this Sub-Project</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <br />
             <div class="panel-body">
                 @*list of SET:*@
                 <md-content>
@@ -50,99 +52,193 @@
                                 {{set.set_physical_description}}
                             </div>
                             <div flex>
-                                {{set.set_total_score}}
+                                {{set.set_total_score | number : 2}}
                             </div>
                         </div>
                     </div>
                 </md-content>
             </div>
-        </div>
+
+            <div class="panel-body">
+                <form name="NewSetForm" ng-show="create_button_is_clicked || edit_button_is_clicked">
+                    <div class="panel panel-info">
+                        <div class="panel panel-heading">
+                            <h5>{{create_button_is_clicked == true ? "Add new SET" : "Edit SET"}}</h5>
+                            <a ng-click="saveset()" class="btn btn-success" ng-disabled="!NewSetForm.$valid"><i class="fa fa-floppy-o"></i>&emsp;Save&emsp;</a>
+                            <a ng-click="cancelset()" class="btn btn-warning"><i class="fa fa-remove"></i>&emsp;Cancel&emsp;</a>
+                        </div>
+                        <div class="panel panel-body">
+                            <div layout="row" layout-margin flex="100">
+                                <div flex="50">
+                                    <label> Date of Evaluation</label>
+                                </div>
+                                <div flex="50">
+                                    <md-datepicker md-max-date="today" md-min-date="minSetStart" name="SET Date" ng-model="dt_set_date_eval" md-placeholder="Enter date" ng-change="set_data.set_date_eval = dt_set_date_eval.toISOString()" ng-required="true"></md-datepicker>
+                                </div>
+                            </div>
+                            <div layout="row" layout-margin flex="100">
+                                <div flex="50">
+                                    <label> Physical Description</label>
+                                </div>
+                                <div flex="50">
+                                    <md-input-container class="md-block" flex="100">
+                                        <textarea aria-label="Physical Description" name="final" ng-model="set_data.set_physical_description" md-maxlength="2000" rows="5"
+                                                  cols="100" md-select-on-focus="" flex="100" ng-required="true"></textarea>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div layout="row" layout-margin flex="100">
+                                <div flex="50">
+                                    <label> Section</label>
+                                </div>
+                                <div flex="50">
+                                    <label>Score</label>
+                                </div>
+                            </div>
+                            <div layout="row" layout-margin flex="100">
+                                <div flex="50">
+                                    <label>(I) SP Utilization</label>
+                                </div>
+                                <div flex="50">
+                                    <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_sp_utilization" max="5" min="1" class="form-control" name="SP Utilization" ng-required="true" />
+                                </div>
+                            </div>
+                            <div layout="row" layout-margin flex="100">
+                                <div flex="50">
+                                    <label>(II) Organization and Management</label>
+                                </div>
+                                <div flex="50">
+                                    <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_organization" max="5" min="1" class="form-control" name="Organization" ng-required="true" />
+                                </div>
+                            </div>
+                            <div layout="row" layout-margin flex="100">
+                                <div flex="50">
+                                    <label>(III) Institutional Linkage</label>
+                                </div>
+                                <div flex="50">
+                                    <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_institutional_linkage" max="5" min="1" class="form-control" name="Insitutional Linkage" ng-required="true" />
+                                </div>
+                            </div>
+                            <div layout="row" layout-margin flex="100">
+                                <div flex="50">
+                                    <label>(IV) Financial Component</label>
+                                </div>
+                                <div flex="50">
+                                    <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_financial" max="5" min="1" class="form-control" name="Financial" ng-required="true" />
+                                </div>
+                            </div>
+                            <div layout="row" layout-margin flex="100">
+                                <div flex="50">
+                                    <label>(V) Physical/Technical</label>
+                                </div>
+                                <div flex="50">
+                                    <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_physical" max="5" min="1" class="form-control" name="Physical" ng-required="true" />
+                                </div>
+                            </div>
+                            <div layout="row" layout-margin flex="100">
+                                <div flex="50">
+                                    <label> Total SET Score</label>
+                                </div>
+                                <div flex="50">
+                                    {{compute_for_set_total()}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </md-content>
+
     </div>     
 
     <div class="panel-body">
         <form name="NewSetForm" ng-show="create_button_is_clicked || edit_button_is_clicked">
-            <div class="panel panel-info">
-                <div class="panel panel-heading">
-                    <h4>{{create_button_is_clicked == true ? "Add new SET" : "Edit SET"}}</h4>
-                    <a ng-click="saveset()" class="btn btn-success" ng-disabled="!NewSetForm.$valid"><i class="fa fa-floppy-o"></i>&emsp;Save&emsp;</a>
-                    <a ng-click="cancelset()" class="btn btn-warning"><i class="fa fa-remove"></i>&emsp;Cancel&emsp;</a>                    
-                </div>
+            <div class="panel panel-info">                   
                 <div class="panel panel-body">
-                    <div layout="row" layout-margin flex="100">
-                        <div flex="50">
-                            <label> Date of Evaluation</label>
+                    <md-content>
+                        @*<h4 style="color:dodgerblue">{{create_button_is_clicked == true ? "Add new SET" : "Edit SET"}}</h4>*@
+                        <a ng-click="saveset()" class="btn btn-success" ng-disabled="!NewSetForm.$valid"><i class="fa fa-floppy-o"></i>&emsp;Save&emsp;</a>
+                        <a ng-click="cancelset()" class="btn btn-warning"><i class="fa fa-remove"></i>&emsp;Cancel&emsp;</a>
+                        <br /><br />
+
+                        <div layout="row" layout-margin flex="100">
+                            <div flex="50">
+                                <label> Date of Evaluation</label>
+                            </div>
+                            <div flex="50">
+                                <md-datepicker md-max-date="today" md-min-date="minSetStart" name="SET Date" ng-model="dt_set_date_eval" md-placeholder="Enter date" ng-change="set_data.set_date_eval = dt_set_date_eval.toISOString()" ng-required="true"></md-datepicker>
+                            </div>
                         </div>
-                        <div flex="50">
-                            <md-datepicker md-max-date="today" md-min-date="minSetStart" name="SET Date" ng-model="dt_set_date_eval" md-placeholder="Enter date" ng-change="set_data.set_date_eval = dt_set_date_eval.toISOString()" ng-required="true"></md-datepicker>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex="50">
+                                <label> Physical Description</label>
+                            </div>
+                            <div flex="50">
+                                <md-input-container class="md-block" flex="100">
+                                    <textarea aria-label="Physical Description" name="final" ng-model="set_data.set_physical_description" md-maxlength="2000" rows="5"
+                                              cols="100" md-select-on-focus="" flex="100" ng-required="true"></textarea>
+                                </md-input-container>
+                            </div>
                         </div>
-                    </div>
-                    <div layout="row" layout-margin flex="100">
-                        <div flex="50">
-                            <label> Physical Description</label>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex="50">
+                                <label> Section</label>
+                            </div>
+                            <div flex="50">
+                                <label>Score</label>
+                            </div>
                         </div>
-                        <div flex="50">
-                            <md-input-container class="md-block" flex="100">
-                                <textarea aria-label="Physical Description" name="final" ng-model="set_data.set_physical_description" md-maxlength="2000" rows="5"
-                                          cols="100" md-select-on-focus="" flex="100" ng-required="true"></textarea>
-                            </md-input-container>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex="50">
+                                <label>(I) SP Utilization</label>
+                            </div>
+                            <div flex="50">
+                                <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_sp_utilization" max="5" min="1" class="form-control" name="SP Utilization" ng-required="true" />
+                            </div>
                         </div>
-                    </div>
-                    <div layout="row" layout-margin flex="100">
-                        <div flex="50">
-                            <label> Section</label>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex="50">
+                                <label>(II) Organization and Management</label>
+                            </div>
+                            <div flex="50">
+                                <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_organization" max="5" min="1" class="form-control" name="Organization" ng-required="true" />
+                            </div>
                         </div>
-                        <div flex="50">
-                            <label>Score</label>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex="50">
+                                <label>(III) Institutional Linkage</label>
+                            </div>
+                            <div flex="50">
+                                <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_institutional_linkage" max="5" min="1" class="form-control" name="Insitutional Linkage" ng-required="true" />
+                            </div>
                         </div>
-                    </div>
-                    <div layout="row" layout-margin flex="100">
-                        <div flex="50">
-                            <label>(I) SP Utilization</label>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex="50">
+                                <label>(IV) Financial Component</label>
+                            </div>
+                            <div flex="50">
+                                <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_financial" max="5" min="1" class="form-control" name="Financial" ng-required="true" />
+                            </div>
                         </div>
-                        <div flex="50">
-                            <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_sp_utilization" max="5" min="1" class="form-control" name="SP Utilization" ng-required="true" />
+                        <div layout="row" layout-margin flex="100">
+                            <div flex="50">
+                                <label>(V) Physical/Technical</label>
+                            </div>
+                            <div flex="50">
+                                <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_physical" max="5" min="1" class="form-control" name="Physical" ng-required="true" />
+                            </div>
                         </div>
-                    </div>
-                    <div layout="row" layout-margin flex="100">
-                        <div flex="50">
-                            <label>(II) Organization and Management</label>
+                        <div layout="row" layout-margin flex="100">
+                            <div flex="50">
+                                <label> Total SET Score</label>
+                            </div>
+                            <div flex="50">
+                                {{compute_for_set_total()}}
+                            </div>
                         </div>
-                        <div flex="50">
-                            <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_organization" max="5" min="1" class="form-control" name="Organization"  ng-required="true"/>
-                        </div>
-                    </div>
-                    <div layout="row" layout-margin flex="100">
-                        <div flex="50">
-                            <label>(III) Institutional Linkage</label>
-                        </div>
-                        <div flex="50">
-                            <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_institutional_linkage" max="5" min="1" class="form-control" name="Insitutional Linkage" ng-required="true" />
-                        </div>
-                    </div>
-                    <div layout="row" layout-margin flex="100">
-                        <div flex="50">
-                            <label>(IV) Financial Component</label>
-                        </div>
-                        <div flex="50">
-                            <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_financial" max="5" min="1" class="form-control" name="Financial" ng-required="true" />
-                        </div>
-                    </div>
-                    <div layout="row" layout-margin flex="100">
-                        <div flex="50">
-                            <label>(V) Physical/Technical</label>
-                        </div>
-                        <div flex="50">
-                            <input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="set_data.set_physical" max="5" min="1" class="form-control" name="Physical" ng-required="true" />
-                        </div>
-                    </div>
-                    <div layout="row" layout-margin flex="100">
-                        <div flex="50">
-                            <label> Total SET Score</label>
-                        </div>
-                        <div flex="50">
-                            {{compute_for_set_total()}}
-                        </div>
-                    </div>
+                    </md-content>
+                    
                 </div>
             </div>
         </form>

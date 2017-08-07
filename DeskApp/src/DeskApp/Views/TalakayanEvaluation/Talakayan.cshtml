@@ -222,12 +222,12 @@
 
                                     if ($scope.data.talakayan_yr_id == 3) {
                                         $scope.talakayan_minStartDate = new Date("01/01/2017");
-                                        $scope.talakayan_maxStartDate = new Date("12/31/2017");
+                                        $scope.talakayan_maxStartDate = new Date();
 
-                                        $scope.talakayan_maxEndDate = new Date("12/31/2017");
+                                        $scope.talakayan_maxEndDate = new Date();
 
-                                        $scope.evaluation_maxStartDate = new Date("12/31/2017");
-                                        $scope.evaluation_maxEndDate = new Date("12/31/2017");
+                                        $scope.evaluation_maxStartDate = new Date();
+                                        $scope.evaluation_maxEndDate = new Date();
                                     }
 
                                     if ($scope.data.talakayan_yr_id == 4) {
@@ -378,7 +378,6 @@
                             $scope.attachment.mov_list_id = null;
 
                             $scope.uploadAttachment = function () {
-
                                 $.blockUI({ message: '<br>Processing...<br><br>' });
 
                                 var fileUpload = $("#files").get(0);
@@ -388,99 +387,66 @@
                                     data.append(files[i].name, files[i]);
                                 }
 
-
-
-
                                 $.ajax({
                                     type: "POST",
-                                    url: "/Mov/UploadFilesAjax?id="
-                                        + '@ViewBag.id'
-                                        + "&mov_list_id=" + $scope.attachment.mov_list_id
-
-
-                                       + "&region_code=" + $scope.data.region_code
-                                       + "&prov_code=" + $scope.data.prov_code
+                                    url: "/Mov/UploadFilesAjax?id=" + '@ViewBag.id'
+                                            + "&mov_list_id=" + $scope.attachment.mov_list_id
+                                            + "&region_code=" + $scope.data.region_code
+                                            + "&prov_code=" + $scope.data.prov_code
                                             + "&city_code=" + $scope.data.city_code
                                             + "&brgy_code=" + $scope.data.brgy_code
-
-                                       + "&fund_source_id=" + $scope.data.fund_source_id
+                                            + "&fund_source_id=" + $scope.data.fund_source_id
                                             + "&cycle_id=" + $scope.data.cycle_id
-                                         + "&enrollment_id=" + $scope.data.enrollment_id,
-
-
-
+                                            + "&enrollment_id=" + $scope.data.enrollment_id,
                                     contentType: false,
                                     processData: false,
                                     data: data,
                                     success: function (message) {
                                         var base = window.location.origin;
-
                                         message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
-
                                         $scope.attached_documents.push(message);
                                         $scope.attachment = {};
                                         setTimeout($.unblockUI, 3);
                                         angular.element("input[type='file']").val(null);
-
                                     },
                                     error: function (message) {
                                         alert(JSON.stringify(message.responseText));
                                     }
                                 });
-
-
-                            }
+                            };
 
                             $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
                                .success(function (value) {
-
-
                                    $scope.attached_documents = value;
-
                                    angular.forEach($scope.attached_documents, function (item) {
                                        var base = window.location.origin;
-
                                        item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
-
-
                                    })
-
                                });
 
 
 
 
                             $scope.deleteMov = function (removeitem) {
-
-
-
-                                var ask = confirm("Are you sure you want to Delete this?");
-
-
+                                alert(JSON.stringify(removeitem.attached_document_id));
+                                var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
                                 if (ask == true) {
+                                    //to delete attachment in view and update is_deleted backend:
                                     $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
                                         $scope.loading = false;
-
-
-
                                         var index = $scope.attached_documents.indexOf(removeitem);
                                         $scope.attached_documents.splice(index, 1);
-
-
-                                        alert("Record removed!")
-
+                                        alert("Attachment removed!");
                                     }).error(function (data) {
-
                                         alert(JSON.stringify(data));
-
-
                                         $scope.error = "An Error has occured while Deleting! " + data.statusText;
                                         $scope.loading = false;
                                     });
-
                                 }
-
-                            }
+                                else {
+                                    //do nothing
+                                }
+                            };
                             //END ATTACHMENTS
 
 
@@ -488,7 +454,7 @@
 
 
 
-                        //FOR SAVING:
+                            //FOR SAVING:
                             $scope.save = function () {
 
                                 $scope.$broadcast('show-errors-check-validity');

@@ -418,9 +418,6 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
         var credentials;
         var username = $scope.username;
         var password = $scope.password;
-        
-        alert("Alert hit! ");
-        alert(JSON.stringify(items_selected));
 
         if ($scope.list_of_selected_items.length > 0) {
             alert("Only selected item/s will be uploaded as you wish.");

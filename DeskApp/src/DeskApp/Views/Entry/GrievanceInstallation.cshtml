@@ -214,13 +214,21 @@
                     </div>
 
 
-                    <div flex="100" layout="row" layout-margin layout-sm="row">
+                    <div flex="100" layout="row" layout-margin layout-sm="row" ng-show="data.lgu_level_id==1">
                         <div flex flex-sm="100">
-                            <label ng-show="data.lgu_level_id==1"> Training of community members on handling grievances</label>
-                            <label ng-show="data.lgu_level_id==2"> GRS Training for ACT/MCT</label>
+                            <label> Training of Community members on handling grievances</label>
                         </div>
                         <div flex flex-sm="100">
-                            <md-datepicker name="date_training" ng-model="dt_date_training" md-placeholder="Enter date" ng-change="data.date_training = dt_date_training.toISOString()" required md-max-date="today"></md-datepicker>
+                            <md-datepicker name="date_training" ng-model="dt_date_training" md-placeholder="Enter date" ng-change="data.date_training = dt_date_training.toISOString()" md-max-date="today"></md-datepicker>
+                        </div>
+                    </div>
+
+                    <div flex="100" layout="row" layout-margin layout-sm="row" ng-show="data.lgu_level_id==2">
+                        <div flex flex-sm="100">
+                            <label> GRS Training for ACT/MCT</label>
+                        </div>
+                        <div flex flex-sm="100">
+                            <md-datepicker name="date_training" ng-model="dt_date_training" md-placeholder="Enter date" ng-change="data.date_training = dt_date_training.toISOString()" md-max-date="today"></md-datepicker>
                         </div>
                     </div>
 
@@ -545,7 +553,7 @@
 
               $scope.deleteMov = function (removeitem) {
 
-                  var ask = confirm("Are you sure you want to Delete this?");
+                  var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
 
 
                   if (ask == true) {

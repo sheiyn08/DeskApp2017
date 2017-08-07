@@ -28,7 +28,7 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <b>Portfolio: </b>{{selected_fund.Name == null ? "Across Portfolios" : selected_fund.Name}}
+                <b>Project: </b>{{selected_fund.Name == null ? "Across Projects" : selected_fund.Name}}
             </div>
             <div class="col-md-3">
                 <b>Cycle: </b>{{selected_cycle.Name  == null ? "Across Cycle" : selected_cycle.Name}}
@@ -82,9 +82,9 @@
                 <tr class="bg-gray" ng-hide="!grievance_intake_brgy.length">
                     <td><b>Percentage (%)</b></td>
                     <td></td>
-                    <td>{{(total_resolved / total_intakes) * 100}}%</td>
+                    <td>{{(total_resolved / total_intakes) * 100 | number : 2}}%</td>
                     <td></td>
-                    <td>{{(total_pending / total_intakes) * 100}}%</td>
+                    <td>{{(total_pending / total_intakes) * 100 | number : 2}}%</td>
                 </tr>
                 <tr ng-show="!grievance_intake_brgy.length">
                     <td colspan="5"><i>No results to show.</i> </td>
@@ -119,7 +119,9 @@
                 </tr>
                 <tr ng-repeat="item in grievance_intake_nature | orderBy: 'brgy_name'">
                     <td>
-                        {{item.name}}
+                        {{item.name == 'A' ? "Type A: Queries, Comments, Suggestions (non-contentious)" : ""}}
+                        {{item.name == 'B' ? "Type B: Compliance with project processes, MOA and other KC-NCDDP implementation arrangements (non-performance of obligations)" : ""}}
+                        {{item.name == 'C' ? "Type C: Conformance with KC-NCDDP/government procurement and finance guidelines" : ""}}
                     </td>
                     <td>
                         {{item.total}}
@@ -137,9 +139,9 @@
                 <tr class="bg-gray" ng-hide="!grievance_intake_nature.length">
                     <td><b>Percentage (%)</b></td>
                     <td></td>
-                    <td>{{(total_resolved / total_intakes) * 100}}%</td>
+                    <td>{{(total_resolved / total_intakes) * 100 | number : 2}}%</td>
                     <td></td>
-                    <td>{{(total_pending / total_intakes) * 100}}%</td>
+                    <td>{{(total_pending / total_intakes) * 100 | number : 2}}%</td>
                 </tr>
                 <tr ng-show="!grievance_intake_nature.length">
                     <td colspan="5"><i>No results to show.</i> </td>
@@ -165,7 +167,9 @@
                 </tr>
                 <tr ng-repeat="item in grievance_intake_nature | orderBy: 'brgy_name'">
                     <td>
-                        {{item.name}}
+                        {{item.name == 'A' ? "Type A: Queries, Comments, Suggestions (non-contentious)" : ""}}
+                        {{item.name == 'B' ? "Type B: Compliance with project processes, MOA and other KC-NCDDP implementation arrangements (non-performance of obligations)" : ""}}
+                        {{item.name == 'C' ? "Type C: Conformance with KC-NCDDP/government procurement and finance guidelines" : ""}}
                     </td>
                     <td>
                         {{item.pending}}

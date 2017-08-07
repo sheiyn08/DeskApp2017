@@ -85,7 +85,7 @@ namespace DeskApp.DataLayer
         public int? no_pantawid_family { get; set; }
         public int? no_slp_household { get; set; }
         public int? no_slp_family { get; set; }
-        public int? baragay_additiondetails { get; set; }
+        public int? baragay_additiondetails { get; set; } //---- For 3.0: this should be changed to string? not INT?
         public bool? is_armedconflict { get; set; }
         public bool? is_bounddispute { get; set; }
         public bool? is_poldispute { get; set; }
