@@ -301,6 +301,7 @@ namespace DeskApp.Controllers
 
         private IQueryable<ceac_list> GetData(AngularFilterModel item)
         {
+            
             var model = db.ceac_list.Where(x => x.is_deleted != true).AsQueryable();
 
             #region query
@@ -433,6 +434,7 @@ namespace DeskApp.Controllers
         public PagedCollection<dynamic> GetAll(AngularFilterModel item)
         {
             var model = GetData(item);
+            
             var totalCount = model.Count();
             int currPages = item.currPage ?? 0;
             int size = item.pageSize ?? 10;
@@ -722,6 +724,8 @@ namespace DeskApp.Controllers
                        catch_start = x.catch_start,
                        catch_end = x.catch_end,
                        training_category_id = x.training_category_id,
+
+                       reference_id = x.reference_id,
 
                        // lib_training_category = x.lib_training_category,
                        ///lib_lgu_level = x.lib_lgu_level,

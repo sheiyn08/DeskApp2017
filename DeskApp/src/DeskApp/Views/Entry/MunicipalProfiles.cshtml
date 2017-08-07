@@ -182,6 +182,9 @@
 
               $scope.data = response.data;
 
+              $scope.data.profile_ = "muni";
+
+
               $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
               $scope.data.prov_code = $scope.data.prov_code == 0 ? "" : $scope.data.prov_code;
               $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
@@ -532,8 +535,8 @@
 
               $scope.editGad = function (gad) {
                   $scope.editing = $scope.data.gad_activities.indexOf(gad);
-                  gad.backupGadActivity = angular.copy(gad.gad_activity);
-                  gad.backupGadAmount = angular.copy(gad.gad_amount);
+                  gad.backupGadActivity = angular.copy(gad.name);
+                  gad.backupGadAmount = angular.copy(gad.amount);
               };
 
               $scope.saveEditedGad = function (gad) {
@@ -542,8 +545,8 @@
               };
 
               $scope.cancelEditGad = function (gad) {
-                  gad.gad_activity = angular.copy(gad.backupGadActivity);
-                  gad.gad_amount = angular.copy(gad.backupGadAmount);
+                  gad.name = angular.copy(gad.backupGadActivity);
+                  gad.amount = angular.copy(gad.backupGadAmount);
                   delete gad.backupGadActivity;
                   delete gad.backupGadAmount;
               };
@@ -570,8 +573,8 @@
 
               $scope.editDRRM = function (drrm) {
                   $scope.editing = $scope.data.drrm_activities.indexOf(drrm);
-                  drrm.backupDRRMActivity = angular.copy(drrm.drrm_activity);
-                  drrm.backupDRRMAmount = angular.copy(drrm.drrm_amount);
+                  drrm.backupDRRMActivity = angular.copy(drrm.name);
+                  drrm.backupDRRMAmount = angular.copy(drrm.amount);
               };
 
               $scope.saveEditedDRRM = function (drrm) {
@@ -580,8 +583,8 @@
               };
 
               $scope.cancelEditDRRM = function (drrm) {
-                  drrm.drrm_activity = angular.copy(drrm.backupDRRMActivity);
-                  drrm.drrm_amount = angular.copy(drrm.backupDRRMAmount);
+                  drrm.name = angular.copy(drrm.backupDRRMActivity);
+                  drrm.amount = angular.copy(drrm.backupDRRMAmount);
                   delete drrm.backupDRRMActivity;
                   delete drrm.backupDRRMAmount;
               };

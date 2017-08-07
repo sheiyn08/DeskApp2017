@@ -101,14 +101,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-3">
-                                <label for="Region:_">Region: </label>
+                                <label for="Region:_">Region </label>
                                 <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
                                         ng-options="option.Id as option.Name for option in region_code_options">
                                     <option value="">[Select Region]</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="Province:_">Province: </label>
+                                <label for="Province:_">Province </label>
                                 <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
                                         ng-disabled="data.region_code == null"
                                         ng-options="option.Id as option.Name for option in prov_code_options">
@@ -116,7 +116,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="Municipality:_">Municipality: </label>
+                                <label for="Municipality:_">Municipality </label>
                                 <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
                                         ng-disabled="data.prov_code == null"
                                         ng-options="option.Id as option.Name for option in city_code_options">
@@ -124,7 +124,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="Barangay:_">Barangay: </label>
+                                <label for="Barangay:_">Barangay </label>
                                 <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
                                         ng-disabled="data.city_code == null"
                                         ng-options="option.Id as option.Name for option in brgy_code_options">

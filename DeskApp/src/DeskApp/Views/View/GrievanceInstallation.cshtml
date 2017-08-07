@@ -86,14 +86,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-3">
-                                <label for="Region:_">Region: </label>
+                                <label for="Region:_">Region </label>
                                 <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
                                         ng-options="option.Id as option.Name for option in region_code_options">
                                     <option value="">[Select Region]</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="Province:_">Province: </label>
+                                <label for="Province:_">Province </label>
                                 <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
                                         ng-disabled="data.region_code == null"
                                         ng-options="option.Id as option.Name for option in prov_code_options">
@@ -101,7 +101,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="Municipality:_">Municipality: </label>
+                                <label for="Municipality:_">Municipality </label>
                                 <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
                                         ng-disabled="data.prov_code == null"
                                         ng-options="option.Id as option.Name for option in city_code_options">
@@ -109,7 +109,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="Barangay:_">Barangay: </label>
+                                <label for="Barangay:_">Barangay </label>
                                 <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
                                         ng-disabled="data.city_code == null"
                                         ng-options="option.Id as option.Name for option in brgy_code_options">
@@ -121,21 +121,21 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-3">
-                                <label for="Fund Source:_">Fund Source: </label>
+                                <label for="Fund Source:_">Project </label>
                                 <select class="form-control" ng-model="data.fund_source_id">
-                                    <option value=''>[Select Fund Source]</option>
+                                    <option value=''>[Select Project]</option>
                                     <option ng-repeat="value in fund_source_id_options" value="{{value.Id}}">{{value.Name}}</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="Fund Source:_">Cycle: </label>
+                                <label for="Fund Source:_">Cycle </label>
                                 <select class="form-control" ng-model="data.cycle_id">
                                     <option value=''>[Select Fund Source]</option>
                                     <option ng-repeat="value in cycle_id_options" value="{{value.Id}}">{{value.Name}}</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="Province:_">KC Mode: </label>
+                                <label for="Province:_">KC Mode </label>
                                 <select class='form-control' ng-model="data.enrollment_id">
                                     <option value=''>[Select KC Mode]</option>
                                     <option ng-repeat="value in enrollment_id_options" value="{{value.Id}}">{{value.Name}}</option>

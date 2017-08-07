@@ -72,14 +72,14 @@
                     </legend>
                     <div class="row" style="padding-left:30px">
                         <div class="col-md-3">
-                            <label>Fund Source</label>
+                            <label>Project</label>
                             @*<select name="fund_source_id" ng-model="selected_fund_source" class="form-control" ng-required="true"
                                     ng-options="option as option.Name for option in fund_source_id_options">
                                     <option value="">[Select Fund Source]</option>
                                 </select>*@
                             <select name="fund_source_id" ng-model="data.fund_source_id" class="form-control" ng-required="true"
                                     ng-options="option.Id as option.Name for option in fund_source_id_options">
-                                <option value="">[Select Fund Source]</option>
+                                <option value="">[Select Project]</option>
                             </select>
                         </div>
                         <div class="col-md-1">

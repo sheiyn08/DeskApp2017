@@ -80,30 +80,30 @@
                             <md-list-item layout-margin flex="100" class="md-padding">
                                 <div flex="25">No of. IP</div>
                                 <div flex="25">
-                                    <input placeholder="Male IP" name="Male IP" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_male" />
+                                    <input placeholder="Male IP" name="Male IP" required type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" min="0" ng-max="data.no_atn_male" ng-model="data.no_ip_male" />
                                 </div>
                                 <div flex="25">
-                                    <input placeholder="Female IP" name="Female IP" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_female" />
+                                    <input placeholder="Female IP" name="Female IP" required type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" min="0" ng-max="data.no_atn_female" ng-model="data.no_ip_female" />
                                 </div>
                                 <div flex="25"> {{data.no_ip_male + data.no_ip_female}}</div>
                             </md-list-item>
                             <md-list-item layout-margin flex="100" class="md-padding">
                                 <div flex="25">No of. 60 years +</div>
                                 <div flex="25">
-                                    <input placeholder="Male Senior" name="Male Senior" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_old_male" />
+                                    <input placeholder="Male Senior" name="Male Senior" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-max="data.no_atn_male" ng-model="data.no_old_male" />
                                 </div>
                                 <div flex="25">
-                                    <input placeholder="Female Senior" name="Female Senior" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_old_female" />
+                                    <input placeholder="Female Senior" name="Female Senior" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-max="data.no_atn_female" ng-model="data.no_old_female" />
                                 </div>
                                 <div flex="25"> {{data.no_old_female + data.no_old_male}}</div>
                             </md-list-item>
                             <md-list-item layout-margin flex="100" class="md-padding">
                                 <div flex="25">No of. B/LGU</div>
                                 <div flex="25">
-                                    <input placeholder="Male LGU" name="Male LGU" required class="form-control" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" ng-model="data.no_lgu_male" />
+                                    <input placeholder="Male LGU" name="Male LGU" required class="form-control" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" ng-max="data.no_atn_male" ng-model="data.no_lgu_male" />
                                 </div>
                                 <div flex="25">
-                                    <input placeholder="Female LGU" name="Female LGU" required class="form-control" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" ng-model="data.no_lgu_female" />
+                                    <input placeholder="Female LGU" name="Female LGU" required class="form-control" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" ng-max="data.no_atn_female" ng-model="data.no_lgu_female" />
                                 </div>
                                 <div flex="25"> {{data.no_lgu_female + data.no_lgu_male}}</div>
                             </md-list-item>
@@ -132,7 +132,9 @@
                             </md-list-item>
 
                             <md-list-item layout-margin flex="100">
-                                <div flex="25">Population (ALL)</div>
+                                <div flex="25">
+                                    Population (ALL)
+                                </div>
                                 <div flex="25">
                                     @*<input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_families" placeholder="Rep Families in Barangay" />*@
                                     NA
@@ -141,14 +143,19 @@
                                     @*<input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_families_in_barangay" placeholder="Total Families in Barangay" />*@
                                     NA
                                 </div>
-                                <div flex="25">{{100 *(data.total_families_in_barangay == undefined || data.total_families_in_barangay == 0) ? 0 :100 * data.no_families / data.total_families_in_barangay }}</div>
+                                <div flex="25">
+                                    {{100 *(data.total_families_in_barangay == undefined || data.total_families_in_barangay == 0) ? 0 :100 * data.no_families / data.total_families_in_barangay }}
+                                </div>
                                 <div flex="25">
                                     <input name="Represented Households" ng-app-max="{{ data.total_household_in_barangay }}" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_household" placeholder="Rep Households in Barangay" />
+                                    <span style="color:red; font-size:small" ng-show="data.no_household > data.total_household_in_barangay"><i>⚠ No. of Household Represented cannot be greater than the Total Household in Barangay (ALL)</i></span>
                                 </div>
                                 <div flex="25">
                                     <input name="Total Households" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_in_barangay" placeholder="Total Households in Barangay" />
                                 </div>
-                                <div flex="25">{{100 *(data.total_household_in_barangay == undefined || data.total_household_in_barangay == 0) ? 0 :100 * data.no_household / data.total_household_in_barangay }}</div>
+                                <div flex="25">
+                                    {{100 *(data.total_household_in_barangay == undefined || data.total_household_in_barangay == 0) ? 0 :100 * data.no_household / data.total_household_in_barangay }}
+                                </div>
                             </md-list-item>
                             <md-divider></md-divider>
 
@@ -156,18 +163,28 @@
                                 <div flex="25">Pantawid</div>
                                 <div flex="25">
                                     <input name="Represented Pantawid Families" ng-app-max="{{ data.no_pantawid_family_in_barangay }}" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_pantawid_family" placeholder="Rep Pantawid Family" />
+                                    <span style="color:red; font-size:small" ng-show="data.no_pantawid_family > data.no_pantawid_family_in_barangay"><br /><i>⚠ No. of Pantawid Families Represented cannot be greater than the Total Pantawid Families in Barangay</i></span>
                                 </div>
                                 <div flex="25">
                                     <input name="Total Pantawid Families" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_pantawid_family_in_barangay" placeholder="Total Pantawid Family" />
                                 </div>
-                                <div flex="25">{{100 *(data.no_pantawid_family_in_barangay == undefined || data.no_pantawid_family_in_barangay == 0) ? 0 :100 * data.no_pantawid_family / data.no_pantawid_family_in_barangay }}</div>
                                 <div flex="25">
-                                    <input name="Represented Pantawid Households" ng-app-max="{{ data.total_household_pantawid_in_barangay }}" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_pantawid_household" placeholder="Rep Pantawid Household" />
+                                    {{100 *(data.no_pantawid_family_in_barangay == undefined || data.no_pantawid_family_in_barangay == 0) ? 0 :100 * data.no_pantawid_family / data.no_pantawid_family_in_barangay }}
                                 </div>
                                 <div flex="25">
-                                    <input name="Total Pantawid Households" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_pantawid_in_barangay" placeholder="Total Pantawid Household in Barangay" />
+                                    <input name="Represented Pantawid Households" ng-app-max="{{ data.total_household_pantawid_in_barangay; data.no_household; data.no_pantawid_family }}" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_pantawid_household" placeholder="Rep Pantawid Household" />
+                                    <span style="color:red; font-size:small" ng-show="data.no_pantawid_household > data.total_household_pantawid_in_barangay"><br /><i>⚠ No. of Pantawid Household Represented cannot be greater than the Total Pantawid Household in Barangay</i></span>
+                                    <span style="color:red; font-size:small" ng-show="data.no_pantawid_household > data.no_pantawid_family"><br /><i>⚠ No. of Pantawid Household Represented cannot be greater than the Pantawid Families Represented</i></span>
+                                    <span style="color:red; font-size:small" ng-show="data.no_pantawid_household > data.no_household"><br /><i>⚠ No. of Pantawid Household Represented cannot be greater than the Total Household Represented population (ALL)</i></span>
                                 </div>
-                                <div flex="25">{{100 *(data.total_household_pantawid_in_barangay == undefined || data.total_household_pantawid_in_barangay == 0) ? 0 :100 * data.no_pantawid_household / data.total_household_pantawid_in_barangay }}</div>
+                                <div flex="25">
+                                    <input name="Total Pantawid Households" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" ng-app-max="{{ data.total_household_in_barangay; data.no_pantawid_family_in_barangay }}" class="form-control" ng-model="data.total_household_pantawid_in_barangay" placeholder="Total Pantawid Household in Barangay" />
+                                    <span style="color:red; font-size:small" ng-show="data.total_household_pantawid_in_barangay > data.total_household_in_barangay"><br /><i>⚠ No. of Total Pantawid Household cannot be greater than the Total Household in Barangay (ALL)</i></span>
+                                    <span style="color:red; font-size:small" ng-show="data.total_household_pantawid_in_barangay > data.no_pantawid_family_in_barangay"><br /><i>⚠ No. of Total Pantawid Household cannot be greater than the Total Pantawid Families in Barangay</i></span>
+                                </div>
+                                <div flex="25">
+                                    {{100 *(data.total_household_pantawid_in_barangay == undefined || data.total_household_pantawid_in_barangay == 0) ? 0 :100 * data.no_pantawid_household / data.total_household_pantawid_in_barangay }}
+                                </div>
                             </md-list-item>
                             <md-divider></md-divider>
 
@@ -179,14 +196,20 @@
                                 <div flex="25">
                                     <input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_slp_family_in_barangay" placeholder="Total SLP Famility" />
                                 </div>
-                                <div flex="25">{{100 *(data.no_slp_family_in_barangay == undefined || data.no_slp_family_in_barangay == 0) ? 0 :100 * data.no_slp_family / data.no_slp_family_in_barangay }}</div>
                                 <div flex="25">
-                                    <input type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_slp_household" placeholder="Rep SLP Household" />
+                                    {{100 *(data.no_slp_family_in_barangay == undefined || data.no_slp_family_in_barangay == 0) ? 0 :100 * data.no_slp_family / data.no_slp_family_in_barangay }}
+                                </div>
+                                <div flex="25">
+                                    <input type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" ng-app-max="{{ data.no_household; data.no_slp_family }}" class="form-control" ng-model="data.no_slp_household" placeholder="Rep SLP Household" />
+                                    <span style="color:red; font-size:small" ng-show="data.no_slp_household > data.no_household"><br /><i>⚠ No. of SLP Household Represented cannot be greater than the Total Household Represented population (ALL)</i></span>
+                                    <span style="color:red; font-size:small" ng-show="data.no_slp_household > data.no_slp_family"><br /><i>⚠ No. of SLP Household Represented cannot be greater than the SLP Families Represented</i></span>
                                 </div>
                                 <div flex="25">
                                     <input disabled type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_slp_in_barangay" placeholder="Total SLP Household in Barangay" />
                                 </div>
-                                <div flex="25">{{100 *(data.total_household_slp_in_barangay == undefined || data.total_household_slp_in_barangay == 0) ? 0 :100 * data.no_slp_household / data.total_household_slp_in_barangay }}</div>
+                                <div flex="25">
+                                    {{100 *(data.total_household_slp_in_barangay == undefined || data.total_household_slp_in_barangay == 0) ? 0 :100 * data.no_slp_household / data.total_household_slp_in_barangay }}
+                                </div>
                             </md-list-item>
                             <md-divider></md-divider>
 
@@ -194,18 +217,28 @@
                                 <div flex="25">IP</div>
                                 <div flex="25">
                                     <input name="Represented IP Families" ng-app-max="{{ data.no_ip_family_in_barangay }}" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_family" placeholder="Rep IP Family" />
+                                    <span style="color:red; font-size:small" ng-show="data.no_ip_family > data.no_ip_family_in_barangay"><br /><i>⚠ No. of IP Families Represented cannot be greater than the Total IP Families in Barangay</i></span>
                                 </div>
                                 <div flex="25">
                                     <input name="Total IP Families" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_family_in_barangay" placeholder="Total IP Family in Barangay" />
                                 </div>
-                                <div flex="25">{{100 *(data.no_ip_family_in_barangay == undefined || data.no_ip_family_in_barangay == 0) ? 0 :100 * data.no_ip_family / data.no_ip_family_in_barangay }}</div>
                                 <div flex="25">
-                                    <input name="Represented IP Households" ng-app-max="{{data.total_household_ip_in_barangay}}" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_household" placeholder="Rep IP Household" />
+                                    {{100 *(data.no_ip_family_in_barangay == undefined || data.no_ip_family_in_barangay == 0) ? 0 :100 * data.no_ip_family / data.no_ip_family_in_barangay }}
                                 </div>
                                 <div flex="25">
-                                    <input name="Total IP Households" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_ip_in_barangay" placeholder="Total IP Household in Barangay" />
+                                    <input name="Represented IP Households" ng-app-max="{{data.total_household_ip_in_barangay; data.no_household; data.no_ip_family}}" type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.no_ip_household" placeholder="Rep IP Household" />
+                                    <span style="color:red; font-size:small" ng-show="data.no_ip_household > data.total_household_ip_in_barangay"><br /><i>⚠ No. of IP Household Represented cannot be greater than the Total IP Household in Barangay</i></span>
+                                    <span style="color:red; font-size:small" ng-show="data.no_ip_household > data.no_household"><br /><i>⚠ No. of IP Household Represented cannot be greater than the Total Household Represented population (ALL)</i></span>
+                                    <span style="color:red; font-size:small" ng-show="data.no_ip_household > data.no_ip_family"><br /><i>⚠ No. of IP Household Represented cannot be greater than the IP Families Represented</i></span>
                                 </div>
-                                <div flex="25">{{(data.total_household_ip_in_barangay == undefined || data.total_household_ip_in_barangay == 0) ? 0 : 100 * data.no_ip_household / data.total_household_ip_in_barangay }}</div>
+                                <div flex="25">
+                                    <input name="Total IP Households" type="number" min="0" ng-app-max="{{data.total_household_in_barangay; data.no_ip_family_in_barangay}}" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.total_household_ip_in_barangay" placeholder="Total IP Household in Barangay" />
+                                    <span style="color:red; font-size:small" ng-show="data.total_household_ip_in_barangay > data.total_household_in_barangay"><br /><i>⚠ No. of Total IP Household cannot be greater than the Total Household in Barangay (ALL)</i></span>
+                                    <span style="color:red; font-size:small" ng-show="data.total_household_ip_in_barangay > data.no_ip_family_in_barangay"><br /><i>⚠ No. of Total IP Household cannot be greater than the Total IP Families in Barangay</i></span>
+                                </div>
+                                <div flex="25">
+                                    {{(data.total_household_ip_in_barangay == undefined || data.total_household_ip_in_barangay == 0) ? 0 : 100 * data.no_ip_household / data.total_household_ip_in_barangay }}
+                                </div>
                             </md-list-item>
 
                         </div>
@@ -819,6 +852,10 @@
                                     $scope.data.training_category_id = 43;
                                 }
 
+                                if ($scope.data.grs_resolution_status_id == 1 && $scope.status == true) {
+                                    $scope.data.resolution_date = $scope.data.date_intake;
+                                }
+
 
                                 $.post('/api/offline/v1/grievances/save', $scope.data)
                                     .success(function (data) {
@@ -873,15 +910,28 @@
                             }
                             ///END PINCOS
 
+                            $scope.checkIPbirthDate = function () {
+                                
+                                var today = new Date();
+                                var birth_date = new Date($scope.groups.birth_date);
+
+                                var diff = today - birth_date;
+                                var age_diff = new Date(diff);
+                                var year_diff = Math.abs(age_diff.getUTCFullYear() - 1970);
+
+
+                                if (year_diff < 15) {
+                                    $scope.age_below_15 = true;
+                                    alert("Age as of today that is less than 15 years old is not allowed. Please check if this is the correct birth date");
+                                } else {
+                                    $scope.age_below_15 = false;
+                                }
+
+
+                            }
+
                             $scope.addIpGroup = function () {
-
-
-
-
                                 $scope.data.ip_leaders.push($scope.groups);
-
-
-
                                 $scope.groups = {};
                             }
 

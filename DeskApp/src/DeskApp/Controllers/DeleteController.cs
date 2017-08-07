@@ -99,8 +99,8 @@ namespace DeskApp.Controllers
                 ceac_record.actual_end = null;
                 ceac_record.catch_start = null;
                 ceac_record.catch_end = null;
-                ceac_record.actual_start = null;
-                ceac_record.actual_end = null;
+                ceac_record.plan_start = null;
+                ceac_record.plan_end = null;
                 ceac_record.implementation_status_id = 2;
                 ceac_record.push_status_id = 3;
 
@@ -142,11 +142,91 @@ namespace DeskApp.Controllers
             //ceac_record.push_status_id = 3;
 
             await db.SaveChangesAsync();
-
+            await updateTracking();
             return Ok();
-
+            
         }
-        
+
+        [HttpPost]
+        [Route("barangay_assembly")]
+        public async Task<IActionResult> barangay_assembly(Guid id)
+        {
+            //OLD:
+            //var record = db.brgy_assembly.FirstOrDefault(x => x.brgy_assembly_id == id);
+            //record.is_deleted = true;
+            //record.push_status_id = 3;
+            //await db.SaveChangesAsync();
+            //return Ok();
+
+            //NEW:RDR 072817
+            var record = db.brgy_assembly.FirstOrDefault(x => x.brgy_assembly_id == id);
+            var ceac_record = db.ceac_tracking.FirstOrDefault(x => x.reference_id == id);
+
+            //if BA DOES NOT EXISTS on ceac tracking
+            if (ceac_record == null)
+            {
+                //go with the usual delete
+                record.is_deleted = true;
+                record.push_status_id = 3;
+            }
+
+            //if BA EXISTS on ceac tracking
+            else
+            {
+                record.is_deleted = true;
+                record.push_status_id = 3;
+
+                ceac_record.reference_id = null; //reference id in ceac_tracking table allows null values
+                ceac_record.actual_start = null;
+                ceac_record.actual_end = null;
+                ceac_record.catch_start = null;
+                ceac_record.catch_end = null;
+                ceac_record.plan_start = null;
+                ceac_record.plan_end = null;
+                ceac_record.implementation_status_id = 2;
+                ceac_record.push_status_id = 3;
+                ceac_record.brgy_code = null;
+
+            }
+
+            await db.SaveChangesAsync();
+            await updateTracking();
+            return Ok();
+        }
+
+        public async Task<bool> updateTracking()
+        {
+            foreach (var c in db.ceac_list.Where(x => x.is_deleted != true).ToList())
+            {
+                int count_of_item_with_dates = 0;
+                int count_of_item_without_dates = 0;
+
+                int number_of_list = db.ceac_tracking.Select(x => x.ceac_list_id).Distinct().Count();
+
+                foreach (var ceac_item in db.ceac_tracking.Where(x => x.ceac_list_id == c.ceac_list_id).ToList())
+                {
+                    if (ceac_item.plan_start == null && ceac_item.plan_end == null && ceac_item.catch_start == null && ceac_item.catch_end == null && ceac_item.actual_start == null && ceac_item.actual_end == null)
+                    {
+                        count_of_item_without_dates = count_of_item_without_dates + 1;
+                    }
+                    else {
+                        count_of_item_with_dates = count_of_item_with_dates + 1;
+                    }
+                }
+
+                if (count_of_item_with_dates == 0)
+                {
+                    c.is_deleted = true;
+                    db.SaveChangesAsync();                    
+                }
+            }
+
+            return true;
+        }
+
+
+
+
         [HttpPost]
         [Route("grievance_installation")]
         public async Task<IActionResult> GRSInstallation(Guid id)
@@ -202,28 +282,7 @@ namespace DeskApp.Controllers
 
         }
 
-
-
-
-
-        [HttpPost]
-        [Route("barangay_assembly")]
-        public async Task<IActionResult> barangay_assembly(Guid id)
-        {
-
-
-            var record = db.brgy_assembly.FirstOrDefault(x => x.brgy_assembly_id == id);
-
-
-            record.is_deleted = true;
-            record.push_status_id = 3;
-
-            await db.SaveChangesAsync();
-
-            return Ok();
-
-        }
-
+        
 
         [HttpPost]
         [Route("barangay_profile")]

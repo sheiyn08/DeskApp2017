@@ -321,8 +321,8 @@ D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\spi_ers.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\spi_spcr_mapping.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\sub_project_mapping.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\DataLayer\Mapping\training_mapping.cs
-D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170724061956_initial.cs
-D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170724061956_initial.Designer.cs
+D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170803002252_initial.cs
+D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\20170803002252_initial.Designer.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Migrations\ApplicationDbContextModelSnapshot.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Models\ApplicationUser.cs
 D:\DeskApp2017\DeskApp\src\DeskApp\Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs

@@ -88,9 +88,9 @@
                 <input type="text" required name="Total Households" ng-model="groups.last_name" class="form-control" />
             </div>
             <div flex>
-
-                <md-datepicker name="Date Provided" ng-model="groups.birth_date" md-placeholder="Enter date"
+                <md-datepicker name="Date Provided" ng-model="groups.birth_date" md-placeholder="Enter date" ng-change="checkIPbirthDate()"
                                md-max-date="today" class="form-control"></md-datepicker>
+                <span style="color:red; font-size:small" ng-show="age_below_15==true"><br /><i>⚠ Age as of today that is less than 15 years old is not allowed. Please check if this is the correct birth date.</i></span>
             </div>
         </div>
     </form>
