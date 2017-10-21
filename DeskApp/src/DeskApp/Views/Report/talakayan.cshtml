@@ -85,8 +85,8 @@
                 $scope.data = {};
                 $scope.selected_report = {};
 
-                $scope.report_list = [{ "url": "/api/export/perception/report_1_2015", "Name": "Sex dissagreated responses per item - 2015 Survey", "id": "1", "export_btn": "export_1"},
-                                      { "url": "/api/export/perception/report_1_2016", "Name": "Sex dissagreated responses per item - 2016 Survey", "id": "2", "export_btn": "export_2" },
+                $scope.report_list = [{ "url": "/api/export/perception/report_1_2015", "Name": "Sex disaggregated responses per item - 2015 Survey", "id": "1", "export_btn": "export_1" },
+                                      { "url": "/api/export/perception/report_1_2016", "Name": "Sex disaggregated responses per item - 2016 Survey", "id": "2", "export_btn": "export_2" },
                                       { "url": "/api/export/perception/report_2_2015", "Name": "Summary of Responses per Item from Pantawid, SLP, and IP Respondents - 2015 Survey", "id": "3", "export_btn": "export_3" },
                                       { "url": "/api/export/perception/report_2_2016", "Name": "Summary of Responses per Item from Pantawid, SLP, and IP Respondents - 2016 Survey", "id": "4", "export_btn": "export_4" },
                                       { "url": "/api/export/perception/report_3_2015", "Name": "Summary of Respondents - 2015 Survey", "id": "5", "export_btn": "export_5" },
@@ -226,10 +226,10 @@
                         var table_div = document.getElementById('report1_2015div');
                         var table_html = table_div.outerHTML.replace(/ /g, '%20');
                         a.href = data_type + ', ' + table_html;
-                        a.download = 'Sex dissagreated responses per item - 2015 Survey.xls';
+                        a.download = 'Sex disaggregated responses per item - 2015 Survey.xls';
                         //triggering the function
                         a.click();
-                        e.preventDefault();
+                        a.preventDefault();
                     }
                     else if ($scope.selected_report.url == '/api/export/perception/report_1_2016') {
                         var a = document.createElement('a');
@@ -238,10 +238,10 @@
                         var table_div = document.getElementById('report1_2016div');
                         var table_html = table_div.outerHTML.replace(/ /g, '%20');
                         a.href = data_type + ', ' + table_html;
-                        a.download = 'Sex dissagreated responses per item - 2016 Survey.xls';
+                        a.download = 'Sex disaggregated responses per item - 2016 Survey.xls';
                         
                         a.click();
-                        e.preventDefault();
+                        a.preventDefault();
                     }
                     else if ($scope.selected_report.url == '/api/export/perception/report_2_2015') {
                         
@@ -254,7 +254,7 @@
                         a.download = 'Summary of Responses per Item from Pantawid, SLP, and IP Respondents - 2015 Survey.xls';
 
                         a.click();
-                        e.preventDefault();
+                        a.preventDefault();
                     }
                     else if ($scope.selected_report.url == '/api/export/perception/report_2_2016') {
                        
@@ -267,7 +267,7 @@
                         a.download = 'Summary of Responses per Item from Pantawid, SLP, and IP Respondents - 2015 Survey.xls';
 
                         a.click();
-                        e.preventDefault();
+                        a.preventDefault();
                     }
                     else if ($scope.selected_report.url == '/api/export/perception/report_3_2015') {
                        
@@ -280,7 +280,7 @@
                         a.download = 'Summary of Respondents - 2015 Survey.xls';
 
                         a.click();
-                        e.preventDefault();
+                        a.preventDefault();
                     }
                     else if ($scope.selected_report.url == '/api/export/perception/report_3_2016') {
 
@@ -293,7 +293,7 @@
                         a.download = 'Summary of Respondents - 2016 Survey.xls';
 
                         a.click();
-                        e.preventDefault();
+                        a.preventDefault();
                     }
                     else if ($scope.selected_report.url == '/api/export/perception/report_4_2015') {
                         
@@ -306,7 +306,7 @@
                         a.download = 'Summary of Responses - 2015 Survey.xls';
 
                         a.click();
-                        e.preventDefault();
+                        a.preventDefault();
                     }
                     else if ($scope.selected_report.url == '/api/export/perception/report_4_2016') {
                        
@@ -319,7 +319,7 @@
                         a.download = 'Summary of Responses - 2016 Survey.xls';
 
                         a.click();
-                        e.preventDefault();
+                        a.preventDefault();
                     }
                     else if ($scope.selected_report.url == '/api/export/perception/report_5_2015') {
 
@@ -345,7 +345,7 @@
                         a.download = 'Actual Responses.xls';
 
                         a.click();
-                        e.preventDefault();
+                        a.preventDefault();
                     }
                     else {
                         //do nothing
@@ -462,7 +462,7 @@
 
                 $scope.clear = function () {
                     $scope.data = {};
-                    //$scope.search();
+                    $scope.search();
                 }
 
                 $scope.search = function () {
@@ -495,6 +495,7 @@
                             setTimeout($.unblockUI, 3);
 
                             $scope.isSearching = false;
+                                             
 
                         }).error(function (data) {
 

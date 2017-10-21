@@ -9,7 +9,7 @@
     <md-tabs md-dynamic-height md-border-bottom>
 
 
-        <md-tab label="Details">
+        <md-tab label="Basic Information">
             <form name="basicForm">
                 <!--for validation-->
                 @Html.Partial("~/Views/TalakayanEvaluation/_basic_information.cshtml")
@@ -50,11 +50,11 @@
         <div flex="100" layout="row" layout-margin layout-sm="column">
             <!--VALIDATION: button Submit will be enabled only if the required fields are populated-->
             <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!basicForm.$valid">
-                Proceed
+                Save
             </md-button>
 
             <md-button class="md-warn md-raised" href="/TalakayanEvaluation/Index">
-                Back to List
+                Cancel
             </md-button>
 
         </div>
@@ -75,14 +75,13 @@
                 function ($scope, $mdDialog, $http, $mdToast) {
 
                     $scope.talakayan_option_answer_id = [{ "Id": 1, "Name": "1 - Strongly Disagree" }, { "Id": 2, "Name": "2 - Disagree" }, { "Id": 3, "Name": "3 - Agree" }, { "Id": 4, "Name": "4 - Strongly Agree" }];
-                    $scope.evaluation_form_version = [{ "Id": 2015, "Name": "2015" }, { "Id": 2016, "Name": "2016" }];
+                    //$scope.evaluation_form_version = [{ "Id": 2015, "Name": "2015" }, { "Id": 2016, "Name": "2016" }];
                     $scope.talakayan_option_participant_id_2015 = [{ "Id": 1, "Name": "Local Official (Elected)" }, { "Id": 2, "Name": "Local Official (Appointed)" }, { "Id": 3, "Name": "Volunteer" }, { "Id": 4, "Name": "Non-Volunteer" }];
                     $scope.talakayan_option_participant_id_2016 = [{ "Id": 1, "Name": "Local Official (Elected)" }, { "Id": 2, "Name": "Local Official (Appointed)" }, { "Id": 3, "Name": "Community Citizens Group A" }, { "Id": 4, "Name": "Community Citizens Group B" }];
                     $scope.talakayan_year_options = [{ "Id": 1, "Name": "2015" }, { "Id": 2, "Name": "2016" }, { "Id": 3, "Name": "2017" }, { "Id": 4, "Name": "2018" }, { "Id": 5, "Name": "2019" }];
 
                     $scope.data;
-
-
+                    
                     //displaying the previously entered details: EDIT
                     $http.get('/api/offline/v1/talakayan_eval/get?id=@ViewBag.id')
                         .then(function (response) {
@@ -129,7 +128,8 @@
                             $scope.data.city_code = $scope.data.city_code == 0 ? "" : $scope.data.city_code;
                             $scope.data.brgy_code = $scope.data.brgy_code == 0 ? "" : $scope.data.brgy_code;
 
-                            $scope.data.evaluation_form_version = $scope.data.evaluation_form_version == 0 ? "" : $scope.data.evaluation_form_version;
+                            //v3.0 for new entries, automatic assign 2016 as eval form version. in case there are still 2015 encoded, it will still be displayed.
+                            $scope.data.evaluation_form_version = $scope.data.evaluation_form_version == null ? 2016 : $scope.data.evaluation_form_version;
 
                             $scope.data.talakayan_date_start = $scope.data.talakayan_date_start == 0 ? "" : $scope.data.talakayan_date_start;
                             $scope.data.talakayan_date_end = $scope.data.talakayan_date_end == 0 ? "" : $scope.data.talakayan_date_end;
@@ -139,7 +139,7 @@
 
                             $scope.data.talakayan_name = $scope.data.talakayan_name == 0 ? "" : $scope.data.talakayan_name;
                             $scope.data.talakayan_yr_id = $scope.data.talakayan_yr_id == 0 ? "" : $scope.data.talakayan_yr_id;
-
+                                                        
 
                             $scope.$watch('data.talakayan_yr_id',
                                 function (newValue, oldValue) {
@@ -464,14 +464,10 @@
                                 $.post('/api/offline/v1/talakayan_eval/save', $scope.data)
                                     .success(function (data) {
                                         $scope.loading = false;
-                                        $('html, body').animate({
-                                            scrollTop: '0px'
-                                        }, 1500);
-
-
+                                        $('html, body').animate({ scrollTop: '0px' }, 1500);
                                         $mdToast.show(
                                             $mdToast.simple()
-                                            .textContent('Talakayan Evaluation has been saved!')
+                                            .textContent('Record Saved!')
                                             .position("top right")
                                             .hideDelay(3000)
                                         );

@@ -18,6 +18,7 @@ namespace DeskApp.Controllers
     {
 
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -26,18 +27,23 @@ namespace DeskApp.Controllers
         [Route("export/list")]
         public IActionResult export_pra_list(AngularFilterModel model)
         {
-            
+
 
             var list = db.mibf_prioritization.Select(x => new
             {
+                region = db.lib_region.FirstOrDefault(c => c.region_code == x.region_code).region_name,
+                province = db.lib_province.FirstOrDefault(c => c.prov_code == x.prov_code).prov_name,
+                city = db.lib_city.FirstOrDefault(c => c.city_code == x.city_code).city_name,
+
+                project = db.community_training.FirstOrDefault(c => c.community_training_id == x.community_training_id).lib_fund_source.name,
+                cycle = db.community_training.FirstOrDefault(c => c.community_training_id == x.community_training_id).lib_cycle.name,
+
                 rank = x.rank,
-                project_name = x.project_name,
-
-                brgy_name = x.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(c => c.brgy_code == x.brgy_code).brgy_name,
-
-                x.kc_amount,
-                x.lcc_amount,
-                x.is_priority
+                sub_project_title = x.project_name,
+                lead_barangay = db.lib_brgy.FirstOrDefault(c => c.brgy_code == x.brgy_code).brgy_name,
+                proposed_kc_grant_amount = x.kc_amount,
+                proposed_lcc_amount = x.lcc_amount,
+                is_priority = x.is_priority == true ? "Yes" : "No"
 
             });
 

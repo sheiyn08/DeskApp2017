@@ -20,6 +20,7 @@
             color: #333;
             padding: 10px;
             text-shadow: 1px 1px 1px #fff;
+            vertical-align:middle;
         }
 
     .zui-table-highlight tbody tr:hover {
@@ -30,29 +31,30 @@
         border-left: none;
         border-right: none;
     }
+
 </style>
 
 
 
-<div class="panel panel-success">
-    <!--PARENT-->
+<div class="panel panel-info">
+   
     <div class="panel panel-heading">
-        <h3>Municipal Talakayan Day Evaluation Form 2016 Version</h3><br />
+        <h4>Municipal Talakayan Day Evaluation Form 2016 Version</h4>
     </div>
 
     <div class="panel panel-body">
-        <!--PARENT BODY-->
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h5>
-                    We would like to solicit your feedback on the conduct of the Municipal Talakayan. Please select the item that corresponds to your answer.
-                </h5>
-            </div>
+
+        <md-content>
+            <h4 style="color:dodgerblue">We would like to solicit your feedback on the conduct of the Municipal Talakayan. Please select the item that corresponds to your answer.</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <table class="table zui-table zui-table-horizontal zui-table-highlight">
                     <colgroup>
                         <col span="1" style="width: 70%;">
-                        <col span="1" style="width: 30%;">
+                        <col span="1" style="width: 10%;">
+                        <col span="1" style="width: 20%;">
                     </colgroup>
                     <thead class="thead-inverse">
                         <tr>
@@ -62,6 +64,9 @@
                             <th>
                                 &emsp; Yes &emsp;&emsp;&emsp;&emsp;No
                             </th>
+                            <th>
+                                @*&emsp;Unclick*@
+                            </th>
                         </tr>
                     </thead>
 
@@ -69,267 +74,341 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>1. Were the objectives fully explained?</label>
+                                    <label>1.&emsp;Were the objectives fully explained?</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_obj" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
-                                    </md-radio-group>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>                                        
+                                    </md-radio-group>                                    
                                 </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_obj != null" ng-click="data.v2016_obj=null"></i>
+                                </div>                                
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label>2. Was time alloted to the different activities sufficient?</label>
+                                    <label>2.&emsp;Was time alloted to the different activities sufficient?</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_time_alloted" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
                                 </div>
                             </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_time_alloted != null" ng-click="data.v2016_time_alloted=null"></i>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td colspan="3">
                                 <div>
-                                    <label>3. Venue</label>
+                                    <label>3.&emsp;Venue</label>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">a. Clean</label>
+                                    <label style="padding-left:25px">a.&emsp;Clean</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_venue_a" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_venue_a != null" ng-click="data.v2016_venue_a=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">b. Well-ventilated</label>
+                                    <label style="padding-left:25px">b.&emsp;Well-ventilated</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_venue_b" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_venue_b != null" ng-click="data.v2016_venue_b=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">c. Spacious</label>
+                                    <label style="padding-left:25px">c.&emsp;Spacious</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_venue_c" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_venue_c != null" ng-click="data.v2016_venue_c=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">d. Well-lighted</label>
+                                    <label style="padding-left:25px">d.&emsp;Well-lighted</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_venue_d" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_venue_d != null" ng-click="data.v2016_venue_d=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label>4. Equipped with good sound system</label>
+                                    <label>4.&emsp;Equipped with good sound system</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_sound_system" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
                                 </div>
                             </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_sound_system != null" ng-click="data.v2016_sound_system=null"></i>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td colspan="3">
                                 <div>
-                                    <label>5. Visual Aids in the presentation are:</label>
+                                    <label>5.&emsp;Visual Aids in the presentation are:</label>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">a. Easily read from where I am seated</label>
+                                    <label style="padding-left:25px">a.&emsp;Easily read from where I am seated</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_visual_a" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_visual_a != null" ng-click="data.v2016_visual_a=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">b. Attractive</label>
+                                    <label style="padding-left:25px">b.&emsp;Attractive</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_visual_b" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_visual_b != null" ng-click="data.v2016_visual_b=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">c. Easy to understand</label>
+                                    <label style="padding-left:25px">c.&emsp;Easy to understand</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_visual_c" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
                                 </div>
                             </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_visual_c != null" ng-click="data.v2016_visual_c=null"></i>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td colspan="3">
                                 <div>
-                                    <label>6. Meals:</label>
+                                    <label>6.&emsp;Meals:</label>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">a. Delicious</label>
+                                    <label style="padding-left:25px">a.&emsp;Delicious</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_meals_a" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_meals_a != null" ng-click="data.v2016_meals_a=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">b. Sufficient</label>
+                                    <label style="padding-left:25px">b.&emsp;Sufficient</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_meals_b" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_meals_b != null" ng-click="data.v2016_meals_b=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">c. Clean</label>
+                                    <label style="padding-left:25px">c.&emsp;Clean</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_meals_c" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_meals_c != null" ng-click="data.v2016_meals_c=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label>7. Did you like the gallery walk?</label>
+                                    <label>7.&emsp;Did you like the gallery walk?</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_gallery_walk" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_gallery_walk != null" ng-click="data.v2016_gallery_walk=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label>8. Did you like the Focus Group Discussion?</label>
+                                    <label>8.&emsp;Did you like the Focus Group Discussion?</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_fgd" layout="row">
                                         <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;&nbsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2"></md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary"></md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_fgd != null" ng-click="data.v2016_fgd=null"></i>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div> <!--end of 1st body-->
-        </div>  <!--end of panel-info-->
-
-
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h5>
-                    Please give your rating that corresponds to the extent you have been satisfied with the following aspects of the Municipal Talakayan.
-                    <br /><br /><strong> 4 - Very Satisfied &emsp;&emsp; 2 - Dissatisified <br /> 3 - Satisfied &emsp;&emsp;&emsp;&emsp;&nbsp; 1 - Very Dissatisfied</strong>
-                </h5>
             </div>
+        </md-content>
+
+        <md-content>
+            <h4 style="color:dodgerblue">Please give your rating that corresponds to the extent you have been satisfied with the following aspects of the Municipal Talakayan.</h4>
+            <h5 style="color:dodgerblue"><br /><strong> 4 - Very Satisfied &emsp;&emsp; 2 - Dissatisified <br /> 3 - Satisfied &emsp;&emsp;&emsp;&emsp;&nbsp; 1 - Very Dissatisfied</strong></h5>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <table class="table zui-table zui-table-horizontal zui-table-highlight">
                     <colgroup>
                         <col span="1" style="width: 70%;">
-                        <col span="1" style="width: 30%;">
+                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 10%;">
                     </colgroup>
                     <thead class="thead-inverse">
                         <tr>
@@ -337,166 +416,190 @@
                                 Aspects
                             </th>
                             <th>
-                                &emsp; 4 &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; 3 &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; 2 &emsp;&emsp;&emsp;&emsp;&nbsp; 1
+                                &emsp; 4 &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; 3 &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; 2 &emsp;&emsp;&emsp;&emsp;&nbsp; 1 
+                            </th>
+                            <th>
+                                @*&emsp; Unclick*@
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
+                            <td colspan="3">
                                 <div>
-                                    <label>1. Knowledge gained</label>
+                                    <label>1.&emsp;Knowledge gained</label>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">a. Part 1: Presentation of the Municipal Profile and Development Status of the Municipality</label>
+                                    <label style="padding-left:25px">a.&emsp;Part 1: Presentation of the Municipal Profile and Development Status of the Municipality</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_knowledge_part1" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_knowledge_part1 != null" ng-click="data.v2016_knowledge_part1=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">b. Part 2: Presentation of the Municipal Development Priorities, Interventions and Gaps</label>
+                                    <label style="padding-left:25px">b.&emsp;Part 2: Presentation of the Municipal Development Priorities, Interventions and Gaps</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_knowledge_part2" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_knowledge_part2 != null" ng-click="data.v2016_knowledge_part2=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">c. Part 3: Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
+                                    <label style="padding-left:25px">c.&emsp;Part 3: Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_knowledge_part3" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_knowledge_part3 != null" ng-click="data.v2016_knowledge_part3=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">d. Part 4: Gallery Walk</label>
+                                    <label style="padding-left:25px">d.&emsp;Part 4: Gallery Walk</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_knowledge_part4" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_knowledge_part4 != null" ng-click="data.v2016_knowledge_part4=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label style="padding-left:25px">e. Part 5Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
+                                    <label style="padding-left:25px">e.&emsp;Part 5: Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_knowledge_part5" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_knowledge_part5 != null" ng-click="data.v2016_knowledge_part5=null"></i>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <label>2. Overall satisfaction on the conduct of Municipal Talakayan</label>
+                                    <label>2.&emsp;Overall satisfaction on the conduct of Municipal Talakayan</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="col-md-12">
                                     <md-radio-group required ng-model="data.v2016_overall_satisfaction" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                            </td>
+                            <td style="vertical-align:middle">
+                                <div class="col-md-12">
+                                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_overall_satisfaction != null" ng-click="data.v2016_overall_satisfaction=null"></i>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div> <!--end of 2nd body-->
-        </div>  <!--end of panel-info-->
-
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h5>
-                    Please evaluate the whole teams' effectiveness in the conduct of the different parts of the Municipal Talakayan
-                </h5>
             </div>
+        </md-content>
+
+        <md-content>
+            <h4 style="color:dodgerblue">Please evaluate the whole teams' effectiveness in the conduct of the different parts of the Municipal Talakayan</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <md-radio-group required ng-model="data.v2016_team_effectiveness" layout="row">
                         <md-radio-button data-ng-value="5" class="md-primary">Excellent</md-radio-button>
-                        <md-radio-button data-ng-value="4">Very Good</md-radio-button>
-                        <md-radio-button data-ng-value="3">Good</md-radio-button>
-                        <md-radio-button data-ng-value="2">Poor</md-radio-button>
-                        <md-radio-button data-ng-value="1">Very Poor</md-radio-button>
+                        <md-radio-button data-ng-value="4" class="md-primary">Very Good</md-radio-button>
+                        <md-radio-button data-ng-value="3" class="md-primary">Good</md-radio-button>
+                        <md-radio-button data-ng-value="2" class="md-primary">Poor</md-radio-button>
+                        <md-radio-button data-ng-value="1" class="md-primary">Very Poor</md-radio-button>
                     </md-radio-group>
                 </div>
+                <div class="col-md-6">
+                    &emsp;<i class="fa fa-undo" aria-hidden="true" ng-show="data.v2016_team_effectiveness != null" ng-click="data.v2016_team_effectiveness=null"></i>
+                </div>
             </div>
-        </div>
+        </md-content>
 
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h5>
-                    Comments or Suggestions:
-                </h5>
-            </div>
+        <md-content>
+            <h4 style="color:dodgerblue">Comments or Suggestions</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="col-md-12">
                     <textarea name="v2016_comments" class="form-control" ng-model="data.v2016_comments" placeholder="[Write your comments/suggestions here]"></textarea>
                 </div>
             </div>
-        </div>
+        </md-content>
 
-
-
-
-
-
-
-
-
-
-
-            </div> <!--end of PARENT panel body-->
-        </div> <!--end of PARENT panel-->
+    </div> 
+</div>

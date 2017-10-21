@@ -9,14 +9,12 @@
     <md-content>
         <br />
         <div style="margin:25px">
-            <a class="btn btn-success" ng-click="createNew()">
-                <i class="fa fa-plus fa-lg"></i> New Record
-            </a>
+            <a class="btn btn-success" ng-click="createNew()"><i class="fa fa-plus"></i>&nbsp;&nbsp; New Record</a>
         </div>
         <div class="panel panel-success" style="margin:25px">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-12">
                         <h4><b>FILTER RECORDS BY:</b></h4>
                     </div>
                 </div><br />
@@ -63,32 +61,25 @@
                             </div>
                         </div>
                     </div>
-                </div> <br />
-                <div class="row">
-                    <div class="col-md-3" show-errors='{showSuccess: true}'>
-                        <label>Talakayan Day (Start)</label>
-                        <md-datepicker name="talakayan_date_start" ng-model="dt_talakayan_date_start" md-placeholder="Enter date"></md-datepicker>
-                    </div>
                     <div class="col-md-3">
-                        <label>Current NCDDP Cycle</label>
-                        <select name="cycle_id" ng-model="data.cycle_id" id="cycle_code" class="form-control"
-                                ng-required="true"
-                                ng-options="option.Id as option.Name for option in cycle_id_options">
-                            <option value="">[Select Cycle]</option>
+                        <label>Talakayan Year</label>
+                        <select name="talakayan_yr" ng-model="data.talakayan_yr_id" class="form-control"
+                                ng-options="option.Id as option.Name for option in talakayan_year_options">
+                            <option value="">[Select Year]</option>
                         </select>
                     </div>
-                </div> 
+                </div> <br />
             </div>
         </div>
         <div flex="100" layout="row" style="margin:20px" layout-margin layout-md="column">
             <a class="btn btn-primary" ng-click="search()">
-                <i class="fa fa-filter fa-lg"></i> Filter
+                <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
             </a>
             <a class="btn btn-warning" ng-click="clear()">
-                <i class="fa fa-recycle fa-lg"></i>  Clear
+                <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
             </a>
             <a class="btn btn-primary" ng-click="showAlert()">
-                <i class="fa fa-cloud fa-lg"></i>   Synchronize
+                <i class="fa fa-cloud fa-lg"></i>&nbsp;&nbsp; Synchronize
             </a>
             @*@Html.Partial("~/Views/Shared/_sync_dialog.cshtml")*@
         </div>

@@ -13,14 +13,14 @@
             color: #336B6B;
             padding: 10px;
             text-align: left;
-            text-shadow: 1px 1px 1px #fff;
+            /*text-shadow: 1px 1px 1px #fff;*/
         }
 
         .zui-table tbody td {
             border: solid 1px #DDEEEE;
             color: #333;
             padding: 10px;
-            text-shadow: 1px 1px 1px #fff;
+            /*text-shadow: 1px 1px 1px #fff;*/
         }
 
     .zui-table-highlight tbody tr:hover {
@@ -59,7 +59,7 @@
                             {{url.description}}
                         </td>
                         <td>
-                            <a ng-click="exportXls(url.url, url.name)" class="btn btn-success"><i class="fa fa-file-excel-o"></i></a>
+                            <a ng-click="exportXls(url.url, url.name)" title='Export to Excel' class="btn btn-success"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp; Export</a>                            
                         </td>
                     </tr>
                 </tbody>

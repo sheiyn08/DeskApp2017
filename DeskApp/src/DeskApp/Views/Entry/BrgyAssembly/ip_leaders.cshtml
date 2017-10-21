@@ -3,97 +3,119 @@
 
     <div class="panel panel-heading">
         <h4>Indigenous People Leaders</h4>
-
        <p>IP Leaders present during the BA</p>
     </div>
 
+    <div class="panel-body">
+        <form name="othersTrainingForm">
 
-    <div class="layout-row" layout-margin flex>
-        <div flex>
+            <div class="layout-row" layout-margin flex>
+                <div flex>
 
-        </div>
-        <div flex>
-            IP Group
-        </div>
-        <div flex>
-            Sitio
-        </div>
-        <div flex>
-            First Name
-        </div>
-        <div flex>
-            Middle Name
-        </div>
-        <div flex>
-            Last Name
-        </div>
-        <div flex>
-            Birthdate
-        </div>
+                </div>
+                <div flex>
+                    IP Group
+                </div>
+                <div flex>
+                    Sitio
+                </div>
+                <div flex>
+                    First Name
+                </div>
+                <div flex>
+                    Middle Name
+                </div>
+                <div flex>
+                    Last Name
+                </div>
+                <div flex>
+                    Birthdate
+                </div>
+            </div>
 
+            <div class="layout-row" layout-margin flex ng-repeat="leader in data.ip_leaders">
+                <div flex>
+                    <a class="btn btn-info" style="margin-right:5px" ng-click="ipleader_edit_is_selected=true; editIPLeader(leader)" ng-hide="ipleader_edit_is_selected"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="removeIPLeader($index)" ng-hide="ipleader_edit_is_selected"><i class="fa fa-trash"></i></a>
+
+                    <a class="btn btn-success" style="margin-right:5px" ng-click="ipleader_edit_is_selected=false; saveEditedIPLeader(leader)" ng-show="ipleader_edit_is_selected"><i class="fa fa-check"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditIPLeader(leader); ipleader_edit_is_selected=false" ng-show="ipleader_edit_is_selected"><i class="fa fa-close"></i></a>
+                </div>
+                <div flex>                    
+                    <span ng-hide="ipleader_edit_is_selected">{{leader.lib_ip_group.Name}}</span>
+                    <select ng-model="leader.lib_ip_group" class="form-control" ng-show="ipleader_edit_is_selected"
+                            ng-options="option as option.Name for option in ip_group_id_options">
+                        <option value="">[Select IP Group]</option>
+                    </select>
+                </div>
+                <div flex>                    
+                    <span ng-hide="ipleader_edit_is_selected">{{leader.sitio}}</span>
+                    <input type="text" required name="Sitio" ng-model="leader.sitio" class="form-control" ng-show="ipleader_edit_is_selected"/>
+                </div>
+                <div flex>                    
+                    <span ng-hide="ipleader_edit_is_selected">{{leader.first_name}}</span>
+                    <input type="text" required name="Total Families" ng-model="leader.first_name" class="form-control" ng-show="ipleader_edit_is_selected"/>
+                </div>
+                <div flex>                    
+                    <span ng-hide="ipleader_edit_is_selected">{{leader.middle_name}}</span>
+                    <input type="text" name="Total Households" ng-model="leader.middle_name" class="form-control" ng-show="ipleader_edit_is_selected"/>
+                </div>
+                <div flex>                    
+                    <span ng-hide="ipleader_edit_is_selected">{{leader.last_name}}</span>
+                    <input type="text" required name="Total Households" ng-model="leader.last_name" class="form-control" ng-show="ipleader_edit_is_selected"/>
+                </div>
+                <div flex>                    
+                    <span ng-hide="ipleader_edit_is_selected">{{leader.birth_date | date:'MM/dd/yyyy'}}</span> 
+                    <md-datepicker name="Birthdate"
+                                   ng-model="leader.birth_date"
+                                   md-placeholder="Enter date"
+                                   ng-change="checkIPbirthDate(leader)"
+                                   md-max-date="today"
+                                   ng-show="ipleader_edit_is_selected">
+                    </md-datepicker>  
+                </div>
+                @*<div flex>
+                    <span style="color:red; font-size:small" ng-show="age_below_15==true"><i>⚠ Age as of today that is less than 15 years old is not allowed. Please check if this is the correct birth date.</i></span>
+                </div>*@
+            </div>
+
+            @*THIS IS FOR NEW ENTRY:*@
+            <div class="layout-row" layout-margin flex md-padding ng-hide="ipleader_edit_is_selected">
+                <div flex>
+                    <a class="btn btn-success" ng-click="addIPLeader()" ng-disabled="!othersTrainingForm.$valid"><i class="fa fa-plus"></i></a>
+                </div>
+                <div flex>
+                    <select ng-model="leader.lib_ip_group" class="form-control"
+                            ng-options="option as option.Name for option in ip_group_id_options">
+                        <option value="">[Select IP Group]</option>
+                    </select>
+                </div>
+                <div flex>
+                    <input type="text" required name="Sitio" ng-model="leader.sitio" class="form-control" />
+                </div>
+                <div flex>
+                    <input type="text" required name="Total Families" ng-model="leader.first_name" class="form-control" />
+                </div>
+                <div flex>
+                    <input type="text" name="Total Households" ng-model="leader.middle_name" class="form-control" />
+                </div>
+                <div flex>
+                    <input type="text" required name="Total Households" ng-model="leader.last_name" class="form-control" />
+                </div>
+                <div flex>
+                    <md-datepicker name="Birthdate"
+                                   ng-model="leader.birth_date"
+                                   md-placeholder="Enter date"
+                                   ng-change="checkIPbirthDate_()"
+                                   md-max-date="today">
+                    </md-datepicker>  
+                </div>                
+            </div>
+
+
+
+        </form>
     </div>
-
-
-    <div class="layout-row" layout-margin flex ng-repeat="equip in data.ip_leaders">
-
-        <div flex>
-            <a class="btn btn-danger" ng-click="removeIpGroup($index)"><i class="fa fa-trash"></i></a>
-        </div>
-        <div flex>
-            {{equip.lib_ip_group.Name}}
-        </div>
-        <div flex>
-            {{equip.sitio}}
-        </div>
-        <div flex>
-            {{equip.first_name}}
-        </div>
-        <div flex>
-            {{equip.middle_name}}
-        </div>
-
-        <div flex>
-            {{equip.last_name}}
-        </div>
-        <div flex>
-            {{equip.birth_date | date:'MM/dd/yyyy'}}
-        </div>
-    
-    </div>
-
-    <form name="othersTrainingForm">
-        <div class="layout-row" layout-margin flex md-padding>
-            <div flex>
-                <a class="btn btn-success" ng-click="addIpGroup()" ng-disabled="!othersTrainingForm.$valid"><i class="fa fa-plus"></i></a>
-            </div>
-            <div flex>
-
-                <select ng-model="groups.lib_ip_group" class="form-control"
-                        ng-options="option as option.Name for option in ip_group_id_options">
-                    <option value="">[Select IP Group]</option>
-                </select>
-
-            </div>
-            <div flex>
-                <input type="text" required name="Sitio" ng-model="groups.sitio" class="form-control" />
-            </div>
- 
-            <div flex>
-                <input type="text" required name="Total Families" ng-model="groups.first_name" class="form-control" />
-            </div>
-            <div flex>
-                <input type="text" required name="Total Households" ng-model="groups.middle_name" class="form-control" />
-            </div>
-            <div flex>
-                <input type="text" required name="Total Households" ng-model="groups.last_name" class="form-control" />
-            </div>
-            <div flex>
-                <md-datepicker name="Date Provided" ng-model="groups.birth_date" md-placeholder="Enter date" ng-change="checkIPbirthDate()"
-                               md-max-date="today" class="form-control"></md-datepicker>
-                <span style="color:red; font-size:small" ng-show="age_below_15==true"><br /><i>⚠ Age as of today that is less than 15 years old is not allowed. Please check if this is the correct birth date.</i></span>
-            </div>
-        </div>
-    </form>
 
 
 </div>

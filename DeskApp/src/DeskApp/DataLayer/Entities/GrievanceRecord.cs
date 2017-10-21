@@ -33,6 +33,11 @@ namespace DeskApp.DataLayer
         public int? fund_source_id { get; set; }
         public int? cycle_id { get; set; }
 
+        //RDR08242017 Additional columns for v3.0:
+        public bool? is_lgu_led { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_incentive { get; set; }
+
         public bool? is_central_office_level_only { get; set; }
         public bool? is_field_office_level_only { get; set; }
 

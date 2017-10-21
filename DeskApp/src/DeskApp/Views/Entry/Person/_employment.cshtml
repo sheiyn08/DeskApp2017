@@ -45,7 +45,7 @@
                 <div class="col-md-4">
                     <md-radio-group required ng-model="data.is_lguofficial" name="Is LGU Official">
                         <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                        <md-radio-button data-ng-value="false"> No </md-radio-button>
+                        <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                     </md-radio-group>
                 </div>
@@ -120,7 +120,7 @@
 
                     <md-radio-group required ng-model="data.is_mdc" name="Is MDC">
                         <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                        <md-radio-button data-ng-value="false"> No </md-radio-button>
+                        <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                     </md-radio-group>
                 </div>
@@ -147,7 +147,7 @@
 
                     <md-radio-group required ng-model="data.is_bdc" name="Is BDC">
                         <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                        <md-radio-button data-ng-value="false"> No </md-radio-button>
+                        <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                     </md-radio-group>
                 </div>
@@ -158,6 +158,9 @@
 
         </div>
     </div>
+
+
+    @*-------------------------------------- Removed from view: for v3.0 Aug 22, 2017
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
@@ -165,25 +168,16 @@
                     <label>
                         Is BSPMC?
                     </label>
-
-
-
                 </div>
                 <div class="col-md-4">
-
                     <md-radio-group required ng-model="data.is_bspmc" name="Is BSPMC">
                         <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                         <md-radio-button data-ng-value="false"> No </md-radio-button>
-
                     </md-radio-group>
                 </div>
-
-
             </div>
-
-
         </div>
-    </div>
+    </div>*@
 
 
 </div>

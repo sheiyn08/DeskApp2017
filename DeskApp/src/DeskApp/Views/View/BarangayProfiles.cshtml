@@ -20,23 +20,21 @@
 <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
 
     <md-toolbar md-scroll-shrink>
-        <h3 class="md-toolbar-tools">Barangay Profile Records</h3>
+        <h3 class="md-toolbar-tools">Barangay Profiles</h3>
     </md-toolbar>
 
     <md-content>
         <br />
 
         <div style="margin:25px">
-            <a class="btn btn-success" ng-click="createNew()">
-                <i class="fa fa-plus fa-lg"></i> New Record
-            </a>
+            <a class="btn btn-success" ng-click="createNew()"><i class="fa fa-plus"></i>&nbsp;&nbsp; New Record</a>
         </div>
 
             <div class="panel panel-success" style="margin:25px">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="col-md-3">
+                            <div class="col-md-12">
                                 <h4><b>FILTER RECORDS BY:</b></h4>
                             </div>
                         </div>
@@ -48,6 +46,9 @@
                             </div>
                             <div class="col-md-3">
                                 <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1">Recently <b>Added</b> record</md-checkbox>
+                            </div>
+                            <div class="col-md-3">
+                                <md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records tagged as <b>Unauthorized</b></md-checkbox>
                             </div>
                         </div>
                     </div><br />
@@ -127,14 +128,38 @@
                         </div>
                     </div>
                 </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label>Is Incentives (Tier-2)?</label>
+                                <select ng-model="data.is_incentive" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>From Savings?</label>
+                                <select ng-model="data.is_savings" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Is LGU-led?</label>
+                                <select ng-model="data.is_lgu_led" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br />
             </div>
 
             <div flex="100" layout="row" style="margin:20px" layout-margin layout-md="column">
                 <a class="btn btn-primary" ng-click="search()">
-                    <i class="fa fa-filter fa-lg"></i> Filter
+                    <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
                 </a>
                 <a class="btn btn-warning" ng-click="clear()">
-                    <i class="fa fa-recycle fa-lg"></i>  Clear
+                    <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
                 </a>
                 @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
             </div>

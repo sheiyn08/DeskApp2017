@@ -6,7 +6,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
     $scope.data.filter_by_recent_edit = '';
     $scope.data.filter_by_recent_add = '';
-
+    
     $scope.data.region_code = '';
     $scope.data.prov_code = '';
     $scope.data.city_code = '';
@@ -351,16 +351,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
         $scope.data.pageSize = $scope.pageSize == undefined ? '' : $scope.pageSize;
         $scope.data.currPage = page == undefined ? '' : page;
-
-        //alert($scope.data.is_trained);
-
-        //if ($scope.data.is_trained != null || $scope.data.is_trained != undefined) {
-        //    if ($scope.data.training_category_id == '') {
-        //        alert("Select Training Category!");
-        //        return false;
-        //    }
-        //}
-
+        
         $scope.isSearching = true;
 
         if (($scope.data.filter_by_recent_edit) && (!$scope.data.filter_by_recent_add)) {
@@ -453,6 +444,8 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.loading = false;
             });
         }
+
+
         
     };
 

@@ -1,10 +1,10 @@
 ﻿
 <form name="myForm" ng-cloak>
-    <div class="panel panel-success">
+    <div class="panel panel-info">
 
         <div class="panel-heading">
-            <h4>Generation Instructions</h4>
-            <h5>Please filter before proceeding in printing the report.</h5>
+            <h4>Municipal Talakayan Evaluation Report</h4>
+            <h5>General Instruction: Please filter before proceeding in printing the report.</h5>
         </div>
 
         <div class="panel-body">
@@ -34,12 +34,8 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-        </div>
 
-        <div class="panel-body">
             <div class="row">
                 <div class="col-md-12">
 
@@ -82,8 +78,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-3">
+                    @*-------------------- v3.0 removed barangay as commented by Eval team --------------------*@
+                    @*<div class="col-md-3">
                         <label for="Barangay:_">Barangay</label>
                         <div class="form-group">
                             <select name="Barangay" ng-model="selected_brgy" class="form-control"
@@ -93,28 +89,21 @@
                                 <option value="">[Select Barangay]</option>
                             </select>
                         </div>
-
-                    </div>
+                    </div>*@
                 </div>
             </div>
-        </div>
 
-
-        <div class="panel-body">
             <div class="row">
-                <div class="col-md-12">
-
-                    <div class="col-md-6">
-                        <md-button class="md-raised" ng-click="search()" ng-disabled="!myForm.$valid">
-                            <i class="fa fa-filter"></i>  Filter
-                        </md-button>
-                        <md-button class="md-primary md-raised" ng-click="printContent()" ng-disabled="!myForm.$valid">
-                            <i class="fa fa-print"></i>  Print
-                        </md-button>
-                        <md-button class="md-raised md-warn" ng-click="exportToXLS()" ng-disabled="!myForm.$valid">
-                            <i class="fa fa-file-excel-o"></i>  Export
-                        </md-button>
-                    </div>
+                <div flex="100" layout="row" style="margin-left:20px" layout-margin layout-md="column">
+                    <a class="btn btn-primary" ng-click="search(); search()" ng-disabled="!myForm.$valid">
+                        <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
+                    </a>
+                    <a class="btn btn-warning" ng-click="printContent()" ng-disabled="!myForm.$valid">
+                        <i class="fa fa-print fa-lg"></i>&nbsp;&nbsp; Print
+                    </a>
+                    <a class="btn btn-success" ng-click="exportToXLS()" ng-disabled="!myForm.$valid">
+                        <i class="fa fa-print fa-lg"></i>&nbsp;&nbsp; Export
+                    </a>
                 </div>
             </div>
         </div>

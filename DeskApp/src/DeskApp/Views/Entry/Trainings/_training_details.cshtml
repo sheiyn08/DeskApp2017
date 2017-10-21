@@ -36,7 +36,7 @@
 
 
                         <div class="col-md-3">
-                            <label for="Province:_">Province: </label>
+                            <label for="Province:_">Province </label>
                             <div class="form-group" show-errors='{showSuccess: true}'>
                                 <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
                                         ng-disabled="data.region_code == null || status"
@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="col-md-3">
-                            <label for="Municipality:_">Municipality: </label>
+                            <label for="Municipality:_">Municipality </label>
                             <div class="form-group" show-errors='{showSuccess: true}'>
                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                     <select name="Municipality" ng-model="data.city_code" id="city_code" class="form-control"
@@ -64,7 +64,7 @@
                         </div>
 
                         <div class="col-md-3" ng-show="data.lgu_level_id == 1">
-                            <label for="Barangay:_">Barangay: </label>
+                            <label for="Barangay:_">Barangay </label>
                             <div class="form-group" show-errors='{showSuccess: true}'>
                                 <select name="Barangay" ng-model="data.brgy_code" id="brgy_code" class="form-control"
                                         ng-required="data.lgu_level_id ==1"
@@ -91,14 +91,14 @@
 
                         <div class="col-md-3">
 
-                            <label for="Region:_">Fund Source</label>
+                            <label for="Region:_">Project</label>
 
                             <div class="form-group" show-errors='{showSuccess: true}'>
-                                <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
+                                <select name="Project" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
                                         ng-required="true"
                                         ng-disabled="status"
                                         ng-options="option.Id as option.Name for option in fund_source_id_options">
-                                    <option value="">[Select Fund Source]</option>
+                                    <option value="">[Select Project]</option>
                                 </select>
                             </div>
 
@@ -108,7 +108,7 @@
 
 
                         <div class="col-md-3">
-                            <label for="Province:_">Cycle: </label>
+                            <label for="Province:_">Cycle </label>
                             <div class="form-group" show-errors='{showSuccess: true}'>
                                 <select name="Cycle" ng-model="data.cycle_id" id="cycle_id" class="form-control"
                                         ng-required="true"
@@ -120,7 +120,7 @@
                         </div>
 
                         <div class="col-md-3" >
-                            <label for="Municipality:_">KC Mode: </label>
+                            <label for="Municipality:_">KC Mode </label>
                             <div class="form-group" show-errors='{showSuccess: true}'>
                                 <select name="KC Mode" ng-model="data.enrollment_id" id="enrollment_id" class="form-control"
                                        ng-disabled="status"
@@ -142,7 +142,7 @@
                     <div class="col-md-12">
 
                         <div class="col-md-6">
-                            <label for="Title:_">Title: </label>
+                            <label for="Title:_">Title </label>
                             <div class="form-group" show-errors='{showSuccess: true}'>
                                 <input type="text" class="form-control" ng-model="data.training_title" required name="Title" />
                             </div>
@@ -150,7 +150,7 @@
 
 
                         <div class="col-md-3">
-                            <label for="LGU Level:_">Training/Activity Level: </label>
+                            <label for="LGU Level:_">Training/Activity Level </label>
                             <div class="form-group" show-errors='{showSuccess: true}'>
                                 <select name="Level" ng-model="data.lgu_level_id" id="region_code" class="form-control"
                                         ng-disabled="status"
@@ -165,11 +165,11 @@
 
                         @*ng-disabled="data.lgu_level_id =='' || status" -- RDR 07/18/17 Training Category open for Editing for v2.4 and will be closed on v3.0*@
                         <div class="col-md-3">
-                            <label for="Training Category:_">Training Category: </label>
+                            <label for="Training Category:_">Training Category </label>
                             <div class="form-group" show-errors='{showSuccess: true}'>
                                 <select name="Category" ng-model="data.training_category_id" id="region_code" class="form-control"
                                         ng-required="true"
-                                        ng-disabled="data.lgu_level_id ==''"                                        
+                                        ng-disabled="data.lgu_level_id =='' || status"                                        
                                         ng-options="option.Id as option.Name for option in training_category_id_options">
                                     <option value="">[Select Training Category]</option>
                                 </select>
@@ -219,7 +219,7 @@
 
                             <div class="form-group">
 
-                                <md-datepicker name="start_date" md-min-date="maxStartDate" ng-model="dt_start_date" md-placeholder="Enter date" ng-change="data.start_date = dt_start_date.toISOString()" required md-min-date="minYear" md-max-date="today"></md-datepicker>
+                                <md-datepicker name="start_date" md-min-date="min_start_date" ng-model="dt_start_date" md-placeholder="Enter date" ng-change="data.start_date = dt_start_date.toISOString()" required md-max-date="today"></md-datepicker>
 
 
                             </div>
@@ -230,7 +230,7 @@
 
                             <div class="form-group">
 
-                                <md-datepicker name="end_date" ng-model="dt_end_date" md-placeholder="Enter date" ng-change="data.end_date = dt_end_date.toISOString()" required md-min-date="maxDate" md-max-date="today"></md-datepicker>
+                                <md-datepicker name="end_date" ng-model="dt_end_date" md-placeholder="Enter date" ng-change="data.end_date = dt_end_date.toISOString()" required md-min-date="dt_start_date" md-max-date="today"></md-datepicker>
 
 
                             </div>
@@ -238,6 +238,46 @@
 
                     </div>
                 </div>
+
+                <md-container layout="row">
+                    <div flex="100" layout="row" layout-margin layout-sm="column">
+                        <div flex="20" flex-sm="100">
+                            <label>Incentives (Tier-2)?</label>
+                        </div>
+                        <div flex="25" flex-sm="100">
+                            <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_incentive" id="is_incentive" name="is_incentive">
+                                {{ data.is_incentive == true ? "Yes" : "" }}
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </md-container>
+
+                <md-container layout="row">
+                    <div flex="100" layout="row" layout-margin layout-sm="column">
+                        <div flex="20" flex-sm="100">
+                            <label>From Savings?</label>
+                        </div>
+                        <div flex="25" flex-sm="100">
+                            <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_savings" id="is_savings" name="is_savings">
+                                {{ data.is_savings == true ? "Yes" : "" }}
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </md-container>
+
+                <md-container layout="row">
+                    <div flex="100" layout="row" layout-margin layout-sm="column">
+                        <div flex="20" flex-sm="100">
+                            <label>LGU-led?</label>
+                        </div>
+                        <div flex="25" flex-sm="100">
+                            <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_lgu_led" id="is_lgu_led" name="is_lgu_led">
+                                {{ data.is_lgu_led == true ? "Yes" : "" }}
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </md-container>
+
             </div>
 
         </div>

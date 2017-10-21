@@ -143,7 +143,7 @@
             <div flex="100" layout="row" layout-margin layout-sm="column">
 
                 <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || !addressForm.$valid || !employmentForm.$valid">
-                    Save Record
+                    Save
                 </md-button>
 
                 <md-button class="md-warn md-raised" href="/View/People">
@@ -229,6 +229,55 @@
 
                     });
 
+                    ///-------------------------- check this! dito nahinto, 08-31-17
+                    $scope.$watch('new_volunteer_record.volunteer_committee_id',
+                        function (newValue, oldValue) {
+                            var record = $scope;
+
+                            if (newValue == null) {
+                                record.new_volunteer_record.volunteer_committee_position_id = null;
+                                record.new_volunteer_record.volunteer_committee_position_id_options = [];
+                            }
+                            else if (newValue == 17) {
+                                record.new_volunteer_record.volunteer_committee_position_id = 2;
+                                $http({
+                                    method: 'GET',
+                                    url: '/Api/lib_volunteer_committee_position/',
+                                }).success(function (data, status, headers, config) {
+                                    $scope.new_volunteer_record.volunteer_committee_position_id_options = data;
+                                }).error(function (data, status, headers, config) {
+                                    $scope.message = 'Unexpected Error';
+                                });
+                                $scope.disable_position = true;
+                            }
+                            else if (newValue == 13 || newValue == 14 || newValue == 15 || newValue == 16 || newValue == 18) {                                
+                                record.new_volunteer_record.volunteer_committee_position_id = 1;
+                                $http({
+                                    method: 'GET',
+                                    url: '/Api/lib_volunteer_committee_position/',
+                                }).success(function (data, status, headers, config) {
+                                    $scope.new_volunteer_record.volunteer_committee_position_id_options = data;
+                                }).error(function (data, status, headers, config) {
+                                    $scope.message = 'Unexpected Error';
+                                });
+                                $scope.disable_position = true;
+                            }
+                            else {
+                                if (newValue != "") {
+                                    $http({
+                                        method: 'GET',
+                                        url: '/Api/lib_volunteer_committee_position/',
+                                    }).success(function (data, status, headers, config) {
+                                        $scope.new_volunteer_record.volunteer_committee_position_id = null;
+                                        $scope.new_volunteer_record.volunteer_committee_position_id_options = data;
+                                    }).error(function (data, status, headers, config) {
+                                        $scope.message = 'Unexpected Error';
+                                    });
+                                }
+                                $scope.disable_position = false;
+                            }
+                        });
+
 
 
                     $http.get('/api/offline/v1/profiles/get?id=@ViewBag.id')
@@ -275,61 +324,133 @@
                                 $scope.data.other_memberships = JSON.parse($scope.data.other_membership);
                             }
 
-                            $scope.addTraining = function () {
 
 
+                            //$scope.addTraining = function () {
+
+                            //    $scope.data.other_trainings.push($scope.training);
+
+                            //    $mdToast.show(
+                            //                     $mdToast.simple()
+                            //                     .textContent('Other Trainings Added!')
+                            //                     .position("top right")
+                            //                     .hideDelay(5000)
+                            //                 );
+
+                            //    $scope.training = {};
+                            //}
+
+                            //$scope.removeTraining = function (index) {
+                            //    $scope.data.other_trainings.splice(index, 1);
+
+                            //    $mdToast.show(
+                            //                   $mdToast.simple()
+                            //                   .textContent('Other Trainings Removed!')
+                            //                   .position("top right")
+                            //                   .hideDelay(5000)
+                            //               );
+                            //}
+
+                            //-------------- Enhancement: 08-14-17 Add edit for OTHER TRAININGS AND MEMBERSHIP > Previous Trainings Attended (NON KC-NCDDP)
+
+                            $scope.addOtherTraining = function () {
+                                $scope.data.other_trainings.push($scope.other);
+                                $mdToast.show($mdToast.simple().textContent('Other Trainings Added!').position("top right").hideDelay(5000));
+                                $scope.other = {};
+                            };
+
+                            $scope.removeOtherTraining = function (other) {
+                                $scope.data.other_trainings.splice(other, 1);
+                                $mdToast.show($mdToast.simple().textContent('Other Trainings Removed!').position("top right").hideDelay(5000));
+                            };
+
+                            $scope.editOtherTraining = function (other) {
+                                $scope.editing = $scope.data.other_trainings.indexOf(other);
+                                other.backupName = angular.copy(other.name);
+                                other.backupProvider = angular.copy(other.provider);
+                                other.backupYear = angular.copy(other.year);
+                            };
+
+                            $scope.saveEditedOtherTraining = function (other) {
+                                delete other.backupName;
+                                delete other.backupProvider;
+                                delete other.backupYear;
+                            };
+
+                            $scope.cancelEditOtherTraining = function (other) {
+                                other.name = angular.copy(other.backupName);
+                                other.provider = angular.copy(other.backupProvider);
+                                other.year = angular.copy(other.backupYear);
+                                delete other.backupName;
+                                delete other.backupProvider;
+                                delete other.backupYear;
+                            };
 
 
-                                $scope.data.other_trainings.push($scope.training);
+                            
+                            //$scope.addMembership = function () {
+                            //    $scope.data.other_memberships.push($scope.membership);
+                            //    $mdToast.show(
+                            //                     $mdToast.simple()
+                            //                     .textContent('Other Committee Added!')
+                            //                     .position("top right")
+                            //                     .hideDelay(5000)
+                            //                 );
+                            //    $scope.membership = {};
+                            //}
 
-                                $mdToast.show(
-                                                 $mdToast.simple()
-                                                 .textContent('Other Trainings Added!')
-                                                 .position("top right")
-                                                 .hideDelay(5000)
-                                             );
+                            //$scope.removeMembership = function (index) {
+                            //    $scope.data.other_memberships.splice(index, 1);
+                            //    $mdToast.show(
+                            //                   $mdToast.simple()
+                            //                   .textContent('Other Committee Removed!')
+                            //                   .position("top right")
+                            //                   .hideDelay(5000)
+                            //               );
+                            //}
 
-                                $scope.training = {};
-                            }
+                            //-------------- Enhancement: 08-14-17 Add edit for OTHER TRAININGS AND MEMBERSHIP > Previous Organizations (NON KC-NCDDP)
 
-                            $scope.removeTraining = function (index) {
-                                $scope.data.other_trainings.splice(index, 1);
-
-                                $mdToast.show(
-                                               $mdToast.simple()
-                                               .textContent('Other Trainings Removed!')
-                                               .position("top right")
-                                               .hideDelay(5000)
-                                           );
-                            }
-
-                            $scope.addMembership = function () {
-
-
-
-
+                            $scope.addOtherMem = function () {
                                 $scope.data.other_memberships.push($scope.membership);
-
-                                $mdToast.show(
-                                                 $mdToast.simple()
-                                                 .textContent('Other Committee Added!')
-                                                 .position("top right")
-                                                 .hideDelay(5000)
-                                             );
-
+                                $mdToast.show($mdToast.simple().textContent('Other Committee Added!').position("top right").hideDelay(5000));
                                 $scope.membership = {};
-                            }
+                            };
 
-                            $scope.removeMembership = function (index) {
-                                $scope.data.other_memberships.splice(index, 1);
+                            $scope.removeOtherMem = function (membership) {
+                                $scope.data.other_memberships.splice(membership, 1);
+                                $mdToast.show($mdToast.simple().textContent('Other Committee Removed!').position("top right").hideDelay(5000));
+                            };
 
-                                $mdToast.show(
-                                               $mdToast.simple()
-                                               .textContent('Other Committee Removed!')
-                                               .position("top right")
-                                               .hideDelay(5000)
-                                           );
-                            }
+                            $scope.editOtherMem = function (membership) {
+                                $scope.editing = $scope.data.other_memberships.indexOf(membership);
+                                membership.backupCommitteeName = angular.copy(membership.name);
+                                membership.backupIsChair = angular.copy(membership.is_chair);
+                                membership.backupIsActive = angular.copy(membership.is_active);
+                            };
+
+                            $scope.saveEditedOtherMem = function (membership) {
+                                delete membership.backupCommitteeName;
+                                delete membership.backupIsChair;
+                                delete membership.backupIsActive;
+                            };
+
+                            $scope.cancelEditOtherMem = function (membership) {
+                                membership.name = angular.copy(membership.backupCommitteeName);
+                                membership.is_chair = angular.copy(membership.backupIsChair);
+                                membership.is_active = angular.copy(membership.backupIsActive);
+                                delete membership.backupCommitteeName;
+                                delete membership.backupIsChair;
+                                delete membership.backupIsActive;
+                            };
+
+
+
+
+
+
+
+
 
 
                             //get volu
@@ -342,13 +463,14 @@
                                         $scope.dt_date_appointment = $scope.data.date_appointment == undefined ? null : new Date($scope.data.date_appointment);
 
                                         //$scope.dt_date_appointment = new Date($scope.data.date_appointment);
-                                        $scope.minDateAppointment = new Date("01/01/1970");
-
+                                        $scope.minDateAppointment = new Date("07/01/2014");
                                         $scope.maxDateAppointment = new Date();
 
+                                        $scope.vol_min_start_date = new Date("07/01/2014");
+                                        $scope.maxEndDate_today = new Date();
 
                                         $scope.startDate = new Date($scope.new_volunteer_record.dt_start_date);
-                                        $scope.maxEndDate_today = new Date();
+                                                                               
 
                                         $scope.$watch('new_volunteer_record.dt_start_date', function (newValue, oldValue) {
                                             $scope.startDate = new Date(newValue);
@@ -374,6 +496,7 @@
                             $scope.editVolunteer = function (contact) {
                                 $scope.edit_volunteer = true;
                                 $scope.selected_volunteer = angular.copy(contact);
+                                $scope.selected_volunteer.dt_end_date = $scope.selected_volunteer.end_date == undefined ? null : new Date($scope.selected_volunteer.end_date);
                             };
 
                             //add request
@@ -771,11 +894,7 @@
                                 $.post('/api/offline/v1/profiles/save', $scope.data)
                                     .success(function (data) {
                                         $scope.loading = false;
-                                        $('html, body').animate({
-                                            scrollTop: '0px'
-                                        }, 1500);
-
-
+                                        $('html, body').animate({ scrollTop: '0px' }, 1500);
                                         $mdToast.show(
                                             $mdToast.simple()
                                             .textContent('Record Saved!')
@@ -889,10 +1008,7 @@
 
                         });
 
-
-
-
-
+                    
                 })
 
 

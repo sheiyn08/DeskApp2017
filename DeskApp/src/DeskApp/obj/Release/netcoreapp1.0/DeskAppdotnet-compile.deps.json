@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0/",
-    "signature": "f4cac647828d7b7d80347af6fb74e1fe3d4d28bf"
+    "signature": "a01485413d1fd441e61d488597316b5b21f20b2c"
   },
   "compilationOptions": {
     "defines": [
@@ -9,7 +9,6 @@
       "TRACE",
       "NETCOREAPP1_0"
     ],
-    "platform": "x86",
     "optimize": true,
     "emitEntryPoint": true
   },
@@ -47,10 +46,19 @@
           "Newtonsoft.Json": "9.0.1",
           "System.Text.Encoding": "4.3.0",
           "System.Net.Http": "4.3.0",
-          "Microsoft.EntityFrameworkCore.Design": "1.1.0"
+          "Microsoft.EntityFrameworkCore.Design": "1.1.0",
+          "bs.Modal": "0.1.3",
+          "Angular.UI.Bootstrap": "0.10.0"
         },
         "compile": {
           "DeskApp.dll": {}
+        }
+      },
+      "Angular.UI.Bootstrap/0.10.0": {},
+      "bs.Modal/0.1.3": {
+        "dependencies": {
+          "jQuery": "1.9.1",
+          "underscore.js": "1.7.0"
         }
       },
       "Detached.EntityFramework/1.1.0": {
@@ -66,6 +74,7 @@
           "lib/netstandard1.6/Detached.EntityFramework.dll": {}
         }
       },
+      "jQuery/1.9.1": {},
       "Libuv/1.9.1": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
@@ -3143,7 +3152,8 @@
           "System.Xml.XDocument": "4.3.0",
           "System.Xml.XPath": "4.0.1"
         }
-      }
+      },
+      "underscore.js/1.7.0": {}
     },
     ".NETCoreApp,Version=v1.0/": {
       "DeskApp/1.0.0": {
@@ -3178,10 +3188,19 @@
           "Newtonsoft.Json": "9.0.1",
           "System.Text.Encoding": "4.3.0",
           "System.Net.Http": "4.3.0",
-          "Microsoft.EntityFrameworkCore.Design": "1.1.0"
+          "Microsoft.EntityFrameworkCore.Design": "1.1.0",
+          "bs.Modal": "0.1.3",
+          "Angular.UI.Bootstrap": "0.10.0"
         },
         "runtime": {
           "DeskApp.dll": {}
+        }
+      },
+      "Angular.UI.Bootstrap/0.10.0": {},
+      "bs.Modal/0.1.3": {
+        "dependencies": {
+          "jQuery": "1.9.1",
+          "underscore.js": "1.7.0"
         }
       },
       "Detached.EntityFramework/1.1.0": {
@@ -3197,6 +3216,7 @@
           "lib/netstandard1.6/Detached.EntityFramework.dll": {}
         }
       },
+      "jQuery/1.9.1": {},
       "Libuv/1.9.1": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
@@ -6184,7 +6204,8 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
-      }
+      },
+      "underscore.js/1.7.0": {}
     }
   },
   "libraries": {
@@ -6193,10 +6214,25 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Angular.UI.Bootstrap/0.10.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Oscy2AAQno4U71MxVcOBpuicGU6mOsJwZwXtYTcacbEBYbeXY4eCS8946MMULL0aK1qH+JSNX/EqSQYqBtpdVQ=="
+    },
+    "bs.Modal/0.1.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-q7uktE66Vw3/be8k8fq/21WoOWoOkw+jQWfgAqfKAcWY0F+U6S1tHgdcE4aOC841wCDxUjLaAKbv/KpUMsMzCA=="
+    },
     "Detached.EntityFramework/1.1.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-hIuP7h+FPrlnA9WLYiVl1VQ+KPAYyO8jyKspS8vaMHXOov/aYycJlNMRBjfm8v6KYNpbAyBkoi8UcbUVJWnx1A=="
+    },
+    "jQuery/1.9.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HiX9icLyiJGgiL5EOIn0d1MBPHVV2M9mzWT4mANdniDNR51RvAFTyKEXEd2+5yQJ4PJ5xePOR61Vjj/omQzYcw=="
     },
     "Libuv/1.9.1": {
       "type": "package",
@@ -7437,6 +7473,11 @@
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-FLhdYJx4331oGovQypQ8JIw2kEmNzCsjVOVYY/16kZTUoquZG85oVn7yUhBE2OZt1yGPSXAL0HTEfzjlbNpM7Q=="
+    },
+    "underscore.js/1.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+biLTzHldcyn3e9FFVuUz03121nBwIkgvKA3hg+xyrauMlZcmqhhJZFkweECRxTzMhEx5zN+mknM1uhIqB5ShQ=="
     }
   }
 }

@@ -50,18 +50,36 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        @*<div class="col-md-3">
                             <label>Current NCDDP Cycle</label>
                             <select name="cycle_id" ng-model="selected_cycle_id" class="form-control"
                                     ng-required="true"
                                     ng-options="option as option.Name for option in cycle_id_options">
                                 <option value="">[Select Cycle]</option>
                             </select>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
-                <br /><br />
                 <div class="row">
+                    <div flex="100" layout="row" style="margin-left:20px" layout-margin layout-md="column">
+                        <a class="btn btn-primary" ng-click="search(); show_div=true" ng-disabled="!basicForm.$valid">
+                            <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
+                        </a>
+                        <a class="btn btn-warning" ng-click="clear()">
+                            <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
+                        </a>
+                        <a class="btn btn-warning" ng-click="printContent()" ng-disabled="!basicForm.$valid">
+                            <i class="fa fa-print fa-lg"></i>&nbsp;&nbsp; Print
+                        </a>
+                        <a class="btn btn-success" ng-click="exportToXLS()" ng-disabled="!basicForm.$valid">
+                            <i class="fa fa-print fa-lg"></i>&nbsp;&nbsp; Export
+                        </a>
+                    </div>
+                </div>
+
+
+
+                @*<div class="row">
                     <div class="col-md-12">
 
                         <div class="col-md-6">
@@ -79,6 +97,6 @@
                             </md-button>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </form>
 

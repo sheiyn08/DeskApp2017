@@ -22,6 +22,7 @@ namespace DeskApp.Controllers
         private readonly ApplicationDbContext db;
 
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         public MovController(ApplicationDbContext context)
         {
@@ -154,6 +155,8 @@ namespace DeskApp.Controllers
         {
             long size = 0;
             var files = Request.Form.Files;
+            string module_name = "";
+            string attachment_type = "";
             foreach (var file in files)
             {
                 if(files.Count() != 1)
@@ -172,14 +175,308 @@ namespace DeskApp.Controllers
                     return BadRequest("Upload PDF Files Only");
                 }
 
-                Guid attached_document_id = Guid.NewGuid();
-
+                Guid attached_document_id = Guid.NewGuid();     
                 var path01 = PlatformServices.Default.Application.ApplicationBasePath;
+                
 
-                string savePath = path01 + @"\wwwroot\MOVs\" + attached_document_id.ToString() + ".pdf";
+                //Barangay Profile attachments:
+                if (mov_list_id == 3)
+                {
+                    module_name = "BP_";
+                    attachment_type = "BrgyProfileForm_";
+                }
+
+                //Municipal Profile attachments:
+                if (mov_list_id == 2)
+                {
+                    module_name = "MP_";
+                    attachment_type = "MunicipalProfileForm_";
+                }
+
+                //Brgy Assembly attachments:
+                if (mov_list_id == 4)
+                {
+                    module_name = "BA_";
+                    attachment_type = "BrgyActivityMinutesForm_";
+                }
+                if (mov_list_id == 5)
+                {
+                    module_name = "BA_";
+                    attachment_type = "BAHouseholdParticipation_";
+                }
+                if (mov_list_id == 6)
+                {
+                    module_name = "BA_";
+                    attachment_type = "BAAttendanceSheet_";
+                }
+                if (mov_list_id == 2)
+                {
+                    module_name = "BA_";
+                    attachment_type = "BrgyResolution_";
+                }
+
+                //Person Profile attachments:
+                if (mov_list_id == 14)
+                {
+                    module_name = "PP_";
+                    attachment_type = "CommunityVolunteersProfile_";
+                }
+                if (mov_list_id == 51)
+                {
+                    module_name = "PP_";
+                    attachment_type = "CDDSPWorkerBasicProfile_";
+                }
+
+                //Trainings attachments:
+                if (mov_list_id == 7)
+                {
+                    module_name = "TR_";
+                    attachment_type = "MunicipalActivityMinutesForm_";
+                }
+                if (mov_list_id == 8)
+                {
+                    module_name = "TR_";
+                    attachment_type = "MunicipalAttendanceSheet_";
+                }
+                if (mov_list_id == 9)
+                {
+                    module_name = "TR_";
+                    attachment_type = "BrgyActivityMinutesForm_";
+                }
+                if (mov_list_id == 10)
+                {
+                    module_name = "TR_";
+                    attachment_type = "BrgyAttendanceSheet_";
+                }
+                if (mov_list_id == 11)
+                {
+                    module_name = "TR_";
+                    attachment_type = "BrgyActionPlan_";
+                }
+                if (mov_list_id == 12)
+                {
+                    module_name = "TR_";
+                    attachment_type = "BrgyResolution_";
+                }
+                if (mov_list_id == 13)
+                {
+                    module_name = "TR_";
+                    attachment_type = "OtherDocuments_";
+                }
+                if (mov_list_id == 19)
+                {
+                    module_name = "TR_";
+                    attachment_type = "MIBFMunicipalResolution_";
+                }
+
+                //Grievance attachments:
+                if (mov_list_id == 22)
+                {
+                    module_name = "GR_";
+                    attachment_type = "GRSIntakeForm_";
+                }
+
+                //GRS Installation attachments:
+                if (mov_list_id == 20)
+                {
+                    module_name = "GI_";
+                    attachment_type = "GRSInstallationChecklistMunicipal_";
+                }
+                if (mov_list_id == 21)
+                {
+                    module_name = "GI_";
+                    attachment_type = "GRSInstallationChecklistBrgy_";
+                }
+
+                //SubProject attachments:
+                if (mov_list_id == 24)
+                {
+                    module_name = "SP_";
+                    attachment_type = "BrgySPWorkSchedandPhysicalProgressReport_";
+                }
+                if (mov_list_id == 25)
+                {
+                    module_name = "SP_";
+                    attachment_type = "SuspensionOrder_";
+                }
+                if (mov_list_id == 26)
+                {
+                    module_name = "SP_";
+                    attachment_type = "ResumptionOrder_";
+                }
+                if (mov_list_id == 27)
+                {
+                    module_name = "SP_";
+                    attachment_type = "VariationOrder_";
+                }
+                if (mov_list_id == 28)
+                {
+                    module_name = "SP_";
+                    attachment_type = "TargetHouseholdBeneficiaries_";
+                }
+                if (mov_list_id == 29)
+                {
+                    module_name = "SP_";
+                    attachment_type = "CNC_";
+                }
+                if (mov_list_id == 30)
+                {
+                    module_name = "SP_";
+                    attachment_type = "CNO_";
+                }
+                if (mov_list_id == 31)
+                {
+                    module_name = "SP_";
+                    attachment_type = "CP_";
+                }
+                if (mov_list_id == 32)
+                {
+                    module_name = "SP_";
+                    attachment_type = "UsufructAgreement_";
+                }
+                if (mov_list_id == 33)
+                {
+                    module_name = "SP_";
+                    attachment_type = "BLGUResolution_";
+                }
+                if (mov_list_id == 34)
+                {
+                    module_name = "SP_";
+                    attachment_type = "DepEdCertification_";
+                }
+                if (mov_list_id == 35)
+                {
+                    module_name = "SP_";
+                    attachment_type = "EmploymentRecordSheet_";
+                }
+                if (mov_list_id == 36)
+                {
+                    module_name = "SP_";
+                    attachment_type = "CDDSPWorkerBasicProfile_";
+                }
+                if (mov_list_id == 37)
+                {
+                    module_name = "SP_";
+                    attachment_type = "SPFundUtilizationReport_";
+                }
+                if (mov_list_id == 38)
+                {
+                    module_name = "SP_";
+                    attachment_type = "CADT_";
+                }
+                if (mov_list_id == 39)
+                {
+                    module_name = "SP_";
+                    attachment_type = "RequestforValidationtoNCIP_";
+                }
+                if (mov_list_id == 40)
+                {
+                    module_name = "SP_";
+                    attachment_type = "Tariff_";
+                }
+                if (mov_list_id == 41)
+                {
+                    module_name = "SP_";
+                    attachment_type = "SPCompletionReport_";
+                }
+                if (mov_list_id == 42)
+                {
+                    module_name = "SP_";
+                    attachment_type = "FinalInspectionReport_";
+                }
+                if (mov_list_id == 43)
+                {
+                    module_name = "SP_";
+                    attachment_type = "CertofCompletionandAcceptance_";
+                }
+                if (mov_list_id == 44)
+                {
+                    module_name = "SP_";
+                    attachment_type = "FunctionalAuditTool_";
+                }
+                if (mov_list_id == 45)
+                {
+                    module_name = "SP_";
+                    attachment_type = "ActualHouseholdBeneficiaries_";
+                }
+                if (mov_list_id == 46)
+                {
+                    module_name = "SP_";
+                    attachment_type = "SustainabilityEvaluationTool_";
+                }
+                if (mov_list_id == 55)
+                {
+                    module_name = "SP_";
+                    attachment_type = "ESSC_";
+                }
+                if (mov_list_id == 56)
+                {
+                    module_name = "SP_";
+                    attachment_type = "ESMP_";
+                }
+                if (mov_list_id == 57)
+                {
+                    module_name = "SP_";
+                    attachment_type = "ECC_";
+                }
+                
+                //MPTA attachments:
+                if (mov_list_id == 16)
+                {
+                    module_name = "PTA_";
+                    attachment_type = "PTAIntegrationPlansChecklist_";
+                }
+                if (mov_list_id == 53)
+                {
+                    module_name = "PTA_";
+                    attachment_type = "BrgyResolution_";
+                }
+                if (mov_list_id == 54)
+                {
+                    module_name = "PTA_";
+                    attachment_type = "MunicipalResolution_";
+                }
+
+                //MLCC attachments:
+                if (mov_list_id == 23)
+                {
+                    module_name = "MLCC_";
+                    attachment_type = "MunicipalConsolidatedStatusofLCC_";
+                }
+
+                //Oversight attachments:
+                if (mov_list_id == 15)
+                {
+                    module_name = "OC_";
+                    attachment_type = "OversightandCoordCommitteeChecklist_";
+                }
+
+                //Oversight attachments:
+                if (mov_list_id == 50)
+                {
+                    module_name = "CO_";
+                    attachment_type = "CommunityOrganizationProfileForm_";
+                }
+
+                //Perception Survey attachments:
+                if (mov_list_id == 47)
+                {
+                    module_name = "PS_";
+                    attachment_type = "PerceptionSurveyForm_";
+                }
+
+                //Municipal Talakayan attachments:
+                if (mov_list_id == 49)
+                {
+                    module_name = "MT_";
+                    attachment_type = "MunicipalTalakayanEvaluationForm_";
+                }
 
 
-            //    filename = @"C:\DeskApp\" + @filename;  // hostingEnv.WebRootPath + $@"\{ filename}";
+
+                string savePath = path01 + @"\wwwroot\MOVs\" + module_name + attachment_type + attached_document_id.ToString() + ".pdf";
+
+                //    filename = @"C:\DeskApp\" + @filename;  // hostingEnv.WebRootPath + $@"\{ filename}";
 
                 size += file.Length;
 
@@ -193,7 +490,7 @@ namespace DeskApp.Controllers
                 var model = new attached_document
                 {
                     attached_document_id = attached_document_id,
-                    record_id = id,
+                    record_id = id, //unique_id of the record
                     region_code = region_code,
                     prov_code = prov_code,
                     city_code = city_code,

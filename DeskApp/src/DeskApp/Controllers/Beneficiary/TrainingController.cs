@@ -22,8 +22,8 @@ namespace DeskApp.Controllers
     public class TrainingController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
-        //    public static string url = @"http://10.10.10.157:8080";
 
         private readonly ApplicationDbContext db;
 
@@ -158,71 +158,84 @@ namespace DeskApp.Controllers
             return Ok(export);
         }
 
+
+        #region DQA: Trainings
+
+        //DQA: Shows the list of trainings provided to barangays and municipalities with less attendees than expected
         [Route("/api/export/training/dqa")]
         public IActionResult export_dqa_list_(AngularFilterModel item)
         {
             var model = GetData(item);
 
-            var result = model.GroupBy(c => new { c.lib_region, c.lib_province, c.lib_city, c.brgy_code, c.lib_fund_source, c.lib_cycle, c.lib_enrollment, c.lib_lgu_level })
-                                .Select(x => new
-                                {
-                                    fund_source = x.Key.lib_fund_source.name,
-                                    cycle = x.Key.lib_cycle.name,
-                                    region_name = x.Key.lib_region.region_name,
-
-                                    prov_name = x.Key.lib_province.prov_name,
-
-                                    city_name = x.Key.lib_city.city_name,
-                                    brgy_name = x.Key.brgy_code != null ? db.lib_brgy.FirstOrDefault(c => c.brgy_code == x.Key.brgy_code).brgy_name : "",
-
-                                    kc_mode = x.Key.lib_enrollment.name,
-
-                                    activity_level = x.Key.lib_lgu_level.name,
-
-
-                                    no_of_conducted_in_BAR = x.Where(cx => cx.training_category_id == 1).Count(),
-                                    no_of_conducted_in_BPSA = x.Where(cx => cx.training_category_id == 2).Count(),
-                                    no_of_conducted_in_CMVP = x.Where(cx => cx.training_category_id == 3).Count(),
-                                    no_of_conducted_in_CSW = x.Where(cx => cx.training_category_id == 4).Count(),
-                                    no_of_conducted_in_Finance = x.Where(cx => cx.training_category_id == 5).Count(),
-                                    no_of_conducted_in_GAD = x.Where(cx => cx.training_category_id == 6).Count(),
-                                    no_of_conducted_in_INFRA = x.Where(cx => cx.training_category_id == 7).Count(),
-                                    no_of_conducted_in_LGU_training = x.Where(cx => cx.training_category_id == 8).Count(),
-                                    no_of_conducted_in_MF = x.Where(cx => cx.training_category_id == 9).Count(),
-                                    no_of_conducted_in_MIAC = x.Where(cx => cx.training_category_id == 10).Count(),
-                                    no_of_conducted_in_MIBFPRA = x.Where(cx => cx.training_category_id == 11).Count(),
-                                    no_of_conducted_in_MO = x.Where(cx => cx.training_category_id == 12).Count(),
-                                    no_of_conducted_in_MPSA = x.Where(cx => cx.training_category_id == 13).Count(),
-                                    no_of_conducted_in_MunAR = x.Where(cx => cx.training_category_id == 14).Count(),
-                                    no_of_conducted_in_OM = x.Where(cx => cx.training_category_id == 15).Count(),
-                                    no_of_conducted_in_ODM = x.Where(cx => cx.training_category_id == 16).Count(),
-                                    no_of_conducted_in_Others = x.Where(cx => cx.training_category_id == 17).Count(),
-                                    no_of_conducted_in_PCM = x.Where(cx => cx.training_category_id == 18).Count(),
-                                    no_of_conducted_in_PPDW = x.Where(cx => cx.training_category_id == 19).Count(),
-                                    no_of_conducted_in_Proc = x.Where(cx => cx.training_category_id == 20).Count(),
-                                    no_of_conducted_in_SpecialMIBF = x.Where(cx => cx.training_category_id == 21).Count(),
-                                    no_of_conducted_in_SPW = x.Where(cx => cx.training_category_id == 22).Count(),
-                                }).ToList();
-
-
-            var export = result.GroupBy(x => new { x.region_name, x.prov_name, x.city_name, x.brgy_name, x.fund_source, x.cycle, x.kc_mode, x.activity_level })
+            var result = model
+                .GroupBy(c => new
+                {
+                    c.lib_region,
+                    c.lib_province,
+                    c.lib_city,
+                    c.brgy_code,
+                    c.lib_fund_source,
+                    c.lib_cycle,
+                    c.lib_enrollment,
+                    c.lib_lgu_level
+                })
                 .Select(x => new
                 {
+                    fund_source = x.Key.lib_fund_source.name,
+                    cycle = x.Key.lib_cycle.name,
+                    region_name = x.Key.lib_region.region_name,
+                    prov_name = x.Key.lib_province.prov_name,
+                    city_name = x.Key.lib_city.city_name,
+                    brgy_name = x.Key.brgy_code != null ? db.lib_brgy.FirstOrDefault(c => c.brgy_code == x.Key.brgy_code).brgy_name : "",
+                    kc_mode = x.Key.lib_enrollment.name,
+                    activity_level = x.Key.lib_lgu_level.name,
+                    no_of_conducted_in_BAR = x.Where(cx => cx.training_category_id == 1).Count(),
+                    no_of_conducted_in_BPSA = x.Where(cx => cx.training_category_id == 2).Count(),
+                    no_of_conducted_in_CMVP = x.Where(cx => cx.training_category_id == 3).Count(),
+                    no_of_conducted_in_CSW = x.Where(cx => cx.training_category_id == 4).Count(),
+                    no_of_conducted_in_Finance = x.Where(cx => cx.training_category_id == 5).Count(),
+                    no_of_conducted_in_GAD = x.Where(cx => cx.training_category_id == 6).Count(),
+                    no_of_conducted_in_INFRA = x.Where(cx => cx.training_category_id == 7).Count(),
+                    no_of_conducted_in_LGU_training = x.Where(cx => cx.training_category_id == 8).Count(),
+                    no_of_conducted_in_MF = x.Where(cx => cx.training_category_id == 9).Count(),
+                    no_of_conducted_in_MIAC = x.Where(cx => cx.training_category_id == 10).Count(),
+                    no_of_conducted_in_MIBFPRA = x.Where(cx => cx.training_category_id == 11).Count(),
+                    no_of_conducted_in_MO = x.Where(cx => cx.training_category_id == 12).Count(),
+                    no_of_conducted_in_MPSA = x.Where(cx => cx.training_category_id == 13).Count(),
+                    no_of_conducted_in_MunAR = x.Where(cx => cx.training_category_id == 14).Count(),
+                    no_of_conducted_in_OM = x.Where(cx => cx.training_category_id == 15).Count(),
+                    no_of_conducted_in_ODM = x.Where(cx => cx.training_category_id == 16).Count(),
+                    no_of_conducted_in_Others = x.Where(cx => cx.training_category_id == 17).Count(),
+                    no_of_conducted_in_PCM = x.Where(cx => cx.training_category_id == 18).Count(),
+                    no_of_conducted_in_PPDW = x.Where(cx => cx.training_category_id == 19).Count(),
+                    no_of_conducted_in_Proc = x.Where(cx => cx.training_category_id == 20).Count(),
+                    no_of_conducted_in_SpecialMIBF = x.Where(cx => cx.training_category_id == 21).Count(),
+                    no_of_conducted_in_SPW = x.Where(cx => cx.training_category_id == 22).Count(),
+                }).ToList();
 
+
+            var export = result
+                .GroupBy(x => new
+                {
+                    x.region_name,
+                    x.prov_name,
+                    x.city_name,
+                    x.brgy_name,
+                    x.fund_source,
+                    x.cycle,
+                    x.kc_mode,
+                    x.activity_level
+                })
+                .Select(x => new
+                {
                     fund_source = x.Key.fund_source,
                     cycle = x.Key.cycle,
                     region_name = x.Key.region_name,
-
                     prov_name = x.Key.prov_name,
-
                     city_name = x.Key.city_name,
                     brgy_name = x.Key.brgy_name,
-
                     kc_mode = x.Key.kc_mode,
-
                     activity_level = x.Key.activity_level,
-
-
                     no_of_conducted_in_BAR = x.Sum(cx => cx.no_of_conducted_in_BAR),
                     no_of_conducted_in_BPSA = x.Sum(cx => cx.no_of_conducted_in_BPSA),
                     no_of_conducted_in_CMVP = x.Sum(cx => cx.no_of_conducted_in_CMVP),
@@ -244,14 +257,235 @@ namespace DeskApp.Controllers
                     no_of_conducted_in_PPDW = x.Sum(cx => cx.no_of_conducted_in_PPDW),
                     no_of_conducted_in_Proc = x.Sum(cx => cx.no_of_conducted_in_Proc),
                     no_of_conducted_in_SpecialMIBF = x.Sum(cx => cx.no_of_conducted_in_SpecialMIBF),
-                    no_of_conducted_in_SPW = x.Sum(cx => cx.no_of_conducted_in_SPW),
-
-
+                    no_of_conducted_in_SPW = x.Sum(cx => cx.no_of_conducted_in_SPW)
                 });
 
+            return Ok(export);
+        }
 
+        //DQA: Displays Trainings with Others as category
+        [Route("/api/export/training/dqa/trainings_with_others_category")]
+        public IActionResult export_dqa_trainings_with_others_category(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            var result = model
+                .Select(x => new
+                {
+                    Training_Unique_Id = x.community_training_id,
+                    Region = x.lib_region.region_name,
+                    Province = x.lib_province.prov_name,
+                    Municipality = x.lib_city.city_name,
+                    Barangay = x.lib_brgy.brgy_name,
+                    Project = x.lib_fund_source.name,
+                    Cycle = x.lib_cycle.name,
+                    Training_Category = x.lib_training_category.name,
+                    Training_Category_Id = x.training_category_id,
+                    Training_Title = x.training_title,
+                    Date_Conducted = x.start_date + " - " + x.end_date
+                })
+                .Where(x => x.Training_Category_Id == 17)
+                .ToList();
+
+
+            var export = result
+                .Select(x => new
+                {
+                    Training_Unique_Id = x.Training_Unique_Id,
+                    Region = x.Region,
+                    Province = x.Province,
+                    Municipality = x.Municipality,
+                    Barangay = x.Barangay,
+                    Project = x.Project,
+                    Cycle = x.Cycle,
+                    Training_Category = x.Training_Category,
+                    Training_Title = x.Training_Title,
+                    Date_Conducted = x.Date_Conducted
+                });
 
             return Ok(export);
+        }
+
+        //DQA: Displays Trainings without criteria or total rate is less than 100%
+        [Route("/api/export/training/dqa/trainings_without_criteria")]
+        public IActionResult export_dqa_trainings_without_criteria(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            var mibf_criteria = db.mibf_criteria.Where(x => x.is_deleted != true);
+
+            var criteria_list = from mc in mibf_criteria
+                                group mc.rate by new { mc.community_training_id } into grp
+                                select new { grp.Key.community_training_id, Total_Rate = grp.Sum() };
+            
+            var csw_without_criteria = from c in model
+                                       where c.training_category_id == 4 && !(from o in mibf_criteria
+                                                                              select o.community_training_id).Contains(c.community_training_id)
+                                       select new
+                                       {
+                                           Training_Unique_Id = c.community_training_id,
+                                           Region = c.lib_region.region_name == null ? null : c.lib_region.region_name,
+                                           Province = c.lib_province.prov_name == null ? null : c.lib_province.prov_name,
+                                           Municipality = c.lib_city.city_name == null ? null : c.lib_city.city_name,
+                                           Barangay = c.lib_brgy.brgy_name == null ? null : c.lib_brgy.brgy_name,
+                                           Project = c.lib_fund_source.name == null ? null : c.lib_fund_source.name,
+                                           Cycle = c.lib_cycle.name == null ? null : c.lib_cycle.name,
+                                           Training_Category = c.lib_training_category.name == null ? null : c.lib_training_category.name,
+                                           Training_Title = c.training_title == null ? null : c.lib_region.region_name
+                                       };
+
+            var result = from m in model
+                         join c in criteria_list on m.community_training_id equals c.community_training_id
+                         where c.Total_Rate < 100
+                         select new
+                         {
+                             Training_Unique_Id = m.community_training_id,
+                             Region = m.lib_region.region_name == null ? null : m.lib_region.region_name,
+                             Province = m.lib_province.prov_name == null ? null : m.lib_province.prov_name,
+                             Municipality = m.lib_city.city_name == null ? null : m.lib_city.city_name,
+                             Barangay = m.lib_brgy.brgy_name == null ? null : m.lib_brgy.brgy_name,
+                             Project = m.lib_fund_source.name == null ? null : m.lib_fund_source.name,
+                             Cycle = m.lib_cycle.name == null ? null : m.lib_cycle.name,
+                             Training_Category = m.lib_training_category.name == null ? null : m.lib_training_category.name,
+                             Training_Title = m.training_title == null ? null : m.lib_region.region_name,
+                             Total_Rate = c.Total_Rate == null ? null : c.Total_Rate
+                         };
+
+            //var export = from list1 in result
+            //             join list2 in csw_without_criteria
+            //             on list1.Training_Unique_Id equals list2.Training_Unique_Id
+            //             select new
+            //             {
+            //                 Training_Unique_Id = list1.Training_Unique_Id,
+            //                 Region = list1.Region == null ? null : list1.Region,
+            //                 Province = list1.Province == null ? null : list1.Province,
+            //                 Municipality = list1.Municipality == null ? null : list1.Municipality,
+            //                 Barangay = list1.Barangay == null ? null : list1.Barangay,
+            //                 Project = list1.Project == null ? null : list1.Project,
+            //                 Cycle = list1.Cycle == null ? null : list1.Cycle,
+            //                 Training_Category = list1.Training_Category == null ? null : list1.Training_Category,
+            //                 Training_Title = list1.Training_Title == null ? null : list1.Training_Title,
+            //                 Total_Rate = list1.Total_Rate == null ? null : list1.Total_Rate + "%"
+            //             };
+
+            var export = result
+                .Select(x => new
+                {
+                    Training_Unique_Id = x.Training_Unique_Id,
+                    Region = x.Region,
+                    Province = x.Province,
+                    Municipality = x.Municipality,
+                    Barangay = x.Barangay,
+                    Project = x.Project,
+                    Cycle = x.Cycle,
+                    Training_Category = x.Training_Category,
+                    Training_Title = x.Training_Title,
+                    Total_Rate = x.Total_Rate == null ? null : x.Total_Rate + "%"
+                }).ToList();
+
+            return Ok(export);
+            
+        }
+
+        //DQA: Training null values -- Display Trainings encoded that contains null values on the minimum required fields
+        [HttpPost]
+        [Route("/api/export/training/dqa/null_required_fields")]
+        public IActionResult export_dqa_null_required_fields(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            var result = model
+                .Select(x => new
+                {
+                    Training_Unique_Id = x.community_training_id,
+                    Region = x.region_code == null ? null : x.lib_region.region_name,
+                    Province = x.prov_code == null ? null : x.lib_province.prov_name,
+                    Municipality = x.city_code == null ? null : x.lib_city.city_name,
+                    Barangay = x.brgy_code == null ? null : x.lib_brgy.brgy_name,
+                    Project = x.fund_source_id == null ? null : x.lib_fund_source.name,
+                    Cycle = x.cycle_id == null ? null : x.lib_cycle.name,
+                    KC_Mode = x.enrollment_id == null ? null : x.lib_enrollment.name,                    
+                    Training_Level = x.lib_lgu_level.name == null ? null : x.lib_lgu_level.name,
+                    Training_Title = x.training_title == null ? null : x.training_title,
+                    Training_Category = x.lib_training_category.name == null ? null : x.lib_training_category.name,
+                    Reported_By = x.reported_by == null ? null : x.reported_by,
+                    Venue = x.venue == null ? null : x.venue,
+                    Start_Date = x.start_date == null ? null : x.start_date,
+                    End_Date = x.end_date == null ? null : x.end_date,
+                    Is_Incentives = x.is_incentive == null || x.is_incentive == false ? null : "Yes",
+                    From_Savings = x.is_savings == null || x.is_savings == false ? null : "Yes",
+                    Is_LGU_Led = x.is_lgu_led == null || x.is_lgu_led == false ? null : "Yes",
+                    Participants = db.person_training.Any(t => t.community_training_id == x.community_training_id && t.is_participant == true) == true ? "With Participants encoded" : null,
+                    Sector_Represented = x.is_sector_academe == null && x.is_sector_business == null && x.is_sector_pwd == null && x.is_sector_farmer == null && x.is_sector_fisherfolks == null && x.is_sector_government == null && x.is_sector_ip == null && x.is_sector_ngo == null && x.is_sector_po == null && x.is_sector_religios == null && x.is_sector_senior == null && x.is_sector_women == null && x.is_sector_youth == null ? null : "With sector represented",
+                    tr_level = x.lgu_level_id,
+                })
+                .Where(x => (x.tr_level == 1 && (x.Region == null || x.Province == null || x.Municipality == null || x.Barangay == null || x.Project == null || x.Cycle == null || x.KC_Mode == null || x.Training_Title == null || x.Training_Category == null || x.Reported_By == null || x.Venue == null || x.Start_Date == null || x.End_Date == null || x.Is_Incentives == null || x.From_Savings == null || x.Is_LGU_Led == null || x.Participants == null || x.Sector_Represented == null)) ||
+                            (x.tr_level == 2 && (x.Region == null || x.Province == null || x.Municipality == null || x.Project == null || x.Cycle == null || x.KC_Mode == null || x.Training_Title == null || x.Training_Category == null || x.Reported_By == null || x.Venue == null || x.Start_Date == null || x.End_Date == null || x.Is_Incentives == null || x.From_Savings == null || x.Is_LGU_Led == null || x.Participants == null || x.Sector_Represented == null))
+                      )
+                .ToList();
+
+            return Ok(result);
+        }       
+        
+        #endregion
+
+
+
+        //09-08-17: Addded new export for v3.0
+        [Route("api/export/training/pra")]
+        public IActionResult export_pra_list(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            var result = (from s in model
+                          join m in db.mibf_prioritization.Where(x => x.is_deleted != true) on s.community_training_id equals m.community_training_id
+
+                          select new
+                          {
+                              s.lib_region.region_name,
+                              s.lib_province.prov_name,
+                              s.lib_city.city_name,
+
+                              fund_source = s.lib_fund_source.name,
+                              cycle = s.lib_cycle.name,                              
+
+                              rank = m.rank,
+                              sub_project_title = m.project_name,
+                              lead_barangay = db.lib_brgy.FirstOrDefault(c => c.brgy_code == m.brgy_code).brgy_name,
+                              proposed_kc_grant_amount = m.kc_amount,
+                              proposed_lcc_amount = m.lcc_amount,
+                              is_priority = m.is_priority == true ? "Yes" : "No"
+                              
+
+                          }).ToList();
+            
+
+            return Ok(result);
+        }
+
+        //09-08-17: Addded new export for v3.0
+        [Route("api/export/training/csw")]
+        public IActionResult export_csw_list(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            var result = (from s in model
+                          join m in db.mibf_criteria.Where(x => x.is_deleted != true) on s.community_training_id equals m.community_training_id
+
+                          select new
+                          {
+                              s.lib_region.region_name,
+                              s.lib_province.prov_name,
+                              s.lib_city.city_name,
+
+                              fund_source = s.lib_fund_source.name,
+                              cycle = s.lib_cycle.name,
+
+                              criteria = m.criteria,
+                              rate = m.rate
+
+                          }).ToList();
+
+            return Ok(result);
         }
 
 
@@ -397,11 +631,11 @@ namespace DeskApp.Controllers
         {
             var ct_model = GetData(item);
             var pt_model = db.person_training.Where(pt => pt.is_participant == true && pt.is_deleted != true);
-            
+
             var result = from ct in ct_model                         
                          group ct by new { ct.lgu_level_id, ct.lib_training_category.name } into grp
                          join pt in pt_model on grp.FirstOrDefault().community_training_id equals pt.community_training_id
-                         orderby grp.Key.name
+                         orderby grp.Key.name, grp.Key.lgu_level_id
                          select new
                          {
                              training_category = grp.Key.name,
@@ -411,8 +645,8 @@ namespace DeskApp.Controllers
                              male_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex == true && x.is_deleted != true)
                                                             where
                                                                  (from o in
-                                                                     db.person_volunteer_record.Where(x => x.is_deleted != true
-                                                                     && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                       db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                       && x.person_profile.person_profile_id == x.person_profile_id)
                                                                   select o.person_profile_id)
                                                                      .Contains(i.person_profile_id)
                                                             select i).Count(),
@@ -427,13 +661,13 @@ namespace DeskApp.Controllers
                                                                 select i).Count(),
 
                              female_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex != true && x.is_deleted != true)
-                                                            where
-                                                                 (from o in
-                                                                     db.person_volunteer_record.Where(x => x.is_deleted != true
-                                                                     && x.person_profile.person_profile_id == x.person_profile_id)
-                                                                  select o.person_profile_id)
-                                                                     .Contains(i.person_profile_id)
-                                                            select i).Count(),
+                                                              where
+                                                                   (from o in
+                                                                       db.person_volunteer_record.Where(x => x.is_deleted != true
+                                                                       && x.person_profile.person_profile_id == x.person_profile_id)
+                                                                    select o.person_profile_id)
+                                                                       .Contains(i.person_profile_id)
+                                                              select i).Count(),
 
                              female_non_volunteer_participants = (from i in db.person_training.Where(x => x.community_training_id == pt.community_training_id && x.is_participant == true && x.person_profile.sex != true && x.is_deleted != true)
                                                                   where
@@ -453,7 +687,7 @@ namespace DeskApp.Controllers
                              no_pantawid_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_pantawid == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
                              no_slp_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_slp == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
                              no_lgu_female = db.person_training.Count(x => x.person_profile.sex != true && x.person_profile.is_lguofficial == true && x.is_participant == true && x.community_training_id == pt.community_training_id),
-                             
+
                          };
 
 
@@ -610,6 +844,52 @@ namespace DeskApp.Controllers
             if (item.cycle_id != null)
             {
                 model = model.Where(m => m.cycle_id == item.cycle_id);
+            }
+
+            //v3.0 additional filters:
+            if (item.is_incentive != null)
+            {
+                if (item.is_incentive == true)
+                {
+                    model = model.Where(m => m.is_incentive == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_incentive != true);
+                }
+            }
+            if (item.is_savings != null)
+            {
+                if (item.is_savings == true)
+                {
+                    model = model.Where(m => m.is_savings == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_savings != true);
+                }
+            }
+            if (item.is_lgu_led != null)
+            {
+                if (item.is_lgu_led == true)
+                {
+                    model = model.Where(m => m.is_lgu_led == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_lgu_led != true);
+                }
+            }
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    model = model.Where(m => m.push_status_id != 4);
+                }
             }
 
 

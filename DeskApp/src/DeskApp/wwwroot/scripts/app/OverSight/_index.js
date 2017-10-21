@@ -332,6 +332,18 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
 
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.oversight_committee_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
+
                 $scope.isSearching = false;
 
             }).error(function (data) {
@@ -351,6 +363,18 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
+
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.oversight_committee_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
 
                 $scope.isSearching = false;
 
@@ -372,6 +396,18 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
 
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.oversight_committee_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
+
                 $scope.isSearching = false;
 
             }).error(function (data) {
@@ -391,6 +427,18 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
+
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.oversight_committee_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
 
                 $scope.isSearching = false;
 

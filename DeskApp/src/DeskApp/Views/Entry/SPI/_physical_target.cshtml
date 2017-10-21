@@ -1,5 +1,5 @@
 ﻿
-@{Layout = null; }
+@*@{Layout = null; }
 
 <div class="panel panel-info">
 
@@ -24,15 +24,6 @@
             <label for="Region:_">Physical Status</label>
         </div>
         <div class="col-md-8">
-            @*disabled temporarily uncomment if they are allowed to modify thru deskapp*@
-            @*<select name="physical_status_id" ng-model="data.physical_status_id" id="physical_status_id" class="form-control"
-                    ng-required="true"
-                    ng-options="option.Id as option.Name for option in physical_status_id_options">
-                <option value="">[Select Physical Status]</option>
-            </select>
-            <div ng-messages="myForm.physical_status_id.$error">
-                <div ng-message="required" class="error">*Physical Status is required.</div>
-            </div>*@
             <select name="physical_status_id" ng-model="data.physical_status_id" id="physical_status_id" class="form-control"
                     ng-disabled="true"
                     ng-options="option.Id as option.Name for option in physical_status_id_options">
@@ -46,12 +37,6 @@
             <label for="Region:_">Physical Accomplishment</label>
         </div>
         <div class="col-md-8">
-            @*disabled temporarily uncomment if they are allowed to modify thru deskapp*@
-            @*<input type="number" min="0" max="maxProgress" ng-model="data.Phy_Perc_To_Date" ng-required="data.physical_status_id != 3" name="Phy_Perc_To_Date" class="form-control" ng-disabled="data.physical_status_id !=2" />
-            <div ng-messages="myForm.Phy_Perc_To_Date.$error">
-                <div ng-message="required" class="error">*Physical Information is required.</div>
-                <div ng-message="max" class="error">*Incorrect value!</div>
-            </div>*@
             <input type="number" min="0" max="maxProgress" ng-model="data.Phy_Perc_To_Date" name="Phy_Perc_To_Date" class="form-control" ng-disabled="true" />
         </div>
     </div>
@@ -73,14 +58,10 @@
             <label for="Region:_">Date Started / Financial (First RFR date download)</label>
         </div>
         <div class="col-md-4">
-            @*<md-datepicker name="Date_Started" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_Date_Started" md-placeholder="Enter date" ng-change="data.Date_Started = dt_Date_Started.toISOString()" md-max-date="today"></md-datepicker>
-            <div ng-messages="myForm.Date_Started.$error">
-                <div ng-message="required" class="error">*Date Started is required for Completed Projects</div>
-            </div>*@
         </div>
         <div class="col-md-4">
-            @*<md-datepicker name="Date_Started" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_Date_Started" md-placeholder="Enter date" ng-change="data.Date_Started = dt_Date_Started.toISOString()" md-max-date="today"></md-datepicker>*@
-            <md-datepicker name="Date_Started" ng-disabled="true" ng-model="dt_Date_Started"></md-datepicker>
+            
+            <md-datepicker name="Date_Started" ng-disabled="true" ng-model="dt_Tranche1date"></md-datepicker>
             <div ng-messages="myForm.Date_Started.$error">
                 <div ng-message="required" class="error">*Date Started is required for Completed Projects</div>
             </div>
@@ -92,12 +73,12 @@
             <label for="Region:_">Date Started / Physical </label>
         </div>
         <div class="col-md-4">
-            @*<md-datepicker name="Physical Date Start Target" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_date_start_physical_planned" md-placeholder="Enter date" ng-change="data.date_start_physical_planned = dt_date_start_physical_planned.toISOString()" md-max-date="today"></md-datepicker>*@  
+           
             <md-datepicker name="Physical Date Start Target" ng-disabled="true" ng-model="dt_date_start_physical_planned"></md-datepicker>
         </div>
         <div class="col-md-4">
-            @*<md-datepicker md-max-date="today" name="Physical Date Start Actual" ng-disabled="data.physical_status_id ==3" ng-required="data.physical_status_id == 1 || data.Phy_Perc_To_Date >0 " ng-model="dt_date_start_physical_actual" md-placeholder="Enter date" ng-change="data.date_start_physical_actual = dt_date_start_physical_actual.toISOString()"></md-datepicker>*@
-            <md-datepicker name="Physical Date Start Actual" ng-disabled="true" ng-model="dt_date_start_physical_actual"></md-datepicker>
+            
+            <md-datepicker name="Physical Date Start Actual" ng-disabled="true" ng-model="dt_Date_Started"></md-datepicker>
             <div ng-messages="myForm.date_physical_start.$error">
                 <div ng-message="required" class="error">*Date Started is required for Completed Projects</div>
             </div>
@@ -110,11 +91,11 @@
         </div>
         <div class="col-md-4">
             <md-datepicker name="Date of Completion Target" ng-disabled="true" ng-model="dt_PlannedDate_Completion"></md-datepicker>
-            @*<md-datepicker ng-required="true" name="Date of Completion Target" ng-model="dt_PlannedDate_Completion" md-placeholder="Enter date" ng-change="data.PlannedDate_Completion = dt_PlannedDate_Completion.toISOString()"></md-datepicker>*@           
+            
         </div>
         <div class="col-md-4">
             <md-datepicker name="Date of Completion Actual" ng-disabled="true" ng-model="dt_Date_of_Completion"></md-datepicker>
-            @*<md-datepicker md-max-date="today" ng-required="data.physical_status_id ==1" ng-disabled="data.physical_status_id !=1" name="Date of Completion Actual" ng-model="dt_Date_of_Completion" md-placeholder="Enter date" ng-change="data.Date_of_Completion = dt_Date_of_Completion.toISOString()"></md-datepicker>*@           
+            
         </div>
     </div>
 
@@ -146,11 +127,11 @@
             {{lib_project_type.phy_construction_unit}}
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_construction_target"*@
+            
             <input class="form-control" name="Construction Target" type="number" ng-model="data.phy_construction_target" ng-change="data.s_phy_construction_target = data.phy_construction_target" ng-disabled="true" />
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_construction_target"*@
+            
             <input class="form-control" name="Construction Actual" type="number" ng-model="data.phy_construction_actual" ng-change="data.s_phy_construction_actual = data.phy_construction_actual" ng-disabled="true" />
         </div>
     </div>
@@ -167,11 +148,11 @@
             {{lib_project_type.phy_improvement_unit}}
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_improvement_target"*@ 
+            
             <input class="form-control" name="Improvement Target" type="number" ng-model="data.phy_improvement_target" ng-change="data.s_phy_improvement_target = data.phy_improvement_target" ng-disabled="true" />
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_improvement_target"*@
+            
             <input class="form-control" name="Improvement Actual" type="number" ng-model="data.phy_improvement_actual" ng-change="data.s_phy_improvement_actual = data.phy_improvement_actual" ng-disabled="true" />
         </div>
     </div>
@@ -188,11 +169,11 @@
             {{lib_project_type.phy_rehabilitation_unit}}
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_rehabilitation_target"*@
+            
             <input class="form-control" name="Rehab Target" type="number" ng-model="data.phy_rehabilitation_target" ng-change="data.s_phy_rehabilitation_target = data.phy_rehabilitation_target" ng-disabled="true" />
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_rehabilitation_target"*@
+            
             <input class="form-control" name="Rehab Actual" type="number" ng-model="data.phy_rehabilitation_actual" ng-change="data.s_phy_rehabilitation_actual = data.phy_rehabilitation_actual" ng-disabled="true" />
         </div>
     </div>
@@ -209,16 +190,15 @@
             {{lib_project_type.phy_purchase_unit}}
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_purchase_target"*@
+            
             <input class="form-control" type="number" ng-model="data.phy_purchase_target" ng-change="data.s_phy_purchase_target = data.phy_purchase_target" ng-disabled="true"/>
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_purchase_target"*@
+            
             <input class="form-control" type="number" ng-model="data.phy_purchase_actual" ng-change="data.s_phy_purchase_actual = data.phy_purchase_actual" ng-disabled="true"/>
         </div>
     </div>
     
-    @*Secondary*@
 
     <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_construction_target_secondary == true">
         <div flex>
@@ -232,11 +212,11 @@
             {{lib_project_type.phy_construction_unit_secondary}}
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_construction_target_secondary"*@
+            
             <input class="form-control" type="number" ng-model="data.phy_construction_target_secondary" ng-change="data.s_phy_construction_target_secondary = data.phy_construction_target_secondary"  />
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_construction_target_secondary"*@
+            
             <input class="form-control" type="number" ng-model="data.phy_construction_actual_secondary" ng-change="data.s_phy_construction_actual_secondary = data.phy_construction_actual_secondary"  />
         </div>
     </div>
@@ -253,11 +233,11 @@
             {{lib_project_type.phy_improvement_unit_secondary}}
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_improvement_target_secondary"*@
+            
             <input class="form-control" type="number" ng-model="data.phy_improvement_target_secondary" ng-change="data.s_phy_improvement_target_secondary = data.phy_improvement_target_secondary"  />
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_improvement_target_secondary"*@
+            
             <input class="form-control" type="number" ng-model="data.phy_improvement_actual_secondary" ng-change="data.s_phy_improvement_actual_secondary = data.phy_improvement_actual_secondary" />
         </div>
     </div>
@@ -274,11 +254,11 @@
             {{lib_project_type.phy_rehabilitation_unit_secondary}}
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_rehabilitation_target_secondary"*@
+            
             <input class="form-control" type="number" ng-model="data.phy_rehabilitation_target_secondary" ng-change="data.s_phy_rehabilitation_target_secondary = data.phy_rehabilitation_target_secondary"  />
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_rehabilitation_target_secondary"*@
+            
             <input class="form-control" type="number" ng-model="data.phy_rehabilitation_actual_secondary" ng-change="data.s_phy_rehabilitation_actual_secondary = data.phy_rehabilitation_actual_secondary"  />
         </div>
     </div>
@@ -295,13 +275,373 @@
             {{lib_project_type.phy_purchase_unit_secondary}}
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_purchase_target_secondary"*@
+            
             <input class="form-control" type="number" ng-model="data.phy_purchase_target_secondary" ng-change="data.s_phy_purchase_target_secondary = data.phy_purchase_target_secondary"  />
         </div>
         <div flex>
-            @*ng-disabled="!data.phy_has_purchase_target_secondary"*@
+            
             <input class="form-control" type="number" ng-model="data.phy_purchase_actual_secondary" ng-change="data.s_phy_purchase_target_secondary = data.phy_purchase_target_secondary"  />
         </div>
     </div>
 
+</div>*@
+
+
+
+
+
+@*////--------------------------- v3.0 new layout, aligning design to Geotagging ---------------------------------------////*@
+
+
+@{Layout = null; }
+
+<div class="panel panel-info">
+
+    <div class="panel-heading">
+        <h4>Physical Progress</h4>
+    </div>
+
+    <div class="panel-body">
+        <md-content>
+            <h4 style="color:dodgerblue">Original POW</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+
+            <div layout="row" layout-margin flex="100">
+                <div class="col-md-4">
+                    <label>Physical Status <small class="text-info">(as per Original POW)</small></label>
+                </div>
+                <div class="col-md-8">
+                    <select name="physical_status_id" ng-model="data.physical_status_id" id="physical_status_id" class="form-control"
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in physical_status_id_options">
+                        <option value="">[Select Physical Status]</option>
+                    </select>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.physical_status_id == 5">
+                <div class="col-md-4">
+                    <label>Sub Project ID of Replacement</label>
+                </div>
+                <div class="col-md-8">
+                    <input ng-model="data.replaced_sub_project_id" ng-disabled="true" class="form-control" />
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" >
+                <div class="col-md-4">
+                    <label>Date Started <small class="text-info">(as per Original POW)</small></label>
+                </div>
+                <div class="col-md-8">
+                    <md-datepicker name="Date_Started" ng-disabled="true" ng-model="dt_Date_Started"></md-datepicker>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.physical_status_id !=3 && data.physical_status_id !=4">
+                <div class="col-md-4">
+                    <label>Physical Accomplishment</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="number" ng-model="data.Phy_Perc_To_Date" class="form-control" ng-disabled="true" />
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.physical_status_id == 3 && data.physical_status_id != 4">
+                <div class="col-md-4">
+                    <label>Physical Accomplishment</label>
+                </div>
+                <div class="col-md-8">
+                    Not Yet started
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.physical_status_id == 4 && data.physical_status_id != 3">
+                <div class="col-md-4">
+                    <label>Physical Accomplishment</label>
+                </div>
+                <div class="col-md-8">
+                    Waived
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100">
+                <div class="col-md-4">
+                    <label>Target Date of Completion <small class="text-info">(as per Original POW)</small></label>
+                </div>
+                <div class="col-md-8">
+                    <md-datepicker ng-disabled="true" ng-model="dt_PlannedDate_Completion" ></md-datepicker>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100">
+                <div class="col-md-4">
+                    <label>Date Completed <small class="text-info">(as per Original POW)</small></label>
+                </div>
+                <div class="col-md-8">
+                    <md-datepicker ng-disabled="true" ng-model="dt_Date_of_Completion"></md-datepicker>
+                </div>
+            </div>
+        </md-content>
+
+        <br /><br />
+
+        <md-content>
+            <h4 style="color:dodgerblue">Variaton Order</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            
+            <div layout="row" layout-margin flex="100">
+                <div class="col-md-4">
+                    <label>With Variation Order?</label>
+                </div>
+                <div class="col-md-8">
+                    <md-checkbox ng-model="data.has_variation" aria-label="Checkbox 1" class="md-primary" ng-disabled="true">
+                        {{data.has_variation == true ? "Yes" : ""}}
+                    </md-checkbox>
+                </div>
+            </div>
+            <div class="panel-body" ng-show="data.has_variation == true">
+                <div layout="row" layout-margin flex="100">
+                    <div class="col-md-4">
+                        <label>To make SP Functional</label>
+                    </div>
+                    <div class="col-md-8">
+                        <md-checkbox ng-model="data.is_sp_functional" aria-label="Checkbox 1" class="md-primary" ng-disabled="true">
+                            {{data.is_sp_functional == true ? "Yes" : ""}}
+                        </md-checkbox>
+                    </div>
+                </div>
+                <div layout="row" layout-margin flex="100">
+                    <div class="col-md-4">
+                        <label>For Enhancement of Functionality</label>
+                    </div>
+                    <div class="col-md-8">
+                        <md-checkbox ng-model="data.is_enhancement_functionality" aria-label="Checkbox 1" class="md-primary" ng-disabled="true">
+                            {{data.is_enhancement_functionality == true ? "Yes" : ""}}
+                        </md-checkbox>
+                    </div>
+                </div>
+                <div layout="row" layout-margin flex="100">
+                    <div class="col-md-4">
+                        <label>Physical Status <small class="text-info">(as per Variation Order)</small></label>
+                    </div>
+                    <div class="col-md-8">
+                        <select name="variation_physical_status_id" ng-model="data.variation_physical_status_id" id="physical_status_id" class="form-control" ng-disabled="true"
+                                ng-options="option.Id as option.Name for option in variation_physical_status_id_options">
+                            <option value="">[Select Physical Status]</option>
+                        </select>
+                    </div>
+                </div>
+                <div layout="row" layout-margin flex="100" ng-show="data.variation_physical_status_id !=3 && data.variation_physical_status_id !=4">
+                    <div class="col-md-4">
+                        <label>Physical Accomplishment </label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="number" ng-model="data.variation_phy_perc_to_date"  name="variation_phy_perc_to_date" class="form-control" ng-disabled="true" />
+                    </div>
+                </div>
+                <div layout="row" layout-margin flex="100" ng-show="data.variation_physical_status_id == 3 && data.variation_physical_status_id != 4">
+                    <div class="col-md-4">
+                        <label>Physical Accomplishment </label>
+                    </div>
+                    <div class="col-md-8">
+                        Not Yet Started
+                    </div>
+                </div>
+                <div layout="row" layout-margin flex="100" ng-show="data.variation_physical_status_id == 4 && data.variation_physical_status_id != 3">
+                    <div class="col-md-4">
+                        <label>Physical Accomplishment </label>
+                    </div>
+                    <div class="col-md-8">
+                        Waived
+                    </div>
+                </div>
+                <div layout="row" layout-margin flex="100">
+                    <div class="col-md-4">
+                        <label>Target Date of Completion <small class="text-info">(as per Variation Order)</small></label>
+                    </div>
+                    <div class="col-md-8">
+                        <md-datepicker ng-model="data.variation_target_date_completion" ng-disabled="true"></md-datepicker>
+                    </div>
+                </div>
+                <div layout="row" layout-margin flex="100">
+                    <div class="col-md-4">
+                        <label>Actual Date Completion <small class="text-info">(as per Variation Order)</small></label>
+                    </div>
+                    <div class="col-md-8">
+                        <md-datepicker ng-model="data.variation_actual_date_completion" ng-disabled="true"></md-datepicker>
+                    </div>
+                </div>
+            </div>
+        </md-content>
+
+        <br /><br />
+
+        <md-content>
+            <h4 style="color:dodgerblue">Physical Targets</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+
+            <div layout="row" layout-margin flex="100">
+                <div flex><b>Active?</b></div>
+                <div flex><b>Category</b></div>
+                <div flex><b>Unit of Measure</b></div>
+                <div flex><b>Target</b></div>
+                <div flex><b>Actual (if completed)</b></div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_construction_target == true">
+                <div flex>
+                    <md-checkbox ng-model="data.phy_has_construction_target" aria-label="Checkbox 1" ng-disabled="true">
+                    </md-checkbox>
+                </div>
+                <div flex>
+                    Construction
+                </div>
+                <div flex>
+                    {{lib_project_type.phy_construction_unit}}
+                </div>
+                <div flex>
+                    <input class="form-control" name="Construction Target" type="number" ng-model="data.phy_construction_target" ng-change="data.s_phy_construction_target = data.phy_construction_target" ng-disabled="true" />
+                </div>
+                <div flex>
+                    <input class="form-control" name="Construction Actual" type="number" ng-model="data.phy_construction_actual" ng-change="data.s_phy_construction_actual = data.phy_construction_actual" ng-disabled="true" />
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_improvement_target ==true">
+                <div flex>
+                    <md-checkbox ng-model="data.phy_has_improvement_target" aria-label="Checkbox 1" ng-disabled="true">
+                    </md-checkbox>
+                </div>
+                <div flex>
+                    Improvement/Upgrading
+                </div>
+                <div flex>
+                    {{lib_project_type.phy_improvement_unit}}
+                </div>
+                <div flex>
+                    <input class="form-control" name="Improvement Target" type="number" ng-model="data.phy_improvement_target" ng-change="data.s_phy_improvement_target = data.phy_improvement_target" ng-disabled="true" />
+                </div>
+                <div flex>
+                    <input class="form-control" name="Improvement Actual" type="number" ng-model="data.phy_improvement_actual" ng-change="data.s_phy_improvement_actual = data.phy_improvement_actual" ng-disabled="true" />
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_rehabilitation_target">
+                <div flex>
+                    <md-checkbox ng-model="data.phy_has_rehabilitation_target" aria-label="Checkbox 1" ng-disabled="true">
+                    </md-checkbox>
+                </div>
+                <div flex>
+                    Rehabilitation /Repair / Reconstruction
+                </div>
+                <div flex>
+                    {{lib_project_type.phy_rehabilitation_unit}}
+                </div>
+                <div flex>
+                    <input class="form-control" name="Rehab Target" type="number" ng-model="data.phy_rehabilitation_target" ng-change="data.s_phy_rehabilitation_target = data.phy_rehabilitation_target" ng-disabled="true" />
+                </div>
+                <div flex>
+                    <input class="form-control" name="Rehab Actual" type="number" ng-model="data.phy_rehabilitation_actual" ng-change="data.s_phy_rehabilitation_actual = data.phy_rehabilitation_actual" ng-disabled="true" />
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_purchase_target">
+                <div flex>
+                    <md-checkbox ng-model="data.phy_has_purchase_target" aria-label="Checkbox 1">
+                    </md-checkbox>
+                </div>
+                <div flex>
+                    Purchase / Acquisition / Provision (training)
+                </div>
+                <div flex>
+                    {{lib_project_type.phy_purchase_unit}}
+                </div>
+                <div flex>
+                    <input class="form-control" type="number" ng-model="data.phy_purchase_target" ng-change="data.s_phy_purchase_target = data.phy_purchase_target" ng-disabled="true" />
+                </div>
+                <div flex>
+                    <input class="form-control" type="number" ng-model="data.phy_purchase_actual" ng-change="data.s_phy_purchase_actual = data.phy_purchase_actual" ng-disabled="true" />
+                </div>
+            </div>
+
+            @*Secondary*@
+
+            <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_construction_target_secondary == true">
+                <div flex>
+                    <md-checkbox ng-model="data.phy_has_construction_target_secondary" aria-label="Checkbox 1" ng-disabled="true">
+                    </md-checkbox>
+                </div>
+                <div flex>
+                    Construction
+                </div>
+                <div flex>
+                    {{lib_project_type.phy_construction_unit_secondary}}
+                </div>
+                <div flex>
+                    <input class="form-control" type="number" ng-model="data.phy_construction_target_secondary" ng-change="data.s_phy_construction_target_secondary = data.phy_construction_target_secondary" />
+                </div>
+                <div flex>
+                    <input class="form-control" type="number" ng-model="data.phy_construction_actual_secondary" ng-change="data.s_phy_construction_actual_secondary = data.phy_construction_actual_secondary" />
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_improvement_target_secondary ==true">
+                <div flex>
+                    <md-checkbox ng-model="data.phy_has_improvement_target_secondary" aria-label="Checkbox 1" ng-disabled="true">
+                    </md-checkbox>
+                </div>
+                <div flex>
+                    Improvement/Upgrading
+                </div>
+                <div flex>
+                    {{lib_project_type.phy_improvement_unit_secondary}}
+                </div>
+                <div flex>
+                    <input class="form-control" type="number" ng-model="data.phy_improvement_target_secondary" ng-change="data.s_phy_improvement_target_secondary = data.phy_improvement_target_secondary" />
+                </div>
+                <div flex>
+                    <input class="form-control" type="number" ng-model="data.phy_improvement_actual_secondary" ng-change="data.s_phy_improvement_actual_secondary = data.phy_improvement_actual_secondary" />
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_rehabilitation_target_secondary">
+                <div flex>
+                    <md-checkbox ng-model="data.phy_has_rehabilitation_target_secondary" aria-label="Checkbox 1" ng-disabled="true">
+                    </md-checkbox>
+                </div>
+                <div flex>
+                    Rehabilitation /Repair / Reconstruction
+                </div>
+                <div flex>
+                    {{lib_project_type.phy_rehabilitation_unit_secondary}}
+                </div>
+                <div flex>
+                    <input class="form-control" type="number" ng-model="data.phy_rehabilitation_target_secondary" ng-change="data.s_phy_rehabilitation_target_secondary = data.phy_rehabilitation_target_secondary" />
+                </div>
+                <div flex>
+                    <input class="form-control" type="number" ng-model="data.phy_rehabilitation_actual_secondary" ng-change="data.s_phy_rehabilitation_actual_secondary = data.phy_rehabilitation_actual_secondary" />
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="lib_project_type.phy_has_purchase_target_secondary">
+                <div flex>
+                    <md-checkbox ng-model="data.phy_has_purchase_target_secondary" aria-label="Checkbox 1" ng-disabled="true">
+                    </md-checkbox>
+                </div>
+                <div flex>
+                    Purchase / Acquisition / Provision (training)
+                </div>
+                <div flex>
+                    {{lib_project_type.phy_purchase_unit_secondary}}
+                </div>
+                <div flex>
+                    <input class="form-control" type="number" ng-model="data.phy_purchase_target_secondary" ng-change="data.s_phy_purchase_target_secondary = data.phy_purchase_target_secondary" />
+                </div>
+                <div flex>
+                    <input class="form-control" type="number" ng-model="data.phy_purchase_actual_secondary" ng-change="data.s_phy_purchase_target_secondary = data.phy_purchase_target_secondary" />
+                </div>
+            </div>
+        </md-content>
+
+
+
+
+    </div>
+
+
+
+
 </div>
+

@@ -9,14 +9,12 @@
     <md-content>
         <br />
         <div style="margin:25px">
-            <a class="btn btn-success" ng-click="createNew()">
-                <i class="fa fa-plus fa-lg"></i> New Talakayan Evaluation Record
-            </a>
+            <a class="btn btn-success" ng-click="createNew()"><i class="fa fa-plus"></i>&nbsp;&nbsp; New Record</a>
         </div>
         <div class="panel panel-success" style="margin:25px">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-12">
                         <h4><b>FILTER RECORDS BY:</b></h4>
                     </div>
                 </div><br />
@@ -27,6 +25,9 @@
                     </div>
                     <div class="col-md-3">
                         <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
+                    </div>
+                    <div class="col-md-3">
+                        <md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records tagged as <b>Unauthorized</b></md-checkbox>
                     </div>
                 </div><br />
 
@@ -77,24 +78,20 @@
                         <label>Talakayan date</label>
                         <md-datepicker name="start_date" ng-model="data.dt_talakayan_date_start" md-placeholder="Enter date" ng-change="data.talakayan_date_start = data.dt_talakayan_date_start.toISOString()" ng-required="true" md-min-date="minYear" md-max-date="today"></md-datepicker>
                     </div>
-                    <div class="col-md-3" show-errors='{showSuccess: true}'>
-                        <label>Evaluation Conduct date</label>
-                        <md-datepicker name="start_date" ng-model="data.dt_evaluation_date_start" md-placeholder="Enter date" ng-change="data.evaluation_date_start = data.dt_evaluation_date_start.toISOString()" ng-required="true" md-min-date="minYear" md-max-date="today"></md-datepicker>
-                    </div>
                 </div>
             </div>
         </div>
         <div flex="100" layout="row" style="margin:20px" layout-margin layout-md="column">
             <a class="btn btn-primary" ng-click="search()">
-                <i class="fa fa-filter fa-lg"></i> Filter
+                <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
             </a>
             <a class="btn btn-warning" ng-click="clear()">
-                <i class="fa fa-recycle fa-lg"></i>  Clear
+                <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
             </a>
-            <a class="btn btn-primary" ng-click="showAlert()">
-                <i class="fa fa-cloud fa-lg"></i>   Synchronize
-            </a>
-            @*@Html.Partial("~/Views/Shared/_sync_dialog.cshtml")*@
+            @*<a class="btn btn-primary" ng-click="showAlert()">
+                <i class="fa fa-cloud fa-lg"></i>&nbsp;&nbsp; Synchronize
+            </a>*@
+            @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
         </div>
         <div style="margin:25px">
 

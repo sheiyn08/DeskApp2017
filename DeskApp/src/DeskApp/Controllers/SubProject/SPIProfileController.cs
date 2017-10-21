@@ -22,7 +22,7 @@ namespace DeskApp.Controllers
     public class SPIProfileController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
-        public static string test_url = @"http://10.10.10.157:8079";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
         public static string geoUrl = @"http://geotagging.dswd.gov.ph";
 
 
@@ -349,6 +349,108 @@ namespace DeskApp.Controllers
                 }
             }
         }
+
+
+        #region SPCF v3.o
+        [Route("api/offline/v1/sub_project/spcf/get")]
+        public IActionResult GetSPCF(Guid id)
+        {
+            var model = db.sub_project_spcf.Select(sub_project_spcfDTO.SELECT).Where(x => x.sub_project_unique_id == id && x.is_deleted != true);
+            return Ok(model);
+        }
+            
+        [Route("api/offline/v1/spi/spcf/get")]
+        public IActionResult GetSpiSPCF(Guid id)
+        {
+            var model = db.sub_project_spcf.FirstOrDefault(x => x.sub_project_unique_id == id && x.is_deleted != true);
+
+            if (model == null)
+            {
+                var item = new sub_project_spcf();
+
+                item.sub_project_spcf_id = id;
+                item.push_status_id = 3;
+                item.created_by = 0;
+                item.created_date = DateTime.Now;
+                item.approval_id = 3;
+                item.is_deleted = false;
+
+                model = item;
+            }
+            else
+            {
+                model.push_status_id = 3;
+                model.last_modified_by = 0;
+                model.last_modified_date = DateTime.Now;
+                model.approval_id = 3;
+            }
+
+            return Ok(model);
+
+        }
+        
+
+        [Route("api/offline/v1/sub_projects/spcf/save")]
+        public async Task<IActionResult> SaveSPCF(sub_project_spcf model, bool? api)
+        {
+            var record = db.sub_project_spcf.AsNoTracking().FirstOrDefault(x => x.sub_project_spcf_id == model.sub_project_spcf_id);
+
+            if (record == null)
+            {
+                if (api != true)
+                {
+                    model.push_status_id = 2;
+                    model.push_date = null;
+                    model.approval_id = 3;
+                }
+
+                model.created_by = 0;
+                model.created_date = DateTime.Now;
+                model.is_deleted = false;
+                db.sub_project_spcf.Add(model);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+
+            else
+            {
+                model.push_date = null;
+
+                if (api != true)
+                {
+                    model.push_status_id = 3;
+                    model.approval_id = 3;
+                }
+
+                model.created_by = record.created_by;
+                model.created_date = record.created_date;
+
+                model.last_modified_by = 0;
+                model.last_modified_date = DateTime.Now;
+
+                db.Entry(model).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+        }
+
+        #endregion
 
 
         #region Multiple SET
@@ -978,11 +1080,144 @@ namespace DeskApp.Controllers
                 model = model.Where(m => m.cycle_id == item.cycle_id);
             }
 
+            //v3.0 additional filters:
+            if (item.is_incentive != null)
+            {
+                if (item.is_incentive == true)
+                {
+                    model = model.Where(m => m.is_incentive == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_incentive != true);
+                }
+            }
+            if (item.is_savings != null)
+            {
+                if (item.is_savings == true)
+                {
+                    model = model.Where(m => m.is_savings == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_savings != true);
+                }
+            }
+            if (item.is_lgu_led != null)
+            {
+                if (item.is_lgu_led == true)
+                {
+                    model = model.Where(m => m.is_lgu_led == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_lgu_led != true);
+                }
+            }
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    model = model.Where(m => m.push_status_id != 4);
+                }
+            }
+
 
             return model;
         }
 
+        private IQueryable<sub_project_reference_table> GetReferenceData(AngularFilterModel item)
 
+        {
+            var model = db.sub_project_reference_table.Where(x => x.IsActive == true).AsQueryable();
+            
+            if (item.region_code != null)
+            {
+                model = model.Where(m => m.region_code == item.region_code);
+            }
+            if (item.prov_code != null)
+            {
+                model = model.Where(m => m.prov_code == item.prov_code);
+            }
+            if (item.city_code != null)
+            {
+                model = model.Where(m => m.city_code == item.city_code);
+            }
+            if (item.brgy_code != null)
+            {
+                model = model.Where(m => m.brgy_code == item.brgy_code);
+            }
+            if (item.fund_source_id != null)
+            {
+                model = model.Where(m => m.modality_id == item.fund_source_id);
+            }
+            if (item.cycle_id != null)
+            {
+                model = model.Where(m => m.cycle_id == item.cycle_id);
+            }
+            if (item.enrollment_id != null)
+            {
+                if (item.enrollment_id == 1) model = model.Where(x => x.enrollment_type_id == 1);
+                if (item.enrollment_id == 2) model = model.Where(x => x.enrollment_type_id == 2);
+            }
+            if (item.project_type_id != null)
+            {
+                model = model.Where(m => m.project_type_id == item.project_type_id);
+            }
+            if (item.physical_status_id != null)
+            {
+                model = model.Where(m => m.physical_status_id == item.physical_status_id);
+            }
+            if (item.is_incentive != null)
+            {
+                if (item.is_incentive == true)
+                {
+                    model = model.Where(m => m.is_incentive == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_incentive != true);
+                }
+            }
+            if (item.is_savings != null)
+            {
+                if (item.is_savings == true)
+                {
+                    model = model.Where(m => m.is_savings == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_savings != true);
+                }
+            }
+            if (item.is_lgu_led != null)
+            {
+                if (item.is_lgu_led == true)
+                {
+                    model = model.Where(m => m.is_lgu_led == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_lgu_led != true);
+                }
+            }
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    model = model.Where(m => m.push_status_id != 4);
+                }
+            }
+            return model;
+        }
 
 
         [HttpPost]
@@ -1024,6 +1259,45 @@ namespace DeskApp.Controllers
                     .Take(size).ToList(),
                 };
         }
+
+
+        [HttpPost]
+        [Route("api/offline/v1/sub_project_references/get_dto")]
+        public PagedCollection<dynamic> GetReferencesDTO(AngularFilterModel item)
+        {
+            var model = GetReferenceData(item);
+            var ref_totalCount = model.Count();
+            int ref_currPages = item.ref_currPage ?? 0;
+            int ref_size = item.ref_pageSize ?? 10;
+
+            return new PagedCollection<dynamic>()
+            {
+                Ref_Page = ref_currPages,
+                Ref_TotalCount = ref_totalCount,
+                Ref_TotalPages = (int)Math.Ceiling((decimal)ref_totalCount / ref_size),
+
+                References = model
+                    .OrderBy(x => x.sub_project_id).Skip(ref_size * ref_currPages)
+                    .Select(x => new
+                    {
+                        sub_project_id = x.sub_project_id,
+                        lib_brgy_brgy_name = x.lib_brgy.brgy_name,
+                        lib_city_city_name = x.lib_cities.city_name,
+                        lib_province_prov_name = x.lib_provinces.prov_name,
+                        lib_region_region_name = x.lib_regions.region_name,
+                        lib_project_type_name = x.lib_project_type.name,
+                        lib_fund_source_name = db.lib_fund_source.FirstOrDefault(c => c.fund_source_id == x.modality_id).name,
+                        lib_cycle_name = x.lib_cycle.name,
+                        sub_project_name = x.sub_project_name,
+                        lib_physical_status_name = x.lib_physical_status.name,
+                        is_paired = x.is_paired == null ? null : x.is_paired == true ? "Yes" : "No"
+                    })
+                    .Take(ref_size).ToList(),
+            };
+        }
+
+
+
 
         [HttpPost]
         [Route("api/offline/v1/sub_projects/get_recently_edited")]
@@ -1278,6 +1552,7 @@ namespace DeskApp.Controllers
                 }
             }
 
+            //checking if record already exists using the sub_project_unique_id
             var record = db.sub_project.AsNoTracking().FirstOrDefault(x => x.sub_project_unique_id == model.sub_project_unique_id);
             
 
@@ -1339,6 +1614,57 @@ namespace DeskApp.Controllers
             }
         }
 
+
+        //Test 09-27-17 save to reference table to be used for sync/get
+        [Route("api/offline/v1/sub_project_reference/save")]
+        public async Task<IActionResult> SavetoReferenceTable(sub_project_reference_table model, bool? api)
+        {
+            var record = db.sub_project_reference_table.AsNoTracking().FirstOrDefault(x => x.sub_project_id == model.sub_project_id);
+
+            if (record == null)
+            {
+                //because api is set to TRUE in sync/get
+                if (api == true)
+                {
+                    model.push_status_id = 1;
+                    model.IsActive = true;
+                    model.is_paired = false;
+                }
+
+                db.sub_project_reference_table.Add(model);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                model.created_by = record.created_by;
+                model.created_date = record.created_date;
+                model.last_updated_by = "";
+                model.last_updated_date = DateTime.Now;
+
+                db.Entry(model).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+        }
+
+
         [Route("api/offline/v1/sub_project/get")]
         public IActionResult Get(Guid id)
         {
@@ -1380,7 +1706,33 @@ namespace DeskApp.Controllers
         }
 
 
+        //get details from reference table : to be displayed on mdDialog
+        [Route("api/offline/v1/sub_project_reference/get")]
+        public IActionResult GetReference(int id)
+        {
+            var model = db.sub_project_reference_table.Where(x => x.sub_project_id == id);
 
+            //if (model == null)
+            //{
+            //    var item = new sub_project_reference_table
+            //    {
+            //        sub_project_id = 0,
+            //        sub_project_unique_id = id,
+            //        push_status_id = 2,
+            //        IsActive = true
+            //    };
+            //    return Ok(item);
+            //}
+            //else
+            //{
+            //    //model.push_status_id = 3;
+            //    //  model.last_modified_by = 0;
+            //    //    model.last_modified_date = DateTime.Now;
+            //    model.approval_id = 3;
+            //}
+
+            return Ok(model);
+        }
 
 
 
@@ -1422,16 +1774,14 @@ namespace DeskApp.Controllers
                     {
                         await Save(item, true);
                     }
-
                     await GetOnlineERSList(username, password, city_code, record_id);
-
                     await GetOnlineERSWorkers(username, password, city_code, record_id);
-
-                    //await GetOnlineERFR(username, password, city_code, record_id);
-
                     await GetOnlinePhotos(username, password, city_code, record_id);
-
                     await GetOnlineCoverage(username, password, city_code, record_id);
+                    await GetOnlineSET(username, password, city_code, record_id);
+                    await GetOnlineSPCF(username, password, city_code, record_id);
+
+                    await GetOnlineReferenceTable(username, password, city_code, record_id);
 
                     return Ok();
                 }
@@ -1720,6 +2070,311 @@ namespace DeskApp.Controllers
         }
 
 
+        //v3.0 Sync get for SET: 10-12-2017
+        public async Task<bool> GetOnlineSET(string username, string password, string city_code = null, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+                
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/set/mapping/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
+                    
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+                    var all = JsonConvert.DeserializeObject<List<sub_project_set>>(responseJson.Result);
+                    foreach (var item in all.ToList())
+                    {
+                        await SaveSET(item, true);
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //v3.0 Sync get for SPCF: 10-12-2017
+        public async Task<bool> GetOnlineSPCF(string username, string password, string city_code = null, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/spcf/mapping/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+                    var all = JsonConvert.DeserializeObject<List<sub_project_spcf>>(responseJson.Result);
+                    foreach (var item in all.ToList())
+                    {
+                        await SaveSPCF(item, true);
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //v3.0 Sync get for Reference Table: 10-17-2017
+        public async Task<bool> GetOnlineReferenceTable(string username, string password, string city_code = null, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);   
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/geo/projects/get_by_city_code?city_code=" + city_code + "&id=" + record_id).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+                    var ref_model = JsonConvert.DeserializeObject<List<sub_project_reference_table>>(responseJson.Result); //--testing 09-27-17
+                    
+                    foreach (var item in ref_model.ToList())
+                    {
+                        await SavetoReferenceTable(item, true);
+                    }                    
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //v3.0 updating SP based on Reference details:
+        [Route("api/offline/v1/sub_projects/update")]
+        public async Task<IActionResult> UpdateSP(sub_project model, bool? api)
+        {
+            var sp_reference = db.sub_project_reference_table.AsNoTracking().FirstOrDefault(x => x.sub_project_id == model.sub_project_id);
+
+            //-------------- START PAIRING: --------------//
+
+            //details tab:
+            model.erfr_project_id = sp_reference.erfr_project_id;
+            model.sub_project_name = sp_reference.sub_project_name;
+            model.project_type_id = sp_reference.project_type_id;
+            model.is_public_school_for_ip = sp_reference.is_public_school_for_ip;
+            model.training_category_id = sp_reference.training_category_id;
+            model.modality_id = sp_reference.modality_id;
+            model.fund_source_id = sp_reference.fund_source_id;
+            model.cycle_id = sp_reference.cycle_id;
+            model.is_lcc = sp_reference.is_lcc;
+            model.is_incentive = sp_reference.is_incentive;
+            model.is_savings = sp_reference.is_savings;
+            model.is_lgu_led = sp_reference.is_lgu_led;
+            model.mode_id = sp_reference.mode_id;
+            model.modality_category_id = sp_reference.modality_category_id;
+            model.region_code = sp_reference.region_code;
+            model.prov_code = sp_reference.prov_code;
+            model.city_code = sp_reference.city_code;
+            model.brgy_code = sp_reference.brgy_code;            
+            //covered barangays here
+
+            //SPCF tab:
+            model.NoOfHH = sp_reference.NoOfHH;
+
+            //SPCR tab:
+            model.NoOfHHActual = sp_reference.NoOfHHActual;
+            model.no_actual_families = sp_reference.no_actual_families;
+            model.no_actual_pantawid_households = sp_reference.no_actual_pantawid_households;
+            model.no_actual_pantawid_families = sp_reference.no_actual_pantawid_families;
+            model.no_actual_slp_households = sp_reference.no_actual_slp_households;
+            model.no_actual_slp_families = sp_reference.no_actual_slp_families;
+            model.no_actual_ip_households = sp_reference.no_actual_ip_households;
+            model.no_actual_ip_families = sp_reference.no_actual_ip_families;
+            model.no_actual_male = sp_reference.no_actual_male;
+            model.no_actual_female = sp_reference.no_actual_female;
+
+            //Financial Info tab:
+            model._dep_ed_amount = sp_reference._dep_ed_amount;
+            model.is_deped_funded = sp_reference.is_deped_funded;
+            model.Kalahi_Amount = sp_reference.Kalahi_Amount;
+            model.Tranche1amount = sp_reference.Tranche1amount;
+            model.Tranche2amount = sp_reference.Tranche2amount;
+            model.Tranche3amount = sp_reference.Tranche3amount;
+            model.has_local_counterpart = sp_reference.has_local_counterpart;
+            model.LCC_Amount = sp_reference.LCC_Amount;
+            model.LCC_Adj = sp_reference.LCC_Adj;
+            model.operation_maintainance_cost = sp_reference.operation_maintainance_cost;
+            model.is_multiple_sps = sp_reference.is_multiple_sps;
+            //multiple sps here
+            model.target_tranching_first = sp_reference.target_tranching_first;
+            model.target_tranching_second = sp_reference.target_tranching_second;
+            model.target_tranching_third = sp_reference.target_tranching_third;
+            model.has_t1 = sp_reference.has_t1;
+            model.Tranche1date = sp_reference.Tranche1date;
+            model.Tranche1amount = sp_reference.Tranche1amount;
+            model.erfr_t1 = sp_reference.erfr_t1;
+            model.Tranche1amount_utilized = sp_reference.Tranche1amount_utilized;
+            model.has_t2 = sp_reference.has_t2;
+            model.Tranche2date = sp_reference.Tranche2date;
+            model.Tranche2amount = sp_reference.Tranche2amount;
+            model.erfr_t2 = sp_reference.erfr_t2;
+            model.Tranche2amount_utilized = sp_reference.Tranche2amount_utilized;
+            model.has_t3 = sp_reference.has_t3;
+            model.Tranche3date = sp_reference.Tranche3date;
+            model.Tranche3amount = sp_reference.Tranche3amount;
+            model.erfr_t3 = sp_reference.erfr_t3;
+            model.Tranche3amount_utilized = sp_reference.Tranche3amount_utilized;
+
+            //Physical Progress tab:
+            model.physical_status_id = sp_reference.physical_status_id;
+            model.replaced_sub_project_id = sp_reference.replaced_sub_project_id;
+            model.Date_Started = sp_reference.Date_Started;
+            model.Phy_Perc_To_Date = sp_reference.Phy_Perc_To_Date;
+            model.PlannedDate_Completion = sp_reference.PlannedDate_Completion;
+            model.Date_of_Completion = sp_reference.Date_of_Completion;
+            model.has_variation = sp_reference.has_variation;
+            model.is_sp_functional = sp_reference.is_sp_functional;
+            model.is_enhancement_functionality = sp_reference.is_enhancement_functionality;
+            model.variation_physical_status_id = sp_reference.variation_physical_status_id;
+            model.variation_phy_perc_to_date = sp_reference.variation_phy_perc_to_date;
+            model.variation_target_date_completion = sp_reference.variation_target_date_completion;
+            model.variation_actual_date_completion = sp_reference.variation_actual_date_completion;
+            model.phy_has_construction_target = sp_reference.phy_has_construction_target;
+            model.phy_construction_target = sp_reference.phy_construction_target;
+            model.phy_construction_actual = sp_reference.phy_construction_actual;
+            model.phy_has_improvement_target = sp_reference.phy_has_improvement_target;
+            model.phy_improvement_target = sp_reference.phy_improvement_target;
+            model.phy_improvement_actual = sp_reference.phy_improvement_actual;
+            model.phy_has_rehabilitation_target = sp_reference.phy_has_rehabilitation_target;
+            model.phy_rehabilitation_target = sp_reference.phy_rehabilitation_target;
+            model.phy_rehabilitation_actual = sp_reference.phy_rehabilitation_actual;
+            model.phy_has_purchase_target = sp_reference.phy_has_purchase_target;
+            model.phy_purchase_target = sp_reference.phy_purchase_target;
+            model.phy_purchase_actual = sp_reference.phy_purchase_actual;
+            model.phy_has_construction_target_secondary = sp_reference.phy_has_construction_target_secondary;
+            model.phy_construction_target_secondary = sp_reference.phy_construction_target_secondary;
+            model.phy_construction_actual_secondary = sp_reference.phy_construction_actual_secondary;
+            model.phy_has_improvement_target_secondary = sp_reference.phy_has_improvement_target_secondary;
+            model.phy_improvement_target_secondary = sp_reference.phy_improvement_target_secondary;
+            model.phy_improvement_actual_secondary = sp_reference.phy_improvement_actual_secondary;
+            model.phy_has_rehabilitation_target_secondary = sp_reference.phy_has_rehabilitation_target_secondary;
+            model.phy_rehabilitation_target_secondary = sp_reference.phy_rehabilitation_target_secondary;
+            model.phy_rehabilitation_actual_secondary = sp_reference.phy_rehabilitation_actual_secondary;
+            model.phy_has_purchase_target_secondary = sp_reference.phy_has_purchase_target_secondary;
+            model.phy_purchase_target_secondary = sp_reference.phy_purchase_target_secondary;
+            model.phy_purchase_actual_secondary = sp_reference.phy_purchase_actual_secondary;
+
+            //Safeguards tab:
+            model.has_sc_essc = sp_reference.has_sc_essc;
+            model.has_sc_esmp = sp_reference.has_sc_esmp;
+            model.has_sc_ecc = sp_reference.has_sc_ecc;
+            model.has_sc_cnc = sp_reference.has_sc_cnc;
+            model.has_ip_presence = sp_reference.has_ip_presence;
+            model.has_cadt = sp_reference.has_cadt;
+            model.has_on_process = sp_reference.has_on_process;
+            model.has_cadteable = sp_reference.has_cadteable;
+            model.has_ncip = sp_reference.has_ncip;
+            model.ncip_date = sp_reference.ncip_date;
+            model.has_validation_conducted = sp_reference.has_validation_conducted;
+            model.validation_conducted_date = sp_reference.validation_conducted_date;
+            model.has_sc_cp = sp_reference.has_sc_cp;
+            model.sc_cp_date = sp_reference.sc_cp_date;
+            model.has_sc_cno = sp_reference.has_sc_cno;
+            model.sc_cno_date = sp_reference.sc_cno_date;
+            model.land_aq_deed_of_donation = sp_reference.land_aq_deed_of_donation;
+            model.quit_claim = sp_reference.quit_claim;
+            model.land_aq_unsfruct = sp_reference.land_aq_unsfruct;
+            model.right_of_way_agreement = sp_reference.right_of_way_agreement;
+            model.permit_to_construct_enter = sp_reference.permit_to_construct_enter;
+            model.land_aq_blgu_resolution = sp_reference.land_aq_blgu_resolution;
+            model.land_aq_deped_certification = sp_reference.land_aq_deped_certification;
+            model.land_aq_other = sp_reference.land_aq_other;
+            model.other_land_acquisition = sp_reference.other_land_acquisition;
+
+            //changing push status:
+            model.push_status_id = 3;
+            model.last_modified_by = 0;
+            model.last_updated_date = DateTime.Now;
+
+            //updating the reference table:
+            sp_reference.is_paired = true;
+            sp_reference.paired_sp_unique_id = model.sub_project_unique_id;
+            sp_reference.paired_by = 0;
+            sp_reference.paired_date = DateTime.Now;
+
+
+            db.Entry(model).State = EntityState.Modified;
+            //db.Entry(db.sub_project_reference_table).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+                await UpdateReferenceTable(sp_reference);
+                return Ok();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
+            
+        }
+
+
+        //v3.0 check if the unique id in view has been paired to sp id (in the reference table)
+        [Route("api/offline/v1/sub_projects/check_pairing_status")]
+        public bool CheckSPPairing(Guid sub_project_unique_id, int sub_project_id)
+        {
+            var is_paired = db.sub_project_reference_table.Where(x => x.is_paired == true && x.paired_sp_unique_id == sub_project_unique_id && x.sub_project_id == sub_project_id).ToList();
+
+            if (is_paired.Count() >= 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+        public async Task<IActionResult> UpdateReferenceTable(sub_project_reference_table model)
+        {
+            db.Entry(model).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }            
+        }
+
+
         [Route("api/offline/v1/sub_projects/post/selected_items_to_sync")]
         public async Task<IActionResult> SavePushStatusID(Guid sub_project_unique_id, int push_status_id)
         {
@@ -1775,11 +2430,11 @@ namespace DeskApp.Controllers
                             item.push_status_id = 1;
                             await db.SaveChangesAsync();
                         }
-                        else
-                        {
-                            item.push_status_id = 4;
-                            await db.SaveChangesAsync();
-                        }
+                        //else
+                        //{
+                        //    item.push_status_id = 4;
+                        //    await db.SaveChangesAsync();
+                        //}
                     }
                 }
                 else {
@@ -1800,17 +2455,19 @@ namespace DeskApp.Controllers
                             item.push_status_id = 1;
                             await db.SaveChangesAsync();
                         }
-                        else
-                        {
-                            item.push_status_id = 4;
-                            await db.SaveChangesAsync();
-                        }
+                        //else
+                        //{
+                        //    item.push_status_id = 4;
+                        //    await db.SaveChangesAsync();
+                        //}
                     }
                 }               
 
             }
             await PostOnlineERS(username, password, record_id);
             await PostOnlineERSWorker(username, password, record_id);
+            await PostOnlineSet(username, password, record_id);
+            await PostOnlineSPCF(username, password, record_id);
             return Ok();
         }
 
@@ -1923,16 +2580,16 @@ namespace DeskApp.Controllers
                     {
 
                         item.push_status_id = 1;
-                        //    item.push_date = DateTime.Now;
+                        item.push_date = DateTime.Now;
 
                         await db.SaveChangesAsync();
 
                     }
                     else
                     {
-                        item.push_status_id = 4;
+                        //item.push_status_id = 4;
                         // item.push_date = DateTime.Now;
-                        await db.SaveChangesAsync();
+                        //await db.SaveChangesAsync();
                     }
                 }
 
@@ -1983,16 +2640,16 @@ namespace DeskApp.Controllers
                     {
 
                         item.push_status_id = 1;
-                        //    item.push_date = DateTime.Now;
+                        item.push_date = DateTime.Now;
 
                         await db.SaveChangesAsync();
 
                     }
                     else
                     {
-                        item.push_status_id = 4;
-                        // item.push_date = DateTime.Now;
-                        await db.SaveChangesAsync();
+                        //item.push_status_id = 4;
+                        //item.push_date = DateTime.Now;
+                        //await db.SaveChangesAsync();
                     }
                 }
 
@@ -2000,6 +2657,90 @@ namespace DeskApp.Controllers
 
             return true;
         }
+
+
+        //------v3.0 sync upload for SET: by Glenn 09/15/17
+
+        public async Task<bool> PostOnlineSet(string username, string password, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                //setup client
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+                
+                var items = db.sub_project_set.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+
+                if (record_id != null)
+                {
+                    items = items.Where(x => x.sub_project_id == record_id);
+                }
+
+                foreach (var item in items.ToList())
+                {
+                    StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = client.PostAsync("api/offline/v1/spi/set/list/save", data).Result;
+                    
+                    if (response.IsSuccessStatusCode)
+                    {
+                        item.push_status_id = 1;
+                        item.push_date = DateTime.Now;
+                        await db.SaveChangesAsync();
+
+                    }
+                }
+            }
+            return true;
+        }
+
+
+        //------v3.0 sync upload for SPCF: 10/12/2017
+
+        public async Task<bool> PostOnlineSPCF(string username, string password, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                //setup client
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                var items = db.sub_project_spcf.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
+
+                if (record_id != null)
+                {
+                    items = items.Where(x => x.sub_project_id == record_id);
+                }
+
+                foreach (var item in items.ToList())
+                {
+                    StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = client.PostAsync("api/offline/v1/spi/spcf/list/save", data).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        item.push_status_id = 1;
+                        item.push_date = DateTime.Now;
+                        await db.SaveChangesAsync();
+
+                    }
+                }
+            }
+            return true;
+        }
+
+
 
         public async Task<bool> PostOnlineCoverage(string username, string password, int? record_id = null)
         {

@@ -45,7 +45,10 @@ namespace DeskApp.DataLayer
         public int? brgy_code { get; set; }
 
 
-
+        //RDR08242017 Additional columns for v3.0:
+        public bool? is_lgu_led { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_incentive { get; set; }
 
 
         public int fund_source_id { get; set; }
@@ -151,7 +154,10 @@ namespace DeskApp.DataLayer
         public int? brgy_code { get; set; }
 
 
-
+        //RDR08242017 Additional columns for v3.0:
+        public bool? is_lgu_led { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_incentive { get; set; }
 
 
         public int fund_source_id { get; set; }
@@ -215,6 +221,78 @@ namespace DeskApp.DataLayer
         public DateTime? act_other_activity_startdate { get; set; }
         public DateTime? act_other_activity_enddate { get; set; }
         public string act_other_activity_remarks { get; set; }
+
+        #region Audit
+        public int created_by { get; set; }
+        public DateTime created_date { get; set; }
+        public int? last_modified_by { get; set; }
+        public DateTime? last_modified_date { get; set; }
+        public bool is_deleted { get; set; }
+        public int? deleted_by { get; set; }
+        public DateTime? deleted_date { get; set; }
+        #endregion
+
+        #region Sync
+        public int push_status_id { get; set; }
+        public DateTime? push_date { get; set; }
+        #endregion
+
+        #region Approval
+        public int approval_id { get; set; }
+        #endregion
+    }
+
+    //----------------------------- v3.0 new table : 10-10-2017 ----------------------------------------------//
+    public class act_accomplishment_report
+    {
+        [Key]
+        public Guid act_report_id { get; set; }
+
+        public int fund_source_id { get; set; }
+        public DateTime? fortheperiodof_from { get; set; }
+        public DateTime? fortheperiodof_to { get; set; }
+        public DateTime? as_of { get; set; }
+        
+        public DateTime? report_generated_date { get; set; }
+        public DateTime? report_expiration_date { get; set; }
+        
+        #region Parts of the Report, will be saved as JSON array
+        
+        //Part A: CEAC Activities conducted
+        public string ceac_activities_conducted { get; set; }
+
+        //Part B: Separate table : act_report_other_activities, but will include column just in case
+        public string other_activities_conducted { get; set; }
+
+        //Part C: 
+        public string participation_rate_per_ba_conducted { get; set; } //part C, #1
+        public string total_num_of_volunteers_per_committee { get; set; } //part C, #2
+        public string trainings_facilitated_with_data { get; set; } //part C, #3
+        public string total_num_of_grievances_filed_and_resolved { get; set; } //part C, #4
+        public string breakdown_of_sps { get; set; } //part C, #5
+        public string breakdown_of_ongoing_sps_pertranche { get; set; } //part C, #6
+        public string percentage_of_ongoing_completed_sps { get; set; } //part C, #7
+        public string total_delivered_mlcc { get; set; } //part C, #8
+        public string total_male_female_labor { get; set; } //part C, #9
+        public string total_sp_hh_beneficiaries { get; set; } //part C, #10
+        public string total_completed_sps_with_set { get; set; } //part C, #11
+        public string percentage_of_available_movs { get; set; } //part C, #12
+
+        //Part D:
+        public string pincos { get; set; }
+
+        //Part E:
+        public string narrative { get; set; }
+
+        //Part F: Planned activities for the next month
+        public string planned_activities_next_month { get; set; }
+       
+        #endregion
+
+
+
+        [JsonIgnore]
+        public virtual lib_fund_source lib_fund_source { get; set; }
 
         #region Audit
         public int created_by { get; set; }

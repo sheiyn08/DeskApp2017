@@ -71,7 +71,7 @@ namespace DeskApp.DataLayer
         public bool? is_worker { get; set; }
 
 
-
+        public int? lgu_level_id { get; set; } //------- additional column for v3.0 
         public int? lgu_position_id { get; set; }
         public int? education_attainment_id { get; set; }
         public int? occupation_id { get; set; }

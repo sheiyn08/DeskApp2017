@@ -44,6 +44,9 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.data.spi_nature_work_id = '';
     $scope.grs_resolution_status_id;
 
+    $scope.minDate = new Date("07/01/2014");
+    $scope.today = new Date();
+
     $scope.needToConfirm = false;
 
     $scope.list_of_selected_items = [];
@@ -290,6 +293,9 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.clear = function () {
         $scope.data = {};
         $scope.search();
+
+        $scope.dt_mlcc_start_filterdate = '';
+        $scope.dt_mlcc_end_filterdate = '';
     }
 
 
@@ -311,6 +317,18 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
 
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.municipal_lcc_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
+
                 $scope.isSearching = false;
 
             }).error(function (data) {
@@ -329,6 +347,18 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
+
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.municipal_lcc_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
 
                 $scope.isSearching = false;
 
@@ -349,6 +379,18 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
 
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.municipal_lcc_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
+
                 $scope.isSearching = false;
 
             }).error(function (data) {
@@ -367,6 +409,18 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
+
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.municipal_lcc_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
 
                 $scope.isSearching = false;
 

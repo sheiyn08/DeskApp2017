@@ -29,6 +29,11 @@ namespace DeskApp.DataLayer
         public int cycle_id { get; set; }
         public int enrollment_id { get; set; }
 
+        //RDR08242017 Additional columns for v3.0:
+        public bool? is_lgu_led { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_incentive { get; set; }
+
         [JsonIgnore]
         public virtual lib_region lib_region { get; set; }
         [JsonIgnore]
@@ -167,6 +172,11 @@ namespace DeskApp.DataLayer
         public int city_code { get; set; }
         public int fund_source_id { get; set; }
         public int cycle_id { get; set; }
+
+        //RDR08242017 Additional columns for v3.0:
+        public bool? is_lgu_led { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_incentive { get; set; }
 
         [JsonIgnore]
         public virtual lib_region lib_region { get; set; }

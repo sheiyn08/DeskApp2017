@@ -15,7 +15,7 @@
            </form>
         </md-tab>
         <md-tab label="Perception Survey Questionnaire" ng-disabled="data.year == 0">
-            <div class="panel panel-success">
+            <div class="panel panel-info">
                 <div class="panel panel-heading">
                     <h5 style="font-style:italic">
                         <strong>Instruction: </strong>Indicate your level of agreement on each of the statements below using the following rating scale: <br />
@@ -61,11 +61,11 @@
         <div flex="100" layout="row" layout-margin layout-sm="column">
             <!--VALIDATION: button Submit will be enabled only if the required fields are populated-->
             <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!basicForm.$valid">
-                Submit Survey
+                Save
             </md-button>
 
             <md-button class="md-warn md-raised" href="/PerceptionSurvey/Index">
-                Back to List
+                Cancel
             </md-button>
 
         </div>
@@ -475,7 +475,7 @@
                                         
                                         $mdToast.show(
                                             $mdToast.simple()
-                                            .textContent('Survey Saved!')
+                                            .textContent('Record Saved!')
                                             .position("top right")
                                             .hideDelay(3000)
                                         );

@@ -63,13 +63,22 @@
                 <div flex>Female</div>
             </div>
             <md-divider></md-divider>
-            <div layout="row" layout-padding flex="100">
+            <div layout="row" layout-padding flex="100" ng-show="data.modality_id != 11">
                 <div flex>Total   Beneficiaries </div>
                 <div flex>
                     <input type="number" min="0" name="No of Male Beneficiaries" class="form-control" ng-model="data.no_target_male" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" />
                 </div>
                 <div flex>
                     <input type="number" min="0" class="form-control" name="No Female Beneficiaries" ng-model="data.no_target_female" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" />
+                </div>
+            </div>
+            <div layout="row" layout-padding flex="100" ng-show="data.modality_id == 11">
+                <div flex>Total   Beneficiaries </div>
+                <div flex>
+                    <input class="form-control" ng-model="data.target_male" ng-disabled="true" />
+                </div>
+                <div flex>
+                    <input class="form-control" ng-model="data.target_female" ng-disabled="true" />
                 </div>
             </div>
 
@@ -135,39 +144,45 @@
                     </div>
                     <div class="col-md-1">
                         @*Total Cost*@
-                        {{pow_total()}}
-                        @*{{data.spcr.pow_cdd_cost + data.spcr.pow_male_cost + data.spcr.pow_female_cost + data.spcr.pow_blgu_cost + data.spcr.pow_mlgu_cost + data.spcr.pow_plgu_cost +  data.spcr.pow_others_cost}}*@
+                        {{pow_total() | currency:"₱"}}                        
                     </div>
                     <div class="col-md-1">
                         @*CDD Grant*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.pow_cdd_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.pow_cdd_cost" />
+                        {{spcf.pow_cdd_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Men*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.pow_male_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.pow_male_cost" />
+                        {{spcf.pow_male_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Women*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.pow_female_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.pow_female_cost" />
+                        {{spcf.pow_female_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*BLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.pow_blgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.pow_blgu_cost" />
+                        {{spcf.pow_blgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*MLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.pow_mlgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.pow_mlgu_cost" />
+                        {{spcf.pow_mlgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*PLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.pow_plgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.pow_plgu_cost" />
+                        {{spcf.pow_plgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Others*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.pow_others_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.pow_others_cost" />
+                        {{spcf.pow_others_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
-                        {{pow_total_lcc()}}
+                        {{pow_total_lcc() | currency:"₱"}}
                     </div>
                 </div>
                 <hr />
@@ -176,40 +191,46 @@
                         Training
                     </div>
                     <div class="col-md-1">
-                        {{training_total()}}
                         @*Total Cost*@
-                        @*{{data.spcr.training_cdd_cost + data.spcr.training_male_cost + data.spcr.training_female_cost + data.spcr.training_blgu_cost + data.spcr.training_mlgu_cost + data.spcr.training_plgu_cost +  data.spcr.training_others_cost}}*@
+                        {{training_total() | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*CDD Grant*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.training_cdd_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.training_cdd_cost" />
+                        {{spcf.training_cdd_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Men*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.training_male_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.training_male_cost" />
+                        {{spcf.training_male_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Women*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.training_female_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.training_female_cost" />
+                        {{spcf.training_female_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*BLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.training_blgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.training_blgu_cost" />
+                        {{spcf.training_blgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*MLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.training_mlgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.training_mlgu_cost" />
+                        {{spcf.training_mlgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*PLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.training_plgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.training_plgu_cost" />
+                        {{spcf.training_plgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Others*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.training_others_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.training_others_cost" />
+                        {{spcf.training_others_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
-                        {{training_total_lcc()}}
+                        {{training_total_lcc() | currency:"₱"}}
                     </div>
                 </div>
                 <hr />
@@ -218,40 +239,46 @@
                         Women Specific
                     </div>
                     <div class="col-md-1">
-                        {{women_total()}}
-                        @*Total Cost*@
-                        @*{{data.spcr.women_cdd_cost + data.spcr.women_male_cost + data.spcr.women_female_cost + data.spcr.women_blgu_cost + data.spcr.women_mlgu_cost + data.spcr.women_plgu_cost +  data.spcr.women_others_cost}}*@
+                        @*Total Cost*@                        
+                        {{women_total() | currency:"₱"}}                                            
                     </div>
                     <div class="col-md-1">
                         @*CDD Grant*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.women_cdd_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.women_cdd_cost" />
+                        {{spcf.women_cdd_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Men*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.women_male_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.women_male_cost" />
+                        {{spcf.women_male_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Women*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.women_female_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.women_female_cost" />
+                        {{spcf.women_female_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*BLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.women_blgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.women_blgu_cost" />
+                        {{spcf.women_blgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*MLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.women_mlgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.women_mlgu_cost" />
+                        {{spcf.women_mlgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*PLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.women_plgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.women_plgu_cost" />
+                        {{spcf.women_plgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Others*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.women_others_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.women_others_cost" />
+                        {{spcf.women_others_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
-                        {{women_total_lcc()}}
+                        {{women_total_lcc() | currency:"₱"}}
                     </div>
                 </div>
                 <hr />
@@ -261,39 +288,45 @@
                     </div>
                     <div class="col-md-1">
                         @*Total Cost*@
-                        {{management_total()}}
-                        @*{{data.spcr.management_cdd_cost + data.spcr.management_male_cost + data.spcr.management_female_cost + data.spcr.management_blgu_cost + data.spcr.management_mlgu_cost + data.spcr.management_plgu_cost +  data.spcr.management_others_cost}}*@
+                        {{management_total() | currency:"₱"}}                        
                     </div>
                     <div class="col-md-1">
                         @*CDD Grant*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.management_cdd_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.management_cdd_cost" />
+                        {{spcf.management_cdd_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Men*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.management_male_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.management_male_cost" />
+                        {{spcf.management_male_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Women*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.management_female_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.management_female_cost" />
+                        {{spcf.management_female_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*BLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.management_blgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.management_blgu_cost" />
+                        {{spcf.management_blgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*MLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.management_mlgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.management_mlgu_cost" />
+                        {{spcf.management_mlgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*PLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.management_plgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.management_plgu_cost" />
+                        {{spcf.management_plgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Others*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.management_others_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.management_others_cost" />
+                        {{spcf.management_others_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
-                        {{management_total_lcc()}}
+                        {{management_total_lcc() | currency:"₱"}}
                     </div>
                 </div>
                 <hr />
@@ -303,39 +336,45 @@
                     </div>
                     <div class="col-md-1">
                         @*Total Cost*@
-                        {{others_total()}}
-                        @*{{data.spcr.others_cdd_cost + data.spcr.others_male_cost + data.spcr.others_female_cost + data.spcr.others_blgu_cost + data.spcr.others_mlgu_cost + data.spcr.others_plgu_cost +  data.spcr.others_others_cost}}*@
+                        {{others_total() | currency:"₱"}}                        
                     </div>
                     <div class="col-md-1">
                         @*CDD Grant*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.others_cdd_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.others_cdd_cost" />
+                        {{spcf.others_cdd_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Men*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.others_male_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.others_male_cost" />
+                        {{spcf.others_male_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Women*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.others_female_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.others_female_cost" />
+                        {{spcf.others_female_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*BLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.others_blgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.others_blgu_cost" />
+                        {{spcf.others_blgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*MLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.others_mlgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.others_mlgu_cost" />
+                        {{spcf.others_mlgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*PLGU*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.others_plgu_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.others_plgu_cost" />
+                        {{spcf.others_plgu_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
                         @*Others*@
-                        <input type="number" min="0" class="form-control" ng-model="data.spcr.others_others_cost" />
+                        <input type="number" min="0" class="form-control" ng-model="spcf.others_others_cost" />
+                        {{spcf.others_others_cost | currency:"₱"}}
                     </div>
                     <div class="col-md-1">
-                        {{others_total_lcc()}}
+                        {{others_total_lcc() | currency:"₱"}}
                     </div>
                 </div>
                 <hr />
@@ -344,39 +383,39 @@
                         Total
                     </div>
                     <div class="col-md-1">
-                        {{grand_total()}}<br />
+                        {{grand_total() | currency:"₱"}}<br />
                         <b>(100%)</b>
                     </div>
                     <div class="col-md-1">
-                        {{cdd_total()}}<br />
+                        {{cdd_total() | currency:"₱"}}<br />
                         <b>({{cdd_perc()}}%)</b>
                     </div>
                     <div class="col-md-1">
-                        {{men_total()}}<br />
+                        {{men_total() | currency:"₱"}}<br />
                         <b>({{men_perc()}}%)</b>
                     </div>
                     <div class="col-md-1">
-                        {{female_total()}}<br />
+                        {{female_total() | currency:"₱"}}<br />
                         <b>({{female_perc()}}%)</b>
                     </div>
                     <div class="col-md-1">
-                        {{blgu_total()}}<br />
+                        {{blgu_total() | currency:"₱"}}<br />
                         <b>({{blgu_perc()}}%)</b>
                     </div>
                     <div class="col-md-1">
-                        {{mlgu_total()}}<br />
+                        {{mlgu_total() | currency:"₱"}}<br />
                         <b>({{mlgu_perc()}}%)</b>
                     </div>
                     <div class="col-md-1">
-                        {{plgu_total()}}<br />
+                        {{plgu_total() | currency:"₱"}}<br />
                         <b>({{plgu_perc()}}%)</b>
                     </div>
                     <div class="col-md-1">
-                        {{others_others_total()}}<br />
+                        {{others_others_total() | currency:"₱"}}<br />
                         <b>({{others_others_total_perc()}}%)</b>
                     </div>
                     <div class="col-md-1">
-                        {{grand_total_lcc()}}<br />
+                        {{grand_total_lcc() | currency:"₱"}}<br />
                         <b>({{grand_total_lcc_perc()}}%)</b>
                     </div>
                 </div>

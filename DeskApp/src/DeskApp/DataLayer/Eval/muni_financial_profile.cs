@@ -12,7 +12,7 @@ namespace DeskApp.DataLayer.Eval
         [Key]
         public Guid muni_financial_profile_id { get; set; }
 
-        public int talakayan_yr_id { get; set; }
+        public int? talakayan_yr_id { get; set; } //---- v3.0 update: removed as required by Eval team 09-08-17
         public DateTime? talakayan_date_start { get; set; }
         public DateTime? talakayan_date_end { get; set; }
 
@@ -358,7 +358,13 @@ namespace DeskApp.DataLayer.Eval
         public string mlgu2019_ex_economic_source { get; set; }
         public decimal? mlgu2019_ex_other_purposes { get; set; }
         public string mlgu2019_ex_other_purposes_source { get; set; }
-        
+
+        //Added for v3.0
+        public bool? is_sglg_awardee2016 { get; set; }
+        public bool? is_sglg_awardee2017 { get; set; }
+        public bool? is_sglg_awardee2018 { get; set; }
+        public bool? is_sglg_awardee2019 { get; set; }
+
     }
 
     public class base_record_muni

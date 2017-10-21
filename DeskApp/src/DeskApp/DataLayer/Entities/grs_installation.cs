@@ -24,7 +24,13 @@ namespace DeskApp.DataLayer
         public int? brgy_code { get; set; }
         public int fund_source_id { get; set; }
         public int cycle_id { get; set; }
-     //   public int enrollment_id { get; set; }
+
+        //RDR08242017 Additional columns for v3.0:
+        public bool? is_lgu_led { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_incentive { get; set; }
+
+        //   public int enrollment_id { get; set; }
         public int lgu_level_id { get; set; }
 
 

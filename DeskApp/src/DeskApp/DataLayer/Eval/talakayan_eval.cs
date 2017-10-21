@@ -118,7 +118,7 @@ namespace DeskApp.DataLayer.Eval
         public int region_code { get; set; }
         public int prov_code { get; set; }
         public int city_code { get; set; }
-        public int brgy_code { get; set; }
+        public int? brgy_code { get; set; } //08-24-17: for v3.0 remove brgy code as required by Eval
         
         #region Audit
         public int created_by { get; set; }

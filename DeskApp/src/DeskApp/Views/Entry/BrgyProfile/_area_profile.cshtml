@@ -9,19 +9,13 @@
 
         <div class="panel panel-body">
             <div layout="row">
-                <div flex="50">
+                <div flex="35">
                     <label> Is this a poblacion?</label>
                 </div>
-                <div flex="50">
-                    @*<md-radio-group>
-                            <md-radio-button aria-label="Checkbox 1" ng-model="data.is_poblacion" id="is_Yes">Yes</md-radio-button>
-                            <md-radio-button aria-label="Checkbox 1" ng-model="data.is_poblacion" id="is_No">No</md-radio-button>
-                        </md-radio-group>*@
-
-
+                <div flex="50" style="padding-left:25px">
                     <md-radio-group name="Is Poblacion" ng-required="" ng-model="data.is_poblacion" layout="row">
                         <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                        <md-radio-button data-ng-value="false"> No </md-radio-button>
+                        <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                     </md-radio-group>
 
@@ -31,23 +25,27 @@
 
 
             <div layout="row" layout-margin>
-                <div flex="50">
-                    <label> If not, how many hours does it take to travel to Poblacion?</label>
+                <div flex="35">
+                    <label>If not, how many hours does it take to travel to Poblacion?</label>
                 </div>
-                <div flex="25" layout="row">
+                <div flex="15">
                     <label>Hours</label>
                     <input class="form-control" ng-disabled="data.is_poblacion == true" type="number" name="Hours to Town" ng-model="data.hrs_totown" ng-required="data.is_poblacion == false" min="0" />
-
                 </div>
-                <div flex="25" layout="row">
+                <div flex="15">
                     <label>Minutes</label>
                     <input max="59" min="0" class="form-control" ng-disabled="data.is_poblacion == true" type="number" name="Minutes to Town" ng-model="data.mins_totown" ng-required="data.is_poblacion == false" />
+                </div>
+                <div flex="20">
+                    <label>No. of kilometers from the poblacion?</label>
+                    <input class="form-control" ng-disabled="data.is_poblacion == true" type="number" name="KM to Town" ng-model="data.km_frmtown" ng-required="data.is_poblacion == false" min="0" />
+
                 </div>
             </div>
 
 
 
-            <div layout="row">
+            @*<div layout="row">
                 <div flex="50">
                     <label>No. of kilometers from the poblacion?</label>
                 </div>
@@ -56,33 +54,92 @@
                     <input class="form-control" ng-disabled="data.is_poblacion == true" type="number" name="KM to Town" ng-model="data.km_frmtown" ng-required="data.is_poblacion == false" min="0" />
 
                 </div>
-            </div>
+            </div>*@
+            <br />
 
-
-            <div layout="row" layout-margin flex="100">
-                <div flex="50">
+            <div layout="row"  flex="100">
+                <div flex="35">
                     <label>   Geographic Characteristic of the Barangays</label>
                 </div>
-                <div flex="50">
-                    <md-checkbox value="true" ng-model="data.is_upland" id="is_upland">Upland</md-checkbox>
-                    <md-checkbox value="true" ng-model="data.is_hilly" id="is_hilly">Hilly</md-checkbox>
-                    <md-checkbox value="true" ng-model="data.is_lowland" id="is_lowland">Lowland</md-checkbox>
-                    <md-checkbox value="true" ng-model="data.is_island" id="is_island">Island</md-checkbox>
-                    <md-checkbox value="true" ng-model="data.is_coastal" id="is_coastal">Coastal</md-checkbox>
-
-
+                <div flex="50" style="padding-left:25px">
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" value="true" ng-model="data.is_upland" id="is_upland">Upland</md-checkbox>
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" value="true" ng-model="data.is_hilly" id="is_hilly">Hilly</md-checkbox>
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" value="true" ng-model="data.is_lowland" id="is_lowland">Lowland</md-checkbox>
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" value="true" ng-model="data.is_island" id="is_island">Island</md-checkbox>
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" value="true" ng-model="data.is_coastal" id="is_coastal">Coastal</md-checkbox>
                 </div>
             </div>
 
-            <div layout="row" layout-margin flex="100">
-                <div flex="50">
+            <br />
+
+            <div layout="row" flex="100">
+                <div flex="35">
                     <label>Is this barangay isolated from other barangays?</label>
                 </div>
-                <div flex="50">
-                    <md-checkbox aria-label="Checkbox 1" ng-model="data.is_isolated" id="is_isolated">
+                <div flex="50" style="padding-left:25px">
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_isolated" id="is_isolated">
                         {{ data.is_isolated == true ? "Yes" : "" }}
                     </md-checkbox>
+                </div>
+            </div>
 
+            <br />
+
+            <div layout="row" flex="100">
+                <div flex="35">
+                    <label>What types of road traverse through the barangay?</label>
+                </div>
+                <div flex="50" style="padding-left:25px">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <b>Types of Road</b>
+                        </div>
+                        <div class="col-md-3">
+                            <span style="float:right"><b>%</b></span>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-5">
+                            Dirt
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" name="Dirt" ng-model="data.road_type_dirt" min="0" max="100" />
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-5">
+                            Gravel
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" name="Gravel" ng-model="data.road_type_gravel" min="0" max="100" />
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-5">
+                            Asphalted
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" name="Asphalted" ng-model="data.road_type_asphalted" min="0" max="100" />
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-5">
+                            Cemented/All Weather Road
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" name="Cemented/All Weather Road" ng-model="data.road_type_cemented" min="0" max="100" />
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-5">
+                        </div>
+                        <div class="col-md-3">
+                            <span style="float:right; font-size:medium"><b>{{data.road_type_dirt + data.road_type_gravel + data.road_type_asphalted + data.road_type_cemented}}%</b></span>                            
+                        </div>
+                        <div class="col-md-4">
+                            <span style="color:red; font-size:small" ng-show="(data.road_type_dirt + data.road_type_gravel + data.road_type_asphalted + data.road_type_cemented) > 100"><i>⚠ Percentage total exceeds 100%, please double check</i></span>
+                        </div>
+                    </div>
                 </div>
             </div>
          
@@ -119,45 +176,53 @@
 
                     </tr>
 
-                    <tbody ng-repeat="prob in data.eca_lists">
+                    <tbody ng-repeat="eca in data.eca_lists">
                         <tr>
                             <td>
-                                <a class="btn btn-danger" flex="1" ng-click="removeEca($index)"><i class="fa fa-remove"></i></a>
+                                <a class="btn btn-info" style="margin-right:5px" ng-click="eca_edit_is_selected=true; editEca(eca)" ng-hide="eca_edit_is_selected"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-danger" style="margin-right:5px" ng-click="removeEca($index)" ng-hide="eca_edit_is_selected"><i class="fa fa-trash"></i></a>
+
+                                <a class="btn btn-success" style="margin-right:5px" ng-click="eca_edit_is_selected=false; saveEditedEca(eca)" ng-show="eca_edit_is_selected"><i class="fa fa-check"></i></a>
+                                <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditEca(eca); eca_edit_is_selected=false" ng-show="eca_edit_is_selected"><i class="fa fa-close"></i></a>
                             </td>
-                            <td>{{prob.lib_eca_type.Name}}</td>
-                            <td>{{prob.description}}</td>
-                            <td>{{prob.location}}</td>
-
-
+                            <td>
+                                <span ng-hide="eca_edit_is_selected">{{eca.lib_eca_type.Name}}</span>
+                                <select name="ECA Type" ng-model="eca.lib_eca_type" class="form-control" required ng-show="eca_edit_is_selected"
+                                        ng-options="option as option.Name for option in eca_type_id_options">
+                                    <option value="">[Select ECA Type]</option>
+                                </select>
+                            </td>
+                            <td>
+                                <span ng-hide="eca_edit_is_selected">{{eca.description}}</span>
+                                <input type="text" class="form-control" placeholder="Description" ng-model="eca.description" required name="Description" ng-show="eca_edit_is_selected"/>
+                            </td>
+                            <td>
+                                <span ng-hide="eca_edit_is_selected">{{eca.location}}</span>
+                                <input type="text" class="form-control" placeholder="Location" ng-model="eca.location" required name="Location" ng-show="eca_edit_is_selected" />
+                            </td>
                         </tr>
-
                     </tbody>
+
+                    @*THIS IS FOR NEW ENTRY:*@
                     <tr>
-
-
                         <td>
-                            <a class="btn btn-success" flex="1" ng-click="addEca()" ng-disabled="!ecaForm.$valid"><i class="fa fa-check"></i></a>
+                            <a class="btn btn-success" ng-disabled="!ecaForm.$valid" ng-click="addEca()"><i class="fa fa-plus"></i></a>
                         </td>
-
                         <td>
-
-                            <select name="ECA Type" ng-model="eca_model.lib_eca_type" class="form-control" required
+                            <select name="ECA Type" ng-model="eca.lib_eca_type" class="form-control" required
                                     ng-options="option as option.Name for option in eca_type_id_options">
                                 <option value="">[Select ECA Type]</option>
                             </select>
                         </td>
-
-
-                        <td><input type="text" class="form-control" placeholder="Description" ng-model="eca_model.description" required name="Description" /></td>
-                        <td><input type="text" class="form-control" placeholder="Location" ng-model="eca_model.location" required name="Location" /></td>
-
-
+                        <td>
+                            <input type="text" class="form-control" placeholder="Description" ng-model="eca.description" required name="Description" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" placeholder="Location" ng-model="eca.location" required name="Location" />
+                        </td>
                     </tr>
 
                 </table>
-
-
-
             </form>
         </md-container>
  

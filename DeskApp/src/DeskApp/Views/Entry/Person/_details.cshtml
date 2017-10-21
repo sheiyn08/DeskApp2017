@@ -66,7 +66,7 @@
                      <label>Sex</label>
                  </div>
                  <div class="col-md-4">
-                     <select name="Sex" ng-model="data.sex" class="form-control"
+                     <select name="Sex" ng-model="data.sex" class="form-control" required
                              ng-options="obj.value as obj.text for obj in [{'value':true,'text':'Male'},{'value':false,'text':'Female'}]">
                          <option value="">[Select Sex]</option>
                      </select>
@@ -182,7 +182,7 @@
 
                         <md-radio-group required ng-model="data.is_ip" name="Is IP">
                             <md-radio-button data-ng-value="true" class="md-primary">IP</md-radio-button>
-                            <md-radio-button data-ng-value="false"> Non Ip </md-radio-button>
+                            <md-radio-button data-ng-value="false" class="md-primary"> Non Ip </md-radio-button>
 
                         </md-radio-group>
                     </div>
@@ -242,7 +242,7 @@
 
                         <md-radio-group ng-required="data.is_ip" ng-model="data.is_ipleader" name="Is IP Leader">
                             <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+                            <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                         </md-radio-group>
 
@@ -269,9 +269,9 @@
 
                     </div>
                     <div class="col-md-4">
-                        <md-radio-group required ng-model="data.is_pantawid" name="Is LGU Official">
+                        <md-radio-group required ng-model="data.is_pantawid" name="Is Pantawid">
                             <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+                            <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                         </md-radio-group>
                     </div>
@@ -298,7 +298,7 @@
                     <div class="col-md-4">
                         <md-radio-group ng-required="data.is_pantawid" ng-model="data.is_pantawid_leader" name="Is Pantawid Leader">
                             <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+                            <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                         </md-radio-group>
                     </div>
@@ -328,7 +328,7 @@
                     <div class="col-md-4">
                         <md-radio-group required ng-model="data.is_slp" name="Is SLP">
                             <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+                            <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                         </md-radio-group>
                     </div>
@@ -355,7 +355,7 @@
                     <div class="col-md-4">
                         <md-radio-group ng-required="data.is_slp" ng-model="data.is_slp_leader" name="Is SLP Leader">
                             <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+                            <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                         </md-radio-group>
                     </div>

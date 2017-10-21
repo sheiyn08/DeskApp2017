@@ -235,7 +235,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <md-radio-button data-ng-value="2">Provincial Level</md-radio-button>
+                                                    <md-radio-button data-ng-value="2" class="md-primary">Provincial Level</md-radio-button>
                                                 </div>
                                             </div>
                                         </div>
@@ -255,7 +255,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <md-radio-button data-ng-value="3">Municipal Level</md-radio-button>
+                                                    <md-radio-button data-ng-value="3" class="md-primary">Municipal Level</md-radio-button>
                                                 </div>
                                             </div>
                                         </div>
@@ -275,7 +275,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <md-radio-button data-ng-value="4">Barangay Level</md-radio-button>
+                                                    <md-radio-button data-ng-value="4" class="md-primary">Barangay Level</md-radio-button>
                                                 </div>
                                             </div>
                                         </div>
@@ -287,20 +287,59 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="col-md-4">
-                                                <label for="Region:_">Fund Source</label>
+                                                <label for="Region:_">Project</label>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group" show-errors='{showSuccess: true}'>
-                                                    <select name="Fund Source" ng-model="data.fund_source_id" id="brgy_code" class="form-control"
+                                                    <select name="Project" ng-model="data.fund_source_id" id="brgy_code" class="form-control"
                                                             ng-required="true"
                                                             ng-disabled="data.training_category_id !=null"
                                                             ng-options="option.Id as option.Name for option in fund_source_id_options">
-                                                        <option value="">[Select Fund Source]</option>
+                                                        <option value="">[Select Project]</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <label>Incentives (Tier-2)?</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_incentive" id="is_incentive" name="is_incentive">
+                                                    {{ data.is_incentive == true ? "Yes" : "" }}
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <label>From Savings?</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_savings" id="is_savings" name="is_savings">
+                                                    {{ data.is_savings == true ? "Yes" : "" }}
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <label>LGU-led?</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_lgu_led" id="is_lgu_led" name="is_lgu_led">
+                                                    {{ data.is_lgu_led == true ? "Yes" : "" }}
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>                                    
                                 </div>
 
 
@@ -379,7 +418,7 @@
                                                 <label>
                                                     Name: <small> Check if Sender is Anonymous / Unknown</small>
                                                 </label>
-                                                <md-checkbox ng-model="data.is_anonymous" aria-label="Checkbox 1" ng-disabled="data.grs_form_id ==1">
+                                                <md-checkbox class="md-primary" ng-model="data.is_anonymous" aria-label="Checkbox 1" ng-disabled="data.grs_form_id ==1">
 
                                                 </md-checkbox>
 
@@ -398,7 +437,7 @@
                                             <div class="col-md-2">
 
                                                 <small>IP Group (Check if IP) </small>
-                                                <md-checkbox ng-model="data.is_ip" aria-label="Checkbox 1">
+                                                <md-checkbox class="md-primary" ng-model="data.is_ip" aria-label="Checkbox 1">
                                             </div>
 
 
@@ -609,7 +648,7 @@
                                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                                     <md-input-container class="md-block">
 
-                                                        <textarea name="Details" required ng-model="data.details" md-maxlength="2000" rows="150" md-select-on-focus=""></textarea>
+                                                        <textarea aria-label="details" name="Details" required ng-model="data.details" md-maxlength="2000" rows="150" md-select-on-focus=""></textarea>
                                                     </md-input-container>
 
                                                 </div>
@@ -631,7 +670,7 @@
                                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                                     <md-input-container class="md-block">
 
-                                                        <textarea name="Actions" required ng-model="data.actions" md-maxlength="2000" rows="150" md-select-on-focus=""></textarea>
+                                                        <textarea aria-label="actions" name="Actions" required ng-model="data.actions" md-maxlength="2000" rows="150" md-select-on-focus=""></textarea>
                                                     </md-input-container>
 
                                                 </div>
@@ -688,7 +727,7 @@
                             <div flex="100" layout="row" layout-margin layout-sm="column">
 
                                 <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid">
-                                    Save Record
+                                    Save
                                 </md-button>
 
                                 <md-button class="md-warn md-raised" href="/View/Grievances">
@@ -738,7 +777,7 @@
                                                     <div class="form-group" show-errors='{showSuccess: true}'>
                                                         <md-input-container class="md-block">
 
-                                                            <textarea name="discussion" required ng-model="remarks" md-maxlength="2000" rows="150" md-select-on-focus="" placeholder="Place actions here"></textarea>
+                                                            <textarea aria-label="discussion" name="discussion" required ng-model="remarks" md-maxlength="2000" rows="150" md-select-on-focus="" placeholder="Place actions here"></textarea>
                                                         </md-input-container>
 
                                                     </div>
@@ -816,7 +855,7 @@
 
         angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
 
-            .controller('AppCtrl', function ($scope, $mdDialog, $http) {
+            .controller('AppCtrl', function ($scope, $mdDialog, $http, $mdToast) {
 
 
                 $scope.showConfirm = function (ev) {
@@ -850,7 +889,7 @@
 
               $scope.dt_date_intake = response.data.date_intake == undefined ? null : new Date(response.data.date_intake);
 
-              $scope.minStartDate = new Date("01/01/2014");
+              $scope.minStartDate = new Date("07/01/2014");
               $scope.today = new Date();
               $scope.maxDate = new Date($scope.dt_date_intake);
 
@@ -922,7 +961,7 @@
                       $scope.data.grs_sender_designation_id = 3;
                       $scope.data.sender_organization = "KALAHI CIDSS";
                       $scope.data.is_anonynous = false;
-                  }
+                  }                                   
               });
 
               $scope.$watch('data.is_anonymous', function (newValue, oldValue) {
@@ -1112,19 +1151,43 @@
                   //'/api/v1/grievances/save'
 
 
+                  //$.post('/api/offline/v1/grievances/save', $scope.data).success(function (data) {
+                  //    $scope.loading = false;
+
+                  //    window.location.href = "/View/Grievances";
+
+                  //}).error(function (data) {
+
+                  //    alert(JSON.stringify(data));
+
+
+                  //    $scope.error = "An Error has occured while Saving! " + data.statusText;
+                  //    $scope.loading = false;
+                  //});
+
+
+
+
                   $.post('/api/offline/v1/grievances/save', $scope.data).success(function (data) {
                       $scope.loading = false;
+                      $('html, body').animate({ scrollTop: '0px' }, 1500);
+                      $mdToast.show(
+                          $mdToast.simple()
+                          .textContent('Record Saved!')
+                          .position("top right")
+                          .hideDelay(3000)
+                      );
 
-                      window.location.href = "/View/Grievances";
 
                   }).error(function (data) {
-
                       alert(JSON.stringify(data));
-
-
                       $scope.error = "An Error has occured while Saving! " + data.statusText;
                       $scope.loading = false;
                   });
+
+
+
+
               };
           });
 

@@ -38,6 +38,9 @@
                         <div flex>
                             <label for="Total">Total SET Score</label>
                         </div>
+                        <div flex>
+                            <label for="Total">Adjectival Rating</label>
+                        </div>
                     </div>
                     <div ng-repeat="set in list_SET">
                         <div layout="row" layout-margin flex="100">
@@ -53,6 +56,13 @@
                             </div>
                             <div flex>
                                 {{set.set_total_score | number : 2}}
+                            </div>
+                            <div flex>
+                                {{set.set_total_score >= 4.76 && set.set_total_score <= 5.00 ? "Excellent" : ""}}
+                                {{set.set_total_score >= 3.51 && set.set_total_score <= 4.75 ? "Very Satisfactory" : ""}}
+                                {{set.set_total_score >= 2.75 && set.set_total_score <= 3.50 ? "Satisfactory" : ""}}
+                                {{set.set_total_score >= 2.50 && set.set_total_score <= 2.74 ? "Fair" : ""}}
+                                {{set.set_total_score <= 2.49 ? "Poor" : ""}}
                             </div>
                         </div>
                     </div>
@@ -140,7 +150,7 @@
                                     <label> Total SET Score</label>
                                 </div>
                                 <div flex="50">
-                                    {{compute_for_set_total()}}
+                                    {{compute_for_set_total()}}              
                                 </div>
                             </div>
                         </div>

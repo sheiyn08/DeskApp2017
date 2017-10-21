@@ -7,8 +7,26 @@
         background-color: transparent;
     }
 
-    mark {
+    mark.uploaded {
         background-color: deepskyblue;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.attachment {
+        background-color: mediumseagreen;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.unauthorized {
+        background-color: firebrick;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.foruploading {
+        background-color: darkorange;
         color: white;
         font-style: italic;
     }
@@ -65,10 +83,10 @@
                     <md-checkbox ng-model="item.is_item_selected" ng-change="itemSelectedforSync(item)" aria-label="false"></md-checkbox> {{item.is_item_selected == true ? "Selected" : ""}}
                 </td>
                 <td style="vertical-align:middle">
-                    <a ng-href="/Entry/Grievances?id={{item.grievance_record_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+                    <a ng-href="/Entry/Grievances?id={{item.grievance_record_id}}" title='Edit Record' class="btn btn-info"><i class="fa fa-edit"></i></a>
                     @if (!User.IsInRole("RMES"))
                     {
-                        <a ng-click="delete(item)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
+                        <a ng-click="delete(item)" title='Delete Record' class="btn btn-danger"><i class="fa fa-trash"></i></a>
                     }
                 </td>
                 <td style="vertical-align:middle">
@@ -95,14 +113,12 @@
                 <td style="vertical-align:middle">
                     {{item.lib_grs_resolution_status_name}}
                 </td>
-                <td style="vertical-align:middle" ng-show="item.push_status_id == 2 || item.push_status_id == 3">
-                    <mark>(For Uploading)</mark>
-                </td>
-                <td style="vertical-align:middle" ng-show="item.push_date == null && item.push_status_id == 1">
-                    N/A
-                </td>
-                <td style="vertical-align:middle" ng-show="item.push_date!=null">
-                    {{item.push_date | date:'MM/dd/yyyy'}}
+                <td style="vertical-align:middle">
+                    <mark class="uploaded" ng-show="item.push_date!=null && item.push_status_id==1">Uploaded : {{item.push_date | date:'MM/dd/yyyy'}}</mark>
+                    <mark class="uploaded" ng-show="item.push_date==null && item.push_status_id==1">Uploaded</mark>
+                    <mark class="foruploading" ng-show="item.push_status_id == 2 || item.push_status_id == 3">For Uploading</mark>
+                    <mark class="unauthorized" ng-show="item.push_status_id == 4">Unauthorized</mark>
+                    <mark class="attachment" ng-show="item.with_attachment == true">With attachment</mark>
                 </td>
             </tr>
         </tbody>

@@ -14,6 +14,7 @@ namespace DeskApp.Controllers
     {
 
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -57,6 +58,11 @@ namespace DeskApp.Controllers
             var record = db.sub_project.FirstOrDefault(x => x.sub_project_unique_id == id);
             record.IsActive = false;
             record.push_status_id = 3;
+
+            //update record in sub_project_spcf:
+            var spcf_record = db.sub_project_spcf.FirstOrDefault(x => x.sub_project_unique_id == id);
+            spcf_record.is_deleted = true;
+            spcf_record.push_status_id = 3;
 
             await db.SaveChangesAsync();
             return Ok();

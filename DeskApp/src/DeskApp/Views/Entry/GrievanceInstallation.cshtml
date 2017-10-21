@@ -143,18 +143,18 @@
 
                         <div flex flex-sm="100">
 
-                            <label for="Region:_">Fund Source</label>
+                            <label for="Region:_">Project</label>
                         </div>
 
                         <div flex flex-sm="100">
 
 
 
-                            <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
+                            <select name="Project" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
                                     ng-disabled="status"
                                     required
                                     ng-options="option.Id as option.Name for option in fund_source_id_options">
-                                <option value="">[Select Fund Source]</option>
+                                <option value="">[Select Project]</option>
                             </select>
 
 
@@ -183,6 +183,39 @@
                     </div>
 
 
+                    <div flex="100" layout="row" layout-margin layout-sm="row">
+                        <div flex flex-sm="100">
+                            <label>Incentives (Tier-2)?</label>
+                        </div>
+                        <div flex flex-sm="100">
+                            <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_incentive" id="is_incentive" name="is_incentive">
+                                {{ data.is_incentive == true ? "Yes" : "" }}
+                            </md-checkbox>
+                        </div>
+                    </div>
+
+                    <div flex="100" layout="row" layout-margin layout-sm="row">
+                        <div flex flex-sm="100">
+                            <label>From Savings?</label>
+                        </div>
+                        <div flex flex-sm="100">
+                            <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_savings" id="is_savings" name="is_savings">
+                                {{ data.is_savings == true ? "Yes" : "" }}
+                            </md-checkbox>
+                        </div>
+                    </div>
+
+                    <div flex="100" layout="row" layout-margin layout-sm="row">
+                        <div flex flex-sm="100">
+                            <label>LGU-led?</label>
+                        </div>
+                        <div flex flex-sm="100">
+                            <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_lgu_led" id="is_lgu_led" name="is_lgu_led">
+                                {{ data.is_lgu_led == true ? "Yes" : "" }}
+                            </md-checkbox>
+                        </div>
+                    </div>
+
 
 
                     <div flex="100" layout="row" layout-margin layout-sm="row">
@@ -190,7 +223,7 @@
                             <label> GRS Orientation</label>
                         </div>
                         <div flex flex-sm="100">
-                            <md-datepicker name="dt_date_orientation" ng-model="dt_date_orientation" md-placeholder="Enter date" ng-change="data.date_orientation = dt_date_orientation.toISOString()" required md-max-date="today"></md-datepicker>
+                            <md-datepicker name="dt_date_orientation" ng-model="dt_date_orientation" md-placeholder="Enter date" ng-change="data.date_orientation = dt_date_orientation.toISOString()" required md-min-date="min_date" md-max-date="today"></md-datepicker>
                         </div>
                     </div>
 
@@ -199,7 +232,7 @@
                             <label> GRS volunteers identified</label>
                         </div>
                         <div flex flex-sm="100">
-                            <md-datepicker name="date_voliden" ng-model="dt_date_voliden" md-placeholder="Enter date" ng-change="data.date_voliden = dt_date_voliden.toISOString()" ng-required="data.lgu_level_id ==1" md-max-date="today"></md-datepicker>
+                            <md-datepicker name="date_voliden" ng-model="dt_date_voliden" md-placeholder="Enter date" ng-change="data.date_voliden = dt_date_voliden.toISOString()" ng-required="data.lgu_level_id ==1" md-min-date="min_date" md-max-date="today"></md-datepicker>
                         </div>
                     </div>
 
@@ -209,7 +242,7 @@
                             <label> Municipal document on MLGU commitment for GRS</label>
                         </div>
                         <div flex flex-sm="100">
-                            <md-datepicker name="date_ffcomm" ng-model="dt_date_ffcomm" md-placeholder="Enter date" ng-change="data.date_ffcomm = dt_date_ffcomm.toISOString()" ng-required="data.lgu_level_id ==2" md-max-date="today"></md-datepicker>
+                            <md-datepicker name="date_ffcomm" ng-model="dt_date_ffcomm" md-placeholder="Enter date" ng-change="data.date_ffcomm = dt_date_ffcomm.toISOString()" ng-required="data.lgu_level_id ==2" md-min-date="min_date" md-max-date="today"></md-datepicker>
                         </div>
                     </div>
 
@@ -219,7 +252,7 @@
                             <label> Training of Community members on handling grievances</label>
                         </div>
                         <div flex flex-sm="100">
-                            <md-datepicker name="date_training" ng-model="dt_date_training" md-placeholder="Enter date" ng-change="data.date_training = dt_date_training.toISOString()" md-max-date="today"></md-datepicker>
+                            <md-datepicker name="date_training" ng-model="dt_date_training" md-placeholder="Enter date" ng-change="data.date_training = dt_date_training.toISOString()" md-min-date="min_date" md-max-date="today"></md-datepicker>
                         </div>
                     </div>
 
@@ -228,7 +261,7 @@
                             <label> GRS Training for ACT/MCT</label>
                         </div>
                         <div flex flex-sm="100">
-                            <md-datepicker name="date_training" ng-model="dt_date_training" md-placeholder="Enter date" ng-change="data.date_training = dt_date_training.toISOString()" md-max-date="today"></md-datepicker>
+                            <md-datepicker name="date_training" ng-model="dt_date_training" md-placeholder="Enter date" ng-change="data.date_training = dt_date_training.toISOString()" md-min-date="min_date" md-max-date="today"></md-datepicker>
                         </div>
                     </div>
 
@@ -249,7 +282,7 @@
 
 
 
-                            <md-datepicker name="date_inspect" ng-model="dt_date_inspect" md-placeholder="Enter date" ng-change="data.date_inspect = dt_date_inspect.toISOString()" required md-max-date="today"></md-datepicker>
+                            <md-datepicker name="date_inspect" ng-model="dt_date_inspect" md-placeholder="Enter date" ng-change="data.date_inspect = dt_date_inspect.toISOString()" required md-min-date="min_date" md-max-date="today"></md-datepicker>
 
 
 
@@ -277,7 +310,7 @@
 
                             <md-radio-group ng-model="data.is_boxinstalled" required name="GRS Box Installation">
                                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                                <md-radio-button data-ng-value="false"> No </md-radio-button>
+                                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                             </md-radio-group>
                         </div>
@@ -317,7 +350,7 @@
                             <md-input-container class="md-block" flex="100">
 
                                 <textarea name="final" ng-model="data.remarks" md-maxlength="2000" rows="5"
-                                          cols="100"
+                                          cols="100" aria-label="remarks"
                                           md-select-on-focus="" flex="100"></textarea>
 
                             </md-input-container>
@@ -347,7 +380,7 @@
 
 
         <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid">
-            Save Record
+            Save
         </md-button>
 
         <md-button class="md-warn md-raised" ng-click="cancel()">
@@ -452,6 +485,8 @@
               $scope.dt_date_training = response.data.date_training == undefined ? null : new Date(response.data.date_training);
               $scope.dt_date_inspect = response.data.date_inspect == undefined ? null : new Date(response.data.date_inspect);
 
+
+              $scope.min_date = new Date("07/01/2014");
               $scope.today = new Date();
 
               $http.get('/api/online/lib_region')
@@ -734,18 +769,13 @@
 
                   $.post('/api/offline/v1/grs_installation/save', $scope.data).success(function (data) {
                       $scope.loading = false;
-
-
-                      $('html, body').animate({
-                          scrollTop: '0px'
-                      }, 1500);
-
+                      $('html, body').animate({ scrollTop: '0px' }, 1500);
                       $mdToast.show(
-                      $mdToast.simple()
-                        .textContent('Record Saved!')
-                        .position("top right")
-                        .hideDelay(3000)
-                    );
+                          $mdToast.simple()
+                          .textContent('Record Saved!')
+                          .position("top right")
+                          .hideDelay(3000)
+                      );
 
                       $scope.check_status();
 

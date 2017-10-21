@@ -21,6 +21,7 @@ namespace DeskApp.Controllers
     public class ProfilesController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
 
         private readonly ApplicationDbContext db;
@@ -195,11 +196,10 @@ namespace DeskApp.Controllers
 
             var export = result.GroupBy(x => new
             {
-                x.person_profile.person_profile_id,
                 x.person_profile.lib_region.region_name,
                 x.person_profile.lib_province.prov_name,
                 x.person_profile.lib_city.city_name,
-                brgy_name = x.person_profile.lib_brgy.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(cx => cx.brgy_code == x.person_profile.brgy_code).brgy_name,
+                brgy_name = x.person_profile.lib_brgy.brgy_code == null ? "(No barangay stated)" : db.lib_brgy.FirstOrDefault(cx => cx.brgy_code == x.person_profile.brgy_code).brgy_name,
                    
             }).
             Select(x => new
@@ -335,6 +335,7 @@ namespace DeskApp.Controllers
                          select new
                          {
                              s.person_profile_id,
+                             p.volunteer_committee_id,
 
                              s.lib_region.region_name,
                              s.lib_province.prov_name,
@@ -467,20 +468,25 @@ namespace DeskApp.Controllers
 
             var export = result.GroupBy(x => new
             {
-                x.person_profile.lib_region,
-                x.person_profile.lib_province,
-                x.person_profile.lib_city,
-                x.person_profile.lib_brgy,
+                x.person_profile.lib_region.region_name,
+                x.person_profile.lib_province.prov_name,
+                x.person_profile.lib_city.city_name,
+                brgy_name = x.person_profile.lib_brgy.brgy_code == null ? "" : db.lib_brgy.FirstOrDefault(cx => cx.brgy_code == x.person_profile.brgy_code).brgy_name,
+                
+                //x.person_profile.lib_region,
+                //x.person_profile.lib_province,
+                //x.person_profile.lib_city,                
+                //x.person_profile.lib_brgy,
                 x.lib_cycle,
                 x.lib_fund_source,
                 x.lib_enrollment,
 
             }).Select(x => new
             {
-                region_name = x.Key.lib_region.region_name,
-                prov_name = x.Key.lib_province.prov_name,
-                city_name = x.Key.lib_city.city_name,
-                brgy_name = x.Key.lib_brgy.brgy_name,
+                region_name = x.Key.region_name,
+                prov_name = x.Key.prov_name,
+                city_name = x.Key.city_name,
+                brgy_name = x.Key.brgy_name,
 
                 fund_source_name = x.Key.lib_fund_source.name,
                 cycle_name = x.Key.lib_cycle.name,
@@ -602,58 +608,451 @@ namespace DeskApp.Controllers
             return Ok(export);
         }
 
+        #region DQA for Person Profile
 
-
+        //DQA: Created by Jessy
         [HttpPost]
         [Route("/api/export/person_profile/volunteer/dqa/list")]
         public IActionResult export_dqa_volunteer(AngularFilterModel item)
         {
-
             item.is_volunteer = true;
-
             var model = GetData(item);
 
-            //var result = from s in model
-            //             join p in db.person_volunteer_record
-            //             on s.person_profile_id equals p.person_profile_id
-            //             select p;
-
-
-
-            //var output = result.GroupBy(x => x.person_profile_id)
-
             var export = from s in model
-
-
                          select new
                          {
                              s.person_profile_id,
-
                              s.lib_region.region_name,
                              s.lib_province.prov_name,
                              s.lib_city.city_name,
                              s.lib_brgy.brgy_name,
-
                              s.first_name,
                              s.middle_name,
                              s.last_name,
-
-                             //  no_birthday = s.birthdate == null ? "No Birthday" : "",
-
                              age = s.birthdate == null ? "" : (DateTime.Now.Year - s.birthdate.Value.Year).ToString(),
-
                              age_remarks = s.birthdate == null ? "No Birthday" : (DateTime.Now.Year - s.birthdate.Value.Year) < 15 ? "Less Than 15 Years Old" : (DateTime.Now.Year - s.birthdate.Value.Year) > 100 ? "More than 100 Years Old" : "",
-
                              zero_committee = db.person_volunteer_record.Where(x => x.person_profile_id == s.person_profile_id && x.is_deleted != true).Count() > 0 ? "No Committee" : "",
                              more_than_one_head = db.person_volunteer_record.Where(x => x.person_profile_id == s.person_profile_id && x.volunteer_committee_position_id == 2 && x.is_deleted != true).Count() > 1 ? "More than 1" : "",
                              no_of_committes_as_head = db.person_volunteer_record.Where(x => x.person_profile_id == s.person_profile_id && x.volunteer_committee_position_id == 2 && x.is_deleted != true).Count(),
                              no_of_committes_as_member = db.person_volunteer_record.Where(x => x.person_profile_id == s.person_profile_id && x.volunteer_committee_position_id == 1 && x.is_deleted != true).Count()
                          };
 
-
-
             return Ok(export);
         }
+
+        //DQA: Displays records with blank sex and/or same name with different sex
+        [HttpPost]
+        [Route("/api/export/person_profile/dqa/same_name_different_sex")]
+        public IActionResult export_dqa_same_name_different_sex(AngularFilterModel item)
+        {
+            var model = GetData(item);            
+
+            var result = from p1 in model
+                         join p2 in model on
+                            new {
+                                join1 = p1.region_code,
+                                join2 = p1.prov_code,
+                                join3 = p1.city_code,
+                                join4 = p1.brgy_code,
+                                join5 = p1.first_name.ToLower(),
+                                join6 = p1.last_name.ToLower(),
+                                join7 = p1.birthdate
+                            } equals 
+                            new {
+                                join1 = p2.region_code,
+                                join2 = p2.prov_code,
+                                join3 = p2.city_code,
+                                join4 = p2.brgy_code,
+                                join5 = p2.first_name.ToLower(),
+                                join6 = p2.last_name.ToLower(),
+                                join7 = p2.birthdate
+                            }
+                            where p2.sex != p1.sex || p1.sex == null
+                            orderby p1.brgy_code
+                         select new
+                         {
+                             Person_Unique_Id = p1.person_profile_id,                             
+                             Region = p1.lib_region.region_name == null ? null : p1.lib_region.region_name,
+                             Province = p1.lib_province.prov_name == null ? null : p1.lib_province.prov_name,
+                             Municipality = p1.lib_city.city_name == null ? null : p1.lib_city.city_name,
+                             Barangay = p1.lib_brgy.brgy_name == null ? null : p1.lib_brgy.brgy_name,
+                             Last_Name = p1.last_name,
+                             First_Name = p1.first_name,
+                             Birthday = p1.birthdate.Value.ToString("MM/dd/yyyy"),
+                             Sex = p1.sex == null ?  null : p1.sex == true ? "Male" : "Female"
+                         };
+
+            return Ok(result);
+        }
+
+        //DQA: Displays all CVs without committee
+        [HttpPost]
+        [Route("/api/export/person_profile/dqa/cv_without_committee")]
+        public IActionResult export_dqa_cv_without_committee(AngularFilterModel item)
+        {
+            item.is_volunteer = true;
+            var model = GetData(item);
+
+            var result = from p1 in model
+                         join p2 in db.person_volunteer_record on p1.person_profile_id equals p2.person_profile_id
+                         where p2.volunteer_committee_id == null
+                         select new
+                         {
+                             Person_Unique_Id = p1.person_profile_id,
+                             Region = p1.lib_region.region_name == null ? null : p1.lib_region.region_name,
+                             Province = p1.lib_province.prov_name == null ? null : p1.lib_province.prov_name,
+                             Municipality = p1.lib_city.city_name == null ? null : p1.lib_city.city_name,
+                             Barangay = p1.lib_brgy.brgy_name == null ? null : p1.lib_brgy.brgy_name,
+                             Last_Name = p1.last_name,
+                             First_Name = p1.first_name,
+                             Birthday = p1.birthdate.Value.ToString("MM/dd/yyyy"),
+                             Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
+                             Cycle = p2.lib_cycle.name,
+                             Committee = p2.lib_volunteer_committee.name == null ? null : p2.lib_volunteer_committee.name,
+                             Position = p2.lib_volunteer_committee_position.name == null ? null : p2.lib_volunteer_committee_position.name
+                         };
+
+            return Ok(result);
+        }
+
+        //DQA: Displays all CVs with committee but without position
+        [HttpPost]
+        [Route("/api/export/person_profile/dqa/cv_without_position")]
+        public IActionResult export_dqa_cv_without_position(AngularFilterModel item)
+        {
+            item.is_volunteer = true;
+            var model = GetData(item);
+
+            var result = from p1 in model
+                         join p2 in db.person_volunteer_record on p1.person_profile_id equals p2.person_profile_id
+                         where (p2.volunteer_committee_id != null && p2.volunteer_committee_position_id == null) || p2.volunteer_committee_position_id == null
+                         select new
+                         {
+                             Person_Unique_Id = p1.person_profile_id,
+                             Region = p1.lib_region.region_name == null ? null : p1.lib_region.region_name,
+                             Province = p1.lib_province.prov_name == null ? null : p1.lib_province.prov_name,
+                             Municipality = p1.lib_city.city_name == null ? null : p1.lib_city.city_name,
+                             Barangay = p1.lib_brgy.brgy_name == null ? null : p1.lib_brgy.brgy_name,
+                             Last_Name = p1.last_name,
+                             First_Name = p1.first_name,
+                             Birthday = p1.birthdate.Value.ToString("MM/dd/yyyy"),
+                             Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
+                             Cycle = p2.lib_cycle.name,
+                             Committee = p2.lib_volunteer_committee.name == null ? null : p2.lib_volunteer_committee.name,
+                             Position = p2.lib_volunteer_committee_position.name == null ? null : p2.lib_volunteer_committee_position.name
+                         };
+
+            return Ok(result);
+        }
+
+        //DQA: Displays records with same birthday, same location, and cycle and same committee -- WITH ERROR! (not yet in report_list)
+        [HttpPost]
+        [Route("/api/export/person_profile/dqa/possible_duplicates")]
+        public IActionResult export_dqa_possible_duplicates(AngularFilterModel item)
+        {
+            item.is_volunteer = true;
+            var model = GetData(item);
+            var volunteer_record = db.person_volunteer_record.Where(x => x.is_deleted != true);
+            
+            var query1 = from pv1 in volunteer_record
+                         join pv2 in volunteer_record on
+                         new
+                         {
+                             join1 = pv1.cycle_id,
+                             join2 = pv1.volunteer_committee_id
+                         } equals
+                         new
+                         {
+                             join1 = pv2.cycle_id,
+                             join2 = pv2.volunteer_committee_id
+                         }
+                         where pv2.person_profile_id != pv1.person_profile_id
+                         select new
+                         {
+                             pv1.person_profile_id,
+                             cycle = pv1.lib_cycle.name,
+                             committee = pv1.lib_volunteer_committee.name,
+                             pv1.cycle_id,
+                             pv1.volunteer_committee_id,
+                         };
+
+            var query2 = from p1 in model
+                         join p2 in model on
+                         new
+                         {
+                             join1 = p1.birthdate,
+                             join2 = p1.region_code,
+                             join3 = p1.prov_code,
+                             join4 = p1.city_code,
+                             join5 = p1.brgy_code
+                         } equals
+                         new
+                         {
+                             join1 = p2.birthdate,
+                             join2 = p2.region_code,
+                             join3 = p2.prov_code,
+                             join4 = p2.city_code,
+                             join5 = p2.brgy_code
+                         }
+                         select new
+                         {
+                             p1.person_profile_id,
+                             p1.birthdate,
+                             Region = p1.lib_region.region_name,
+                             Province = p1.lib_province.prov_name,
+                             City = p1.lib_city.city_name,
+                             Brgy = p1.lib_brgy.brgy_name,
+                             p1.region_code,
+                             p1.prov_code,
+                             p1.city_code,
+                             p1.brgy_code,
+                             p1.last_name,
+                             p1.first_name
+                         };
+                        
+            var result = from q1 in query1
+                         join q2 in query2 on q1.person_profile_id equals q2.person_profile_id
+                         select new
+                         {
+                             q1,
+                             q2,
+                             //Person_Unique_Id = q2.person_profile_id,
+                             //Region = q2.Region == null ? null : q2.Region,
+                             //Province = q2.Province == null ? null : q2.Province,
+                             //Municipality = q2.City == null ? null : q2.City,
+                             //Barangay = q2.Brgy == null ? null : q2.Brgy,
+                             //Cycle = q1.cycle,
+                             //Last_Name = q2.last_name,
+                             //First_Name = q2.first_name,
+                             //Birthday = q2.birthdate.Value.ToString("MM/dd/yyyy"),
+                             //Committee = q1.committee
+                         };         
+            
+            return Ok(result);
+        }
+
+        //DQA: Displays all CVs with missing birthdates
+        [HttpPost]
+        [Route("/api/export/person_profile/dqa/missing_birthdates")]
+        public IActionResult export_dqa_missing_birthdates(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            var result = from p1 in model
+                         where p1.birthdate == null
+                         select new
+                         {
+                             Person_Unique_Id = p1.person_profile_id,
+                             Region = p1.lib_region.region_name == null ? null : p1.lib_region.region_name,
+                             Province = p1.lib_province.prov_name == null ? null : p1.lib_province.prov_name,
+                             Municipality = p1.lib_city.city_name == null ? null : p1.lib_city.city_name,
+                             Barangay = p1.lib_brgy.brgy_name == null ? null : p1.lib_brgy.brgy_name,
+                             Last_Name = p1.last_name,
+                             First_Name = p1.first_name,                             
+                             Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
+                             Birthdate = p1.birthdate == null ? null : p1.birthdate.Value.ToString("MM/dd/yyyy")
+                         };
+
+            return Ok(result);
+        }
+
+        //DQA: Displays records with same name and location, but differs in birthdate.
+        [HttpPost]
+        [Route("/api/export/person_profile/dqa/same_name_different_bdate")]
+        public IActionResult export_dqa_same_name_different_bdate(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            var result = from p1 in model
+                         join p2 in model on
+                            new
+                            {
+                                join1 = p1.region_code,
+                                join2 = p1.prov_code,
+                                join3 = p1.city_code,
+                                join4 = p1.brgy_code,
+                                join5 = p1.first_name.ToLower(),
+                                join6 = p1.last_name.ToLower()
+                            } equals
+                            new
+                            {
+                                join1 = p2.region_code,
+                                join2 = p2.prov_code,
+                                join3 = p2.city_code,
+                                join4 = p2.brgy_code,
+                                join5 = p2.first_name.ToLower(),
+                                join6 = p2.last_name.ToLower()
+                            }
+                         where p2.birthdate != p1.birthdate
+                         orderby p1.brgy_code
+                         select new
+                         {
+                             Person_Unique_Id = p1.person_profile_id,
+                             Region = p1.lib_region.region_name == null ? null : p1.lib_region.region_name,
+                             Province = p1.lib_province.prov_name == null ? null : p1.lib_province.prov_name,
+                             Municipality = p1.lib_city.city_name == null ? null : p1.lib_city.city_name,
+                             Barangay = p1.lib_brgy.brgy_name == null ? null : p1.lib_brgy.brgy_name,
+                             Last_Name = p1.last_name,
+                             First_Name = p1.first_name,
+                             Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
+                             Birthday = p1.birthdate == null ? null : p1.birthdate.Value.ToString("MM/dd/yyyy")                             
+                         };
+
+            return Ok(result);
+        }
+
+        //DQA: Displays records with same last_name, same location, same birthdate, but differs in first_name
+        [HttpPost]
+        [Route("/api/export/person_profile/dqa/same_lname_different_fname")]
+        public IActionResult export_dqa_same_lname_different_fname(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            var result = from p1 in model
+                         join p2 in model on
+                            new
+                            {
+                                join1 = p1.region_code,
+                                join2 = p1.prov_code,
+                                join3 = p1.city_code,
+                                join4 = p1.brgy_code,
+                                join5 = p1.last_name.ToLower(),
+                                join6 = p1.birthdate
+                            } equals
+                            new
+                            {
+                                join1 = p2.region_code,
+                                join2 = p2.prov_code,
+                                join3 = p2.city_code,
+                                join4 = p2.brgy_code,
+                                join5 = p2.last_name.ToLower(),
+                                join6 = p2.birthdate
+                            }
+                         where p2.first_name != p1.first_name
+                         orderby new { p1.last_name, p1.first_name }
+                         select new
+                         {
+                             Person_Unique_Id = p1.person_profile_id,
+                             Region = p1.lib_region.region_name == null ? null : p1.lib_region.region_name,
+                             Province = p1.lib_province.prov_name == null ? null : p1.lib_province.prov_name,
+                             Municipality = p1.lib_city.city_name == null ? null : p1.lib_city.city_name,
+                             Barangay = p1.lib_brgy.brgy_name == null ? null : p1.lib_brgy.brgy_name,
+                             Last_Name = p1.last_name,
+                             First_Name = p1.first_name,
+                             Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
+                             Birthday = p1.birthdate == null ? null : p1.birthdate.Value.ToString("MM/dd/yyyy")
+                         };
+
+            return Ok(result);
+        }
+
+        //DQA: Displays records with same first_name, same location, same birthdate, but differs in last_name
+        [HttpPost]
+        [Route("/api/export/person_profile/dqa/same_fname_different_lname")]
+        public IActionResult export_dqa_same_lname_different_lname(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            var result = from p1 in model
+                         join p2 in model on
+                            new
+                            {
+                                join1 = p1.region_code,
+                                join2 = p1.prov_code,
+                                join3 = p1.city_code,
+                                join4 = p1.brgy_code,
+                                join5 = p1.first_name.ToLower(),
+                                join6 = p1.birthdate
+                            } equals
+                            new
+                            {
+                                join1 = p2.region_code,
+                                join2 = p2.prov_code,
+                                join3 = p2.city_code,
+                                join4 = p2.brgy_code,
+                                join5 = p2.first_name.ToLower(),
+                                join6 = p2.birthdate
+                            }
+                         where p2.last_name != p1.last_name
+                         orderby new { p1.last_name, p1.first_name }
+                         select new
+                         {
+                             Person_Unique_Id = p1.person_profile_id,
+                             Region = p1.lib_region.region_name == null ? null : p1.lib_region.region_name,
+                             Province = p1.lib_province.prov_name == null ? null : p1.lib_province.prov_name,
+                             Municipality = p1.lib_city.city_name == null ? null : p1.lib_city.city_name,
+                             Barangay = p1.lib_brgy.brgy_name == null ? null : p1.lib_brgy.brgy_name,
+                             Last_Name = p1.last_name,
+                             First_Name = p1.first_name,
+                             Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
+                             Birthday = p1.birthdate == null ? null : p1.birthdate.Value.ToString("MM/dd/yyyy")
+                         };
+
+            return Ok(result);
+        }
+
+        //DQA: Person Profile null values -- Display Person Profile encoded that contains null values on the minimum required fields
+        [HttpPost]
+        [Route("/api/export/person_profile/dqa/null_required_fields")]
+        public IActionResult export_dqa_null_required_fields(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            var list = model
+                .Select(x => new
+                {
+                    x.person_profile_id, x.first_name, x.middle_name, x.last_name, x.sex, status = x.lib_civil_status.name, x.birthdate, x.no_children, education = x.lib_education_attainment.name, x.is_ip, x.is_pantawid, x.is_slp,
+                    region = x.lib_region.region_name, province = x.lib_province.prov_name, city = x.lib_city.city_name, brgy = x.lib_brgy.brgy_name, x.sitio, x.contact_no,
+                    occupation = x.lib_occupation.name, x.is_lguofficial, x.is_mdc, x.is_bdc,
+                    x.is_sector_academe, x.is_sector_business, x.is_sector_pwd, x.is_sector_farmer, x.is_sector_fisherfolks, x.is_sector_government, x.is_sector_ip, x.is_sector_ngo, x.is_sector_po, x.is_sector_religios, x.is_sector_senior, x.is_sector_women, x.is_sector_youth,
+                    x.other_training, x.other_membership
+                })
+                .Where(x => 
+                    x.first_name == null || x.middle_name == null || x.last_name == null || x.sex == null || x.status == null || x.birthdate == null || x.no_children == null || x.education == null || x.is_ip == null || x.is_pantawid == null || x.is_slp == null ||
+                    x.region == null || x.province == null || x.city == null || x.brgy == null || x.sitio == null || x.contact_no == null ||
+                    x.occupation == null || x.is_lguofficial == null || x.is_mdc == null || x.is_bdc == null ||
+                    x.is_sector_academe == null || x.is_sector_business == null || x.is_sector_pwd == null || x.is_sector_farmer == null || x.is_sector_fisherfolks == null || x.is_sector_government == null || x.is_sector_ip == null || x.is_sector_ngo == null || x.is_sector_po == null || x.is_sector_religios == null || x.is_sector_senior == null || x.is_sector_women == null || x.is_sector_youth == null ||
+                    x.other_training == null || x.other_membership == null
+                      )
+                .ToList();
+
+            var result = list
+                .Select(x => new
+                {
+                    Person_Unique_Id = x.person_profile_id,
+                    First_Name = x.first_name == null ? null : x.first_name,
+                    Middle_Name = x.middle_name == null ? null : x.middle_name,
+                    Last_Name = x.last_name == null ? null : x.last_name,
+                    Sex = x.sex == null ? null : x.sex == true ? "Male" : "Female",
+                    Civil_Status = x.status == null ? null : x.status,
+                    Birthdate = x.birthdate,
+                    No_of_children = x.no_children,
+                    Educational_Attainment = x.education,
+                    Is_IP = x.is_ip == null ? null : x.is_ip == true ? "Yes" : "No",
+                    Is_Pantawid = x.is_pantawid == null ? null : x.is_pantawid == true ? "Yes" : "No",
+                    Is_SLP = x.is_slp == null ? null : x.is_slp == true ? "Yes" : "No",
+                    Region = x.region == null ? null : x.region,
+                    Province = x.province == null ? null : x.province,
+                    Municipality = x.city == null ? null : x.city,
+                    Barangay = x.brgy == null ? null : x.brgy,
+                    Sitio = x.sitio,
+                    Contact_no = x.contact_no,  
+                    Current_Occupation = x.occupation == null ? null : x.occupation,
+                    Is_LGU_Official = x.is_lguofficial == null ? null : x.is_lguofficial == true ? "Yes" : "No",
+                    Is_MDC = x.is_mdc == null ? null : x.is_mdc == true ? "Yes" : "No",
+                    Is_BDC = x.is_bdc == null ? null : x.is_bdc == true ? "Yes" : "No",
+                    Sector_Represented = x.is_sector_academe == null && x.is_sector_business == null && x.is_sector_pwd == null && x.is_sector_farmer == null && x.is_sector_fisherfolks == null && x.is_sector_government == null && x.is_sector_ip == null && x.is_sector_ngo == null && x.is_sector_po == null && x.is_sector_religios == null && x.is_sector_senior == null && x.is_sector_women == null && x.is_sector_youth == null  ? null : "With sector represented",
+                    Previous_Trainings_Attended = x.other_training == null ? null : x.other_training,
+                    Previous_Organizations = x.other_membership == null ? null : x.other_membership
+                })
+                .ToList();
+
+            return Ok(result);
+        }
+
+        #endregion
+
+
+
 
 
 
@@ -806,6 +1205,34 @@ namespace DeskApp.Controllers
             if (item.approval_id != null)
             {
                 model = model.Where(m => m.approval_id == item.approval_id);
+            }
+
+            //v3.0 additional filter
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    model = model.Where(m => m.push_status_id != 4);
+                }
+            }
+
+            if (item.is_recently_added != null)
+            {
+                if (item.is_recently_added == true)
+                {
+                    model = model.Where(m => m.push_status_id == 2);
+                }
+            }
+            if (item.is_recently_edited != null)
+            {
+                if (item.is_recently_edited == true)
+                {
+                    model = model.Where(m => m.push_status_id == 3);
+                }
             }
 
             //try:
@@ -2388,3 +2815,5 @@ namespace DeskApp.Controllers
 
     }
 }
+
+

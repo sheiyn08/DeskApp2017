@@ -25,10 +25,10 @@
             -webkit-border-radius: 3px;
         }
 
-            input.ng-invalid {
+            /*input.ng-invalid {
                 background-color: #f79;
                 color: #000;
-            }
+            }*/
     </style>
     <style>
         .form-group .help-block {
@@ -232,9 +232,8 @@
             <md-container layout="row">
 
                 <div flex="100" layout="row" layout-margin layout-sm="column">
-
                     <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || !popForm.$valid  || !areaForm.$valid">
-                        Save Record
+                        Save
                     </md-button>
 
                     <md-button class="md-warn md-raised" href="/View/BarangayProfiles">
@@ -314,7 +313,7 @@
               $scope.data.financial_sources = [];// JSON.parse($scope.data.financial_sources);
               $scope.data.gad_activities = [];// = JSON.parse($scope.data.gad_activities);
               $scope.data.drrm_activities = [];// JSON.parse($scope.data.drrm_activities);
-              $scope.data.ip_group_in_areas = []
+              $scope.data.ip_group_in_areas = [];
               $scope.data.eca_lists = [];
               $scope.data.brgy_project = [];
 
@@ -641,70 +640,182 @@
 
 
 
-
+              //-------------- Enhancement: 08-08-17 Add edit for Population > INDIGENOUS PEOPLE
 
               $scope.addIpGroup = function () {
+                  $scope.data.ip_group_in_areas.push($scope.grp);
+                  $scope.grp = {};
+              };
+
+              $scope.removeIPGroup = function (grp) {
+                  $scope.data.ip_group_in_areas.splice(grp, 1);
+              };
+
+              $scope.editIPGroup = function (grp) {
+                  $scope.editing = $scope.data.ip_group_in_areas.indexOf(grp);
+                  grp.backupGrpName = angular.copy(grp.lib_ip_group.Name);
+                  grp.backupSitio = angular.copy(grp.sitio);
+                  grp.backupHH = angular.copy(grp.household);
+                  grp.backupFamily = angular.copy(grp.family);
+                  grp.backupMale = angular.copy(grp.male);
+                  grp.backupFemale = angular.copy(grp.female);
+              };
+
+              $scope.saveEditedIPGroup = function (grp) {
+                  delete grp.backupGrpName;
+                  delete grp.backupSitio;
+                  delete grp.backupHH;
+                  delete grp.backupFamily;
+                  delete grp.backupMale;
+                  delete grp.backupFemale;
+              };
+
+              $scope.cancelEditIPGroup = function (grp) {
+                  grp.lib_ip_group.Name = angular.copy(grp.backupGrpName);
+                  grp.sitio = angular.copy(grp.backupSitio);
+                  grp.household = angular.copy(grp.backupHH);
+                  grp.family = angular.copy(grp.backupFamily);
+                  grp.male = angular.copy(grp.backupMale);
+                  grp.female = angular.copy(grp.backupFemale);
+                  delete grp.backupGrpName;
+                  delete grp.backupSitio;
+                  delete grp.backupHH;
+                  delete grp.backupFamily;
+                  delete grp.backupMale;
+                  delete grp.backupFemale;
+              };
 
 
 
 
-                  $scope.data.ip_group_in_areas.push($scope.groups);
+              //$scope.addIpGroup = function () {
+
+              //    $scope.data.ip_group_in_areas.push($scope.groups);
 
 
 
-                  $scope.groups = {};
-              }
+              //    $scope.groups = {};
+              //}
 
-              $scope.removeIPGroup = function (index) {
+              //$scope.removeIPGroup = function (index) {
 
-                  $scope.data.ip_group_in_areas.splice(index, 1);
-
-
-              }
+              //    $scope.data.ip_group_in_areas.splice(index, 1);
 
 
+              //}
 
+
+              //-------------- Enhancement: 08-08-17 Add edit for Area Profile > Environmental Critical Areas (ECA)
 
               $scope.addEca = function () {
+                  $scope.data.eca_lists.push($scope.eca);
+                  $scope.eca = {};
+              };
+
+              $scope.removeEca = function (eca) {
+                  $scope.data.eca_lists.splice(eca, 1);
+              };
+
+              $scope.editEca = function (eca) {
+                  $scope.editing = $scope.data.eca_lists.indexOf(eca);
+                  eca.backupTypeName = angular.copy(eca.lib_eca_type.Name);
+                  eca.backupDesc = angular.copy(eca.description);
+                  eca.backupLocation = angular.copy(eca.location);
+              };
+
+              $scope.saveEditedEca = function (eca) {
+                  delete eca.backupTypeName;
+                  delete eca.backupDesc;
+                  delete eca.backupLocation;
+              };
+
+              $scope.cancelEditEca = function (eca) {
+                  eca.lib_eca_type.Name = angular.copy(eca.backupTypeName);
+                  eca.description = angular.copy(eca.backupDesc);
+                  eca.location = angular.copy(eca.backupLocation);
+                  delete eca.backupTypeName;
+                  delete eca.backupDesc;
+                  delete eca.backupLocation;
+              };
 
 
+              //$scope.addEca = function () {
 
-                  $scope.data.eca_lists.push($scope.eca_model);
+              //    $scope.data.eca_lists.push($scope.eca_model);
 
+              //    $scope.eca_model = {};
+              //}
 
+              //$scope.removeEca = function (index) {
 
-                  $scope.eca_model = {};
-              }
+              //    $scope.data.eca_lists.splice(index, 1);
 
-              $scope.removeEca = function (index) {
-
-                  $scope.data.eca_lists.splice(index, 1);
-
-
-              }
+              //}
 
 
-
-
+              //-------------- Enhancement: 08-09-17 Add edit for Projects tab > BRGY DEVELOPMENT PROJECTS
 
               $scope.addBrgyProject = function () {
-
-
-
-
                   $scope.data.brgy_project.push($scope.proj);
-
-
-
                   $scope.proj = {};
-              }
+              };
 
-              $scope.removeBrgyProject = function (index) {
+              $scope.removeBrgyProject = function (proj) {
+                  $scope.data.brgy_project.splice(proj, 1);
+              };
 
-                  $scope.data.brgy_project.splice(index, 1);
+              $scope.editBrgyProject = function (proj) {
+                  $scope.editing = $scope.data.brgy_project.indexOf(proj);
+                  proj.backupProjName = angular.copy(proj.name);
+                  proj.backupProjLocation = angular.copy(proj.location);
+                  proj.backupProjScope = angular.copy(proj.scope);
+                  proj.backupProjCost = angular.copy(proj.cost);
+                  proj.backupProjSource = angular.copy(proj.source);
+                  proj.backupProjSharing = angular.copy(proj.sharing);
+                  proj.backupProjMale = angular.copy(proj.male);
+                  proj.backupProjFemale = angular.copy(proj.female);
+              };
+
+              $scope.saveEditedBrgyProject = function (proj) {
+                  delete proj.backupProjName;
+                  delete proj.backupProjLocation;
+                  delete proj.backupProjScope;
+                  delete proj.backupProjCost;
+                  delete proj.backupProjSource;
+                  delete proj.backupProjSharing;
+                  delete proj.backupProjMale;
+                  delete proj.backupProjFemale;
+              };
+
+              $scope.cancelEditBrgyProject = function (proj) {
+                  proj.name = angular.copy(proj.backupProjName);
+                  proj.location = angular.copy(proj.backupProjLocation);
+                  proj.scope = angular.copy(proj.backupProjScope);
+                  proj.cost = angular.copy(proj.backupProjCost);
+                  proj.source = angular.copy(proj.backupProjSource);
+                  proj.sharing = angular.copy(proj.backupProjSharing);
+                  proj.male = angular.copy(proj.backupProjMale);
+                  proj.female = angular.copy(proj.backupProjFemale);
+                  delete proj.backupProjName;
+                  delete proj.backupProjLocation;
+                  delete proj.backupProjScope;
+                  delete proj.backupProjCost;
+                  delete proj.backupProjSource;
+                  delete proj.backupProjSharing;
+                  delete proj.backupProjMale;
+                  delete proj.backupProjFemale;
+              };
 
 
-              }
+
+              //$scope.addBrgyProject = function () {
+              //    $scope.data.brgy_project.push($scope.proj);
+              //    $scope.proj = {};
+              //}
+
+              //$scope.removeBrgyProject = function (index) {
+              //    $scope.data.brgy_project.splice(index, 1);
+              //}
 
 
 
@@ -723,14 +834,13 @@
                   $scope.data.brgy_projects = JSON.stringify($scope.data.brgy_project);
                   $.post('/api/offline/v1/barangay_profile/save', $scope.data).success(function (data) {
                       $scope.loading = false;
-
-
+                      $('html, body').animate({ scrollTop: '0px' }, 1500);
                       $mdToast.show(
-                       $mdToast.simple()
-                         .textContent('Data Saved!')
-                         .position("bottom right")
-                         .hideDelay(3000)
-                     );
+                          $mdToast.simple()
+                          .textContent('Record Saved!')
+                          .position("top right")
+                          .hideDelay(3000)
+                      );
 
 
                   }).error(function (data) {

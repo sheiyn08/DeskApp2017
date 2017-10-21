@@ -1,4 +1,14 @@
+<style>
 
+    .zui-table thead th {
+    background-color: #DDEFEF;
+    border: solid 1px #DDEEEE;
+    color: #336B6B;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+</style>
 
 
 
@@ -7,79 +17,112 @@
     <div class="panel-heading">
         <h4>Identified Problems and Solutions</h4>
         <p>Please Encode Problems <strong>according to Rank Order (First - Last)</strong></p>
-        <br />
-        <form name="problemForm">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-3">
-                        <select name="prob.Problem category" ng-model="prob_model.psa_problem_category_id" class="form-control" required
-                                ng-options="option.Id as option.Name for option in psa_problem_category_id_options">
-                            <option value="">[Select Problem Category]</option>
-                        </select>
-                    </div>
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" placeholder="Problem" ng-model="prob_model.problem" required name="prob.problem" />
-                    </div>
-                    <div class="col-md-2">
-                        <a class="btn btn-info" ng-disabled="!problemForm.$valid" ng-click="addProblem()">Add Problem</a>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <br />
     </div>
 
     <div class="panel-body">
         <br />
-        <table class="table zui-table zui-table-horizontal zui-table-highlight bordered">
-            <tr>
-                <td width="10%"></td>
-                <td width="10%">
-                    <b>Rank</b>
-                </td>
-                <td width="20%">
-                    <b>Problem</b>
-                </td>
-                <td width="60%">
-                    <b>Proposed Solution/s</b>
-                </td>
-            </tr>
+        <table class="table zui-table zui-table-highlight table-bordered">
+            <thead>
+                <tr>
+                    <td rowspan="2" align="center" style="vertical-align:middle" width="5%">
+                        <b>RANK</b>
+                    </td>
+                    <td colspan="3" align="center" style="vertical-align:middle">
+                        <b>PROBLEM</b>
+                    </td>
+                    <td colspan="2" rowspan="2" align="center" style="vertical-align:middle">
+                        <b>PROPOSED SOLUTION/S</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Problem Category</td>
+                    <td>Problem</td>
+                </tr>
+            </thead>
+
             <tbody ng-repeat="prob in list_problems">
                 <tr>
-                    <td>
-                        <a class="btn btn-warning" ng-click="removeProblem(prob, $index)">Remove Problem</a>
+                    <td align="center" style="vertical-align:middle">
+                        {{$index + 1}}
+                    </td>
+                    <td width="5%">
+                        <a class="btn btn-info" style="margin-right:5px" ng-click="editProblem_is_selected=true; editProblem(prob)" ng-hide="editProblem_is_selected"><i class="fa fa-edit"></i></a><br />
+                        <a class="btn btn-danger" style="margin-right:5px" ng-click="removeProblem(prob, $index)" ng-hide="editProblem_is_selected"><i class="fa fa-trash"></i></a>
+
+                        <a class="btn btn-success" style="margin-right:5px" ng-click="editProblem_is_selected=false; saveEditedProblem(prob)" ng-show="editProblem_is_selected"><i class="fa fa-check"></i></a>
+                        <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditProblem(prob); editProblem_is_selected=false" ng-show="editProblem_is_selected"><i class="fa fa-close"></i></a>
+                    </td>
+                    <td width="20%">
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 1 ? "Access/Mobility" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 2 ? "Agricultural Service Facilities" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 3 ? "Communications" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 4 ? "ECCD" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 5 ? "Employment/Income Generation" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 6 ? "Empowerment and Governance" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 7 ? "Environment" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 8 ? "Health and Nutrition" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 9 ? "Land Ownership/Asset Distribution" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 10 ? "Literacy/Education" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 11 ? "Others" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 12 ? "Peace and Order" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 13 ? "Power Supply" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 14 ? "Social/Cultural" : ""}}</span>
+                        <span ng-hide="editProblem_is_selected">{{prob.psa_problem_category_id == 15 ? "Water and Sanitation" : ""}}</span>
+                        <select name="prob.Problem category" ng-model="prob.psa_problem_category_id" class="form-control" required ng-show="editProblem_is_selected"
+                                ng-options="option.Id as option.Name for option in psa_problem_category_id_options">
+                            <option value="">[Select Problem Category]</option>
+                        </select>
+                    </td>
+                    <td width="25%">
+                        <span ng-hide="editProblem_is_selected">{{prob.problem}}</span>
+                        <input type="text" class="form-control" placeholder="Problem" ng-model="prob.problem" required name="prob.problem" ng-show="editProblem_is_selected"/>
                     </td>
                     <td>
-                        {{prob.rank}}
-                    </td>
-                    <td>
-                        {{prob.problem}}
-                    </td>
-                    <td>
-                        <table class="table no-border no-hover">
+                        <table class="table no-border">
                             <tr ng-repeat="sols in prob.solutions">
-                                <td width="10%">
-                                    <a class="btn btn-danger" ng-click="removeSolution(sols, $index, prob)"><i class="fa fa-trash"></i></a>
+                                <td width="5%">
+                                    <a class="btn btn-danger" style="margin-right:5px" ng-click="removeSolution(sols, $index, prob)"><i class="fa fa-trash"></i></a>
                                 </td>
-                                <td width="80%">
+                                <td width="40%">
                                     {{sols.solution}}
-                                </td>
-                                <td width="10%">
                                 </td>
                             </tr>
                             <tr>
+                                <td>
+                                    <a class="btn btn-success" ng-click="addSolution(prob, $index)" ng-disabled="prob.solution == null"><i class="fa fa-plus"></i></a>
+                                </td>
                                 <td colspan="2">
                                     <input type="text" class="form-control" placeholder="Solution" ng-model="prob.solution" required name="solution" />
-                                </td>
-                                <td>
-                                    <a class="btn btn-info" ng-click="addSolution(prob, $index)" ng-disabled="prob.solution == null">Add Solution</a>
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
             </tbody>
+            @*THIS IS FOR NEW ENTRY OF PROBLEM:*@
+            <tr>
+                <td>
+                    @*Blank for Rank*@
+                </td>
+                <td>
+                    <a class="btn btn-success" ng-disabled="prob.psa_problem_category_id == '' || prob.problem == ''" ng-click="addProblem()"><i class="fa fa-plus"></i></a>
+                </td>
+                <td>
+                    <select name="prob.Problem category" ng-model="prob.psa_problem_category_id" class="form-control" required
+                            ng-options="option.Id as option.Name for option in psa_problem_category_id_options">
+                        <option value="">[Select Problem Category]</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Problem" ng-model="prob.problem" required name="prob.problem" />
+                </td>
+            </tr>
+
+
+
         </table>
+        
     </div>
     
     

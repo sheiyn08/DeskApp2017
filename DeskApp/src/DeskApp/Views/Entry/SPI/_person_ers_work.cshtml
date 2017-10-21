@@ -36,6 +36,7 @@
     <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
 </div>
 
+@*--------------------------- CFA -----------------------------*@
 <md-table-container ng-show="!new_worker && selected_ers_delivery_mode ==1">
 
     <form name="ersWorkerName">
@@ -146,7 +147,7 @@
                     {{ selected_worker_details.middle_name }}
                 </td>
                 <td>
-                    {{ selected_worker_details.birthdate }}
+                    {{ selected_worker_details.birthdate |  date:'MM/dd/yyyy' }}
                 </td>
                 <td>
                     {{ selected_worker_details.sex == true? "Male" : "Female" }}
@@ -172,12 +173,12 @@
                 <td>
 
                     <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="new_worker_record.rate_day" class="form-control" ng-required="new_worker_" />
-
+                    {{new_worker_record.rate_day | currency:"₱"}}
                 </td>
                 <td>
 
                     <input name="Rate Per Hour" min="0" max="50000" ng-model="new_worker_record.rate_hour" class="form-control" ng-required="new_worker_" />
-
+                    {{new_worker_record.rate_hour | currency:"₱"}}
 
                 </td>
                 <td>
@@ -190,18 +191,18 @@
 
                 </td>
                 <td>
-                    {{(new_worker_record.rate_day * new_worker_record.work_days) + (new_worker_record.rate_hour * new_worker_record.work_hours)}}
+                    {{(new_worker_record.rate_day * new_worker_record.work_days) + (new_worker_record.rate_hour * new_worker_record.work_hours) | currency:"₱"}}
                 </td>
                 <td>
                     <input name="Actual Cash" type="number" min="0" max="50000" ng-model="new_worker_record.actual_cash" class="form-control" ng-required="new_worker_" />
-
+                    {{new_worker_record.actual_cash | currency:"₱"}}
 
 
                 </td>
 
                 <td>
                     <input name="Actual LCC" type="number" min="0" max="50000" ng-model="new_worker_record.actual_lcc" class="form-control" ng-required="new_worker_" />
-
+                    {{new_worker_record.actual_lcc | currency:"₱"}}
 
 
 
@@ -245,7 +246,7 @@
                 {{ item.middle_name }}
             </td>
             <td>
-                {{ item.birthdate }}
+                {{ item.birthdate |  date:'MM/dd/yyyy' }}
             </td>
             <td>
                 {{ item.sex == true? "Male" : "Female" }}
@@ -254,10 +255,10 @@
                 {{item.ers_current_work_name}}
             </td>
             <td>
-                {{item.rate_day}}
+                {{item.rate_day | currency:"₱"}}
             </td>
             <td>
-                {{item.rate_hour}}
+                {{item.rate_hour | currency:"₱"}}
             </td>
             <td>
                 {{item.work_days}}
@@ -266,14 +267,14 @@
                 {{item.work_hours}}
             </td>
             <td>
-                {{(item.rate_day * item.work_days) + (item.rate_hour * item.work_hours)}}
+                {{(item.rate_day * item.work_days) + (item.rate_hour * item.work_hours) | currency:"₱"}}
             </td>
             <td>
-                {{ item.actual_cash }}
+                {{ item.actual_cash | currency:"₱" }}
             </td>
 
             <td>
-                {{ item.actual_lcc }}
+                {{ item.actual_lcc | currency:"₱" }}
             </td>
 
 
@@ -308,7 +309,7 @@
                 {{ selected.middle_name }}
             </td>
             <td>
-                {{ selected.birthdate }}
+                {{ selected.birthdate |  date:'MM/dd/yyyy' }}
             </td>
             <td>
                 {{ selected.sex == true? "Male" : "Female" }}
@@ -334,12 +335,12 @@
             <td>
 
                 <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="selected.rate_day" class="form-control" ng-required="edit_worker_" />
-
+                {{selected.rate_day | currency:"₱" }}
             </td>
             <td>
 
                 <input name="Rate Per Hour" min="0" max="50000" ng-model="selected.rate_hour" class="form-control" ng-required="edit_worker_" />
-
+                {{selected.rate_hour | currency:"₱" }}
 
             </td>
             <td>
@@ -352,18 +353,18 @@
 
             </td>
             <td>
-                {{(selected.rate_day * selected.work_days) + (selected.rate_hour * selected.work_hours)}}
+                {{(selected.rate_day * selected.work_days) + (selected.rate_hour * selected.work_hours) | number:2 | currency:"₱"}}
             </td>
             <td>
                 <input name="Actual Cash" type="number" min="0" max="50000" ng-model="selected.actual_cash" class="form-control" ng-required="edit_worker_" />
-
+                {{selected.actual_cash | currency:"₱" }}
 
 
             </td>
 
             <td>
                 <input name="Actual LCC" type="number" min="0" max="50000" ng-model="selected.actual_lcc" class="form-control" ng-required="edit_worker_" />
-
+                {{selected.actual_lcc | currency:"₱" }}
 
 
 
@@ -382,8 +383,7 @@
 
 
 
-
-
+@*--------------------------- PAKYAW -----------------------------*@
 <md-table-container ng-show="!new_worker && selected_ers_delivery_mode ==2">
 
     <form name="pakyawWorkerName">
@@ -489,7 +489,7 @@
                     {{ selected_worker_details.middle_name }}
                 </td>
                 <td>
-                    {{ selected_worker_details.birthdate }}
+                    {{ selected_worker_details.birthdate |  date:'MM/dd/yyyy'}}
                 </td>
                 <td>
                     {{ selected_worker_details.sex == true? "Male" : "Female" }}
@@ -515,6 +515,7 @@
                 <td>
 
                     <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="new_worker_record.rate_day" class="form-control" ng-required="new_worker_" />
+                    {{new_worker_record.rate_day | currency:"₱"}}
 
                 </td>
                 <td>
@@ -529,18 +530,18 @@
                 </td>
 
                 <td>
-                    {{(new_worker_record.percent * new_worker_record.rate_day) / 100}}
+                    {{(new_worker_record.percent * new_worker_record.rate_day) / 100 | currency:"₱"}}
                 </td>
                 <td>
                     <input name="Actual Cash" type="number" min="0" max="50000" ng-model="new_worker_record.actual_cash" class="form-control" ng-required="new_worker_" />
-
+                    {{new_worker_record.actual_cash | currency:"₱"}}
 
 
                 </td>
 
                 <td>
                     <input name="Actual LCC" type="number" min="0" max="50000" ng-model="new_worker_record.actual_lcc" class="form-control" ng-required="new_worker_" />
-
+                    {{new_worker_record.actual_lcc | currency:"₱"}}
 
 
 
@@ -585,7 +586,7 @@
                 {{ item.middle_name }}
             </td>
             <td>
-                {{ item.birthdate }}
+                {{ item.birthdate  |  date:'MM/dd/yyyy'}}
             </td>
             <td>
                 {{ item.sex == true? "Male" : "Female" }}
@@ -594,24 +595,24 @@
                 {{item.ers_current_work_name}}
             </td>
             <td>
-                {{item.rate_day}}
+                {{item.rate_day | currency:"₱"}}
             </td>
             <td>
                 per worker
             </td>
             <td colspan="2">
-                {{item.percent}}
+                {{item.percent}}%
             </td>
 
             <td>
-                {{(item.rate_day * item.percent) / 100}}
+                {{(item.rate_day * item.percent) / 100  | currency:"₱"}}
             </td>
             <td>
-                {{ item.actual_cash }}
+                {{ item.actual_cash  | currency:"₱"}}
             </td>
 
             <td>
-                {{ item.actual_lcc }}
+                {{ item.actual_lcc  | currency:"₱"}}
             </td>
 
 
@@ -646,7 +647,7 @@
                 {{ selected.middle_name }}
             </td>
             <td>
-                {{ selected.birthdate }}
+                {{ selected.birthdate  |  date:'MM/dd/yyyy' }}
             </td>
             <td>
                 {{ selected.sex == true? "Male" : "Female" }}
@@ -672,7 +673,7 @@
             <td>
 
                 <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="selected.rate_day" class="form-control" ng-required="edit_worker_" />
-
+                {{selected.rate_day | currency:"₱"}}
             </td>
             <td>
 
@@ -687,18 +688,18 @@
             </td>
 
             <td>
-                {{(selected.rate_day * selected.percent)/100}}
+                {{(selected.rate_day * selected.percent)/100 | currency:"₱"}}
             </td>
             <td>
                 <input name="Actual Cash" type="number" min="0" max="50000" ng-model="selected.actual_cash" class="form-control" ng-required="edit_worker_" />
-
+                {{selected.actual_cash | currency:"₱"}}
 
 
             </td>
 
             <td>
                 <input name="Actual LCC" type="number" min="0" max="50000" ng-model="selected.actual_lcc" class="form-control" ng-required="edit_worker_" />
-
+                {{selected.actual_lcc | currency:"₱"}}
 
 
 
@@ -719,7 +720,7 @@
 
 
 
-
+@*------------------------------ HAULING ------------------------------*@
 <md-table-container ng-show="!new_worker && selected_ers_delivery_mode ==3">
 
     <form name="haulingWorkerName">
@@ -822,7 +823,7 @@
                     {{ selected_worker_details.middle_name }}
                 </td>
                 <td>
-                    {{ selected_worker_details.birthdate }}
+                    {{ selected_worker_details.birthdate |  date:'MM/dd/yyyy' }}
                 </td>
                 <td>
                     {{ selected_worker_details.sex == true? "Male" : "Female" }}
@@ -848,7 +849,7 @@
                 <td>
 
                     <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="new_worker_record.rate_hauling" class="form-control" ng-required="new_worker_" />
-
+                    {{new_worker_record.rate_hauling | currency:"₱"}}
                 </td>
                 <td>
 
@@ -862,18 +863,18 @@
                 </td>
 
                 <td>
-                    {{(new_worker_record.rate_hauling * new_worker_record.work_hauling)}}
+                    {{(new_worker_record.rate_hauling * new_worker_record.work_hauling) | number:2 | currency:"₱"}}
                 </td>
                 <td>
                     <input name="Actual Cash" type="number" min="0" max="50000" ng-model="new_worker_record.actual_cash" class="form-control" ng-required="new_worker_" />
-
+                    {{new_worker_record.actual_cash | currency:"₱"}}
 
 
                 </td>
 
                 <td>
                     <input name="Actual LCC" type="number" min="0" max="50000" ng-model="new_worker_record.actual_lcc" class="form-control" ng-required="new_worker_" />
-
+                    {{new_worker_record.actual_lcc | currency:"₱"}}
 
 
 
@@ -918,7 +919,7 @@
                 {{ item.middle_name }}
             </td>
             <td>
-                {{ item.birthdate }}
+                {{ item.birthdate |  date:'MM/dd/yyyy' }}
             </td>
             <td>
                 {{ item.sex == true? "Male" : "Female" }}
@@ -927,24 +928,24 @@
                 {{item.ers_current_work_name}}
             </td>
             <td>
-                {{item.rate_hauling}}
+                {{item.rate_hauling | currency:"₱"}}
             </td>
             <td>
                 {{item.unit_hauling}}
             </td>
             <td colspan="2">
-                {{item.work_hauling}} {{item.unit_hauling}}
+                {{item.work_hauling}}
             </td>
 
             <td>
-                {{(item.rate_hauling * item.work_hauling)}}
+                {{(item.rate_hauling * item.work_hauling) | number:2 | currency:"₱"}}
             </td>
             <td>
-                {{ item.actual_cash }}
+                {{ item.actual_cash  | currency:"₱"}}
             </td>
 
             <td>
-                {{ item.actual_lcc }}
+                {{ item.actual_lcc  | currency:"₱"}}
             </td>
 
 
@@ -979,7 +980,7 @@
                 {{ selected.middle_name }}
             </td>
             <td>
-                {{ selected.birthdate }}
+                {{ selected.birthdate |  date:'MM/dd/yyyy' }}
             </td>
             <td>
                 {{ selected.sex == true? "Male" : "Female" }}
@@ -1005,7 +1006,7 @@
             <td>
 
                 <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="selected.rate_hauling" class="form-control" ng-required="edit_worker_" />
-
+                {{selected.rate_hauling | currency:"₱"}}
             </td>
             <td>
 
@@ -1021,18 +1022,18 @@
             </td>
 
             <td>
-                {{(selected.rate_hauling * selected.work_hauling)}}
+                {{(selected.rate_hauling * selected.work_hauling) | number: 2 | currency:"₱"}}
             </td>
             <td>
                 <input name="Actual Cash" type="number" min="0" max="50000" ng-model="selected.actual_cash" class="form-control" ng-required="edit_worker_" />
-
+                {{selected.actual_cash | currency:"₱"}}
 
 
             </td>
 
             <td>
                 <input name="Actual LCC" type="number" min="0" max="50000" ng-model="selected.actual_lcc" class="form-control" ng-required="edit_worker_" />
-
+                {{selected.actual_lcc | currency:"₱"}}
 
 
 
@@ -1054,7 +1055,7 @@
 
 
 
-
+@*----------------------- SUMMARY -------------------------------*@
 <div class="panel panel-info">
     <div class="panel panel-heading">
         Skill and Gender Summary
@@ -1089,13 +1090,13 @@
             {{item.number}}
         </div>
         <div class="col-md-2">
-            {{item.cash}}
+            {{item.cash | currency:"₱"}}
         </div>
         <div class="col-md-2">
-            {{item.inkind}}
+            {{item.inkind | currency:"₱"}}
         </div>
         <div class="col-md-2">
-            {{item.total}}
+            {{item.total | currency:"₱"}}
         </div>
     </div>
 

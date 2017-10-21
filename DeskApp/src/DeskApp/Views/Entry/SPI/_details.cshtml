@@ -1,10 +1,31 @@
 ﻿
+<style>
+
+    .InputAddOn {
+        display: flex;
+    }  
+    .InputAddOn-field {
+        flex: 1;
+    }
+    .InputAddOn-item {
+        border: 1px solid rgba(147, 128, 108, 0.25);
+        padding: 0.5em 0.75em;
+    } 
+    .search-icon {
+        position: absolute;
+        top: 50%;
+        right: 25px;
+        margin-top: -10px;
+}
+
+</style>
+
+
+
 @{Layout = null; }
 
 
-
-
-<form name="detailsForm">
+@*<form name="detailsForm">
 
 
     <div class="panel panel-info">
@@ -30,21 +51,13 @@
             </div>
             <div flex>
                 <input class="form-control" ng-model="data.erfr_project_id" ng-disabled="true"/>               
-                @*<select name="erfr_project_id" ng-model="data.erfr_project_id" class="form-control" ng-disabled="true"
-                        ng-options="option.Id as option.Name for option in erfr_project_id_options">
-                    <option value="">[Select SPID]</option>
-                </select>*@
-                @*<select name="erfr_project_id" ng-model="data.erfr_project_id" class="form-control" ng-disabled="data.modality_id !=7"
-                        ng-options="option.Id as option.Name for option in erfr_project_id_options">
-                    <option value="">[Select SPID]</option>
-                </select>*@
+                
                 <div ng-messages="myForm.erfr_project_id.$error">
                     <div ng-message="required" class="error">SPID is required. Dropdown will be available once barangay is selected!</div>
 
                 </div>
                 <i>This can be found on "http://erfrs.dswd.gov.ph/"</i>
-                @*<br />
-                <i>*Ensure that this is the correct Sub project ID (SPID) for the project being added and <b>not</b> the RFR ID.</i>*@
+               
             </div>
         </div>
 
@@ -118,13 +131,13 @@
 
         <div layout="row" layout-margin flex="100">
             <div flex>
-                <label for="Region:_">Fund Source</label>
+                <label for="Region:_">Project</label>
             </div>
             <div flex>
                 <select name="modality_id" ng-model="data.modality_id" class="form-control" required
                         ng-disabled="data.sub_project_id >0"
                         ng-options="option.Id as option.Name for option in fund_source_id_options">
-                    <option value="">[Select Modality]</option>
+                    <option value="">[Select Project]</option>
                 </select>
                 <div ng-messages="myForm.modality_id.$error">
                     <div ng-message="required" class="error">*Modality is required.</div>
@@ -155,24 +168,40 @@
         </div>
 
 
+        <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7 || data.modality_id == 14">
+            <div flex>
+                <label>Incentives (Tier-2)?</label>
+            </div>
+            <div flex>
+                <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_incentive" id="is_incentive" name="is_incentive" ng-disabled="true">
+                    {{ data.is_incentive == true ? "Yes" : "" }}
+                </md-checkbox>
+            </div>
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label>From Savings?</label>
+            </div>
+            <div flex>
+                <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_savings" id="is_savings" name="is_savings" ng-disabled="true">
+                    {{ data.is_savings == true ? "Yes" : "" }}
+                </md-checkbox>
+            </div>
+        </div>
+
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+                <label>LGU-led?</label>
+            </div>
+            <div flex>
+                <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_lgu_led" id="is_lgu_led" name="is_lgu_led" ng-disabled="true">
+                    {{ data.is_lgu_led == true ? "Yes" : "" }}
+                </md-checkbox>
+            </div>
+        </div>
 
 
-        @*<div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7">
-                <div flex>
-                    <label for="Region:_">NCDDP Grouping</label>
-                </div>
-                <div flex>
-                    <select name="modality_category_id" ng-model="data.modality_category_id" class="form-control" ng-required="data.modality_id ==7"
-                            ng-disabled="data.sub_project_id >0"
-                            ng-options="option.Id as option.Name for option in ncddp_grouping_id_options">
-                        <option value="">[Select Grouping]</option>
-                    </select>
-                    <div ng-messages="myForm.modality_category_id.$error">
-                        <div ng-message="required" class="error">*Grouping is required.</div>
-
-                    </div>
-                </div>
-            </div>*@
 
 
 
@@ -247,8 +276,310 @@
         </div>
 
 
+        
 
 
+
+
+
+    </div>
+
+</form>*@
+
+
+
+
+
+
+@*-------------------- DESKAPP v3.0 view : aligning view in Geotagging -----------------------*@
+
+<form name="detailsForm">
+
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+            <h4>Basic Information</h4>
+            <p>Below information are directly taken from the Geotagging WebApp.</p>
+        </div>
+
+        <div class="panel-body">
+            <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7">
+                <div flex>
+                    <label>Geotagging SP ID</label>
+                </div>
+                <div flex>
+                    <div class="input-group">
+                        <input type="number" class="form-control" placeholder="Enter Geotagging SPID" min="0" name="Geotagging SP ID" ng-model="data.sub_project_id" ng-required="data.modality_id == 7" ng-disabled="is_paired==true"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" ng-click="confirmSPID()" ng-disabled="data.sub_project_id == null || is_paired == true">&nbsp;&nbsp; Confirm &nbsp;&nbsp;</button>
+                        </span>                        
+                    </div>
+                    <span style="color:darkblue" ng-show="is_paired == true">
+                        <i>*This Sub Project has been confirmed</i>
+                    </span>
+
+
+                    @*<div class="col-md-12">
+                        <div class="col-md-9">
+                            <input type="number" min="0" name="Geotagging SP ID" class="form-control" ng-model="data.sub_project_id" ng-required="data.modality_id == 7" ng-disabled="is_spid_confirmed==true" />
+                            <a href="#" class="search-icon">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </div>
+                        <input type="number" min="0" name="Geotagging SP ID" class="form-control" ng-model="data.sub_project_id" ng-required="data.modality_id == 7" ng-disabled="data.sub_project_id != 0" />
+                       
+                        <div class="col-md-3">
+                            <md-button class="md-primary md-raised" ng-click="confirmSPID()" ng-disabled="data.sub_project_id == null; is_spid_confirmed==true">
+                                confirm
+                            </md-button>
+                        </div>
+                    </div>*@                    
+                </div>                
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7">
+                <div flex>
+                    <label>e-RFR Sub Project ID</label>
+                </div>
+                <div flex>
+                    <input class="form-control" ng-model="data.erfr_project_id" ng-disabled="true" />
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>Sub Project Name</label>
+                </div>
+                <div flex>
+                    <input class="form-control" ng-model='data.sub_project_name' required name="sub_project_name" ng-disabled="true" />
+                </div>
+            </div>
+
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>Project type</label>
+                </div>
+                <div flex>
+                    <select name="project_type_id" ng-model="data.project_type_id" class="form-control" ng-disabled="true" required
+                            ng-options="option.Id as option.Name for option in project_type_id_options">
+                        <option value="">[Select Project Type]</option>
+                    </select>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.project_type_id == 23 && data.modality_id ==7">
+                <div flex>Public School for IP (Lumad)?</div>
+                <div flex>
+                    <md-checkbox ng-model="data.is_public_school_for_ip" aria-label="Checkbox 1" ng-disabled="true">
+                        {{data.is_public_school_for_ip == true ? " Yes" : ""}}
+                    </md-checkbox>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.project_type_id == 36 && data.modality_id ==11">
+                <div flex>
+                    <label>Training type</label>
+                </div>
+                <div flex>
+                    <select name="training_category_id" ng-model="data.training_category_id" class="form-control"
+                            ng-options="option.Id as option.Name for option in training_category_id_options" ng-disabled="true">
+                        <option value="">[Select Training Category]</option>
+                    </select>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>Project</label>
+                </div>
+                <div flex>
+                    <select name="modality_id" ng-model="data.modality_id" class="form-control" required
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in fund_source_id_options">
+                        <option value="">[Select Project]</option>
+                    </select>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7">
+                <div flex>
+                    <label>Fund Source</label>
+                </div>
+                <div flex>
+                    <select name="fund_source_id" ng-model="data.fund_source_id" class="form-control"
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in _fund_source_id_options">
+                        <option value="">[Select Fund Source]</option>
+                    </select>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>Cycle</label>
+                </div>
+                <div flex>
+                    <select name="cycle_id" ng-model="data.cycle_id" class="form-control" required
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in cycle_id_options">
+                        <option value="">[Select Cycle]</option>
+                    </select>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7 || data.modality_id == 14">
+                <div flex>
+                    <label>Purely LCC? (No KC Grant Amount)</label>
+                </div>
+                <div flex>
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_lcc" id="is_lcc" name="is_lcc" ng-disabled="true">
+                        {{ data.is_lcc == true ? "Yes" : "" }}
+                    </md-checkbox>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7 || data.modality_id == 14">
+                <div flex>
+                    <label>Incentives (Tier-2)?</label>
+                </div>
+                <div flex>
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_incentive" id="is_incentive" name="is_incentive" ng-disabled="true">
+                        {{ data.is_incentive == true ? "Yes" : "" }}
+                    </md-checkbox>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>From Savings?</label>
+                </div>
+                <div flex>
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_savings" id="is_savings" name="is_savings" ng-disabled="true">
+                        {{ data.is_savings == true ? "Yes" : "" }}
+                    </md-checkbox>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>LGU-led?</label>
+                </div>
+                <div flex>
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_lgu_led" id="is_lgu_led" name="is_lgu_led" ng-disabled="true">
+                        {{ data.is_lgu_led == true ? "Yes" : "" }}
+                    </md-checkbox>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7 || data.modality_id == 14">
+                <div flex>
+                    <label>Mode</label>
+                </div>
+                <div flex>
+                    <select name="mode_id" ng-model="data.mode_id" class="form-control"
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in mode_id_options">
+                        <option value="">[Select Mode]</option>
+                    </select>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100" ng-hide="data.modality_id == 7 || data.modality_id == 14">
+                <div flex>
+                    <label>Mode</label>
+                </div>
+                <div flex>
+                    <select name="mode_id" ng-model="data.mode_id" class="form-control"
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in mode_id_non_ncddp_options">
+                        <option value="">[Select Mode]</option>
+                    </select>
+                </div>
+            </div>
+            @*//Hidden for now until API is available
+        <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7">
+            <div flex>
+                <label>NCDDP Grouping</label>
+            </div>
+            <div flex>
+                <select name="modality_category_id" ng-model="data.modality_category_id" class="form-control"
+                        ng-disabled="true"
+                        ng-options="option.Id as option.Name for option in ncddp_grouping_id_options">
+                    <option value="">[Select Grouping]</option>
+                </select>
+            </div>
+        </div>*@
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>Region</label>
+                </div>
+                <div flex>
+                    <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in region_code_options">
+                        <option value="">[Select Region]</option>
+                    </select>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>Province</label>
+                </div>
+                <div flex>
+                    <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in prov_code_options">
+                        <option value="">[Select Province]</option>
+                    </select>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>Municipality</label>
+                </div>
+                <div flex>
+                    <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in city_code_options">
+                        <option value="">[Select Municipality]</option>
+                    </select>
+                </div>
+            </div>
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>Barangay</label>
+                </div>
+                <div flex>
+                    <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in brgy_code_options">
+                        <option value="">[Select Barangay]</option>
+                    </select>
+                </div>
+            </div>
+        </div>        
+
+        <div class="panel-body">
+            <md-content>
+                <h4 style="color:dodgerblue">Covered Barangays</h4>
+                <md-divider></md-divider>
+                <md-divider></md-divider>
+                <md-divider></md-divider>
+                <div layout="row" layout-margin flex="100">
+                    <div flex>
+                        <table class="table" ng-show="data.sub_project_id >0">
+                            <tr>
+                                <td>
+                                    <b>Barangay</b>
+                                </td>
+                                <td>
+                                    <b>Selected?</b>
+                                </td>
+                            </tr>
+                            <tbody>
+                                <tr ng-repeat="item in covered_barangays | filter: searchBrgy">
+                                    <td style="vertical-align:middle">
+                                        {{item.brgy_name}}
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <md-checkbox ng-model="item.Selected" aria-label="Checkbox 1" ng-disabled="true">
+                                            {{item.Selected == true ? "Yes" : ""}}
+                                        </md-checkbox>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </md-content>
+        </div>
 
     </div>
 

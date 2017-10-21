@@ -85,7 +85,7 @@ namespace DeskApp.DataLayer
         public int? no_pantawid_family { get; set; }
         public int? no_slp_household { get; set; }
         public int? no_slp_family { get; set; }
-        public int? baragay_additiondetails { get; set; } //---- For 3.0: this should be changed to string? not INT?
+        public string baragay_additiondetails { get; set; } //---- For v3.0 changing the column to string (not int?) because it is a free entry
         public bool? is_armedconflict { get; set; }
         public bool? is_bounddispute { get; set; }
         public bool? is_poldispute { get; set; }
@@ -96,6 +96,14 @@ namespace DeskApp.DataLayer
         public double? hrs_totown { get; set; }
         public double? km_frmtown { get; set; }
         public bool? is_isolated { get; set; }
+
+        //RDR08242017 Additional columns for v3.0:
+        public double? road_type_dirt { get; set; }
+        public double? road_type_gravel { get; set; }
+        public double? road_type_asphalted { get; set; }
+        public double? road_type_cemented { get; set; }
+
+
         public bool? is_upland { get; set; }
         public bool? is_hilly { get; set; }
         public bool? is_lowland { get; set; }
@@ -285,6 +293,12 @@ namespace DeskApp.DataLayer
 
         public int fund_source_id { get; set; }
         public int cycle_id { get; set; }
+
+        //RDR08242017 Additional columns for v3.0:
+        public bool? is_lgu_led { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_incentive { get; set; }
+
         #region location
         public int region_code { get; set; }
         public int prov_code { get; set; }
@@ -398,6 +412,41 @@ namespace DeskApp.DataLayer
         public double? nearest_tribal { get; set; }
         public double? nearest_waste { get; set; }
         public double? nearest_water_supply_system { get; set; }
+
+        //-----------RDR082417: For v3.0 Additional columns for minutes
+        public double? nearest_bank_mins { get; set; }
+        public double? nearest_barangay_hall_mins { get; set; }
+        public double? nearest_cap_agri_mins { get; set; }
+        public double? nearest_cap_health_mins { get; set; }
+        public double? nearest_cap_org_dev_mins { get; set; }
+        public double? nearest_cap_others_mins { get; set; }
+        public double? nearest_cementery_mins { get; set; }
+        public double? nearest_college_mins { get; set; }
+        public double? nearest_credit_mins { get; set; }
+        public double? nearest_daycare_mins { get; set; }
+        public double? nearest_drainage_mins { get; set; }
+        public double? nearest_electricity_mins { get; set; }
+        public double? nearest_elementary_mins { get; set; }
+        public double? nearest_emergency_service_mins { get; set; }
+        public double? nearest_evac_center_mins { get; set; }
+        public double? nearest_harvest_mins { get; set; }
+        public double? nearest_health_mins { get; set; }
+        public double? nearest_hospital_mins { get; set; }
+        public double? nearest_housing_mins { get; set; }
+        public double? nearest_irrigation_mins { get; set; }
+        public double? nearest_market_mins { get; set; }
+        public double? nearest_miniport_mins { get; set; }
+        public double? nearest_multipurpose_mins { get; set; }
+        public double? nearest_secondary_mins { get; set; }
+        public double? nearest_stores_mins { get; set; }
+        public double? nearest_tanod_mins { get; set; }
+        public double? nearest_telecom_mins { get; set; }
+        public double? nearest_tribal_mins { get; set; }
+        public double? nearest_waste_mins { get; set; }
+        public double? nearest_water_supply_system_mins { get; set; }
+
+
+
         public int? transpo_bank { get; set; }
         public int? transpo_barangay_hall { get; set; }
         public int? transpo_cap_agri { get; set; }

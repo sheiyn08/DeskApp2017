@@ -20,6 +20,7 @@ namespace DeskApp.Controllers.AreaData
     public class MlccController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -36,10 +37,7 @@ namespace DeskApp.Controllers.AreaData
          )
         {
             var model = db.municipal_lcc.Where(x => x.is_deleted != true).AsQueryable();
-
-
-
-
+            
 
             #region query
 
@@ -88,6 +86,62 @@ namespace DeskApp.Controllers.AreaData
             if (item.cycle_id != null)
             {
                 model = model.Where(m => m.cycle_id == item.cycle_id);
+            }
+
+            if (item.mlcc_start_filterdate != null)
+            {
+                model = model.Where(m => m.history >= item.mlcc_start_filterdate);
+            }
+
+            if (item.mlcc_end_filterdate != null)
+            {
+                model = model.Where(m => m.history <= item.mlcc_end_filterdate);
+            }
+
+            //v3.0 additional filters:
+            if (item.is_incentive != null)
+            {
+                if (item.is_incentive == true)
+                {
+                    model = model.Where(m => m.is_incentive == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_incentive != true);
+                }
+            }
+            if (item.is_savings != null)
+            {
+                if (item.is_savings == true)
+                {
+                    model = model.Where(m => m.is_savings == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_savings != true);
+                }
+            }
+            if (item.is_lgu_led != null)
+            {
+                if (item.is_lgu_led == true)
+                {
+                    model = model.Where(m => m.is_lgu_led == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_lgu_led != true);
+                }
+            }
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    model = model.Where(m => m.push_status_id != 4);
+                }
             }
 
 

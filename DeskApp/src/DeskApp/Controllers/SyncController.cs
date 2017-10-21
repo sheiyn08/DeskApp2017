@@ -22,7 +22,7 @@ namespace DeskApp.Controllers
     {
 
         public static string url = @"http://ncddpdb.dswd.gov.ph";
-        public static string test_url = @"http://10.10.10.157:8079";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
         public static string geoUrl = @"http://geotagging.dswd.gov.ph";
 
         private readonly ApplicationDbContext db;
@@ -2767,6 +2767,53 @@ namespace DeskApp.Controllers
         #endregion
 
 
+        //v3.0 new table: lib_mode
+        public void lib_mode(string username, string password)
+        {
+
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/lib_mode").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+                    var model = JsonConvert.DeserializeObject<List<lib_mode>>(responseJson.Result);
+                    foreach (var item in model)
+                        if (db.lib_mode.AsNoTracking().FirstOrDefault(x => x.mode_id == item.mode_id) == null)
+                        {
+                            db.lib_mode.Add(item);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            db.Entry(item).State = EntityState.Modified;
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+
+                            }
+                        }
+
+                }
+                else
+                {
+
+                }
+            }
+        }
+
         public ActionResult UpdateLibrary(string username, string password)
         {
             string token = username + ":" + password;
@@ -2888,6 +2935,8 @@ namespace DeskApp.Controllers
             dof_blgf_financial_data(username, password);
 
             lib_organization(username, password);
+
+            lib_mode(username, password);
 
             return Ok();
 

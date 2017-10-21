@@ -18,6 +18,7 @@ namespace DeskApp.Controllers.Eval
     public class TalakayanEvaluationController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -122,6 +123,19 @@ namespace DeskApp.Controllers.Eval
             if (item.city_code != null)
             {
                 model = model.Where(m => m.city_code == item.city_code);
+            }
+
+            //v3.0 additional filter
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    model = model.Where(m => m.push_status_id != 4);
+                }
             }
 
             return model;
@@ -307,7 +321,7 @@ namespace DeskApp.Controllers.Eval
         {
             public int evaluation_form_version { get; set; }
 
-            public string brgy_name { get; set; }
+            public string city_name { get; set; }
 
             public int total_respondents { get; set; }
             public int total_male { get; set; }
@@ -558,10 +572,10 @@ namespace DeskApp.Controllers.Eval
             var model = GetData(item);
             model = model.Where(x => x.evaluation_form_version == 2015);
 
-            var result = model.GroupBy(x => new { brgy_name = x.lib_brgy.brgy_name }).
+            var result = model.GroupBy(x => new { city_name = x.lib_city.city_name }).
                 Select(x => new report_1
                 {
-                    brgy_name = x.Key.brgy_name,
+                    city_name = x.Key.city_name,
                     total_respondents = x.Count(),
                     total_male = x.Count(c => c.is_male == true),
                     total_female = x.Count(c => c.is_male != true),
@@ -716,10 +730,10 @@ namespace DeskApp.Controllers.Eval
             var model = GetData(item);
             model = model.Where(x => x.evaluation_form_version == 2016);
 
-            var result = model.GroupBy(x => new { brgy_name = x.lib_brgy.brgy_name }).
+            var result = model.GroupBy(x => new { city_name = x.lib_city.city_name }).
                 Select(x => new report_1
                 {
-                    brgy_name = x.Key.brgy_name,
+                    city_name = x.Key.city_name,
                     total_respondents = x.Count(),
                     total_male = x.Count(c => c.is_male == true),
                     total_female = x.Count(c => c.is_male != true),
@@ -839,6 +853,55 @@ namespace DeskApp.Controllers.Eval
         }
         #endregion
 
+        public class report_2
+        {
+            public int evaluation_form_version { get; set; }
+
+            public string region_name { get; set; }
+            public string province_name { get; set; }
+            public string city_name { get; set; }
+            public int talakayan_year { get; set; }
+            public DateTime? talakayan_date { get; set; }
+            public string participant_name { get; set; }
+            public bool? sex { get; set; }
+            public int? participant_type { get; set; }
+            public string comment { get; set; }
+        }
+
+
+        //09-08-2017
+        //New Report for v3.0 : Comments encoded per participant
+        [HttpPost]
+        [Route("api/export/evaluation/evaluation_report_2_2016")]
+        public IActionResult export_report_2_2016(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            model = model.Where(x => x.evaluation_form_version == 2016);
+
+            var result = model.Select(x => new report_2
+            {
+                region_name = x.lib_region.region_name,
+                province_name = x.lib_province.prov_name,
+                city_name = x.lib_city.city_name,
+
+                talakayan_year = x.talakayan_yr_id,
+                talakayan_date = x.talakayan_date_start,
+                participant_name = x.person_name == null ? "" : x.person_name,
+                sex = x.is_male,
+                participant_type = x.participant_type,
+
+                comment = x.v2016_comments
+
+                }).ToList();
+
+            return Ok(new queriedEvaluationReport<report_2>()
+            {
+                Items = result
+            });
+        }
+
+
+
         #endregion
 
 
@@ -883,7 +946,7 @@ namespace DeskApp.Controllers.Eval
                 }
 
                 db.talakayan_eval.Add(model);
-                
+
                 try
                 {
                     await db.SaveChangesAsync();
@@ -893,6 +956,7 @@ namespace DeskApp.Controllers.Eval
                 {
                     return BadRequest();
                 }
+
             }
 
 

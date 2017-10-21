@@ -60,63 +60,53 @@
     <md-content class="md-padding">
 
 
-        <div class="panel panel-success">
+        <div class="panel panel-info">
 
             <div class="panel-heading">
                 <h4>Attachments</h4>
             </div>
             <br />
             <div class="panel panel-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <form name="attachmentForm">
-                            <div class="col-md-3">
-                                <label>Attachment Type</label>
-                                <select class="form-control" name="Attachment" ng-model="attachment.mov_list_id" id="brgy_code" ng-style="hegi" ng-required="true"
-                                        ng-options="option.Id as option.Name for option in attachment_list">
-                                    <option value="">[Select Attachment Type]</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label><br /></label>
-                                <input class="form-control" ng-model="attachment.pdf_document" type="file" ng-required="true" max="1" id="files" name="files" multiple/>
-                            </div>
-                        </form>
-                        <div class="col-md-1">
-                            <label><br /></label><br />
-                            <a class="btn btn-success" ng-click="uploadAttachment()" ng-disabled="!attachment.mov_list_id &&  !attachment.pdf_document"><i class="fa fa-check"></i></a>
+                <form name="attachmentForm">
+                    <div flex="100" layout="row" layout-margin layout-sm="column">
+                        <div flex="10" flex-sm="100">
+                            <a class="btn btn-success" ng-click="uploadAttachment()" ng-disabled="!attachment.mov_list_id &&  !attachment.pdf_document" ><i class="fa fa-plus"></i></a>
+                            @*ng-disabled="!attachment.mov_list_id &&  !attachment.pdf_document"*@
                         </div>
-                        @*<div class="col-md-1">
-                            <label><br /></label>
-                            <a class="btn btn-default" ng-disabled="true">
-                                <i class="fa fa-plus fa-lg"></i>&nbsp; &nbsp; Add another file..
-                            </a>
-                        </div>*@
+                        <div flex="30" flex-sm="100">
+                            <select class="form-control" name="Attachment" ng-model="attachment.mov_list_id" id="brgy_code" ng-style="hegi" required
+                                    ng-options="option.Id as option.Name for option in attachment_list">
+                                <option value="">[Select Attachment Type]</option>
+                            </select>
+                        </div>
+                        <div flex="30" flex-sm="100">
+                            <input class="form-control" ng-model="attachment.pdf_document" type="file" required max="1" id="files" name="files" />
+                        </div>
                     </div>
-                </div>
+                </form>
+                <br />
+                <md-content>
+                    <h5 style="color:dodgerblue">Attached document/s will appear here:</h5>
+                    <md-divider></md-divider>
+                    <md-divider></md-divider>
+                    <md-divider></md-divider>
+                    <br />
+                    <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="equip in attached_documents">
+                        <div flex="10" flex-sm="100">
+                            <a class="btn btn-success" href={{equip.url}} target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                            <a class="btn btn-danger" ng-click="deleteMov(equip)"><i class="fa fa-trash"></i></a>
+                        </div>
+                        <div flex="60" flex-sm="100">
+                            <select name="Purpose" ng-model="equip.mov_list_id" id="brgy_code" class="form-control"
+                                    disabled
+                                    ng-options="option.Id as option.Name for option in attachment_list">
+                                <option value="">[Select Attachment Type]</option>
+                            </select>
+                        </div>
+                    </div>                   
+                </md-content>
             </div>
 
-            <div class="panel panel-body">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h5>Attached Document will appear here:</h5>
-                        <br />
-                        <div class="layout-row" layout-margin flex ng-repeat="equip in attached_documents">
-                            <div flex="10">
-                                <a class="btn btn-success" href={{equip.url}} target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-                                <a class="btn btn-danger" ng-click="deleteMov(equip)"><i class="fa fa-trash"></i></a>
-                            </div>
-                            <div flex="90">
-                                <select name="Purpose" ng-model="equip.mov_list_id" id="brgy_code" class="form-control"
-                                        disabled
-                                        ng-options="option.Id as option.Name for option in attachment_list">
-                                    <option value="">[Select Attachment Type]</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
 

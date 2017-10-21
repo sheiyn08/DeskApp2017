@@ -348,7 +348,15 @@ namespace DeskApp.DataLayer
         public int talakayan_yr_id { get; set; }
         public string name { get; set; }
     }
-    
+
+    //v3.0 new table:
+    public class lib_mode
+    {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int mode_id { get; set; }
+        public string name { get; set; }
+    }
+
     #endregion
 
     //#region MLGU Year
@@ -358,6 +366,6 @@ namespace DeskApp.DataLayer
     //    public int year_id { get; set; }
     //    public string name { get; set; }
     //}
-    
+
     //#endregion
 }

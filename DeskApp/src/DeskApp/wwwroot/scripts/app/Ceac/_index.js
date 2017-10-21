@@ -2,7 +2,7 @@
 
 angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'pims-pager']).controller('AppCtrl', function ($scope, $http, $mdDialog, $mdMedia) {
     $scope.data = {};
-
+    
     $scope.data.filter_by_recent_edit = '';
     $scope.data.filter_by_recent_add = '';
 
@@ -343,7 +343,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
         }
 
-
+        
     };
 
 

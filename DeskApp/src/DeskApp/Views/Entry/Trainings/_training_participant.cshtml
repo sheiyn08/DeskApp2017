@@ -48,10 +48,10 @@
         <div class="col-md-12" style="margin:15px">
             <div class="col-md-6">
                 <a class="btn btn-primary" ng-click="search()">
-                    <i class="fa fa-filter fa-lg"></i> Search
+                    <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
                 </a>
                 <a class="btn btn-warning" ng-click="clear_search()">
-                    <i class="fa fa-recycle fa-lg"></i>  Clear search
+                    <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp;  Clear
                 </a>
             </div>
         </div>
@@ -129,7 +129,7 @@
             <tbody>
                 <tr ng-repeat="item in members">
                     <td>
-                        <md-checkbox ng-model="item.is_participant" ng-click="ConfirmParticipation(item)" aria-label="false">
+                        <md-checkbox ng-model="item.is_participant" ng-click="ConfirmParticipation(item)" aria-label="false" class="md-primary">
 
                         </md-checkbox>
 

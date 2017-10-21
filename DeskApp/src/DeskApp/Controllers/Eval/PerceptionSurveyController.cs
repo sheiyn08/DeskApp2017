@@ -17,6 +17,7 @@ namespace DeskApp.Controllers
     public class PerceptionSurveyController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -64,22 +65,10 @@ namespace DeskApp.Controllers
         {
             var model = db.perception_survey.Where(x => x.is_deleted != true).AsQueryable();
 
-
-            if (item.talakayan_date_from != null)
-            {
-                model = model.Where(m => m.talakayan_date_from == item.talakayan_date_from);
-            }
-            if (item.talakayan_date_to != null)
-            {
-                model = model.Where(m => m.talakayan_date_to == item.talakayan_date_to);
-            }
-            if (item.year != null)
-            {
-                model = model.Where(m => m.year == item.year);
-            }
             if (!string.IsNullOrEmpty(item.name))
             {
-                model = model.Where(x => x.person_name.Contains(item.name));
+                string converted_name = item.name.ToLower();
+                model = model.Where(x => x.person_name.ToLower().Contains(converted_name));
             }
             if (item.age != null)
             {
@@ -89,6 +78,7 @@ namespace DeskApp.Controllers
             {
                 model = model.Where(m => m.is_male == item.is_male);
             }
+
             if (item.region_code != null)
             {
                 model = model.Where(m => m.region_code == item.region_code);
@@ -105,41 +95,38 @@ namespace DeskApp.Controllers
             {
                 model = model.Where(m => m.brgy_code == item.brgy_code);
             }
-            
-            //if (item.is_ip != null)
-            //{
-            //    model = model.Where(m => m.is_ip == item.is_ip);
-            //}
-            //if (item.is_slp != null)
-            //{
-            //    model = model.Where(m => m.is_slp == item.is_slp);
-            //}
-            //if (item.is_pantawid != null)
-            //{
-            //    model = model.Where(m => m.is_pantawid == item.is_pantawid);
-            //}
-            
-            //if (item.talakayan_yr_id != null)
-            //{
-            //    model = model.Where(m => m.talakayan_yr_id == item.talakayan_yr_id);
-            //}
-            
-            //if (item.cycle_id != null)
-            //{
-            //    model = model.Where(m => m.cycle_id == item.cycle_id);
-            //}
-            //if (item.activity_name != null)
-            //{
-            //    model = model.Where(m => m.activity_name == item.activity_name);
-            //}
-            //if (item.survey_date_from != null)
-            //{
-            //    model = model.Where(m => m.survey_date_from == item.survey_date_from);
-            //}
-            //if (item.survey_date_to != null)
-            //{
-            //    model = model.Where(m => m.survey_date_to == item.survey_date_to);
-            //}
+
+            if (item.is_pantawid != null)
+            {
+                model = model.Where(m => m.is_pantawid == item.is_pantawid);
+            }
+            if (item.is_slp != null)
+            {
+                model = model.Where(m => m.is_slp == item.is_slp);
+            }
+            if (item.is_ip != null)
+            {
+                model = model.Where(m => m.is_ip == item.is_ip);
+            }
+
+
+            if (item.survey_date_from != null)
+            {
+                model = model.Where(m => m.survey_date_from == item.survey_date_from);
+            }
+
+            //v3.0 additional filter
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    model = model.Where(m => m.push_status_id != 4);
+                }
+            }
 
             return model;
         }
@@ -175,11 +162,8 @@ namespace DeskApp.Controllers
                     age = x.age,
                     is_male = x.is_male,
                     person_name = x.person_name,
-                    talakayan_date_from = x.talakayan_date_from,
-                    talakayan_date_to = x.talakayan_date_to,
-                    year = x.year,
-                    activity_name = x.activity_name,
-                    talakayan_yr_id = x.talakayan_yr_id,   
+                    survey_date_from = x.survey_date_from,
+                    year = x.year,   
                     push_date = x.push_date,
                     push_status_id = x.push_status_id,
                     last_modified_date = x.last_modified_date                 
@@ -4026,6 +4010,7 @@ namespace DeskApp.Controllers
             public int agree { get; set; }
             public int strongly_agree { get; set; }
             public double average { get; set; }
+            public double net_agreement_disagreement { get; set; } //-----added 08/18/17 for v3.0 as additional requirement by Eval Team
             public string verbal_interpretation { get; set; }
 
             public string percent_strongly_disagree { get; set; }
@@ -4467,6 +4452,8 @@ namespace DeskApp.Controllers
                 e.percent_agree = Math.Round((100.0 * e.agree / (e.total_num_of_response)), 2).ToString("#.0\\%");
                 e.percent_strongly_agree = Math.Round((100.0 * e.strongly_agree / (e.total_num_of_response)), 2).ToString("#.0\\%");
 
+                e.net_agreement_disagreement = ((e.strongly_agree + e.agree) - (e.strongly_disagree + e.disagree));
+
             }
 
             return Ok(new queriedTalakayanReport<report_4>()
@@ -4875,6 +4862,7 @@ namespace DeskApp.Controllers
             report_list.Add(access_13);
             report_list.Add(access_15);
             report_list.Add(access_16);
+            report_list.Add(participation_1);
             report_list.Add(participation_3);
             report_list.Add(participation_4);
             report_list.Add(participation_5);
@@ -4900,6 +4888,8 @@ namespace DeskApp.Controllers
                 e.percent_disagree = Math.Round((100.0 * e.disagree / (e.total_num_of_response)), 2).ToString("#.0\\%");
                 e.percent_agree = Math.Round((100.0 * e.agree / (e.total_num_of_response)), 2).ToString("#.0\\%");
                 e.percent_strongly_agree = Math.Round((100.0 * e.strongly_agree / (e.total_num_of_response)), 2).ToString("#.0\\%");
+
+                e.net_agreement_disagreement = ((e.strongly_agree + e.agree) - (e.strongly_disagree + e.disagree));
 
             }
 
@@ -5183,6 +5173,7 @@ namespace DeskApp.Controllers
                     is_slp = x.is_slp,
 
                     talakayan_date_from = x.talakayan_date_from,
+                    date_of_survey = x.survey_date_from,
 
                     //question = e.item,
                     
@@ -5496,6 +5487,7 @@ namespace DeskApp.Controllers
                     is_slp = x.is_slp,
 
                     talakayan_date_from = x.talakayan_date_from,
+                    date_of_survey = x.survey_date_from,
 
                     //question = e.item,
 

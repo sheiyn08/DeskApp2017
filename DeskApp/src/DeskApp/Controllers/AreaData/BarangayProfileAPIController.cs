@@ -21,6 +21,7 @@ namespace DeskApp.Controllers
     public class BarangayProfileAPIController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -85,6 +86,54 @@ namespace DeskApp.Controllers
                 model = model.Where(m => m.cycle_id == item.cycle_id);
             }
 
+            //v3.0 additional filters:
+            if (item.is_incentive != null)
+            {
+                if (item.is_incentive == true)
+                {
+                    model = model.Where(m => m.is_incentive == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_incentive != true);
+                }
+            }
+            if (item.is_savings != null)
+            {
+                if (item.is_savings == true)
+                {
+                    model = model.Where(m => m.is_savings == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_savings != true);
+                }
+            }
+            if (item.is_lgu_led != null)
+            {
+                if (item.is_lgu_led == true)
+                {
+                    model = model.Where(m => m.is_lgu_led == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_lgu_led != true);
+                }
+            }
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    model = model.Where(m => m.push_status_id != 4);
+                }
+            }
+
+
+
 
             return model;
         }
@@ -102,7 +151,7 @@ namespace DeskApp.Controllers
             var totalCount = model.Count();
             int currPage = item.currPage ?? 0;
             int pageSize = item.pageSize ?? 10;
-
+            
             return new PagedCollection<brgy_profileDTO>()
                        {
                            TotalSync = model.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).Count(),
@@ -183,6 +232,26 @@ namespace DeskApp.Controllers
                         .OrderBy(x => x.brgy_profile_id).Skip(currPage * pageSize).Select(brgy_profileDTO.SELECT).Take(pageSize).ToList()
             };
         }
+
+
+        //For v3.0: to check if items on the list has attachment
+        //[HttpPost]
+        //[Route("api/offline/v1/barangay_profile/check_if_item_has_attachment")]
+        //public PagedCollection<brgy_profileDTO> check_if_item_has_attachment(AngularFilterModel item)
+        //{
+        //    bool? item_has_attachment;
+        //    var items = db.brgy_profile.Where(x => x.is_deleted != true);
+
+        //    var result = from i in items
+        //                 join a in db.attached_document.Where(x => x.is_deleted != true) on i.brgy_profile_id equals a.record_id
+        //                 select a;            
+
+        //    foreach (var aa in result.ToList())
+        //    {
+        //        item_has_attachment = true;
+        //    }
+
+        //}
 
 
         #region Brgy Profile Downloads
@@ -986,9 +1055,7 @@ namespace DeskApp.Controllers
             return db.brgy_profile.Count(e => e.brgy_profile_id == id) > 0;
         }
 
-
-
-
+       
     }
 
 }

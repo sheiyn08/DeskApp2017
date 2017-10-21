@@ -20,14 +20,14 @@
         -webkit-border-radius: 3px;
     }
 
-        input.ng-invalid.ng-dirty {
+        /*input.ng-invalid.ng-dirty {
             background-color: #f79;
             color: #000;
-        }
+        }*/
 </style>
 <div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
     <md-toolbar md-scroll-shrink>
-        <div class="md-toolbar-tools">Intake Barangay Assembly Record</div>
+        <div class="md-toolbar-tools">Barangay Assembly</div>
     </md-toolbar>
 
     <md-content>
@@ -45,6 +45,46 @@
                             </div>
                             @Html.Partial("~/Views/Entry/Common/_rpmb.cshtml")
                             @Html.Partial("~/Views/Entry/Common/_ba_sed.cshtml")
+                            
+                            <md-container layout="row">
+                                <div flex="100" layout="row" layout-margin layout-sm="column">
+                                    <div flex="20" flex-sm="100">
+                                        <label>Incentives (Tier-2)?</label>
+                                    </div>
+                                    <div flex="25" flex-sm="100">
+                                        <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_incentive" id="is_incentive" name="is_incentive">
+                                            {{ data.is_incentive == true ? "Yes" : "" }}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </md-container>
+
+                            <md-container layout="row">
+                                <div flex="100" layout="row" layout-margin layout-sm="column">
+                                    <div flex="20" flex-sm="100">
+                                        <label>From Savings?</label>
+                                    </div>
+                                    <div flex="25" flex-sm="100">
+                                        <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_savings" id="is_savings" name="is_savings">
+                                            {{ data.is_savings == true ? "Yes" : "" }}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </md-container>
+
+                            <md-container layout="row">
+                                <div flex="100" layout="row" layout-margin layout-sm="column">
+                                    <div flex="20" flex-sm="100">
+                                        <label>LGU-led?</label>
+                                    </div>
+                                    <div flex="25" flex-sm="100">
+                                        <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_lgu_led" id="is_lgu_led" name="is_lgu_led">
+                                            {{ data.is_lgu_led == true ? "Yes" : "" }}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </md-container>
+
                         </div>
                         
                     </md-content>  
@@ -339,7 +379,7 @@
             <div flex="100" layout="row" layout-margin layout-sm="column">
 
                 <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!praForm.$valid || !highlightsForm.$valid || !attendanceForm.$valid || !hhForm.$valid ">
-                    Save Record
+                    Save
                 </md-button>
 
                 <md-button class="md-warn md-raised" href="/View/BarangayAssembly">
@@ -369,70 +409,42 @@
                 function ($scope, $http, $mdToast) {
 
 
-
-
-
-
-
                     $scope.data = {};
 
 
                     $http.get('/api/offline/v1/barangay_assembly/get?id=@ViewBag.id')
                         .then(function (response) {
 
-
                             $scope.check_status = function () {
-
                                 $http.get('/api/exists/barangay_assembly?id=@ViewBag.id')
                                     .then(function (result) {
-
-
                                         if (result.data == true) {
                                             $scope.status = true;
                                         } else {
                                             $scope.status = false;
-
                                         }
                                     });
-
-                            }
+                            };
 
                             $scope.check_status();
 
-
+                            //get represented IPs ---> REPRESENTED IPS Tab
                             $http.get('/api/offline/v1/barangay_assembly/represented_ip/get?id=@ViewBag.id')
                              .then(function (response) {
-
                                  $scope.represented_groups = response.data;
                              });
-
-
-
-
-
-
-
-
 
 
                             $scope.loading = true;
 
                             $scope.data = response.data;
-                            $scope.data.ip_leaders = [];
-
-
-                            if ($scope.data.ip_leader != null) {
-                                $scope.data.ip_leaders = JSON.parse($scope.data.ip_leader);
-                            }
-
-                            //$scope.dt_start_date = response.data.date_start == undefined ? null : new Date(response.data.date_start);
-                            //$scope.dt_end_date = response.data.date_end == undefined ? null : new Date(response.data.date_end);
-
+                            
                             $scope.dt_start_date = response.data.date_start == undefined ? null : new Date(response.data.date_start);
                             $scope.dt_end_date = response.data.date_end == undefined ? null : new Date(response.data.date_end);
 
 
                             $scope.today = new Date();
+                            $scope.min_start_date = new Date("07/01/2014"); //--- 08/17/17 for v3.0
 
 
                             $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
@@ -451,11 +463,17 @@
                             $scope.data.barangay_assembly_purpose_id = $scope.data.barangay_assembly_purpose_id == 0 ? "" : $scope.data.barangay_assembly_purpose_id;
 
 
+                            $scope.data.ip_leaders = [];
+
+
+                            if ($scope.data.ip_leader != null) {
+                                $scope.data.ip_leaders = JSON.parse($scope.data.ip_leader);
+                            }
+                            
+
                             $scope.maxDate = new Date($scope.dt_start_date);
 
-                            $scope.maxStartDate = new Date("01/01/2014");
-
-
+                            
                             $scope.$watch('dt_start_date',
                                 function (newValue, oldValue) {
                                     $scope.maxDate = new Date(newValue);
@@ -476,22 +494,18 @@
 
                             $scope.dt_date_intake = new Date(response.data.date_start);
 
+
                             //ATTACHMENTS
-
-
                             $http.get('/api/attachment_list?id=1')
                             .then(function (response) {
-
                                 $scope.attachment_list = response.data;
                             });
-
 
                             $scope.attached_documents = [];
                             $scope.attachment = {};
                             $scope.attachment.mov_list_id = null;
 
                             $scope.uploadAttachment = function () {
-
                                 if ($scope.attachment.mov_list_id == 52) {
                                     if ($scope.attached_documents.filter(function (e) {
                                     return e.mov_list_id == 52;
@@ -503,68 +517,13 @@
                                         $scope.successful_upload();
                                     }
                                 }
-
                                 else {
                                     $scope.successful_upload();
                                 }
-
-                                @*var fileUpload = $("#files").get(0);
-                                var files = fileUpload.files;
-                                var data = new FormData();
-                                for (var i = 0; i < files.length ; i++) {
-                                    data.append(files[i].name, files[i]);
-                                }
-
-                                $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Please wait.....' });
-
-
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/Mov/UploadFilesAjax?id="
-                                        + '@ViewBag.id'
-                                        + "&mov_list_id=" + $scope.attachment.mov_list_id
-
-
-                                       + "&region_code=" + $scope.data.region_code
-                                       + "&prov_code=" + $scope.data.prov_code
-                                            + "&city_code=" + $scope.data.city_code
-                                            + "&brgy_code=" + $scope.data.brgy_code
-
-                                       + "&fund_source_id=" + $scope.data.fund_source_id
-                                            + "&cycle_id=" + $scope.data.cycle_id
-                                         + "&enrollment_id=" + $scope.data.enrollment_id,
-
-
-
-                                    contentType: false,
-                                    processData: false,
-                                    data: data,
-                                    success: function (message) {
-                                        var base = window.location.origin;
-
-                                        message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
-
-                                        $scope.attached_documents.push(message);
-
-                                        $scope.attachment = {};
-
-                                        setTimeout($.unblockUI, 6);
-
-                                        //    alert(JSON.stringify(message));
-
-                                    },
-                                    error: function (message) {
-                                        alert(JSON.stringify(message.responseText));
-                                    }
-                                });*@
-
-
-                            }
+                            };
 
                             $scope.successful_upload = function () {
-
                                 $.blockUI({ message: '<br>Processing...<br><br>' });
-
                                 var fileUpload = $("#files").get(0);
                                 var files = fileUpload.files;
                                 var data = new FormData();
@@ -585,7 +544,6 @@
                                         + "&cycle_id=" + $scope.data.cycle_id
                                         + "&enrollment_id=" + $scope.data.enrollment_id,
 
-
                                     contentType: false,
                                     processData: false,
                                     data: data,
@@ -602,180 +560,102 @@
                                         alert(JSON.stringify(message.responseText));
                                     }
                                 });
-
-
-                            }
-
-
+                            };
 
                             $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
                                .success(function (value) {
-
-
                                    $scope.attached_documents = value;
-
                                    angular.forEach($scope.attached_documents, function (item) {
                                        var base = window.location.origin;
-
                                        item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
-
-
-                                   })
-
+                                    })
                                });
 
-
-
-
                             $scope.deleteMov = function (removeitem) {
-
-
-
                                 var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
-
-
                                 if (ask == true) {
                                     $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
                                         $scope.loading = false;
-
-
-
                                         var index = $scope.attached_documents.indexOf(removeitem);
                                         $scope.attached_documents.splice(index, 1);
-
-
-                                        alert("Record removed!")
+                                        alert("Attachment removed!");
 
                                     }).error(function (data) {
-
                                         alert(JSON.stringify(data));
-
-
                                         $scope.error = "An Error has occured while Deleting! " + data.statusText;
                                         $scope.loading = false;
                                     });
-
                                 }
-
-                            }
+                            };
                             //END ATTACHMENTS
 
                             ///PINCOS
 
                             $scope.addPincos = function () {
                                 $scope.add_pincos = !$scope.add_pincos;
-
                             }
 
                             $scope.filter = {};
                             $scope.search = function () {
-
-
                                 $scope.filter.table_name_id = 1;
                                 $scope.filter.activity_source_id = '@ViewBag.id';
                                 $scope.filter.pageSize = $scope.pageSize == undefined ? '' : $scope.pageSize;
                                 $scope.filter.currPage = '';
-
                                 $scope.isSearching = true;
-
-
                                 $scope.isSearching = true;
 
                                 $.post('/api/offline/v1/grievances/get_dto', $scope.filter)
                                     .success(function (value) {
-
-
-                                        //$scope.loading = false;
-
-
-                                        //$scope.TotalUnAuthorized = value.TotalUnAuthorized;
-                                        //$scope.TotalSync = value.TotalSync;
-                                        //$scope.page = value.Page;
-                                        //$scope.pagesCount = value.TotalPages;
-                                        //$scope.totalCount = value.TotalCount;
                                         $scope.Items = value.Items;
-
-
                                         $scope.isSearching = false;
-
                                     })
                                     .error(function (data) {
-
                                         alert(JSON.stringify(data));
-
-
                                         $scope.error = "An Error has occured while Saving! " + data.statusText;
                                         $scope.loading = false;
                                     });
-
-
                             };
-
 
                             $scope.search();
 
-
                             $scope.$watch('dt_date_intake',
                                 function (newValue, oldValue) {
-
-
                                     $scope.maxDate = new Date(newValue);
-
-
                                 });
-
-
+                            
                             $scope.$watch('data.is_ip',
                                 function (newValue, oldValue) {
-
-
                                     if (newValue != true) {
                                         $scope.data.ip_group_id = '';
-
                                     }
-
-
                                 });
-
 
                             $scope.$watch('data.grs_resolution_status_id',
                                 function (newValue, oldValue) {
-
                                     if (newValue != 1) {
-
                                         $scope.data.final_resolution = '';
                                         $scope.data.grs_feedback_id = '';
-
-
                                         $scope.dt_resolution_date == new Date(newValue);
-
                                         $scope.data.resolution_date = '';
-
-
                                     }
                                     if (newValue == 1) {
                                         $scope.data.resolution_date = $scope.data.end_date;
                                         $scope.data.dt_resolution_date = new Date($scope.data.end_date);
-
                                     }
                                 });
 
-
                             $scope.$watch('data.grs_form_id',
                                 function (newValue, oldValue) {
-
                                     if (newValue == 1) {
                                         $scope.data.is_individual = true;
                                         $scope.data.grs_sender_designation_id = 3;
                                         $scope.data.sender_organization = "KALAHI CIDSS";
                                         $scope.data.is_anonynous = false;
-
                                     }
                                 });
 
                             $scope.$watch('data.is_anonymous',
                                 function (newValue, oldValue) {
-
                                     if (newValue == true) {
                                         $scope.data.sender_organization = '';
                                         $scope.data.sender_name = '';
@@ -784,7 +664,6 @@
 
                             $http.get('/Api/lib_enrollment/')
                                 .then(function (response) { $scope.enrollment_id_options = response.data; });
-
 
                             $http.get('/Api/lib_lgu_level/')
                                 .then(function (response) { $scope.lgu_level_id_options = response.data; });
@@ -827,16 +706,11 @@
 
                             $scope.$broadcast('show-errors-check-validity');
 
-
                             $scope.save_pincos = function () {
                                 $scope.$broadcast('show-errors-check-validity');
                                 $scope.loading = true;
-
-
                                 $scope.data.date_intake = $scope.data.date_start;
-
                                 $scope.data.grs_filling_mode_id = 8;
-
                                 $scope.data.activity_source_id = '@ViewBag.id';
 
                                 if ($scope.data.barangay_assembly_purpose_id == 1) {
@@ -844,103 +718,145 @@
                                 }
                                 if ($scope.data.barangay_assembly_purpose_id == 2) {
                                     $scope.data.training_category_id = 40;
-                                } if ($scope.data.barangay_assembly_purpose_id == 3) {
+                                }
+                                if ($scope.data.barangay_assembly_purpose_id == 3) {
                                     $scope.data.training_category_id = 41;
-                                } if ($scope.data.barangay_assembly_purpose_id == 4) {
+                                }
+                                if ($scope.data.barangay_assembly_purpose_id == 4) {
                                     $scope.data.training_category_id = 42;
-                                } if ($scope.data.barangay_assembly_purpose_id == 5) {
+                                }
+                                if ($scope.data.barangay_assembly_purpose_id == 5) {
                                     $scope.data.training_category_id = 43;
                                 }
-
                                 if ($scope.data.grs_resolution_status_id == 1 && $scope.status == true) {
                                     $scope.data.resolution_date = $scope.data.date_intake;
                                 }
 
-
                                 $.post('/api/offline/v1/grievances/save', $scope.data)
                                     .success(function (data) {
                                         $scope.loading = false;
-
-
                                         $scope.Items.push(data);
                                         $scope.add_pincos = !$scope.add_pincos;
-
-
                                     })
                                     .error(function (data) {
-
                                         alert(JSON.stringify(data));
-
-
                                         $scope.error = "An Error has occured while Saving! " + data.statusText;
                                         $scope.loading = false;
                                     });
                             };
 
-
                             $scope.delete_pincos = function (removeitem) {
-
-
-
                                 var ask = confirm("Are you sure you want to Delete this?");
-
-
                                 if (ask == true) {
                                     $.post('/api/delete/grievance_record?id=' + removeitem.grievance_record_id).success(function (value) {
                                         $scope.loading = false;
-
-
                                         var index = $scope.Items.indexOf(removeitem);
                                         $scope.Items.splice(index, 1);
-
-
                                         alert("Record removed!")
-
                                     }).error(function (data) {
-
                                         alert(JSON.stringify(data));
-
-
                                         $scope.error = "An Error has occured while Deleting! " + data.statusText;
                                         $scope.loading = false;
                                     });
-
                                 }
-
                             }
                             ///END PINCOS
 
-                            $scope.checkIPbirthDate = function () {
-                                
-                                var today = new Date();
-                                var birth_date = new Date($scope.groups.birth_date);
+                            
 
+                            //$scope.addIpGroup = function () {
+                            //    $scope.data.ip_leaders.push($scope.groups);
+                            //    $scope.groups = {};
+                            //}
+
+                            //$scope.removeIPGroup = function (index) {
+                            //    $scope.data.ip_leaders.splice(index, 1);
+                            //}
+
+                            //-------------- Enhancement: 08-09-17 Add edit for IP Leaders tab
+
+                            angular.forEach($scope.data.ip_leaders,
+                                            function (todo) {
+                                                todo.birth_date = new Date(todo.birth_date);
+                                            });
+
+                            $scope.addIPLeader = function () {
+                                $scope.leader.birth_date = new Date($scope.leader.birth_date);
+
+                                $scope.data.ip_leaders.push($scope.leader);
+                                $scope.leader = {}; 
+                            };
+
+                            $scope.removeIPLeader = function (leader) {
+                                $scope.data.ip_leaders.splice(leader, 1);
+                            };
+
+                            $scope.editIPLeader = function (leader) {
+                                $scope.editing = $scope.data.ip_leaders.indexOf(leader);
+                                leader.backupIPName = angular.copy(leader.lib_ip_group.Name);
+                                leader.backupIPSitio = angular.copy(leader.sitio);
+                                leader.backupIPFname = angular.copy(leader.first_name);
+                                leader.backupIPMname = angular.copy(leader.middle_name);
+                                leader.backupIPLname = angular.copy(leader.last_name);
+                                leader.backupIPBdate = angular.copy(leader.birth_date);
+                            };
+
+                            $scope.saveEditedIPLeader = function (leader) {
+                                delete leader.backupIPName;
+                                delete leader.backupIPSitio;
+                                delete leader.backupIPFname;
+                                delete leader.backupIPMname;
+                                delete leader.backupIPLname;
+                                delete leader.backupIPBdate;
+                            };
+
+                            $scope.cancelEditIPLeader = function (leader) {
+                                leader.lib_ip_group.Name = angular.copy(leader.backupIPName);
+                                leader.sitio = angular.copy(leader.backupIPSitio);
+                                leader.first_name = angular.copy(leader.backupIPFname);
+                                leader.middle_name = angular.copy(leader.backupIPMname);
+                                leader.last_name = angular.copy(leader.backupIPLname);
+                                leader.birth_date = angular.copy(leader.backupIPBdate);
+                                delete leader.backupIPName;
+                                delete leader.backupIPSitio;
+                                delete leader.backupIPFname;
+                                delete leader.backupIPMname;
+                                delete leader.backupIPLname;
+                                delete leader.backupIPBdate;
+                            };
+
+
+                            $scope.checkIPbirthDate = function (leader) {
+                                var today = new Date();
+                                var birth_date = new Date(leader.birth_date);
                                 var diff = today - birth_date;
                                 var age_diff = new Date(diff);
                                 var year_diff = Math.abs(age_diff.getUTCFullYear() - 1970);
-
-
                                 if (year_diff < 15) {
                                     $scope.age_below_15 = true;
                                     alert("Age as of today that is less than 15 years old is not allowed. Please check if this is the correct birth date");
                                 } else {
                                     $scope.age_below_15 = false;
                                 }
+                            };
+
+                            $scope.checkIPbirthDate_ = function () {
+                                var today = new Date();
+                                var birth_date = new Date($scope.leader.birth_date);
+                                var diff = today - birth_date;
+                                var age_diff = new Date(diff);
+                                var year_diff = Math.abs(age_diff.getUTCFullYear() - 1970);
+                                if (year_diff < 15) {
+                                    $scope.age_below_15 = true;
+                                    alert("Age as of today that is less than 15 years old is not allowed. Please check if this is the correct birth date");
+                                } else {
+                                    $scope.age_below_15 = false;
+                                }
+                            };
 
 
-                            }
-
-                            $scope.addIpGroup = function () {
-                                $scope.data.ip_leaders.push($scope.groups);
-                                $scope.groups = {};
-                            }
-
-                            $scope.removeIPGroup = function (index) {
-
-                                $scope.data.ip_leaders.splice(index, 1);
 
 
-                            }
 
 
                             $scope.SaveCoverage = function (member) {
@@ -1005,13 +921,13 @@
                                 //       alert(JSON.stringify($scope.data));
 
                                 //'/api/v1/grievances/save'
-
+                                
                                 $scope.data.ip_leader = JSON.stringify($scope.data.ip_leaders);
 
                                 $.post('/api/offline/v1/barangay_assembly/save', $scope.data)
                                     .success(function (data) {
                                         $scope.loading = false;
-
+                                        $('html, body').animate({ scrollTop: '0px' }, 1500);
                                         $mdToast.show(
                                             $mdToast.simple()
                                             .textContent('Record Saved!')
@@ -1033,7 +949,7 @@
                                         $scope.loading = false;
                                     });
                             };
-                        });
+                        });     //-------------- end of get
 
 
                     $scope.$watch('data.region_code',

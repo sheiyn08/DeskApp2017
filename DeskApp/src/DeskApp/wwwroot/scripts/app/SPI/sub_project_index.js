@@ -2,6 +2,7 @@
 angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'pims-pager']).controller('AppCtrl', function ($scope, $http, $mdDialog, $mdMedia) {
     
     $scope.data = {};
+    //$scope.ref = {};
 
     $scope.data.filter_by_recent_edit = '';
     $scope.data.filter_by_recent_add = '';
@@ -23,6 +24,8 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.data.civil_status_id = '';
     $scope.data.pageSize = '';
     $scope.data.currPage = '';
+    $scope.data.ref_pageSize = '';
+    $scope.data.ref_currPage = '';
     $scope.data.push_status_id = '';
     $scope.data.approval_id = '';
     $scope.data.is_volunteer = '';
@@ -42,6 +45,16 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.data.grs_complaint_subject_id = '';
     $scope.data.grs_nature_id = '';
     $scope.data.spi_nature_work_id = '';
+
+    $scope._fund_source_id_options = [{ "Id": 1, "Name": "ADB" }, { "Id": 2, "Name": "WB" }];
+
+    //reference table:
+    //$scope.ref.region_code = '';
+    //$scope.ref.prov_code = '';
+    //$scope.ref.city_code = '';
+    //$scope.ref.brgy_code = '';
+    //$scope.ref.fund_source_id = '';
+    //$scope.ref.cycle_id = '';
 
     $scope.needToConfirm = false;
 
@@ -84,7 +97,6 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
     };
 
-
     $scope.delete = function (removeitem) {
         var ask = confirm("Are you sure you want to Delete this?");
         if (ask == true) {
@@ -102,32 +114,14 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     };
 
 
-    $http.get('/api/online/lib_region')
-.then(function (response) { $scope.region_code_options = response.data; });
+    $http.get('/api/online/lib_region').then(function (response) { $scope.region_code_options = response.data; });
+    $http.get('/Api/lib_fund_source/').then(function (response) { $scope.fund_source_id_options = response.data; });
+    $http.get('/api/lib_enrollment').then(function (response) { $scope.enrollment_id_options = response.data; }); 
+    $http.get('/Api/lib_physical_status/').then(function (response) { $scope.physical_status_id_options = response.data; });  
+    $http.get('/api/lib_enrollment').then(function (response) { $scope.enrollment_id_options = response.data; });
+    $http.get('/Api/lib_project_type/').then(function (response) { $scope.project_type_id_options = response.data; });
 
-    $http.get('/Api/lib_fund_source/')
-.then(function (response) { $scope.fund_source_id_options = response.data; });
-
-    $http.get('/api/lib_enrollment')
-.then(function (response) { $scope.enrollment_id_options = response.data; });
- 
- $http.get('/Api/lib_physical_status/')
-                 .then(function (response) { $scope.physical_status_id_options = response.data; });
-                 
- 
-    $http.get('/api/lib_enrollment')
-.then(function (response) { $scope.enrollment_id_options = response.data; });
-
- 
-
-    $http.get('/Api/lib_project_type/')
-                    .then(function (response) { $scope.project_type_id_options = response.data; });
-
-
-
-    
-    
-
+     
 
     $scope.$watch('data.is_volunteer', function (newValue, oldValue)
     {
@@ -140,8 +134,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
             $scope.data.cycle_id = '';
 
         }
-    })
-     
+    })     
 
     $scope.$watch('data.is_trained', function (newValue, oldValue) {
         if (newValue == null || newValue == undefined) {
@@ -151,7 +144,6 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         }
     })
 
-
     $scope.$watch('data.is_ip', function (newValue, oldValue) {
         if (newValue != '') {
             $scope.data.ip_group_id = '';
@@ -159,7 +151,6 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
         }
     })
-
 
     $scope.$watch('data.region_code', function (newValue, oldValue) {
 
@@ -288,8 +279,8 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.clear = function () {
         $scope.data = {};
         $scope.search();
-    }
-
+        $scope.load_reference();
+    };
 
     $scope.search = function (page) {
 
@@ -308,6 +299,19 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
+
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.sub_project_unique_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
+
                 $scope.isSearching = false;
 
             }).error(function (data) {
@@ -327,6 +331,19 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
+
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.sub_project_unique_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
+
                 $scope.isSearching = false;
 
             }).error(function (data) {
@@ -346,6 +363,19 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
+
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.sub_project_unique_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
+
                 $scope.isSearching = false;
 
             }).error(function (data) {
@@ -365,6 +395,19 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
+
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.sub_project_unique_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
+
                 $scope.isSearching = false;
 
             }).error(function (data) {
@@ -374,22 +417,94 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
             });
         }
 
-      //  $http.get(url)
-      //.then(function (value) {
-
-      //    $scope.itemsToSync = value.data.itemsToSync;
-      //    $scope.page = value.data.Page;
-      //    $scope.pagesCount = value.data.TotalPages;
-      //    $scope.totalCount = value.data.TotalCount;
-      //    $scope.Items = value.data.Items;
-      //    $scope.isSearching = false;
-      //});
-
-
-      
     };
 
+    $scope.load_reference = function (ref_page) {
+        $scope.data.ref_pageSize = $scope.ref_pageSize == undefined ? '' : $scope.ref_pageSize;
+        $scope.data.ref_currPage = ref_page == undefined ? '' : ref_page;
+        $scope.isSearching = true;
+
+        $.post('/api/offline/v1/sub_project_references/get_dto', $scope.data).success(function (value) {
+            $scope.loading = false;
+            $scope.ref_page = value.Ref_Page;
+            $scope.ref_pagesCount = value.Ref_TotalPages;
+            $scope.ref_totalCount = value.Ref_TotalCount;
+            $scope.References = value.References;
+            $scope.isSearching = false;
+        }).error(function (data) {
+            alert(JSON.stringify(data));
+            $scope.error = "An Error has occured while Saving! " + data.statusText;
+            $scope.loading = false;
+        });      
+    };
+
+
+
     $scope.search();
+    $scope.load_reference();
+
+    
+
+    $scope.getReferenceDetails = function (ref) {
+        $scope.ref = angular.copy(ref)
+        $http.get('/api/offline/v1/sub_project_reference/get?id=' + ref.sub_project_id).success(function (ref) {
+            $scope.loading = true;
+            //$scope.ref = response.ref;
+            $scope.viewSPDetails(ref);
+        });
+
+        
+    };
+
+    $scope.referenceFullscreen = $mdMedia('lg') || $mdMedia('lg');
+    $scope.viewSPDetails = function (ev) {       
+
+        var useFullScreen = ($mdMedia('lg') || $mdMedia('lg')) && $scope.referenceFullscreen;
+
+        $mdDialog.show({
+            locals: { ref: $scope.ref },
+            controller: ReferenceDialogController,
+            templateUrl: 'spReference.tmpl.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: false,
+            fullscreen: useFullScreen,            
+        })
+        .then(function (answer) {
+            $scope.status = 'You said the information was "' + answer + '".';
+        }, function () {
+            $scope.status = 'You cancelled the dialog.';
+        });
+
+        $scope.$watch(function () {
+            return $mdMedia('lg') || $mdMedia('lg');
+        }, function (wantsFullScreen) {
+            $scope.referenceFullscreen = (wantsFullScreen === true);
+        });
+
+    };
+
+    function ReferenceDialogController($scope, $mdDialog, $http, ref) {
+
+        $scope.ref = ref;
+
+        $http.get('/api/online/lib_region').then(function (response) { $scope.region_code_options_ = response.ref; });
+        $http.get('/api/online/lib_province').then(function (response) { $scope.prov_code_options_ = response.ref; });
+        $http.get('/Api/lib_fund_source/').then(function (response) { $scope.fund_source_id_options_ = response.ref; });
+        $http.get('/api/lib_enrollment').then(function (response) { $scope.enrollment_id_options_ = response.ref; });
+        $http.get('/Api/lib_physical_status/').then(function (response) { $scope.physical_status_id_options_ = response.ref; });
+        $http.get('/api/lib_enrollment').then(function (response) { $scope.enrollment_id_options_ = response.ref; });
+        $http.get('/Api/lib_project_type/').then(function (response) { $scope.project_type_id_options_ = response.ref; });
+        
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+
+    } //end of ReferenceDialogController
+
+
+
 
  $http.get('/api/table_name?name=spi_profile')
    .then(function (response) {
@@ -478,6 +593,9 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         });
 
     };
+
+
+    
 
 
 })
@@ -595,6 +713,9 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
     };
 
 }
+
+
+
 
  
 /**

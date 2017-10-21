@@ -42,6 +42,11 @@ namespace DeskApp.DataLayer
         public int city_code { get; set; }
         public int  brgy_code { get; set; }
 
+        //RDR08242017 Additional columns for v3.0:
+        public bool? is_lgu_led { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_incentive { get; set; }
+
         public string highlights { get; set; }
         public int barangay_assembly_purpose_id { get; set; }
 
@@ -81,7 +86,7 @@ namespace DeskApp.DataLayer
 
 
         public int? no_slp_family_in_barangay { get; set; }
-        public int? no_pantawid_family_in_barangay { get; set; }
+        public int? no_pantawid_family_in_barangay { get; set; }    
         public int? no_ip_family_in_barangay { get; set; }
 
 

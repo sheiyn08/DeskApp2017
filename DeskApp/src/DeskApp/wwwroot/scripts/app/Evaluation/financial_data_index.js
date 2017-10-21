@@ -15,6 +15,8 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.data.talakayan_date_end = '';
     $scope.data.talakayan_yr_id = '';
 
+    $scope.talakayan_year_options = [{ "Id": 1, "Name": "2015" }, { "Id": 2, "Name": "2016" }, { "Id": 3, "Name": "2017" }, { "Id": 4, "Name": "2018" }, { "Id": 5, "Name": "2019" }];
+
     $scope.needToConfirm = false;
 
     $scope.list_of_selected_items = [];
@@ -88,7 +90,6 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.GotoFinancialReport = function () {
         window.location.href = "/Report/municipalfinancialprofile";
     };
-
 
 
     $http.get('/api/online/lib_region')

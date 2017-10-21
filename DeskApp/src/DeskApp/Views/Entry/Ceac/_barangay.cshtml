@@ -9,7 +9,7 @@
             Instead, update the CATCH UP PLAN Dates
         </p>
 
-        <md-button class="md-raised" aria-label="Add New Record" ng-click="cancel_beac()" ng-show="!show_all">
+        <md-button class="md-raised" aria-label="Back" ng-click="cancel_beac()" ng-show="!show_all">
             Back to List
         </md-button>
 
@@ -124,9 +124,9 @@
 
                 <td>
 
-                    <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="save_bra($index)" ng-disabled="!praForm.$valid"><i class="fa fa-save"></i></a>
+                    <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="save_bra($index)" ng-disabled="!praForm.$valid"><i class="fa fa-check"></i></a>
 
-                    <a class="btn btn-warning btn-sm" style="margin-right: 5px" ng-click="reset_bra()"><i class="fa fa-close"></i></a>
+                    <a class="btn btn-danger btn-sm" style="margin-right: 5px" ng-click="reset_bra()"><i class="fa fa-close"></i></a>
 
 
 
@@ -142,7 +142,7 @@
 
 
                 <td>
-                    <md-datepicker ng-disabled="selected_bra.plan_start != null" name="Plan Start" ng-model="selected_bra.dt_plan_start" ng-change="selected_bra.plan_start = selected_bra.dt_plan_start.toISOString()"></md-datepicker>
+                    <md-datepicker ng-disabled="selected_bra.plan_start != null" name="Plan Start" md-min-date="min_start_date" ng-model="selected_bra.dt_plan_start" ng-change="selected_bra.plan_start = selected_bra.dt_plan_start.toISOString()"></md-datepicker>
 
 
                 </td>
@@ -154,7 +154,7 @@
 
                 @* Catch up date *@
                 <td>
-                    <md-datepicker name="Catch Start" ng-model="selected_bra.dt_catch_start" ng-change="selected_bra.catch_start = selected_bra.dt_catch_start.toISOString()"></md-datepicker>
+                    <md-datepicker name="Catch Start" md-min-date="min_start_date" ng-model="selected_bra.dt_catch_start" ng-change="selected_bra.catch_start = selected_bra.dt_catch_start.toISOString()"></md-datepicker>
 
 
 
@@ -169,7 +169,7 @@
 
                 <td>
 
-                    <md-datepicker name="Actual Start" md-max-date="selected_bra.today" ng-model="selected_bra.dt_actual_start" ng-change="selected_bra.actual_start = selected_bra.dt_actual_start.toISOString()" ng-disabled="!selected_bra.is_ceac_tracking_only || !is_editable()"></md-datepicker>
+                    <md-datepicker name="Actual Start" md-min-date="min_start_date" md-max-date="selected_bra.today" ng-model="selected_bra.dt_actual_start" ng-change="selected_bra.actual_start = selected_bra.dt_actual_start.toISOString()" ng-disabled="!selected_bra.is_ceac_tracking_only || !is_editable()"></md-datepicker>
 
 
                 </td>

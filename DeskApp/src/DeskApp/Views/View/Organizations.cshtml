@@ -53,11 +53,29 @@
             background-color: transparent;
         }
 
-        mark {
-            background-color: deepskyblue;
-            color: white;
-            font-style: italic;
-        }
+        mark.uploaded {
+        background-color: deepskyblue;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.attachment {
+        background-color: mediumseagreen;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.unauthorized {
+        background-color: firebrick;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.foruploading {
+        background-color: darkorange;
+        color: white;
+        font-style: italic;
+    }
     </style>
 
 
@@ -74,9 +92,7 @@
             <br />
 
             <div style="margin:25px">
-                <a class="btn btn-success" ng-click="createNew()">
-                    <i class="fa fa-plus fa-lg"></i> New Record
-                </a>
+                <a class="btn btn-success" ng-click="createNew()"><i class="fa fa-plus"></i>&nbsp;&nbsp; New Record</a>
             </div>
 
             <div class="panel panel-success" style="margin:25px">
@@ -95,6 +111,9 @@
                             </div>
                             <div class="col-md-3">
                                 <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
+                            </div>
+                            <div class="col-md-3">
+                                <md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records tagged as <b>Unauthorized</b></md-checkbox>
                             </div>
                         </div>
                     </div><br />
@@ -133,15 +152,37 @@
                             </div>
                         </div>
                     </div><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label>Is Incentives (Tier-2)?</label>
+                                <select ng-model="data.is_incentive" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>From Savings?</label>
+                                <select ng-model="data.is_savings" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Is LGU-led?</label>
+                                <select ng-model="data.is_lgu_led" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div><br />
                 </div>
             </div>
 
             <div flex="100" layout="row" layout-margin layout-sm="column" style="margin:20px">
                 <a class="btn btn-primary" ng-click="search()">
-                    <i class="fa fa-filter fa-lg"></i> Filter
+                    <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
                 </a>
                 <a class="btn btn-warning" ng-click="clear()">
-                    <i class="fa fa-recycle fa-lg"></i>  Clear
+                    <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
                 </a>
                 @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
             </div>
@@ -187,7 +228,7 @@
                                                     Name
                                                 </th>
                                                 <th style="vertical-align:middle">
-                                                    Date Uploaded
+                                                    Tags
                                                 </th>
                                             </tr>
                                         </thead>
@@ -197,8 +238,8 @@
                                                     <md-checkbox ng-model="item.is_item_selected" ng-change="itemSelectedforSync(item)" aria-label="false"></md-checkbox> {{item.is_item_selected == true ? "Selected" : ""}}
                                                 </td>
                                                 <td style="vertical-align:middle">
-                                                    <a ng-href="/Entry/Organizations?id={{item.community_organization_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
-                                                    <a ng-click="delete(item)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
+                                                    <a ng-href="/Entry/Organizations?id={{item.community_organization_id}}" title='Edit Record' class="btn btn-info"><i class="fa fa-edit"></i></a>
+                                                    <a ng-click="delete(item)" title='Delete Record' class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                                 </td>
                                                 <td style="vertical-align:middle">
                                                     {{item.lib_region_region_name}}
@@ -215,14 +256,12 @@
                                                 <td style="vertical-align:middle">
                                                     {{item.name}}
                                                 </td>
-                                                <td style="vertical-align:middle" ng-show="item.push_status_id == 2 || item.push_status_id == 3">
-                                                    <mark>(For Uploading)</mark>
-                                                </td>
-                                                <td style="vertical-align:middle" ng-show="item.push_date == null && item.push_status_id == 1">
-                                                    N/A
-                                                </td>
-                                                <td style="vertical-align:middle" ng-show="item.push_date!=null">
-                                                    {{item.push_date | date:'MM/dd/yyyy'}}
+                                                <td style="vertical-align:middle">
+                                                    <mark class="uploaded" ng-show="item.push_date!=null && item.push_status_id==1">Uploaded : {{item.push_date | date:'MM/dd/yyyy'}}</mark>
+                                                    <mark class="uploaded" ng-show="item.push_date==null && item.push_status_id==1">Uploaded</mark>
+                                                    <mark class="foruploading" ng-show="item.push_status_id == 2 || item.push_status_id == 3">For Uploading</mark>
+                                                    <mark class="unauthorized" ng-show="item.push_status_id == 4">Unauthorized</mark>
+                                                    <mark class="attachment" ng-show="item.with_attachment == true">With attachment</mark>
                                                 </td>
                                             </tr>
                                         </tbody>

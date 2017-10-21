@@ -3,546 +3,700 @@
         <h4>Facilities</h4>
         <p>Which of the following establishments and services are available in the barangay? If not available, how far is your barangay to the nearest establishment/service provider? </p>
     </div>
-
-
-
+    
     <div layout="row" layout-margin flex="100">
         <div flex>	Facility / Establishment	</div>
         <div flex>	Identity if Available	</div>
-        <div flex>	If none, distance to nearest facility (hours)	</div>
+        <div flex>	If none, distance to nearest facility	</div>
+        <div flex></div>
         <div flex>	Mode of Transportation	</div>
     </div>
 
-
-
+    <div layout="row" layout-margin flex="100">
+        <div flex></div>
+        <div flex></div>
+        <div flex>(Hours)</div>
+        <div flex>(Minutes)</div>
+        <div flex></div>
+    </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Bank	</div><div flex>
+        <div flex>	Bank	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Bank" ng-model="data.has_bank" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
         </div>
-        
-        	<div flex>	<input class="form-control" ng-disabled="data.has_bank" ng-model="data.nearest_bank" type="number" />		</div>	<div flex>
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_bank" ng-model="data.nearest_bank" type="number" min="0"/>		
+        </div>
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_bank" ng-model="data.nearest_bank_mins" type="number" min="0" max="59" />		
+        </div>
+        <div flex>
             <select ng-model="data.transpo_bank" class="form-control"
                     ng-disabled="data.has_bank"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Barangay Hall	</div><div flex>
+        <div flex>	Barangay Hall	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Barangay Hall" ng-model="data.has_barangay_hall" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_barangay_hall" ng-model="data.nearest_barangay_hall" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_barangay_hall" ng-model="data.nearest_barangay_hall" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_barangay_hall" ng-model="data.nearest_barangay_hall_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_barangay_hall" class="form-control"
                     ng-disabled="data.has_barangay_hall"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
         </div>
     </div>
 
     <div layout="row" ng-required="true" name="With Training (Agriculture)" layout-margin flex="100">
-        <div flex>	Training (Agriculture)	</div><div flex>
+        <div flex>	Training (Agriculture)	</div>
+        <div flex>
             <md-radio-group ng-model="data.has_cap_agri" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_cap_agri" ng-model="data.nearest_cap_agri" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_cap_agri" ng-model="data.nearest_cap_agri" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_cap_agri" ng-model="data.nearest_cap_agri_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_cap_agri" class="form-control"
                     ng-disabled="data.has_cap_agri"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Training (Health)	</div><div flex>
+        <div flex>	Training (Health)	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Training(Health)" ng-model="data.has_cap_health" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_cap_health" ng-model="data.nearest_cap_health" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_cap_health" ng-model="data.nearest_cap_health" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_cap_health" ng-model="data.nearest_cap_health_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_cap_health" class="form-control"
                     ng-disabled="data.has_cap_health"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Training (Org Development)	</div><div flex>
+        <div flex>	Training (Org Development)	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Training(Org Development)" ng-model="data.has_cap_org_dev" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_cap_org_dev" ng-model="data.nearest_cap_org_dev" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_cap_org_dev" ng-model="data.nearest_cap_org_dev" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_cap_org_dev" ng-model="data.nearest_cap_org_dev_mins" type="number" min="0" max="59" />
+        </div>
+        <div flex>
             <select ng-model="data.transpo_cap_org_dev" class="form-control"
                     ng-disabled="data.has_cap_org_dev"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row"  layout-margin flex="100">
-        <div flex>	Training (Others)	</div><div flex>
+        <div flex>	Training (Others)	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Training(others)" ng-model="data.has_cap_others" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_cap_others" ng-model="data.nearest_cap_others" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_cap_others" ng-model="data.nearest_cap_others" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_cap_others" ng-model="data.nearest_cap_others_mins" type="number" min="0" max="59" />
+        </div>
+        <div flex>
             <select ng-model="data.transpo_cap_others" class="form-control"
                     ng-disabled="data.has_cap_others"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Cemetery	</div><div flex>
+        <div flex>	Cemetery	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Cementery" ng-model="data.has_cementery" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_cementery" ng-model="data.nearest_cementery" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_cementery" ng-model="data.nearest_cementery" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_cementery" ng-model="data.nearest_cementery_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_cementery" class="form-control"
                     ng-disabled="data.has_cementery"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	College / Universities	</div><div flex>
+        <div flex>	College / Universities	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With College / Universities" ng-model="data.has_college" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_college" ng-model="data.nearest_college" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_college" ng-model="data.nearest_college" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_college" ng-model="data.nearest_college_mins" type="number" min="0" max="59" />
+        </div>
+        <div flex>
             <select ng-model="data.transpo_college" class="form-control"
                     ng-disabled="data.has_college"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Credit Facility	</div><div flex>
+        <div flex>	Credit Facility	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Credit Facility" ng-model="data.has_credit" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_credit" ng-model="data.nearest_credit" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_credit" ng-model="data.nearest_credit" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_credit" ng-model="data.nearest_credit_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_credit" class="form-control"
                     ng-disabled="data.has_credit"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Day Care Centers	</div><div flex>
+        <div flex>	Day Care Centers	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Day Care Centers" ng-model="data.has_daycare" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_daycare" ng-model="data.nearest_daycare" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_daycare" ng-model="data.nearest_daycare" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_daycare" ng-model="data.nearest_daycare_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_daycare" class="form-control"
                     ng-disabled="data.has_daycare" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Drainage System	</div><div flex>
+        <div flex>	Drainage System	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Drainage System" ng-model="data.has_drainage" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_drainage" ng-model="data.nearest_drainage" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_drainage" ng-model="data.nearest_drainage" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_drainage" ng-model="data.nearest_drainage_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_drainage" class="form-control"
                     ng-disabled="data.has_drainage"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Electricity	</div><div flex>
+        <div flex>	Electricity	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Electricity" ng-model="data.has_electricity" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_electricity" ng-model="data.nearest_electricity" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_electricity" ng-model="data.nearest_electricity" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_electricity" ng-model="data.nearest_electricity_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_electricity" class="form-control"
                     ng-disabled="data.has_electricity"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Elementary School	</div><div flex>
+        <div flex>	Elementary School	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Elementary School" ng-model="data.has_elementary" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_elementary" ng-model="data.nearest_elementary" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_elementary" ng-model="data.nearest_elementary" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_elementary" ng-model="data.nearest_elementary_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_elementary" class="form-control"
                     ng-disabled="data.has_elementary"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Emergency Services	</div><div flex>
+        <div flex>	Emergency Services	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Emergency Services" ng-model="data.has_emergency_service" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_emergency_service" ng-model="data.nearest_emergency_service" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_emergency_service" ng-model="data.nearest_emergency_service" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_emergency_service" ng-model="data.nearest_emergency_service_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_emergency_service" class="form-control"
                     ng-disabled="data.has_emergency_service"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Evacuation Center	</div><div flex>
+        <div flex>	Evacuation Center	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Evacuation Center" ng-model="data.has_evac_center" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_evac_center" ng-model="data.nearest_evac_center" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_evac_center" ng-model="data.nearest_evac_center" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_evac_center" ng-model="data.nearest_evac_center_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_evac_center" class="form-control"
                     ng-disabled="data.has_evac_center"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Harvest Facility	</div><div flex>
+        <div flex>	Harvest Facility	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Harvest Facility" ng-model="data.has_harvest" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_harvest" ng-model="data.nearest_harvest" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_harvest" ng-model="data.nearest_harvest" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_harvest" ng-model="data.nearest_harvest_mins" type="number" min="0" max="59" />
+        </div>
+        <div flex>
             <select ng-model="data.transpo_harvest" class="form-control"
                     ng-disabled="data.has_harvest"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Health Center	</div><div flex>
+        <div flex>	Health Center	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Health Center" ng-model="data.has_health" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_health" ng-model="data.nearest_health" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_health" ng-model="data.nearest_health" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_health" ng-model="data.nearest_health_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_health" class="form-control"
                     ng-disabled="data.has_health"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Hospital	</div><div flex>
+        <div flex>	Hospital	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Hospital" ng-model="data.has_hospital" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_hospital" ng-model="data.nearest_hospital" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_hospital" ng-model="data.nearest_hospital" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_hospital" ng-model="data.nearest_hospital_mins" type="number" min="0" max="59" />
+        </div>
+        <div flex>
             <select ng-model="data.transpo_hospital" class="form-control"
                     ng-disabled="data.has_hospital"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Housing Projects	</div><div flex>
+        <div flex>	Housing Projects	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Housing Project" ng-model="data.has_housing" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_housing" ng-model="data.nearest_housing" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_housing" ng-model="data.nearest_housing" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_housing" ng-model="data.nearest_housing_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_housing" class="form-control"
                     ng-disabled="data.has_housing"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Irrigation	</div><div flex>
+        <div flex>	Irrigation	</div>
+        <div flex>
             <md-radio-group  ng-required="true" name="With Irrigation" ng-model="data.has_irrigation" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_irrigation" ng-model="data.nearest_irrigation" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_irrigation" ng-model="data.nearest_irrigation" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_irrigation" ng-model="data.nearest_irrigation_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_irrigation" class="form-control"
                     ng-disabled="data.has_irrigation" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Market Place	</div><div flex>
+        <div flex>	Market Place	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Market Place" ng-model="data.has_market" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_market" ng-model="data.nearest_market" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_market" ng-model="data.nearest_market" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_market" ng-model="data.nearest_market_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_market" class="form-control"
                     ng-disabled="data.has_market"
                     ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Mini Port	</div><div flex>
+        <div flex>	Mini Port	</div>
+        <div flex>
             <md-radio-group  ng-required="true" name="With Mini Port" ng-model="data.has_miniport" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_miniport" ng-model="data.nearest_miniport" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_miniport" ng-model="data.nearest_miniport" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_miniport" ng-model="data.nearest_miniport_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_miniport" class="form-control"
                     ng-disabled="data.has_miniport" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Multi Purpose Building	</div><div flex>
+        <div flex>	Multi Purpose Building	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Multi Purpose Building" ng-model="data.has_multipurpose" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_multipurpose" ng-model="data.nearest_multipurpose" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_multipurpose" ng-model="data.nearest_multipurpose" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_multipurpose" ng-model="data.nearest_multipurpose_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_multipurpose" class="form-control"
                     ng-disabled="data.has_multipurpose" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Secondary School</div><div flex>
+        <div flex>	Secondary School</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Secondary Schools" ng-model="data.has_secondary" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_secondary" ng-model="data.nearest_secondary" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_secondary" ng-model="data.nearest_secondary" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_secondary" ng-model="data.nearest_secondary_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_secondary" class="form-control"
                     ng-disabled="data.has_secondary" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Stores	</div><div flex>
+        <div flex>	Stores	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Stores" ng-model="data.has_stores" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_stores" ng-model="data.nearest_stores" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_stores" ng-model="data.nearest_stores" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_stores" ng-model="data.nearest_stores_mins" type="number" min="0" max="59" />
+        </div>
+        <div flex>
             <select ng-model="data.transpo_stores" class="form-control"
                     ng-disabled="data.has_stores" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Tanod / Police	</div><div flex>
+        <div flex>	Tanod / Police	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Tanod / Police" ng-model="data.has_tanod" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_tanod" ng-model="data.nearest_tanod" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_tanod" ng-model="data.nearest_tanod" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_tanod" ng-model="data.nearest_tanod_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_tanod" class="form-control"
                     ng-disabled="data.has_tanod" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Telecommunications Access	</div><div flex>
+        <div flex>	Telecommunications Access	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Telecommunications Access" ng-model="data.has_telecom" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_telecom" ng-model="data.nearest_telecom" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_telecom" ng-model="data.nearest_telecom" type="number" min="0"/>		
+        </div>
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_telecom" ng-model="data.nearest_telecom_mins" type="number" min="0" max="59" />
+        </div>		
+        <div flex>
             <select ng-model="data.transpo_telecom" class="form-control"
                     ng-disabled="data.has_telecom" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Tribal Hall	</div><div flex>
+        <div flex>	Tribal Hall	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Tribal Hall" ng-model="data.has_tribal" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_tribal" ng-model="data.nearest_tribal" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_tribal" ng-model="data.nearest_tribal" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_tribal" ng-model="data.nearest_tribal_mins" type="number" min="0" max="59" />
+        </div>
+        <div flex>
             <select ng-model="data.transpo_tribal" class="form-control"
                     ng-disabled="data.has_tribal" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Waste Facility	</div><div flex>
+        <div flex>	Waste Facility	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Waste Facility" ng-model="data.has_waste" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_waste" ng-model="data.nearest_waste" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_waste" ng-model="data.nearest_waste" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_waste" ng-model="data.nearest_waste_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_waste" class="form-control"
                     ng-disabled="data.has_waste" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
     <div layout="row" layout-margin flex="100">
-        <div flex>	Water Supply System	</div><div flex>
+        <div flex>	Water Supply System	</div>
+        <div flex>
             <md-radio-group ng-required="true" name="With Water Supply System" ng-model="data.has_water_supply_system" layout="row">
                 <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                <md-radio-button data-ng-value="false"> No </md-radio-button>
-
+                <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
             </md-radio-group>
-        </div>	<div flex>	<input class="form-control" ng-disabled="data.has_water_supply_system" ng-model="data.nearest_water_supply_system" type="number" />		</div>	<div flex>
+        </div>	
+        <div flex>	
+            <input class="form-control" ng-disabled="data.has_water_supply_system" ng-model="data.nearest_water_supply_system" type="number" min="0"/>		
+        </div>	
+        <div flex>
+            <input class="form-control" ng-disabled="data.has_water_supply_system" ng-model="data.nearest_water_supply_system_mins" type="number" min="0" max="59" />
+        </div>	
+        <div flex>
             <select ng-model="data.transpo_water_supply_system" class="form-control"
                     ng-disabled="data.has_water_supply_system" ng-options="option.Id as option.Name for option in transpo_mode_id_options">
                 <option value="">[Select Mode of Transportation]</option>
             </select>
-
-
         </div>
     </div>
 
-    </div>
+</div>

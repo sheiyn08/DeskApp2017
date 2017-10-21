@@ -137,7 +137,7 @@
                         {{ item.middle_name }}
                     </td>
                     <td>
-                        {{ item.birthdate }}
+                        {{ item.birthdate |  date:'MM/dd/yyyy' }}
                     </td>
                     <td>
                         {{ item.sex == true? "Male" : "Female" }}

@@ -1,8 +1,206 @@
-﻿<div class="panel panel-info">
+﻿
+
+<div class="panel panel-info">
     <div class="panel-heading">
         <h4>Suspension, Resume, Variation Orders</h4>
+    </div>
+
+    <div class="panel panel-body">
+
+        <form name="suspensionForm">
+            <md-content>
+                <h4 style="color:dodgerblue">Suspension Orders</h4>
+                <md-divider></md-divider>
+                <md-divider></md-divider>
+                <md-divider></md-divider>
+                <div class="panel panel-body">
+                    <div class="layout-row" layout-margin flex>
+                        <div flex></div>
+                        <div flex>Order No.</div>
+                        <div flex>Date</div>
+                    </div>
+                    <div class="layout-row" layout-margin flex ng-repeat="suspension in data.suspension_order_lists">
+                        <div flex>
+                            <a class="btn btn-info" style="margin-right:5px" ng-click="suspension_edit_is_selected=true; editSuspension(suspension)" ng-hide="suspension_edit_is_selected"><i class="fa fa-edit"></i></a>
+                            <a class="btn btn-danger" style="margin-right:5px" ng-click="removeSuspension($index)" ng-hide="suspension_edit_is_selected"><i class="fa fa-trash"></i></a>
+
+                            <a class="btn btn-success" style="margin-right:5px" ng-click="suspension_edit_is_selected=false; saveEditedSuspension(suspension)" ng-show="suspension_edit_is_selected"><i class="fa fa-check"></i></a>
+                            <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditSuspension(suspension); suspension_edit_is_selected=false" ng-show="suspension_edit_is_selected"><i class="fa fa-close"></i></a>
+                        </div>
+                        <div flex>
+                            <span ng-hide="suspension_edit_is_selected">{{suspension.name}}</span>
+                            <input ng-model="suspension.name" class="form-control" required name="Order No." ng-show="suspension_edit_is_selected" />
+                        </div>
+                        <div flex>
+                            <span ng-hide="suspension_edit_is_selected">{{suspension.date | date:'MM/dd/yyyy'}}</span>
+                            <md-datepicker ng-model="suspension.date" 
+                                           md-placeholder="Enter date" 
+                                           md-min-date="minDate" 
+                                           md-max-date="today" 
+                                           ng-show="suspension_edit_is_selected">
+                            </md-datepicker>    
+                        </div>
+                    </div>
+
+                    @*THIS IS FOR NEW ENTRY:*@
+                    <div class="layout-row" layout-margin flex md-padding>
+                        <div flex>
+                            <a class="btn btn-success" ng-disabled="!suspensionForm.$valid" ng-click="addSuspension()"><i class="fa fa-plus"></i></a>
+                        </div>
+                        <div flex>
+                            <input type="text" required name="Order No." ng-model="suspension.name" class="form-control" />
+                        </div>
+                        <div flex>
+                            <md-datepicker ng-model="suspension.date" 
+                                           md-placeholder="Enter date" 
+                                           md-min-date="minDate" 
+                                           md-max-date="today" >
+                            </md-datepicker> 
+                        </div>
+                    </div>
+
+                </div>
+            </md-content>
+        </form>
+
+        <form name="resumeForm">
+            <md-content>
+                <h4 style="color:dodgerblue">Resume Orders</h4>
+                <md-divider></md-divider>
+                <md-divider></md-divider>
+                <md-divider></md-divider>
+                <div class="panel panel-body">
+                    <div class="layout-row" layout-margin flex>
+                        <div flex></div>
+                        <div flex>Order No.</div>
+                        <div flex>Date</div>
+                    </div>
+                    <div class="layout-row" layout-margin flex ng-repeat="resume in data.resume_order_lists">
+                        <div flex>
+                            <a class="btn btn-info" style="margin-right:5px" ng-click="resume_edit_is_selected=true; editResume(resume)" ng-hide="resume_edit_is_selected"><i class="fa fa-edit"></i></a>
+                            <a class="btn btn-danger" style="margin-right:5px" ng-click="removeResume($index)" ng-hide="resume_edit_is_selected"><i class="fa fa-trash"></i></a>
+
+                            <a class="btn btn-success" style="margin-right:5px" ng-click="resume_edit_is_selected=false; saveEditedResume(resume)" ng-show="resume_edit_is_selected"><i class="fa fa-check"></i></a>
+                            <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditResume(resume); resume_edit_is_selected=false" ng-show="resume_edit_is_selected"><i class="fa fa-close"></i></a>
+                        </div>
+                        <div flex>
+                            <span ng-hide="resume_edit_is_selected">{{resume.name}}</span>
+                            <input ng-model="resume.name" class="form-control" required name="Order No." ng-show="resume_edit_is_selected" />
+                        </div>
+                        <div flex>
+                            <span ng-hide="resume_edit_is_selected">{{resume.date | date:'MM/dd/yyyy'}}</span>
+                            <md-datepicker ng-model="resume.date"
+                                           md-placeholder="Enter date"
+                                           md-min-date="minDate"
+                                           md-max-date="today"
+                                           ng-show="resume_edit_is_selected">
+                            </md-datepicker> 
+                        </div>
+                    </div>
+
+                    @*THIS IS FOR NEW ENTRY:*@
+                    <div class="layout-row" layout-margin flex md-padding>
+                        <div flex>
+                            <a class="btn btn-success" ng-click="addResume()" ng-disabled="!resumeForm.$valid"><i class="fa fa-plus"></i></a>
+                        </div>
+                        <div flex>
+                            <input type="text" required name="Order No." ng-model="resume.name" class="form-control" />
+                        </div>
+                        <div flex>
+                            <md-datepicker ng-required="true"  
+                                           ng-model="resume.date" 
+                                           md-placeholder="Enter date" 
+                                           md-min-date="minDate" 
+                                           md-max-date="today">
+                            </md-datepicker>
+                        </div>
+                    </div>
+
+                </div>
+            </md-content>
+        </form>
+
+        <form name="variationForm">
+            <md-content>
+                <h4 style="color:dodgerblue">Variation Orders</h4>
+                <md-divider></md-divider>
+                <md-divider></md-divider>
+                <md-divider></md-divider>
+                <div class="panel panel-body">
+                    <div class="layout-row" layout-margin flex>
+                        <div flex></div>
+                        <div flex>Order No.</div>
+                        <div flex>Date</div>
+                    </div>
+                    <div class="layout-row" layout-margin flex ng-repeat="variation in data.variation_order_lists">
+                        <div flex>
+                            <a class="btn btn-info" style="margin-right:5px" ng-click="variation_edit_is_selected=true; editVariation(variation)" ng-hide="variation_edit_is_selected"><i class="fa fa-edit"></i></a>
+                            <a class="btn btn-danger" style="margin-right:5px" ng-click="removeVariation($index)" ng-hide="variation_edit_is_selected"><i class="fa fa-trash"></i></a>
+
+                            <a class="btn btn-success" style="margin-right:5px" ng-click="variation_edit_is_selected=false; saveEditedVariation(variation)" ng-show="variation_edit_is_selected"><i class="fa fa-check"></i></a>
+                            <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditVariation(variation); variation_edit_is_selected=false" ng-show="variation_edit_is_selected"><i class="fa fa-close"></i></a>
+                        </div>
+                        <div flex>
+                            <span ng-hide="variation_edit_is_selected">{{variation.name}}</span>
+                            <input ng-model="variation.name" class="form-control" required name="Order No." ng-show="variation_edit_is_selected" />
+                        </div>
+                        <div flex>
+                            <span ng-hide="variation_edit_is_selected">{{variation.date | date:'MM/dd/yyyy'}}</span>
+                            <md-datepicker ng-model="variation.date"
+                                           md-placeholder="Enter date"
+                                           md-min-date="minDate"
+                                           md-max-date="today"
+                                           ng-show="variation_edit_is_selected">
+                            </md-datepicker>
+                        </div>
+                    </div>
+
+                    @*THIS IS FOR NEW ENTRY:*@
+                    <div class="layout-row" layout-margin flex md-padding>
+                        <div flex>
+                            <a class="btn btn-success" ng-click="addVariation()" ng-disabled="!variationForm.$valid"><i class="fa fa-plus"></i></a>
+                        </div>
+                        <div flex>
+                            <input type="text" required name="Order No." ng-model="variation.name" class="form-control" />
+                        </div>
+                        <div flex>
+                            <md-datepicker ng-required="true"
+                                           ng-model="variation.date"
+                                           md-placeholder="Enter date"
+                                           md-min-date="minDate"
+                                           md-max-date="today">
+                            </md-datepicker>
+                        </div>
+                    </div>
+
+                </div>
+            </md-content>
+        </form>
 
     </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="panel panel-info">
+    <div class="panel-heading">
+        <h4>Suspension, Resume, Variation Orders</h4>
+    </div>
+
     <div class="panel panel-body">
 
         <form name="suspensionForm">
@@ -36,7 +234,7 @@
                             <input type="text" required name="Order No." ng-model="susp.name" class="form-control" />
                         </div>
                         <div flex>
-                            <md-datepicker ng-required="true" name="Date Provided" ng-model="susp.date" md-placeholder="Enter date" md-max-date="today"></md-datepicker>
+                            <md-datepicker ng-required="true" name="Date Provided" ng-model="susp.date" md-placeholder="Enter date" md-min-date="minDate" md-max-date="today"></md-datepicker>
                         </div>
 
                     </div>
@@ -75,7 +273,7 @@
                             <input type="text" required name="Order No." ng-model="resume.name" class="form-control" />
                         </div>
                         <div flex>
-                            <md-datepicker ng-required="true" name="Date Provided" ng-model="resume.date" md-placeholder="Enter date" md-max-date="today"></md-datepicker>
+                            <md-datepicker ng-required="true" name="Date Provided" ng-model="resume.date" md-placeholder="Enter date" md-min-date="minDate" md-max-date="today"></md-datepicker>
                         </div>
                     </div>
                 </div>
@@ -113,7 +311,7 @@
                             <input type="text" required name="Order No." ng-model="vari.name" class="form-control" />
                         </div>
                         <div flex>
-                            <md-datepicker ng-required="true" name="Date Provided" ng-model="vari.date" md-placeholder="Enter date" md-max-date="today"></md-datepicker>
+                            <md-datepicker ng-required="true" name="Date Provided" ng-model="vari.date" md-placeholder="Enter date" md-min-date="minDate" md-max-date="today"></md-datepicker>
                         </div>
                     </div>
                 </div>
@@ -121,4 +319,4 @@
         </form>        
 
     </div>
-</div>
+</div>*@

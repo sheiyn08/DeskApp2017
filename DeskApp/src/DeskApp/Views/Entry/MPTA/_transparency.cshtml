@@ -7,7 +7,7 @@
 
             <div flex></div>
             <div flex>Location of Posting</div>
-            <div flex>Date of Posted</div>
+            <div flex>Date Posted</div>
 
         </div>
 
@@ -23,7 +23,7 @@
                 <md-datepicker ng-required="data.incexp_location_post != null" ng-disabled="data.incexp_location_post ==null"
                                name="Income and Expenditure Post Date" ng-model="dt_incexp_post_date" md-placeholder="Enter date"
                                ng-change="data.incexp_post_date = dt_incexp_post_date.toISOString()" required
-                               md-max-date="today"></md-datepicker>
+                               md-min-date="minDate" md-max-date="today"></md-datepicker>
             </div>
         </div>
 
@@ -40,7 +40,7 @@
                 <md-datepicker ng-required="data.budget_location_post != null" ng-disabled="data.budget_location_post ==null"
                                name="Budget Data Post Date" ng-model="dt_budget_post_date" md-placeholder="Enter date"
                                ng-change="data.budget_post_date = dt_budget_post_date.toISOString()" required
-                               md-max-date="today"></md-datepicker>
+                               md-min-date="minDate" md-max-date="today"></md-datepicker>
             </div>
         </div>
 
@@ -57,7 +57,7 @@
                 <md-datepicker ng-required="data.plan_location_post != null" ng-disabled="data.plan_location_post ==null"
                                name="Lgu Plans and Activities Post Date" ng-model="dt_plan_post_date" md-placeholder="Enter date"
                                ng-change="data.plan_post_date = dt_plan_post_date.toISOString()" required
-                               md-max-date="today"></md-datepicker>
+                               md-min-date="minDate" md-max-date="today"></md-datepicker>
             </div>
         </div>
 

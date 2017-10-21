@@ -15,6 +15,7 @@ namespace DeskApp.Controllers
 
 
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -171,5 +172,38 @@ namespace DeskApp.Controllers
         {
             return db.municipal_pta.Count(e => e.municipal_pta_id == id) > 0;
         }
+
+        //for v3.0 - to be used as indicator that a record has attachment
+        [HttpGet]
+        [Route("record_attachment")]
+        public bool record_attachment(Guid id)
+        {
+            return db.attached_document.Count(e => e.record_id == id && e.is_deleted != true) > 0;
+        }
+
+
+        //for v3.0
+        [HttpGet]
+        [Route("ceac_list")]
+        public bool ceac_list(Guid id)
+        {
+            return db.ceac_list.Count(e => e.ceac_list_id == id && e.is_deleted != true) > 0;
+        }
+
+        //for v3.0
+        [HttpGet]
+        [Route("sub_project_reference_table")]
+        public bool sub_project_reference_table(int id)
+        {
+            return db.sub_project_reference_table.Count(e => e.sub_project_id == id) > 0;
+        }
+
+        [HttpGet]
+        [Route("is_sp_paired")]
+        public bool is_sp_paired(int id)
+        {
+            return db.sub_project_reference_table.Where(e => e.sub_project_id == id && e.is_paired == true).Count() > 0;
+        }
+
     }
 }

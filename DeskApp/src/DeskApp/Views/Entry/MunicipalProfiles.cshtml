@@ -50,7 +50,7 @@
 
 <div ng-cloak ng-controller="AppCtrl" ng-app="MyApp">
     <md-toolbar md-scroll-shrink>
-        <div class="md-toolbar-tools">Intake Municipal Profile</div>
+        <div class="md-toolbar-tools">Municipal Profile</div>
     </md-toolbar>
 
     <md-content>
@@ -134,7 +134,7 @@
             <div flex="100" layout="row" layout-margin layout-sm="column">
 
                 <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || !socioForm.$valid || !tenureForm.$valid">
-                    Save Record
+                    Save
                 </md-button>
 
                 <md-button class="md-warn md-raised" href="/View/MunicipalProfiles">
@@ -223,6 +223,24 @@
                   $scope.data.transportations = JSON.parse($scope.data.transportation);
               }
 
+
+              $scope.check_status = function () {
+
+                  $http.get('/api/exists/municipal_profile?id=@ViewBag.id')
+                      .then(function (result) {
+
+
+                          if (result.data == true) {
+                              $scope.status = true;
+                          } else {
+                              $scope.status = false;
+
+                          }
+                      });
+
+              }
+
+              $scope.check_status();
 
 
               //ATTACHMENTS
@@ -442,7 +460,7 @@
               //                   .hideDelay(5000)
               //               );
               //}
-              
+
               //$scope.addGad = function () {
 
 
@@ -461,7 +479,7 @@
 
 
               //}
-              
+
               //$scope.addDrrm = function () {
 
 
@@ -597,38 +615,56 @@
                   return total;
               };
 
+              //$scope.addTranspo = function () {
+              //    $scope.data.transportations.push($scope.transpo);
+              //    $scope.transpo = {};
+              //}
+
+              //$scope.removeTranspo = function (index) {
+              //    $scope.data.transportations.splice(index, 1);
+              //}
 
 
-
-
-
-
-
-
-
-
-
-
-
+              //-------------- Enhancement: 08-09-17 Add edit for Transportation tab
 
               $scope.addTranspo = function () {
+                  $scope.data.transportations.push($scope.trans);
+                  $scope.trans = {};
+              };
+
+              $scope.removeTranspo = function (trans) {
+                  $scope.data.transportations.splice(trans, 1);
+              };
+
+              $scope.editTranspo = function (trans) {
+                  $scope.editing = $scope.data.transportations.indexOf(trans);
+                  trans.backupTransName = angular.copy(trans.name);
+                  trans.backupTransDestination = angular.copy(trans.destination);
+                  trans.backupTransMin = angular.copy(trans.min);
+                  trans.backupTransMax = angular.copy(trans.max);
+              };
+
+              $scope.saveEditedTranspo = function (trans) {
+                  delete trans.backupTransName;
+                  delete trans.backupTransDestination;
+                  delete trans.backupTransMin;
+                  delete trans.backupTransMax;
+              };
+
+              $scope.cancelEditTranspo = function (trans) {
+                  trans.name = angular.copy(trans.backupTransName);
+                  trans.destination = angular.copy(trans.backupTransDestination);
+                  trans.min = angular.copy(trans.backupTransMin);
+                  trans.max = angular.copy(trans.backupTransMax);
+                  delete trans.backupTransName;
+                  delete trans.backupTransDestination;
+                  delete trans.backupTransMin;
+                  delete trans.backupTransMax;
+              };
 
 
+              
 
-
-                  $scope.data.transportations.push($scope.transpo);
-
-
-
-                  $scope.transpo = {};
-              }
-
-              $scope.removeTranspo = function (index) {
-
-                  $scope.data.transportations.splice(index, 1);
-
-
-              }
 
               $scope.save = function () {
                   $scope.$broadcast('show-errors-check-validity');
@@ -646,12 +682,7 @@
 
                   $.post('/api/offline/v1/municipal_profile/save', $scope.data).success(function (data) {
                       $scope.loading = false;
-
-                      $('html, body').animate({
-                          scrollTop: '0px'
-                      }, 1500);
-
-
+                      $('html, body').animate({ scrollTop: '0px' }, 1500);
                       $mdToast.show(
                           $mdToast.simple()
                           .textContent('Record Saved!')

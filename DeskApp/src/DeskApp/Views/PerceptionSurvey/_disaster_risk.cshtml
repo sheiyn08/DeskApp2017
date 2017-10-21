@@ -1,169 +1,166 @@
-﻿<div class="panel panel-info">
-    <div class="panel panel-heading">
-        <h4>Disaster-Risk Related Activities and Preparedness</h4>
-    </div>
+﻿
+
+
+<md-content>
+    <h4 style="color:dodgerblue">Disaster-Risk Related Activities and Preparedness</h4>
+    <md-divider></md-divider>
+    <md-divider></md-divider>
+    <md-divider></md-divider>
     <div class="panel panel-body">
         <div class="row" ng-hide="data.year != 2016">
             <div class="col-md-8">
-                <label style="padding-right:25px">People in the community are aware of the dangers brought by disasters.</label>
+                <label style="padding-right:25px">A.&emsp;People in the community are aware of the dangers brought by disasters.</label>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.disaster_1" class="form-control"
-                        ng-required="data.year == 2015"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.disaster_1" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div> 
-        <div class="row" ng-hide="data.year != 2016"> <br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">People in the community are not aware of the different measures to reduce dangers brought by disasters.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.disaster_1 != null" ng-click="data.disaster_1=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.disaster_2" class="form-control"
-                        ng-required="data.year == 2015"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row" ng-hide="data.year != 2016">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">B.&emsp;People in the community are not aware of the different measures to reduce dangers brought by disasters.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.disaster_2" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div>  
-        <div class="row" ng-hide="data.year != 2015"><br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">People in the community are aware of the dangers brought by disasters.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.disaster_2 != null" ng-click="data.disaster_2=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.disaster_3" class="form-control"
-                        ng-required="data.year == 2016"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row" ng-hide="data.year != 2015">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">A.&emsp;People in the community are aware of the dangers brought by disasters.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.disaster_3" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div>  
-        <div class="row"><br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">I am aware of the dangers brought by disasters.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.disaster_3 != null" ng-click="data.disaster_3=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.disaster_4" class="form-control"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
-                    <md-radio-group required ng-model="data.disaster_4" layout="row">
+        </div>
+        <div class="row">
+            <br />
+            <div class="col-md-8">
+                <span ng-hide="data.year != 2015"><label style="padding-right:25px">B.&emsp;I am aware of the dangers brought by disasters.</label></span>
+                <span ng-hide="data.year != 2016"><label style="padding-right:25px">C.&emsp;I am aware of the dangers brought by disasters.</label></span>
+            </div>
+            <div class="col-md-3">
+                <md-radio-group required ng-model="data.disaster_4" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div>  
-        <div class="row" ng-hide="data.year != 2015"><br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">People are aware of how the community is affected by disasters.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.disaster_4 != null" ng-click="data.disaster_4=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.disaster_5" class="form-control"
-                        ng-required="data.year == 2016"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row" ng-hide="data.year != 2015">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">C.&emsp;People are aware of how the community is affected by disasters.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.disaster_5" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div>  
-        <div class="row" ng-hide="data.year != 2015"><br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">I am aware of how the community is affected by disasters.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.disaster_5 != null" ng-click="data.disaster_5=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.disaster_6" class="form-control"
-                        ng-required="data.year == 2016"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row" ng-hide="data.year != 2015">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">D.&emsp;I am aware of how the community is affected by disasters.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.disaster_6" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div>  
-        <div class="row"> <br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">I am aware of the different measures to reduce dangers brought by disasters.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.disaster_6 != null" ng-click="data.disaster_6=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.disaster_7" class="form-control"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row">
+            <br />
+            <div class="col-md-8">
+                <span ng-hide="data.year != 2015"><label style="padding-right:25px">E.&emsp;I am aware of the different measures to reduce dangers brought by disasters.</label></span>
+                <span ng-hide="data.year != 2016"><label style="padding-right:25px">D.&emsp;I am aware of the different measures to reduce dangers brought by disasters.</label></span>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.disaster_7" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div>  
-        <div class="row" ng-hide="data.year != 2015"> <br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">People in the community are aware of the different measures to reduce dangers brought by disasters.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.disaster_7 != null" ng-click="data.disaster_7=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.disaster_8" class="form-control"
-                        ng-required="data.year == 2016"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row" ng-hide="data.year != 2015">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">F.&emsp;People in the community are aware of the different measures to reduce dangers brought by disasters.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.disaster_8" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div> 
-        <div class="row" ng-hide="data.year != 2016"> <br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">I think my barangay is not ready for any possible disaster.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.disaster_8 != null" ng-click="data.disaster_8=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.disaster_9" class="form-control"
-                        ng-required="data.year == 2015"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row" ng-hide="data.year != 2016">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">E.&emsp;I think my barangay is not ready for any possible disaster.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.disaster_9" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
+            </div>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.disaster_9 != null" ng-click="data.disaster_9=null"></i>
             </div>
         </div> <br />
 
-    </div> <!--end of panel body-->
-
-</div> <!--end of panel-->
+    </div> 
+</md-content>

@@ -27,7 +27,7 @@
         </div>
 
         <div flex="25" flex-sm="100">
-            <label for="Province:_">Province: </label>
+            <label for="Province:_">Province </label>
             <select name="Province" ng-model="data.prov_code" id="prov_code" class="form-control"
                     ng-disabled="data.region_code == null || status"
                     ng-required="true"
@@ -37,7 +37,7 @@
         </div>
 
         <div flex="25" flex-sm="100">
-            <label for="Municipality:_">Municipality: </label>
+            <label for="Municipality:_">Municipality </label>
             <select name="City" ng-model="data.city_code" id="city_code" class="form-control"
                     ng-required="true"
                     ng-disabled="data.prov_code == null || status"
@@ -55,17 +55,17 @@
     <div flex="100" layout="row" layout-margin layout-sm="column">
 
         <div flex="25" flex-sm="100">
-            <label for="FundSource:_">Fund Source</label>
-            <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
+            <label for="FundSource:_">Project</label>
+            <select name="Project" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
                     ng-required="true"
                     ng-disabled="status"
                     ng-options="option.Id as option.Name for option in fund_source_id_options">
-                <option value="">[Select Fund Source]</option>
+                <option value="">[Select Project]</option>
             </select>
         </div>
 
         <div flex="25" flex-sm="100">
-            <label for="Province:_">Cycle: </label>
+            <label for="Province:_">Cycle </label>
             <select name="Cycle" ng-model="data.cycle_id" id="Cycle" class="form-control"
                     ng-disabled="status"
                     required
@@ -75,7 +75,7 @@
         </div>
 
         <div flex="25" flex-sm="100">
-            <label for="Municipality:_">KC Mode: </label>
+            <label for="Municipality:_">KC Mode </label>
             <select name="KC Mode" ng-model="data.enrollment_id" id="KC Mode" class="form-control"
                     ng-disabled="status"
                     ng-required="true"
@@ -87,6 +87,47 @@
     </div>
 
 </md-container>
+
+
+<md-container layout="row">
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+        <div flex="25" flex-sm="100">
+            <label>Incentives (Tier-2)?</label>
+        </div>
+        <div flex="25" flex-sm="100">
+            <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_incentive" id="is_incentive" name="is_incentive">
+                {{ data.is_incentive == true ? "Yes" : "" }}
+            </md-checkbox>
+        </div>
+    </div>
+</md-container>
+
+<md-container layout="row">
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+        <div flex="25" flex-sm="100">
+            <label>From Savings?</label>
+        </div>
+        <div flex="25" flex-sm="100">
+            <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_savings" id="is_savings" name="is_savings">
+                {{ data.is_savings == true ? "Yes" : "" }}
+            </md-checkbox>
+        </div>
+    </div>
+</md-container>
+
+<md-container layout="row">
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+        <div flex="25" flex-sm="100">
+            <label>LGU-led?</label>
+        </div>
+        <div flex="25" flex-sm="100">
+            <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_lgu_led" id="is_lgu_led" name="is_lgu_led">
+                {{ data.is_lgu_led == true ? "Yes" : "" }}
+            </md-checkbox>
+        </div>
+    </div>
+</md-container>
+
 
 <md-container>
 
@@ -147,7 +188,7 @@
             {{data.actual_cash +data.actual_inkind}}
         </div>
         <div flex="25">
-            {{(planned_inkind +data.planned_cash) - (data.actual_cash +data.actual_inkind)}}
+            {{(data.planned_inkind + data.planned_cash) - (data.actual_cash + data.actual_inkind)}}
         </div>
     </div>
 

@@ -155,4 +155,126 @@ namespace DeskApp.DataLayer.DTO
 
     }
 
+
+    //for v3.0 save SPCF
+    public class sub_project_spcfDTO
+    {
+        public Guid sub_project_spcf_id { get; set; }
+        public Guid? sub_project_unique_id { get; set; }
+        public int? sub_project_id { get; set; }
+
+        public decimal? pow_cdd_cost { get; set; }
+        public decimal? pow_male_cost { get; set; }
+        public decimal? pow_female_cost { get; set; }
+        public decimal? pow_blgu_cost { get; set; }
+        public decimal? pow_mlgu_cost { get; set; }
+        public decimal? pow_plgu_cost { get; set; }
+        public decimal? pow_others_cost { get; set; }
+
+        public decimal? training_cdd_cost { get; set; }
+        public decimal? training_male_cost { get; set; }
+        public decimal? training_female_cost { get; set; }
+        public decimal? training_blgu_cost { get; set; }
+        public decimal? training_mlgu_cost { get; set; }
+        public decimal? training_plgu_cost { get; set; }
+        public decimal? training_others_cost { get; set; }
+
+        public decimal? women_cdd_cost { get; set; }
+        public decimal? women_male_cost { get; set; }
+        public decimal? women_female_cost { get; set; }
+        public decimal? women_blgu_cost { get; set; }
+        public decimal? women_mlgu_cost { get; set; }
+        public decimal? women_plgu_cost { get; set; }
+        public decimal? women_others_cost { get; set; }
+
+        public decimal? management_cdd_cost { get; set; }
+        public decimal? management_male_cost { get; set; }
+        public decimal? management_female_cost { get; set; }
+        public decimal? management_blgu_cost { get; set; }
+        public decimal? management_mlgu_cost { get; set; }
+        public decimal? management_plgu_cost { get; set; }
+        public decimal? management_others_cost { get; set; }
+
+        public decimal? others_cdd_cost { get; set; }
+        public decimal? others_male_cost { get; set; }
+        public decimal? others_female_cost { get; set; }
+        public decimal? others_blgu_cost { get; set; }
+        public decimal? others_mlgu_cost { get; set; }
+        public decimal? others_plgu_cost { get; set; }
+        public decimal? others_others_cost { get; set; }
+
+        public int created_by { get; set; }
+        public DateTime created_date { get; set; }
+        public int? last_modified_by { get; set; }
+        public DateTime? last_modified_date { get; set; }
+        public bool is_deleted { get; set; }
+        public int? deleted_by { get; set; }
+        public DateTime? deleted_date { get; set; }
+        public int push_status_id { get; set; }
+        public DateTime? push_date { get; set; }
+        public int approval_id { get; set; }
+
+
+        public static System.Linq.Expressions.Expression<Func<sub_project_spcf, sub_project_spcfDTO>>
+            SELECT = x => new sub_project_spcfDTO
+            {
+                sub_project_spcf_id = x.sub_project_spcf_id,
+                sub_project_unique_id = x.sub_project_unique_id,
+                sub_project_id = x.sub_project_id,
+
+                pow_cdd_cost = x.pow_cdd_cost,
+                pow_male_cost = x.pow_male_cost,
+                pow_female_cost = x.pow_female_cost,
+                pow_blgu_cost = x.pow_blgu_cost,
+                pow_mlgu_cost = x.pow_mlgu_cost,
+                pow_plgu_cost = x.pow_plgu_cost,
+                pow_others_cost = x.pow_others_cost,
+
+                training_cdd_cost = x.training_cdd_cost,
+                training_male_cost = x.training_male_cost,
+                training_female_cost = x.training_female_cost,
+                training_blgu_cost = x.training_blgu_cost,
+                training_mlgu_cost = x.training_mlgu_cost,
+                training_plgu_cost = x.training_plgu_cost,
+                training_others_cost = x.training_others_cost,
+
+                women_cdd_cost = x.women_cdd_cost,
+                women_male_cost = x.women_male_cost,
+                women_female_cost = x.women_female_cost,
+                women_blgu_cost = x.women_blgu_cost,
+                women_mlgu_cost = x.women_mlgu_cost,
+                women_plgu_cost = x.women_plgu_cost,
+                women_others_cost = x.women_others_cost,
+
+                management_cdd_cost = x.management_cdd_cost,
+                management_male_cost = x.management_male_cost,
+                management_female_cost = x.management_female_cost,
+                management_blgu_cost = x.management_blgu_cost,
+                management_mlgu_cost = x.management_mlgu_cost,
+                management_plgu_cost = x.management_plgu_cost,
+                management_others_cost = x.management_others_cost,
+
+                others_cdd_cost = x.others_cdd_cost,
+                others_male_cost = x.others_male_cost,
+                others_female_cost = x.others_female_cost,
+                others_blgu_cost = x.others_blgu_cost,
+                others_mlgu_cost = x.others_mlgu_cost,
+                others_plgu_cost = x.others_plgu_cost,
+                others_others_cost = x.others_others_cost,
+
+                created_by = x.created_by,
+                created_date = x.created_date,
+                last_modified_by = x.last_modified_by,
+                last_modified_date = x.last_modified_date,
+                is_deleted = x.is_deleted,
+                deleted_by = x.deleted_by,
+                deleted_date = x.deleted_date,
+                push_status_id = x.push_status_id,
+                push_date = x.push_date,
+                approval_id = x.approval_id
+
+            };
+
+    }
+
 }

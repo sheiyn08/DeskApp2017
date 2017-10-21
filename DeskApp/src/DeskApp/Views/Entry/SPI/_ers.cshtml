@@ -114,14 +114,14 @@
             </div>
 
             <div flex>
-                <md-datepicker ng-disabled="new_ErsList_record.dt_date_reported != null" md-max-date="today" ng-required="new_ErsList" name="Reported Date" ng-model="new_ErsList_record.dt_date_reported" ng-change="new_ErsList_record.date_reported = new_ErsList_record.dt_date_reported.toISOString()"></md-datepicker>
+                <md-datepicker ng-disabled="new_ErsList_record.dt_date_reported != null" md-min-date="ers_min_date" md-max-date="today" ng-required="new_ErsList" name="Reported Date" ng-model="new_ErsList_record.dt_date_reported" ng-change="new_ErsList_record.date_reported = new_ErsList_record.dt_date_reported.toISOString()"></md-datepicker>
 
 
 
             </div>
 
             <div flex>
-                <md-datepicker ng-disabled="new_ErsList_record.dt_date_reported == null || new_ErsList_record.dt_date_started != null" md-max-date="minDateErsStart" ng-required="new_ErsList" name="Date Started" ng-model="new_ErsList_record.dt_date_started" ng-change="new_ErsList_record.date_started = new_ErsList_record.dt_date_started.toISOString()"></md-datepicker>
+                <md-datepicker ng-disabled="new_ErsList_record.dt_date_reported == null || new_ErsList_record.dt_date_started != null" md-min-date="ers_min_date" md-max-date="minDateErsStart" ng-required="new_ErsList" name="Date Started" ng-model="new_ErsList_record.dt_date_started" ng-change="new_ErsList_record.date_started = new_ErsList_record.dt_date_started.toISOString()"></md-datepicker>
 
 
             </div>

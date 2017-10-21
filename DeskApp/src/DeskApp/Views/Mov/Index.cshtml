@@ -85,7 +85,7 @@
                             </div>
                         </div>
                     </div><br />
-                    <div class="row">
+                    @*<div class="row">
                         <div class="col-md-12">
                             <div class="col-md-3">
                                 <label for="Fund Source:_">Document Type </label>
@@ -95,19 +95,19 @@
                                 </select>
                             </div>
                         </div>
-                    </div><br />
+                    </div><br />*@
                 </div>
             </div>
 
             <div flex="100" layout="row" layout-margin layout-sm="column" style="margin:20px">
                 <a class="btn btn-primary" ng-click="search()">
-                    <i class="fa fa-filter fa-lg"></i> Filter
+                    <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
                 </a>
                 <a class="btn btn-warning" ng-click="clear()">
-                    <i class="fa fa-recycle fa-lg"></i>  Clear
+                    <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
                 </a>
                 <a class="btn btn-primary" ng-click="showAlert()">
-                    <i class="fa fa-cloud fa-lg"></i>   Synchronize
+                    <i class="fa fa-cloud fa-lg"></i>&nbsp;&nbsp; Synchronize
                 </a>
                 @*@Html.Partial("~/Views/Shared/_sync_dialog.cshtml")*@
             </div>
@@ -166,9 +166,9 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="item in Items">
-                                            <td>                                              
-                                                <a ng-click="delete(item)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Attachment' class='glyphicon glyphicon-trash'></span></a>
-                                                <a class="btn btn-success" href={{item.url}} target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                            <td>     
+                                                <a href={{item.url}} target="_blank" title='View MOV' class="btn btn-success"><i class="fa fa-file-pdf-o"></i></a>
+                                                <a ng-click="delete(item)" title='Delete MOV' class="btn btn-danger"><i class="fa fa-trash"></i></a>                                             
                                             </td>
                                             <td>
                                                 {{item.lib_region_region_name}}

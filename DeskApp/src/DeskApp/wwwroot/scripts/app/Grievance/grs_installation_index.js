@@ -280,6 +280,18 @@ $scope.delete = function (removeitem) {
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
 
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.grs_installation_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
+
                 $scope.isSearching = false;
 
             }).error(function (data) {
@@ -299,6 +311,18 @@ $scope.delete = function (removeitem) {
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
+
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.grs_installation_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
 
                 $scope.isSearching = false;
 
@@ -320,6 +344,18 @@ $scope.delete = function (removeitem) {
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
 
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.grs_installation_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
+
                 $scope.isSearching = false;
 
             }).error(function (data) {
@@ -339,6 +375,18 @@ $scope.delete = function (removeitem) {
                 $scope.pagesCount = value.TotalPages;
                 $scope.totalCount = value.TotalCount;
                 $scope.Items = value.Items;
+
+                //v3.0 09-13-2017: check each item on list if it has attachment. API: ExistsController.cs
+                angular.forEach($scope.Items, function (record) {
+                    $http.get('/api/exists/record_attachment?id=' + record.grs_installation_id)
+                      .then(function (result) {
+                          if (result.data == true) {
+                              record.with_attachment = true;
+                          } else {
+                              record.with_attachment = false;
+                          }
+                      });
+                });
 
                 $scope.isSearching = false;
 

@@ -16,6 +16,7 @@
                     </div>
                     <div class="col-md-8">
                         <md-checkbox ng-model="data.has_sc_essc" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_sc_essc == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -25,6 +26,7 @@
                     </div>
                     <div class="col-md-8">
                         <md-checkbox ng-model="data.has_sc_esmp" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_sc_esmp == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -34,6 +36,7 @@
                     </div>
                     <div class="col-md-8">
                         <md-checkbox ng-model="data.has_sc_ecc" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_sc_ecc == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -43,6 +46,7 @@
                     </div>
                     <div class="col-md-8">
                         <md-checkbox ng-model="data.has_sc_cnc" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_sc_cnc == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -76,10 +80,13 @@
                         With IP presence in the Barangay?
                     </div>
                     <div class="col-md-8">
-                        <md-radio-group ng-required="true" name="With IP Presence in the Barangay" ng-model="data.has_ip_presence">
+                        <md-checkbox ng-model="data.has_ip_presence" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_ip_presence == true ? "Yes" : "" }}
+                        </md-checkbox>
+                        @*<md-radio-group ng-required="true" name="With IP Presence in the Barangay" ng-model="data.has_ip_presence">
                             <md-radio-button data-ng-value="true" class="md-primary" ng-disabled="true">Yes</md-radio-button>
                             <md-radio-button data-ng-value="false" ng-disabled="true"> No </md-radio-button>
-                        </md-radio-group>
+                        </md-radio-group>*@
                     </div>
                 </div>
             </div>
@@ -94,7 +101,8 @@
                         Approved CADT
                     </div>
                     <div class="col-md-8">
-                        <md-checkbox ng-model="data.with_cadt" aria-label="Checkbox 1" ng-disabled="true">
+                        <md-checkbox ng-model="data.has_cadt" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_cadt == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -103,7 +111,8 @@
                         On Process
                     </div>
                     <div class="col-md-8">
-                        <md-checkbox ng-model="data.on_process_cadt" aria-label="Checkbox 1" ng-disabled="true">
+                        <md-checkbox ng-model="data.has_on_process" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_on_process == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -112,7 +121,8 @@
                         CADTeable
                     </div>
                     <div class="col-md-8">
-                        <md-checkbox ng-model="data.cadteable" aria-label="Checkbox 1" ng-disabled="true">
+                        <md-checkbox ng-model="data.has_cadteable" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_cadteable == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -128,11 +138,12 @@
                         Submitted request for validation to NCIP
                     </div>
                     <div class="col-md-1">
-                        <md-checkbox ng-model="data.ncip_submitted" aria-label="Checkbox 1" ng-disabled="true">
+                        <md-checkbox ng-model="data.has_ncip" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_ncip == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                     <div class="col-md-4">
-                        <md-datepicker name="Date Provided" ng-disabled="true" ng-model="dt_ncip_submitted_date"></md-datepicker>
+                        <md-datepicker name="Date Provided" ng-disabled="true" ng-model="data.ncip_date" ng-hide="data.has_ncip==null"></md-datepicker>
                         @*<md-datepicker name="Date Provided" ng-disabled="!data.ncip_submitted" ng-required="data.ncip_submitted" ng-model="dt_ncip_submitted_date" ng-change="data.ncip_submitted_date = dt_ncip_submitted_date.toISOString()" md-placeholder="Enter date" md-max-date="today"></md-datepicker>*@
                     </div>
                 </div>
@@ -141,11 +152,12 @@
                         Validation Conducted
                     </div>
                     <div class="col-md-1">
-                        <md-checkbox ng-model="data.ncip_validated" aria-label="Checkbox 1" ng-disabled="true">
+                        <md-checkbox ng-model="data.has_validation_conducted" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_validation_conducted == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                     <div class="col-md-4">
-                        <md-datepicker name="Date Provided" ng-disabled="true" ng-model="dt_ncip_validated_date"></md-datepicker>
+                        <md-datepicker name="Date Provided" ng-disabled="true" ng-model="data.validation_conducted_date" ng-hide="data.has_validation_conducted==null"></md-datepicker>
                         @*<md-datepicker md-min-date="dt_ncip_submitted_date" name="Date Provided" ng-disabled="!data.ncip_validated" ng-required="data.ncip_validated" ng-model="dt_ncip_validated_date" ng-change="data.ncip_validated_date = dt_ncip_validated_date.toISOString()" md-placeholder="Enter date" md-max-date="today"></md-datepicker>*@
                     </div>
                 </div>
@@ -153,20 +165,29 @@
                     <div class="col-md-4">
                         With Certification Pre-condition
                     </div>
-                    <div class="col-md-8">
-                        <md-checkbox ng-model="data.with_cert_precondition" aria-label="Checkbox 1" ng-disabled="true">
+                    <div class="col-md-1">
+                        <md-checkbox ng-model="data.has_sc_cp" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_sc_cp == true ? "Yes" : "" }}
                         </md-checkbox>
+                    </div>
+                    <div class="col-md-4">
+                        <md-datepicker name="Date Provided" ng-disabled="true" ng-model="data.sc_cp_date" ng-hide="data.has_sc_cp==null"></md-datepicker>                        
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         With Certification of Non Overlap
                     </div>
-                    <div class="col-md-8">
-                        <md-checkbox ng-model="data.with_cert_non_overlap" aria-label="Checkbox 1" ng-disabled="true">
+                    <div class="col-md-1">
+                        <md-checkbox ng-model="data.has_sc_cno" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.has_sc_cno == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
+                    <div class="col-md-4">
+                        <md-datepicker name="Date Provided" ng-disabled="true" ng-model="data.sc_cno_date" ng-hide="data.has_sc_cno==null"></md-datepicker>
+                    </div>
                 </div>
+                @*Removed because it is not included on Geotagging:
                 <div class="row">
                     <div class="col-md-4">
                         Others
@@ -180,9 +201,9 @@
                     </div>
                     <div class="col-md-4">
                         <input type="text" ng-model="data.validation_status_others_input" class="form-control" ng-disabled="true" name="validation_status_others_input" />
-                        @*<input type="text" ng-model="data.validation_status_others_input" class="form-control" ng-disabled="!data.validation_status_others" ng-required="data.validation_status_others" name="validation_status_others_input" />*@
+                        <input type="text" ng-model="data.validation_status_others_input" class="form-control" ng-disabled="!data.validation_status_others" ng-required="data.validation_status_others" name="validation_status_others_input" />
                     </div>
-                </div>
+                </div>*@
             </div>
 
             <h4 style="color:dodgerblue">Land Acquisition - Land Ownership and Tenurial Instrument</h4>
@@ -203,15 +224,15 @@
                         <b>Titled</b>
                     </div>
                     <div class="col-md-1">
-                        <md-checkbox ng-model="data.land_ownership_private_titled" aria-label="Checkbox 1" ng-disabled="true">
-                        </md-checkbox>
+                        @*<md-checkbox ng-model="data.land_ownership_private_titled" aria-label="Checkbox 1" ng-disabled="true">
+                        </md-checkbox>*@
                     </div>
                     <div class="col-md-3">
                         <b>Non-Titled</b>
                     </div>
                     <div class="col-md-1">
-                        <md-checkbox ng-model="data.land_ownership_private_untitled" aria-label="Checkbox 1" ng-disabled="true">
-                        </md-checkbox>
+                        @*<md-checkbox ng-model="data.land_ownership_private_untitled" aria-label="Checkbox 1" ng-disabled="true">
+                        </md-checkbox>*@
                     </div>
                 </div>
                 <div class="row">
@@ -223,6 +244,7 @@
                     <div class="col-md-1">
                         @*<md-checkbox ng-model="data.land_aq_deed_of_donation" aria-label="Checkbox 1" ng-disabled="!data.land_ownership_private_titled">*@
                         <md-checkbox ng-model="data.land_aq_deed_of_donation" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.land_aq_deed_of_donation == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                     <div class="col-md-3">
@@ -230,7 +252,8 @@
                     </div>
                     <div class="col-md-1">
                         @*<md-checkbox ng-model="data.land_aq_private_quit_claim" aria-label="Checkbox 1" ng-disabled="!data.land_ownership_private_untitled">*@
-                        <md-checkbox ng-model="data.land_aq_private_quit_claim" aria-label="Checkbox 1" ng-disabled="true">
+                        <md-checkbox ng-model="data.quit_claim" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.quit_claim == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -243,6 +266,7 @@
                     <div class="col-md-8">
                         @*<md-checkbox ng-model="data.land_aq_unsfruct" aria-label="Checkbox 1" ng-disabled="!data.land_ownership_private_titled">*@
                         <md-checkbox ng-model="data.land_aq_unsfruct" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.land_aq_unsfruct == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -254,7 +278,8 @@
                     </div>
                     <div class="col-md-8">
                         @*<md-checkbox ng-model="data.land_aq_private_right_of_way_agreement" aria-label="Checkbox 1" ng-disabled="!data.land_ownership_private_titled">*@
-                        <md-checkbox ng-model="data.land_aq_private_right_of_way_agreement" aria-label="Checkbox 1" ng-disabled="true">
+                        <md-checkbox ng-model="data.right_of_way_agreement" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.right_of_way_agreement == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -266,7 +291,8 @@
                     </div>
                     <div class="col-md-8">
                         @*<md-checkbox ng-model="data.land_aq_private_permit_to_construct" aria-label="Checkbox 1" ng-disabled="!data.land_ownership_private_titled">*@
-                        <md-checkbox ng-model="data.land_aq_private_permit_to_construct" aria-label="Checkbox 1" ng-disabled="true">
+                        <md-checkbox ng-model="data.permit_to_construct_enter" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.permit_to_construct_enter == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -284,6 +310,7 @@
                     </div>
                     <div class="col-md-8">
                         <md-checkbox ng-model="data.land_aq_blgu_resolution" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.land_aq_blgu_resolution == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -295,6 +322,7 @@
                     </div>
                     <div class="col-md-8">
                         <md-checkbox ng-model="data.land_aq_deped_certification" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.land_aq_deped_certification == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                 </div>
@@ -306,6 +334,7 @@
                     </div>
                     <div class="col-md-1">
                         <md-checkbox ng-model="data.land_aq_other" aria-label="Checkbox 1" ng-disabled="true">
+                            {{ data.land_aq_other == true ? "Yes" : "" }}
                         </md-checkbox>
                     </div>
                     <div class="col-md-1">

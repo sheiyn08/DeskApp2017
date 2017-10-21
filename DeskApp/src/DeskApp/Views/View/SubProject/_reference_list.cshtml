@@ -1,0 +1,775 @@
+﻿<style>
+    .with_highlight {
+        background-color: lightgreen;
+    }
+
+    .no_highlight {
+        background-color: transparent;
+    }
+
+    mark.uploaded {
+        background-color: deepskyblue;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.attachment {
+        background-color: mediumseagreen;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.unauthorized {
+        background-color: firebrick;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.foruploading {
+        background-color: darkorange;
+        color: white;
+        font-style: italic;
+    }
+</style>
+
+
+@{Layout = null;}
+
+<md-container layout="row">
+    <div flex="100" layout="row" layout-margin layout-sm="column">
+        <div flex="50" flex-sm="100">
+            <h3 style="color:dodgerblue">Official Sub Project Records from Geotagging</h3>            
+            <br />
+            <div flex="50">
+                <h4>Page {{ref_page + 1}} of {{ref_pagesCount}} || {{ref_totalCount}} Records</h4>
+                <select name="quarter" ng-model="ref_pageSize" ng-options="obj.value as obj.text for obj in [{'value':5,'text':'5'},{'value':10,'text':'10'},{'value':20,'text':'20'},{'value':50,'text':'50'},{'value':100,'text':'100'}]" ng-selected="ref_pageSize" class="form-control" ng-change="load_reference()">
+                    <option value="">[Records to Show]</option>
+                </select>
+            </div>
+            <br />
+        </div>
+        <div flex="50" flex-sm="100" layout-align="end start">
+            <demo-pager page="{{ref_page}}" pages-count="{{ref_pagesCount}}" total-count="{{ref_totalCount}}" search-func="load_reference(ref_page)" layout-align="end start">
+            </demo-pager>
+        </div>
+    </div>
+</md-container>
+
+<div ng-show="isSearching">
+    <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+</div>
+
+
+<md-content>
+
+    <div flex="100" ng-show="!isSearching">
+        <table class="table zui-table zui-table-horizontal zui-table-highlight">
+
+            <thead>
+                <tr>
+                    @*<th style="vertical-align:middle">
+                        
+                    </th>*@
+                    <th style="vertical-align:middle">
+                        Region
+                    </th>
+                    <th style="vertical-align:middle">
+                        Province
+                    </th>
+                    <th style="vertical-align:middle">
+                        Municipality
+                    </th>
+                    <th style="vertical-align:middle">
+                        Barangay
+                    </th>
+                    <th style="vertical-align:middle">
+                        Project
+                    </th>
+                    <th style="vertical-align:middle">
+                        Cycle
+                    </th>
+                    <th style="vertical-align:middle">
+                        Sub Project ID
+                    </th>
+                    <th style="vertical-align:middle">
+                        Sub Project Name
+                    </th>
+                    <th style="vertical-align:middle">
+                        Physical Status
+                    </th>
+                    <th style="vertical-align:middle">
+                        Is paired?
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="ref in References | orderBy: ref.sub_project_id">
+                    @*<td style="vertical-align:middle">
+                        <a href="/Entry/ReferenceSubProjects?id={{ref.sub_project_id}}" target="_blank" title='View Record' class="btn btn-success"><i class="fa fa-eye"></i></a>
+                    </td>*@
+                    <td style="vertical-align:middle">
+                        {{ref.lib_region_region_name}}
+                    </td>
+                    <td style="vertical-align:middle">
+                        {{ref.lib_province_prov_name}}
+                    </td>
+                    <td style="vertical-align:middle">
+                        {{ref.lib_city_city_name}}
+                    </td>
+                    <td style="vertical-align:middle">
+                        {{ref.lib_brgy_brgy_name}}
+                    </td>
+                    <td style="vertical-align:middle">
+                        {{ref.lib_fund_source_name}}
+                    </td>
+                    <td style="vertical-align:middle">
+                        {{ref.lib_cycle_name}}
+                    </td>
+                    <td style="vertical-align:middle">
+                        {{ref.sub_project_id}}
+                    </td>
+                    <td style="vertical-align:middle">
+                        {{ref.sub_project_name}}
+                    </td>
+                    <td style="vertical-align:middle">
+                        {{ref.lib_physical_status_name}}
+                    </td>
+                    <td style="vertical-align:middle">
+                        {{ref.is_paired}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</md-content>
+
+
+
+<script type="text/ng-template" id="spReference.tmpl.html">
+    <md-dialog aria-label="SPdetails" ng-cloak>
+        <form name="spForm">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h3>Reference List > View Sub Project Details</h3>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="cancel()" ng-show="!isSearching">
+                        <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>            
+
+            <md-dialog-content>
+                <div class="md-dialog-content">                      
+                    <div class="modal-body">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                <h5>If you wish to connect this Sub Project with your encoded SP, copy and paste the Geotagging SPID on the encoded SP to update basic details.</h5>
+                            </div>
+                        </div>
+
+                        @*------------------------------------------------- Basic Information -----------------------------------------------------*@
+                        <div class="panel-body">                            
+                            <h4 style="color:dodgerblue">Basic Information</h4>
+                            <md-divider></md-divider>
+                            <md-divider></md-divider>
+                            <md-divider></md-divider>
+
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Geotagging SP ID</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input ng-model="ref.sub_project_id" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.modality_id == 7">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>e-RFR Sub Project ID</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input ng-model="ref.erfr_project_id" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Sub Project Name</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input ng-model="ref.sub_project_name" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Project type</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="project_type_id" ng-model="ref.project_type_id" class="form-control" ng-disabled="true"
+                                                ng-options="option.Id as option.Name for option in project_type_id_options_">
+                                            <option value="">[Select Project Type]</option>
+                                        </select>
+                                        @*<select ng-model="ref.lib_project_type.name" class="form-control" disabled>
+                                            <option value="">[Select Project Type]</option>
+                                        </select>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.project_type_id == 23 && ref.modality_id ==7">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Public School for IP (Lumad)?</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <md-checkbox ng-model="ref.is_public_school_for_ip" aria-label="Checkbox 1" class="md-primary" disabled>
+                                            {{ref.is_public_school_for_ip == true ? "YES" : ""}}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.project_type_id == 36 && ref.modality_id == 11">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Training type</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select ng-model="ref.lib_training_category.name" class="form-control" disabled>
+                                            <option value="">[Select Training Type]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Project</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="modality_id" ng-model="ref.modality_id" class="form-control" ng-disabled="true"
+                                                ng-options="option.Id as option.Name for option in fund_source_id_options_">
+                                            <option value="">[Select Modality]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.modality_id == 7">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Fund Source</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="fund_source_id" ng-model="ref.fund_source_id" class="form-control" ng-disabled="true"
+                                                ng-options="option.Id as option.Name for option in _fund_source_id_options">
+                                            <option value="">[Select Fund Source]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Cycle</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="cycle_id" ng-model="ref.cycle_id" class="form-control" ng-disabled="true"
+                                                ng-options="option.Id as option.Name for option in cycle_id_options_">
+                                            <option value="">[Select Cycle]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.modality_id == 7 || ref.modality_id == 14">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Purely LCC? (No KC Grant Amount)</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <md-checkbox ng-model="ref.is_lcc" aria-label="Checkbox 1" class="md-primary" disabled>
+                                            {{ref.is_lcc == true ? "YES" : ""}}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.modality_id == 7 || ref.modality_id == 14">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Incentives (Tier-2)?</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <md-checkbox ng-model="ref.is_incentive" aria-label="Checkbox 1" class="md-primary" disabled>
+                                            {{ref.is_incentive == true ? "YES" : ""}}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>From Savings?</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <md-checkbox ng-model="ref.is_savings" aria-label="Checkbox 1" class="md-primary" disabled>
+                                            {{ref.is_savings == true ? "YES" : ""}}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>LGU-led?</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <md-checkbox ng-model="ref.is_lgu_led" aria-label="Checkbox 1" class="md-primary" disabled>
+                                            {{ref.is_lgu_led == true ? "YES" : ""}}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.modality_id == 7 || ref.modality_id == 14">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Mode</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="mode_id" ng-model="ref.mode_id" class="form-control" ng-disabled="true"
+                                                ng-options="option.Id as option.Name for option in mode_id_options_">
+                                            <option value="">[Select Mode]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="row" ng-hide="ref.modality_id == 7 || ref.modality_id == 14">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Mode</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ref.mode_id}}
+                                    </div>
+                                </div>
+                            </div>*@
+                            @*<div class="row" ng-show="ref.modality_id == 7">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>NCDDP Grouping</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select ng-model="ref.modality_category_id" class="form-control" disabled>
+                                            <option value="">[Select Grouping]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Region</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="region_code" ng-model="ref.region_code" id="region_code" class="form-control" ng-disabled="true"
+                                                ng-options="option.Id as option.Name for option in region_code_options_">
+                                            <option value="">[Select Region]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Province</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="prov_code" ng-model="ref.prov_code" id="prov_code" class="form-control"
+                                                ng-disabled="true"
+                                                ng-options="option.Id as option.Name for option in prov_code_options_">
+                                            <option value="">[Select Province]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Municipality</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select ng-model="ref.lib_city.city_name" class="form-control" disabled>
+                                            <option value="">[Select Municipality]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Barangay</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select ng-model="ref.lib_brgy.brgy_name" class="form-control" disabled>
+                                            <option value="">[Select Barangay]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Other Covered Barangays</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        Other Covererd Barangays here
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                 
+                        @*------------------------------------------------- Financial Information -----------------------------------------------------*@
+                        <div class="panel-body">                            
+                            <h4 style="color:dodgerblue">Financial Information</h4>
+                            <md-divider></md-divider>
+                            <md-divider></md-divider>
+                            <md-divider></md-divider>
+
+                            <div class="row" ng-show="ref.modality_id == 12">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>DepEd Grant Amount</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input ng-model="ref._dep_ed_amount" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.modality_id == 7 && ref.project_type_id == 23 && ref.is_public_school_for_ip == true">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>With DepEd Grant?</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <md-checkbox ng-model="ref.is_deped_funded" aria-label="Checkbox 1" class="md-primary" disabled>
+                                            {{ref.is_deped_funded == true ? "YES" : ""}}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.is_deped_funded == true">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>DepEd Grant Amount</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input ng-model="ref._dep_ed_amount" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.modality_id != 12">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Kalahi Target Amount</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input ng-model="ref.Kalahi_Amount" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.modality_id != 12">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Kalahi Actual Amount: (SUM of Tranche Releases, from BTF)</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{totalAllBTF('amount_approved') |  currency:"₽"}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.is_lcc != true">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>With Local Counterpart (Financial)?</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <md-checkbox ng-model="ref.has_local_counterpart" aria-label="Checkbox 1" class="md-primary" disabled>
+                                            {{ref.has_local_counterpart == true ? "YES" : ""}}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.is_lcc == true">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>With Local Counterpart (Financial)?</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <md-checkbox ng-model="ref.is_lcc" aria-label="Checkbox 1" class="md-primary">
+                                            {{ref.is_lcc == true ? "YES" : ""}}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>LCC Target Amount</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input ng-model="ref.LCC_Amount" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>LCC Actual Amount</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input ng-model="ref.LCC_Adj" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Operation and Maintainance Cost</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input ng-model="ref.operation_maintainance_cost" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12" ng-show="ref.modality_id == 7 || ref.modality_id == 14">
+                                    <div class="col-md-6">
+                                        <label>Multiple SPs in one (1) RFR</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <md-checkbox ng-model="ref.is_multiple_sps" aria-label="Checkbox 1" class="md-primary" disabled>
+                                            {{ref.is_multiple_sps == true ? "YES" : ""}}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.is_multiple_sps == true">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <label class="text-info">*Individual Sub Project Cost</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.is_multiple_sps == true">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-9">
+                                    <table name="myMSPTable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>KALAHI Target Amount</th>
+                                                <th>KALAHI Actual Amount</th>
+                                                <th>LCC Target Amount</th>
+                                                <th>LCC Actual Amount</th>
+                                                <th>Operation and Mainternance Cost</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in spi_multiple_sp">
+                                                <td>
+                                                    <span ng-show="item.is_active">{{item.kalahi_target_amount | currency:"₽"}}</span>
+                                                </td>
+                                                <td>
+                                                    <span ng-show="item.is_active">{{item.kalahi_actual_amount | currency:"₽"}}</span>
+                                                </td>
+                                                <td>
+                                                    <span ng-show="item.is_active">{{item.lcc_target_amount | currency:"₽"}}</span>
+                                                </td>
+                                                <td>
+                                                    <span ng-show="item.is_active">{{item.lcc_actual_amount | currency:"₽"}}</span>
+                                                </td>
+                                                <td>
+                                                    <span ng-show="item.is_active">{{item.operation_and_maintenance_cost | currency:"₽"}}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                                
+                        @*------------------------------------------------- Tranche Release (BTF) -----------------------------------------------------*@
+                        <div class="panel-body" ng-show="ref.modality_id == 7 && ref.erfr_project_id != '' || ref.modality_id == 14 && ref.erfr_project_id != ''">
+                            <h4 style="color:dodgerblue">Tranche Releases (BTF data)</h4>
+                            <md-divider></md-divider>
+                            <md-divider></md-divider>
+                            <md-divider></md-divider>
+
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label>Target Tranching</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-11">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>First Tranche</th>
+                                                    <th>Second Tranche</th>
+                                                    <th>Third Tranche</th>
+                                                    <th>Target Tranching</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        {{ref.target_tranching_first}}
+                                                    </td>
+                                                    <td>
+                                                        {{ref.target_tranching_second}}
+                                                    </td>
+                                                    <td>
+                                                        {{ref.target_tranching_third}}
+                                                    </td>
+                                                    <td>
+                                                        <label>{{ref.target_tranching_first + ref.target_tranching_second + ref.target_tranching_third}}%</label>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*------------------------------------------------- Physical Progress Information -----------------------------------------------------*@
+                        <div class="panel-body">
+                            <h4 style="color:dodgerblue">Physical Progress Information</h4>
+                            <md-divider></md-divider>
+                            <md-divider></md-divider>
+                            <md-divider></md-divider>
+
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label class="text-info">Original POW</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label>Physical Status (as per Original POW)</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select ng-model="ref.physical_status_id" class="form-control" disabled>
+                                            <option value="">[Select Physical Status]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="ref.physical_status_id == 5">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label>Sub Project ID of Replacement</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input ng-model="ref.replaced_sub_project_id" disabled class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label>Date Started (as per Original POW)</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <md-datepicker disabled ng-model="dt_Date_Started"></md-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    </div>
+                    
+
+                </div>
+
+
+            </md-dialog-content>
+
+           
+        </form>
+    </md-dialog>
+</script>

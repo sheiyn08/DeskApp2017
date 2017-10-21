@@ -9,6 +9,7 @@ namespace DeskApp.DataLayer
     public class PagedCollection<T>
     {
         public int Page { get; set; }
+        public int Ref_Page { get; set; }
 
         public int Count
         {
@@ -18,14 +19,28 @@ namespace DeskApp.DataLayer
             }
         }
 
+        public int Ref_Count
+        {
+            get
+            {
+                return (null != this.Items) ? this.Items.Count() : 0;
+            }
+        }
+
         public int TotalPages { get; set; }
         public int TotalCount { get; set; }
+        public int Ref_TotalPages { get; set; }
+        public int Ref_TotalCount { get; set; }
         public int TotalSync { get; set; }
         public int TotalUnAuthorized { get; set; }
         public int TotalForDeletion { get; set; }
         public IEnumerable<T> Items { get; set; }
+        public IEnumerable<T> References { get; set; } //--for SP reference table
         //added July 10, 2017 to be used for displaying count of participants already added on a specific training
-        public int TotalCountParticipants { get; set; } 
+        public int TotalCountParticipants { get; set; }
+
+        //added 09-11-2017 to be used for identifying if record has attachment
+        public bool with_attachment { get; set; }
     }
 
     public class AngularFilterModel
@@ -171,6 +186,8 @@ namespace DeskApp.DataLayer
         //pager 
         public int? pageSize { get; set; }
         public int? currPage { get; set; }
+        public int? ref_pageSize { get; set; }
+        public int? ref_currPage { get; set; }
 
         public int? push_status_id { get; set; }
         public DateTime? push_date { get; set; }
@@ -285,6 +302,22 @@ namespace DeskApp.DataLayer
 
         //ba act report:
         public string status_of_schedule { get; set; }
+
+        //mlcc:
+        public DateTime? mlcc_start_filterdate { get; set; }
+        public DateTime? mlcc_end_filterdate { get; set; }
+
+        //v3.0 Filters:
+        public bool? is_lgu_led { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_incentive { get; set; }
+
+        //v3.0 filter for unauthorized:
+        public bool? is_unauthorized { get; set; }
+
+        //revised, to remove using of separate api for filter:
+        public bool? is_recently_added { get; set; }
+        public bool? is_recently_edited { get; set; }
 
     }
 }

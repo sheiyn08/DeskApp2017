@@ -20,7 +20,7 @@
             <label for="Province:_">Date Start </label>
 
 
-            <md-datepicker name="Date Start" ng-model="dt_start_date" md-placeholder="Enter date" ng-change="data.date_start = dt_start_date.toISOString()" required md-min-date="maxStartDate" md-max-date="today"></md-datepicker>
+            <md-datepicker name="Date Start" ng-model="dt_start_date" md-placeholder="Enter date" ng-change="data.date_start = dt_start_date.toISOString()" required md-min-date="min_start_date" md-max-date="today"></md-datepicker>
 
 
 
@@ -29,7 +29,7 @@
         <div flex="25" flex-sm="100">
             <label for="Municipality:_">Date End </label>
 
-            <md-datepicker name="Date End" ng-model="dt_end_date" md-placeholder="Enter date" ng-change="data.date_end = dt_end_date.toISOString()" required md-min-date="maxDate" md-max-date="today"></md-datepicker>
+            <md-datepicker name="Date End" ng-model="dt_end_date" md-placeholder="Enter date" ng-change="data.date_end = dt_end_date.toISOString()" required md-min-date="dt_start_date" md-max-date="today"></md-datepicker>
 
 
 

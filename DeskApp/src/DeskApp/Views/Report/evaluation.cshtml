@@ -25,6 +25,10 @@
                     @Html.Partial("~/Views/Report/Evaluation/_report_1_2016.cshtml")
                 </div>
 
+                <div id="evaluation_report_2_2016" ng-show="selected_report.url == '/api/export/evaluation/evaluation_report_2_2016'">
+                    @Html.Partial("~/Views/Report/Evaluation/_report_2_2016.cshtml")
+                </div>
+
             </div>
 
         </div>
@@ -42,7 +46,8 @@
                 $scope.selected_report = {};
 
                 $scope.report_list = [{ "url": "/api/export/evaluation/evaluation_report_1_2015", "Name": "Summary of Respondents and Responses - 2015 Evaluation Form version", "id": "1", "export_btn": "export_1"},
-                                      { "url": "/api/export/evaluation/evaluation_report_1_2016", "Name": "Summary of Respondents and Responses - 2016 Evaluation Form version", "id": "2", "export_btn": "export_2" }, ];
+                                      { "url": "/api/export/evaluation/evaluation_report_1_2016", "Name": "Summary of Respondents and Responses - 2016 Evaluation Form version", "id": "2", "export_btn": "export_2" },
+                                      { "url": "/api/export/evaluation/evaluation_report_2_2016", "Name": "Actual comments of Respondents - 2016 Evaluation Form version", "id": "3", "export_btn": "export_3" }, ];
 
                 $scope.talakayan_year_options = [{ "Id": 1, "Name": "2015" }, { "Id": 2, "Name": "2016" }, { "Id": 3, "Name": "2017" }, { "Id": 4, "Name": "2018" }, { "Id": 5, "Name": "2019" }];
 
@@ -103,6 +108,9 @@
                     else if ($scope.selected_report.url == '/api/export/evaluation/evaluation_report_1_2016') {
                         Popup($('#evaluation_report_1_2016').html());
                     }
+                    else if ($scope.selected_report.url == '/api/export/evaluation/evaluation_report_2_2016') {
+                        Popup($('#evaluation_report_2_2016').html());
+                    }
                     else {
                         //do nothing
                     }
@@ -162,6 +170,18 @@
                         var table_html = table_div.outerHTML.replace(/ /g, '%20');
                         a.href = data_type + ', ' + table_html;
                         a.download = 'Summary of Respondents and Responses - 2016 Evaluation Form version.xls';
+
+                        a.click();
+                        e.preventDefault();
+                    }
+                    else if ($scope.selected_report.url == '/api/export/evaluation/evaluation_report_2_2016') {
+                        var a = document.createElement('a');
+
+                        var data_type = 'data:application/vnd.ms-excel';
+                        var table_div = document.getElementById('evaluation_report_2_2016');
+                        var table_html = table_div.outerHTML.replace(/ /g, '%20');
+                        a.href = data_type + ', ' + table_html;
+                        a.download = 'Actual comments of Respondents - 2016 Evaluation Form version.xls';
 
                         a.click();
                         e.preventDefault();
@@ -280,6 +300,7 @@
                             $scope.loading = false;
 
                             $scope.list = value.Items;
+
                             $scope.earliest_talakayan_date = new Date(value.minDate);
                             $scope.latest_talakayan_date = new Date(value.maxDate);
                             $scope.total_male = value.total_male;

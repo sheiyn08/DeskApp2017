@@ -37,7 +37,7 @@
                         <div flex="100" layout="row" layout-margin layout-sm="column">
 
                             <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || data.start_date == null || data.end_date == null">
-                                Save Record
+                                Save
                             </md-button>
 
                             <md-button class="md-warn md-raised" href="/View/Trainings">
@@ -211,12 +211,14 @@
 
 
                     $scope.list_problems = [];
+                    //$scope.list_solutions = [];
                     $scope.list_problems.psa_solution_Mapping = [];
 
                     $scope.problems = [];
 
                     $scope.status = false;
 
+                    //search for participants of training:
                     $scope.search = function (page) {
 
                         //      $scope.filter.is_trained = true;
@@ -242,7 +244,7 @@
 
                                         $http
                                             .post('/Api/offline/v1/trainings/CheckParticipation?person_profile_id=' + todo.person_profile_id + "&community_training_id=" + '@ViewBag.id')
-                                            .then(function (response) {                                                
+                                            .then(function (response) {
 
                                                 if (response.data == true) {
                                                     todo.is_participant = true;
@@ -261,9 +263,6 @@
 
                             })
                             .error(function (data) {
-
-                                alert("get benes done");
-
                                 $scope.error = "An Error has occured! " + data.statusText;
                                 $scope.loading = false;
                             });
@@ -377,7 +376,7 @@
                             $scope.maxDate = new Date($scope.dt_start_date);
 
 
-                            $scope.maxStartDate = new Date("01/01/2014");
+                            $scope.min_start_date = new Date("07/01/2014");
 
 
                             $scope.$watch('dt_start_date',
@@ -452,13 +451,12 @@
                                                                     $http
                                                                         .get('/api/offline/v1/trainings/psa/problem/get_solution?id=' + todo.psa_problem_id)
                                                                         .then(function (response) {
-
-
-                                                                            todo.solutions = response.data;
                                                                             
+                                                                            todo.solutions = response.data;
+
                                                                         })
                                                                         .then(function () {
-                                                                            $scope.isSearching = false;                                                                            
+                                                                            $scope.isSearching = false;
                                                                         });
 
 
@@ -552,16 +550,294 @@
                             }
 
 
-                            $scope.prob_model = {};
-                            $scope.prob_model.rank = '';
-                            $scope.prob_model.problem = '';
-                            $scope.prob_model.psa_problem_category_id = '';
-                            $scope.prob_model.community_training_id = '@ViewBag.id';
+                            $scope.prob = {};
+                            $scope.prob.rank = '';
+                            $scope.prob.problem = '';
+                            $scope.prob.psa_problem_category_id = '';
+                            $scope.prob.community_training_id = '@ViewBag.id';
 
+
+                            //---------------------------------------- Enhancement: 08-15-17 Add edit for PSA tab > Problems
 
                             $scope.addProblem = function () {
+                                $.post('/api/offline/v1/trainings/psa/problem/save', $scope.prob)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+                                        $scope.list_problems.push($scope.prob);
+                                        $scope.prob = {};
 
-                                $.post('/api/offline/v1/trainings/psa/problem/save', $scope.prob_model)
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Problem Added!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        $scope.get_problems_and_solutions();
+
+                                        $scope.prob = {};
+                                        $scope.prob.rank = '';
+                                        $scope.prob.problem = '';
+                                        $scope.prob.psa_problem_category_id = '';
+                                        $scope.prob.community_training_id = '@ViewBag.id';
+                                        
+                                    }).error(function (data) {
+                                        alert(JSON.stringify(data));
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            };
+
+
+                            $scope.removeProblem = function (prob, index) {
+                                var ask = confirm("Are you sure you want to delete this item? Deleting Problem will also delete the Proposed Solution/s.");
+                                if (ask == false) {
+                                    return false;
+                                }
+
+                                $.post('/api/offline/v1/trainings/psa/problem/delete?id=' + prob.psa_problem_id)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Problem Removed!')
+                                            .position("bottom right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        $scope.list_problems.splice(index, 1);
+
+                                    }).error(function (data) {
+                                        alert(JSON.stringify(data));
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            }
+
+                            $scope.editProblem = function (prob) {
+                                $scope.editing = $scope.list_problems.indexOf(prob);
+                                prob.backupCategory = angular.copy(prob.psa_problem_category_id);
+                                prob.backupProblem = angular.copy(prob.problem);
+                            };
+
+                            $scope.saveEditedProblem = function (prob) {
+                                delete prob.backupCategory;
+                                delete prob.backupProblem;
+
+                                $scope.prob.rank = prob.rank;
+                                $scope.prob.psa_problem_category_id = prob.psa_problem_category_id;
+                                $scope.prob.problem = prob.problem;
+                                $scope.prob.psa_problem_id = prob.psa_problem_id;
+
+                                $.post('/api/offline/v1/trainings/psa/problem/save', $scope.prob)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Problem Updated!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        $scope.prob = {};
+                                        $scope.prob.rank = '';
+                                        $scope.prob.problem = '';
+                                        $scope.prob.psa_problem_category_id = '';
+                                        $scope.prob.community_training_id = '@ViewBag.id';
+
+                                    }).error(function (data) {
+                                        alert(JSON.stringify(data));
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            };
+
+                            $scope.cancelEditProblem = function (prob) {
+                                prob.psa_problem_category_id = angular.copy(prob.backupCategory);
+                                prob.problem = angular.copy(prob.backupProblem);
+                                delete prob.backupCategory;
+                                delete prob.backupProblem;
+                            };
+
+
+                            //---------------------------------------- Enhancement: 08-15-17 Add edit for PSA tab > Solutions
+                            $scope.sols = {};
+
+                            $scope.addSolution = function (prob, idx) {
+                                $.blockUI({ message: '<br>Adding Solution...<br><br>' });
+
+                                var obj = {
+                                    solution: prob.solution,
+                                    psa_solution_category_id: null,
+                                    psa_problem_id: prob.psa_problem_id
+                                };
+        
+                                $.post('/api/offline/v1/trainings/psa/solution/save', obj)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+                                        setTimeout($.unblockUI, 3);
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Solution Added!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        //$scope.list_problems[idx].solutions.push(data);
+                                        $scope.get_problems_and_solutions(); //----temporary resolution to push RDR 06-30-2017
+                                        prob.solution = '';
+                                    })
+                                    .error(function (data) {
+                                        alert(JSON.stringify(data));
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            };
+
+                            $scope.removeSolution = function (prob, index, master) {
+                                var ask = confirm("Do you want to remove this item?");
+                                if (ask == false) {
+                                    return false;
+                                }
+                                $.post('/api/offline/v1/trainings/psa/solution/delete?id=' + prob.psa_solution_id)
+                                    .success(function (data) {
+                                        $scope.loading = false;
+
+                                        $('html, body').animate({
+                                            scrollTop: '0px'
+                                        }, 1500);
+
+                                        $mdToast.show(
+                                            $mdToast.simple()
+                                            .textContent('Solution Removed!')
+                                            .position("top right")
+                                            .hideDelay(3000)
+                                        );
+
+                                        master.solutions.splice(index, 1);
+
+                                    })
+                                    .error(function (data) {
+                                        alert(JSON.stringify(data));
+                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                        $scope.loading = false;
+                                    });
+                            };
+
+                            //$scope.editSolution = function (sols) {
+                            //    $scope.editing = $scope.list_solutions.indexOf(sols);
+                            //    sols.backupSolution = angular.copy(sols.solution);
+                            //};
+
+                            //$scope.saveEditedSolution = function (sols, prob_idx) {
+                            //    delete sols.backupSolution;
+
+                            //    $scope.sols.solution = sols.solution;
+                            //    $scope.sols.psa_problem_id = prob_idx.psa_problem_id;
+
+                            //    $.post('/api/offline/v1/trainings/psa/solution/save', $scope.sols)
+                            //        .success(function (data) {
+                            //            $scope.loading = false;
+
+                            //            $mdToast.show(
+                            //                $mdToast.simple()
+                            //                .textContent('Solution Updated!')
+                            //                .position("top right")
+                            //                .hideDelay(3000)
+                            //            );
+
+                            //            $scope.sols = {};
+                            //            $scope.sols.solution = '';
+                            //            $scope.sols.psa_problem_id = '';
+                            //        })
+                            //        .error(function (data) {
+                            //            alert(JSON.stringify(data));
+                            //            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            //            $scope.loading = false;
+                            //        });
+                                                                
+                            //};
+
+                            //$scope.cancelEditSolution = function (sols) {
+                            //    sols.solution = angular.prob(prob.backupSolution);
+                            //    delete sols.backupSolution;
+                            //};
+
+
+
+
+
+                            //OLD:
+                            //$scope.removeSolution = function (prob, index, master) {
+                            //    var ask = confirm("Do you want to remove this item?");
+                            //    if (ask == false) {
+                            //        return false;
+                            //    }
+                            //    $.post('/api/offline/v1/trainings/psa/solution/delete?id=' + prob.psa_solution_id)
+                            //        .success(function (data) {
+                            //            $scope.loading = false;
+
+                            //            $('html, body').animate({
+                            //                scrollTop: '0px'
+                            //            }, 1500);
+
+                            //            $mdToast.show(
+                            //                $mdToast.simple()
+                            //                .textContent('Solution Removed!')
+                            //                .position("top right")
+                            //                .hideDelay(3000)
+                            //            );
+
+                            //            master.solutions.splice(index, 1);
+
+                            //        })
+                            //        .error(function (data) {
+                            //            alert(JSON.stringify(data));
+                            //            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            //            $scope.loading = false;
+                            //        });
+                            //};
+
+                            //$scope.removeProblem = function (prob, index) {
+
+                            //    var ask = confirm("Are you sure you want to delete this item? Deleting Problem will also delete the Proposed Solution/s.");
+                            //    if (ask == false) {
+                            //        return false;
+                            //    }
+
+                            //    $.post('/api/offline/v1/trainings/psa/problem/delete?id=' + prob.psa_problem_id)
+                            //        .success(function (data) {
+                            //            $scope.loading = false;
+
+                            //            $mdToast.show(
+                            //                $mdToast.simple()
+                            //                .textContent('Problem Removed!')
+                            //                .position("bottom right")
+                            //                .hideDelay(3000)
+                            //            );
+
+
+                            //            $scope.list_problems.splice(index, 1);
+
+                            //        })
+                            //        .error(function (data) {
+
+                            //            alert(JSON.stringify(data));
+
+
+                            //            $scope.error = "An Error has occured while Saving! " + data.statusText;
+                            //            $scope.loading = false;
+                            //        });
+
+                            //}
+
+
+
+                            @*$scope.addProblem = function () {
+                                $.post('/api/offline/v1/trainings/psa/problem/save', $scope.prob)
                                     .success(function (data) {
                                         $scope.loading = false;
 
@@ -618,7 +894,7 @@
                                         );
 
                                         //$scope.list_problems[idx].solutions.push(data); -- original push
-                                        $scope.get_problems_and_solutions(); //----temporary resolution to push RDR 06-30-2017                                        
+                                        $scope.get_problems_and_solutions(); //----temporary resolution to push RDR 06-30-2017
                                         pro.solution = '';
                                     })
                                     .error(function (data) {
@@ -629,7 +905,17 @@
                                         $scope.error = "An Error has occured while Saving! " + data.statusText;
                                         $scope.loading = false;
                                     });
-                            }
+                            }*@
+
+
+
+
+
+
+
+
+
+
 
 
                             $scope.criteria_model = {};
@@ -716,76 +1002,9 @@
 
                             }
 
-                            $scope.removeProblem = function (prob, index) {
-
-                                var ask = confirm("Are you sure you want to delete this item? Deleting Problem will also delete the Proposed Solution/s.");
-                                if (ask == false) {
-                                    return false;
-                                }
-
-                                $.post('/api/offline/v1/trainings/psa/problem/delete?id=' + prob.psa_problem_id)
-                                    .success(function (data) {
-                                        $scope.loading = false;
-
-                                        $mdToast.show(
-                                            $mdToast.simple()
-                                            .textContent('Problem Removed!')
-                                            .position("bottom right")
-                                            .hideDelay(3000)
-                                        );
 
 
-                                        $scope.list_problems.splice(index, 1);
-
-                                    })
-                                    .error(function (data) {
-
-                                        alert(JSON.stringify(data));
-
-
-                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
-                                        $scope.loading = false;
-                                    });
-
-                            }
-
-                            $scope.removeSolution = function (prob, index, master) {
-
-
-
-                                var ask = confirm("Do you want to remove this item?");
-                                if (ask == false) {
-                                    return false;
-                                }
-
-                                $.post('/api/offline/v1/trainings/psa/solution/delete?id=' + prob.psa_solution_id)
-                                    .success(function (data) {
-                                        $scope.loading = false;
-
-                                        $('html, body').animate({
-                                            scrollTop: '0px'
-                                        }, 1500);
-
-                                        $mdToast.show(
-                                            $mdToast.simple()
-                                            .textContent('Solution Removed!')
-                                            .position("top right")
-                                            .hideDelay(3000)
-                                        );
-
-                                        master.solutions.splice(index, 1);
-
-                                    })
-                                    .error(function (data) {
-
-                                        alert(JSON.stringify(data));
-
-
-                                        $scope.error = "An Error has occured while Saving! " + data.statusText;
-                                        $scope.loading = false;
-                                    });
-
-                            }
+                            
 
 
                             //Prioritization
@@ -1307,11 +1526,11 @@
                                 $.post('/api/offline/v1/trainings/save', $scope.data)
                                     .success(function (data) {
                                         $scope.loading = false;
-
+                                        $('html, body').animate({ scrollTop: '0px' }, 1500);
                                         $mdToast.show(
                                             $mdToast.simple()
                                             .textContent('Record Saved!')
-                                            .position("bottom right")
+                                            .position("top right")
                                             .hideDelay(3000)
                                         );
 

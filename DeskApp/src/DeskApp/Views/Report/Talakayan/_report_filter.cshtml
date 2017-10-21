@@ -1,8 +1,8 @@
-﻿<div class="panel panel-success">
+﻿<div class="panel panel-info">
    
         <div class="panel-heading">
-            <h4>Generation Instructions</h4>
-            <h5>Please filter before proceeding in printing the report.</h5>
+            <h4>Perception Survey Report</h4>
+            <h5>General Instruction: Please filter before proceeding in printing the report.</h5>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -10,7 +10,7 @@
                     <div class="col-md-8">
                         <label>Select Report</label>
                         <div class="form-group">
-                            <select name="Report" ng-model="selected_report" class="form-control" ng-required="true"
+                            <select name="Report" ng-model="selected_report" class="form-control" required
                                     ng-change="clear()"
                                     ng-disabled="status"
                                     ng-options="option as option.Name for option in report_list">
@@ -22,7 +22,7 @@
                     <div class="col-md-4">
                         <label>Talakayan Year</label>
                         <div class="form-group">
-                            <select name="talakayan_yr" ng-model="selected_talakayan_year" class="form-control" ng-required="true"
+                            <select name="talakayan_yr" ng-model="selected_talakayan_year" class="form-control" required
                                     ng-change="search()"
                                     ng-disabled="status"
                                     ng-options="option as option.Name for option in talakayan_year_options">
@@ -31,12 +31,7 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-        </div>
-
-        <div class="panel-body">
             <div class="row">
                 <div class="col-md-12">
 
@@ -94,27 +89,22 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="col-md-6">
-                    <md-button class="md-raised" ng-click="search()" ng-disabled="!myForm.$valid">
-                        <i class="fa fa-filter"></i>  Filter
-                    </md-button>
-                    <md-button class="md-primary md-raised" ng-click="printContent()" ng-disabled="!myForm.$valid">
-                        <i class="fa fa-print"></i>  Print
-                    </md-button>
-                    <md-button class="md-raised md-warn" ng-click="exportToXLS()" ng-disabled="!myForm.$valid">
-                        <i class="fa fa-file-excel-o"></i>  Export
-                    </md-button>
+            <div class="row">
+                <div flex="100" layout="row" style="margin-left:20px" layout-margin layout-md="column">
+                    <a class="btn btn-primary" ng-click="search(); search()" ng-disabled="!myForm.$valid">
+                        <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
+                    </a>
+                    <a class="btn btn-warning" ng-click="printContent()" ng-disabled="!myForm.$valid">
+                        <i class="fa fa-print fa-lg"></i>&nbsp;&nbsp; Print
+                    </a>
+                    <a class="btn btn-success" ng-click="exportToXLS()" ng-disabled="!myForm.$valid">
+                        <i class="fa fa-print fa-lg"></i>&nbsp;&nbsp; Export
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
-
+    
 </div>
 
 

@@ -19,6 +19,7 @@ namespace DeskApp.Controllers
     public class BarangayAssemblyAPIController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -309,6 +310,53 @@ namespace DeskApp.Controllers
             {
                 model = model.Where(m => m.enrollment_id == item.enrollment_id);
             }
+
+            //v3.0 additional filters:
+            if (item.is_incentive != null)
+            {
+                if (item.is_incentive == true)
+                {
+                    model = model.Where(m => m.is_incentive == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_incentive != true);
+                }
+            }
+            if (item.is_savings != null)
+            {
+                if (item.is_savings == true)
+                {
+                    model = model.Where(m => m.is_savings == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_savings != true);
+                }
+            }
+            if (item.is_lgu_led != null)
+            {
+                if (item.is_lgu_led == true)
+                {
+                    model = model.Where(m => m.is_lgu_led == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_lgu_led != true);
+                }
+            }
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    model = model.Where(m => m.push_status_id != 4);
+                }
+            }
+
 
             #endregion
 
@@ -1289,107 +1337,424 @@ namespace DeskApp.Controllers
             return Ok(result);
         }
 
+        #region DQA : Barangay Assembly
 
+        //DQA: BA Count -- Display BAs that does not meet or exceeds the target number of BAs per cycle
+        //For regular : target is 5 BAs per cycle
+        //For accelerated : target is 3 BAs per cycle
         [HttpPost]
         [Route("/api/export/barangay_assembly/dqa/count")]
         public IActionResult export_dqa_count(AngularFilterModel item)
         {
             var model = GetData(item);
 
-            var result = model.GroupBy(x => new
-            {
-                x.lib_brgy,
-                x.lib_region,
-                x.lib_province,
-                x.lib_city,
+            var result = model
+                .GroupBy(x => new
+                {                    
+                    x.lib_region,
+                    x.lib_province,
+                    x.lib_city,
+                    x.lib_brgy,
+                    x.lib_fund_source,
+                    x.lib_cycle,                    
+                    x.lib_enrollment,
+                    x.brgy_code,
+                    x.enrollment_id,
+                    x.cycle_id
+                })
+                .Select(x => new
+                {
+                    Region = x.Key.lib_region.region_name,
+                    Province = x.Key.lib_province.prov_name,
+                    Municipality = x.Key.lib_city.city_name,
+                    Barangay = x.Key.lib_brgy.brgy_name,
+                    Project = x.Key.lib_fund_source.name,
+                    Cycle = x.Key.lib_cycle.name,
+                    KC_Mode = x.Key.lib_enrollment.name,
+                    BA_Target_Count = x.Key.lib_enrollment.enrollment_id == 1 ? 3 : 5,
+                    BA_Actual_Count = x.Count(),
+                    no_of_first_ba = x.Count(c => c.barangay_assembly_purpose_id == 1),
+                    no_of_second_ba = x.Count(c => c.barangay_assembly_purpose_id == 2),
+                    no_of_third_ba = x.Count(c => c.barangay_assembly_purpose_id == 3),
+                    no_of_fourth_ba = x.Count(c => c.barangay_assembly_purpose_id == 4),
+                    no_of_fifth_ba = x.Count(c => c.barangay_assembly_purpose_id == 5),
+                }).ToList();
 
-                x.lib_cycle,
-                x.lib_fund_source,
-                x.lib_enrollment,
+            var export = result
+                .GroupBy(x => new
+                {
+                    x.Region,
+                    x.Province,
+                    x.Municipality,
+                    x.Barangay,
+                    x.Project,
+                    x.Cycle,
+                    x.KC_Mode
+                }).Select(x => new
+                {
+                    Region = x.Key.Region,
+                    Province = x.Key.Province,
+                    Municipality = x.Key.Municipality,
+                    Barangay = x.Key.Barangay,
+                    Project = x.Key.Project,
+                    Cycle = x.Key.Cycle,
+                    KC_Mode = x.Key.KC_Mode,
+                    BA_Target_Count = x.Key.KC_Mode == "DROP" ? 3 : 5,
+                    BA_Actual_Count = x.Sum(c => c.no_of_first_ba) + x.Sum(c => c.no_of_second_ba) + x.Sum(c => c.no_of_third_ba) + x.Sum(c => c.no_of_fourth_ba) + x.Sum(c => c.no_of_fifth_ba),
+                    //no_of_first_ba = x.Sum(c => c.no_of_first_ba),
+                    //no_of_second_ba = x.Sum(c => c.no_of_second_ba),
+                    //no_of_third_ba = x.Sum(c => c.no_of_third_ba),
+                    //no_of_fourth_ba = x.Sum(c => c.no_of_fourth_ba),
+                    //no_of_fifth_ba = x.Sum(c => c.no_of_fifth_ba),
+                })
+                .Where(x => x.BA_Target_Count != x.BA_Actual_Count);
+            return Ok(export);
+        }
 
-                x.brgy_code,
-                x.enrollment_id,
-                x.cycle_id
+        //DQA: BA null values -- Display BAs encoded that contains null values on the minimum required fields
+        [HttpPost]
+        [Route("/api/export/barangay_assembly/dqa/null_required_fields")]
+        public IActionResult export_dqa_null_required_fields(AngularFilterModel item)
+        {
+            var model = GetData(item);
 
-            }).Select(x => new
-            {
+            var result = model
+                .Select(x => new
+                {
+                    BA_Unique_Id = x.brgy_assembly_id,
+                    Region = x.region_code == null ? null : x.lib_region.region_name,
+                    Province = x.prov_code == null ? null : x.lib_province.prov_name,
+                    Municipality = x.city_code == null ? null : x.lib_city.city_name,
+                    Barangay = x.brgy_code == null ? null : x.lib_brgy.brgy_name,
+                    Project = x.fund_source_id == null ? null : x.lib_fund_source.name,
+                    Cycle = x.cycle_id == null ? null : x.lib_cycle.name,
+                    KC_Mode = x.enrollment_id == null ? null : x.lib_enrollment.name,
+                    Purpose = x.barangay_assembly_purpose_id == null ? null : x.lib_barangay_assembly_purpose.name,
+                    Start_Date = x.date_start == null ? null : x.date_start,
+                    End_Date = x.date_end == null ? null : x.date_end,
+                    Venue = x.venue == null ? null : x.venue,
+                    Is_Incentives = x.is_incentive == null || x.is_incentive == false ? null : "Yes",
+                    From_Savings = x.is_savings == null || x.is_savings == false ? null : "Yes",
+                    Is_LGU_Led = x.is_lgu_led == null || x.is_lgu_led == false ? null : "Yes",
+                    Attendance_Total_Male = x.no_atn_male == null ? null : x.no_atn_male,
+                    Attendance_Total_Female = x.no_atn_female == null ? null : x.no_atn_female,
+                    Attendance_IP_Male = x.no_ip_male == null ? null : x.no_ip_male,
+                    Attendance_IP_Female = x.no_ip_female == null ? null : x.no_ip_female,
+                    Attendance_Senior_Male = x.no_old_male == null ? null : x.no_old_male,
+                    Attendance_Senior_Female = x.no_old_female == null ? null : x.no_old_female,
+                    Attendance_BLGU_Male = x.no_lgu_male == null ? null : x.no_lgu_male,
+                    Attendance_BLGU_Female = x.no_lgu_female == null ? null : x.no_lgu_female,
+                    HH_Represented = x.no_household == null ? null : x.no_household,
+                    HH_Total = x.total_household_in_barangay == null ? null : x.total_household_in_barangay,
+                    Pantawid_Fam_Represented = x.no_pantawid_family == null ? null : x.no_pantawid_family,
+                    Pantawid_Fam_Total = x.no_pantawid_family_in_barangay == null ? null : x.no_pantawid_family_in_barangay,
+                    Pantawid_HH_Represented = x.no_pantawid_household == null ? null : x.no_pantawid_household,
+                    Pantawid_HH_Total = x.total_household_pantawid_in_barangay == null ? null : x.total_household_pantawid_in_barangay,
+                    SLP_Fam_Represented = x.no_slp_family == null ? null : x.no_slp_family,
+                    SLP_Fam_Total = x.no_slp_family_in_barangay == null ? null : x.no_slp_family_in_barangay,
+                    SLP_HH_Represented = x.no_slp_household == null ? null : x.no_slp_household,
+                    SLP_HH_Total = x.total_household_slp_in_barangay == null ? null : x.total_household_slp_in_barangay,
+                    IP_Fam_Represented = x.no_ip_family == null ? null : x.no_ip_family,
+                    IP_Fam_Total = x.no_ip_family_in_barangay == null ? null : x.no_ip_family_in_barangay,
+                    IP_HH_Represented = x.no_ip_household == null ? null : x.no_ip_household,
+                    IP_HH_Total = x.total_household_ip_in_barangay == null ? null : x.total_household_ip_in_barangay,
+                    Highlights = x.highlights == null ? null : x.highlights,
+                    Sector_Represented = x.is_sector_academe == null && x.is_sector_business == null && x.is_sector_pwd == null && x.is_sector_farmer == null && x.is_sector_fisherfolks == null && x.is_sector_government == null && x.is_sector_ip == null && x.is_sector_ngo == null && x.is_sector_po == null && x.is_sector_religios == null && x.is_sector_senior == null && x.is_sector_women == null && x.is_sector_youth == null ? null : "With sector represented",
+                    Represented_IP_Group = db.brgy_assembly_ip.Any(ip => ip.brgy_assembly_id == x.brgy_assembly_id && ip.is_deleted != true) == true ? "With IP Group represented" : null,
+                    IP_Leader = x.ip_leader == null ? null : x.ip_leader
+                })
+                .Where(x => x.Region == null || x.Province == null || x.Municipality == null || x.Barangay == null ||
+                            x.Project == null || x.Cycle == null || x.KC_Mode == null || x.Purpose == null ||
+                            x.Start_Date == null || x.End_Date == null || x.Venue == null ||
+                            x.Attendance_Total_Male == null || x.Attendance_Total_Female == null || 
+                            x.Attendance_IP_Male == null || x.Attendance_IP_Female == null ||
+                            x.Attendance_Senior_Male == null || x.Attendance_Senior_Female == null ||
+                            x.Attendance_BLGU_Male == null || x.Attendance_BLGU_Female == null ||
+                            x.HH_Represented == null || x.HH_Total == null ||
+                            x.Pantawid_Fam_Represented == null || x.Pantawid_Fam_Total == null ||
+                            x.Pantawid_HH_Represented == null || x.Pantawid_HH_Total == null ||
+                            x.SLP_Fam_Represented == null ||x.SLP_Fam_Total == null ||
+                            x.SLP_HH_Represented == null || x.SLP_HH_Total == null ||
+                            x.IP_Fam_Represented == null || x.IP_Fam_Total == null ||
+                            x.IP_HH_Represented == null || x.IP_HH_Total == null ||
+                            x.Highlights == null ||
+                            x.Sector_Represented == null ||
+                            x.Represented_IP_Group == null ||
+                            x.IP_Leader == null)
+                .ToList();
+            
+            return Ok(result);
+        }
 
+        //DQA: BA Conducted Purpose for Verification
+        //Same RPMB, cycle and BA purpose
+        [HttpPost]
+        [Route("/api/export/barangay_assembly/dqa/purpose_for_verification")]
+        public IActionResult export_dqa_purpose_for_verification(AngularFilterModel item)
+        {
+            var model = GetData(item);
 
-                fund_source_name = x.Key.lib_fund_source.name,
-                cycle_name = x.Key.lib_cycle.name,
-                kc_mode = x.Key.lib_enrollment.name,
-                region_name = x.Key.lib_region.region_name,
+            var result = model
+                .GroupBy(x => new
+                {
+                    x.lib_region,
+                    x.lib_province,
+                    x.lib_city,
+                    x.lib_brgy,
+                    x.lib_fund_source,
+                    x.lib_cycle,
+                    x.lib_barangay_assembly_purpose,
+                    x.brgy_code,
+                    x.barangay_assembly_purpose_id,
+                    x.cycle_id
+                })
+                .Select(x => new
+                {
+                    Region = x.Key.lib_region.region_name,
+                    Province = x.Key.lib_province.prov_name,
+                    Municipality = x.Key.lib_city.city_name,
+                    Barangay = x.Key.lib_brgy.brgy_name,
+                    Project = x.Key.lib_fund_source.name,
+                    Cycle = x.Key.lib_cycle.name,
+                    Ba_Purpose = x.Key.lib_barangay_assembly_purpose.name,
+                    BA_Purpose_Count = x.Count()
+                })
+                .Where(x => x.BA_Purpose_Count >= 2) //if there are two or more records having the same brgy and cycle, and same BA purpose
+                .ToList();
 
-                prov_name = x.Key.lib_province.prov_name,
+            return Ok(result);
+        }
 
-                city_name = x.Key.lib_city.city_name,
-                brgy_name = x.Key.lib_brgy.brgy_name,
+        //DQA: BA Household Participation
+        //BA with more than 100% participation rate, less than 50% participation rate, or null
+        [HttpPost]
+        [Route("/api/export/barangay_assembly/dqa/hh_participation")]
+        public IActionResult export_dqa_hh_participation(AngularFilterModel item)
+        {
+            var model = GetData(item);
+            
+            var result = model
+                .Select(x => new
+                {
+                    BA_Unique_Id = x.brgy_assembly_id,
+                    Region = x.lib_region.region_name,
+                    Province = x.lib_province.prov_name,
+                    Municipality = x.lib_city.city_name,
+                    Barangay = x.lib_brgy.brgy_name,
+                    Project = x.lib_fund_source.name,
+                    Cycle = x.lib_cycle.name,
+                    Ba_Purpose = x.lib_barangay_assembly_purpose.name,
+                    hh_rep = (double)x.no_household,
+                    hh_total = (double)x.total_household_in_barangay,
+                    Household_Participation_Rate = (x.no_household * 100.0f) / x.total_household_in_barangay,
+                })
+                .Where(x => x.Household_Participation_Rate > 100 || x.Household_Participation_Rate < 50 || x.Household_Participation_Rate == null) 
+                .ToList();
 
-                target_ba = x.Key.lib_enrollment.enrollment_id == 1 ? 3 : 5,
-                total_conducted = x.Count(),
+            var convert_decimal = result
+                .Select(x => new
+                {
+                    BA_Unique_Id = x.BA_Unique_Id,
+                    Region = x.Region,
+                    Province = x.Province,
+                    Municipality = x.Municipality,
+                    Barangay = x.Barangay,
+                    Project = x.Project,
+                    Cycle = x.Cycle,
+                    Ba_Purpose = x.Ba_Purpose,
+                    hh_rep = x.hh_rep,
+                    hh_total = x.hh_total,
+                    Household_Participation_Rate = x.Household_Participation_Rate.Value.ToString("n2")
+                })
+                .ToList();
 
-                no_of_first_ba = x.Count(c => c.barangay_assembly_purpose_id == 1),
-
-                no_of_second_ba = x.Count(c => c.barangay_assembly_purpose_id == 2),
-
-
-                no_of_third_ba = x.Count(c => c.barangay_assembly_purpose_id == 3),
-
-
-                no_of_fourth_ba = x.Count(c => c.barangay_assembly_purpose_id == 4),
-
-                no_of_fifth_ba = x.Count(c => c.barangay_assembly_purpose_id == 5),
-
-            }).ToList();
-
-            var export = result.GroupBy(x => new
-            {
-                x.region_name,
-                x.prov_name,
-                x.city_name,
-                x.brgy_name,
-
-                x.fund_source_name,
-                x.cycle_name,
-                x.kc_mode,
-
-            }).Select(x => new
-            {
-                fund_source_name = x.Key.fund_source_name,
-                cycle_name = x.Key.cycle_name,
-                kc_mode = x.Key.kc_mode,
-                region_name = x.Key.region_name,
-
-                prov_name = x.Key.prov_name,
-
-                city_name = x.Key.city_name,
-                brgy_name = x.Key.brgy_name,
-
-                target_ba = x.Key.kc_mode.Contains("ac") ? "3" : "5",
-
-                total_conducted =
-                x.Sum(c => c.no_of_first_ba)
-                + x.Sum(c => c.no_of_second_ba)
-                + x.Sum(c => c.no_of_third_ba)
-                + x.Sum(c => c.no_of_fourth_ba)
-                + x.Sum(c => c.no_of_fifth_ba),
-
-                no_of_first_ba = x.Sum(c => c.no_of_first_ba),
-
-                no_of_second_ba = x.Sum(c => c.no_of_second_ba),
-
-
-                no_of_third_ba = x.Sum(c => c.no_of_third_ba),
-
-
-                no_of_fourth_ba = x.Sum(c => c.no_of_fourth_ba),
-
-                no_of_fifth_ba = x.Sum(c => c.no_of_fifth_ba),
-
-            });
+            var export = convert_decimal
+                .Select(x => new
+                {
+                    BA_Unique_Id = x.BA_Unique_Id,
+                    Region = x.Region,
+                    Province = x.Province,
+                    Municipality = x.Municipality,
+                    Barangay = x.Barangay,
+                    Project = x.Project,
+                    Cycle = x.Cycle,
+                    Ba_Purpose = x.Ba_Purpose,
+                    hh_rep = x.hh_rep,
+                    hh_total = x.hh_total,
+                    Household_Participation_Rate = x.Household_Participation_Rate + "%"
+                });
 
             return Ok(export);
         }
+
+        //DQA: BA attendees with null values or when the ratio reaches 70-30 or higher
+        [HttpPost]
+        [Route("/api/export/barangay_assembly/dqa/ba_attendance_ratio")]
+        public IActionResult export_dqa_ba_attendance_ratio(AngularFilterModel item)
+        {
+            var model = GetData(item);
+
+            var result = model
+                .Select(x => new
+                {
+                    BA_Unique_Id = x.brgy_assembly_id,
+                    Region = x.lib_region.region_name,
+                    Province = x.lib_province.prov_name,
+                    Municipality = x.lib_city.city_name,
+                    Barangay = x.lib_brgy.brgy_name,
+                    Project = x.lib_fund_source.name,
+                    Cycle = x.lib_cycle.name,
+                    Ba_Purpose = x.lib_barangay_assembly_purpose.name,
+                    Male_Count = x.no_atn_male,
+                    Female_Count = x.no_atn_female,
+                    Male_Percentage = (x.no_atn_male * 100.0f) / (x.no_atn_male + x.no_atn_female),
+                    Female_Percentage = (x.no_atn_female * 100.0f) / (x.no_atn_male + x.no_atn_female)
+                })
+                .Where(x => (x.Male_Percentage <= 30 || x.Male_Percentage >= 70) || (x.Female_Percentage <= 30 || x.Female_Percentage >= 70) || x.Male_Count == null || x.Female_Count == null)
+                .ToList();
+
+            var convert_decimal = result
+                .Select(x => new
+                {
+                    BA_Unique_Id = x.BA_Unique_Id,
+                    Region = x.Region,
+                    Province = x.Province,
+                    Municipality = x.Municipality,
+                    Barangay = x.Barangay,
+                    Project = x.Project,
+                    Cycle = x.Cycle,
+                    Ba_Purpose = x.Ba_Purpose,
+                    Male_Count = x.Male_Count,
+                    Female_Count = x.Female_Count,
+                    Male_Percentage = x.Male_Percentage.Value.ToString("n2"),
+                    Female_Percentage = x.Female_Percentage.Value.ToString("n2")
+                })
+                .ToList();
+
+            var export = convert_decimal
+                .Select(x => new
+                {
+                    BA_Unique_Id = x.BA_Unique_Id,
+                    Region = x.Region,
+                    Province = x.Province,
+                    Municipality = x.Municipality,
+                    Barangay = x.Barangay,
+                    Project = x.Project,
+                    Cycle = x.Cycle,
+                    Ba_Purpose = x.Ba_Purpose,
+                    Male_Count = x.Male_Count,
+                    Female_Count = x.Female_Count,
+                    Male_Percentage = x.Male_Percentage + "%",
+                    Female_Percentage = x.Female_Percentage + "%"
+                });
+
+            return Ok(export);
+        }
+
+
+        #endregion
+
+
+        //[HttpPost]
+        //[Route("/api/export/barangay_assembly/dqa/count")]
+        //public IActionResult export_dqa_count(AngularFilterModel item)
+        //{
+        //    var model = GetData(item);
+
+        //    var result = model.GroupBy(x => new
+        //    {
+        //        x.lib_brgy,
+        //        x.lib_region,
+        //        x.lib_province,
+        //        x.lib_city,
+
+        //        x.lib_cycle,
+        //        x.lib_fund_source,
+        //        x.lib_enrollment,
+
+        //        x.brgy_code,
+        //        x.enrollment_id,
+        //        x.cycle_id
+
+        //    }).Select(x => new
+        //    {
+
+
+        //        fund_source_name = x.Key.lib_fund_source.name,
+        //        cycle_name = x.Key.lib_cycle.name,
+        //        kc_mode = x.Key.lib_enrollment.name,
+        //        region_name = x.Key.lib_region.region_name,
+
+        //        prov_name = x.Key.lib_province.prov_name,
+
+        //        city_name = x.Key.lib_city.city_name,
+        //        brgy_name = x.Key.lib_brgy.brgy_name,
+
+        //        target_ba = x.Key.lib_enrollment.enrollment_id == 1 ? 3 : 5,
+        //        total_conducted = x.Count(),
+
+        //        no_of_first_ba = x.Count(c => c.barangay_assembly_purpose_id == 1),
+
+        //        no_of_second_ba = x.Count(c => c.barangay_assembly_purpose_id == 2),
+
+
+        //        no_of_third_ba = x.Count(c => c.barangay_assembly_purpose_id == 3),
+
+
+        //        no_of_fourth_ba = x.Count(c => c.barangay_assembly_purpose_id == 4),
+
+        //        no_of_fifth_ba = x.Count(c => c.barangay_assembly_purpose_id == 5),
+
+        //    }).ToList();
+
+        //    var export = result.GroupBy(x => new
+        //    {
+        //        x.region_name,
+        //        x.prov_name,
+        //        x.city_name,
+        //        x.brgy_name,
+
+        //        x.fund_source_name,
+        //        x.cycle_name,
+        //        x.kc_mode,
+
+        //    }).Select(x => new
+        //    {
+        //        fund_source_name = x.Key.fund_source_name,
+        //        cycle_name = x.Key.cycle_name,
+        //        kc_mode = x.Key.kc_mode,
+        //        region_name = x.Key.region_name,
+
+        //        prov_name = x.Key.prov_name,
+
+        //        city_name = x.Key.city_name,
+        //        brgy_name = x.Key.brgy_name,
+
+        //        target_ba = x.Key.kc_mode.Contains("ac") ? "3" : "5",
+
+        //        total_conducted =
+        //        x.Sum(c => c.no_of_first_ba)
+        //        + x.Sum(c => c.no_of_second_ba)
+        //        + x.Sum(c => c.no_of_third_ba)
+        //        + x.Sum(c => c.no_of_fourth_ba)
+        //        + x.Sum(c => c.no_of_fifth_ba),
+
+        //        no_of_first_ba = x.Sum(c => c.no_of_first_ba),
+
+        //        no_of_second_ba = x.Sum(c => c.no_of_second_ba),
+
+
+        //        no_of_third_ba = x.Sum(c => c.no_of_third_ba),
+
+
+        //        no_of_fourth_ba = x.Sum(c => c.no_of_fourth_ba),
+
+        //        no_of_fifth_ba = x.Sum(c => c.no_of_fifth_ba),
+
+        //    });
+
+        //    return Ok(export);
+        //}
 
         #region Represented IP
         [Route("api/offline/v1/barangay_assembly/post/represented_ip")]

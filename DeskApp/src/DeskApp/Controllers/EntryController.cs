@@ -183,6 +183,17 @@ namespace DeskApp.Controllers
             return View();
         }
 
+        public ActionResult ReferenceSubProjects(int id)
+        {
+            
+
+            ViewBag.id = id;
+
+
+
+            return View();
+        }
+
         public ActionResult CeacTracking(Guid? id = null)
         {
             if (id == null)

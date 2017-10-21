@@ -11,7 +11,7 @@
             <br />
 
             <div flex="50">
-                <select name="quarter" ng-model="pageSize" ng-options="obj.value as obj.text for obj in [{'value':5,'text':'5'},{'value':10,'text':'10'},{'value':20,'text':'20'}]" ng-selected="pageSize" class="form-control" ng-change="search()">
+                <select name="quarter" ng-model="pageSize" ng-options="obj.value as obj.text for obj in [{'value':5,'text':'5'},{'value':10,'text':'10'},{'value':20,'text':'20'},{'value':50,'text':'50'},{'value':100,'text':'100'}]" ng-selected="pageSize" class="form-control" ng-change="search()">
                     <option value="">[Records to Show]</option>
                 </select>
             </div>

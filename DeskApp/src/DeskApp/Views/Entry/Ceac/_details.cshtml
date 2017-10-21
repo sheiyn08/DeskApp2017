@@ -1,0 +1,115 @@
+﻿
+<form name="ceacForm">
+    <div class="panel panel-info">
+
+        <div class="panel panel-heading">
+            <h4>Basic Details</h4>
+        </div>
+
+        <md-container layout="row">
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="25" flex-sm="100">
+                    <label>Region</label>
+                    <select name="Region" ng-model="main.region_code" id="region_code" class="form-control"
+                            ng-required="true"
+                            ng-disabled="status"
+                            ng-options="option.Id as option.Name for option in region_code_options">
+                        <option value="">[Select Region]</option>
+                    </select>
+                </div>
+                <div flex="25" flex-sm="100">
+                    <label>Province</label>
+                    <select name="Province" ng-model="main.prov_code" id="prov_code" class="form-control"
+                            ng-disabled="main.region_code == null ||status"
+                            ng-required="true"
+                            ng-options="option.Id as option.Name for option in prov_code_options">
+                        <option value="">[Select Province]</option>
+                    </select>
+                </div>
+                <div flex="25" flex-sm="100">
+                    <label>Municipality </label>
+                    <select name="Municipality" ng-model="main.city_code" id="city_code" class="form-control"
+                            ng-required="true"
+                            ng-disabled="main.prov_code == null ||status"
+                            ng-options="option.Id as option.Name for option in city_code_options">
+                        <option value="">[Select Municipality]</option>
+                    </select>
+                </div>                
+            </div>
+        </md-container>
+
+
+        <md-container layout="row">
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="25" flex-sm="100">
+                    <label>Project</label>
+                    <select name="Project" ng-model="main.fund_source_id" id="brgy_code" class="form-control"
+                            ng-required="true"
+                            ng-disabled="status"
+                            ng-options="option.Id as option.Name for option in fund_source_id_options">
+                        <option value="">[Select Project]</option>
+                    </select>
+                </div>
+                <div flex="25" flex-sm="100">
+                    <label>Cycle </label>
+                    <select name="Cycle" ng-model="main.cycle_id" id="brgy_code" class="form-control"
+                            ng-required="true"
+                            ng-disabled="status"
+                            ng-options="option.Id as option.Name for option in cycle_id_options">
+                        <option value="">[Select Cycle]</option>
+                    </select>
+                </div>
+                <div flex="25" flex-sm="100">
+                    <label>KC Mode </label>
+                    <select name="KC Mode" ng-model="main.enrollment_id" id="KC Mode" class="form-control"
+                            ng-disabled="status"
+                            ng-required="true"
+                            ng-options="option.Id as option.Name for option in enrollment_id_options">
+                        <option value="">[Select KC Mode]</option>
+                    </select>
+                </div>    
+            </div>
+        </md-container>
+
+        <md-container layout="row">
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="20" flex-sm="100">
+                    <label>Incentives (Tier-2)?</label>
+                </div>
+                <div flex="25" flex-sm="100">
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="main.is_incentive" id="is_incentive" name="is_incentive">
+                        {{ main.is_incentive == true ? "Yes" : "" }}
+                    </md-checkbox>
+                </div>
+            </div>
+        </md-container>
+
+        <md-container layout="row">
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="20" flex-sm="100">
+                    <label>From Savings?</label>
+                </div>
+                <div flex="25" flex-sm="100">
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="main.is_savings" id="is_savings" name="is_savings">
+                        {{ main.is_savings == true ? "Yes" : "" }}
+                    </md-checkbox>
+                </div>
+            </div>
+        </md-container>
+
+        <md-container layout="row">
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="20" flex-sm="100">
+                    <label>LGU-led?</label>
+                </div>
+                <div flex="25" flex-sm="100">
+                    <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="main.is_lgu_led" id="is_lgu_led" name="is_lgu_led">
+                        {{ main.is_lgu_led == true ? "Yes" : "" }}
+                    </md-checkbox>
+                </div>
+            </div>
+        </md-container>
+
+    </div>
+</form>
+

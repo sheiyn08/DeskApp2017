@@ -1,7 +1,7 @@
-﻿<div class="panel panel-success">
+﻿<div class="panel panel-info">
 
     <div class="panel-heading">
-        <h3><strong>DOF-BLGF Financial Data</strong></h3>
+        <h4>DOF-BLGF Financial Data</h4>
         <h5>General Instruction: Please filter location and year to display.</h5>
     </div>
 
@@ -68,6 +68,22 @@
 
     <div class="panel-body">
         <div class="row">
+            <div flex="100" layout="row" style="margin-left:20px" layout-margin layout-md="column">
+                <a class="btn btn-primary" ng-click="search(); show_div=true" ng-disabled="!basicForm.$valid">
+                    <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
+                </a>
+                <a class="btn btn-warning" ng-click="clear()">
+                    <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
+                </a>
+                <a class="btn btn-warning" ng-click="printContent()" ng-disabled="!basicForm.$valid">
+                    <i class="fa fa-print fa-lg"></i>&nbsp;&nbsp; Print
+                </a>
+                <a class="btn btn-success" ng-click="exportToXLS()" ng-disabled="!basicForm.$valid">
+                    <i class="fa fa-print fa-lg"></i>&nbsp;&nbsp; Export (2011, 2012, 2013)
+                </a>
+            </div>
+        </div>
+        @*<div class="row">
             <div class="col-md-12">
 
                 <div class="col-md-6">
@@ -85,7 +101,7 @@
                     </md-button>
                 </div>
             </div>
-        </div>
+        </div>*@
     </div>
 
 </div>

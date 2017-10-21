@@ -17,6 +17,7 @@ namespace DeskApp.Controllers.Eval
     public class MunicipalFinancialProfileController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -120,6 +121,7 @@ namespace DeskApp.Controllers.Eval
                 {
                     muni_financial_profile_id = x.muni_financial_profile_id,
                     talakayan_date_start = x.talakayan_date_start,
+                    talakayan_yr_id = x.talakayan_yr_id,
                     lib_city_city_name = x.lib_city.city_name,
                     lib_province_prov_name = x.lib_province.prov_name,
                     lib_region_region_name = x.lib_region.region_name,

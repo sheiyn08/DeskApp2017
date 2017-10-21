@@ -18,7 +18,7 @@
     <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
 
         <md-toolbar md-scroll-shrink>
-            <div class="md-toolbar-tools">Sub Project Records</div>
+            <div class="md-toolbar-tools">Sub Projects</div>
         </md-toolbar>
 
         <md-content>
@@ -46,6 +46,9 @@
                             </div>
                             <div class="col-md-3">
                                 <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
+                            </div>
+                            <div class="col-md-3">
+                                <md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records tagged as <b>Unauthorized</b></md-checkbox>
                             </div>
                         </div>
                     </div><br />
@@ -127,15 +130,37 @@
                             </div>
                         </div>
                     </div><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label>Is Incentives (Tier-2)?</label>
+                                <select ng-model="data.is_incentive" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>From Savings?</label>
+                                <select ng-model="data.is_savings" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Is LGU-led?</label>
+                                <select ng-model="data.is_lgu_led" ng-options="obj.value as obj.text for obj in [{'value':true,'text':'YES'},{'value':false,'text':'NO'}]" class="form-control">
+                                    <option value=''>[Select Option]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div><br />
                 </div>
             </div>
 
             <div flex="100" layout="row" layout-margin layout-sm="column" style="margin:20px">
                 <a class="btn btn-primary" ng-click="search()">
-                    <i class="fa fa-filter fa-lg"></i> Filter
+                    <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
                 </a>
                 <a class="btn btn-warning" ng-click="clear()">
-                    <i class="fa fa-recycle fa-lg"></i>  Clear
+                    <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
                 </a>
                 @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
             </div>
@@ -153,6 +178,13 @@
                         </md-content>
                         <md-content>
                             @Html.Partial("~/Views/View/SubProject/_list.cshtml")
+                        </md-content>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Reference List">
+                    <md-content class="md-padding">
+                        <md-content>
+                            @Html.Partial("~/Views/View/SubProject/_reference_list.cshtml")
                         </md-content>
                     </md-content>
                 </md-tab>
@@ -182,4 +214,22 @@
     <script src="~/Scripts/app/SPI/sub_project_index.js"></script>
 
     <script src="~/scripts/directives/paging.js"></script>
-}
+
+@*<script type="text/ng-template" id="spModal.tmpl.html">
+    <div class="modal-header">
+        <h3>SPI Modal Header</h3>
+    </div>
+
+    <div class="modal-body">
+        <p>Modal Body</p>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="closeModal()" data-dismiss="modal">
+            Close
+        </button>
+    </div>
+</script>*@
+
+
+    }

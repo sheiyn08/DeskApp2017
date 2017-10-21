@@ -1,10 +1,104 @@
 ﻿
 <div ng-controller="AppCtrl" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
 
-    <div class="panel panel-success">
+    <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools">
+            <h1>Municipal Financial Profile</h1>
+        </div>
+    </md-toolbar>
+
+    <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="Basic Information">
+            <form name="basicForm">
+                <!--for validation-->
+                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_basic_info.cshtml")
+            </form>
+        </md-tab>
+        <md-tab label="Financial sources" ng-disabled="!basicForm.$valid">
+            <div class="panel panel-info">
+                <div class="panel panel-heading">
+                    <h4>Financial Sources</h4>
+                    <h5>Please make sure to fill first all the Basic Information to be able to show items here. Click 'Proceed' to continue</h5>
+                    <a class="btn btn-success" ng-disabled="(data.population_2015 == 0 || data.population_2015 == null) && !basicForm.$valid" ng-click="populate(); show_tabs=true">
+                        Proceed &nbsp;&nbsp; <i class="fa fa-check"></i>
+                    </a>
+                </div>
+                <div class="panel panel-body">
+                    <md-content ng-show="show_tabs">
+                        <md-tabs md-dynamic-height md-border-bottom>
+                            <!--1st Tab-->
+                            <md-tab label="2009" ng-disabled="disable_2009_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2009.cshtml")
+                            </md-tab>
+                            <!--2nd Tab-->
+                            <md-tab label="2010" ng-disabled="disable_2010_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2010.cshtml")
+                            </md-tab>
+                            <!--3rd Tab-->
+                            <md-tab label="2011" ng-disabled="disable_2011_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2011.cshtml")
+                            </md-tab>
+                            <!--4th Tab-->
+                            <md-tab label="2012" ng-disabled="disable_2012_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2012.cshtml")
+                            </md-tab>
+                            <!--5th Tab-->
+                            <md-tab label="2013" ng-disabled="disable_2013_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2013.cshtml")
+                            </md-tab>
+                            <!--6th Tab-->
+                            <md-tab label="2014" ng-disabled="disable_2014_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2014.cshtml")
+                            </md-tab>
+                            <!--7th Tab-->
+                            <md-tab label="2015" ng-disabled="disable_2015_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2015.cshtml")
+                            </md-tab>
+                            <!--8th Tab-->
+                            <md-tab label="2016" ng-disabled="disable_2016_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2016.cshtml")
+                            </md-tab>
+                            <!--9th Tab-->
+                            <md-tab label="2017" ng-disabled="disable_2017_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2017.cshtml")
+                            </md-tab>
+                            <!--10th Tab-->
+                            <md-tab label="2018" ng-disabled="disable_2018_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2018.cshtml")
+                            </md-tab>
+                            <!--11th Tab-->
+                            <md-tab label="2019" ng-disabled="disable_2019_tab">
+                                @Html.Partial("~/Views/MunicipalFinancialProfile/_financial_profile_newrecord_2019.cshtml")
+                            </md-tab>
+                        </md-tabs>
+
+                    </md-content>
+                </div>
+            </div>
+             
+        </md-tab>
+
+    </md-tabs>
+
+    <md-container layout="row">
+
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+
+            <!--VALIDATION: button Submit will be enabled only if the required fields are populated-->
+            <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!basicForm.$valid">
+                Save 
+            </md-button>
+            <md-button class="md-warn md-raised" href="/MunicipalFinancialProfile/Index">
+                Cancel
+            </md-button>
+        </div>
+
+    </md-container>
+
+    @*<div class="panel panel-info">
 
         <div class="panel-heading">
-            <h3><strong>Municipal Financial Profile</strong></h3>
+            <h4>Municipal Financial Profile</h4>
         </div>
 
         <md-content>
@@ -76,7 +170,7 @@
  
                 <!--VALIDATION: button Submit will be enabled only if the required fields are populated-->
                 <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!basicForm.$valid">
-                    Save Records
+                    Save Record
                 </md-button>
                 <md-button class="md-warn md-raised" href="/MunicipalFinancialProfile/Index">
                     Back to List
@@ -85,7 +179,7 @@
 
         </md-container>
 
-    </div>
+    </div>*@
 
 </div>
 
@@ -433,12 +527,7 @@
                                                                                                                                     
                                 $.post('/api/offline/v1/muni_financial_profile/save', $scope.data).success(function (data) {
                                         $scope.loading = false;
-                                        
-                                        $('html, body').animate({
-                                            scrollTop: '0px'
-                                        }, 1500);
-
-
+                                        $('html, body').animate({ scrollTop: '0px' }, 1500);
                                         $mdToast.show(
                                             $mdToast.simple()
                                             .textContent('Record Saved!')

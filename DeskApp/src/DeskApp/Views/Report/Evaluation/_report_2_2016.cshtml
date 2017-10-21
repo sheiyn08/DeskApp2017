@@ -1,0 +1,131 @@
+﻿<div class="panel panel-body">
+
+    <div class="col-md-12">
+        <h3>Municipal Talakayan Day Evaluation Report</h3>
+    </div>
+    <div class="col-md-12">
+        <h4>{{selected_report.Name}}</h4>
+        <br />
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <h5><strong>Region: {{selected_region.Name}}</strong></h5>
+        </div>
+        <div class="col-md-3">
+            <h5><strong>Province: {{selected_province.Name}}</strong></h5>
+        </div>
+        <div class="col-md-3">
+            <h5><strong>Municipality: {{selected_city.Name}}</strong></h5>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <br /><br />
+    </div>
+
+
+    <div class="row">
+
+    </div>
+
+    <div style="overflow:auto">
+
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    <strong>Region</strong>
+                </td>
+                <td>
+                    <strong>Province</strong>
+                </td>
+                <td>
+                    <strong>Municipality</strong>
+                </td>
+                <td>
+                    <strong>Talakayan Year</strong>
+                </td>
+                <td>
+                    <strong>Talakayan Date</strong>
+                </td>
+                <td>
+                    <strong>Participant Name</strong>
+                </td>
+                <td>
+                    <strong>Sex</strong>
+                </td>
+                <td>
+                    <strong>Comments or Suggestions</strong>
+                </td>                
+            </tr>
+            
+            <tr ng-repeat="item in list">
+                <td style="vertical-align:middle">
+                    {{item.region_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.province_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.city_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.talakayan_year == 1 ? "2015" : ""}}
+                    {{item.talakayan_year == 2 ? "2016" : ""}}
+                    {{item.talakayan_year == 3 ? "2017" : ""}}
+                    {{item.talakayan_year == 4 ? "2018" : ""}}
+                    {{item.talakayan_year == 5 ? "2019" : ""}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.talakayan_date | date:'MM/dd/yyyy'}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.participant_name == '' ? "N/A" : item.participant_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.sex == 'true' ? "Male" : "Female"}}
+                </td>  
+                <td style="vertical-align:middle">
+                    {{item.comment}}
+                </td>             
+            </tr>
+
+        </table>
+
+    </div>
+    <br /> <br />
+    <div class="row">
+        <div class="col-xs-6">
+            <label>Certified Correct By:</label>
+
+            <br />
+            <br />
+            <br />
+            {{prepared_by}}
+
+            Signature over Printed Name
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+    <div class="row">
+
+        <br />
+        <br />
+
+
+        <div class="col-xs-6">
+
+            Area Coordinator
+        </div>
+
+        <div class="col-xs-6">
+
+
+        </div>
+    </div>
+
+</div>

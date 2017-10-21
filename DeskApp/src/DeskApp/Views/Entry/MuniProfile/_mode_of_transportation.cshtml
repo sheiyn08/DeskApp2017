@@ -2,77 +2,84 @@
 <div class="panel panel-info">
     <div class="panel panel-heading">
         <h4>Mode of Transportation</h4>
-        
-        <p>@*What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?*@</p>
-    </div>
-    <div flex="100" layout="row" layout-margin layout-sm="column">
-        <div flex="50" flex-sm="100">
-
-        </div>
-        <div flex="50" flex-sm="100">
-
-            Name
-        </div>
-        <div flex="50" flex-sm="100">
-
-            Route
-        </div>
-        <div flex="50" flex-sm="100">
-            Minimum Fare
-        </div>
-        <div flex="50" flex-sm="100">
-            Maximum Fare
-        </div>
     </div>
 
-    <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="item in data.transportations">
-        <div flex="50" flex-sm="100">
-            <a class="btn btn-danger" ng-click="removeTranspo($index)"><i class="fa fa-trash"></i></a>
-        </div>
-        <div flex="50" flex-sm="100">
+    <div class="panel-body">
+        <form name="transpoForm">
 
-            {{item.name}}
-        </div>
-        <div flex="50" flex-sm="100">
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
 
-            {{item.destination}}
-        </div>
-        <div flex="50" flex-sm="100">
-            {{item.min}}
-        </div>
-        <div flex="50" flex-sm="100">
-            {{item.max}}
-        </div>
-
-    </div>
-
-    <form name="transpoForm">
-        <div flex="100" layout="row" layout-margin layout-sm="column">
-            <div flex="50" flex-sm="100">
-                <a class="btn btn-success" ng-disabled="!transpoForm.$valid" ng-click="addTranspo()"><i class="fa fa-plus"></i></a>
+                </div>
+                <div flex="50" flex-sm="100">
+                    Name
+                </div>
+                <div flex="50" flex-sm="100">
+                    Route
+                </div>
+                <div flex="50" flex-sm="100">
+                    Minimum Fare
+                </div>
+                <div flex="50" flex-sm="100">
+                    Maximum Fare
+                </div>
             </div>
-            <div flex="50" flex-sm="100">
 
-                <select name="city_cide" ng-model="transpo.name" id="city_code" class="form-control"
-                        ng-required="true"
-                       
-                        ng-options="option.Name as option.Name for option in transpo_mode_options">
+            <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="trans in data.transportations">
+                <div flex="50" flex-sm="100">
+                    <a class="btn btn-info" style="margin-right:5px" ng-click="transpo_edit_is_selected=true; editTranspo(trans)" ng-hide="transpo_edit_is_selected"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="removeTranspo($index)" ng-hide="transpo_edit_is_selected"><i class="fa fa-trash"></i></a>
 
+                    <a class="btn btn-success" style="margin-right:5px" ng-click="transpo_edit_is_selected=false; saveEditedTranspo(trans)" ng-show="transpo_edit_is_selected"><i class="fa fa-check"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditTranspo(trans); transpo_edit_is_selected=false" ng-show="transpo_edit_is_selected"><i class="fa fa-close"></i></a>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span ng-hide="transpo_edit_is_selected">{{trans.name}}</span>
+                    <select name="city_cide" ng-model="trans.name" id="city_code" class="form-control" ng-show="transpo_edit_is_selected"
+                            ng-required="true"
+                            ng-options="option.Name as option.Name for option in transpo_mode_options">
+                        <option value="">[Select Transportation Mode]</option>
+                    </select>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span ng-hide="transpo_edit_is_selected">{{trans.destination}}</span>
+                    <input ng-model="trans.destination" type="text" class="form-control" required ng-show="transpo_edit_is_selected"/>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span ng-hide="transpo_edit_is_selected">{{trans.min}}</span>
+                    <input ng-app-max="{{trans.max}}" ng-model="trans.min" type="number" class="form-control" required min="0" ng-show="transpo_edit_is_selected"/>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <span ng-hide="transpo_edit_is_selected">{{trans.max}}</span>
+                    <input ng-model="trans.max" type="number" class="form-control" required ng-app-min="{{trans.min}}" ng-show="transpo_edit_is_selected"/>
+                </div>
+            </div>
 
-                    <option value="">[Select Transportation Mode]</option>
-                </select>
+            @*THIS IS FOR NEW ENTRY:*@
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex="50" flex-sm="100">
+                    <a class="btn btn-success" ng-disabled="!transpoForm.$valid" ng-click="addTranspo()"><i class="fa fa-plus"></i></a>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <select name="city_cide" ng-model="trans.name" id="city_code" class="form-control"
+                            ng-required="true"
+                            ng-options="option.Name as option.Name for option in transpo_mode_options">
+                        <option value="">[Select Transportation Mode]</option>
+                    </select>
+                </div>
+                <div flex="50" flex-sm="100">
+                    <input ng-model="trans.destination" type="text" class="form-control" required />
+                </div>
+                <div flex="50" flex-sm="100">
+                    <input ng-app-max="{{trans.max}}" ng-model="trans.min" type="number" class="form-control" required min="0" />
+                </div>
+                <div flex="50" flex-sm="100">
+                    <input ng-model="trans.max" type="number" class="form-control" required ng-app-min="{{trans.min}}" />
+                </div>
             </div>
-            <div flex="50" flex-sm="100">
-                <input  ng-model="transpo.destination" type="text" class="form-control" required   />
-            </div>
-            <div flex="50" flex-sm="100">
-                <input ng-app-max="{{transpo.max}}" ng-model="transpo.min" type="number" class="form-control" required min="0" />
-            </div>
-            <div flex="50" flex-sm="100">
-                <input  ng-model="transpo.max" type="number" class="form-control" required min="0" />
-            </div>
-        </div>
-    </form>
+
+        </form>
+    </div>  
 
 
 

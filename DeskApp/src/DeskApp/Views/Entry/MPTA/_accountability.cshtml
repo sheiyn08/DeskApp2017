@@ -30,7 +30,7 @@
                         <md-datepicker ng-required="data.pta_resolution_no.length > 0"
                                        name="PTA Resolution Date" ng-model="dt_pta_approval_date" md-placeholder="Enter date"
                                        ng-change="data.pta_approval_date = dt_pta_approval_date.toISOString()" required
-                                       md-max-date="today"></md-datepicker>
+                                       md-min-date="minDate" md-max-date="today"></md-datepicker>
                     </div>
                 </div>
 
@@ -45,7 +45,7 @@
                         <md-datepicker ng-required="data.nga_resolution_no.length > 0"
                                        name="NGA Resolution Date" ng-model="dt_nga_approval_date" md-placeholder="Enter date"
                                        ng-change="data.nga_approval_date = dt_nga_approval_date.toISOString()" required
-                                       md-max-date="today"></md-datepicker>
+                                       md-min-date="minDate" md-max-date="today"></md-datepicker>
                     </div>
                 </div>
 
@@ -60,7 +60,7 @@
                         <md-datepicker ng-required="data.miac_resolution_no.length > 0"
                                        name="Formation of MIAC Date" ng-model="dt_miac_approval_date" md-placeholder="Enter date"
                                        ng-change="data.miac_approval_date = dt_miac_approval_date.toISOString()" required
-                                       md-max-date="today"></md-datepicker>
+                                       md-min-date="minDate" md-max-date="today"></md-datepicker>
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@
                         <md-datepicker ng-required="data.mct_resolution_no.length > 0"
                                        name="Formation of MCT Date" ng-model="dt_mct_approval_date" md-placeholder="Enter date"
                                        ng-change="data.mct_approval_date = dt_mct_approval_date.toISOString()" required
-                                       md-max-date="today"></md-datepicker>
+                                       md-min-date="minDate" md-max-date="today"></md-datepicker>
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@
                         <md-datepicker ng-required="data.ngopo_resolution_no.length > 0"
                                        name="NGO / Accreditation Date" ng-model="dt_ngopo_approval_date" md-placeholder="Enter date"
                                        ng-change="data.ngopo_approval_date = dt_ngopo_approval_date.toISOString()" required
-                                       md-max-date="today"></md-datepicker>
+                                       md-min-date="minDate" md-max-date="today"></md-datepicker>
                     </div>
                 </div>
 
@@ -105,7 +105,7 @@
                         <md-datepicker ng-required="data.gad_resolution_no.length > 0"
                                        name="BDP-MDP Date" ng-model="dt_gad_approval_date" md-placeholder="Enter date"
                                        ng-change="data.gad_approval_date = dt_gad_approval_date.toISOString()" required
-                                       md-max-date="today"></md-datepicker>
+                                       md-min-date="minDate" md-max-date="today"></md-datepicker>
                     </div>
                 </div>
 
@@ -120,7 +120,7 @@
                         <md-datepicker ng-required="data.mdcmem_resolution_no.length > 0"
                                        name="Municipal Reso expanding MDC Membership Date" ng-model="dt_mdcmem_approval_date" md-placeholder="Enter date"
                                        ng-change="data.mdcmem_approval_date = dt_mdcmem_approval_date.toISOString()" required
-                                       md-max-date="today"></md-datepicker>
+                                       md-min-date="minDate" md-max-date="today"></md-datepicker>
                     </div>
                 </div>
                 <div class="layout-row" layout-margin flex>
@@ -160,7 +160,7 @@
                         <md-datepicker ng-required="data.lcc_resolution_no.length > 0"
                                        name="LCC Resolution Date" ng-model="dt_lcc_approval_date" md-placeholder="Enter date"
                                        ng-change="data.lcc_approval_date = dt_lcc_approval_date.toISOString()" required
-                                       md-max-date="today"></md-datepicker>
+                                       md-min-date="minDate" md-max-date="today"></md-datepicker>
                     </div>
                 </div>
 
@@ -177,7 +177,7 @@
                         <md-datepicker ng-required="data.trust_account_no.length > 0"
                                        name="Trust Account Opened Date" ng-model="dt_trust_opened_date" md-placeholder="Enter date"
                                        ng-change="data.trust_opened_date = dt_trust_opened_date.toISOString()" required
-                                       md-max-date="today"></md-datepicker>
+                                       md-min-date="minDate" md-max-date="today"></md-datepicker>
                     </div>
                 </div>
             </form>
@@ -210,7 +210,7 @@
                         End-user
                     </div>
                     <div flex>
-                        Functionality
+                        Functional?
                     </div>
                 </div>
 
@@ -249,7 +249,7 @@
                     <div flex>
 
                         <md-datepicker ng-required="true" name="Date Provided" ng-model="equipment.date" md-placeholder="Enter date"
-                                       md-max-date="today" class="form-control"></md-datepicker>
+                                       md-min-date="minDate" md-max-date="today" class="form-control"></md-datepicker>
                     </div>
                     <div flex>
                         <input required type="text" name="Equipment Name" ng-model="equipment.enduser" class="form-control" />
@@ -257,14 +257,14 @@
                     <div flex>
                         <md-radio-group ng-required="true" ng-model="equipment.functionality">
                             <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="false"> No </md-radio-button>
+                            <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                         </md-radio-group>
 
                     </div>
                 </div>
                 <br /><br />
-
+            </form>
                 @*------------------------ Office and Staffing ---------------------*@
                 <h4 style="color:dodgerblue">Office and Staffing</h4>
                 <md-divider></md-divider>
@@ -305,7 +305,7 @@
                 </div>
 
 
-            </form>
+            
            
 
 

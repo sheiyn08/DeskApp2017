@@ -58,7 +58,7 @@ namespace DeskApp.DataLayer
     public class lib_grs_nature
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int grs_nature_id { get; set; }
+        public int grs_nature_id { get; set; }   
         public string name { get; set; }
         public string description { get; set; }
         public bool? is_active { get; set; }

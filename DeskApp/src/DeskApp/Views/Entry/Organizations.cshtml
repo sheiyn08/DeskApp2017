@@ -150,18 +150,18 @@
 
                             <div flex flex-sm="100">
 
-                                <label for="Region:_">Fund Source</label>
+                                <label for="Region:_">Project</label>
                             </div>
 
                             <div flex flex-sm="100">
 
 
 
-                                <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
+                                <select name="Project" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
                                         ng-disabled="status"
                                         required
                                         ng-options="option.Id as option.Name for option in fund_source_id_options">
-                                    <option value="">[Select Fund Source]</option>
+                                    <option value="">[Select Project]</option>
                                 </select>
 
 
@@ -205,6 +205,39 @@
                                         ng-options="option.Id as option.Name for option in enrollment_id_options">
                                     <option value="">[Select KC Mode]</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label>Incentives (Tier-2)?</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_incentive" id="is_incentive" name="is_incentive">
+                                    {{ data.is_incentive == true ? "Yes" : "" }}
+                                </md-checkbox>
+                            </div>
+                        </div>
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label>From Savings?</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_savings" id="is_savings" name="is_savings">
+                                    {{ data.is_savings == true ? "Yes" : "" }}
+                                </md-checkbox>
+                            </div>
+                        </div>
+
+                        <div flex="100" layout="row" layout-margin layout-sm="row">
+                            <div flex flex-sm="100">
+                                <label>LGU-led?</label>
+                            </div>
+                            <div flex flex-sm="100">
+                                <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_lgu_led" id="is_lgu_led" name="is_lgu_led">
+                                    {{ data.is_lgu_led == true ? "Yes" : "" }}
+                                </md-checkbox>
                             </div>
                         </div>
 
@@ -254,7 +287,7 @@
                             <div flex flex-sm="100">
                                 <md-radio-group name="Is Operation and Maintainance" ng-required="true" ng-model="data.is_onm">
                                     <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                                    <md-radio-button data-ng-value="false"> No </md-radio-button>
+                                    <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                                 </md-radio-group>
 
@@ -270,7 +303,7 @@
                             <div flex flex-sm="100">
                                 <md-radio-group name="Registered?" ng-required="true" ng-model="data.is_formal">
                                     <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                                    <md-radio-button data-ng-value="false"> No </md-radio-button>
+                                    <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                                 </md-radio-group>
 
@@ -285,7 +318,7 @@
                             <div flex flex-sm="100">
                                 <md-radio-group name="Is LGU Accredited" ng-required="true" ng-model="data.is_lgu_accredited">
                                     <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                                    <md-radio-button data-ng-value="false"> No </md-radio-button>
+                                    <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                                 </md-radio-group>
 
@@ -312,7 +345,7 @@
                             <div flex flex-sm="100">
                                 <md-radio-group name="Is Active?" ng-required="true" ng-model="data.is_active">
                                     <md-radio-button data-ng-value="true" class="md-primary">Active</md-radio-button>
-                                    <md-radio-button data-ng-value="false"> Inactive </md-radio-button>
+                                    <md-radio-button data-ng-value="false" class="md-primary"> Inactive </md-radio-button>
 
                                 </md-radio-group>
 
@@ -339,7 +372,7 @@
                             </div>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_academe" aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_academe" aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -349,7 +382,7 @@
                             <md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_business " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_business " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -358,7 +391,7 @@
                             </div><md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_pwd " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_pwd " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -368,7 +401,7 @@
                             <md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_farmer " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_farmer " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -377,7 +410,7 @@
                             </div><md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_fisherfolks " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_fisherfolks " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -386,7 +419,7 @@
                             </div><md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_government " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_government " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -395,7 +428,7 @@
                             </div><md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_ip " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_ip " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -404,7 +437,7 @@
                             </div><md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_ngo " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_ngo " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -413,7 +446,7 @@
                             </div><md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_po " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_po " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -422,7 +455,7 @@
                             </div><md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_religios " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_religios " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -431,7 +464,7 @@
                             </div><md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_senior" aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_senior" aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -440,7 +473,7 @@
                             </div><md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_women " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_women " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -449,7 +482,7 @@
                             </div><md-divider></md-divider>
                             <div layout="row" layout-margin flex="100">
                                 <div flex>
-                                    <md-checkbox ng-model="data.is_sector_youth " aria-label="Checkbox 1">
+                                    <md-checkbox ng-model="data.is_sector_youth " aria-label="Checkbox 1"  class="md-primary">
                                     </md-checkbox>
                                 </div>
                                 <div flex>
@@ -523,7 +556,7 @@
 
 
                 <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid">
-                    Save Record
+                    Save 
                 </md-button>
 
                 <md-button class="md-warn md-raised" ng-click="cancel()">
@@ -683,13 +716,10 @@
 
               //ATTACHMENTS
 
-
               $http.get('/api/attachment_list?id=80')
               .then(function (response) {
-
                   $scope.attachment_list = response.data;
               });
-
 
               $scope.attached_documents = [];
               $scope.attachment = {};
@@ -698,7 +728,6 @@
               $scope.uploadAttachment = function () {
 
                   $.blockUI({ message: '<br>Processing...<br><br>' });
-
                   var fileUpload = $("#files").get(0);
                   var files = fileUpload.files;
                   var data = new FormData();
@@ -706,27 +735,18 @@
                       data.append(files[i].name, files[i]);
                   }
 
-
-
-
                   $.ajax({
                       type: "POST",
                       url: "/Mov/UploadFilesAjax?id="
                           + '@ViewBag.id'
                           + "&mov_list_id=" + $scope.attachment.mov_list_id
-
-
-                         + "&region_code=" + $scope.data.region_code
-                         + "&prov_code=" + $scope.data.prov_code
-                              + "&city_code=" + $scope.data.city_code
-                              + "&brgy_code=" + $scope.data.brgy_code
-
-                         + "&fund_source_id=" + $scope.data.fund_source_id
-                              + "&cycle_id=" + $scope.data.cycle_id
-                           + "&enrollment_id=" + $scope.data.enrollment_id,
-
-
-
+                          + "&region_code=" + $scope.data.region_code
+                          + "&prov_code=" + $scope.data.prov_code
+                          + "&city_code=" + $scope.data.city_code
+                          + "&brgy_code=" + $scope.data.brgy_code
+                          + "&fund_source_id=" + $scope.data.fund_source_id
+                          + "&cycle_id=" + $scope.data.cycle_id
+                          + "&enrollment_id=" + $scope.data.enrollment_id,
                       contentType: false,
                       processData: false,
                       data: data,
@@ -734,10 +754,9 @@
                           var base = window.location.origin;
 
                           message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
-
                           $scope.attached_documents.push(message);
                           $scope.attachment = {};
-                          setTimeout($.unblockUI, 3);
+                          setTimeout($.unblockUI, 5);
                           angular.element("input[type='file']").val(null);
                       },
                       error: function (message) {
@@ -745,58 +764,33 @@
                       }
                   });
 
-
-              }
-
+              } //end of uploadAttachment function
+              
               $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
                  .success(function (value) {
-
-
                      $scope.attached_documents = value;
-
                      angular.forEach($scope.attached_documents, function (item) {
                          var base = window.location.origin;
-
                          item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
-
-
                      })
-
                  });
 
-
-
-
               $scope.deleteMov = function (removeitem) {
-
-
-
                   var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
-
-
                   if (ask == true) {
                       $.post('/api/delete/attached_document?id=' + removeitem.attached_document_id).success(function (value) {
                           $scope.loading = false;
-
-
-
+                          //$scope.check_button_is_disabled = false;
                           var index = $scope.attached_documents.indexOf(removeitem);
                           $scope.attached_documents.splice(index, 1);
-
-
-                          alert("Record removed!")
+                          alert("Attachment removed!")
 
                       }).error(function (data) {
-
                           alert(JSON.stringify(data));
-
-
                           $scope.error = "An Error has occured while Deleting! " + data.statusText;
                           $scope.loading = false;
                       });
-
                   }
-
               }
               //END ATTACHMENTS
 
@@ -812,18 +806,13 @@
 
                   $.post('/api/offline/v1/community_organization/save', $scope.data).success(function (data) {
                       $scope.loading = false;
-
-
-                      $('html, body').animate({
-                          scrollTop: '0px'
-                      }, 1500);
-
+                      $('html, body').animate({ scrollTop: '0px' }, 1500);
                       $mdToast.show(
-                      $mdToast.simple()
-                        .textContent('Record Saved!')
-                        .position("top right")
-                        .hideDelay(3000)
-                    );
+                          $mdToast.simple()
+                          .textContent('Record Saved!')
+                          .position("top right")
+                          .hideDelay(3000)
+                      );
 
                       $scope.check_status();
 

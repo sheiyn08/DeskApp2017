@@ -5,124 +5,124 @@
 
     </div>
 
+    <div class="panel-body">
+        <form name="brgyProjForm">
 
-    <div class="layout-row" layout-margin flex>
-        <div flex>
+            <div class="layout-row" layout-margin flex>
+                <div flex>
 
-        </div>
-        <div flex>
-            Project
-        </div>
-        <div flex>
-            Location
-        </div>
-        <div flex>
-            Scope / Coverage / Physical Target
-        </div>
-        <div flex>
-            Cost of Project
-        </div>
-        <div flex>
-            Source of Funds
-        </div>
-        <div flex>
-            Cost Sharing (%)
-        </div>
-        <div flex>
-            Male Beneficiaries
-        </div>
-        <div flex>
-            Female Beneficiaries
-        </div>
+                </div>
+                <div flex>
+                    Project
+                </div>
+                <div flex>
+                    Location
+                </div>
+                <div flex>
+                    Scope / Coverage / Physical Target
+                </div>
+                <div flex>
+                    Cost of Project
+                </div>
+                <div flex>
+                    Source of Funds
+                </div>
+                <div flex>
+                    Cost Sharing (%)
+                </div>
+                <div flex>
+                    Male Beneficiaries
+                </div>
+                <div flex>
+                    Female Beneficiaries
+                </div>
+            </div>
+
+            <div class="layout-row" layout-margin flex ng-repeat="proj in data.brgy_project">
+                <div flex>
+                    <a class="btn btn-info" style="margin-right:5px" ng-click="brgy_proj_edit_is_selected=true; editBrgyProject(proj)" ng-hide="brgy_proj_edit_is_selected"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="removeBrgyProject($index)" ng-hide="brgy_proj_edit_is_selected"><i class="fa fa-trash"></i></a>
+
+                    <a class="btn btn-success" style="margin-right:5px" ng-click="brgy_proj_edit_is_selected=false; saveEditedBrgyProject(proj)" ng-show="brgy_proj_edit_is_selected"><i class="fa fa-check"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditBrgyProject(proj); brgy_proj_edit_is_selected=false" ng-show="brgy_proj_edit_is_selected"><i class="fa fa-close"></i></a>
+                </div>
+                <div flex>
+                    <span ng-hide="brgy_proj_edit_is_selected">{{proj.name}}</span>
+                    <input type="text" required name="Name" ng-model="proj.name" class="form-control" ng-show="brgy_proj_edit_is_selected"/>
+                </div>
+                <div flex>
+                    <span ng-hide="brgy_proj_edit_is_selected">{{proj.location}}</span>
+                    <input type="text" required name="Location" ng-model="proj.location" class="form-control" ng-show="brgy_proj_edit_is_selected"/>
+                </div>
+                <div flex>
+                    <span ng-hide="brgy_proj_edit_is_selected">{{proj.scope}}</span>
+                    <input type="text" required name="Scope" ng-model="proj.scope" class="form-control" ng-show="brgy_proj_edit_is_selected" />
+                </div>
+
+                <div flex>
+                    <span ng-hide="brgy_proj_edit_is_selected">{{proj.cost}}</span>
+                    <input type="number" required name="Cost" ng-model="proj.cost" class="form-control" min="0" ng-show="brgy_proj_edit_is_selected" />
+                </div>
+                <div flex>
+                    <span ng-hide="brgy_proj_edit_is_selected">{{proj.source}}</span>
+                    <select name="Source" ng-model="proj.source" id="prov_code" class="form-control" ng-show="brgy_proj_edit_is_selected"
+                            ng-required="true"
+                            ng-options="option for option in brgy_project_options">
+                        <option value="">[Select Source]</option>
+                    </select>
+                </div>
+                <div flex>
+                    <span ng-hide="brgy_proj_edit_is_selected">{{proj.sharing}}</span>
+                    <input type="number" required name="Sharing" ng-model="proj.sharing" class="form-control" min="0" max="100" ng-show="brgy_proj_edit_is_selected"/>
+                </div>
+                <div flex>
+                    <span ng-hide="brgy_proj_edit_is_selected">{{proj.male}}</span>
+                    <input type="number" required name="Total Male" ng-model="proj.male" class="form-control" ng-show="brgy_proj_edit_is_selected" />
+                </div>
+                <div flex>
+                    <span ng-hide="brgy_proj_edit_is_selected">{{proj.female}}</span>
+                    <input type="number" required name="Total Female" ng-model="proj.female" class="form-control" ng-show="brgy_proj_edit_is_selected" />
+                </div>
+            </div>
+
+            @*THIS IS FOR NEW ENTRY:*@
+            <div class="layout-row" layout-margin flex md-padding>
+                <div flex>
+                    <a class="btn btn-success" ng-click="addBrgyProject()" ng-disabled="!brgyProjForm.$valid"><i class="fa fa-plus"></i></a>
+                </div>
+                <div flex>
+                    <input type="text" required name="Name" ng-model="proj.name" class="form-control" />
+                </div>
+                <div flex>
+                    <input type="text" required name="Location" ng-model="proj.location" class="form-control" />
+                </div>
+                <div flex>
+                    <input type="text" required name="Scope" ng-model="proj.scope" class="form-control" />
+                </div>
+                <div flex>
+                    <input type="number" required name="Cost" ng-model="proj.cost" class="form-control" min="0" />
+                </div>
+                <div flex>
+                    <select name="Province" ng-model="proj.source" id="prov_code" class="form-control"
+                            ng-required="true"
+                            ng-options="option for option in brgy_project_options">
+                        <option value="">[Select Source]</option>
+                    </select>
+                </div>
+                <div flex>
+                    <input type="number" required name="Sharing" ng-model="proj.sharing" class="form-control" min="0" max="100" />
+                </div>
+                <div flex>
+                    <input type="number" required name="Total Male" ng-model="proj.male" class="form-control" />
+                </div>
+                <div flex>
+                    <input type="number" required name="Total Female" ng-model="proj.female" class="form-control" />
+                </div>
+            </div>
+
+        </form>
     </div>
 
-
-    <div class="layout-row" layout-margin flex ng-repeat="equip in data.brgy_project">
-
-        <div flex>
-            <a class="btn btn-danger" ng-click="removeBrgyProject($index)"><i class="fa fa-trash"></i></a>
-        </div>
-        <div flex>
-            {{equip.name}}
-        </div>
-        <div flex>
-            {{equip.location}}
-        </div>
-        <div flex>
-            {{equip.scope}}
-        </div>
-
-        <div flex>
-            {{equip.cost}}
-        </div>
-        <div flex>
-            {{equip.source}}
-        </div>
-        <div flex>
-            {{equip.sharing}}
-        </div>
-        <div flex>
-            {{equip.male}}
-        </div>
-        <div flex>
-            {{equip.female}}
-        </div>
-    </div>
-
-    <form name="brgyProjForm">
-        <div class="layout-row" layout-margin flex md-padding>
-            <div flex>
-                <a class="btn btn-success" ng-click="addBrgyProject()" ng-disabled="!brgyProjForm.$valid"><i class="fa fa-plus"></i></a>
-            </div>
-            <div flex>
-
-                <input type="text" required name="Name" ng-model="proj.name" class="form-control" />
-
-            </div>
-
-            <div flex>
-
-                <input type="text" required name="Location" ng-model="proj.location" class="form-control" />
-
-            </div>
-
-            <div flex>
-
-                <input type="text" required name="Scope" ng-model="proj.scope" class="form-control" />
-
-            </div>
-
-            <div flex>
-
-                <input type="text" required name="Cost" ng-model="proj.cost" class="form-control" />
-
-            </div>
-            <div flex>
-               
-
-
-                <select name="Province" ng-model="proj.source" id="prov_code" class="form-control"
-                        
-                        ng-required="true"
-                        ng-options="option for option in brgy_project_options">
-                    <option value="">[Select Source]</option>
-                </select>
-
-
-            </div>
-           
-            <div flex>
-                <input type="number" required name="Sharing" ng-model="proj.sharing" class="form-control" />
-            </div>
-            <div flex>
-                <input type="number" required name="Total Male" ng-model="proj.male" class="form-control" />
-            </div>
-            <div flex>
-                <input type="number" required name="Total Female" ng-model="proj.female" class="form-control" />
-            </div>
-
-        </div>
-    </form>
 
 
 </div>

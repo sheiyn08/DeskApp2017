@@ -32,6 +32,7 @@ namespace DeskApp.Controllers
     {
 
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -435,9 +436,57 @@ namespace DeskApp.Controllers
                 {
                     list = list.Where(x => x.resolution_date <= model.resolved_date);
                 }
-
-
             }
+
+
+            //v3.0 additional filters:
+            if (model.is_incentive != null)
+            {
+                if (model.is_incentive == true)
+                {
+                    list = list.Where(x => x.is_incentive == true);
+                }
+                else
+                {
+                    list = list.Where(x => x.is_incentive != true);
+                }
+            }
+            if (model.is_savings != null)
+            {
+                if (model.is_savings == true)
+                {
+                    list = list.Where(x => x.is_savings == true);
+                }
+                else
+                {
+                    list = list.Where(x => x.is_savings != true);
+                }
+            }
+            if (model.is_lgu_led != null)
+            {
+                if (model.is_lgu_led == true)
+                {
+                    list = list.Where(x => x.is_lgu_led == true);
+                }
+                else
+                {
+                    list = list.Where(x => x.is_lgu_led != true);
+                }
+            }
+            if (model.is_unauthorized != null)
+            {
+                if (model.is_unauthorized == true)
+                {
+                    list = list.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    list = list.Where(m => m.push_status_id != 4);
+                }
+            }
+
+
+
             #endregion
 
             return list;

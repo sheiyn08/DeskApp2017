@@ -3,7 +3,7 @@
 @if (User.Identity.IsAuthenticated)
 {
 <li><a href="@Url.Action("Index", "Sync")"><i class='fa fa-database'></i> <span>Update Library</span></a></li>
-<li><a href="@Url.Action("OTS", "Sync")"><i class='fa fa-database'></i> <span>OTS</span></a></li>
+@*<li><a href="@Url.Action("OTS", "Sync")"><i class='fa fa-database'></i> <span>OTS</span></a></li>*@
 
 <li class="treeview">
     <a href="#">
@@ -46,9 +46,9 @@
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu" style="display: none;">
-                <li><a href="@Url.Action("Index", "PerceptionSurvey")"><i class="fa fa-circle-o"></i> Perception Survey</a></li>
-                <li><a href="@Url.Action("Index", "TalakayanEvaluation")"><i class="fa fa-circle-o"></i> Talakayan Evaluation</a></li>
-                <li><a href="@Url.Action("Index", "MunicipalFinancialProfile")"><i class="fa fa-circle-o"></i> Municipal Financial Profile</a></li>
+                <li><a href="@Url.Action("Index", "PerceptionSurvey")"><i class="fa fa-circle-o"></i>Perception Survey</a></li>
+                <li><a href="@Url.Action("Index", "TalakayanEvaluation")"><i class="fa fa-circle-o"></i>Municipal Talakayan Day <br />&emsp;&emsp;Evaluation</a></li>
+                <li><a href="@Url.Action("Index", "MunicipalFinancialProfile")"><i class="fa fa-circle-o"></i>Municipal Financial Profile</a></li>
             </ul>
         </li>
 

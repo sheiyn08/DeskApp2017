@@ -13,78 +13,42 @@
     <md-content>
 
 
-        <div ng-show="!isSearching">
-            <table class="table zui-table zui-table-horizontal zui-table-highlight">
-                <thead class="thead-inverse">
-                    <tr>
-                        <th></th>
-
-
-
-
-                        <th>
-                            Sender
-                        </th>
-
-                        <th>
-                            Details
-                        </th>
-
-
-
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in Items">
-
-                        <td>
-                            <a ng-href="/Entry/Grievances?id={{item.grievance_record_id}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
-                            @if (!User.IsInRole("RMES"))
-                            {
-
-                                <a ng-click="delete_pincos(item)" class="btn btn-warning"><span data-toggle='tooltip' title='Delete Record' class='glyphicon glyphicon-trash'></span></a>
-
-                            }
-                        </td>
-
-
-
-                        <td>
-
-                            {{item.sender_name}}
-
-                        </td>
-                        <td>
-
-                            {{item.details}}
-
-                        </td>
-
-
-
-
-
-                    </tr>
-                </tbody>
-
-            </table>
+        <div ng-hide="add_pincos">
+            <div class="panel panel-body">
+                <div flex="100" layout="row" layout-margin layout-sm="column">
+                    <div flex="20" flex-sm="100">
+                    </div>
+                    <div flex="30" flex-sm="100">
+                        <label>Sender</label>
+                    </div>
+                    <div flex="50" flex-sm="100">
+                        <label>Details</label>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+                <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="item in Items">
+                    <div flex="20" flex-sm="100">
+                        <a ng-href="/Entry/Grievances?id={{item.grievance_record_id}}" title='Edit Record' class="btn btn-info"><i class="fa fa-edit"></i></a>
+                        @if (!User.IsInRole("RMES"))
+                        {
+                            <a ng-click="delete_pincos(item)" title='Delete Record' class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                        }
+                    </div>
+                    <div flex="30" flex-sm="100">
+                        {{item.sender_name}}
+                    </div>
+                    <div flex="50" flex-sm="100">
+                        {{item.details}}
+                    </div>
+                </div> 
+            </div>
         </div>
 
-    </md-content>
-
-
-
-
-
-
-    <md-content ng-show="!add_pincos">
-
-
-        <md-button class="md-primary md-raised" ng-click="addPincos()">
-            Add PINCOs / Grievance
-        </md-button>
-
+        <div ng-show="!add_pincos" style="padding:20px">
+            <md-button class="md-primary md-raised" ng-click="addPincos()">
+                Add PINCOs / Grievance
+            </md-button>
+        </div>
 
     </md-content>
 
@@ -97,7 +61,7 @@
             <div class="panel panel-info">
 
                 <div class="panel-heading">
-                    <h4>General Information</h4>
+                    <h4>Basic Details</h4>
 
                 </div>
                 <div class="panel-body">
@@ -164,12 +128,12 @@
 
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12" ng-show="data.grs_resolution_status_id == 1">
                             <div class="col-md-4">
                                 <label>                                Feedback</label>
                             </div>
 
-                            <div class="col-md-4" ng-show="data.grs_resolution_status_id == 1">
+                            <div class="col-md-4">
 
                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                     <select name="grs_feedback_id" ng-model="data.grs_feedback_id" id="region_code" class="form-control"
@@ -196,7 +160,7 @@
             <div class="panel panel-info">
 
                 <div class="panel-heading">
-                    <h4>I. Complainants/Sender/Observers's Information</h4>
+                    <h4>I. Complainant/Sender/Observer's Information</h4>
 
                 </div>
 
@@ -469,7 +433,7 @@
                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                     <md-input-container class="md-block">
 
-                                        <textarea name="details" required ng-model="data.details" md-maxlength="2000" rows="150" md-select-on-focus=""></textarea>
+                                        <textarea name="details" required ng-model="data.details" md-maxlength="2000" rows="150" md-select-on-focus="" aria-label="Details"></textarea>
                                     </md-input-container>
 
                                 </div>
@@ -491,7 +455,7 @@
                                 <div class="form-group" show-errors='{showSuccess: true}'>
                                     <md-input-container class="md-block">
 
-                                        <textarea name="actions" required ng-model="data.actions" md-maxlength="2000" rows="150" md-select-on-focus=""></textarea>
+                                        <textarea name="actions" required ng-model="data.actions" md-maxlength="2000" rows="150" md-select-on-focus="" aria-label="Actions"></textarea>
                                     </md-input-container>
 
                                 </div>
@@ -500,17 +464,6 @@
 
                         </div>
                     </div>
-                </div>
-
-            </div>
-
-
-
-            <div class="panel panel-info">
-
-                <div class="panel-heading">
-                    <h4>Details of Concern (if PINCOS, indicate if Community and / or Operation and Management Concern):</h4>
-
                 </div>
 
                 <div class="panel-body">
@@ -530,10 +483,8 @@
                     </div>
                 </div>
 
-
             </div>
-
-
+            
 
 
 

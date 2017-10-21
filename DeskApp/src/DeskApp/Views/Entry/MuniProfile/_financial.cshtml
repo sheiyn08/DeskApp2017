@@ -2,7 +2,8 @@
 <div class="panel panel-info">
     <div class="panel panel-heading">
         <h4>Financial Source</h4>
-        <p>What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?</p>
+        <p ng-show="data.profile_=='brgy'">          What is the total annual budget of the barangay? How much was the IRA in the previous year? What are other sources of funds of the barangay?</p>
+        <p ng-show="data.profile_=='muni'">          What is the total annual budget of the municipality? How much was the IRA in the previous year? What are other sources of funds of the municipality?</p>
     </div>
 
     <div class="panel-body">
@@ -260,7 +261,8 @@
 <div class="panel panel-info">
     <div class="panel panel-heading">
         <h4>GAD Utilization</h4>
-        <p>How was GAD Fund utilized by the municipality?</p>
+        <p ng-show="data.profile_=='brgy'">          How was GAD Fund utilized by the barangay?</p>
+        <p ng-show="data.profile_=='muni'">          How was GAD Fund utilized by the municipality?</p>
     </div>
 
     <div class="panel-body">
@@ -328,7 +330,8 @@
 <div class="panel panel-info">
     <div class="panel panel-heading">
         <h4>DRRM Utilization</h4>
-        <p>How was DRRM Fund utilized by the municipality?</p>
+        <p ng-show="data.profile_=='brgy'">          How was DRRM Fund utilized by the barangay?</p>
+        <p ng-show="data.profile_=='muni'">          How was DRRM Fund utilized by the municipality?</p>
     </div>
 
     <div class="panel-body">

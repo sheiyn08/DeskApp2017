@@ -45,12 +45,12 @@
 <md-container layout="row">
     <div flex="100" layout="row" layout-margin layout-sm="column">
         <div flex="25" flex-sm="100">
-            <label for="FundSource:_">Fund Source</label>
-            <select name="Fund Source" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
+            <label for="FundSource:_">Project</label>
+            <select name="Project" ng-model="data.fund_source_id" id="fund_source_id" class="form-control"
                     ng-required="true"
                     ng-disabled="status"
                     ng-options="option.Id as option.Name for option in fund_source_id_options">
-                <option value="">[Select Fund Source]</option>
+                <option value="">[Select Project]</option>
             </select>
         </div>
         <div flex="25" flex-sm="100">

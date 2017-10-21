@@ -22,6 +22,7 @@ namespace DeskApp.Controllers
     public class CeacController : Controller
     {
         public static string url = @"http://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -348,6 +349,53 @@ namespace DeskApp.Controllers
                 model = model.Where(m => m.cycle_id == item.cycle_id);
             }
 
+            //v3.0 additional filters:
+            if (item.is_incentive != null)
+            {
+                if (item.is_incentive == true)
+                {
+                    model = model.Where(m => m.is_incentive == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_incentive != true);
+                }
+            }
+            if (item.is_savings != null)
+            {
+                if (item.is_savings == true)
+                {
+                    model = model.Where(m => m.is_savings == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_savings != true);
+                }
+            }
+            if (item.is_lgu_led != null)
+            {
+                if (item.is_lgu_led == true)
+                {
+                    model = model.Where(m => m.is_lgu_led == true);
+                }
+                else
+                {
+                    model = model.Where(m => m.is_lgu_led != true);
+                }
+            }
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+                else
+                {
+                    model = model.Where(m => m.push_status_id != 4);
+                }
+            }
+            
+
             #endregion
 
             return model;
@@ -426,7 +474,31 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/main/ceac")]
         public IActionResult getmain(Guid id)
         {
-            return Ok(db.ceac_list.Find(id));
+            var model = db.ceac_list.FirstOrDefault(x => x.ceac_list_id == id);
+
+            if (model == null)
+            {
+                var item = new ceac_list();
+                item.ceac_list_id = id;
+                item.push_status_id = 3;
+                item.created_by = 0;
+                item.created_date = DateTime.Now;
+                item.approval_id = 3;
+                item.is_deleted = false;
+                model = item;
+            }
+            else
+            {
+                model.push_status_id = 3;
+                model.last_modified_by = 0;
+                model.last_modified_date = DateTime.Now;
+                model.approval_id = 3;
+            }
+
+            return Ok(model);
+
+
+            //return Ok(db.ceac_list.Find(id));
         }
         
         [HttpPost]
@@ -518,7 +590,7 @@ namespace DeskApp.Controllers
             var totalCount = model.Where(x => x.push_status_id != 1 && (x.push_status_id == 2 && x.is_deleted != true)).Count();
             int currPages = item.currPage ?? 0;
             int size = item.pageSize ?? 10;
-            
+
             return new PagedCollection<dynamic>()
             {
                 Page = currPages,
@@ -526,7 +598,7 @@ namespace DeskApp.Controllers
                 TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
                 TotalSync = model.Where(x => x.push_status_id != 1 && (x.push_status_id == 2 && x.is_deleted != true)).Count(),
                 TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
-                
+
                 Items = model
                            .Include(x => x.lib_fund_source)
                            .Include(x => x.lib_cycle)
@@ -565,7 +637,7 @@ namespace DeskApp.Controllers
                 TotalCount = totalCount,
                 TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
                 TotalSync = model.Where(x => x.push_status_id != 1 && ((x.push_status_id == 2 || x.push_status_id == 3) && x.is_deleted != true)).Count(),
-            TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
+                TotalUnAuthorized = model.Where(x => x.push_status_id == 4 && x.is_deleted != true).Count(),
 
                 Items = model
                            .Include(x => x.lib_fund_source)
@@ -588,7 +660,6 @@ namespace DeskApp.Controllers
                            .Skip(currPages * size).Take(size).ToList(),
             };
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -826,6 +897,7 @@ namespace DeskApp.Controllers
                 model.created_date = DateTime.Now;
                 model.approval_id = 3;
                 model.is_deleted = false;
+                model.push_status_id = 2;
 
                 db.ceac_list.Add(model);
 

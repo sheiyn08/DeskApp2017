@@ -33,407 +33,496 @@
 </style>
 
 
-<div class="panel panel-success"> <!--PARENT-->
+<div class="panel panel-info"> <!--PARENT-->
     <div class="panel panel-heading">
-        <h3>Municipal Talakayan Day Evaluation Form 2015 Version</h3><br />
-        <h5>We would like to solicit your feedback on the conduct of the Municipal Talakayan. Please select the item that corresponds to your answer.</h5>
+        <h4>Municipal Talakayan Day Evaluation Form 2015 Version</h4>
+        <h5><i>We would like to solicit your feedback on the conduct of the Municipal Talakayan. Please select the item that corresponds to your answer.</i></h5>
     </div>
 
     <div class="panel panel-body">
-        <!--PARENT BODY-->
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4>I. Objectives of the Municipal Talakayan</h4>
-            </div>
+
+        <md-content>
+            <h4 style="color:dodgerblue">I. Objectives of the Municipal Talakayan</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="row">
-                    <div class="col-md-8">
-                        <label>1.1  Were the objectives fully explained?</label>
+                    <div class="col-md-7">
+                        <label>1.1&emsp;Were the objectives fully explained?</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_obj_a" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_obj_a != null" ng-click="data.v2015_obj_a=null"></i>
                     </div>
                 </div>
                 <div class="row">
                     <br />
-                    <div class="col-md-8">
-                        <label>1.2  To what extent were the objectives attained?</label>
+                    <div class="col-md-7">
+                        <label>1.2&emsp;To what extent were the objectives attained?</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_obj_b">
                             <md-radio-button data-ng-value="1" class="md-primary">Fully (Minor deficiencies, if any)</md-radio-button>
-                            <md-radio-button data-ng-value="2">Partially (Some factors preventing full achievement)</md-radio-button>
-                            <md-radio-button data-ng-value="3">Hardly at all</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">Partially (Some factors preventing full achievement)</md-radio-button>
+                            <md-radio-button data-ng-value="3" class="md-primary">Hardly at all</md-radio-button>
                         </md-radio-group>
                     </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_obj_b != null" ng-click="data.v2015_obj_b=null"></i>
+                    </div>
                 </div>
-            </div> <!--end of I. body-->
-        </div> <!--end of panel-info-->
-
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4>II. Time Allotment</h4>
             </div>
+        </md-content>
+
+        <md-content>
+            <h4 style="color:dodgerblue">II. Time Allotment</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="row">
                     <div class="col-md-8">
-                        <label>2.1 Was time alloted to the different activities sufficient?</label>
+                        <label>2.1&emsp;Was time alloted to the different activities sufficient?</label>
                     </div>
                 </div>  <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 1: Presentation of the Municipal Profile and Development Status of the Municipality</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 1:&emsp;Presentation of the Municipal Profile and Development Status of the Municipality</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_timeallotment_a_part1" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_timeallotment_a_part1 != null" ng-click="data.v2015_timeallotment_a_part1=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 2: Presentation of Summary of Needs, Interventions (including KC), and Gaps</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 2:&emsp;Presentation of Summary of Needs, Interventions (including KC), and Gaps</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_timeallotment_a_part2" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_timeallotment_a_part2 != null" ng-click="data.v2015_timeallotment_a_part2=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 3: Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 3:&emsp;Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_timeallotment_a_part3" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_timeallotment_a_part3 != null" ng-click="data.v2015_timeallotment_a_part3=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 4: Gallery Walk</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 4:&emsp;Gallery Walk</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_timeallotment_a_part4" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_timeallotment_a_part4 != null" ng-click="data.v2015_timeallotment_a_part4=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 5: Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 5:&emsp;Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">  
                         <md-radio-group required ng-model="data.v2015_timeallotment_a_part5" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_timeallotment_a_part5 != null" ng-click="data.v2015_timeallotment_a_part5=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
                     <div class="col-md-8">
-                        <label>2.2 Which part(s) would you have given more/less time?</label>
+                        <label>2.2&emsp;Which part(s) would you have given more/less time?</label>
                     </div>
                 </div>  <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 1: Presentation of the Municipal Profile and Development Status of the Municipality</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 1:&emsp;Presentation of the Municipal Profile and Development Status of the Municipality</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_timeallotment_b_part1" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">More</md-radio-button>
-                            <md-radio-button data-ng-value="2">Less</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">Less</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_timeallotment_b_part1 != null" ng-click="data.v2015_timeallotment_b_part1=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 2: Presentation of Summary of Needs, Interventions (including KC), and Gaps</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 2:&emsp;Presentation of Summary of Needs, Interventions (including KC), and Gaps</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_timeallotment_b_part2" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">More</md-radio-button>
-                            <md-radio-button data-ng-value="2">Less</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">Less</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_timeallotment_b_part2 != null" ng-click="data.v2015_timeallotment_b_part2=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 3: Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 3:&emsp;Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_timeallotment_b_part3" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">More</md-radio-button>
-                            <md-radio-button data-ng-value="2">Less</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">Less</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_timeallotment_b_part3 != null" ng-click="data.v2015_timeallotment_b_part3=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 4: Gallery Walk</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 4:&emsp;Gallery Walk</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_timeallotment_b_part4" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">More</md-radio-button>
-                            <md-radio-button data-ng-value="2">Less</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">Less</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_timeallotment_b_part4 != null" ng-click="data.v2015_timeallotment_b_part4=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 5: Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 5:&emsp;Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_timeallotment_b_part5" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">More</md-radio-button>
-                            <md-radio-button data-ng-value="2">Less</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">Less</md-radio-button>
                         </md-radio-group>
                     </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_timeallotment_b_part5 != null" ng-click="data.v2015_timeallotment_b_part5=null"></i>
+                    </div>
                 </div>
-            </div> <!--end of II. body-->
-        </div>  <!--end of panel-info-->
-
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4>III. Parts of the Municipal Talakayan</h4>
             </div>
+        </md-content>
+
+        <md-content>
+            <h4 style="color:dodgerblue">III. Parts of the Municipal Talakayan</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <label>3.1 In your opinion, did the following parts contributed to meeting the objectives of the Municipal Talakayan?</label>
+                        <label>3.1&emsp;In your opinion, did the following parts contributed to meeting the objectives of the Municipal Talakayan?</label>
                     </div>
                 </div>  <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 1: Presentation of the Municipal Profile and Development Status of the Municipality</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 1:&emsp;Presentation of the Municipal Profile and Development Status of the Municipality</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_partsoftalakayan_part1" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_partsoftalakayan_part1 != null" ng-click="data.v2015_partsoftalakayan_part1=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 2: Presentation of Summary of Needs, Interventions (including KC), and Gaps</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 2:&emsp;Presentation of Summary of Needs, Interventions (including KC), and Gaps</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_partsoftalakayan_part2" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_partsoftalakayan_part2 != null" ng-click="data.v2015_partsoftalakayan_part2=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 3: Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 3:&emsp;Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_partsoftalakayan_part3" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_partsoftalakayan_part3 != null" ng-click="data.v2015_partsoftalakayan_part3=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 4: Gallery Walk</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 4:&emsp;Gallery Walk</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_partsoftalakayan_part4" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_partsoftalakayan_part4 != null" ng-click="data.v2015_partsoftalakayan_part4=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">Part 5: Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">Part 5:&emsp;Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_partsoftalakayan_part5" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_partsoftalakayan_part5 != null" ng-click="data.v2015_partsoftalakayan_part5=null"></i>
                     </div>
                 </div> <br />
-            </div> <!--end of III. body-->
-        </div>  <!--end of panel-info-->
-
-
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4>IV. Evaluation of the team that conducted the Municipal Talakayan</h4>
             </div>
+        </md-content>
+
+        <md-content>
+            <h4 style="color:dodgerblue">IV. Evaluation of the team that conducted the Municipal Talakayan</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="row">
-                    <div class="col-md-8">
-                        <label>4.1 Please evaluate the whole teams' effectiveness in the conduct of the different parts of the Municipal Talakayan</label>
+                    <div class="col-md-7">
+                        <label>4.1&emsp;Please evaluate the whole teams' effectiveness in the conduct of the different parts of the Municipal Talakayan</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_evaluation_a">
                             <md-radio-button data-ng-value="5" class="md-primary">Excellent</md-radio-button>
-                            <md-radio-button data-ng-value="4">Very Good</md-radio-button>
-                            <md-radio-button data-ng-value="3">Good</md-radio-button>
-                            <md-radio-button data-ng-value="2">Poor</md-radio-button>
-                            <md-radio-button data-ng-value="1">Very Poor</md-radio-button>
+                            <md-radio-button data-ng-value="4" class="md-primary">Very Good</md-radio-button>
+                            <md-radio-button data-ng-value="3" class="md-primary">Good</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">Poor</md-radio-button>
+                            <md-radio-button data-ng-value="1" class="md-primary">Very Poor</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_evaluation_a != null" ng-click="data.v2015_evaluation_a=null"></i>
                     </div>
                 </div><br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label>4.2 Any special concern regarding the team that you want to bring to our attention?</label>
+                    <div class="col-md-7">
+                        <label>4.2&emsp;Any special concern regarding the team that you want to bring to our attention?</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <textarea name="special_concern" class="form-control" ng-model="data.v2015_evaluation_b"></textarea>
                     </div>
                 </div>
-            </div> <!--end of IV. body-->
-        </div>  <!--end of panel-info-->
-
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4>V. Venue and Visual Aids</h4>
             </div>
+        </md-content>
+
+        <md-content>
+            <h4 style="color:dodgerblue">V. Venue and Visual Aids</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <label>5.1 Venue is...</label>
+                        <label>5.1&emsp;Venue is...</label>
                     </div>
                 </div>  <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">A. Clean</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">A.&emsp;Clean</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_venue_a" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_venue_a != null" ng-click="data.v2015_venue_a=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">B. Well-ventilated</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">B.&emsp;Well-ventilated</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_venue_b" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_venue_b != null" ng-click="data.v2015_venue_b=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">C. Spacious</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">C.&emsp;Spacious</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_venue_c" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_venue_c != null" ng-click="data.v2015_venue_c=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">D. Well-lighted</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">D.&emsp;Well-lighted</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_venue_d" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_venue_d != null" ng-click="data.v2015_venue_d=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">E. Equipped with good sound system</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">E.&emsp;Equipped with good sound system</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_venue_e" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_venue_e != null" ng-click="data.v2015_venue_e=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
                     <div class="col-md-12">
-                        <label>5.2 Visual Aids in the presentation are...</label>
+                        <label>5.2&emsp;Visual Aids in the presentation are...</label>
                     </div>
                 </div>  <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">A. Sufficient</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">A.&emsp;Sufficient</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_visual_a" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_visual_a != null" ng-click="data.v2015_visual_a=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">B. Easily read from where I am seated</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">B.&emsp;Easily read from where I am seated</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_visual_b" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_visual_b != null" ng-click="data.v2015_visual_b=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">C. Informative</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">C.&emsp;Informative</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_visual_c" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_visual_c != null" ng-click="data.v2015_visual_c=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">D. Attractive</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">D.&emsp;Attractive</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_visual_d" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_visual_d != null" ng-click="data.v2015_visual_d=null"></i>
                     </div>
                 </div> <br />
                 <div class="row">
-                    <div class="col-md-8">
-                        <label style="padding-left:25px">E. Easy to understand</label>
+                    <div class="col-md-7">
+                        <label style="padding-left:35px">E.&emsp;Easy to understand</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <md-radio-group required ng-model="data.v2015_visual_e" layout="row">
                             <md-radio-button data-ng-value="1" class="md-primary">Yes</md-radio-button>
-                            <md-radio-button data-ng-value="2">No</md-radio-button>
+                            <md-radio-button data-ng-value="2" class="md-primary">No</md-radio-button>
                         </md-radio-group>
                     </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_visual_e != null" ng-click="data.v2015_visual_e=null"></i>
+                    </div>
                 </div> <br />
-            </div> <!--end of V. body-->
-        </div>  <!--end of panel-info-->
-
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4>VI. Level of satisfaction with the different aspects of the Municipal Talakayan</h4>
-                <h5>Select the number that corresponds to the extent you have been satisfied with the following aspects of the Municipal Talakayan. Please give your remarks corresponding to aspects with which you were "Dissatisfied" and "Very Satisfied".
-                    <br /><br /><strong> 4 - Very Satisfied &emsp;&emsp; 2 - Dissatisified <br /> 3 - Satisfied &emsp;&emsp;&emsp;&emsp;&nbsp; 1 - Very Dissatisfied</strong></h5>
             </div>
+        </md-content>
+
+        <md-content>
+            <h4 style="color:dodgerblue">VI. Level of satisfaction with the different aspects of the Municipal Talakayan</h4>
+            <h5 style="color:dodgerblue">Select the number that corresponds to the extent you have been satisfied with the following aspects of the Municipal Talakayan. Please give your remarks corresponding to aspects with which you were "Dissatisfied" and "Very Satisfied".
+                                        <br /><br /><strong> 4 - Very Satisfied &emsp;&emsp; 2 - Dissatisified <br /> 3 - Satisfied &emsp;&emsp;&emsp;&emsp;&nbsp; 1 - Very Dissatisfied</strong></h5>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
             <div class="panel panel-body">
                 <table class="table zui-table zui-table-horizontal zui-table-highlight">
                     <colgroup>
@@ -460,17 +549,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>A. Knowledge gained</label>
+                                    <label>A.&emsp;Knowledge gained</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_a" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_a != null" ng-click="data.v2015_satisfaction_a=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -482,17 +574,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>B. Overall Content</label>
+                                    <label>B.&emsp;Overall Content</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_b" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_b != null" ng-click="data.v2015_satisfaction_b=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -504,17 +599,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>C. Competency of the Facilitators</label>
+                                    <label>C.&emsp;Competency of the Facilitators</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_c" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_c != null" ng-click="data.v2015_satisfaction_c=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -526,17 +624,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>D. Schedule of different parts of the Municipal Talakayan</label>
+                                    <label>D.&emsp;Schedule of different parts of the Municipal Talakayan</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_d" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_d != null" ng-click="data.v2015_satisfaction_d=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -548,17 +649,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>E. Part 1: Presentation of the Municipal Profile and Development Status of the Municipality</label>
+                                    <label>E.&emsp;Part 1: Presentation of the Municipal Profile and Development Status of the Municipality</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_e" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_e != null" ng-click="data.v2015_satisfaction_e=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -570,17 +674,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>F. Part 2: Presentation of Summary of Needs, Interventions (including KC), and Gaps</label>
+                                    <label>F.&emsp;Part 2: Presentation of Summary of Needs, Interventions (including KC), and Gaps</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_f" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_f != null" ng-click="data.v2015_satisfaction_f=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -592,17 +699,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>G. Part 3: Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
+                                    <label>G.&emsp;Part 3: Presentation of the Municipal Development Agenda - Plans and Activities for the coming year</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_g" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_g != null" ng-click="data.v2015_satisfaction_g=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -614,17 +724,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>H. Part 4: Gallery Walk</label>
+                                    <label>H.&emsp;Part 4: Gallery Walk</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_h" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_h != null" ng-click="data.v2015_satisfaction_h=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -636,17 +749,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>I. Part 5: Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
+                                    <label>I.&emsp;Part 5: Talakayan Synthesis, Next Steps, Participants' and Evaluation of the Municipal Talakayan</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_i" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_i != null" ng-click="data.v2015_satisfaction_i=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -658,17 +774,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>J. Venue</label>
+                                    <label>J.&emsp;Venue</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_j" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_j != null" ng-click="data.v2015_satisfaction_j=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -680,17 +799,20 @@
                         <tr>
                             <td>
                                 <div>
-                                    <label>K. Overall satisfaction on the Municipal Talakayan</label>
+                                    <label>K.&emsp;Overall satisfaction on the Municipal Talakayan</label>
                                 </div>
                             </td>
                             <td>
-                                <div class="col-md-8">
+                                <div class="col-md-9">
                                     <md-radio-group required ng-model="data.v2015_satisfaction_k" layout="row">
                                         <md-radio-button data-ng-value="4" class="md-primary">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="3">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="2">&emsp;&emsp;</md-radio-button>
-                                        <md-radio-button data-ng-value="1">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="3" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="2" class="md-primary">&emsp;&emsp;</md-radio-button>
+                                        <md-radio-button data-ng-value="1" class="md-primary">&emsp;&emsp;</md-radio-button>
                                     </md-radio-group>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fa fa-undo" aria-hidden="true" ng-show="data.v2015_satisfaction_k != null" ng-click="data.v2015_satisfaction_k=null"></i>
                                 </div>
                             </td>
                             <td>
@@ -699,33 +821,13 @@
                                 </div>
                             </td>
                         </tr>
-                        
+
                     </tbody>
 
                 </table>
-            </div> <!--end of VI. body-->
-        </div>  <!--end of panel-info-->
+            </div>
+        </md-content>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     </div> <!--end of PARENT panel body-->
-        </div> <!--end of PARENT panel-->
+</div> <!--end of PARENT panel-->

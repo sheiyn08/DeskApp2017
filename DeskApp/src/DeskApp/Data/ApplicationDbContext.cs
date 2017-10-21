@@ -236,6 +236,17 @@ namespace DeskApp.Data
         public DbSet<lib_project_type> lib_project_type { get; set; }
         public DbSet<lib_major_classification> lib_major_classification { get; set; }
         public DbSet<lib_physical_status> lib_physical_status { get; set; }
+
+        //new table for v3.0:
+        public DbSet<sub_project_spcf> sub_project_spcf { get; set; }
+        public DbSet<sub_project_reference_table> sub_project_reference_table { get; set; }
+        public DbSet<spi_multiple_sp> spi_multiple_sp { get; set; }
+        public DbSet<spi_multiple_variation_date> spi_multiple_variation_date { get; set; }
+
+        public DbSet<act_accomplishment_report> act_accomplishment_report { get; set; }
+        public DbSet<lib_mode> lib_mode { get; set; }
+
+
         //public DbSet<sub_project_physical_target> sub_project_physical_target { get; set; }
         //public DbSet<lib_project_type_measure> lib_project_type_measure { get; set; }
         //public DbSet<lib_physical_target_description> lib_physical_target_description { get; set; }

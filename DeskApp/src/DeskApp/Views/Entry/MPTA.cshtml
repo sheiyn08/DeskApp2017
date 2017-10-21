@@ -155,7 +155,7 @@
                 <div flex="100" layout="row" layout-margin layout-sm="column">
 
                     <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || !moaForm.$valid || !transparencyForm.$valid || !representationForm.$valid">
-                        Save Record
+                        Save
                     </md-button>
 
                     <md-button class="md-warn md-raised" href="/View/MPTA">
@@ -196,6 +196,7 @@
 
 
               $scope.data = response.data;
+              $scope.minDate = new Date("07/01/2014");
               $scope.today = new Date();
 
               $scope.dt_date_intake = new Date(response.data.date_intake);
@@ -511,16 +512,13 @@
 
                   $.post('/api/offline/v1/mpta/save', $scope.data).success(function (data) {
                       $scope.loading = false;
-                      $('html, body').animate({
-                          scrollTop: '0px'
-                      }, 1500);
-
+                      $('html, body').animate({ scrollTop: '0px' }, 1500);
                       $mdToast.show(
-                                      $mdToast.simple()
-                                      .textContent('Record Saved!')
-                                      .position("top right")
-                                      .hideDelay(5000)
-                                  );
+                          $mdToast.simple()
+                          .textContent('Record Saved!')
+                          .position("top right")
+                          .hideDelay(3000)
+                      );
                       $scope.check_status();
 
 

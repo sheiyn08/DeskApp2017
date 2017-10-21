@@ -1,151 +1,145 @@
-﻿<div class="panel panel-info">
-    <div class="panel panel-heading">
-        <h4>Trust and Confidence on Officials</h4>
-    </div>
+﻿
+
+<md-content>
+    <h4 style="color:dodgerblue">Trust and Confidence on Officials</h4>
+    <md-divider></md-divider>
+    <md-divider></md-divider>
+    <md-divider></md-divider>
     <div class="panel panel-body">
         <div class="row" ng-hide="data.year != 2016">
             <div class="col-md-8">
-                <label style="padding-right:25px">Barangay residents believe that our local officials are working for the benefit of our barangay.</label>
+                <label style="padding-right:25px">A.&emsp;Barangay residents believe that our local officials are working for the benefit of our barangay.</label>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.trust_1" class="form-control"
-                        ng-required="data.year == 2015"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.trust_1" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
-                </md-radio-group>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
+                </md-radio-group>                
+            </div>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.trust_1 != null" ng-click="data.trust_1=null"></i>
             </div>
         </div>
-        <div class="row" ng-hide="data.year != 2015"> <br />
+        <div class="row" ng-hide="data.year != 2015">
+            <br />
             <div class="col-md-8">
-                <label style="padding-right:25px">The community trusts the local officials in planning, implementation, monitoring and reporting of programs and projects for the community.</label>
+                <label style="padding-right:25px">A.&emsp;The community trusts the local officials in planning, implementation, monitoring and reporting of programs and projects for the community.</label>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.trust_2" class="form-control"
-                        ng-required="data.year == 2016"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.trust_2" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div> 
-        <div class="row" ng-hide="data.year != 2016"> <br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">Local officials are not fair in dealing with the people.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.trust_2 != null" ng-click="data.trust_2=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.trust_3" class="form-control"
-                        ng-required="data.year == 2015"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row" ng-hide="data.year != 2016">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">B.&emsp;Local officials are not fair in dealing with the people.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.trust_3" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div> 
-        <div class="row" ng-hide="data.year != 2015"> <br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">Local officials are fair in dealing with the people.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.trust_3 != null" ng-click="data.trust_3=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.trust_4" class="form-control"
-                        ng-required="data.year == 2016"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row" ng-hide="data.year != 2015">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">B.&emsp;Local officials are fair in dealing with the people.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.trust_4" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div> 
-        <div class="row"> <br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">Barangay officials regularly meet with the community.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.trust_4 != null" ng-click="data.trust_4=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.trust_5" class="form-control"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">C.&emsp;Barangay officials regularly meet with the community.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.trust_5" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div>
-        <div class="row"> <br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">Municipal officials regularly meet with the community.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.trust_5 != null" ng-click="data.trust_5=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.trust_6" class="form-control"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">D.&emsp;Municipal officials regularly meet with the community.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.trust_6" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
-        </div>
-        <div class="row" ng-hide="data.year != 2015"> <br />
-            <div class="col-md-8">
-                <label style="padding-right:25px">I trust the local officials in planning, implementation, monitoring and reporting of programs and projects for the barangay.</label>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.trust_6 != null" ng-click="data.trust_6=null"></i>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.trust_7" class="form-control"
-                        ng-required="data.year == 2016"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+        </div>
+        <div class="row" ng-hide="data.year != 2015">
+            <br />
+            <div class="col-md-8">
+                <label style="padding-right:25px">E.&emsp;I trust the local officials in planning, implementation, monitoring and reporting of programs and projects for the barangay.</label>
+            </div>
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.trust_7" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
+            </div>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.trust_7 != null" ng-click="data.trust_7=null"></i>
             </div>
         </div>
-        <div class="row" ng-hide="data.year != 2016"> <br />
+        <div class="row" ng-hide="data.year != 2016">
+            <br />
             <div class="col-md-8">
-                <label style="padding-right:25px">I don't believe that the local officials are working for the benefit of our barangay.</label>
+                <label style="padding-right:25px">E.&emsp;I don't believe that the local officials are working for the benefit of our barangay.</label>
             </div>
-            <div class="col-md-4">
-                @*<select ng-model="data.trust_8" class="form-control"
-                        ng-required="data.year == 2015"
-                        ng-options="option.Id as option.Name for option in survey_option_answer_id">
-                    <option value="">[Select Rating]</option>
-                </select>*@
+            <div class="col-md-3">
                 <md-radio-group required ng-model="data.trust_8" layout="row">
                     <md-radio-button data-ng-value="1" class="md-primary">1</md-radio-button>
-                    <md-radio-button data-ng-value="2">2</md-radio-button>
-                    <md-radio-button data-ng-value="3">3</md-radio-button>
-                    <md-radio-button data-ng-value="4">4</md-radio-button>
+                    <md-radio-button data-ng-value="2" class="md-primary">2</md-radio-button>
+                    <md-radio-button data-ng-value="3" class="md-primary">3</md-radio-button>
+                    <md-radio-button data-ng-value="4" class="md-primary">4</md-radio-button>
                 </md-radio-group>
             </div>
+            <div class="col-md-1">
+                <i class="fa fa-undo" aria-hidden="true" ng-show="data.trust_8 != null" ng-click="data.trust_8=null"></i>
+            </div>
         </div> <br />
-
-    </div> <!--end of panel body-->
-
-</div> <!--end of panel-->
+    </div>
+</md-content>

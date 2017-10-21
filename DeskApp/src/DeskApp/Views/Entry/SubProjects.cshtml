@@ -248,7 +248,10 @@
 
 
         <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!phyAccForm.$valid || !detailsForm.$valid">
-            Save Record
+            Save
+        </md-button>
+        <md-button class="md-warn md-raised" ng-click="cancel()">
+            Cancel
         </md-button>
 
     </md-content>
@@ -274,6 +277,11 @@
 
 
                     $scope.lib_project_type = {};
+
+                    $scope._fund_source_id_options = [{ "Id": 1, "Name": "ADB" }, { "Id": 2, "Name": "WB" }];
+                    $scope.mode_id_options = [{ "Id": 1, "Name": "CDD-LPP" }, { "Id": 2, "Name": "DROP" }, { "Id": 3, "Name": "Regular" }];
+                    $scope.mode_id_non_ncddp_options = [{ "Id": 1, "Name": "Regular" }];
+
 
 
                     $scope.variation_order_options = ["Change Order", "Variation Order", "Additional Changes"];
@@ -366,6 +374,7 @@
 
 
                     $scope.data = {};
+                    $scope.is_paired;
 
 
                     $scope.SaveCoverage = function(member) {
@@ -409,7 +418,21 @@
 
                             $scope.data = response.data;
 
-                            
+
+
+                            //10-19-17: check to get is_paired status:
+                            $http.post('/api/offline/v1/sub_projects/check_pairing_status?sub_project_unique_id=' + $scope.data.sub_project_unique_id + "&sub_project_id=" + $scope.data.sub_project_id)
+                                    .success(function (result) {
+                                        $scope.pairing_result = result;
+
+                                        if ($scope.pairing_result == true) {
+                                            $scope.is_paired = true;
+                                        }
+                                        else {
+                                            $scope.is_paired = false;
+                                        }
+                                    });
+
 
 
 
@@ -572,6 +595,10 @@
 
                   }
 
+                  else {
+                      return false;
+                  }
+
               }
               //END ATTACHMENTS
 
@@ -580,6 +607,19 @@
                             $scope.data.resume_order_lists = [];
                             $scope.data.variation_order_lists = [];
                             $scope.data.community_formation_lists = [];
+
+                            if ($scope.data.suspension_order_list != null) {
+                                $scope.data.suspension_order_lists = JSON.parse($scope.data.suspension_order_list);
+                            }
+                            if ($scope.data.resume_order_list != null) {
+                                $scope.data.resume_order_lists = JSON.parse($scope.data.resume_order_list);
+                            }
+                            if ($scope.data.variation_order_list != null) {
+                                $scope.data.variation_order_lists = JSON.parse($scope.data.variation_order_list);
+                            }
+                            if ($scope.data.community_formation_list != null) {
+                                $scope.data.community_formation_lists = JSON.parse($scope.data.community_formation_list);
+                            }
 
 
                             $scope.data.region_code = $scope.data.region_code == 0 ? "" : $scope.data.region_code;
@@ -731,22 +771,14 @@
 
 
 
-                            if ($scope.data.suspension_order_list != null) {
-                                $scope.data.suspension_order_lists = JSON.parse($scope.data.suspension_order_list);
-                            }
+                            //if ($scope.data.suspension_order_list != null) {
+                            //    $scope.data.suspension_order_lists = JSON.parse($scope.data.suspension_order_list);
+                            //}
 
 
-                            if ($scope.data.resume_order_list != null) {
-                                $scope.data.resume_order_lists = JSON.parse($scope.data.resume_order_list);
-                            }
 
-                            if ($scope.data.variation_order_list != null) {
-                                $scope.data.variation_order_lists = JSON.parse($scope.data.variation_order_list);
-                            }
 
-                            if ($scope.data.community_formation_list != null) {
-                                $scope.data.community_formation_lists = JSON.parse($scope.data.community_formation_list);
-                            }
+
 
 
                             $scope.$watchGroup(['data.brgy_code', 'data.modality_id', 'data.cycle_id'], function (newValues, oldValues, scope) {
@@ -769,289 +801,6 @@
 
 
 
-                            $scope.data.spcr = [];
-
-                            $scope.pow_total = function ()
-                            {
-
-                                return     ($scope.data.spcr.pow_cdd_cost == undefined ? 0 :  $scope.data.spcr.pow_cdd_cost)
-                                        + ($scope.data.spcr.pow_male_cost == undefined ? 0 :  $scope.data.spcr.pow_male_cost)
-                                        + ($scope.data.spcr.pow_female_cost== undefined ? 0 :  $scope.data.spcr.pow_female_cost)
-                                + ($scope.data.spcr.pow_blgu_cost == undefined ? 0 :  $scope.data.spcr.pow_blgu_cost)
-                                + ($scope.data.spcr.pow_mlgu_cost == undefined ? 0 :  $scope.data.spcr.pow_mlgu_cost)
-                                + ($scope.data.spcr.pow_plgu_cost == undefined ? 0 :  $scope.data.spcr.pow_plgu_cost)
-                                + ($scope.data.spcr.pow_others_cost== undefined ? 0 :  $scope.data.spcr.pow_others_cost);
-
-                            }
-
-
-
-                            $scope.women_total = function ()
-                            {
-
-                                return     ($scope.data.spcr.women_cdd_cost == undefined ? 0 :  $scope.data.spcr.women_cdd_cost)
-                                        + ($scope.data.spcr.women_male_cost == undefined ? 0 :  $scope.data.spcr.women_male_cost)
-                                        + ($scope.data.spcr.women_female_cost== undefined ? 0 :  $scope.data.spcr.women_female_cost)
-                                + ($scope.data.spcr.women_blgu_cost == undefined ? 0 :  $scope.data.spcr.women_blgu_cost)
-                                + ($scope.data.spcr.women_mlgu_cost == undefined ? 0 :  $scope.data.spcr.women_mlgu_cost)
-                                + ($scope.data.spcr.women_plgu_cost == undefined ? 0 :  $scope.data.spcr.women_plgu_cost)
-                                + ($scope.data.spcr.women_others_cost== undefined ? 0 :  $scope.data.spcr.women_others_cost);
-
-                            }
-
-
-                            $scope.training_total = function ()
-                            {
-
-                                return     ($scope.data.spcr.training_cdd_cost == undefined ? 0 :  $scope.data.spcr.training_cdd_cost)
-                                        + ($scope.data.spcr.training_male_cost == undefined ? 0 :  $scope.data.spcr.training_male_cost)
-                                        + ($scope.data.spcr.training_female_cost== undefined ? 0 :  $scope.data.spcr.training_female_cost)
-                                + ($scope.data.spcr.training_blgu_cost == undefined ? 0 :  $scope.data.spcr.training_blgu_cost)
-                                + ($scope.data.spcr.training_mlgu_cost == undefined ? 0 :  $scope.data.spcr.training_mlgu_cost)
-                                + ($scope.data.spcr.training_plgu_cost == undefined ? 0 :  $scope.data.spcr.training_plgu_cost)
-                                + ($scope.data.spcr.training_others_cost== undefined ? 0 :  $scope.data.spcr.training_others_cost);
-
-                            }
-
-                            $scope.management_total = function ()
-                            {
-
-                                return      ($scope.data.spcr.management_cdd_cost == undefined ? 0 :  $scope.data.spcr.management_cdd_cost)
-                                        + ($scope.data.spcr.management_male_cost == undefined ? 0 :  $scope.data.spcr.management_male_cost)
-                                        + ($scope.data.spcr.management_female_cost== undefined ? 0 :  $scope.data.spcr.management_female_cost)
-                                + ($scope.data.spcr.management_blgu_cost == undefined ? 0 :  $scope.data.spcr.management_blgu_cost)
-                                + ($scope.data.spcr.management_mlgu_cost == undefined ? 0 :  $scope.data.spcr.management_mlgu_cost)
-                                + ($scope.data.spcr.management_plgu_cost == undefined ? 0 :  $scope.data.spcr.management_plgu_cost)
-                                + ($scope.data.spcr.management_others_cost== undefined ? 0 :  $scope.data.spcr.management_others_cost);
-
-                            }
-
-
-                            $scope.others_total = function ()
-                            {
-
-
-                                return      ($scope.data.spcr.others_cdd_cost == undefined ? 0 :  $scope.data.spcr.others_cdd_cost)
-                                   + ($scope.data.spcr.others_male_cost == undefined ? 0 :  $scope.data.spcr.others_male_cost)
-                                   + ($scope.data.spcr.others_female_cost== undefined ? 0 :  $scope.data.spcr.others_female_cost)
-                           + ($scope.data.spcr.others_blgu_cost == undefined ? 0 :  $scope.data.spcr.others_blgu_cost)
-                           + ($scope.data.spcr.others_mlgu_cost == undefined ? 0 :  $scope.data.spcr.others_mlgu_cost)
-                           + ($scope.data.spcr.others_plgu_cost == undefined ? 0 :  $scope.data.spcr.others_plgu_cost)
-                           + ($scope.data.spcr.others_others_cost== undefined ? 0 :  $scope.data.spcr.others_others_cost);
-
-                            }
-
-
-
-
-                            $scope.pow_total_lcc = function ()
-                            {
-
-                                return     ($scope.data.spcr.pow_male_cost == undefined ? 0 :  $scope.data.spcr.pow_male_cost)
-                                        + ($scope.data.spcr.pow_female_cost== undefined ? 0 :  $scope.data.spcr.pow_female_cost)
-                                + ($scope.data.spcr.pow_blgu_cost == undefined ? 0 :  $scope.data.spcr.pow_blgu_cost)
-                                + ($scope.data.spcr.pow_mlgu_cost == undefined ? 0 :  $scope.data.spcr.pow_mlgu_cost)
-                                + ($scope.data.spcr.pow_plgu_cost == undefined ? 0 :  $scope.data.spcr.pow_plgu_cost)
-                                + ($scope.data.spcr.pow_others_cost== undefined ? 0 :  $scope.data.spcr.pow_others_cost);
-
-                            }
-
-
-
-                            $scope.women_total_lcc = function ()
-                            {
-
-                                return    ($scope.data.spcr.women_male_cost == undefined ? 0 :  $scope.data.spcr.women_male_cost)
-                                        + ($scope.data.spcr.women_female_cost== undefined ? 0 :  $scope.data.spcr.women_female_cost)
-                                + ($scope.data.spcr.women_blgu_cost == undefined ? 0 :  $scope.data.spcr.women_blgu_cost)
-                                + ($scope.data.spcr.women_mlgu_cost == undefined ? 0 :  $scope.data.spcr.women_mlgu_cost)
-                                + ($scope.data.spcr.women_plgu_cost == undefined ? 0 :  $scope.data.spcr.women_plgu_cost)
-                                + ($scope.data.spcr.women_others_cost== undefined ? 0 :  $scope.data.spcr.women_others_cost);
-
-                            }
-
-
-                            $scope.training_total_lcc = function ()
-                            {
-
-                                return    ($scope.data.spcr.training_male_cost == undefined ? 0 :  $scope.data.spcr.training_male_cost)
-                                        + ($scope.data.spcr.training_female_cost== undefined ? 0 :  $scope.data.spcr.training_female_cost)
-                                + ($scope.data.spcr.training_blgu_cost == undefined ? 0 :  $scope.data.spcr.training_blgu_cost)
-                                + ($scope.data.spcr.training_mlgu_cost == undefined ? 0 :  $scope.data.spcr.training_mlgu_cost)
-                                + ($scope.data.spcr.training_plgu_cost == undefined ? 0 :  $scope.data.spcr.training_plgu_cost)
-                                + ($scope.data.spcr.training_others_cost== undefined ? 0 :  $scope.data.spcr.training_others_cost);
-
-                            }
-
-                            $scope.management_total_lcc = function ()
-                            {
-
-                                return     ($scope.data.spcr.management_male_cost == undefined ? 0 :  $scope.data.spcr.management_male_cost)
-                                        + ($scope.data.spcr.management_female_cost== undefined ? 0 :  $scope.data.spcr.management_female_cost)
-                                + ($scope.data.spcr.management_blgu_cost == undefined ? 0 :  $scope.data.spcr.management_blgu_cost)
-                                + ($scope.data.spcr.management_mlgu_cost == undefined ? 0 :  $scope.data.spcr.management_mlgu_cost)
-                                + ($scope.data.spcr.management_plgu_cost == undefined ? 0 :  $scope.data.spcr.management_plgu_cost)
-                                + ($scope.data.spcr.management_others_cost== undefined ? 0 :  $scope.data.spcr.management_others_cost);
-
-                            }
-
-
-                            $scope.others_total_lcc = function ()
-                            {
-
-                                return    ($scope.data.spcr.others_male_cost == undefined ? 0 :  $scope.data.spcr.others_male_cost)
-                                        + ($scope.data.spcr.others_female_cost== undefined ? 0 :  $scope.data.spcr.others_female_cost)
-                                + ($scope.data.spcr.others_blgu_cost == undefined ? 0 :  $scope.data.spcr.others_blgu_cost)
-                                + ($scope.data.spcr.others_mlgu_cost == undefined ? 0 :  $scope.data.spcr.others_mlgu_cost)
-                                + ($scope.data.spcr.others_plgu_cost == undefined ? 0 :  $scope.data.spcr.others_plgu_cost)
-                                + ($scope.data.spcr.others_others_cost== undefined ? 0 :  $scope.data.spcr.others_others_cost);
-
-                            }
-
-
-                            $scope.grand_total = function()
-                            {
-
-                                return   $scope.pow_total() + $scope.training_total() + $scope.women_total() + $scope.management_total() + $scope.others_total();
-                            }
-
-                            $scope.grand_total_lcc = function()
-                            {
-
-                                return   $scope.pow_total_lcc() + $scope.training_total_lcc() + $scope.women_total_lcc() + $scope.management_total_lcc() + $scope.others_total_lcc();
-                            }
-
-                            $scope.grand_total_lcc_perc = function()
-                            {
-                                return (100* $scope.grand_total_lcc() / $scope.grand_total()).toFixed(2);
-
-                            }
-
-                            $scope.cdd_total = function ()
-                            {
-
-                                return        ($scope.data.spcr.pow_cdd_cost == undefined ? 0 :  $scope.data.spcr.pow_cdd_cost)
-                                          +   ($scope.data.spcr.training_cdd_cost == undefined ? 0 :  $scope.data.spcr.training_cdd_cost)
-                                          +   ($scope.data.spcr.management_cdd_cost == undefined ? 0 :  $scope.data.spcr.management_cdd_cost)
-
-                                          +   ($scope.data.spcr.women_cdd_cost == undefined ? 0 :  $scope.data.spcr.women_cdd_cost)
-                                          +   ($scope.data.spcr.others_cdd_cost == undefined ? 0 :  $scope.data.spcr.others_cdd_cost)
-                            }
-
-                            $scope.cdd_perc = function()
-                            {
-                                return (100* $scope.cdd_total() / $scope.grand_total()).toFixed(2);
-
-                            }
-
-
-                            $scope.men_total = function ()
-                            {
-
-                                return        ($scope.data.spcr.pow_male_cost == undefined ? 0 :  $scope.data.spcr.pow_male_cost)
-                                         +   ($scope.data.spcr.training_male_cost == undefined ? 0 :  $scope.data.spcr.training_male_cost)
-                                         +   ($scope.data.spcr.management_male_cost == undefined ? 0 :  $scope.data.spcr.management_male_cost)
-
-                                         +   ($scope.data.spcr.women_male_cost == undefined ? 0 :  $scope.data.spcr.women_male_cost)
-                                         +   ($scope.data.spcr.others_male_cost == undefined ? 0 :  $scope.data.spcr.others_male_cost)
-                            }
-
-                            $scope.men_perc = function()
-                            {
-
-
-                                return (100* $scope.men_total() / $scope.grand_total()).toFixed(2);
-
-                            }
-
-                            $scope.female_total = function ()
-                            {
-
-                                return        ($scope.data.spcr.pow_female_cost == undefined ? 0 :  $scope.data.spcr.pow_female_cost)
-                                          +   ($scope.data.spcr.training_female_cost == undefined ? 0 :  $scope.data.spcr.training_female_cost)
-                                          +   ($scope.data.spcr.management_female_cost == undefined ? 0 :  $scope.data.spcr.management_female_cost)
-
-                                          +   ($scope.data.spcr.women_female_cost == undefined ? 0 :  $scope.data.spcr.women_female_cost)
-                                          +   ($scope.data.spcr.others_female_cost == undefined ? 0 :  $scope.data.spcr.others_female_cost)
-                            }
-
-                            $scope.female_perc = function()
-                            {
-                                return (100* $scope.female_total() / $scope.grand_total()).toFixed(2);
-
-                            }
-
-
-
-                            $scope.blgu_total = function ()
-                            {
-
-                                return        ($scope.data.spcr.pow_blgu_cost == undefined ? 0 :  $scope.data.spcr.pow_blgu_cost)
-                                          +   ($scope.data.spcr.training_blgu_cost == undefined ? 0 :  $scope.data.spcr.training_blgu_cost)
-                                          +   ($scope.data.spcr.management_blgu_cost == undefined ? 0 :  $scope.data.spcr.management_blgu_cost)
-
-                                          +   ($scope.data.spcr.women_blgu_cost == undefined ? 0 :  $scope.data.spcr.women_blgu_cost)
-                                          +   ($scope.data.spcr.others_blgu_cost == undefined ? 0 :  $scope.data.spcr.others_blgu_cost)
-                            }
-
-                            $scope.blgu_perc = function()
-                            {
-                                return (100* $scope.blgu_total() / $scope.grand_total()).toFixed(2);
-
-                            }
-
-                            $scope.mlgu_total = function ()
-                            {
-
-                                return        ($scope.data.spcr.pow_mlgu_cost == undefined ? 0 :  $scope.data.spcr.pow_mlgu_cost)
-                                          +   ($scope.data.spcr.training_mlgu_cost == undefined ? 0 :  $scope.data.spcr.training_mlgu_cost)
-                                          +   ($scope.data.spcr.management_mlgu_cost == undefined ? 0 :  $scope.data.spcr.management_mlgu_cost)
-
-                                          +   ($scope.data.spcr.women_mlgu_cost == undefined ? 0 :  $scope.data.spcr.women_mlgu_cost)
-                                          +   ($scope.data.spcr.others_mlgu_cost == undefined ? 0 :  $scope.data.spcr.others_mlgu_cost)
-                            }
-
-                            $scope.mlgu_perc = function()
-                            {
-                                return (100* $scope.mlgu_total() / $scope.grand_total()).toFixed(2);
-
-                            }
-
-
-                            $scope.plgu_total = function ()
-                            {
-
-                                return        ($scope.data.spcr.pow_plgu_cost == undefined ? 0 :  $scope.data.spcr.pow_plgu_cost)
-                                          +   ($scope.data.spcr.training_plgu_cost == undefined ? 0 :  $scope.data.spcr.training_plgu_cost)
-                                          +   ($scope.data.spcr.management_plgu_cost == undefined ? 0 :  $scope.data.spcr.management_plgu_cost)
-
-                                          +   ($scope.data.spcr.women_plgu_cost == undefined ? 0 :  $scope.data.spcr.women_plgu_cost)
-                                          +   ($scope.data.spcr.others_plgu_cost == undefined ? 0 :  $scope.data.spcr.others_plgu_cost)
-                            }
-
-                            $scope.plgu_perc = function()
-                            {
-                                return (100* $scope.plgu_total() / $scope.grand_total()).toFixed(2);
-
-                            }
-
-                            $scope.others_others_total = function ()
-                            {
-
-                                return        ($scope.data.spcr.pow_others_cost == undefined ? 0 :  $scope.data.spcr.pow_others_cost)
-                                          +   ($scope.data.spcr.training_others_cost == undefined ? 0 :  $scope.data.spcr.training_others_cost)
-                                          +   ($scope.data.spcr.management_others_cost == undefined ? 0 :  $scope.data.spcr.management_others_cost)
-
-                                          +   ($scope.data.spcr.women_others_cost == undefined ? 0 :  $scope.data.spcr.women_others_cost)
-                                          +   ($scope.data.spcr.others_others_cost == undefined ? 0 :  $scope.data.spcr.others_others_cost)
-                            }
-
-                            $scope.others_others_total_perc = function()
-                            {
-                                return (100* $scope.others_others_total() / $scope.grand_total()).toFixed(2);
-
-                            }
-
 
 
                             $scope.dt_date_physical_start  =  response.data.date_physical_start == undefined ? null : new Date(response.data.date_physical_start);
@@ -1070,7 +819,7 @@
                             $scope.dt_PlannedDate_Completion =response.data.PlannedDate_Completion == undefined ? null: new Date(response.data.PlannedDate_Completion);
 
                             //$scope.dt_set_date_eval = response.data.set_date_eval == undefined ? null : new Date(response.data.set_date_eval);
-
+                            $scope.minDate = new Date("07/01/2014");
                             $scope.today = new Date();
 
                             $scope.dt_ncip_validated_date = response.data.ncip_validated_date == undefined ? null :new Date(response.data.ncip_validated_date);
@@ -1080,6 +829,7 @@
 
                             $scope.maxDate = new Date($scope.dt_Date_Started);
                             $scope.min_start_date = new Date("01/01/2014");
+                            $scope.ers_min_date = new Date("07/01/2014");
 
                             $scope.minDateErsStart = new Date($scope.new_ErsList_record.dt_date_reported);
 
@@ -1181,7 +931,7 @@
                                 }
                             });
 
-                            
+
 
 
 
@@ -1404,7 +1154,185 @@
                                 });
 
 
-                        });
+                            //-------------- Enhancement: 09-04-17 Add edit for ORDERS > Suspension Orders
+
+                            angular.forEach($scope.data.suspension_order_lists,
+                                                    function (todo) {
+                                                        todo.date = new Date(todo.date);
+                                                    });
+
+                            $scope.addSuspension = function () {
+                                $scope.suspension.date = new Date($scope.suspension.date);
+
+                                $scope.data.suspension_order_lists.push($scope.suspension);
+                                $scope.suspension = {};
+                            };
+
+                            $scope.removeSuspension = function (suspension) {
+                                $scope.data.suspension_order_lists.splice(suspension, 1);
+                            };
+
+                            $scope.editSuspension = function (suspension) {
+                                $scope.editing = $scope.data.suspension_order_lists.indexOf(suspension);
+                                suspension.backupName = angular.copy(suspension.name);
+                                suspension.backupDate = angular.copy(suspension.date);
+                            };
+
+                            $scope.saveEditedSuspension = function (suspension) {
+                                delete suspension.backupName;
+                                delete suspension.backupDate;
+                            };
+
+                            $scope.cancelEditSuspension = function (suspension) {
+                                suspension.name = angular.copy(suspension.backupName);
+                                suspension.date = angular.copy(suspension.backupDate);
+                                delete suspension.backupName;
+                                delete suspension.backupDate;
+                            };
+
+                            //-------------- Enhancement: 09-05-17 Add edit for ORDERS > Resume Orders
+
+                            angular.forEach($scope.data.resume_order_lists,
+                                                    function (todo) {
+                                                        todo.date = new Date(todo.date);
+                                                    });
+
+                            $scope.addResume = function () {
+                                $scope.resume.date = new Date($scope.resume.date);
+
+                                $scope.data.resume_order_lists.push($scope.resume);
+                                $scope.resume = {};
+                            };
+
+                            $scope.removeResume = function (resume) {
+                                $scope.data.resume_order_lists.splice(resume, 1);
+                            };
+
+                            $scope.editResume = function (resume) {
+                                $scope.editing = $scope.data.resume_order_lists.indexOf(resume);
+                                resume.backupName = angular.copy(resume.name);
+                                resume.backupDate = angular.copy(resume.date);
+                            };
+
+                            $scope.saveEditedResume = function (resume) {
+                                delete resume.backupName;
+                                delete resume.backupDate;
+                            };
+
+                            $scope.cancelEditResume = function (resume) {
+                                resume.name = angular.copy(resume.backupName);
+                                resume.date = angular.copy(resume.backupDate);
+                                delete resume.backupName;
+                                delete resume.backupDate;
+                            };
+
+
+                            //-------------- Enhancement: 09-05-17 Add edit for ORDERS > Variation Orders
+                            angular.forEach($scope.data.variation_order_lists,
+                                                    function (todo) {
+                                                        todo.date = new Date(todo.date);
+                                                    });
+
+                            $scope.addVariation = function () {
+                                $scope.variation.date = new Date($scope.variation.date);
+
+                                $scope.data.variation_order_lists.push($scope.variation);
+                                $scope.variation = {};
+                            };
+
+                            $scope.removeVariation = function (variation) {
+                                $scope.data.variation_order_lists.splice(variation, 1);
+                            };
+
+                            $scope.editVariation = function (variation) {
+                                $scope.editing = $scope.data.variation_order_lists.indexOf(variation);
+                                variation.backupName = angular.copy(variation.name);
+                                variation.backupDate = angular.copy(variation.date);
+                            };
+
+                            $scope.saveEditedVariation = function (variation) {
+                                delete variation.backupName;
+                                delete variation.backupDate;
+                            };
+
+                            $scope.cancelEditVariation = function (variation) {
+                                variation.name = angular.copy(variation.backupName);
+                                variation.date = angular.copy(variation.backupDate);
+                                delete variation.backupName;
+                                delete variation.backupDate;
+                            };
+
+
+                            //-------------- Enhancement: 09-05-17 Add edit for O&M
+                            angular.forEach($scope.data.community_formation_lists,
+                                                    function (todo) {
+                                                        todo.date_formed = new Date(todo.date_formed);
+                                                        todo.date_registered = new Date(todo.date_registered);
+                                                        todo.date_consti = new Date(todo.date_consti);
+                                                        todo.date_policy = new Date(todo.date_policy);
+                                                        todo.date_plan = new Date(todo.date_plan);
+                                                    });
+
+                            $scope.addOpMain = function () {
+                                $scope.opmain.date_formed = new Date($scope.opmain.date_formed);
+                                $scope.opmain.date_registered = new Date($scope.opmain.date_registered);
+                                $scope.opmain.date_consti = new Date($scope.opmain.date_consti);
+                                $scope.opmain.date_policy = new Date($scope.opmain.date_policy);
+                                $scope.opmain.date_plan = new Date($scope.opmain.date_plan);
+
+                                $scope.data.community_formation_lists.push($scope.opmain);
+                                $scope.opmain = {};
+                            };
+
+                            $scope.removeOpMain = function (opmain) {
+                                $scope.data.community_formation_lists.splice(opmain, 1);
+                            };
+
+                            $scope.editOpMain = function (opmain) {
+                                $scope.editing = $scope.data.community_formation_lists.indexOf(opmain);
+                                opmain.backupName = angular.copy(opmain.name);
+                                opmain.backupDateFormed = angular.copy(opmain.date_formed);
+                                opmain.backupDateRegistered = angular.copy(opmain.date_registered);
+                                opmain.backupRegisteredWith = angular.copy(opmain.registed_with);
+                                opmain.backupDateConsti = angular.copy(opmain.date_consti);
+                                opmain.backupDatePolicy = angular.copy(opmain.date_policy);
+                                opmain.backupDatePlan = angular.copy(opmain.date_plan);
+                                opmain.backupCapacity = angular.copy(opmain.capacity);
+                            };
+
+                            $scope.saveEditedOpMain = function (opmain) {
+                                delete opmain.backupName;
+                                delete opmain.backupDateFormed;
+                                delete opmain.backupDateRegistered;
+                                delete opmain.backupRegisteredWith;
+                                delete opmain.backupDateConsti;
+                                delete opmain.backupDatePolicy;
+                                delete opmain.backupDatePlan;
+                                delete opmain.backupCapacity;
+                            };
+
+                            $scope.cancelEditOpMain = function (opmain) {
+                                opmain.name = angular.copy(opmain.backupName);
+                                opmain.date_formed = angular.copy(opmain.backupDateFormed);
+                                opmain.date_registered = angular.copy(opmain.backupDateRegistered);
+                                opmain.registed_with = angular.copy(opmain.backupRegisteredWith);
+                                opmain.date_consti = angular.copy(opmain.backupDateConsti);
+                                opmain.date_policy = angular.copy(opmain.backupDatePolicy);
+                                opmain.date_plan = angular.copy(opmain.backupDatePlan);
+                                opmain.capacity = angular.copy(opmain.backupCapacity);
+                                delete opmain.backupName;
+                                delete opmain.backupDateFormed;
+                                delete opmain.backupDateRegistered;
+                                delete opmain.backupRegisteredWith;
+                                delete opmain.backupDateConsti;
+                                delete opmain.backupDatePolicy;
+                                delete opmain.backupDatePlan;
+                                delete opmain.backupCapacity;
+                            };
+
+
+
+                        }); //-------- end of get sub_project
 
                     $http.get('/api/offline/v1/sub_project/ers/get?id=' + '@ViewBag.id')
                         .then(function(response) {
@@ -1415,6 +1343,209 @@
                             $scope.list_ErsList = response.data;
 
                         });
+
+
+                    //--------------------------------------- v3.0 Save SPCF entries (Financial Economic Aspect) to new table, sub_project_spcf ---------------------//
+                    $scope.spcf = {};
+
+                    //getting entries from table:
+                    $http.get('/api/offline/v1/spi/spcf/get?id=' + '@ViewBag.id').then(function (response) {
+                        $scope.loading = true;
+                        $scope.spcf = response.data;
+                    });
+
+                    $scope.pow_total = function () {
+                        return ($scope.spcf.pow_cdd_cost == undefined ? 0 : $scope.spcf.pow_cdd_cost)
+                            + ($scope.spcf.pow_male_cost == undefined ? 0 : $scope.spcf.pow_male_cost)
+                            + ($scope.spcf.pow_female_cost == undefined ? 0 : $scope.spcf.pow_female_cost)
+                            + ($scope.spcf.pow_blgu_cost == undefined ? 0 : $scope.spcf.pow_blgu_cost)
+                            + ($scope.spcf.pow_mlgu_cost == undefined ? 0 : $scope.spcf.pow_mlgu_cost)
+                            + ($scope.spcf.pow_plgu_cost == undefined ? 0 : $scope.spcf.pow_plgu_cost)
+                            + ($scope.spcf.pow_others_cost == undefined ? 0 : $scope.spcf.pow_others_cost);
+                    }
+
+                    $scope.women_total = function () {
+                        return ($scope.spcf.women_cdd_cost == undefined ? 0 : $scope.spcf.women_cdd_cost)
+                            + ($scope.spcf.women_male_cost == undefined ? 0 : $scope.spcf.women_male_cost)
+                            + ($scope.spcf.women_female_cost == undefined ? 0 : $scope.spcf.women_female_cost)
+                            + ($scope.spcf.women_blgu_cost == undefined ? 0 : $scope.spcf.women_blgu_cost)
+                            + ($scope.spcf.women_mlgu_cost == undefined ? 0 : $scope.spcf.women_mlgu_cost)
+                            + ($scope.spcf.women_plgu_cost == undefined ? 0 : $scope.spcf.women_plgu_cost)
+                            + ($scope.spcf.women_others_cost == undefined ? 0 : $scope.spcf.women_others_cost);
+                    }
+
+                    $scope.training_total = function () {
+                        return ($scope.spcf.training_cdd_cost == undefined ? 0 : $scope.spcf.training_cdd_cost)
+                            + ($scope.spcf.training_male_cost == undefined ? 0 : $scope.spcf.training_male_cost)
+                            + ($scope.spcf.training_female_cost == undefined ? 0 : $scope.spcf.training_female_cost)
+                            + ($scope.spcf.training_blgu_cost == undefined ? 0 : $scope.spcf.training_blgu_cost)
+                            + ($scope.spcf.training_mlgu_cost == undefined ? 0 : $scope.spcf.training_mlgu_cost)
+                            + ($scope.spcf.training_plgu_cost == undefined ? 0 : $scope.spcf.training_plgu_cost)
+                            + ($scope.spcf.training_others_cost == undefined ? 0 : $scope.spcf.training_others_cost);
+                    }
+
+                    $scope.management_total = function () {
+                        return ($scope.spcf.management_cdd_cost == undefined ? 0 : $scope.spcf.management_cdd_cost)
+                            + ($scope.spcf.management_male_cost == undefined ? 0 : $scope.spcf.management_male_cost)
+                            + ($scope.spcf.management_female_cost == undefined ? 0 : $scope.spcf.management_female_cost)
+                            + ($scope.spcf.management_blgu_cost == undefined ? 0 : $scope.spcf.management_blgu_cost)
+                            + ($scope.spcf.management_mlgu_cost == undefined ? 0 : $scope.spcf.management_mlgu_cost)
+                            + ($scope.spcf.management_plgu_cost == undefined ? 0 : $scope.spcf.management_plgu_cost)
+                            + ($scope.spcf.management_others_cost == undefined ? 0 : $scope.spcf.management_others_cost);
+                    }
+
+                    $scope.others_total = function () {
+                        return ($scope.spcf.others_cdd_cost == undefined ? 0 : $scope.spcf.others_cdd_cost)
+                            + ($scope.spcf.others_male_cost == undefined ? 0 : $scope.spcf.others_male_cost)
+                            + ($scope.spcf.others_female_cost == undefined ? 0 : $scope.spcf.others_female_cost)
+                            + ($scope.spcf.others_blgu_cost == undefined ? 0 : $scope.spcf.others_blgu_cost)
+                            + ($scope.spcf.others_mlgu_cost == undefined ? 0 : $scope.spcf.others_mlgu_cost)
+                            + ($scope.spcf.others_plgu_cost == undefined ? 0 : $scope.spcf.others_plgu_cost)
+                            + ($scope.spcf.others_others_cost == undefined ? 0 : $scope.spcf.others_others_cost);
+                    }
+
+                    $scope.pow_total_lcc = function () {
+                        return ($scope.spcf.pow_male_cost == undefined ? 0 : $scope.spcf.pow_male_cost)
+                            + ($scope.spcf.pow_female_cost == undefined ? 0 : $scope.spcf.pow_female_cost)
+                            + ($scope.spcf.pow_blgu_cost == undefined ? 0 : $scope.spcf.pow_blgu_cost)
+                            + ($scope.spcf.pow_mlgu_cost == undefined ? 0 : $scope.spcf.pow_mlgu_cost)
+                            + ($scope.spcf.pow_plgu_cost == undefined ? 0 : $scope.spcf.pow_plgu_cost)
+                            + ($scope.spcf.pow_others_cost == undefined ? 0 : $scope.spcf.pow_others_cost);
+                    }
+
+                    $scope.women_total_lcc = function () {
+                        return ($scope.spcf.women_male_cost == undefined ? 0 : $scope.spcf.women_male_cost)
+                            + ($scope.spcf.women_female_cost == undefined ? 0 : $scope.spcf.women_female_cost)
+                            + ($scope.spcf.women_blgu_cost == undefined ? 0 : $scope.spcf.women_blgu_cost)
+                            + ($scope.spcf.women_mlgu_cost == undefined ? 0 : $scope.spcf.women_mlgu_cost)
+                            + ($scope.spcf.women_plgu_cost == undefined ? 0 : $scope.spcf.women_plgu_cost)
+                            + ($scope.spcf.women_others_cost == undefined ? 0 : $scope.spcf.women_others_cost);
+                    }
+
+                    $scope.training_total_lcc = function () {
+                        return ($scope.spcf.training_male_cost == undefined ? 0 : $scope.spcf.training_male_cost)
+                            + ($scope.spcf.training_female_cost == undefined ? 0 : $scope.spcf.training_female_cost)
+                            + ($scope.spcf.training_blgu_cost == undefined ? 0 : $scope.spcf.training_blgu_cost)
+                            + ($scope.spcf.training_mlgu_cost == undefined ? 0 : $scope.spcf.training_mlgu_cost)
+                            + ($scope.spcf.training_plgu_cost == undefined ? 0 : $scope.spcf.training_plgu_cost)
+                            + ($scope.spcf.training_others_cost == undefined ? 0 : $scope.spcf.training_others_cost);
+                    }
+
+                    $scope.management_total_lcc = function () {
+                        return ($scope.spcf.management_male_cost == undefined ? 0 : $scope.spcf.management_male_cost)
+                            + ($scope.spcf.management_female_cost == undefined ? 0 : $scope.spcf.management_female_cost)
+                            + ($scope.spcf.management_blgu_cost == undefined ? 0 : $scope.spcf.management_blgu_cost)
+                            + ($scope.spcf.management_mlgu_cost == undefined ? 0 : $scope.spcf.management_mlgu_cost)
+                            + ($scope.spcf.management_plgu_cost == undefined ? 0 : $scope.spcf.management_plgu_cost)
+                            + ($scope.spcf.management_others_cost == undefined ? 0 : $scope.spcf.management_others_cost);
+                    }
+
+                    $scope.others_total_lcc = function () {
+                        return ($scope.spcf.others_male_cost == undefined ? 0 : $scope.spcf.others_male_cost)
+                            + ($scope.spcf.others_female_cost == undefined ? 0 : $scope.spcf.others_female_cost)
+                            + ($scope.spcf.others_blgu_cost == undefined ? 0 : $scope.spcf.others_blgu_cost)
+                            + ($scope.spcf.others_mlgu_cost == undefined ? 0 : $scope.spcf.others_mlgu_cost)
+                            + ($scope.spcf.others_plgu_cost == undefined ? 0 : $scope.spcf.others_plgu_cost)
+                            + ($scope.spcf.others_others_cost == undefined ? 0 : $scope.spcf.others_others_cost);
+                    }
+
+                    $scope.grand_total = function () {
+                        return $scope.pow_total() + $scope.training_total() + $scope.women_total() + $scope.management_total() + $scope.others_total();
+                    }
+
+                    $scope.grand_total_lcc = function () {
+                        return $scope.pow_total_lcc() + $scope.training_total_lcc() + $scope.women_total_lcc() + $scope.management_total_lcc() + $scope.others_total_lcc();
+                    }
+
+                    $scope.grand_total_lcc_perc = function () {
+                        return (100 * $scope.grand_total_lcc() / $scope.grand_total()).toFixed(2);
+                    }
+
+                    $scope.cdd_total = function () {
+                        return ($scope.spcf.pow_cdd_cost == undefined ? 0 : $scope.spcf.pow_cdd_cost)
+                            + ($scope.spcf.training_cdd_cost == undefined ? 0 : $scope.spcf.training_cdd_cost)
+                            + ($scope.spcf.management_cdd_cost == undefined ? 0 : $scope.spcf.management_cdd_cost)
+                            + ($scope.spcf.women_cdd_cost == undefined ? 0 : $scope.spcf.women_cdd_cost)
+                            + ($scope.spcf.others_cdd_cost == undefined ? 0 : $scope.spcf.others_cdd_cost)
+                    }
+
+                    $scope.cdd_perc = function () {
+                        return (100 * $scope.cdd_total() / $scope.grand_total()).toFixed(2);
+                    }
+
+                    $scope.men_total = function () {
+                        return ($scope.spcf.pow_male_cost == undefined ? 0 : $scope.spcf.pow_male_cost)
+                            + ($scope.spcf.training_male_cost == undefined ? 0 : $scope.spcf.training_male_cost)
+                            + ($scope.spcf.management_male_cost == undefined ? 0 : $scope.spcf.management_male_cost)
+                            + ($scope.spcf.women_male_cost == undefined ? 0 : $scope.spcf.women_male_cost)
+                            + ($scope.spcf.others_male_cost == undefined ? 0 : $scope.spcf.others_male_cost)
+                    }
+
+                    $scope.men_perc = function () {
+                        return (100 * $scope.men_total() / $scope.grand_total()).toFixed(2);
+                    }
+
+                    $scope.female_total = function () {
+                        return ($scope.spcf.pow_female_cost == undefined ? 0 : $scope.spcf.pow_female_cost)
+                            + ($scope.spcf.training_female_cost == undefined ? 0 : $scope.spcf.training_female_cost)
+                            + ($scope.spcf.management_female_cost == undefined ? 0 : $scope.spcf.management_female_cost)
+                            + ($scope.spcf.women_female_cost == undefined ? 0 : $scope.spcf.women_female_cost)
+                            + ($scope.spcf.others_female_cost == undefined ? 0 : $scope.spcf.others_female_cost)
+                    }
+
+                    $scope.female_perc = function () {
+                        return (100 * $scope.female_total() / $scope.grand_total()).toFixed(2);
+                    }
+
+                    $scope.blgu_total = function () {
+                        return ($scope.spcf.pow_blgu_cost == undefined ? 0 : $scope.spcf.pow_blgu_cost)
+                            + ($scope.spcf.training_blgu_cost == undefined ? 0 : $scope.spcf.training_blgu_cost)
+                            + ($scope.spcf.management_blgu_cost == undefined ? 0 : $scope.spcf.management_blgu_cost)
+                            + ($scope.spcf.women_blgu_cost == undefined ? 0 : $scope.spcf.women_blgu_cost)
+                            + ($scope.spcf.others_blgu_cost == undefined ? 0 : $scope.spcf.others_blgu_cost)
+                    }
+
+                    $scope.blgu_perc = function () {
+                        return (100 * $scope.blgu_total() / $scope.grand_total()).toFixed(2);
+                    }
+
+                    $scope.mlgu_total = function () {
+                        return ($scope.spcf.pow_mlgu_cost == undefined ? 0 : $scope.spcf.pow_mlgu_cost)
+                            + ($scope.spcf.training_mlgu_cost == undefined ? 0 : $scope.spcf.training_mlgu_cost)
+                            + ($scope.spcf.management_mlgu_cost == undefined ? 0 : $scope.spcf.management_mlgu_cost)
+                            + ($scope.spcf.women_mlgu_cost == undefined ? 0 : $scope.spcf.women_mlgu_cost)
+                            + ($scope.spcf.others_mlgu_cost == undefined ? 0 : $scope.spcf.others_mlgu_cost)
+                    }
+
+                    $scope.mlgu_perc = function () {
+                        return (100 * $scope.mlgu_total() / $scope.grand_total()).toFixed(2);
+                    }
+
+                    $scope.plgu_total = function () {
+                        return ($scope.spcf.pow_plgu_cost == undefined ? 0 : $scope.spcf.pow_plgu_cost)
+                            + ($scope.spcf.training_plgu_cost == undefined ? 0 : $scope.spcf.training_plgu_cost)
+                            + ($scope.spcf.management_plgu_cost == undefined ? 0 : $scope.spcf.management_plgu_cost)
+                            + ($scope.spcf.women_plgu_cost == undefined ? 0 : $scope.spcf.women_plgu_cost)
+                            + ($scope.spcf.others_plgu_cost == undefined ? 0 : $scope.spcf.others_plgu_cost)
+                    }
+
+                    $scope.plgu_perc = function () {
+                        return (100 * $scope.plgu_total() / $scope.grand_total()).toFixed(2);
+                    }
+
+                    $scope.others_others_total = function () {
+                        return ($scope.spcf.pow_others_cost == undefined ? 0 : $scope.spcf.pow_others_cost)
+                            + ($scope.spcf.training_others_cost == undefined ? 0 : $scope.spcf.training_others_cost)
+                            + ($scope.spcf.management_others_cost == undefined ? 0 : $scope.spcf.management_others_cost)
+                            + ($scope.spcf.women_others_cost == undefined ? 0 : $scope.spcf.women_others_cost)
+                            + ($scope.spcf.others_others_cost == undefined ? 0 : $scope.spcf.others_others_cost)
+                    }
+
+                    $scope.others_others_total_perc = function () {
+                        return (100 * $scope.others_others_total() / $scope.grand_total()).toFixed(2);
+                    }
+
+
 
                     //------------------------------- Add multiple SET for a subproject: 03-03-17 -------------------------------------------//
 
@@ -1444,6 +1575,7 @@
                                                         + ($scope.set_data.set_institutional_linkage * .10 == undefined ? 0 : $scope.set_data.set_institutional_linkage * .10)
                                                         + ($scope.set_data.set_financial * .15 == undefined ? 0 : $scope.set_data.set_financial * .15)
                                                         + ($scope.set_data.set_physical * .40 == undefined ? 0 : $scope.set_data.set_physical * .40);
+
                         return $scope.set_data.set_total_score.toFixed(2);
                     };
 
@@ -1514,6 +1646,9 @@
                                 $scope.error = "An Error has occured while Deleting! " + data.statusText;
                                 $scope.loading = false;
                             });
+                        }
+                        else {
+                            return false;
                         }
                     };
 
@@ -1862,7 +1997,7 @@
 
                         $scope.selected_ers_list_id = item.sub_project_ers_id;
                         $scope.selected_ers_delivery_mode = item.ers_delivery_mode_id;
-                        
+
                         $scope.get_ers_summary(item.sub_project_ers_id);
 
 
@@ -1996,7 +2131,7 @@
 
                         $scope.new_worker_record.sub_project_ers_id = $scope.selected_ers_list_id;
                         $scope.new_worker_record.person_profile_id = $scope.selected_person_profile_id;
-                        
+
                         //if the selected user is already added to this ERS, ask confirmation to user:
                         $http.post('/api/offline/v1/sub_project/ers/worker_existence/get?person_id=' + $scope.new_worker_record.person_profile_id + "&ers_id=" + $scope.new_worker_record.sub_project_ers_id)
                             .success(function (result) {
@@ -2069,7 +2204,7 @@
 
                     //    $scope.reset();
                     //};
-                    
+
                     //add and save NEW WORKER to current ERS:
                     $scope.saveNewWorker = function () {
 
@@ -2088,7 +2223,7 @@
                                             .position("top right")
                                             .hideDelay(3000)
                                         );
-                                        
+
                                     })
                                     .error(function (data) {
                                         $scope.error = "An Error has occured while Saving! " + data.statusText;
@@ -2096,9 +2231,9 @@
                                     });
 
                         $scope.reset();
-                        
+
                     }; //end of saveNewWorker
-                    
+
 
                     //save EXISTING WORKER:
                     $scope.saveWorker = function (idx) {
@@ -2137,6 +2272,7 @@
                     //========================================== END ERS =================================================//
 
 
+                    
 
 
 
@@ -2150,7 +2286,7 @@
 
                             $scope.loading = true;
                             $scope.get_data = response.data;
-                            
+
                             angular.forEach($scope.get_data, function(item)
                             {
                                 var base = window.location.origin;
@@ -2250,45 +2386,61 @@
                         });
 
 
+                    //$scope.addSuspension = function () {
+                    //    $scope.data.suspension_order_lists.push($scope.susp);
+                    //    $scope.susp = {};
+                    //}
 
-                    $scope.addSuspension = function () {
-                        $scope.data.suspension_order_lists.push($scope.susp);
-                        $scope.susp = {};
+                    //$scope.removeSuspension = function (susp, index) {
+                    //    $scope.data.suspension_order_lists.splice(index, 1);
+                    //}
+
+                    $scope.cancel = function () {
+
+                        window.location.href = "/View/SubProjects";
                     }
 
-                    $scope.removeSuspension = function (susp, index) {
-                        $scope.data.suspension_order_lists.splice(index, 1);
-                    }
+                    $scope.confirmSPID = function () {
 
+                        //1. check if the SPID input exists on the Reference table
+                        $http.get('/api/exists/sub_project_reference_table?id=' + $scope.data.sub_project_id).then(function (result) {
+                            if (result.data == true) {
 
-                    $scope.addResume = function () {
-                        $scope.data.resume_order_lists.push($scope.resume);
-                        $scope.resume = {};
-                    }
+                                //2. check if the inputted SPID is already paired with other sub project
+                                $http.get('/api/exists/is_sp_paired?id=' + $scope.data.sub_project_id).then(function (result2) {
+                                    if (result2.data == true) {
+                                        alert("Error: SPID " + $scope.data.sub_project_id + " is already paired.");
+                                    }
+                                    else {
+                                        var ask = confirm("Confirming the SubProject ID will update all the basic information found on Geotagging WebApp. Are you sure you want to update?");
+                                        if (ask == true) {
+                                            $.blockUI({ message: '<br>Updating Sub Project... Please wait<br><br>' });
+                                            //updating sub_project
+                                            $.post('/api/offline/v1/sub_projects/update', $scope.data).success(function (data) {
+                                                $scope.loading = false;
+                                                alert("Sub Project has been updated, changes will be applied after the page reloads.");
+                                                setTimeout($.unblockUI, 10);
+                                                $scope.is_paired = true;
+                                                window.location.reload();
+                                            }).error(function (data) {
+                                                alert("Error on updating Sub Project " + JSON.stringify(data));
+                                                $scope.error = "An Error has occured while Saving! " + data.statusText;
+                                                $scope.loading = false;
+                                            });
 
-                    $scope.removeResume = function (resume, index) {
-                        $scope.data.resume_order_lists.splice(index, 1);
-                    }
+                                        } else {
+                                            return false;
+                                        }
+                                    }
+                                });                                
+                            }
 
-                    $scope.addVariation = function () {
-                        $scope.data.variation_order_lists.push($scope.vari);
-                        $scope.vari = {};
-                    }
-
-                    $scope.removeVariation = function (vari, index) {
-                        $scope.data.variation_order_lists.splice(index, 1);
-                    }
-
-
-                    $scope.addOpMain = function () {
-                        $scope.data.community_formation_lists.push($scope.maintain);
-                        $scope.maintain = {};
-                    }
-
-                    $scope.removeOpMain = function (index) {
-                        $scope.data.community_formation_lists.splice(index, 1);
-                    }
-
+                            else {
+                                alert("This SPID does not exist on Reference Table");
+                                $scope.data.sub_project_id = '';
+                            }
+                        });
+                    };
 
                     $scope.save = function() {
 
@@ -2331,16 +2483,24 @@
                         $scope.data.community_formation_list = JSON.stringify($scope.data.community_formation_lists);
 
 
+                        //save SPCF:
+                        $scope.spcf.sub_project_id = $scope.data.sub_project_id;
+                        $scope.spcf.sub_project_unique_id = $scope.data.sub_project_unique_id;
+
+                        $.post('/api/offline/v1/sub_projects/spcf/save', $scope.spcf).success(function (data) {
+                            $scope.loading = false;
+
+                        }).error(function (data) {
+                            alert(JSON.stringify(data));
+                            $scope.error = "Error saving SPCF entries! " + data.statusText;
+                            $scope.loading = false;
+                        });
 
 
                         $.post('/api/offline/v1/sub_projects/save', $scope.data)
                             .success(function(data) {
                                 $scope.loading = false;
-
-                                $('html, body').animate({
-                                    scrollTop: '0px'
-                                }, 1500);
-
+                                $('html, body').animate({ scrollTop: '0px' }, 1500);
                                 $mdToast.show(
                                     $mdToast.simple()
                                     .textContent('Record Saved!')

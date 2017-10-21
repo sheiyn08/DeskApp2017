@@ -11,7 +11,7 @@
         </div>
         <div flex="50">
             <div flex="50">
-                <md-checkbox aria-label="Checkbox 1" ng-model="data.is_armedconflict" ng-change="data.is_brgyaffected = data.is_armedconflict" id="is_isolated">
+                <md-checkbox class="md-primary" aria-label="Checkbox 1" ng-model="data.is_armedconflict" ng-change="data.is_brgyaffected = data.is_armedconflict" id="is_isolated">
                     {{ data.is_brgyaffected == true ? "Yes" : "" }}
                 </md-checkbox>
             </div>
@@ -30,19 +30,19 @@
                 @*<md-checkbox ng-model="data.is_armedconflict" aria-label="Checkbox 1" ng-disabled="">
                         Armed Conflict: {{ data.is_armedconflict == true ? "Yes" : "No" }}
                     </md-checkbox>*@
-                <md-checkbox ng-model="data.is_bounddispute" aria-label="Checkbox 1">
+                <md-checkbox class="md-primary" ng-model="data.is_bounddispute" aria-label="Checkbox 1">
                     Boundary and Territorial Disputes<strong>{{ data.is_bounddispute == true ? " : Yes" : "" }}</strong>
                 </md-checkbox>
-                <md-checkbox ng-model="data.is_poldispute" aria-label="Checkbox 1">
+                <md-checkbox class="md-primary" ng-model="data.is_poldispute" aria-label="Checkbox 1">
                     Political and Extra Judicial Killing<strong>{{ data.is_poldispute == true ? " : Yes" : "" }}</strong>
                 </md-checkbox>
-                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_genderviolence" id="is_genderviolence">
+                <md-checkbox class="md-primary" value="true" aria-label="Checkbox 1" ng-model="data.is_genderviolence" id="is_genderviolence">
                     Family and gender-based violence<strong>{{ data.is_genderviolence == true ? " : Yes" : "" }}</strong>
                 </md-checkbox>
-                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_rido_war" id="is_rido_war">
+                <md-checkbox class="md-primary" value="true" aria-label="Checkbox 1" ng-model="data.is_rido_war" id="is_rido_war">
                     RIDO or Clan Wars/Tribal Wars or 'Pangayao'<strong>{{ data.is_rido_war == true ? " : Yes" : "" }}</strong>
                 </md-checkbox>
-                <md-checkbox value="true" aria-label="Checkbox 1" ng-model="data.is_crime" id="is_crime">
+                <md-checkbox class="md-primary" value="true" aria-label="Checkbox 1" ng-model="data.is_crime" id="is_crime">
                     Crime<strong>{{ data.is_crime == true ? " : Yes" : "" }}</strong>
                 </md-checkbox>
             </div>
@@ -60,7 +60,7 @@
         <md-input-container class="md-block" flex="50">
 
             <textarea name="final" ng-model="data.baragay_additiondetails" md-maxlength="2000" rows="5"
-                      cols="100"
+                      cols="100" aria-label="Additional Details"
                       md-select-on-focus="" flex="100"></textarea>
 
         </md-input-container>

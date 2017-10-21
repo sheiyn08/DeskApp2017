@@ -69,6 +69,7 @@ namespace DeskApp.DataLayer
         public int push_status_id { get; set; }
         public DateTime? push_date { get; set; }
         public DateTime? last_modified_date { get; set; }
+        
 
         public static System.Linq.Expressions.Expression<Func<brgy_profile, brgy_profileDTO>> SELECT =
             x => new brgy_profileDTO

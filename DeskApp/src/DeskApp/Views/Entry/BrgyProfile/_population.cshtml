@@ -60,7 +60,7 @@
             </div>
             <div flex="50">
 
-                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_male0_5" ng-model="data.no_male0_5">
+                <input type="number" min="0" ng-app-max="{{ data.no_male }}" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_male0_5" ng-model="data.no_male0_5">
 
 
             </div>
@@ -73,7 +73,7 @@
             </div>
             <div flex="50">
 
-                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_female0_5" ng-model="data.no_female0_5">
+                <input type="number" min="0" ng-app-max="{{ data.no_female }}"required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_female0_5" ng-model="data.no_female0_5">
 
             </div>
         </div>
@@ -85,7 +85,7 @@
             </div>
             <div flex="50">
 
-                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_male6_12" ng-model="data.no_male6_12">
+                <input type="number" min="0" ng-app-max="{{ data.no_male }}" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_male6_12" ng-model="data.no_male6_12">
 
             </div>
         </div>
@@ -98,7 +98,7 @@
             </div>
             <div flex="50">
 
-                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_female6_12" ng-model="data.no_female6_12">
+                <input type="number" min="0" ng-app-max="{{ data.no_female }}" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_female6_12" ng-model="data.no_female6_12">
 
             </div>
         </div>
@@ -111,7 +111,7 @@
             </div>
             <div flex="50">
 
-                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_male13_16" ng-model="data.no_male13_16">
+                <input type="number" min="0" ng-app-max="{{ data.no_male }}" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_male13_16" ng-model="data.no_male13_16">
 
 
             </div>
@@ -124,7 +124,7 @@
             </div>
             <div flex="50">
 
-                <input type="number" min="0" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_female13_16" ng-model="data.no_female13_16">
+                <input type="number" min="0" ng-app-max="{{ data.no_female }}" required ng-pattern="/^[0-9]{1,7}$/" class="form-control" name="no_female13_16" ng-model="data.no_female13_16">
 
             </div>
         </div>
@@ -197,90 +197,101 @@
       
     </div>
 
+    <div class="panel-body">
+        <form name="IPGroupForm">
+            
+            <div class="layout-row" layout-margin flex>
+                <div flex>
 
-    <div class="layout-row" layout-margin flex>
-        <div flex>
+                </div>
+                <div flex>
+                    IP Group
+                </div>
+                <div flex>
+                    Sitio
+                </div>
+                <div flex>
+                    Total Households
+                </div>
+                <div flex>
+                    Total Families
+                </div>
+                <div flex>
+                    Male
+                </div>
+                <div flex>
+                    Female
+                </div>
+            </div>
 
-        </div>
-        <div flex>
-            IP Group
-        </div>
-        <div flex>
-            Sitio
-        </div>
-        <div flex>
-            Total Households
-        </div>
-        <div flex>
-            Total Families
-        </div>
-        <div flex>
-            Male
-        </div>
-        <div flex>
-            Female
-        </div>
+            <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="grp in data.ip_group_in_areas">
+                <div flex>
+                    <a class="btn btn-info" style="margin-right:5px" ng-click="ipgroup_edit_is_selected=true; editIPGroup(grp)" ng-hide="ipgroup_edit_is_selected"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="removeIPGroup($index)" ng-hide="ipgroup_edit_is_selected"><i class="fa fa-trash"></i></a>
+
+                    <a class="btn btn-success" style="margin-right:5px" ng-click="ipgroup_edit_is_selected=false; saveEditedIPGroup(grp)" ng-show="ipgroup_edit_is_selected"><i class="fa fa-check"></i></a>
+                    <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditIPGroup(grp); ipgroup_edit_is_selected=false" ng-show="ipgroup_edit_is_selected"><i class="fa fa-close"></i></a>
+                </div>
+                <div flex>
+                    <span ng-hide="ipgroup_edit_is_selected">{{grp.lib_ip_group.Name}}</span>
+                    <select ng-model="grp.lib_ip_group" class="form-control" ng-show="ipgroup_edit_is_selected"
+                            ng-options="option as option.Name for option in ip_group_id_options">
+                        <option value="">[Select IP Group]</option>
+                    </select>
+                </div>
+                <div flex>
+                    <span ng-hide="ipgroup_edit_is_selected">{{grp.sitio}}</span>
+                    <input type="text" required name="Sito" ng-model="grp.sitio" class="form-control" ng-show="ipgroup_edit_is_selected" />
+                </div>
+                <div flex>
+                    <span ng-hide="ipgroup_edit_is_selected">{{grp.household}}</span>
+                    <input ng-app-max="{{grp.family}}" type="number" required name="Total Households" ng-model="grp.household" class="form-control" ng-show="ipgroup_edit_is_selected" />
+                </div>
+                <div flex>
+                    <span ng-hide="ipgroup_edit_is_selected">{{grp.family}}</span>
+                    <input type="number" required name="Total Families" ng-model="grp.family" class="form-control" ng-show="ipgroup_edit_is_selected" />
+                </div>
+                <div flex>
+                    <span ng-hide="ipgroup_edit_is_selected">{{grp.male}}</span>
+                    <input type="number" required name="Total Households" ng-model="grp.male" class="form-control" ng-show="ipgroup_edit_is_selected" />
+                </div>
+                <div flex>
+                    <span ng-hide="ipgroup_edit_is_selected">{{grp.female}}</span>
+                    <input type="number" required name="Total Households" ng-model="grp.female" class="form-control" ng-show="ipgroup_edit_is_selected"/>
+                </div>
+            </div>
+
+            @*THIS IS FOR NEW ENTRY:*@
+            <div flex="100" layout="row" layout-margin layout-sm="column">
+                <div flex>
+                    <a class="btn btn-success" ng-disabled="!IPGroupForm.$valid" ng-click="addIpGroup()"><i class="fa fa-plus"></i></a>
+                </div>
+                <div flex>
+                    <select ng-model="grp.lib_ip_group" class="form-control"
+                            ng-options="option as option.Name for option in ip_group_id_options">
+                        <option value="">[Select IP Group]</option>
+                    </select>
+                </div>
+                <div flex>
+                    <input type="text" required name="Sito" ng-model="grp.sitio" class="form-control" />
+                </div>
+                <div flex>
+                    <input ng-app-max="{{ grp.family}}" type="number" required name="Total Households" ng-model="grp.household" class="form-control" />
+                </div>
+                <div flex>
+                    <input type="number" required name="Total Families" ng-model="grp.family" class="form-control" />
+                </div>
+                <div flex>
+                    <input type="number" required name="Total Households" ng-model="grp.male" class="form-control" />
+                </div>
+                <div flex>
+                    <input type="number" required name="Total Households" ng-model="grp.female" class="form-control" />
+                </div>
+            </div>
+
+        </form>
 
     </div>
-
-
-    <div class="layout-row" layout-margin flex ng-repeat="equip in data.ip_group_in_areas">
-
-        <div flex>
-            <a class="btn btn-danger" ng-click="removeIpGroup($index)"><i class="fa fa-trash"></i></a>
-        </div>
-        <div flex>
-            {{equip.lib_ip_group.Name}}
-        </div>
-        <div flex>
-            {{equip.sitio}}
-        </div>
-        <div flex>
-            {{equip.household}}
-        </div>
-
-        <div flex>
-            {{equip.family}}
-        </div>
-        <div flex>
-            {{equip.male}}
-        </div>
-        <div flex>
-            {{equip.female}}
-        </div>
-    </div>
-
-    <form name="othersTrainingForm">
-        <div class="layout-row" layout-margin flex md-padding>
-            <div flex>
-                <a class="btn btn-success" ng-click="addIpGroup()" ng-disabled="!othersTrainingForm.$valid"><i class="fa fa-plus"></i></a>
-            </div>
-            <div flex>
-          
-                <select ng-model="groups.lib_ip_group" class="form-control"
-                       ng-options="option as option.Name for option in ip_group_id_options">
-                    <option value="">[Select IP Group]</option>
-                </select>
-
-            </div>
-            <div flex>
-                <input type="text" required name="Sito" ng-model="groups.sitio" class="form-control" />
-            </div>
-            <div flex>
-                <input  ng-app-max="{{ groups.family}}" type="number" required name="Total Households" ng-model="groups.household" class="form-control" />
-            </div>
-            <div flex>
-                <input type="number" required name="Total Families" ng-model="groups.family" class="form-control" />
-            </div>
-            <div flex>
-                <input type="number" required name="Total Households" ng-model="groups.male" class="form-control" />
-            </div>
-            <div flex>
-                <input type="number" required name="Total Households" ng-model="groups.female" class="form-control" />
-            </div>
-
-        </div>
-    </form>
 
 
 </div>

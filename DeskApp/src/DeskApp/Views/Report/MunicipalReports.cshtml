@@ -671,6 +671,9 @@
                             $scope.subreport4_training_participants = value;
                             $scope.totalRows = $scope.subreport4_training_participants.length;
 
+                            alert(JSON.stringify(value));
+                            alert(JSON.stringify($scope.subreport4_training_participants));
+
                             $scope.num_of_trainings_total = 0;
                             $scope.male_volunteer_participants_subtotal = 0;
                             $scope.male_non_volunteer_participants_subtotal = 0;
@@ -1093,7 +1096,7 @@
                         $scope.filterCommittee = function (player) {
                             var teamIsNew = indexedCommittee.indexOf(player.volunteer_committee_id) == -1;
                             if (teamIsNew) {
-                                indexedTeams.push(player.volunteer_committee_id);
+                                indexedCommittee.push(player.volunteer_committee_id);
                             }
                             return teamIsNew;
                         }
