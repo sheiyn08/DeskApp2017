@@ -7,8 +7,8 @@
 
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true,
-    "platform": "x86" 
+    "preserveCompilationContext": true
+    //"platform": "x86" 
   },
   "dependencies": {
     "Microsoft.AspNetCore.Mvc": "1.0.1",
@@ -100,7 +100,7 @@
     }
   },
   "scripts": {
-    //"prepublish": [ "bower install", "dotnet bundle" ],
+    "prepublish": [ "bower install", "dotnet bundle" ],
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   }
  
