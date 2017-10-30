@@ -478,6 +478,10 @@ namespace DeskApp.Controllers
                             item.push_date = DateTime.Now;
                             await db.SaveChangesAsync();
                         }
+                        else
+                        {
+                            return BadRequest();
+                        }
                     }
                 }
                 else
@@ -498,6 +502,10 @@ namespace DeskApp.Controllers
                             item.push_status_id = 1;
                             item.push_date = DateTime.Now;
                             await db.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            return BadRequest();
                         }
                     }
                 }                

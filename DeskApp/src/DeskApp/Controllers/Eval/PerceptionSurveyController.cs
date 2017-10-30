@@ -5740,9 +5740,10 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            item.push_status_id = 4;
+                            //item.push_status_id = 4;
                             //item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
+                            //await db.SaveChangesAsync();
+                            return BadRequest();
                         }
                     }
                 }
@@ -5765,9 +5766,10 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            item.push_status_id = 4;
+                            //item.push_status_id = 4;
                             //item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
+                            //await db.SaveChangesAsync();
+                            return BadRequest();
                         }
                     }
                 }                

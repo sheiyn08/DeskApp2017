@@ -212,7 +212,7 @@
 
 
 
-                        <select name="IP group" ng-model="data.ip_group_id" id="prov_code" class="form-control" ng-disabled="data.is_ip != true" ng-required="data.is_ip == true"
+                        <select name="IP group" ng-model="data.ip_group_id" id="prov_code" class="form-control" ng-disabled="data.is_ip != true"
                                 ng-enable="data.is_ip == true"
                                 ng-options="option.Id as option.Name for option in ip_group_id_options">
                             <option value="">[Select IP Group]</option>
@@ -240,7 +240,7 @@
 
 
 
-                        <md-radio-group ng-required="data.is_ip" ng-model="data.is_ipleader" name="Is IP Leader">
+                        <md-radio-group ng-model="data.is_ipleader" name="Is IP Leader">
                             <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
                             <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 

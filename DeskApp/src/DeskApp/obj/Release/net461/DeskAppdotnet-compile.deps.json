@@ -9,7 +9,7 @@
       "TRACE",
       "NET461"
     ],
-    "platform": "x64",
+    "platform": "x86",
     "optimize": true,
     "emitEntryPoint": true
   },

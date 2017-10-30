@@ -7,8 +7,8 @@
 
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true
-    //"platform": "x86" 
+    "preserveCompilationContext": true,
+    "platform": "x86" 
   },
   "dependencies": {
     "Microsoft.AspNetCore.Mvc": "1.0.1",

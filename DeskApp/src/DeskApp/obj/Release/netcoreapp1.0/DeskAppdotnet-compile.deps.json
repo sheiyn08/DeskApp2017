@@ -9,6 +9,7 @@
       "TRACE",
       "NETCOREAPP1_0"
     ],
+    "platform": "x86",
     "optimize": true,
     "emitEntryPoint": true
   },

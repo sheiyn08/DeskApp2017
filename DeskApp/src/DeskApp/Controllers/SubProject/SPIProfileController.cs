@@ -2179,6 +2179,7 @@ namespace DeskApp.Controllers
             //-------------- START PAIRING: --------------//
 
             //details tab:
+            model.sub_project_id = sp_reference.sub_project_id;
             model.erfr_project_id = sp_reference.erfr_project_id;
             model.sub_project_name = sp_reference.sub_project_name;
             model.project_type_id = sp_reference.project_type_id;
@@ -2430,11 +2431,13 @@ namespace DeskApp.Controllers
                             item.push_status_id = 1;
                             await db.SaveChangesAsync();
                         }
-                        //else
-                        //{
-                        //    item.push_status_id = 4;
-                        //    await db.SaveChangesAsync();
-                        //}
+                        else
+                        {
+                            //item.push_status_id = 4;
+                            //item.push_date = DateTime.Now;
+                            //await db.SaveChangesAsync();
+                            return BadRequest();
+                        }
                     }
                 }
                 else {
@@ -2455,11 +2458,13 @@ namespace DeskApp.Controllers
                             item.push_status_id = 1;
                             await db.SaveChangesAsync();
                         }
-                        //else
-                        //{
-                        //    item.push_status_id = 4;
-                        //    await db.SaveChangesAsync();
-                        //}
+                        else
+                        {
+                            //item.push_status_id = 4;
+                            //item.push_date = DateTime.Now;
+                            //await db.SaveChangesAsync();
+                            return BadRequest();
+                        }
                     }
                 }               
 
@@ -2588,8 +2593,9 @@ namespace DeskApp.Controllers
                     else
                     {
                         //item.push_status_id = 4;
-                        // item.push_date = DateTime.Now;
+                        //item.push_date = DateTime.Now;
                         //await db.SaveChangesAsync();
+                        return false;
                     }
                 }
 
@@ -2650,6 +2656,7 @@ namespace DeskApp.Controllers
                         //item.push_status_id = 4;
                         //item.push_date = DateTime.Now;
                         //await db.SaveChangesAsync();
+                        return false;
                     }
                 }
 
@@ -2686,13 +2693,16 @@ namespace DeskApp.Controllers
                 {
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/spi/set/list/save", data).Result;
-                    
+
                     if (response.IsSuccessStatusCode)
                     {
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
                         await db.SaveChangesAsync();
 
+                    }
+                    else {
+                        return false;
                     }
                 }
             }
@@ -2734,6 +2744,9 @@ namespace DeskApp.Controllers
                         item.push_date = DateTime.Now;
                         await db.SaveChangesAsync();
 
+                    }
+                    else {
+                        return false;
                     }
                 }
             }

@@ -1237,6 +1237,10 @@ namespace DeskApp.Controllers
                             item.push_date = DateTime.Now;
                             await db.SaveChangesAsync();
                         }
+                        else
+                        {
+                            return BadRequest();
+                        }
                     }
                 }
 
