@@ -141,13 +141,14 @@
         <md-container layout="row">
 
             <div flex="100" layout="row" layout-margin layout-sm="column">
-
+                @*Removing this for DeskApp X*@
                 <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || !addressForm.$valid || !employmentForm.$valid">
                     Save
                 </md-button>
 
                 <md-button class="md-warn md-raised" href="/View/People">
-                    Cancel
+                    @*Cancel*@
+                    Back to List
                 </md-button>
 
             </div>
@@ -229,7 +230,7 @@
 
                     });
 
-                    ///-------------------------- check this! dito nahinto, 08-31-17
+
                     $scope.$watch('new_volunteer_record.volunteer_committee_id',
                         function (newValue, oldValue) {
                             var record = $scope;
@@ -497,6 +498,15 @@
                                 $scope.edit_volunteer = true;
                                 $scope.selected_volunteer = angular.copy(contact);
                                 $scope.selected_volunteer.dt_end_date = $scope.selected_volunteer.end_date == undefined ? null : new Date($scope.selected_volunteer.end_date);
+
+                                $http({
+                                    method: 'GET',
+                                    url: '/api/lib_cycle?id=' + $scope.selected_volunteer.fund_source_id,
+                                }).success(function (data, status, headers, config) {
+                                    $scope.selected_volunteer.cycle_id_options = data;
+                                }).error(function (data, status, headers, config) {
+                                    $scope.message = 'Unexpected Error';
+                                });
                             };
 
                             //add request
@@ -543,7 +553,7 @@
 
 
                                         $scope.reset_volunteer();
-                                        // $scope.get_volunteer_records();
+                                        $scope.get_volunteer_records();
 
                                     })
                                     .error(function (data) {
@@ -843,6 +853,27 @@
                                });
 
 
+                            $scope.viewMov = function (item) {
+                                var base = window.location.origin;
+
+                                $http.get('/api/mov/get/module_form_name?id=' + item.attached_document_id).then(function (response) {
+                                    $scope.pdf_details = response.data;
+
+                                    if ($scope.pdf_details.mov_list_id == 14) {
+                                        item.url = base + "/MOVs/" + "PP_CommunityVolunteersProfile_" + item.attached_document_id + ".pdf";
+                                    }
+                                    else if ($scope.pdf_details.mov_list_id == 51) {
+                                        item.url = base + "/MOVs/" + "PP_CDDSPWorkerBasicProfile_" + item.attached_document_id + ".pdf";
+                                    }
+                                    else {
+                                        alert("Attachment not found");
+                                    }
+
+                                    var newtab = window.open(item.url, '_blank');
+                                    newtab.focus();
+
+                                });
+                            };
 
 
                             $scope.deleteMov = function (removeitem) {

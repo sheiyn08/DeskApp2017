@@ -49,12 +49,23 @@
                             ng-options="option.Id as option.Name for option in fund_source_id_options">
                         <option value="">[Select Project]</option>
                     </select>
-                </div>
-                <div flex="25" flex-sm="100">
+                </div>                
+                @*----------------- v3.1 temporarily allowed editing of cycle (OLD) ------------------------*@
+                @*<div flex="25" flex-sm="100">
                     <label>Cycle </label>
                     <select name="Cycle" ng-model="main.cycle_id" id="brgy_code" class="form-control"
                             ng-required="true"
                             ng-disabled="status"
+                            ng-options="option.Id as option.Name for option in cycle_id_options">
+                        <option value="">[Select Cycle]</option>
+                    </select>
+                </div>*@
+                @*----------------- v3.1 temporarily allowed editing of cycle (NEW) ------------------------*@
+                <div flex="25" flex-sm="100">
+                    <label>Cycle </label>
+                    <select name="Cycle" ng-model="main.cycle_id" id="brgy_code" class="form-control"
+                            ng-disabled="main.cycle_id != 54 && status"
+                            ng-required="true"
                             ng-options="option.Id as option.Name for option in cycle_id_options">
                         <option value="">[Select Cycle]</option>
                     </select>

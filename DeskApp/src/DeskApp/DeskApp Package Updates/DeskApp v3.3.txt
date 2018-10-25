@@ -1,0 +1,12 @@
+
+=======================***** DeskApp v3.3 *****=======================
+Release Date: June 14, 2018
+
+This package release includes:
+1) Fix for Sync upload issue (due to the implementation of stricter server policies implemented by ICTMS in all of our servers)
+2) Facility to see records failed to upload during Sync
+   - See "Tags" column on Index Page of module OR filter records FAILED TO UPLOAD
+   - Purpose is for encoders to double-check the data/record because sometimes, records are not uploaded due to error in data entry
+3) For Developer's reference: add new class handling API Get (json)
+
+=======================***** DeskApp v3.3 *****=======================

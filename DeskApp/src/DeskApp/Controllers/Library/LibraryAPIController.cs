@@ -57,14 +57,12 @@ namespace DeskApp.Controllers
         }
 
         [Route("api/mov_list")]
-        public ActionResult mov_list(int id)
+        public ActionResult mov_list()
         {
-
-            var source = db.mov_list.Where(x => x.table_name_id == id);
+            var source = db.mov_list;
             return Json(source.Select(x => new { Id = x.mov_list_id, Name = x.name}));
-
-
         }
+        
 
 
 
@@ -98,13 +96,15 @@ namespace DeskApp.Controllers
         [Route("api/online/lib_region")]
         public ActionResult GetRegions()
         {
-            var source = db.lib_region.AsQueryable();
+            //original code:
+            //var source = db.lib_region.AsQueryable();
+            //return Json(source.Select(x => new { Id = x.region_code, Name = x.region_nick }));
 
+            //v3.1.1 for NIR release only:
+            //return Json(db.lib_region.Where(x => x.psgc == "2" || x.psgc == "3").Select(x => new { Id = x.region_code, Name = x.region_name }));
 
-
-            return Json(source.Select(x => new { Id = x.region_code, Name = x.region_nick }));
-
-
+            //more flexible for future releases. For NIR, assign psgc to 9
+            return Json(db.lib_region.Where(x => x.psgc != "9").Select(x => new { Id = x.region_code, Name = x.region_nick }));
         }
 
 
@@ -152,7 +152,15 @@ namespace DeskApp.Controllers
         [Route("api/lib_fund_source")]
         public ActionResult GetFundSource()
         {
-            return Json(db.lib_fund_source.Select(x => new { Id = x.fund_source_id, Name = x.name }));
+            //v4.2 do not display on dropdown the IPCDD (id: 15)
+            return Json(db.lib_fund_source.Where(x => x.fund_source_id != 15).Select(x => new { Id = x.fund_source_id, Name = x.name }));
+        }
+
+        //add: Dec 27, 2017
+        [Route("api/lib_mode")]
+        public ActionResult GetKCMode()
+        {
+            return Json(db.lib_mode.Select(x => new { Id = x.mode_id, Name = x.name }));
 
         }
 
@@ -199,21 +207,25 @@ namespace DeskApp.Controllers
         [Route("api/lib_lgu_level")]
         public ActionResult lib_lgu_level()
         {
-            return Json(db.lib_lgu_level.Select(x => new { Id = x.lgu_level_id, Name = x.name }));
+            //v4.2 do not display on dropdown AD Level (id: 4)
+            //adding the condition "x.lgu_level_id != 4" because there are sqlites who were able to download the library
+            return Json(db.lib_lgu_level.Where(x => x.lgu_level_id == 1 || x.lgu_level_id == 2).Select(x => new { Id = x.lgu_level_id, Name = x.name }));
 
         }
         [Route("api/lib_training_category")]
         public ActionResult lib_training_category(int lgu_level_id)
         {
-            //BLGU
+            //v4.2 do not display on dropdown Training Category intended only for IPCDD
+            //adding the condition "&& x.training_category_id <= 46" because there are sqlites who were able to download the library
+            //Training Category 47 to 64 is for IPCDD
             if (lgu_level_id == 1)
             {
-                return Json(db.lib_training_category.Where(x => x.is_active != false && x.is_barangay != null && x.is_ceac_tracking_only != true).OrderBy(x => x.name).Select(x => new { Id = x.training_category_id, Name = x.description }));
+                return Json(db.lib_training_category.Where(x => x.is_active != false && x.is_barangay != null && x.is_ceac_tracking_only != true && x.training_category_id <= 46).OrderBy(x => x.name).Select(x => new { Id = x.training_category_id, Name = x.description }));
                 
             }
             else
             {
-                return Json(db.lib_training_category.Where(x => x.is_active != false && x.is_municipality != null && x.is_ceac_tracking_only != true).OrderBy(x => x.name).Select(x => new { Id = x.training_category_id, Name = x.description }));
+                return Json(db.lib_training_category.Where(x => x.is_active != false && x.is_municipality != null && x.is_ceac_tracking_only != true && x.training_category_id <= 46).OrderBy(x => x.name).Select(x => new { Id = x.training_category_id, Name = x.description }));
                 
             }
 
@@ -305,6 +317,8 @@ namespace DeskApp.Controllers
             return Json(db.lib_organization.Select(x => new { Id = x.organization_id, Name = x.name }));
 
         }
+
+        
 
 
 

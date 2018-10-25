@@ -93,7 +93,8 @@
                     <br />
                     <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="equip in attached_documents">
                         <div flex="10" flex-sm="100">
-                            <a class="btn btn-success" href={{equip.url}} target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                            @*<a class="btn btn-success" href={{equip.url}} target="_blank"><i class="fa fa-file-pdf-o"></i></a>*@
+                            <a class="btn btn-success" ng-click="viewMov(equip)"><i class="fa fa-file-pdf-o"></i></a>
                             <a class="btn btn-danger" ng-click="deleteMov(equip)"><i class="fa fa-trash"></i></a>
                         </div>
                         <div flex="60" flex-sm="100">

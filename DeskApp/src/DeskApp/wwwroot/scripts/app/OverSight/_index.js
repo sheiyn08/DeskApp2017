@@ -96,19 +96,12 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         if (ask == true) {
             $.post('/api/delete/oversight_committee?id=' + removeitem.oversight_committee_id).success(function (value) {
                 $scope.loading = false;
-
-
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
-
-
+                $scope.totalCount = $scope.totalCount - 1;
                 alert("Record removed!");
-
             }).error(function (data) {
-
                 alert(JSON.stringify(data));
-
-
                 $scope.error = "An Error has occured while Deleting! " + data.statusText;
                 $scope.loading = false;
             });

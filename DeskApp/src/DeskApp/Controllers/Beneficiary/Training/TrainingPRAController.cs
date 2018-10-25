@@ -17,8 +17,8 @@ namespace DeskApp.Controllers
     public class TrainingPRAController : Controller
     {
 
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -96,60 +96,69 @@ namespace DeskApp.Controllers
 
 
         [Route("get_mapped")]
-        public IActionResult GetCSW(
-                     Guid community_training_id
-           )
+        public IActionResult GetCSW(Guid community_training_id)
         {
-
-            var training = db.mibf_prioritization.Where(x => x.community_training_id == community_training_id && x.is_deleted != true);
-
-
-
-           
-
-
+            var training = db.mibf_prioritization.Where(x => x.community_training_id == community_training_id && x.is_deleted != true); 
             return Ok(training.ToList());
         }
+        
+        //v3.1 check if there's duplicate ranks on load of prio records, if true, show red notif on view
+        [Route("check_ranks")]
+        public bool check_ranks(Guid id)
+        {
+            var list_of_ranks = db.mibf_prioritization.Where(x => x.community_training_id == id && x.is_deleted != true).ToList();
+            return list_of_ranks.GroupBy(y => y.rank).Any(g => g.Count() > 1);
+        }
+
+        //v3.1 check if there's duplicate ranks on edit or adding new record, if true, show alert box on view
+        [Route("check_ranks_on_save")]
+        public bool check_ranks_on_save(Guid id, int? rank)
+        {
+            var ranks = db.mibf_prioritization.Where(x => x.community_training_id == id && x.is_deleted != true && x.rank == rank).ToList();
+            return ranks.Count() >= 1;
+        }
+
+
 
         [Route("save")]
         public async Task<IActionResult> SaveCSW(mibf_prioritization model, bool? api)
         {
-
-
             var record = db.mibf_prioritization.AsNoTracking().FirstOrDefault(x => x.mibf_prioritization_id == model.mibf_prioritization_id);
-
             var training = db.community_training.Find(model.community_training_id);
+            var main_record = db.community_training.FirstOrDefault(x => x.community_training_id == model.community_training_id);
 
             model.region_code = training.region_code;
             model.prov_code = training.prov_code;
             model.city_code = training.city_code;
 
-
             if (record == null)
             {
-
-
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+                    model.mibf_prioritization_id = Guid.NewGuid();
 
-                    int rank =
-                     db.mibf_prioritization.Where(
-                         x => x.community_training_id == model.community_training_id && x.is_deleted != true).Count();
+                    //--v3.1 removed auto assign of rank because it causes bug
+                    //int rank = db.mibf_prioritization.Where(x => x.community_training_id == model.community_training_id && x.is_deleted != true).Count();
+                    //model.rank = rank + 1;
 
-                    model.rank = rank + 1;
+                    //v3.1 if new PRA is added, update main training record as well
+                    main_record.push_status_id = 3;
+                    main_record.last_modified_by = 0;
+                    main_record.last_modified_date = DateTime.Now;
+                    db.Entry(main_record).State = EntityState.Modified;
                 }
-
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.mibf_prioritization_id = Guid.NewGuid();
-
-                model.is_deleted = false;
-                db.mibf_prioritization.Add(model);
-
+                else
+                {
+                    model.push_status_id = 1;
+                }
+                                
+                db.mibf_prioritization.Add(model);                
 
                 try
                 {
@@ -158,32 +167,32 @@ namespace DeskApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
             }
+
             else
             {
-                model.push_date = null;
-
-
+                
+                
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+
+                    //v3.1 if PRA is edited, update main training record as well
+                    main_record.push_status_id = 3;
+                    main_record.last_modified_by = 0;
+                    main_record.last_modified_date = DateTime.Now;
+                    db.Entry(main_record).State = EntityState.Modified;
                 }
-
-
 
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
-
-                db.Entry(model).State = EntityState.Modified;
+                db.Entry(model).State = EntityState.Modified;                
 
                 try
                 {
@@ -203,28 +212,33 @@ namespace DeskApp.Controllers
         [Route("delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
-
-
             var record = db.mibf_prioritization.FirstOrDefault(x => x.mibf_prioritization_id == id);
+            var main_record = db.community_training.FirstOrDefault(x => x.community_training_id == record.community_training_id);
 
             if (db.sub_project.FirstOrDefault(x => x.mibf_prioritization_id == id) != null)
             {
                 var proj = db.sub_project.FirstOrDefault(x => x.mibf_prioritization_id == id).sub_project_id;
-
-                return
-                    BadRequest(
-                        "Project has already been selected as Result of Prioritization in the SPI Module, with sub project Id: " +
-                        proj);
+                return BadRequest("Project has already been selected as Result of Prioritization in the SPI Module, with sub project Id: " + proj);
             }
-
 
             record.is_deleted = true;
             record.push_status_id = 3;
 
+            //v3.1 if one PRA is deleted, the ranking should be adjusted
+            var pra_onwards = db.mibf_prioritization.Where(x => x.rank > record.rank);
+            foreach (var pra in pra_onwards.ToList()) {
+                pra.rank = pra.rank - 1;
+                db.Entry(pra_onwards).State = EntityState.Modified;
+            }
+
+            //v3.1 if PRA is deleted, update main training record as well
+            main_record.push_status_id = 3;
+            main_record.last_modified_by = 0;
+            main_record.last_modified_date = DateTime.Now;
+
             await db.SaveChangesAsync();
-
             return Ok();
-
         }
+
     }
 }

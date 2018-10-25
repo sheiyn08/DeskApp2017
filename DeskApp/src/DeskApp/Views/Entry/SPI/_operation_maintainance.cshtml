@@ -20,7 +20,7 @@
                     Date Registered
                 </div>
                 <div flex>
-                    Name of Accredition Entity
+                    Name of Accreditation Entity
                 </div>
                 <div flex>
                     Date Constitution and by Laws Approved
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="layout-row" layout-margin flex ng-repeat="opmain in data.community_formation_lists">
+            <div class="layout-row" layout-margin flex ng-repeat="opmain in others.community_formation_lists">
                 <div flex>
                     <a class="btn btn-info" style="margin-right:5px" ng-click="opmain_edit_is_selected=true; editOpMain(opmain)" ng-hide="opmain_edit_is_selected"><i class="fa fa-edit"></i></a>
                     <a class="btn btn-danger" style="margin-right:5px" ng-click="removeOpMain($index)" ng-hide="opmain_edit_is_selected"><i class="fa fa-trash"></i></a>
@@ -51,12 +51,12 @@
                 <div flex>
                     <span ng-hide="opmain_edit_is_selected">{{opmain.date_formed | date:'MM/dd/yyyy'}}</span>
                     <md-datepicker name="Date " ng-model="opmain.date_formed" md-placeholder="Enter date"
-                                   md-min-date="minDate" md-max-date="today" class="form-control" ng-show="opmain_edit_is_selected"></md-datepicker>
+                                   md-max-date="today" class="form-control" ng-show="opmain_edit_is_selected"></md-datepicker>
                 </div>
                 <div flex>
                     <span ng-hide="opmain_edit_is_selected">{{opmain.date_registered | date:'MM/dd/yyyy'}}</span>
                     <md-datepicker name="Date " ng-model="opmain.date_registered" md-placeholder="Enter date"
-                                   md-min-date="minDate" md-max-date="today" class="form-control" ng-show="opmain_edit_is_selected"></md-datepicker>
+                                   md-max-date="today" class="form-control" ng-show="opmain_edit_is_selected"></md-datepicker>
                 </div>
                 <div flex>
                     <span ng-hide="opmain_edit_is_selected">{{opmain.registed_with}}</span>
@@ -65,17 +65,17 @@
                 <div flex>
                     <span ng-hide="opmain_edit_is_selected">{{opmain.date_consti | date:'MM/dd/yyyy'}}</span>
                     <md-datepicker name="Date " ng-model="opmain.date_consti" md-placeholder="Enter date"
-                                   md-min-date="minDate" md-max-date="today" class="form-control" ng-show="opmain_edit_is_selected"></md-datepicker>
+                                   md-max-date="today" class="form-control" ng-show="opmain_edit_is_selected"></md-datepicker>
                 </div>
                 <div flex>
                     <span ng-hide="opmain_edit_is_selected">{{opmain.date_policy | date:'MM/dd/yyyy'}}</span>
                     <md-datepicker name="Date " ng-model="opmain.date_policy" md-placeholder="Enter date"
-                                   md-min-date="minDate" md-max-date="today" class="form-control" ng-show="opmain_edit_is_selected"></md-datepicker>
+                                   md-max-date="today" class="form-control" ng-show="opmain_edit_is_selected"></md-datepicker>
                 </div>
                 <div flex>
                     <span ng-hide="opmain_edit_is_selected">{{opmain.date_plan | date:'MM/dd/yyyy'}}</span>
                     <md-datepicker name="Date " ng-model="opmain.date_plan" md-placeholder="Enter date"
-                                   md-min-date="minDate" md-max-date="today" class="form-control" ng-show="opmain_edit_is_selected"></md-datepicker>
+                                   md-max-date="today" class="form-control" ng-show="opmain_edit_is_selected"></md-datepicker>
                 </div>
                 <div flex>
                     <span ng-hide="opmain_edit_is_selected">{{opmain.capacity}}</span>
@@ -91,28 +91,53 @@
                 <div flex>
                     <input type="text" required name="Equipment Name" ng-model="opmain.name" class="form-control" />
                 </div>
-                <div flex>
+                @*OLD -- removed mindate starting version 3.2*@
+                @*<div flex>
                     <md-datepicker name="Date " ng-model="opmain.date_formed" md-placeholder="Enter date"
                                    md-min-date="minDate" md-max-date="today" class="form-control"></md-datepicker>
-                </div>
+                </div>*@
                 <div flex>
+                    <md-datepicker name="Date " ng-model="opmain.date_formed" md-placeholder="Enter date"
+                                   md-max-date="today" class="form-control"></md-datepicker>
+                </div>   
+                @*OLD -- removed mindate starting version 3.2*@ 
+                @*<div flex>
                     <md-datepicker name="Date " ng-model="opmain.date_registered" md-placeholder="Enter date"
                                    md-min-date="minDate" md-max-date="today" class="form-control"></md-datepicker>
+                </div>*@            
+                <div flex>
+                    <md-datepicker name="Date " ng-model="opmain.date_registered" md-placeholder="Enter date"
+                                   md-max-date="today" class="form-control"></md-datepicker>
                 </div>
                 <div flex>
                     <input type="text" name="Name of Accreditation Entity" ng-model="opmain.registed_with" class="form-control" />
                 </div>
-                <div flex>
+                @*OLD -- removed mindate starting version 3.2*@
+                @*<div flex>
                     <md-datepicker name="Date " ng-model="opmain.date_consti" md-placeholder="Enter date"
                                    md-min-date="minDate" md-max-date="today" class="form-control"></md-datepicker>
-                </div>
+                </div>*@
                 <div flex>
+                    <md-datepicker name="Date " ng-model="opmain.date_consti" md-placeholder="Enter date"
+                                   md-max-date="today" class="form-control"></md-datepicker>
+                </div>
+                @*OLD -- removed mindate starting version 3.2*@
+                @*<div flex>
                     <md-datepicker name="Date " ng-model="opmain.date_policy" md-placeholder="Enter date"
                                    md-min-date="minDate" md-max-date="today" class="form-control"></md-datepicker>
-                </div>
+                </div>*@
                 <div flex>
+                    <md-datepicker name="Date " ng-model="opmain.date_policy" md-placeholder="Enter date"
+                                   md-max-date="today" class="form-control"></md-datepicker>
+                </div>
+                @*OLD -- removed mindate starting version 3.2*@
+                @*<div flex>
                     <md-datepicker name="Date " ng-model="opmain.date_plan" md-placeholder="Enter date"
                                    md-min-date="minDate" md-max-date="today" class="form-control"></md-datepicker>
+                </div>*@
+                <div flex>
+                    <md-datepicker name="Date " ng-model="opmain.date_plan" md-placeholder="Enter date"
+                                   md-max-date="today" class="form-control"></md-datepicker>
                 </div>
                 <div flex>
                     <input type="text" ng-model="opmain.capacity" class="form-control" />

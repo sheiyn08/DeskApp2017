@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DeskApp.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace DeskApp.Controllers
 {
@@ -14,8 +15,8 @@ namespace DeskApp.Controllers
     {
 
 
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -203,6 +204,15 @@ namespace DeskApp.Controllers
         public bool is_sp_paired(int id)
         {
             return db.sub_project_reference_table.Where(e => e.sub_project_id == id && e.is_paired == true).Count() > 0;
+        }
+
+        //v4.0
+        [HttpGet]
+        [Route("movs/guid_only_filename")]
+        public bool is_guid_only_filename_exists(Guid url)
+        {
+            var path01 = PlatformServices.Default.Application.ApplicationBasePath;
+            return System.IO.File.Exists(path01 + @"\wwwroot\MOVs\" + url.ToString() + ".pdf");
         }
 
     }

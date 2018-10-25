@@ -80,7 +80,7 @@ namespace DeskApp.DataLayer
                 lib_cycle_name = x.lib_cycle.name,
                 lib_fund_source_name = x.lib_fund_source.name,
                 lib_province_prov_name = x.lib_province.prov_name,
-                lib_region_region_name = x.lib_region.region_name,
+                lib_region_region_name = x.lib_region.region_nick,
                 lib_brgy_brgy_name = x.lib_brgy.brgy_name,
                 brgy_profile_id = x.brgy_profile_id,
                 old_id = x.old_id,

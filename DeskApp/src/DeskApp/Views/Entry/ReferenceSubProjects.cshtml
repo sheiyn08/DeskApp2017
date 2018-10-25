@@ -2181,27 +2181,27 @@
                         $scope.new_ErsList_record.created_date = new Date();
 
 
-                        $.post('/api/offline/v1/sub_projects/ers/save', $scope.new_ErsList_record)
-                            .success(function(data) {
+                        //$.post('/api/offline/v1/sub_projects/ers/save', $scope.new_ErsList_record)
+                        //    .success(function(data) {
 
-                                $mdToast.show(
-                                    $mdToast.simple()
-                                    .textContent('Ers List Added!')
-                                    .position("top right")
-                                    .hideDelay(3000)
-                                );
+                        //        $mdToast.show(
+                        //            $mdToast.simple()
+                        //            .textContent('Ers List Added!')
+                        //            .position("top right")
+                        //            .hideDelay(3000)
+                        //        );
 
 
-                                $scope.new_ErsList_record.sub_project_ers_id = data.sub_project_ers_id;
+                        //        $scope.new_ErsList_record.sub_project_ers_id = data.sub_project_ers_id;
 
-                                $scope.list_ErsList.push($scope.new_ErsList_record);
-                                $scope.reset_ErsList();
-                            })
-                            .error(function(data) {
-                                alert(JSON.stringify(data));
-                                $scope.error = "An Error has occured while Saving! " + data.statusText;
-                                $scope.loading = false;
-                            });
+                        //        $scope.list_ErsList.push($scope.new_ErsList_record);
+                        //        $scope.reset_ErsList();
+                        //    })
+                        //    .error(function(data) {
+                        //        alert(JSON.stringify(data));
+                        //        $scope.error = "An Error has occured while Saving! " + data.statusText;
+                        //        $scope.loading = false;
+                        //    });
 
 
                     };

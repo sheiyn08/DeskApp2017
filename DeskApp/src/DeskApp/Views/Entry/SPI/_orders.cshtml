@@ -19,7 +19,7 @@
                         <div flex>Order No.</div>
                         <div flex>Date</div>
                     </div>
-                    <div class="layout-row" layout-margin flex ng-repeat="suspension in data.suspension_order_lists">
+                    <div class="layout-row" layout-margin flex ng-repeat="suspension in others.suspension_order_lists">
                         <div flex>
                             <a class="btn btn-info" style="margin-right:5px" ng-click="suspension_edit_is_selected=true; editSuspension(suspension)" ng-hide="suspension_edit_is_selected"><i class="fa fa-edit"></i></a>
                             <a class="btn btn-danger" style="margin-right:5px" ng-click="removeSuspension($index)" ng-hide="suspension_edit_is_selected"><i class="fa fa-trash"></i></a>
@@ -75,7 +75,7 @@
                         <div flex>Order No.</div>
                         <div flex>Date</div>
                     </div>
-                    <div class="layout-row" layout-margin flex ng-repeat="resume in data.resume_order_lists">
+                    <div class="layout-row" layout-margin flex ng-repeat="resume in others.resume_order_lists">
                         <div flex>
                             <a class="btn btn-info" style="margin-right:5px" ng-click="resume_edit_is_selected=true; editResume(resume)" ng-hide="resume_edit_is_selected"><i class="fa fa-edit"></i></a>
                             <a class="btn btn-danger" style="margin-right:5px" ng-click="removeResume($index)" ng-hide="resume_edit_is_selected"><i class="fa fa-trash"></i></a>
@@ -132,7 +132,7 @@
                         <div flex>Order No.</div>
                         <div flex>Date</div>
                     </div>
-                    <div class="layout-row" layout-margin flex ng-repeat="variation in data.variation_order_lists">
+                    <div class="layout-row" layout-margin flex ng-repeat="variation in others.variation_order_lists">
                         <div flex>
                             <a class="btn btn-info" style="margin-right:5px" ng-click="variation_edit_is_selected=true; editVariation(variation)" ng-hide="variation_edit_is_selected"><i class="fa fa-edit"></i></a>
                             <a class="btn btn-danger" style="margin-right:5px" ng-click="removeVariation($index)" ng-hide="variation_edit_is_selected"><i class="fa fa-trash"></i></a>

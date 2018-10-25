@@ -72,6 +72,12 @@ namespace DeskApp.Controllers
 
         }
 
+        public ActionResult TrainingsPSA()
+        {
+            return View();
+
+        }
+
 
         public ActionResult People()
         {
@@ -96,7 +102,7 @@ namespace DeskApp.Controllers
         {
             return View();
         }
+        
 
-      
     }
 }

@@ -85,11 +85,13 @@
         <div flex="100" layout="row" layout-margin layout-sm="column">
 
             <!--VALIDATION: button Submit will be enabled only if the required fields are populated-->
+            @*Removing this for DeskApp X*@
             <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!basicForm.$valid">
                 Save 
             </md-button>
             <md-button class="md-warn md-raised" href="/MunicipalFinancialProfile/Index">
-                Cancel
+                @*Cancel*@
+                Back to List
             </md-button>
         </div>
 

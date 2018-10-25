@@ -19,8 +19,8 @@ namespace DeskApp.Controllers
     public class GrievanceInstallController : Controller
     {
 
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -59,18 +59,16 @@ namespace DeskApp.Controllers
                              //no_tarpauline = data.no_tarpauline,
 
                              with_grievance_box = data.is_boxinstalled == true ? "Yes" : "No",
-
-                          
-
-                             date_ffcomm = data.date_ffcomm,
-                             date_infodess = data.date_infodess,
-                             date_inspect = data.date_inspect,
-                             date_meansrept = data.date_meansrept,
-                             date_training = data.date_training,
-                             date_voliden = data.date_voliden,
-
-                             date_orientation = data.date_orientation,
-                             date_means_of_reporting = data.date_meansrept,
+                             
+                             //4.2: format dates to dd/mm/yyyy
+                             date_ffcomm = data.date_ffcomm == null ? "" : data.date_ffcomm.Value.ToString("dd/MM/yyyy"),
+                             date_infodess = data.date_infodess == null ? "" : data.date_infodess.Value.ToString("dd/MM/yyyy"),
+                             date_inspect = data.date_inspect == null ? "" : data.date_inspect.Value.ToString("dd/MM/yyyy"),
+                             date_meansrept = data.date_meansrept == null ? "" : data.date_meansrept.Value.ToString("dd/MM/yyyy"),
+                             date_training = data.date_training == null ? "" : data.date_training.Value.ToString("dd/MM/yyyy"),
+                             date_voliden = data.date_voliden == null ? "" : data.date_voliden.Value.ToString("dd/MM/yyyy"),
+                             date_orientation = data.date_orientation == null ? "" : data.date_orientation.Value.ToString("dd/MM/yyyy"),
+                             date_means_of_reporting = data.date_meansrept == null ? "" : data.date_meansrept.Value.ToString("dd/MM/yyyy"),
 
                              phone_no = data.phone_no,
 
@@ -365,15 +363,7 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/grs_installation/save")]
         public async Task<IActionResult> Save(grs_installation model, bool? api)
         {
-
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
-
-            var record = db.grs_installation.AsNoTracking()
-            .FirstOrDefault(x => 
+            var record = db.grs_installation.AsNoTracking().FirstOrDefault(x => 
                 x.grs_installation_id == model.grs_installation_id &&            
                 x.brgy_code == model.brgy_code && 
                 x.city_code == model.city_code && 
@@ -394,16 +384,13 @@ namespace DeskApp.Controllers
                     model.created_date = DateTime.Now;
                     model.is_deleted = false;
                 }
-
-                //because api is set to TRUE in sync/get
+                
                 if (api == true)
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
 
-                db.grs_installation.Add(model);
- 
+                db.grs_installation.Add(model); 
 
                 try
                 {
@@ -418,23 +405,18 @@ namespace DeskApp.Controllers
 
             else
             {
-                model.push_date = null;
-
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;                    
                 }
-
-
-                //model.grs_installation_id = record.grs_installation_id;
+                
+                model.grs_installation_id = record.grs_installation_id;
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
-
                 db.Entry(model).State = EntityState.Modified;
 
                 try
@@ -504,41 +486,28 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/grs_installation")]
         public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/grs_installation/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<grs_installation>>(responseJson.Result);
-
-//                    var all = Mapper.DynamicMap<List<grs_installation_mapping>, List<grs_installation>>(model);
-
+                    
                     foreach (var item in model.ToList())
                     {
                         await Save(item, true);
                     }
-
                     return Ok();
                 }
                 else
@@ -546,8 +515,6 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
-
-
         }
 
 
@@ -586,11 +553,8 @@ namespace DeskApp.Controllers
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.grs_installation.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.grs_installation_id == record_id);
-                    }
+                    var items = db.grs_installation.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -604,19 +568,16 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
+
                 else {
-                    var items = db.grs_installation.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.grs_installation_id == record_id);
-                    }
+                    var items = db.grs_installation.Where(x => x.push_status_id == 5 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -630,10 +591,9 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
 

@@ -20,8 +20,8 @@ namespace DeskApp.Controllers
 {
     public class ProfilesController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
 
         private readonly ApplicationDbContext db;
@@ -240,68 +240,58 @@ namespace DeskApp.Controllers
             var result = from s in model
                          select new
                          {
+                             s.person_profile_id,
                              s.lib_region.region_name,
                              s.lib_province.prov_name,
                              s.lib_city.city_name,
                              s.lib_brgy.brgy_name,
-
-                             s.person_profile_id,
-
                              s.first_name,
                              s.middle_name,
                              s.last_name,
+                             sex = s.sex == true ? "Male" : s.sex == false? "Female" : "",
+                             //s.birthdate,
 
-                             sex = s.sex == true ? "Male" : "Female",
-                             s.birthdate,
+                             //4.2: format dates to dd/mm/yyyy
+                             birthdate = s.birthdate == null ? "" : s.birthdate.Value.ToString("dd/MM/yyyy"),
 
                              age = s.birthdate == null ? "" : (DateTime.Now.Year - s.birthdate.Value.Year).ToString(),
-
                              marital_status = s.lib_civil_status.name,
-
                              occupation = s.lib_occupation.name,
                              s.no_children,
-
                              educational_attainment = s.lib_education_attainment.name,
-
-                             is_volunteer = db.person_volunteer_record.Count(x => x.person_profile_id == s.person_profile_id && x.is_deleted != true) > 0 ? "Yes" : "",
+                             //is_volunteer = db.person_volunteer_record.Count(x => x.person_profile_id == s.person_profile_id && x.is_deleted != true) > 0 ? "Yes" : "",
+                             is_volunteer = s.is_volunteer == true ? "Yes" : "",
                              is_worker = db.person_ers_work.Count(x => x.person_profile_id == s.person_profile_id && x.is_deleted != true) > 0 ? "Yes" : "",
-                             is_ip = s.is_ip != null ? "YES" : "",
-
-                             is_ip_leader = s.is_ip != null ? "YES" : "",
-                             is_pantawid = s.is_pantawid != null ? "YES" : "",
-                             is_slp = s.is_slp != null ? "YES" : "",
-
-
-                             has_attended_in_BAR = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 1) > 0 ? "YES" : "",
-                             has_attended_in_BPSA = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 2) > 0 ? "YES" : "",
-                             has_attended_in_CMVP = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 3) > 0 ? "YES" : "",
-
-                             has_attended_in_CSW = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 4) > 0 ? "YES" : "",
-
-                             has_attended_in_Finance = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 5) > 0 ? "YES" : "",
-
-                             has_attended_in_GAD = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 6) > 0 ? "YES" : "",
-                             has_attended_in_INFRA = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 7) > 0 ? "YES" : "",
-                             has_attended_in_LGU_training = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 8) > 0 ? "YES" : "",
-                             has_attended_in_MF = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 9) > 0 ? "YES" : "",
-                             has_attended_in_MIAC = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 11) > 0 ? "YES" : "",
-
-                             has_attended_in_MIBFPRA = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 11) > 0 ? "YES" : "",
-
-                             has_attended_in_MO = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 12) > 0 ? "YES" : "",
-                             has_attended_in_MPSA = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 13) > 0 ? "YES" : "",
-                             has_attended_in_MunAR = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 14) > 0 ? "YES" : "",
-                             has_attended_in_OM = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 15) > 0 ? "YES" : "",
-                             has_attended_in_ODM = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 16) > 0 ? "YES" : "",
-                             has_attended_in_Others = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 17) > 0 ? "YES" : "",
-                             has_attended_in_PCM = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 18) > 0 ? "YES" : "",
-                             has_attended_in_PPDW = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 19) > 0 ? "YES" : "",
-                             has_attended_in_Proc = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 20) > 0 ? "YES" : "",
-                             has_attended_in_SpecialMIBF = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 21) > 0 ? "YES" : "",
-
-                             has_attended_in_SPW = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 22) > 0 ? "YES" : "",
-
-
+                             is_ip = s.is_ip == true ? "Yes" : s.is_ip == false ? "No" : "",
+                             is_ip_leader = s.is_ipleader == true ? "Yes" : s.is_ipleader == false ? "No" :"",
+                             is_pantawid = s.is_pantawid == true ? "Yes" : s.is_pantawid == false ? "No" : "",
+                             is_pantawid_leader = s.is_pantawid_leader == true ? "Yes" : s.is_pantawid_leader == false ? "No" : "",
+                             is_slp = s.is_slp == true ? "Yes" : s.is_slp == false ? "No" : "",
+                             is_slp_leader = s.is_slp_leader == true ? "Yes" : s.is_slp_leader == false ? "No" : "",
+                             
+                             has_attended_in_BAR = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 1) > 0 ? "Yes" : "",
+                             has_attended_in_BPSA = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 2) > 0 ? "Yes" : "",
+                             has_attended_in_CMVP = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 3) > 0 ? "Yes" : "",
+                             has_attended_in_CSW = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 4) > 0 ? "Yes" : "",
+                             has_attended_in_Finance = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 5) > 0 ? "Yes" : "",
+                             has_attended_in_GAD = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 6) > 0 ? "Yes" : "",
+                             has_attended_in_INFRA = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 7) > 0 ? "Yes" : "",
+                             has_attended_in_LGU_training = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 8) > 0 ? "Yes" : "",
+                             has_attended_in_MF = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 9) > 0 ? "Yes" : "",
+                             has_attended_in_MIAC = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 11) > 0 ? "Yes" : "",
+                             has_attended_in_MIBFPRA = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 11) > 0 ? "Yes" : "",
+                             has_attended_in_MO = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 12) > 0 ? "Yes" : "",
+                             has_attended_in_MPSA = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 13) > 0 ? "Yes" : "",
+                             has_attended_in_MunAR = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 14) > 0 ? "Yes" : "",
+                             has_attended_in_OM = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 15) > 0 ? "Yes" : "",
+                             has_attended_in_ODM = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 16) > 0 ? "Yes" : "",
+                             has_attended_in_Others = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 17) > 0 ? "Yes" : "",
+                             has_attended_in_PCM = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 18) > 0 ? "Yes" : "",
+                             has_attended_in_PPDW = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 19) > 0 ? "Yes" : "",
+                             has_attended_in_Proc = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 20) > 0 ? "Yes" : "",
+                             has_attended_in_SpecialMIBF = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 21) > 0 ? "Yes" : "",
+                             has_attended_in_SPW = db.person_training.Count(x => x.person_profile_id == s.person_profile_id && x.community_training.training_category_id == 22) > 0 ? "Yes" : "",
+                             
                              is_sector_academe = s.is_sector_academe == true ? "Yes" : "",
                              is_sector_business = s.is_sector_business == true ? "Yes" : "",
                              is_sector_pwd = s.is_sector_pwd == true ? "Yes" : "",
@@ -524,6 +514,42 @@ namespace DeskApp.Controllers
             return Ok(export);
         }
 
+        //05-11-18: New Export 4.0: Volunteer Profile List
+        [HttpPost]
+        [Route("/api/export/person_profile/volunteer/detailed_list")]
+        public IActionResult export_volunteer_list(AngularFilterModel item)
+        {
+            item.is_volunteer = true;
+            var model = GetData(item);
+
+            var result = from s in model
+                         join p in db.person_volunteer_record.Where(x => x.is_deleted != true) on s.person_profile_id equals p.person_profile_id
+                         select p;
+
+            var export = result.Select(x => new
+            {
+                x.person_profile_id,
+                x.person_profile.first_name,
+                x.person_profile.middle_name,
+                x.person_profile.last_name,
+                x.person_profile.lib_region.region_name,
+                x.person_profile.lib_province.prov_name,
+                x.person_profile.lib_city.city_name,
+                x.person_profile.lib_brgy.brgy_name,
+                //4.2: format dates to dd/mm/yyyy
+                date_appointment = x.person_profile.date_appointment == null ? "" : x.person_profile.date_appointment.Value.ToString("dd/MM/yyyy"),
+                fund_source = x.lib_fund_source.name,
+                cycle = x.lib_cycle.name,
+                mode = x.lib_enrollment.name,
+                committee = x.lib_volunteer_committee.name,
+                position = x.lib_volunteer_committee_position.name,
+                //4.2: format dates to dd/mm/yyyy
+                date_start = x.start_date == null ? "" : x.start_date.Value.ToString("dd/MM/yyyy"),
+                date_end = x.end_date == null ? "" : x.end_date.Value.ToString("dd/MM/yyyy")
+            }).OrderBy(s => s.person_profile_id);
+
+            return Ok(export);
+        }
 
 
         [HttpPost]
@@ -618,23 +644,24 @@ namespace DeskApp.Controllers
             item.is_volunteer = true;
             var model = GetData(item);
 
-            var export = from s in model
+            var export = from s1 in model
+                         join s2 in db.person_volunteer_record on s1.person_profile_id equals s2.person_profile_id where s2.is_deleted != true
                          select new
                          {
-                             s.person_profile_id,
-                             s.lib_region.region_name,
-                             s.lib_province.prov_name,
-                             s.lib_city.city_name,
-                             s.lib_brgy.brgy_name,
-                             s.first_name,
-                             s.middle_name,
-                             s.last_name,
-                             age = s.birthdate == null ? "" : (DateTime.Now.Year - s.birthdate.Value.Year).ToString(),
-                             age_remarks = s.birthdate == null ? "No Birthday" : (DateTime.Now.Year - s.birthdate.Value.Year) < 15 ? "Less Than 15 Years Old" : (DateTime.Now.Year - s.birthdate.Value.Year) > 100 ? "More than 100 Years Old" : "",
-                             zero_committee = db.person_volunteer_record.Where(x => x.person_profile_id == s.person_profile_id && x.is_deleted != true).Count() > 0 ? "No Committee" : "",
-                             more_than_one_head = db.person_volunteer_record.Where(x => x.person_profile_id == s.person_profile_id && x.volunteer_committee_position_id == 2 && x.is_deleted != true).Count() > 1 ? "More than 1" : "",
-                             no_of_committes_as_head = db.person_volunteer_record.Where(x => x.person_profile_id == s.person_profile_id && x.volunteer_committee_position_id == 2 && x.is_deleted != true).Count(),
-                             no_of_committes_as_member = db.person_volunteer_record.Where(x => x.person_profile_id == s.person_profile_id && x.volunteer_committee_position_id == 1 && x.is_deleted != true).Count()
+                             s1.person_profile_id,
+                             s1.lib_region.region_name,
+                             s1.lib_province.prov_name,
+                             s1.lib_city.city_name,
+                             s1.lib_brgy.brgy_name,
+                             s1.first_name,
+                             s1.middle_name,
+                             s1.last_name,
+                             age = s1.birthdate == null ? "" : (DateTime.Now.Year - s1.birthdate.Value.Year).ToString(),
+                             age_remarks = s1.birthdate == null ? "No Birthday (no age) " : (DateTime.Now.Year - s1.birthdate.Value.Year) < 15 ? "Less Than 15 Years Old" : (DateTime.Now.Year - s1.birthdate.Value.Year) > 100 ? "More than 100 Years Old" : "",
+                             committee_remarks = s2.lib_volunteer_committee.name == null ? "No Committee" : "With Committee (" + s2.lib_volunteer_committee.name + ")",
+                             more_than_one_head = db.person_volunteer_record.Where(x => x.person_profile_id == s1.person_profile_id && x.volunteer_committee_position_id == 2 && x.is_deleted != true).Count() > 1 ? "More than 1" : "",
+                             no_of_committes_as_head = db.person_volunteer_record.Where(x => x.person_profile_id == s1.person_profile_id && x.volunteer_committee_position_id == 2 && x.is_deleted != true).Count(),
+                             no_of_committes_as_member = db.person_volunteer_record.Where(x => x.person_profile_id == s1.person_profile_id && x.volunteer_committee_position_id == 1 && x.is_deleted != true).Count()
                          };
 
             return Ok(export);
@@ -645,7 +672,7 @@ namespace DeskApp.Controllers
         [Route("/api/export/person_profile/dqa/same_name_different_sex")]
         public IActionResult export_dqa_same_name_different_sex(AngularFilterModel item)
         {
-            var model = GetData(item);            
+            var model = GetData(item);
 
             var result = from p1 in model
                          join p2 in model on
@@ -657,7 +684,7 @@ namespace DeskApp.Controllers
                                 join5 = p1.first_name.ToLower(),
                                 join6 = p1.last_name.ToLower(),
                                 join7 = p1.birthdate
-                            } equals 
+                            } equals
                             new {
                                 join1 = p2.region_code,
                                 join2 = p2.prov_code,
@@ -667,18 +694,18 @@ namespace DeskApp.Controllers
                                 join6 = p2.last_name.ToLower(),
                                 join7 = p2.birthdate
                             }
-                            where p2.sex != p1.sex || p1.sex == null
-                            orderby p1.brgy_code
+                         where p2.sex != p1.sex || p1.sex == null
+                         orderby p1.brgy_code
                          select new
                          {
-                             Person_Unique_Id = p1.person_profile_id,                             
+                             Person_Unique_Id = p1.person_profile_id,
                              Region = p1.lib_region.region_name == null ? null : p1.lib_region.region_name,
                              Province = p1.lib_province.prov_name == null ? null : p1.lib_province.prov_name,
                              Municipality = p1.lib_city.city_name == null ? null : p1.lib_city.city_name,
                              Barangay = p1.lib_brgy.brgy_name == null ? null : p1.lib_brgy.brgy_name,
                              Last_Name = p1.last_name,
                              First_Name = p1.first_name,
-                             Birthday = p1.birthdate.Value.ToString("MM/dd/yyyy"),
+                             Birthday = p1.birthdate == null ? "" : p1.birthdate.Value.ToString("dd/MM/yyyy"),
                              Sex = p1.sex == null ?  null : p1.sex == true ? "Male" : "Female"
                          };
 
@@ -705,7 +732,7 @@ namespace DeskApp.Controllers
                              Barangay = p1.lib_brgy.brgy_name == null ? null : p1.lib_brgy.brgy_name,
                              Last_Name = p1.last_name,
                              First_Name = p1.first_name,
-                             Birthday = p1.birthdate.Value.ToString("MM/dd/yyyy"),
+                             Birthday = p1.birthdate == null ? "" : p1.birthdate.Value.ToString("dd/MM/yyyy"),
                              Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
                              Cycle = p2.lib_cycle.name,
                              Committee = p2.lib_volunteer_committee.name == null ? null : p2.lib_volunteer_committee.name,
@@ -735,7 +762,7 @@ namespace DeskApp.Controllers
                              Barangay = p1.lib_brgy.brgy_name == null ? null : p1.lib_brgy.brgy_name,
                              Last_Name = p1.last_name,
                              First_Name = p1.first_name,
-                             Birthday = p1.birthdate.Value.ToString("MM/dd/yyyy"),
+                             Birthday = p1.birthdate == null ? "" : p1.birthdate.Value.ToString("dd/MM/yyyy"),
                              Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
                              Cycle = p2.lib_cycle.name,
                              Committee = p2.lib_volunteer_committee.name == null ? null : p2.lib_volunteer_committee.name,
@@ -850,7 +877,7 @@ namespace DeskApp.Controllers
                              Last_Name = p1.last_name,
                              First_Name = p1.first_name,                             
                              Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
-                             Birthdate = p1.birthdate == null ? null : p1.birthdate.Value.ToString("MM/dd/yyyy")
+                             Birthdate = p1.birthdate == null ? "" : p1.birthdate.Value.ToString("dd/MM/yyyy")
                          };
 
             return Ok(result);
@@ -895,7 +922,7 @@ namespace DeskApp.Controllers
                              Last_Name = p1.last_name,
                              First_Name = p1.first_name,
                              Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
-                             Birthday = p1.birthdate == null ? null : p1.birthdate.Value.ToString("MM/dd/yyyy")                             
+                             Birthday = p1.birthdate == null ? "" : p1.birthdate.Value.ToString("dd/MM/yyyy")                             
                          };
 
             return Ok(result);
@@ -940,7 +967,7 @@ namespace DeskApp.Controllers
                              Last_Name = p1.last_name,
                              First_Name = p1.first_name,
                              Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
-                             Birthday = p1.birthdate == null ? null : p1.birthdate.Value.ToString("MM/dd/yyyy")
+                             Birthday = p1.birthdate == null ? "" : p1.birthdate.Value.ToString("dd/MM/yyyy")
                          };
 
             return Ok(result);
@@ -985,7 +1012,7 @@ namespace DeskApp.Controllers
                              Last_Name = p1.last_name,
                              First_Name = p1.first_name,
                              Sex = p1.sex == null ? null : p1.sex == true ? "Male" : "Female",
-                             Birthday = p1.birthdate == null ? null : p1.birthdate.Value.ToString("MM/dd/yyyy")
+                             Birthday = p1.birthdate == null ? "" : p1.birthdate.Value.ToString("dd/MM/yyyy")
                          };
 
             return Ok(result);
@@ -1024,7 +1051,7 @@ namespace DeskApp.Controllers
                     Last_Name = x.last_name == null ? null : x.last_name,
                     Sex = x.sex == null ? null : x.sex == true ? "Male" : "Female",
                     Civil_Status = x.status == null ? null : x.status,
-                    Birthdate = x.birthdate,
+                    Birthdate = x.birthdate == null ? null : x.birthdate.Value.ToString("dd/MM/yyyy"),
                     No_of_children = x.no_children,
                     Educational_Attainment = x.education,
                     Is_IP = x.is_ip == null ? null : x.is_ip == true ? "Yes" : "No",
@@ -1134,38 +1161,84 @@ namespace DeskApp.Controllers
 
         {
             var model = db.person_profile
-
-
                 .Include(x => x.lib_approval)
                 .Include(x => x.lib_blgu_position)
                 .Include(x => x.lib_brgy)
-
                 .Include(x => x.lib_city)
                 .Include(x => x.lib_civil_status)
                 .Include(x => x.lib_education_attainment)
-
-                  .Include(x => x.lib_ip_group)
+                .Include(x => x.lib_ip_group)
                 .Include(x => x.lib_occupation)
                 .Include(x => x.lib_province)
-
                 .Include(x => x.lib_push_status)
                 .Include(x => x.lib_region)
-               .Where(x => x.is_deleted != true)
+                .Where(x => x.is_deleted != true)
                 .AsQueryable();
 
-            //for single sync
+            //////FILTER FIELDS:
+
+            //Recently Edited
+            if (item.is_recently_edited != null)
+            {
+                if (item.is_recently_edited == true)
+                {
+                    model = model.Where(m => m.push_status_id == 3);
+                }
+            }
+
+            //Recently Added
+            if (item.is_recently_added != null)
+            {
+                if (item.is_recently_added == true)
+                {
+                    model = model.Where(m => m.push_status_id == 2);
+                }
+            }
+
+            //Unauthorized
+            if (item.is_unauthorized != null)
+            {
+                if (item.is_unauthorized == true)
+                {
+                    model = model.Where(m => m.push_status_id == 4);
+                }
+            }
+            
+            //Name
             if (!string.IsNullOrEmpty(item.name))
             {
-                string converted_name = item.name.ToLower();
-
-                model = model.Where(x => x.first_name.ToLower().Contains(converted_name) || x.last_name.ToLower().Contains(converted_name));
-                
+               string converted_name = item.name.ToLower();
+                model = model.Where(x => x.first_name.ToLower().Contains(converted_name) || x.last_name.ToLower().Contains(converted_name));                
                 //model = model.Where(x => x.first_name.Contains(item.name) || x.last_name.Contains(item.name));
             }
-            if (item.record_id != null)
+
+            //Pantawid?
+            if (item.is_pantawid != null)
             {
-                model = model.Where(x => x.person_profile_id == item.record_id);
+                if (item.is_pantawid == true)
+                {
+                    model = model.Where(x => x.is_pantawid == true);
+                }
+                else
+                {
+                    model = model.Where(x => x.is_pantawid == false);
+                }
             }
+
+            //is SLP?
+            if (item.is_slp != null)
+            {
+                if (item.is_slp == true)
+                {
+                    model = model.Where(x => x.is_slp == true);
+                }
+                else
+                {
+                    model = model.Where(x => x.is_slp == false);
+                }
+            }
+
+            //Region, Province, Municipality, Brgy
             if (item.region_code != null)
             {
                 model = model.Where(m => m.region_code == item.region_code);
@@ -1182,390 +1255,258 @@ namespace DeskApp.Controllers
             {
                 model = model.Where(m => m.brgy_code == item.brgy_code);
             }
-            if (item.civil_status_id != null)
-            {
-                model = model.Where(m => m.civil_status_id == item.civil_status_id);
-            }
-            if (item.lgu_position_id != null)
-            {
-                model = model.Where(m => m.lgu_position_id == item.lgu_position_id);
-            }
-            if (item.education_attainment_id != null)
-            {
-                model = model.Where(m => m.education_attainment_id == item.education_attainment_id);
-            }
-            if (item.occupation_id != null)
-            {
-                model = model.Where(m => m.occupation_id == item.occupation_id);
-            }
-            if (item.push_status_id != null)
-            {
-                model = model.Where(m => m.push_status_id == item.push_status_id);
-            }
-            if (item.approval_id != null)
-            {
-                model = model.Where(m => m.approval_id == item.approval_id);
-            }
-
-            //v3.0 additional filter
-            if (item.is_unauthorized != null)
-            {
-                if (item.is_unauthorized == true)
-                {
-                    model = model.Where(m => m.push_status_id == 4);
-                }
-                else
-                {
-                    model = model.Where(m => m.push_status_id != 4);
-                }
-            }
-
-            if (item.is_recently_added != null)
-            {
-                if (item.is_recently_added == true)
-                {
-                    model = model.Where(m => m.push_status_id == 2);
-                }
-            }
-            if (item.is_recently_edited != null)
-            {
-                if (item.is_recently_edited == true)
-                {
-                    model = model.Where(m => m.push_status_id == 3);
-                }
-            }
-
-            //try:
-            if (item.fund_source_id != null)
-            {
-                if (item.cycle_id != null)
-                {
-                    model = from s in model
-                            where
-                                (from o in
-                                    db.person_volunteer_record.Where(x => x.fund_source_id == item.fund_source_id && x.cycle_id == item.cycle_id && x.is_deleted != true)
-                                 select o.person_profile_id)
-                                    .Contains(s.person_profile_id)
-                            select s;
-                }
-            }            
-            //end try
 
 
-
+            //IP?
             if (item.is_ip != null)
             {
-                if (item.is_male == true)
+                if (item.is_ip == true)
                 {
                     model = model.Where(x => x.is_ip == true);
+
+                    if (item.ip_group_id != null)
+                    {
+                        model = model.Where(m => m.ip_group_id == item.ip_group_id);
+                    }
                 }
-                else
+                if (item.is_ip == false)
                 {
-                    model = model.Where(x => x.is_ip != true);
+                    model = model.Where(x => x.is_ip == false);
                 }
             }
 
-
-            if (item.ip_group_id != null)
+            //Trained?
+            if (item.is_trained != null)
             {
-                model = model.Where(m => m.ip_group_id == item.ip_group_id);
+                if (item.is_trained == true)
+                {
+                    model = from s in model
+                            where (from o in db.person_training.Where(x => x.is_participant == true && x.is_deleted != true)
+                                    select o.person_profile_id).Contains(s.person_profile_id)
+                            select s;
+                    
+                    //if is_trained is yes, additional field will be present: Training Category 
+                    if (item.training_category_id != null)
+                    {
+                        model = from s in model
+                                where (from o in db.person_training.Where(x => x.community_training.training_category_id == item.training_category_id).Include(x => x.community_training).Where(x => x.community_training_id == item.community_training_id && x.is_participant == true && x.community_training.training_category_id == item.training_category_id)
+                                        select o.person_profile_id).Contains(s.person_profile_id)
+                                select s;
+                    }                    
+                }
+
+                if (item.is_trained == false)
+                {
+                    model = from s in model
+                            where !(from o in db.person_training.Where(x => x.is_participant == true && x.is_deleted != true)
+                                   select o.person_profile_id).Contains(s.person_profile_id)
+                            select s;
+                }
             }
 
+            //Volunteer?
             if (item.is_volunteer != null)
             {
                 if (item.is_volunteer == true)
                 {
-                    //  model = model.Where(x => x.is_volunteer != null);
-
                     model = from s in model
-                            where
-                                (from o in
-                                    db.person_volunteer_record.Where(
-                                        x =>
-
-                                            x.is_deleted != true)
-                                 select o.person_profile_id)
-                                    .Contains(s.person_profile_id)
+                            where (from o in db.person_volunteer_record.Where( x => x.is_deleted != true)
+                                    select o.person_profile_id).Contains(s.person_profile_id)
                             select s;
 
-
-
-                    if (item.volunteer_committee_id != null)
-                    {
-                        model = from s in model
-                                where
-                                    (from o in
-                                        db.person_volunteer_record.Where(
-                                            x =>
-                                                x.volunteer_committee_id == item.volunteer_committee_id &&
-                                                x.is_deleted != true)
-                                     select o.person_profile_id)
-                                        .Contains(s.person_profile_id)
-                                select s;
-
-                    }
-                    //if (item.volunteer_committee_position_id != null)
-                    //{
-                    //model = from s in model
-                    //        where
-                    //            (from o in
-                    //                db.person_volunteer_record.Where(
-                    //                    x =>
-                    //                        x.volunteer_committee_position_id == item.volunteer_committee_position_id
-                    //                        &&
-                    //                        x.volunteer_committee_id == item.volunteer_committee_id
-                    //                        &&
-                    //                        x.fund_source_id == item.fund_source_id
-                    //                        &&
-                    //                        x.cycle_id == item.cycle_id
-                    //                        &&
-                    //                        x.enrollment_id == item.enrollment_id
-                    //                        &&
-                    //                        x.is_deleted != true)
-                    //             select o.person_profile_id)
-                    //                .Contains(s.person_profile_id)
-                    //        select s;
-                    //  }
-
+                    //if volunteer is yes, ask for project
                     if (item.fund_source_id != null)
                     {
                         model = from s in model
-                                where
-                                    (from o in
-                                        db.person_volunteer_record.Where(
-                                            x => x.fund_source_id == item.fund_source_id && x.is_deleted != true)
-                                     select o.person_profile_id)
-                                        .Contains(s.person_profile_id)
+                                where (from o in db.person_volunteer_record.Where(x => x.fund_source_id == item.fund_source_id && x.is_deleted != true)
+                                        select o.person_profile_id).Contains(s.person_profile_id)
                                 select s;
                     }
 
+                    //if volunteer is yes, ask for cycle
                     if (item.cycle_id != null)
                     {
                         model = from s in model
-                                where
-                                    (from o in
-                                        db.person_volunteer_record.Where(
-                                            x => x.cycle_id == item.cycle_id && x.is_deleted != true)
-                                     select o.person_profile_id)
-                                        .Contains(s.person_profile_id)
+                                where (from o in db.person_volunteer_record.Where(x => x.cycle_id == item.cycle_id && x.is_deleted != true)
+                                        select o.person_profile_id).Contains(s.person_profile_id)
                                 select s;
                     }
 
+                    //if volunteer, ask for mode
                     if (item.enrollment_id != null)
                     {
                         model = from s in model
-                                where
-                                    (from o in
-                                        db.person_volunteer_record.Where(
-                                            x => x.enrollment_id == item.enrollment_id && x.is_deleted != true)
-                                     select o.person_profile_id)
-                                        .Contains(s.person_profile_id)
+                                where (from o in db.person_volunteer_record.Where(x => x.enrollment_id == item.enrollment_id && x.is_deleted != true)
+                                        select o.person_profile_id).Contains(s.person_profile_id)
                                 select s;
                     }
 
+                    //Member volunteer
+                    if (item.volunteer_committee_id != null && item.volunteer_committee_position_id == 1)
+                    {
+                        model = from s in model
+                                where (from o in db.person_volunteer_record.Where(x => x.volunteer_committee_id == item.volunteer_committee_id && x.volunteer_committee_position_id == 1 && x.is_deleted != true)
+                                        select o.person_profile_id).Contains(s.person_profile_id)
+                                select s;
+
+                    }
+
+                    //Chair member
+                    if (item.volunteer_committee_id != null && item.volunteer_committee_position_id == 2)
+                    {
+                        model = from s in model
+                                where (from o in db.person_volunteer_record.Where(x => x.volunteer_committee_id == item.volunteer_committee_id && x.volunteer_committee_position_id == 2 && x.is_deleted != true)
+                                       select o.person_profile_id).Contains(s.person_profile_id)
+                                select s;
+
+                    }
+
+                    //Volunteer regardless of position
+                    if (item.volunteer_committee_id != null && item.volunteer_committee_position_id == null)
+                    {
+                        model = from s in model
+                                where (from o in db.person_volunteer_record.Where(x => x.volunteer_committee_id == item.volunteer_committee_id && x.is_deleted != true)
+                                       select o.person_profile_id).Contains(s.person_profile_id)
+                                select s;
+
+                    }
+
+                    //Position (member/chair) regardless of committee
+                    if (item.volunteer_committee_position_id != null && item.volunteer_committee_id == null)
+                    {
+                        model = from s in model
+                                where (from o in db.person_volunteer_record.Where(x => x.volunteer_committee_position_id == item.volunteer_committee_position_id && x.is_deleted != true)
+                                        select o.person_profile_id).Contains(s.person_profile_id)
+                                select s;
+                    }
                 }
-                else
+
+                if (item.is_volunteer == false)
                 {
                     model = from s in model
-                            where
-                                !(from o in
-                                    db.person_volunteer_record.Where(
-                                        x =>
-
-                                            x.is_deleted != true)
-                                  select o.person_profile_id)
-                                    .Contains(s.person_profile_id)
+                            where !(from o in db.person_volunteer_record.Where(x => x.is_deleted != true)
+                                        select o.person_profile_id).Contains(s.person_profile_id)
                             select s;
-
-                    //   model = model.Where(x => x.is_volunteer =! true);
                 }
             }
+
+            //Worker?
             if (item.is_worker != null)
             {
                 if (item.is_worker == true)
                 {
                     model = from s in model
-                            where
-                                (from o in
-                                    db.person_ers_work.Where(
-                                        x =>
-
-                                            x.is_deleted != true)
-                                 select o.person_profile_id)
-                                    .Contains(s.person_profile_id)
+                            where (from o in db.person_ers_work.Where(x => x.is_deleted != true)
+                                    select o.person_profile_id).Contains(s.person_profile_id)
                             select s;
                 }
-                else
+                if (item.is_worker == false)
                 {
                     model = from s in model
-                            where
-                                !(from o in
-                                    db.person_ers_work.Where(
-                                        x =>
-
-                                            x.is_deleted != true)
-                                  select o.person_profile_id)
-                                    .Contains(s.person_profile_id)
+                            where !(from o in db.person_ers_work.Where(x => x.is_deleted != true)
+                                   select o.person_profile_id).Contains(s.person_profile_id)
                             select s;
                 }
             }
-            
-            if (item.sub_project_ers_id != null)
-            {
-                //this gets the Non ERS workers for this LIST
-                model = from s in model
-                        where
-                            !(from o in
-                                db.person_ers_work.Where(
-                                    x => x.sub_project_ers_id == item.sub_project_ers_id && x.is_deleted != true)
-                              select o.person_profile_id)
-                                .Contains(s.person_profile_id)
-                        select s;
-            }
 
-            if (item.is_lguofficial != null)
-            {
-
-                if (item.is_lguofficial == true)
-                {
-                    model = model.Where(x => x.is_lguofficial == true);
-                }
-                else
-                {
-                    model = model.Where(x => x.is_lguofficial != true);
-                }
-
-            }
-            if (item.is_trained != null)
-            {
-
-
-                //for training module
-                if (item.is_trained == true)
-                {
-
-                    model = from s in model
-                            where
-                                (from o in
-                                    db.person_training.Where(
-                                        x =>
-                                          
-                                            x.is_participant == true)
-                                 select o.person_profile_id)
-                                    .Contains(s.person_profile_id)
-                            select s;
-
-
-                    //checks if person is member of a conducted training
-                    if (item.community_training_id != null)
-                    {
-                        model = from s in model
-                                where
-                                    (from o in
-                                        db.person_training.Where(
-                                            x =>
-                                                x.community_training_id == item.community_training_id &&
-                                                x.is_participant == true)
-                                     select o.person_profile_id)
-                                        .Contains(s.person_profile_id)
-                                select s;
-                    }
-
-                    if (item.training_category_id != null)
-                    {
-                        model = from s in model
-                                where (from o in db.person_training.Where(x => x.community_training.training_category_id == item.training_category_id)
-                                    .Include(x => x.community_training)
-                                    .Where(
-                                        x =>
-                                            x.community_training_id == item.community_training_id &&
-                                            x.is_participant == true &&
-                                            x.community_training.training_category_id == item.training_category_id)
-                                       select o.person_profile_id)
-                                    .Contains(s.person_profile_id)
-                                select s;
-                    }
-
-                    // model = model.GroupBy(x => x.person_profile_id).Select(x => x.FirstOrDefault());
-                }
-                if (item.is_trained == false)
-                {
-                    if (item.community_training_id != null)
-                    {
-                        model = from s in model
-                                where
-                                    !(from o in
-                                        db.person_training.Where(
-                                            x =>
-                                                x.community_training_id == item.community_training_id &&
-                                                x.is_participant == true)
-                                      select o.person_profile_id)
-                                        .Contains(s.person_profile_id)
-                                select s;
-                    }
-
-
-
-                    if (item.training_category_id != null)
-                    {
-
-
-                        model = from s in model
-                                where !(from o in db.person_training
-                              //      .Include(x => x.community_training)
-                                    .Where(
-                                        x =>
-                                        //    x.community_training_id == item.community_training_id &&
-                                            x.is_participant == true
-                                            //&&
-                                            //x.community_training.training_category_id == item.training_category_id
-                                            )
-                                        select o.person_profile_id)
-                                    .Contains(s.person_profile_id)
-                                select s;
-                    }
-
-                }
-
-
-
-
-            }
-            if (item.is_pantawid != null)
-            {
-                if (item.is_pantawid == true)
-                {
-                    model = model.Where(x => x.is_pantawid == true);
-                }
-                else
-                {
-                    model = model.Where(x => x.is_pantawid != true);
-                }
-            }
-            if (item.is_slp != null)
-            {
-                if (item.is_slp == true)
-                {
-                    model = model.Where(x => x.is_slp == true);
-                }
-                else
-                {
-                    model = model.Where(x => x.is_slp != true);
-                }
-            }
+            //Sex
             if (item.is_male != null)
             {
                 if (item.is_male == true)
                 {
                     model = model.Where(x => x.sex == true);
                 }
-                else
+                if (item.is_male == false)
                 {
-                    model = model.Where(x => x.sex != true);
+                    model = model.Where(x => x.sex == false);
                 }
             }
+
+            //Educational Attainment
+            if (item.education_attainment_id != null)
+            {
+                model = model.Where(m => m.education_attainment_id == item.education_attainment_id);
+            }
+
+            //Occupation
+            if (item.occupation_id != null)
+            {
+                model = model.Where(m => m.occupation_id == item.occupation_id);
+            }
+
+            
             return model;
         }
+
+
+        //v3.2 fix for Person not tagged as is_worker = true and is_volunteer = true though existing in person_ers_work and person_volunteer_record
+        [Route("api/offline/v1/profiles/update_person_status")]
+        public async Task<IActionResult> UpdatePersonStatus()
+        {
+            var model = db.person_profile.Where(p => p.is_deleted != true);
+
+            foreach (var p in model) {
+                var active_worker = db.person_ers_work.Where(x => x.person_profile_id == p.person_profile_id && p.is_deleted != true).Count();
+                var deleted_worker = db.person_ers_work.Where(x => x.person_profile_id == p.person_profile_id && p.is_deleted == true).Count();
+                var total_count = db.person_ers_work.Where(x => x.person_profile_id == p.person_profile_id).Count();
+
+                if (total_count == 0 && p.is_worker == true)
+                {
+                    p.is_worker = null;
+                    p.push_status_id = 3;
+                }
+                else if (total_count == 0 && p.is_worker != true)
+                {
+                    //do nothing
+                }
+                else if (active_worker >= 1)
+                {
+                    p.is_worker = true;
+                    p.push_status_id = 3;
+                }
+                else if ((deleted_worker == total_count) == (deleted_worker > 0 && total_count > 0))
+                {
+                    p.is_worker = null;
+                    p.push_status_id = 3;
+                }
+                else if ((deleted_worker == total_count) == (deleted_worker == 0 && total_count == 0)) {
+                    //do nothing
+                }
+
+                var active_volunteer = db.person_volunteer_record.Where(x => x.person_profile_id == p.person_profile_id && p.is_deleted != true).Count();
+                var deleted_volunteer = db.person_volunteer_record.Where(x => x.person_profile_id == p.person_profile_id && p.is_deleted == true).Count();
+                var total_count_vol = db.person_volunteer_record.Where(x => x.person_profile_id == p.person_profile_id).Count();
+
+                if (total_count_vol == 0 && p.is_volunteer == true)
+                {
+                    p.is_volunteer = null;
+                    p.push_status_id = 3;
+                }
+                else if (total_count_vol == 0 && p.is_volunteer != true)
+                {
+                    //do nothing
+                }
+                else if (active_volunteer >= 1)
+                {
+                    p.is_volunteer = true;
+                    p.push_status_id = 3;
+                }
+                else if ((deleted_volunteer == total_count_vol) == (deleted_volunteer > 0 && total_count_vol > 0))
+                {
+                    p.is_volunteer = null;
+                    p.push_status_id = 3;
+                }
+                else if ((deleted_volunteer == total_count_vol) == (deleted_volunteer == 0 && total_count_vol == 0))
+                {
+                    //do nothing
+                }
+            }
+
+            await db.SaveChangesAsync();
+            return Ok();
+        }
+
+
 
         [HttpGet]
         [Route("api/dashboard/person/volunteers")]
@@ -1669,7 +1610,7 @@ namespace DeskApp.Controllers
             var totalCount = model.Count();
             int currPages = item.currPage ?? 0;
             int size = item.pageSize ?? 10;
-            int person_training_count = db.person_training.Count(x => x.is_participant == true && x.community_training_id == item.community_training_id);
+            int person_training_count = db.person_training.Count(x => x.is_participant == true && x.community_training_id == item.community_training_id && x.is_deleted != true);
 
             return new PagedCollection<person_profileDTO>()
             {
@@ -1833,17 +1774,10 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/profiles/save")]
         public async Task<IActionResult> Save(person_profile model, bool? api)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
-
             var record = db.person_profile.AsNoTracking().FirstOrDefault(x => x.person_profile_id == model.person_profile_id);
 
             if (record == null)
             {
-
-
                 if (api != true)
                 {
                     model.push_status_id = 2;
@@ -1853,12 +1787,10 @@ namespace DeskApp.Controllers
                     model.created_date = DateTime.Now;
                     model.is_deleted = false;
                 }
-
-                //because api is set to TRUE in sync/get
+                
                 if (api == true)
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
 
                 db.person_profile.Add(model);
@@ -1876,19 +1808,17 @@ namespace DeskApp.Controllers
 
             else
             {
-                model.push_date = null;
-
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
                 }
 
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                model.created_date = record.created_date;                
 
                 db.Entry(model).State = EntityState.Modified;
 
@@ -1950,42 +1880,25 @@ namespace DeskApp.Controllers
 
         [HttpPost]
         [Route("Sync/Get/profiles")]
-        public async Task<ActionResult> GetOnline(string username, string password, string city_code = null,
-            Guid? record_id = null)
+        public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-                HttpResponseMessage response =
-                    client.GetAsync("api/offline/v1/profiles/get_mapped?city_code=" + city_code + "&id=" + record_id)
-                        .Result;
+                
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/profiles/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<person_profile>>(responseJson.Result);
-
-                    //                    var all = Mapper.DynamicMap<List<person_profile_mapping>, List<person_profile>>(model);
 
                     foreach (var item in model.ToList())
                     {
@@ -1993,9 +1906,6 @@ namespace DeskApp.Controllers
                     }
 
                     await GetVolunteer(username, password, city_code, record_id);
-
-
-
                     return Ok();
                 }
                 else
@@ -2003,62 +1913,43 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
-
-
-
-
         }
 
 
         [HttpPost]
         [Route("Sync/Get/volunteer")]
-        public async Task<bool> GetVolunteer(string username, string password, string city_code = null,
-            Guid? record_id = null)
+        public async Task<bool> GetVolunteer(string username, string password, string city_code = null, Guid? record_id = null)
         {
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                HttpResponseMessage response =
-                    client.GetAsync("api/online/v1/person/volunteer_record/get?city_code=" + city_code + "&id=" +
-                                    record_id).Result;
+                HttpResponseMessage response = client.GetAsync("api/online/v1/person/volunteer_record/get?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<person_volunteer_record>>(responseJson.Result);
-
-
 
                     foreach (var v in model.ToList())
                     {
                         await SavePersonVolunteer(v, true);
                     }
-
-
                 }
                 else
                 {
                     return false;
                 }
-
             }
 
             return true;
-
-
         }
 
 
@@ -2097,35 +1988,8 @@ namespace DeskApp.Controllers
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.person_profile.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
+                    var items = db.person_profile.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
                    
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.person_profile_id == record_id);
-                    }
-
-                    foreach (var item in items.ToList())
-                    {
-                        StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-                        HttpResponseMessage response = client.PostAsync("api/offline/v1/profiles/save", data).Result;
-                        if (response.IsSuccessStatusCode)
-                        {
-                            item.push_status_id = 1;
-                             item.push_date = DateTime.Now;
-                            await db.SaveChangesAsync();
-                        }
-                        else
-                        {
-                            return BadRequest();
-                        }
-                    }
-                }
-                else {
-                    var items = db.person_profile.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.person_profile_id == record_id);
-                    }
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -2134,11 +1998,36 @@ namespace DeskApp.Controllers
                         {
                             item.push_status_id = 1;
                             item.push_date = DateTime.Now;
+                            //record_id = item.person_profile_id;
+                            //PostOnlineVolunteer(username, password, record_id); // put this back outside v4.3
                             await db.SaveChangesAsync();
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                        }
+                    }
+                }
+                else {
+                    var items = db.person_profile.Where(x => x.push_status_id == 5 || x.is_deleted == true);
+                    foreach (var item in items.ToList())
+                    {
+                        StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                        HttpResponseMessage response = client.PostAsync("api/offline/v1/profiles/save", data).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            item.push_status_id = 1;
+                            item.push_date = DateTime.Now;
+                            //record_id = item.person_profile_id;
+                            //PostOnlineVolunteer(username, password, record_id); // put this back outside v4.3
+                            await db.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }  
@@ -2156,28 +2045,19 @@ namespace DeskApp.Controllers
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                // var model = new auth_messages();
-
-                var items = db.person_volunteer_record.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-
-                if (record_id != null)
-                {
-                    items = items.Where(x => x.person_profile_id == record_id);
-                }
+                //var items = db.person_volunteer_record.Where(x => x.person_profile_id == record_id || x.is_deleted == true);
+                var items = db.person_volunteer_record.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1)); //v4.3
 
                 foreach (var item in items.ToList())
                 {
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/person/volunteer_record/save", data).Result;
-
-                    // response.EnsureSuccessStatusCode();
-
+                    
                     if (response.IsSuccessStatusCode)
                     {
                         item.push_status_id = 1;
@@ -2186,6 +2066,8 @@ namespace DeskApp.Controllers
                     }
                     else
                     {
+                        item.push_status_id = 4;
+                        await db.SaveChangesAsync();
                         return false;
                     }
                 }
@@ -2323,14 +2205,11 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/profiles/volunteer_record/save")]
         public async Task<ActionResult> SavePersonVolunteer(person_volunteer_record model, bool? api)
         {
-            var record =
-                db.person_volunteer_record.AsNoTracking()
-                    .FirstOrDefault(x => x.person_volunteer_record_id == model.person_volunteer_record_id);
-
+            var record = db.person_volunteer_record.AsNoTracking().FirstOrDefault(x => x.person_volunteer_record_id == model.person_volunteer_record_id && x.is_deleted != true);
+            var main_record = db.person_profile.FirstOrDefault(x => x.person_profile_id == model.person_profile_id);
 
             if (record == null)
             {
-
                 if (api != true)
                 {
                     if (db.person_volunteer_record.Count(x => x.person_profile_id == model.person_profile_id &&
@@ -2341,90 +2220,68 @@ namespace DeskApp.Controllers
                         return BadRequest("Volunteer cannot be a CHAIR or MEMBER on the same committee and cycle.");
                     }
 
-                    ////checking for CHAIR:
-                    //if (model.volunteer_committee_position_id == 2)
-                    //{
-                    //    if (db.person_volunteer_record.Count(x => x.person_profile_id == model.person_profile_id &&
-                    //                                              x.cycle_id == model.cycle_id &&
-                    //                                              x.volunteer_committee_id == model.volunteer_committee_id &&
-                    //                                              x.volunteer_committee_position_id == 2 &&
-                    //                                              x.is_deleted != true) > 0)
-                    //    {
-                    //        return BadRequest("Volunteer cannot be a CHAIR on the same committee and cycle.");
-                    //    }
-                    //}
-
-                    ////checking for MEMBER:
-                    //else
-                    //{
-                    //    if (db.person_volunteer_record.Count(x => x.person_profile_id == model.person_profile_id &&
-                    //                                              x.cycle_id == model.cycle_id &&
-                    //                                              x.volunteer_committee_id == model.volunteer_committee_id &&
-                    //                                              x.volunteer_committee_position_id == 1 &&
-                    //                                              x.is_deleted != true) > 0)
-                    //    {
-                    //        return BadRequest("Volunteer cannot be a MEMBER on the same committee and cycle.");
-                    //    }
-                    //}
-
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+
+                    //v3.1
+                    main_record.push_status_id = 3;
+                    main_record.last_modified_by = 0;
+                    main_record.last_modified_date = DateTime.Now;
+                    main_record.is_volunteer = true; //if person has volunteer record/s, set is_volunteer to true
+                    db.Entry(main_record).State = EntityState.Modified;
                 }
                 else
                 {
-                    model.push_status_id = 1;
-                }
+                    model.push_status_id = 1;                  
+                }                            
 
-
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-
-                model.is_deleted = false;
                 db.person_volunteer_record.Add(model);
-
-
+                                
                 try
                 {
                     await db.SaveChangesAsync();
-
                     return Ok();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
             }
+
             else
             {
-                model.push_date = null;
-
-
-                if (api == null)
+                if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+
+                    //v3.1 any changes on volunteer record, main person profile should be updated as well
+                    main_record.push_status_id = 3;
+                    main_record.last_modified_by = 0;
+                    main_record.last_modified_date = DateTime.Now;
+                    main_record.is_volunteer = true; //if person has volunteer record/s, set is_volunteer to true
                 }
-
-
 
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
 
-
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                if (main_record != null) {
+                    main_record.is_volunteer = true; //if person has volunteer record/s, set is_volunteer to true
+                } 
 
                 db.Entry(model).State = EntityState.Modified;
+                db.Entry(main_record).State = EntityState.Modified;
 
                 try
                 {
                     await db.SaveChangesAsync();
-
-
                     return Ok();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -2450,7 +2307,7 @@ namespace DeskApp.Controllers
         {
 
 
-            var model = from s in db.person_training.Where(x => x.person_profile_id == id)
+            var model = from s in db.person_training.Where(x => x.person_profile_id == id && x.is_deleted != true)
                         join p in db.community_training on s.community_training_id equals p.community_training_id
                         where s.is_participant == true && p.is_deleted != true
                         select p;

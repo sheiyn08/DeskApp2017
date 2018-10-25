@@ -28,6 +28,7 @@
 
 
         <li><a href="@Url.Action("Trainings", "View")"><i class="fa fa-circle-o"></i> Trainings</a></li>
+        @*<li><a href="@Url.Action("TrainingsPSA", "View")"><i class="fa fa-circle-o"></i> Trainings (PSA)</a></li>*@
         <li><a href="@Url.Action("Grievances", "View")"><i class="fa fa-circle-o"></i> Grievances</a></li>
 
         <li><a href="@Url.Action("GrievanceInstallation", "View")"><i class="fa fa-circle-o"></i> GRS Installation</a></li>
@@ -100,5 +101,5 @@
 else
 {
     <li><a href="@Url.Action("Login", "Account")"><i class='fa fa-user'></i> <span>Login</span></a></li>
-
+    //<li><a href="@Url.Action("UpdateSPOthers", "Update")"><i class='fa fa-gears'></i> <span>Update SP Others</span></a></li>
 }

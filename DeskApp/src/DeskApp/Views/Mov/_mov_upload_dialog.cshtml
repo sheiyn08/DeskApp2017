@@ -1,0 +1,96 @@
+ 
+        @*<md-button class="md-primary md-raised" ng-click="showAdvanced($event)">
+            Synchronize
+        </md-button>*@
+@*<a class="btn btn-primary" ng-click="showAdvanced($event)">
+    <i class="fa fa-cloud fa-lg"></i>&nbsp;&nbsp; Synchronize
+</a>*@
+<a ng-click="showAdvanced($event); setPushStatus(item)" title='Upload MOV' class="btn btn-info"><i class="fa fa-upload"></i></a>
+
+
+
+
+
+
+<script type="text/ng-template" id="dialog1.tmpl.html">
+            <md-dialog aria-label="Mango (Fruit)" ng-cloak>
+                <form name="syncForm">
+                    <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Upload MOV</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="cancel()" ng-show="!isSearching">
+                                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                            </md-button>
+                        </div>
+                    </md-toolbar>
+
+                    <md-dialog-content>
+
+                        <div class="md-dialog-content" ng-show="isSearching">
+                            <p>
+                                Currently uploading your MOV, application not accessible until operation has completed!
+                            </p>
+                            <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+                        </div>
+
+
+
+                        <div class="md-dialog-content" ng-show="!isSearching">
+
+                            <h2>Enter WEB PIMS Username and Password</h2>
+                            <p>
+                                Ensure that you are connected to the Internet to successfully upload your MOV.
+                            </p>
+                            <strong> {{error}}</strong>
+
+                       
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="firstName">PIMS Online User Name</label>
+                                    <input required type="email" class="form-control" id="firstName" placeholder="UserName" ng-model="username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">PIMS Online Password</label>
+                                    <input required type="password" class="form-control" id="lastName" placeholder="Password" ng-model="password">
+                                </div>
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </md-dialog-content>
+
+                    <md-dialog-actions layout="row" ng-show="!isSearching">
+
+
+                        <ul>
+                            <li ng-repeat="(key, errors) in myForm.$error track by $index">
+                                <strong>{{ key }}</strong> errors
+                                <ul>
+                                    <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+
+                        <span flex></span>
+                        <md-button md-warn md-primary ng-click="syncPost()"  ng-disabled="username == null || password==null">
+                            <i class="fa fa-upload"></i>   Upload
+                        </md-button>
+
+                        <md-button md-warn md-raised ng-click="cancel()">
+                            Cancel
+                        </md-button>
+                    </md-dialog-actions>
+                </form>
+            </md-dialog>
+        </script>
+
+ 
+

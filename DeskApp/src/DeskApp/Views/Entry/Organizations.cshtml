@@ -180,8 +180,16 @@
 
                             <div flex flex-sm="100">
 
-                                <select name="Cycle" ng-model="data.cycle_id" id="cycle_id" class="form-control"
+                                @*----------------- v3.1 temporarily allowed editing of cycle (OLD) ------------------------*@
+                                @*<select name="Cycle" ng-model="data.cycle_id" id="cycle_id" class="form-control"
                                         ng-disabled="status"
+                                        required
+                                        ng-options="option.Id as option.Name for option in cycle_id_options">
+                                    <option value="">[Select Cycle]</option>
+                                </select>*@
+                                @*----------------- v3.1 temporarily allowed editing of cycle (NEW) ------------------------*@
+                                <select name="Cycle" ng-model="data.cycle_id" id="cycle_id" class="form-control"
+                                        ng-disabled="data.cycle_id != 54 && status"
                                         required
                                         ng-options="option.Id as option.Name for option in cycle_id_options">
                                     <option value="">[Select Cycle]</option>
@@ -246,7 +254,7 @@
 
                             <div flex flex-sm="100">
 
-                                <label for="Region:_">Name</label>
+                                <label for="Region:_">Name of Organization</label>
                             </div>
 
                             <div flex flex-sm="100">
@@ -501,35 +509,40 @@
                         <div class="panel panel-heading">
                             <h4>Major Activities</h4>
                         </div>
-                        <div class="layout-row" layout-margin flex>
-                            <div flex>
-                            </div>
-                            <div flex>
-                                Activity
-                            </div>
-                        </div>
-                        <div class="layout-row" layout-margin flex ng-repeat="equip in data.list_activity">
-                            <div flex>
-                                <a class="btn btn-danger" ng-click="removeActivity($index)"><i class="fa fa-trash"></i></a>
-                            </div>
-                            <div flex>
-                                {{equip.name}}
-                            </div>
-                        </div>
-                        <form name="activityForm">
-                            <div class="layout-row" layout-margin flex md-padding>
-                                <div flex>
-                                    <a class="btn btn-success" ng-click="addActivity()" ng-disabled="!activityForm.$valid"><i class="fa fa-plus"></i></a>
+                        <div class="panel-body">
+                            <form name="activityForm">
+                                <div flex="100" layout="row" layout-margin layout-sm="column">
+                                    <div flex="20" flex-sm="100">
+
+                                    </div>
+                                    <div flex="80" flex-sm="100">
+                                        <p style="font-size:medium; font-weight:700">Activity</p>
+                                    </div>
                                 </div>
-                                <div flex>
-                                    <md-input-container class="md-block" flex="100">
-                                        <textarea placeholder="Enter Activity Details Here" name="access_details" ng-model="activity.name" md-maxlength="2000" rows="5"
-                                                  cols="100"
-                                                  md-select-on-focus="" flex="100"></textarea>
-                                    </md-input-container>
+                                <div flex="100" layout="row" layout-margin layout-sm="column" ng-repeat="activity in data.list_activity">
+                                    <div flex="20" flex-sm="100">
+                                        <a class="btn btn-info" style="margin-right:5px" ng-click="activity_edit_is_selected=true; editActivity(act)" ng-hide="activity_edit_is_selected"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-danger" style="margin-right:5px" ng-click="removeActivity($index)" ng-hide="activity_edit_is_selected"><i class="fa fa-trash"></i></a>
+
+                                        <a class="btn btn-success" style="margin-right:5px" ng-click="activity_edit_is_selected=false; saveEditedActivity(act)" ng-show="activity_edit_is_selected"><i class="fa fa-check"></i></a>
+                                        <a class="btn btn-danger" style="margin-right:5px" ng-click="cancelEditActivity(act); activity_edit_is_selected=false" ng-show="activity_edit_is_selected"><i class="fa fa-close"></i></a>
+                                    </div>
+                                    <div flex="80" flex-sm="100">
+                                        <span ng-hide="activity_edit_is_selected">{{activity.name}}</span>
+                                        <input ng-model="activity.name" class="form-control" required ng-show="activity_edit_is_selected" />
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                                @*THIS IS FOR NEW ENTRY:*@
+                                <div flex="100" layout="row" layout-margin layout-sm="column">
+                                    <div flex="20" flex-sm="100">
+                                        <a class="btn btn-success" ng-disabled="activity.name==null" ng-click="addActivity()"><i class="fa fa-plus"></i></a>
+                                    </div>
+                                    <div flex="80" flex-sm="100">
+                                        <input ng-model="activity.name" class="form-control" required />
+                                    </div>
+                                </div>
+                            </form> 
+                        </div>
                     </div>
                 </md-content>
             </md-tab>
@@ -554,13 +567,14 @@
                     </li>
                 </ul>
 
-
+                @*Removing this for DeskApp X*@
                 <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid">
                     Save 
                 </md-button>
 
                 <md-button class="md-warn md-raised" ng-click="cancel()">
-                    Cancel
+                    @*Cancel*@
+                    Back to List
                 </md-button>
 
 
@@ -629,8 +643,6 @@
 
               $scope.data.list_activity = [];
 
-
-
               if ($scope.data.list_activities != null) {
                   $scope.data.list_activity = JSON.parse($scope.data.list_activities);
               }
@@ -694,24 +706,32 @@
                   window.location.href = "/View/Organizations";
               }
 
+              //------------------ Enhancement: 03-27-18 Add edit for ACTIVITIES
+
               $scope.activity = {};
+
               $scope.addActivity = function () {
-
-
-
-
                   $scope.data.list_activity.push($scope.activity);
-
-
-
                   $scope.activity = {};
               }
 
-              $scope.removeActivity = function (index) {
-
-                  $scope.data.list_activity.splice(index, 1);
-
+              $scope.removeActivity = function (activity) {
+                  $scope.data.list_activilty.splice(activity, 1);
               }
+
+              $scope.editActivity = function (activity) {
+                  $scope.editing = $scope.data.list_activilty.indexOf(activity);
+                  activity.backupName = angular.copy(activity.name);
+              };
+
+              $scope.saveEditedActivity = function (activity) {
+                  delete activity.backupName;
+              };
+
+              $scope.cancelEditActivity = function (activity) {
+                  activity.name = angular.copy(activity.backupName);
+                  delete activity.backupName;
+              };
 
 
               //ATTACHMENTS
@@ -774,6 +794,25 @@
                          item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
                      })
                  });
+
+              $scope.viewMov = function (item) {
+                  var base = window.location.origin;
+
+                  $http.get('/api/mov/get/module_form_name?id=' + item.attached_document_id).then(function (response) {
+                      $scope.pdf_details = response.data;
+
+                      if ($scope.pdf_details.mov_list_id == 50) {
+                          item.url = base + "/MOVs/" + "CO_CommunityOrganizationProfileForm_" + item.attached_document_id + ".pdf";
+                      }
+                      else {
+                          alert("Attachment not found");
+                      }
+
+                      var newtab = window.open(item.url, '_blank');
+                      newtab.focus();
+
+                  });
+              };
 
               $scope.deleteMov = function (removeitem) {
                   var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");

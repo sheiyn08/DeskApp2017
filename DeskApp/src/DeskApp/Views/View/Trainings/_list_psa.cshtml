@@ -1,0 +1,131 @@
+﻿<style>
+    .with_highlight {
+        background-color: lightgreen;
+    }
+
+    .no_highlight {
+        background-color: transparent;
+    }
+
+    mark.uploaded {
+        background-color: deepskyblue;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.attachment {
+        background-color: mediumseagreen;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.unauthorized {
+        background-color: firebrick;
+        color: white;
+        font-style: italic;
+    }
+
+    mark.foruploading {
+        background-color: darkorange;
+        color: white;
+        font-style: italic;
+    }
+</style>
+
+
+
+<div  flex="100" layout-margin ng-show="!isSearching">
+    <table class="table zui-table zui-table-horizontal zui-table-highlight">
+
+        <thead class="thead-inverse">
+            <tr>
+                @*Removing this for DeskApp X*@
+                @*<th style="text-align:center; vertical-align:middle">
+                    {{data.check_all == true ? "Un-select All" : "Select All"}}
+                    <br /><br />
+                    <md-checkbox ng-model="data.check_all" style="vertical-align:middle" aria-label="Checkbox 1" ng-change="checkAll()"></md-checkbox>
+                </th>*@
+                <th style="vertical-align:middle">
+                    Actions
+                </th>
+                <th style="vertical-align:middle">
+                    Region
+                </th>
+                <th style="vertical-align:middle">
+                    Province
+                </th>
+                <th style="vertical-align:middle">
+                    Municipality
+                </th>
+                <th style="vertical-align:middle">
+                    Barangay
+                </th>
+                <th style="vertical-align:middle">
+                    Project
+                </th>
+                <th style="vertical-align:middle">
+                    Cycle
+                </th>
+                <th style="vertical-align:middle">
+                    KC Mode
+                </th>
+                <th style="vertical-align:middle">
+                    Category
+                </th>
+                <th style="vertical-align:middle">
+                    Title
+                </th>
+                <th style="vertical-align:middle">
+                    Tags
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="item in Items | orderBy: item.last_modified_date">
+                @*<td style="text-align:center; vertical-align:middle">
+                    <md-checkbox ng-model="item.is_item_selected" ng-change="itemSelectedforSync(item)" aria-label="false"></md-checkbox> {{item.is_item_selected == true ? "Selected" : ""}}
+                </td>*@
+                <td style="vertical-align:middle">
+                    <a ng-href="/Entry/Trainings?id={{item.community_training_id}}" title='Edit Record' class="btn btn-info"><i class="fa fa-edit"></i></a>
+                    <a ng-click="delete(item)" title='Delete Record' class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_region_region_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_province_prov_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_city_city_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_brgy_brgy_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_fund_source_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_cycle_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_enrollment_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.lib_training_category_name}}
+                </td>
+                <td style="vertical-align:middle">
+                    {{item.training_title}}
+                </td>
+                <td style="vertical-align:middle">
+                    <mark class="uploaded" ng-show="item.push_date!=null && item.push_status_id==1">Uploaded : {{item.push_date | date:'MM/dd/yyyy'}}</mark>
+                    <mark class="uploaded" ng-show="item.push_date==null && item.push_status_id==1">Uploaded</mark>
+                    <mark class="foruploading" ng-show="item.push_status_id == 2 || item.push_status_id == 3">For Uploading</mark>
+                    <mark class="unauthorized" ng-show="item.push_status_id == 4">Upload Failed</mark>
+                    <mark class="attachment" ng-show="item.with_attachment == true">With attachment</mark>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>

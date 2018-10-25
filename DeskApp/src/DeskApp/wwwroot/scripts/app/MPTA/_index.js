@@ -235,6 +235,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
+                $scope.totalCount = $scope.totalCount - 1;
 
 
                 alert("Record removed!");

@@ -19,8 +19,8 @@ namespace DeskApp.Controllers.AreaData
 {
     public class MlccController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -160,13 +160,14 @@ namespace DeskApp.Controllers.AreaData
                          select new
                          {
                              s.municipal_lcc_id,
+                             as_of = s.history == null ? "" : s.history.Value.ToString("dd/MM/yyyy"),
                              s.lib_region.region_name,
                              s.lib_province.prov_name,
                              s.lib_city.city_name,
                              fund_source = s.lib_fund_source.name,
                              cycle = s.lib_cycle.name,
                              kc_mode = s.lib_enrollment.name,
-
+                             
                              //Barangay
                              s.me_blgu_planned,
                              s.me_blgu_actual,
@@ -291,7 +292,7 @@ namespace DeskApp.Controllers.AreaData
                                lib_cycle_name = x.lib_cycle.name,
                                lib_fund_source_name = x.lib_fund_source.name,
                                lib_province_prov_name = x.lib_province.prov_name,
-                               lib_region_region_name = x.lib_region.region_nick,
+                               lib_region_region_name = x.lib_region.region_name,
                                lib_enrollment_name = x.lib_enrollment.name,
                                municipal_lcc_id = x.municipal_lcc_id,
                                push_date = x.push_date,
@@ -575,33 +576,46 @@ namespace DeskApp.Controllers.AreaData
         [Route("api/offline/v1/mlcc/save")]
         public async Task<IActionResult> Save(municipal_lcc model, bool? is_ba, bool? api)
         {
-            var record = db.municipal_lcc.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code && x.history == model.history && x.cycle_id == model.cycle_id);
-            
+            var record = db.municipal_lcc.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code && x.history == model.history && x.cycle_id == model.cycle_id && x.is_deleted != true);
+            var existing_id = db.municipal_lcc.AsNoTracking().FirstOrDefault(x => x.municipal_lcc_id == model.municipal_lcc_id && x.is_deleted != true);
+
             model.no_of_barangays = db.lib_brgy.Count(x => x.city_code == model.city_code);
 
             if (record == null)
             {
-                if (api != true)
+                //OFFLINE: newly created using the NEW button
+                if (api != true && existing_id == null)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
-
                     model.created_by = 0;
                     model.created_date = DateTime.Now;
                     model.approval_id = 3;
                     model.is_deleted = false;
-                }
 
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                    db.municipal_lcc.Add(model);
+                }
+                //OFFLINE: editing and saving existing record but with different As of Date
+                else if (api != true && existing_id != null)
+                {
+                    model.push_status_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+                    db.Entry(model).State = EntityState.Modified;
+                }
+                //FROM SYNC DOWNLOAD: different As of Date or Cycle but id is existing in both webapp and deskapp, in this case, modify the deskapp and follow the webapp data
+                else if (api == true && existing_id != null) {
+                    model.push_status_id = 1;
+                    db.Entry(model).State = EntityState.Modified;
+                }
+                //FROM SYNC DOWNLOAD: data fetched from webapp is not existing in deskapp
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
+                    db.municipal_lcc.Add(model);
                 }
-
-                db.municipal_lcc.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -612,25 +626,26 @@ namespace DeskApp.Controllers.AreaData
                     return BadRequest();
                 }
             }
-
-
+            
             else
             {
-                model.push_date = null;
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
-                }
-                
-                model.municipal_lcc_id = record.municipal_lcc_id;
-                
-                model.created_by = record.created_by;
-                model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                    model.push_date = null;
 
-                db.Entry(model).State = EntityState.Modified;
+                    //v3.1 turnaround for MLCC not being accepted during sync/get
+                    model.municipal_lcc_id = record.municipal_lcc_id;
+                    model.created_by = record.created_by;
+                    model.created_date = record.created_date;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+                    db.Entry(model).State = EntityState.Modified;
+                }
+                else
+                {
+                    db.Entry(model).State = EntityState.Modified;
+                }
 
                 try
                 {
@@ -650,41 +665,28 @@ namespace DeskApp.Controllers.AreaData
         [Route("Sync/Get/mlcc")]
         public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/mlcc/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<municipal_lcc>>(responseJson.Result);
-
-
+                    
                     foreach (var item in model.ToList())
                     {
                         await Save(item, false, true);
                     }
-
-
 
                     return Ok();
                 }
@@ -730,12 +732,12 @@ namespace DeskApp.Controllers.AreaData
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                var items_preselected = db.municipal_lcc.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.municipal_lcc.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.municipal_lcc.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).ToList();
-                    foreach (var item in items)
+                    var items = db.municipal_lcc.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
+                    foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                         HttpResponseMessage response = client.PostAsync("api/offline/v1/mlcc/save", data).Result;
@@ -747,13 +749,15 @@ namespace DeskApp.Controllers.AreaData
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
                 else {
-                    var items = db.municipal_lcc.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
-                    foreach (var item in items)
+                    var items = db.municipal_lcc.Where(x => x.push_status_id == 5 || x.is_deleted == true);
+                    foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                         HttpResponseMessage response = client.PostAsync("api/offline/v1/mlcc/save", data).Result;
@@ -765,7 +769,9 @@ namespace DeskApp.Controllers.AreaData
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }

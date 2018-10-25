@@ -92,14 +92,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         if (ask == true) {
             $.post('/api/delete/barangay_assembly?id=' + removeitem.brgy_assembly_id).success(function (value) {
                 $scope.loading = false;
-
-
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
-
-
-                alert("Record removed!")
-
+                $scope.totalCount = $scope.totalCount - 1;
+                alert("Record removed!");
             }).error(function (data) {
 
                 alert(JSON.stringify(data));
@@ -536,7 +532,8 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
     };
 
     $scope.syncPost = function () {
-        $scope.isSearching = true;        
+        $scope.isSearching = true;
+        $scope.error = '';
         $scope.total = 0;
         $scope.finished = 0;
         var credentials;
@@ -564,7 +561,7 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
                         $mdDialog.cancel();
                     }).error(function (data) {
                         $scope.error = "An Error has occured while Uploading Data! " + data.statusText;
-                        $scope.loading = false;
+                        $scope.isSearching = false;
                     });
                     //end 
                 }).error(function (data) {

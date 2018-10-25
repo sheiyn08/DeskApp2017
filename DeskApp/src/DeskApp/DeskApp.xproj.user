@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ActiveDebugProfile>DeskApp</ActiveDebugProfile>
     <NameOfLastUsedPublishProfile>DeskApp</NameOfLastUsedPublishProfile>
-    <ShowAllFiles>false</ShowAllFiles>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

@@ -6,6 +6,10 @@
 
     <div class="panel panel-body">
         <md-content>
+            <div ng-hide="data.variation_actual_date_completion != null"><p>Date Completed: <strong>{{data.Date_of_Completion | date : "longDate"}}</strong> as per Original POW</p></div>
+            <div ng-show="data.variation_actual_date_completion != null"><p>Date Completed: <strong>{{data.variation_actual_date_completion | date : "longDate"}}</strong> as per Variation Order</p></div>
+
+            <br />
             <h4 style="color:dodgerblue">Project Beneficiaries (Actual)</h4>
             <md-divider></md-divider>
             <md-divider></md-divider>
@@ -15,64 +19,74 @@
                 <div flex></div>
                 <div flex>Households</div>
                 <div flex>Families</div>
+                <div flex></div>
             </div>
             <md-divider></md-divider>
             <div layout="row" layout-padding flex="100">
                 <div flex>Total Number of Beneficiaries </div>
                 <div flex>
-                    <input type="number" min="0" name="No of HH Beneficiaries" class="form-control" ng-model="data.NoOfHHActual" ng-app-max="{{ data.no_actual_families }}" ng-pattern="/^[0-9]{1,7}$/" ng-required="data.physical_status_id !=3" ng-disabled="true" />
+                    <input type="number" name="No of HH Beneficiaries" class="form-control" ng-model="data.NoOfHHActual" ng-disabled="true" />
                 </div>
                 <div flex>
-                    <input type="number" min="0" class="form-control" name="No of Families" ng-model="data.no_actual_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                    <input type="number" class="form-control" name="No of Families" ng-model="data.no_actual_families" ng-disabled="true" />
                 </div>
+                <div flex></div>
             </div>
             <md-divider></md-divider>
             <div layout="row" layout-padding flex="100">
                 <div flex>Total Pantawid Beneficiaries</div>
                 <div flex>
-                    <input type="number" class="form-control" name="No of Pantawid Households" ng-model="data.no_actual_pantawid_households" ng-app-max="{{ data.no_actual_pantawid_families }}" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                    <input type="number" class="form-control" name="No of Pantawid Households" ng-model="data.no_actual_pantawid_households" ng-disabled="true" />
                 </div>
                 <div flex>
-                    <input type="number" class="form-control" name="No of Pantawid Families" ng-model="data.no_actual_pantawid_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                    <input type="number" class="form-control" name="No of Pantawid Families" ng-model="data.no_actual_pantawid_families" ng-disabled="true" />
                 </div>
+                <div flex></div>
             </div>
             <md-divider></md-divider>
             <div layout="row" layout-padding flex="100">
                 <div flex>Total SLP Beneficiaries</div>
                 <div flex>
-                    <input type="number" class="form-control" name="No of SLP Households" ng-model="data.no_actual_slp_households" ng-app-max="{{ data.no_actual_slp_families }}" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                    <input type="number" class="form-control" name="No of SLP Households" ng-model="data.no_actual_slp_households" ng-disabled="true" />
                 </div>
                 <div flex>
-                    <input type="number" class="form-control" name="No of SLP Families" ng-model="data.no_actual_slp_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                    <input type="number" class="form-control" name="No of SLP Families" ng-model="data.no_actual_slp_families" ng-disabled="true" />
                 </div>
+                <div flex></div>
             </div>
             <md-divider></md-divider>
             <div layout="row" layout-padding flex="100">
                 <div flex>Total IP Beneficiaries</div>
                 <div flex>
-                    <input type="number" class="form-control" name="No of IP Households" ng-model="data.no_actual_ip_households" ng-app-max="{{ data.no_actual_ip_families }}" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                    <input type="number" class="form-control" name="No of IP Households" ng-model="data.no_actual_ip_households" ng-disabled="true" />
                 </div>
                 <div flex>
-                    <input type="number" class="form-control" name="No of IP Families" ng-model="data.no_actual_ip_families" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                    <input type="number" class="form-control" name="No of IP Families" ng-model="data.no_actual_ip_families" ng-disabled="true" />
                 </div>
+                <div flex></div>
             </div>
             <md-divider></md-divider>
             <div layout="row" layout-padding flex="100">
                 <div flex></div>
                 <div flex>Male</div>
                 <div flex>Female</div>
+                <div flex>Total</div>
             </div>
             <md-divider></md-divider>
-            <div layout="row" layout-padding flex="100" ng-show="data.modality_id != 11">
-                <div flex>Total   Beneficiaries </div>
+            <div layout="row" layout-padding flex="100">
+                <div flex>Total Individual Beneficiaries </div>
                 <div flex>
-                    <input type="number" min="0" name="No of Male Beneficiaries" class="form-control" ng-model="data.no_actual_male" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                    <input type="number" min="0" name="No of Male Beneficiaries" class="form-control" ng-model="data.no_actual_male" ng-disabled="true" />
                 </div>
                 <div flex>
-                    <input type="number" min="0" class="form-control" name="No Female Beneficiaries" ng-model="data.no_actual_female" ng-required="data.physical_status_id !=3" ng-pattern="/^[0-9]{1,7}$/" ng-disabled="true" />
+                    <input type="number" min="0" class="form-control" name="No Female Beneficiaries" ng-model="data.no_actual_female" ng-disabled="true" />
+                </div>
+                <div flex>
+                    {{data.no_actual_male + data.no_actual_female}}
                 </div>
             </div>
-            <div layout="row" layout-padding flex="100" ng-show="data.modality_id == 11">
+            @*Commenting this since no_actual_male and no_actual_female is used in Geotagging as per Chervin's code 02-05-18*@
+            @*<div layout="row" layout-padding flex="100" ng-show="data.modality_id == 11">
                 <div flex>Total   Beneficiaries </div>
                 <div flex>
                     <input class="form-control" ng-model="data.actual_male" ng-disabled="true" />
@@ -80,10 +94,12 @@
                 <div flex>
                     <input class="form-control" ng-model="data.actual_female" ng-disabled="true" />
                 </div>
-            </div>
+            </div>*@
         </md-content>
     </div>
-
+    
+    
+    
 </div>
 
 

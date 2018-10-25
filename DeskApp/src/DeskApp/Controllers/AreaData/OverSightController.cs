@@ -18,8 +18,8 @@ namespace DeskApp.Controllers
 
     public class OverSightController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -280,13 +280,10 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/oversight_committee/save")]
         public async Task<IActionResult> Save(oversight_committee model, bool? api)
         {       
-
-            var record = db.oversight_committee.AsNoTracking().FirstOrDefault(x => x.oversight_committee_id == model.oversight_committee_id);
+            var record = db.oversight_committee.AsNoTracking().FirstOrDefault(x => x.oversight_committee_id == model.oversight_committee_id && x.is_deleted != true);
 
             if (record == null)
             {
-
-
                 if (api != true)
                 {
                     model.push_status_id = 2;
@@ -296,18 +293,13 @@ namespace DeskApp.Controllers
                     model.approval_id = 3;
                     model.is_deleted = false;
                 }
-
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
-
-
+                
                 db.oversight_committee.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -319,22 +311,18 @@ namespace DeskApp.Controllers
                 }
             }
 
-
             else
             {
-                model.push_date = null;
-
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
                 }
 
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
-
                 db.Entry(model).State = EntityState.Modified;
 
                 try
@@ -354,35 +342,23 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/oversight_committee")]
         public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/oversight_committee/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<oversight_committee>>(responseJson.Result);
-
-               //     var all = Mapper.DynamicMap<List<muni_profile_mapping>, List<muni_profile>>(model);
 
                     foreach (var item in model.ToList())
                     {
@@ -431,16 +407,12 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                var items_preselected = db.oversight_committee.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.oversight_committee.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.oversight_committee.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.oversight_committee_id == record_id);
-                    }
-
+                    var items = db.oversight_committee.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
+                   
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -453,17 +425,15 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
                 else {
-                    var items = db.oversight_committee.Where(x => x.push_status_id == 5 && x.is_deleted != true);
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.oversight_committee_id == record_id);
-                    }
-
+                    var items = db.oversight_committee.Where(x => x.push_status_id == 5 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -476,7 +446,9 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }                

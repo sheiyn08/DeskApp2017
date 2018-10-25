@@ -240,6 +240,7 @@ namespace DeskApp.DataLayer
     {
         [Key]
         public Guid sub_project_ers_id { get; set; }
+
         public string old_id { get; set; }
         public Guid? sub_project_unique_id { get; set; }
         public int? sub_project_id { get; set; }

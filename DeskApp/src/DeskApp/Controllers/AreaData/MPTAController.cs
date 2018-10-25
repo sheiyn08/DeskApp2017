@@ -19,8 +19,8 @@ namespace DeskApp.Controllers.AreaData
 {
     public class mptaController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -167,33 +167,34 @@ namespace DeskApp.Controllers.AreaData
                              s.no_lgu_cso_meeting,
                              s.no_gad_plan_assessment,
                              s.no_ngo_pim,
-                       
+
+                             //4.2: format dates to dd/mm/yyyy
                              s.old_id,
-                             s.moa_signed_date,
+                             moa_signed_date = s.moa_signed_date == null ? "" : s.moa_signed_date.Value.ToString("dd/MM/yyyy"),
                              s.pta_resolution_no,
-                             s.pta_approval_date,
+                             pta_approval_date = s.pta_approval_date == null ? "" : s.pta_approval_date.Value.ToString("dd/MM/yyyy"),
                              s.nga_resolution_no,
-                             s.nga_approval_date,
+                             nga_approval_date = s.nga_approval_date == null ? "" : s.nga_approval_date.Value.ToString("dd/MM/yyyy"),
                              s.miacmct_resolution_no,
-                             s.miacmct_approval_date,
+                             miacmct_approval_date = s.miacmct_approval_date == null ? "" : s.miacmct_approval_date.Value.ToString("dd/MM/yyyy"),
                              s.ngopo_resolution_no,
-                             s.ngopo_approval_date,
+                             ngopo_approval_date = s.ngopo_approval_date == null ? "" : s.ngopo_approval_date.Value.ToString("dd/MM/yyyy"),
                              s.gad_resolution_no,
-                             s.gad_approval_date,
+                             gad_approval_date = s.gad_approval_date == null ? "" : s.gad_approval_date.Value.ToString("dd/MM/yyyy"),
                              s.lcc_resolution_no,
-                             s.lcc_approval_date,
+                             lcc_approval_date = s.lcc_approval_date == null ? "" : s.lcc_approval_date.Value.ToString("dd/MM/yyyy"),
                              s.trust_account_no,
-                             s.trust_opened_date,
+                             trust_opened_date = s.trust_opened_date == null ? "" : s.trust_opened_date.Value.ToString("dd/MM/yyyy"),
                              s.kc_office,
                              s.kc_equipment,
                              s.no_staff,
                              s.no_tas,
                              s.incexp_location_post,
-                             s.incexp_post_date,
+                             incexp_post_date = s.incexp_post_date == null ? "" : s.incexp_post_date.Value.ToString("dd/MM/yyyy"),
                              s.budget_location_post,
-                             s.budget_post_date,
+                             budget_post_date = s.budget_post_date == null ? "" : s.budget_post_date.Value.ToString("dd/MM/yyyy"),
                              s.plan_location_post,
-                             s.plan_post_date,
+                             plan_post_date = s.plan_post_date == null ? "" : s.plan_post_date.Value.ToString("dd/MM/yyyy"),
                              s.no_ngopo_accredited,
                              s.no_ngopo_represented,
                              s.ngo_total,
@@ -210,9 +211,9 @@ namespace DeskApp.Controllers.AreaData
                              s.no_pwd_male,
                              s.no_pwd_female,
                              s.miac_eo_no,
-                             s.miac_eo_date,
+                             miac_eo_date = s.miac_eo_date == null ? "" : s.miac_eo_date.Value.ToString("dd/MM/yyyy"),
                              s.mct_eo_no,
-                             s.mct_eo_date,
+                             mct_eo_date = s.mct_eo_date == null ? "" : s.mct_eo_date.Value.ToString("dd/MM/yyyy"),
                              s.focal_person,
                              s.encoder,
                              s.office_address,
@@ -220,7 +221,7 @@ namespace DeskApp.Controllers.AreaData
                              s.latitude,
                              s.mlgu_logistics,
                              s.mdc_resolution_no,
-                             s.mdc_date,
+                             s.mdc_date, //declared as string
                              s.no_cdd_male,
                              s.no_cdd_female,
                              s.no_ngopo_male,
@@ -230,11 +231,11 @@ namespace DeskApp.Controllers.AreaData
                              s.no_ngopo_represented_male,
                              s.no_ngopo_represented_female,
                              s.miac_resolution_no,
-                             s.miac_approval_date,
+                             miac_approval_date = s.miac_approval_date == null ? "" : s.miac_approval_date.Value.ToString("dd/MM/yyyy"),
                              s.mct_resolution_no,
-                             s.mct_approval_date,
+                             mct_approval_date = s.mct_approval_date == null ? "" : s.mct_approval_date.Value.ToString("dd/MM/yyyy"),
                              s.mdcmem_resolution_no,
-                             s.mdcmem_approval_date,
+                             mdcmem_approval_date = s.mdcmem_approval_date == null ? "" : s.mdcmem_approval_date.Value.ToString("dd/MM/yyyy"),
                              s.mdcmem_male_no,
                              s.mdcmem_female_no,
                              s.with_equipment,
@@ -282,7 +283,7 @@ namespace DeskApp.Controllers.AreaData
                                 lib_cycle_name = x.lib_cycle.name,
                                 lib_fund_source_name = x.lib_fund_source.name,
                                 lib_province_prov_name = x.lib_province.prov_name,
-                                lib_region_region_name = x.lib_region.region_nick,
+                                lib_region_region_name = x.lib_region.region_name,
                                 lib_enrollment_name = x.lib_enrollment.name,
                                 municipal_pta_id = x.municipal_pta_id,
                                 push_date = x.push_date,
@@ -560,10 +561,10 @@ namespace DeskApp.Controllers.AreaData
         public async Task<IActionResult> Save(municipal_pta model, bool? is_ba, bool? api)
         {
             var record = db.municipal_pta.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code
-            && x.fund_source_id == model.fund_source_id
-            && x.cycle_id == model.cycle_id
-            && x.enrollment_id == model.enrollment_id);
-
+                                                                            && x.fund_source_id == model.fund_source_id
+                                                                            && x.cycle_id == model.cycle_id
+                                                                            && x.enrollment_id == model.enrollment_id
+                                                                            && x.is_deleted != true);
 
             if (record == null)
             {
@@ -571,23 +572,18 @@ namespace DeskApp.Controllers.AreaData
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
-
                     model.created_by = 0;
                     model.created_date = DateTime.Now;
                     model.approval_id = 3;
                     model.is_deleted = false;
                 }
-
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
 
                 db.municipal_pta.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -598,25 +594,26 @@ namespace DeskApp.Controllers.AreaData
                     return BadRequest();
                 }
             }
-
-
+            
             else
             {
-                model.push_date = null;
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
-                }
-                
-                model.municipal_pta_id = record.municipal_pta_id;
-                
-                model.created_by = record.created_by;
-                model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                    model.push_date = null;
 
-                db.Entry(model).State = EntityState.Modified;
+                    //v3.1 turnaround for MPTA not being accepted during sync/get
+                    model.municipal_pta_id = record.municipal_pta_id;
+                    model.created_by = record.created_by;
+                    model.created_date = record.created_date;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+                    db.Entry(model).State = EntityState.Modified;
+                }
+                else
+                {
+                    db.municipal_pta.Add(model);
+                }
 
                 try
                 {
@@ -636,41 +633,28 @@ namespace DeskApp.Controllers.AreaData
         [Route("Sync/Get/mpta")]
         public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/mpta/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<municipal_pta>>(responseJson.Result);
-
 
                     foreach (var item in model.ToList())
                     {
                         await Save(item, false, true);
                     }
-
-
 
                     return Ok();
                 }
@@ -716,12 +700,12 @@ namespace DeskApp.Controllers.AreaData
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                var items_preselected = db.municipal_pta.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.municipal_pta.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.municipal_pta.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).ToList();
-                    foreach (var item in items)
+                    var items = db.municipal_pta.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
+                    foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                         HttpResponseMessage response = client.PostAsync("api/offline/v1/mpta/save", data).Result;
@@ -733,13 +717,15 @@ namespace DeskApp.Controllers.AreaData
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
                 else {
-                    var items = db.municipal_pta.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
-                    foreach (var item in items)
+                    var items = db.municipal_pta.Where(x => x.push_status_id == 5 || x.is_deleted == true);
+                    foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                         HttpResponseMessage response = client.PostAsync("api/offline/v1/mpta/save", data).Result;
@@ -751,7 +737,9 @@ namespace DeskApp.Controllers.AreaData
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync(); 
+                            //return BadRequest();
                         }
                     }
                 }                

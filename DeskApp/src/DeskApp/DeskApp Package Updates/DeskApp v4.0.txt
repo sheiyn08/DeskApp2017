@@ -1,0 +1,23 @@
+
+=======================***** DeskApp v4.0 *****=======================
+Release Date: July 06, 2018
+
+This package release includes:
+1) Fix for Update Library issue
+2) Fix Sync Upload issue for deleted items still reflecting on WebApp after cleanup
+3) Fix Sync upload issue for CEAC Tracking
+4) Fix filter in Person Profile (Volunteer and position)
+5) Additional export for Volunteer engagement details (will show the committee and position of volunteer -- UPDATE LIBRARY NEEDED)
+6) Fix bug on encoding/editing Prioritized SPs (MIBF-PRA)
+7) Fix filter on Participants added on a certain Training
+8) Added new facility to encode BAR Participants
+9) Sub Project View aligned with Geotagging
+10) Add validation for entries with maximum values (e.g. number of households cannot be higher than the number of families), save button disabled if entries are not valid
+11) Add "Not Specified" option for Current Work in ERS Pakyaw (before it is only "Skilled" and "Unskilled" -- UPDATE LIBRARY NEEDED)
+12) Fix amount computation/entry for ERS actual and in-kind amount
+13) Fix issue on downloading MLCC
+14) Fix date cannot be encoded in Perception Survey if talakayan year is 2018
+15) Facility to upload MOVs to WebApp
+16) Fix issue on MOVs cannot be previewed (applicable for MOVs attached using DeskApp version 2.4 or lower)
+
+=======================***** DeskApp v4.0 *****=======================

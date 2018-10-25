@@ -13,7 +13,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.data.brgy_code = '';
     $scope.data.fund_source_id = '';
     $scope.data.cycle_id = '';
-    $scope.data.enrollment_id = '';
+    $scope.data.mode_id = '';
     $scope.data.is_male = '';
     $scope.data.is_ip = '';
     $scope.data.ip_group_id = '';
@@ -104,6 +104,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
                 $scope.loading = false;
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
+                $scope.totalCount = $scope.totalCount - 1;
                 alert("Record removed!");
             }).error(function (data) {
                 alert(JSON.stringify(data));
@@ -113,12 +114,22 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         }
     };
 
+    $scope.updateZeroValues = function () {
+        $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
+        $http.post('/api/offline/v1/sub_projects/update_zero_values').success(function (data) {
+            alert("Zero values updated!");
+            setTimeout($.unblockUI, 3);
+        }).error(function (data) {
+
+        });
+    };
+
 
     $http.get('/api/online/lib_region').then(function (response) { $scope.region_code_options = response.data; });
     $http.get('/Api/lib_fund_source/').then(function (response) { $scope.fund_source_id_options = response.data; });
     $http.get('/api/lib_enrollment').then(function (response) { $scope.enrollment_id_options = response.data; }); 
     $http.get('/Api/lib_physical_status/').then(function (response) { $scope.physical_status_id_options = response.data; });  
-    $http.get('/api/lib_enrollment').then(function (response) { $scope.enrollment_id_options = response.data; });
+    $http.get('/Api/lib_mode/').then(function (response) { $scope.mode_id_options = response.data; });
     $http.get('/Api/lib_project_type/').then(function (response) { $scope.project_type_id_options = response.data; });
 
      
@@ -419,9 +430,9 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
     };
 
-    $scope.load_reference = function (ref_page) {
+    $scope.load_reference = function (page) {
         $scope.data.ref_pageSize = $scope.ref_pageSize == undefined ? '' : $scope.ref_pageSize;
-        $scope.data.ref_currPage = ref_page == undefined ? '' : ref_page;
+        $scope.data.ref_currPage = page == undefined ? '' : page;
         $scope.isSearching = true;
 
         $.post('/api/offline/v1/sub_project_references/get_dto', $scope.data).success(function (value) {
@@ -435,13 +446,16 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
             alert(JSON.stringify(data));
             $scope.error = "An Error has occured while Saving! " + data.statusText;
             $scope.loading = false;
-        });      
+        });
     };
+
+    
 
 
 
     $scope.search();
     $scope.load_reference();
+    
 
     
 
@@ -493,7 +507,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         $http.get('/Api/lib_fund_source/').then(function (response) { $scope.fund_source_id_options_ = response.ref; });
         $http.get('/api/lib_enrollment').then(function (response) { $scope.enrollment_id_options_ = response.ref; });
         $http.get('/Api/lib_physical_status/').then(function (response) { $scope.physical_status_id_options_ = response.ref; });
-        $http.get('/api/lib_enrollment').then(function (response) { $scope.enrollment_id_options_ = response.ref; });
+        $http.get('/api/lib_mode').then(function (response) { $scope.mode_id_options = response.ref; });
         $http.get('/Api/lib_project_type/').then(function (response) { $scope.project_type_id_options_ = response.ref; });
         
         $scope.cancel = function () {

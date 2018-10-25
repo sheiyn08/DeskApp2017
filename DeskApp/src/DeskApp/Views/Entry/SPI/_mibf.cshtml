@@ -16,10 +16,12 @@
                 </div>
                 <div flex>
                     <input type="number" min="0" ng-model="data._dep_ed_amount" name="_dep_ed_amount" class="form-control" ng-disabled="true" />
+                </div>
+                <div flex>
                     {{data._dep_ed_amount | currency:"₱"}}
                 </div>
             </div>
-            <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7 && data.project_type_id ==23 && data.is_public_school_for_ip ==true">
+            <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7 && data.project_type_id == 23 && data.is_public_school_for_ip == true">
                 <div flex>
                     <label>With DepEd Grant?</label>
                 </div>
@@ -35,26 +37,32 @@
                 </div>
                 <div flex>
                     <input type="number" min="0" ng-model="data._dep_ed_amount" name="_dep_ed_amount" class="form-control" ng-disabled="true" />
+                </div>
+                <div flex>
                     {{data._dep_ed_amount | currency:"₱"}}
                 </div>
             </div>
-            <div layout="row" layout-margin flex="100" ng-show="data.modality_id != 12 || data.is_lcc == true">
-                @*---> added this condition that no Kalahi Target Amount if is_lcc is true, accdg to Choi*@
+            <div layout="row" layout-margin flex="100" ng-show="data.modality_id != 12">
                 <div flex>
-                    <label>Kalahi Target Amount</label>
+                    <label>KC Grant Amount (MIBF)</label>
                 </div>
                 <div flex>
                     <input type="number" min="0" ng-model="data.Kalahi_Amount" name="Kalahi_Amount" class="form-control" ng-disabled="true" />
+                </div>
+                <div flex>
                     {{data.Kalahi_Amount | currency:"₱"}}
                 </div>
             </div>
-            <div layout="row" layout-margin flex="100" ng-show="data.modality_id != 12 || data.is_lcc == true">
-                @*---> added this condition that no Kalahi Target Amount if is_lcc is true, accdg to Choi*@
+            <div layout="row" layout-margin flex="100" ng-show="data.modality_id != 12">
                 <div flex>
-                    <label>Kalahi Actual Amount: (SUM of Tranche Releases) </label>
+                    <label>Kalahi Actual Amount (Sum of Tranche Releases, from BTF) </label>
+                </div>
+                <div flex ng-show="data.is_lcc == false">
+                    @*{{data.Tranche1amount + data.Tranche2amount + data.Tranche3amount | currency:"₱"}}*@
+                    {{totalAllBTF('amount_approved') | currency:"₱"}}
                 </div>
                 <div flex>
-                    {{data.Tranche1amount + data.Tranche2amount + data.Tranche3amount | currency:"₱"}}
+
                 </div>
             </div>
             <div layout="row" layout-margin flex="100" ng-show="data.is_lcc != true">
@@ -65,6 +73,9 @@
                     <md-checkbox ng-model="data.has_local_counterpart" aria-label="Checkbox 1" class="md-primary" ng-disabled="true">
                         {{data.has_local_counterpart == true ? "Yes" : ""}}
                     </md-checkbox>
+                </div>
+                <div flex>
+
                 </div>
             </div>
             <div layout="row" layout-margin flex="100" ng-show="data.is_lcc == true">
@@ -79,10 +90,12 @@
             </div>
             <div layout="row" layout-margin flex="100">
                 <div flex>
-                    <label>LCC Target Amount</label>
+                    <label>LCC Amount (MIBF)</label>
                 </div>
                 <div flex>
                     <input type="number" min="0" ng-model="data.LCC_Amount" ng-disabled="true" name="LCC_Amount" class="form-control" />
+                </div>
+                <div flex>
                     {{data.LCC_Amount | currency:"₱"}}
                 </div>
             </div>
@@ -92,6 +105,8 @@
                 </div>
                 <div flex>
                     <input type="number" min="0" ng-model="data.LCC_Adj" ng-disabled="true" name="LCC_Adj" class="form-control" />
+                </div>
+                <div flex>
                     {{data.LCC_Adj | currency:"₱"}}
                 </div>
             </div>
@@ -101,28 +116,33 @@
                 </div>
                 <div flex>
                     <input type="number" min="0" ng-model="data.operation_maintainance_cost" ng-disabled="true" name="operation_maintainance_cost" class="form-control" />
+                </div>
+                <div flex>
                     {{data.operation_maintainance_cost | currency:"₱"}}
                 </div>
             </div>
             <div layout="row" layout-margin flex="100" ng-show="data.modality_id == 7 || data.modality_id == 14">
                 <div flex>
-                    <label>Multiple SPs in one (1) RFR</label>
+                    <label>Multiple SPs in one (1) RFR?</label>
                 </div>
                 <div flex>
                     <md-checkbox ng-model="data.is_multiple_sps" aria-label="Checkbox 1" ng-disabled="true" class="md-primary">
                         {{data.is_multiple_sps == true ? "Yes" : ""}}
                     </md-checkbox>
                 </div>
+                <div flex>
+
+                </div>
             </div>
             <p class="text-info" style="padding-left:25px" ng-show="data.is_multiple_sps == true">&nbsp;&nbsp;*Individual Sub Project Cost</p>
-            @*If multiple SPs. Note that this is on a separate table: spi_multiple_sp*@            
+            @*If multiple SPs. Note that this is on a separate table: spi_multiple_sp*@
             <div layout="row" layout-margin flex="100" ng-show="data.is_multiple_sps == true" style="padding-left:20px">
                 <table name="myMSPTable" class="table">
                     <thead>
                         <tr>
-                            <th>KALAHI Target Amount</th>
+                            <th>KC Grant Amount (MIBF)</th>
                             <th>KALAHI Actual Amount</th>
-                            <th>LCC Target Amount</th>
+                            <th>LCC Amount (MIBF)</th>
                             <th>LCC Actual Amount</th>
                             <th>Operation and Mainternance Cost</th>
                         </tr>
@@ -130,33 +150,43 @@
                     <tbody>
                         <tr ng-repeat="item in spi_multiple_sp">
                             <td>
-                                <input class="form-control" name="kalahi_target_amount" ng-model="item.kalahi_target_amount" ng-disabled="true" />
+                                <input class="form-control" name="kalahi_target_amount" ng-model="item.kalahi_target_amount" ng-disabled="true" ng-show="item.is_active" />
                                 {{item.kalahi_target_amount | currency:"₱"}}
                             </td>
                             <td>
-                                <input class="form-control" name="kalahi_actual_amount" ng-model="item.kalahi_actual_amount" ng-disabled="true" />
+                                <input class="form-control" name="kalahi_actual_amount" ng-model="item.kalahi_actual_amount" ng-disabled="true" ng-show="item.is_active" />
                                 {{item.kalahi_actual_amount | currency:"₱"}}
                             </td>
                             <td>
-                                <input class="form-control" name="lcc_target_amount" ng-model="item.lcc_target_amount" ng-disabled="true" />
+                                <input class="form-control" name="lcc_target_amount" ng-model="item.lcc_target_amount" ng-disabled="true" ng-show="item.is_active" />
                                 {{item.lcc_target_amount | currency:"₱"}}
                             </td>
                             <td>
-                                <input class="form-control" name="lcc_actual_amount" ng-model="item.lcc_actual_amount" ng-disabled="true" />
+                                <input class="form-control" name="lcc_actual_amount" ng-model="item.lcc_actual_amount" ng-disabled="true" ng-show="item.is_active" />
                                 {{item.lcc_actual_amount | currency:"₱"}}
                             </td>
                             <td>
-                                <input class="form-control" name="operation_and_maintenance_cost" ng-model="item.operation_and_maintenance_cost" ng-disabled="true" />
+                                <input class="form-control" name="operation_and_maintenance_cost" ng-model="item.operation_and_maintenance_cost" ng-disabled="true" ng-show="item.is_active" />
                                 {{item.operation_and_maintenance_cost | currency:"₱"}}
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>            
+            </div>
         </md-content>
 
-        <br /><br /><br />
+        <br />
+    </div>
+</div>
 
+
+<div class="panel panel-info" ng-show="data.modality_id == 7 && data.erfr_project_id != '' || data.modality_id == 14 && data.erfr_project_id !=''">
+
+    <div class="panel-heading">
+        <h4>Tranche Releases (BTF Data)</h4>
+    </div>
+
+    <div class="panel-body">
         <md-content>
             <h4 style="color:dodgerblue">Target Tranching</h4>
             <md-divider></md-divider>
@@ -178,107 +208,228 @@
             </div>
             <div layout="row" layout-margin flex="100">
                 <div flex>
-                    <input type="number" class="form-control" name="target_tranching_first" ng-model="data.target_tranching_first" step="0.01" ng-disabled="true">                    
+                    <input type="number" class="form-control" name="target_tranching_first" ng-model="data.target_tranching_first" step="0.01" ng-disabled="true">
                 </div>
                 <div flex>
-                    <input type="number" class="form-control" name="target_tranching_second" ng-model="data.target_tranching_second" step="0.01" ng-disabled="true">                    
+                    <input type="number" class="form-control" name="target_tranching_second" ng-model="data.target_tranching_second" step="0.01" ng-disabled="true">
                 </div>
                 <div flex>
-                    <input type="number" class="form-control" name="target_tranching_third" ng-model="data.target_tranching_third" step="0.01" ng-disabled="true">                    
+                    <input type="number" class="form-control" name="target_tranching_third" ng-model="data.target_tranching_third" step="0.01" ng-disabled="true">
                 </div>
                 <div flex>
-                    <strong>{{data.target_tranching_first + data.target_tranching_second + data.target_tranching_third + "%"}}</strong>
+                    <strong>{{data.target_tranching_first + data.target_tranching_second + data.target_tranching_third}}%</strong>
                 </div>
             </div>
         </md-content>
+    </div>
 
-        <br /><br />
+    @*Not included in DeskApp 4.0 -- Tranche Releases (BTF IPCDD data)*@
 
+    <div class="panel-body">
         <md-content>
-            <h4 style="color:dodgerblue">ERFR Release Information</h4>
-            <h5 style="color:dodgerblue">This information is directly fetched from the ERFRS System</h5>
+            <h4 style="color:dodgerblue">Auto-generated from Barangay Transfer of Funds (BTF)</h4>
             <md-divider></md-divider>
             <md-divider></md-divider>
             <md-divider></md-divider>
+            <br />
+            <table class="table table-bordered">
+                <tr>
+                    <td align="center" style="vertical-align:middle">
+                        <strong>Tranche</strong>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        <strong>Date Requested</strong>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        <strong>Amount Requested(from BTF)</strong>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        <strong>Date Released</strong>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        <strong>Amount Released (from BTF)</strong>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        <strong>Refunded Grants (from BTF)</strong>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        <strong>Reason for Refund</strong>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        <strong>Adjusted Amount after Refund</strong>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        <strong>Amount Utilized</strong>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        <strong>Percent Utilized</strong>
+                    </td>
+                </tr>
+                <tr ng-repeat="record in btf" ng-init="setTotal(record)">
+                    <td>
+                        {{record.tranche_id == '1' ? "1st" : ""}}
+                        {{record.tranche_id == '2' ? "2nd" : ""}}
+                        {{record.tranche_id == '3' ? "3rd" : ""}}
+                    </td>
+                    <td>
+                        {{record.date_requested | date : "longDate"}}
+                    </td>
+                    <td>
+                        {{record.amount_request | currency:"₱"}}
+                    </td>
+                    <td>
+                        {{record.date_downloaded | date : "longDate"}}
+                    </td>
+                    <td>
+                        {{record.amount_approved | currency:"₱"}}
+                    </td>
+                    <td>
+                        {{record.refunded_amount | currency:"₱"}}
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select name="type_of_refund_id" ng-model="record.type_of_refund_id" class="form-control" disabled
+                                    ng-options="option.Id as option.Name for option in type_of_refund_id_options">
+                                <option value="">[Reason for Refund]</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        {{(record.amount_approved-record.refunded_amount) | currency:"₱"}}
+                    </td>
+                    <td>
+                        {{record.amount_utilized | currency:"₱"}}
+                    </td>
+                    <td>
+                        {{((record.amount_utilized/record.amount_approved)*100) == "Infinity" ? "" : ((record.amount_utilized/record.amount_approved)*100).toFixed(2)}}%
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>TOTAL:</label></td>
+                    <td></td>
+                    <td>{{totalAllBTF('amount_request') |  currency:"₱"}}</td>
+                    <td></td>
+                    <td>{{totalAllBTF('amount_approved') |  currency:"₱"}}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{totalAllBTF('amount_approved')-totalAllBTF('refunded_amount')  | currency:"₱"}}</td>
+                    <td>{{totalAllBTF('amount_utilized') |  currency:"₱"}}</td>
+                    <td></td>
+                </tr>
+            </table>
+        </md-content>
+    </div>
 
+    @*hide muna on 4.0*@
+    @*<div class="panel-body" ng-show="data.target_tranching_first != null">
+        <md-content>
+            <h4 style="color:dodgerblue">Physically Eligible to Request Fund Release</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <div class="alert alert-success" role="alert" ng-show="showPhyEligibility() == true" style="color: darkgreen">
+                <i class="fa fa-check-square-o" aria-hidden="true"><b> Heads Up!</b> Eligible to Request 2nd tranche</i>
+            </div>
+            <br />
+            <div class="alert alert-success" role="alert" ng-show="showPhyEligibility2() == true" style="color: darkgreen">
+                <i class="fa fa-check-square-o" aria-hidden="true"> <b> Heads Up!</b> Eligible to Request 3rd tranche</i>
+            </div>
+        </md-content>
+    </div>*@
+
+    @*hide muna on 4.0*@
+    @*<div class="panel-body" ng-show="data.target_tranching_first != null">
+        <md-content>
+            <h4 style="color:dodgerblue">Financially Eligible to Request Fund Release</h4>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <md-divider></md-divider>
+            <div class="alert alert-success" role="alert" ng-show="showFinEligibility() == true" style="color: darkgreen">
+                <i class="fa fa-check-square-o" aria-hidden="true"> <b> Heads Up!</b> Eligible to Request 2nd tranche</i>
+            </div>
+            <br />
+            <div class="alert alert-success" role="alert" ng-show="showFinEligibility2() == true" style="color: darkgreen">
+                <i class="fa fa-check-square-o" aria-hidden="true"> <b> Heads Up!</b> Eligible to Request 3rd tranche</i>
+            </div>
+        </md-content>
+    </div>*@
+</div>
+
+@*For non-NCDDP projects*@
+<div class="panel panel-info" ng-hide="data.modality_id == 7 || data.modality_id == 14 || data.modality_id == 15">
+    <div class="panel-heading">
+        <h4>Tranche Release Dates</h4>
+        <h5 style="color:dodgerblue">* Ongoing / Completed Projects require Tranche 1 Amount and Date</h5>
+    </div>
+    <div class="panel-body">
+        <md-content>
             <div layout="row" layout-margin flex="100">
-                <div flex>Tranche </div>
-                <div flex ng-show="data.has_t1">
-                    Date Released
+                <div flex>
+                    <b>Tranche</b>
                 </div>
                 <div flex ng-show="data.has_t1">
-                    Amount Released
+                    <b>Date Released</b>
+                </div>
+                <div flex ng-show="data.has_t1">
+                    <b>Amount Released</b>
                 </div>
                 <div flex ng-show="data.modality_id == 7">
-                    Amount in ERFR
-                </div>
-                <div flex ng-show="data.modality_id == 7">
-                    Amount Utilized
+                    <b>Amount in ERFR</b>
                 </div>
             </div>
-            <div layout="row" layout-margin flex="100" ng-hide="data.has_t1 != true">
+            <div layout="row" layout-margin flex="100" ng-show="data.has_t1 == true">
                 <div flex>
                     First Tranche
                 </div>
                 <div flex>
-                    <md-datepicker ng-disabled="true" ng-model="dt_Tranche1date"></md-datepicker>
+                    <md-datepicker name="dt_Tranche1date" ng-disabled="true" ng-model="dt_Tranche1date"></md-datepicker>
                 </div>
                 <div flex>
-                    <input ng-model="data.Tranche1amount" ng-disabled="true" class="form-control"  />
+                    <input ng-model="data.Tranche1amount" ng-disabled="true" class="form-control" />
                     {{data.Tranche1amount | currency:"₱"}}
                 </div>
                 <div flex ng-show="data.modality_id == 7">
+                    <input ng-model="data.erfr_t1" ng-disabled="true" class="form-control" />
                     {{data.erfr_t1 | currency:"₱"}}
                 </div>
-                @*additional field for Amount Utilized (first tranche)*@
-                <div flex>
-                    <input ng-model="data.Tranche1amount_utilized" ng-disabled="true" class="form-control" name="Tranche1amount_utilized"  />                    
-                </div>
             </div>
-            <div layout="row" layout-margin flex="100" ng-hide="data.has_t2 != true">
+            <div layout="row" layout-margin flex="100" ng-show="data.has_t2 == true">
                 <div flex>
-                    Second Tranche 
+                    Second Tranche
                 </div>
                 <div flex>
-                    <md-datepicker ng-disabled="true" ng-model="dt_Tranche2date"></md-datepicker>                   
+                    <md-datepicker name="dt_Tranche1date" ng-disabled="true" ng-model="dt_Tranche2date"></md-datepicker>
                 </div>
                 <div flex>
-                    <input ng-model="data.Tranche2amount" ng-disabled="true" class="form-control"  />
+                    <input ng-model="data.Tranche2amount" ng-disabled="true" class="form-control" />
                     {{data.Tranche2amount | currency:"₱"}}
                 </div>
                 <div flex ng-show="data.modality_id == 7">
+                    <input ng-model="data.erfr_t2" ng-disabled="true" class="form-control" />
                     {{data.erfr_t2 | currency:"₱"}}
                 </div>
-                @*additional field for Amount Utilized (second tranche)*@
-                <div flex>
-                    <input ng-model="data.Tranche2amount_utilized" ng-disabled="true" class="form-control" />                    
-                </div>
             </div>
-            <div layout="row" layout-margin flex="100" ng-hide="data.has_t3 != true">
+            <div layout="row" layout-margin flex="100" ng-show="data.has_t3 == true">
                 <div flex>
-                    Third Tranche 
+                    Third Tranche
                 </div>
                 <div flex>
-                    <md-datepicker ng-disabled="true" ng-model="dt_Tranche3date"></md-datepicker> 
+                    <md-datepicker name="dt_Tranche1date" ng-disabled="true" ng-model="dt_Tranche3date"></md-datepicker>
                 </div>
                 <div flex>
-                    <input ng-model="data.Tranche3amount" ng-disabled="true" class="form-control"  />
+                    <input ng-model="data.Tranche3amount" ng-disabled="true" class="form-control" />
                     {{data.Tranche3amount | currency:"₱"}}
                 </div>
                 <div flex ng-show="data.modality_id == 7">
+                    <input ng-model="data.erfr_t3" ng-disabled="true" class="form-control" />
                     {{data.erfr_t3 | currency:"₱"}}
-                </div>
-                @*additional field for Amount Utilized (third tranche)*@
-                <div flex>
-                    <input ng-model="data.Tranche3amount_utilized" ng-disabled="true" class="form-control" />
                 </div>
             </div>
             <div layout="row" layout-margin flex="100">
                 <div flex>
-                    <label>Total Amount Released</label>
+                    <label>Total Releases</label>
                 </div>
                 <div flex>
-
                 </div>
                 <div flex>
                     <label>{{data.Tranche1amount + data.Tranche2amount + data.Tranche3amount | currency:"₱"}}</label>
@@ -286,174 +437,171 @@
                 <div flex ng-show="data.modality_id == 7">
                     <label>{{data.erfr_t1 + data.erfr_t2 + data.erfr_t3 | currency:"₱"}}</label>
                 </div>
-                <div flex ng-show="data.modality_id == 7">
-                    <label>{{data.Tranche1amount_utilized + data.Tranche2amount_utilized + data.Tranche3amount_utilized | currency:"₱"}}</label>
-                </div>
             </div>
-                     
-
-        </md-content>        
-
+        </md-content>
     </div>
 </div>
 
 
-@*<div class="panel panel-info">
-
-    <div class="panel-heading">
-        <h4>  ERFR Release Information</h4>
-        
-    </div>
-
-    <div class="md-whiteframe-5dp">
-
-
-
-
-        
-
-    </div>
-
-
-
-
-
-
-</div>*@
 
 
 
 @*<div class="panel panel-info">
 
-    <div class="panel-heading">
-        <h4>Municipal Inter Barangay Forum Information / Municipal Forum</h4>
-        <p> Please Select from the List Below the MIBF Activity that corresponds for this Project and the PRA Item that corresponds to the project</p>
-
-    </div>
-    
-
-    <div class="md-whiteframe-5dp">
-
-    
-        <div layout="row" layout-margin flex="100">
-
-            <div flex>
-                <label>
-                    MIBF PRA / MF
-
-                </label>
-            </div>
-            <div flex>
-                <select name="community_training_id" ng-model="data.community_training_id" id="community_training_id" class="form-control"
-                        ng-required="true"
-                        ng-options="option.Id as option.Name for option in pra_activity_matching_options_id">
-
-
-                    <option value="">[Select Activity]</option>
-                </select>
-            </div>
-
-        </div>
-    
-
-        <div layout="row" layout-margin flex="100">
-            <div flex>
-                <label>
-                    MIBF Date:
-
-                </label>
-            </div>
-
-            <div flex>
-
-                <md-datepicker name="MIBF Date" ng-disabled="true" ng-model="data.dt_pims_mibf_date"></md-datepicker>
-
-            </div>
+        <div class="panel-heading">
+            <h4>  ERFR Release Information</h4>
 
         </div>
 
-
-        <div layout="row" layout-margin flex="100">
-            <div flex>
-                <label>
-                    Select Project from Priority List
-
-                </label>
-            </div>
-
-            <div flex>
-
-                <select name="mibf_priority_id" ng-model="data.mibf_prioritization_id" id="mibf_priority_id" class="form-control"
-                        ng-required="true"
-                        ng-options="option.Id as option.Name for option in pra_spi_matching_options_id">
+        <div class="md-whiteframe-5dp">
 
 
-                    <option value="">[Select Priority]</option>
-                </select>
-            </div>
-
-        </div>
 
 
-        <div layout="row" layout-margin flex="100">
-            <div flex>
-                <label>
-                    Recorded Geotagging Grant Amount
 
-                </label>
-            </div>
-
-            <div flex>
-                <input type="number" disabled class="form-control" ng-model="data.Kalahi_Amount" />{{data.Kalahi_Amount | currency:"₱"}}
-            </div>
-
-        </div>
-
-        <div layout="row" layout-margin flex="100">
-            <div flex>
-                <label>
-                    Desktop  Approved MIBF Grant Amount
-
-                </label>
-            </div>
-
-            <div flex>
-
-                <input type="number" disabled class="form-control" ng-model="data.pims_mibf_cost" />
-            </div>
-
-        </div>
-
-        <div layout="row" layout-margin flex="100">
-            <div flex>
-                <label>
-                    Desktop  Approved MIBF LCC Amount
-
-                </label>
-            </div>
-
-            <div flex>
-
-                <input type="number" disabled class="form-control" ng-model="data.pims_mibf_lcc_cost" />
-            </div>
 
         </div>
 
 
 
 
-        <small>
-            <i>
-                *We have limited the available list of MIBF PRA / MF based on the following information (Fund Source, Cycle, Barangay). If the MIBF-PRA, MF activity is not
-                available, please encode it in the Training Module. 
-            </i>
-        </small>
 
-    </div>
+
+    </div>*@
 
 
 
-</div>*@
+@*<div class="panel panel-info">
+
+        <div class="panel-heading">
+            <h4>Municipal Inter Barangay Forum Information / Municipal Forum</h4>
+            <p> Please Select from the List Below the MIBF Activity that corresponds for this Project and the PRA Item that corresponds to the project</p>
+
+        </div>
+
+
+        <div class="md-whiteframe-5dp">
+
+
+            <div layout="row" layout-margin flex="100">
+
+                <div flex>
+                    <label>
+                        MIBF PRA / MF
+
+                    </label>
+                </div>
+                <div flex>
+                    <select name="community_training_id" ng-model="data.community_training_id" id="community_training_id" class="form-control"
+                            ng-required="true"
+                            ng-options="option.Id as option.Name for option in pra_activity_matching_options_id">
+
+
+                        <option value="">[Select Activity]</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>
+                        MIBF Date:
+
+                    </label>
+                </div>
+
+                <div flex>
+
+                    <md-datepicker name="MIBF Date" ng-disabled="true" ng-model="data.dt_pims_mibf_date"></md-datepicker>
+
+                </div>
+
+            </div>
+
+
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>
+                        Select Project from Priority List
+
+                    </label>
+                </div>
+
+                <div flex>
+
+                    <select name="mibf_priority_id" ng-model="data.mibf_prioritization_id" id="mibf_priority_id" class="form-control"
+                            ng-required="true"
+                            ng-options="option.Id as option.Name for option in pra_spi_matching_options_id">
+
+
+                        <option value="">[Select Priority]</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>
+                        Recorded Geotagging Grant Amount
+
+                    </label>
+                </div>
+
+                <div flex>
+                    <input type="number" disabled class="form-control" ng-model="data.Kalahi_Amount" />{{data.Kalahi_Amount | currency:"₱"}}
+                </div>
+
+            </div>
+
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>
+                        Desktop  Approved MIBF Grant Amount
+
+                    </label>
+                </div>
+
+                <div flex>
+
+                    <input type="number" disabled class="form-control" ng-model="data.pims_mibf_cost" />
+                </div>
+
+            </div>
+
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>
+                        Desktop  Approved MIBF LCC Amount
+
+                    </label>
+                </div>
+
+                <div flex>
+
+                    <input type="number" disabled class="form-control" ng-model="data.pims_mibf_lcc_cost" />
+                </div>
+
+            </div>
+
+
+
+
+            <small>
+                <i>
+                    *We have limited the available list of MIBF PRA / MF based on the following information (Fund Source, Cycle, Barangay). If the MIBF-PRA, MF activity is not
+                    available, please encode it in the Training Module.
+                </i>
+            </small>
+
+        </div>
+
+
+
+    </div>*@
 
 @*<div class="panel panel-info">
 
@@ -512,33 +660,157 @@
             <div flex>First Tranche </div>
 
             <div flex> @*ng-disabled="!data.has_t1"*@
-                @*<md-datepicker md-min-date="min_start_date" md-max-date="today" name="dt_Tranche1date" ng-disabled="true" ng-required="data.has_t1" ng-model="data.Tranche1date"  ng-change="data.Tranche1date = dt_Tranche1date.toISOString()"></md-datepicker>*@                
-                @*<md-datepicker ng-disabled="true" ng-model="dt_Tranche1date"></md-datepicker>
-                <div ng-messages="myForm.dt_Tranche1date.$error">
-                    <div ng-message="required" class="error">*Date is required.</div>
-                    <div ng-message="required" class="error">*For Pure LCC, set amount to Zero.</div>
+@*<md-datepicker md-min-date="min_start_date" md-max-date="today" name="dt_Tranche1date" ng-disabled="true" ng-required="data.has_t1" ng-model="data.Tranche1date"  ng-change="data.Tranche1date = dt_Tranche1date.toISOString()"></md-datepicker>*@
+@*<md-datepicker ng-disabled="true" ng-model="dt_Tranche1date"></md-datepicker>
+                    <div ng-messages="myForm.dt_Tranche1date.$error">
+                        <div ng-message="required" class="error">*Date is required.</div>
+                        <div ng-message="required" class="error">*For Pure LCC, set amount to Zero.</div>
+                    </div>
                 </div>
+
+                <div flex>
+                    <input ng-model="data.Tranche1amount" ng-disabled="true" class="form-control" ng-required="data.physical_status_id != 3" name="Tranche1amount" type="number" min="0" />{{data.Tranche1amount | currency:"₱"}}
+
+                    <div ng-messages="myForm.Tranche1amount.$error">
+                        <div ng-message="required" class="error">*Tranche Amount required.</div>
+
+                    </div>
+                </div>
+
+                <div flex ng-show="data.modality_id ==7">
+                    {{data.erfr_t1 | currency:"₱"}}
+                </div>
+
+                <div flex>
+                    <input ng-model="data.Tranche1amount_utilized" ng-disabled="true" class="form-control" ng-required="data.physical_status_id != 3" name="Tranche1amount_utilized" type="number" min="0" max="{{data.Tranche1amount}}" />
+                    <div ng-messages="myForm.Tranche1amount_utilized.$error">
+                        <div ng-message="required" class="error">*Amount Utilized required.</div>
+                        <div ng-message="max" class="error">Higher than the amount released?</div>
+                    </div>
+                </div>
+
             </div>
 
-            <div flex>
-                <input ng-model="data.Tranche1amount" ng-disabled="true" class="form-control" ng-required="data.physical_status_id != 3" name="Tranche1amount" type="number" min="0" />{{data.Tranche1amount | currency:"₱"}}
 
-                <div ng-messages="myForm.Tranche1amount.$error">
-                    <div ng-message="required" class="error">*Tranche Amount required.</div>
+
+
+
+            <div layout="row" layout-margin flex="100">
+
+                <div flex>
+                    <md-checkbox ng-model="data.has_t2" aria-label="Checkbox 1" ng-disabled="true">
+                    </md-checkbox>
+                </div>
+
+                <div flex>Second Tranche </div>
+                <div flex>
+
+                    <md-datepicker ng-disabled="true" ng-model="dt_Tranche2date"></md-datepicker>
+                    <div ng-messages="myForm.dt_Tranche2date.$error">
+                        <div ng-message="required" class="error">*Date  is required.</div>
+
+                    </div>
+
+
 
                 </div>
-            </div>
+                    <input ng-model="data.Tranche2amount" ng-disabled="true" class="form-control" name="Tranche2amount" ng-required="data.has_t2" type="number" min="0" />{{data.Tranche2amount | currency:"₱"}}
 
-            <div flex ng-show="data.modality_id ==7">
-                {{data.erfr_t1 | currency:"₱"}}
-            </div>
+                    <div ng-messages="myForm.Tranche2amount.$error">
+                        <div ng-message="required" class="error">*Tranche Amount required.</div>
 
-            <div flex> 
-                <input ng-model="data.Tranche1amount_utilized" ng-disabled="true" class="form-control" ng-required="data.physical_status_id != 3" name="Tranche1amount_utilized" type="number" min="0" max="{{data.Tranche1amount}}" />
-                <div ng-messages="myForm.Tranche1amount_utilized.$error">
-                    <div ng-message="required" class="error">*Amount Utilized required.</div>
-                    <div ng-message="max" class="error">Higher than the amount released?</div>
+                    </div>
                 </div>
+
+
+                <div flex ng-show="data.modality_id ==7">
+                    {{data.erfr_t2 | currency:"₱"}}
+                </div>
+
+                <div flex>
+                    <input ng-model="data.Tranche2amount_utilized" ng-disabled="true" class="form-control" name="Tranche2amount_utilized" type="number" min="0" max="{{data.Tranche2amount}}" />
+                    <span style="font-size:small; color:red" ng-show="myForm.Tranche2amount_utilized.$error"><i>Higher than the amount released?</i></span>
+                    <div ng-messages="myForm.Tranche2amount_utilized.$error">
+                        <div ng-message="required" class="error">*Amount Utilized required.</div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <md-checkbox ng-model="data.has_t3" aria-label="Checkbox 1" ng-disabled="true">
+                    </md-checkbox>
+                </div>
+
+                <div flex>Third Tranche </div>
+                <div flex>
+
+                    <md-datepicker ng-disabled="true" ng-model="dt_Tranche3date"></md-datepicker>
+
+                    <div ng-messages="myForm.dt_Tranche3date.$error">
+                        <div ng-message="required" class="error">*Date  is required.</div>
+
+                    </div>
+
+
+
+                </div>
+                <div flex>
+
+                    <input ng-model="data.Tranche3amount" ng-disabled="true" class="form-control" name="Tranche3amount" ng-required="data.has_t3" type="number" min="0" />{{data.Tranche3amount | currency:"₱"}}
+
+                    <div ng-messages="myForm.Tranche3amount.$error">
+                        <div ng-message="required" class="error">*Tranche Amount required.</div>
+
+                    </div>
+                </div>
+
+                <div flex ng-show="data.modality_id ==7">
+                    {{data.erfr_t3 | currency:"₱"}}
+                </div>
+
+
+                <div flex>
+                    <input ng-model="data.Tranche3amount_utilized" ng-disabled="true" class="form-control" name="Tranche3amount_utilized" type="number" min="0" max="{{data.Tranche3amount}}" />
+                    <span style="font-size:small; color:red" ng-show="myForm.Tranche3amount_utilized.$error"><i>Higher than the amount released?</i></span>
+                    <div ng-messages="myForm.Tranche3amount_utilized.$error">
+                        <div ng-message="required" class="error">*Amount Utilized required.</div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <label>   Total Amount Released</label>
+                </div>
+
+                <div flex>  </div>
+
+                <div flex>
+
+                </div>
+
+                <div flex>
+                    <label>{{data.Tranche1amount + data.Tranche2amount + data.Tranche3amount | currency:"₱"}}</label>
+                </div>
+
+                <div flex ng-show="data.modality_id == 7">
+                    <label>{{data.erfr_t1 + data.erfr_t2 + data.erfr_t3 | currency:"₱"}}</label>
+                </div>
+
+                <div flex ng-show="data.modality_id == 7">
+                    <label>{{data.Tranche1amount_utilized + data.Tranche2amount_utilized + data.Tranche3amount_utilized | currency:"₱"}}</label>
+                </div>
+
             </div>
 
         </div>
@@ -547,129 +819,5 @@
 
 
 
-        <div layout="row" layout-margin flex="100">
 
-            <div flex>
-                <md-checkbox ng-model="data.has_t2" aria-label="Checkbox 1" ng-disabled="true">
-                </md-checkbox>
-            </div>
-
-            <div flex>Second Tranche </div>
-            <div flex>
-               
-                <md-datepicker ng-disabled="true" ng-model="dt_Tranche2date"></md-datepicker>
-                <div ng-messages="myForm.dt_Tranche2date.$error">
-                    <div ng-message="required" class="error">*Date  is required.</div>
-
-                </div>
-
-
-
-            </div>
-                <input ng-model="data.Tranche2amount" ng-disabled="true" class="form-control" name="Tranche2amount" ng-required="data.has_t2" type="number" min="0" />{{data.Tranche2amount | currency:"₱"}}
-
-                <div ng-messages="myForm.Tranche2amount.$error">
-                    <div ng-message="required" class="error">*Tranche Amount required.</div>
-
-                </div>
-            </div>
-
-
-            <div flex ng-show="data.modality_id ==7">
-                {{data.erfr_t2 | currency:"₱"}}
-            </div>
-
-            <div flex>
-                <input ng-model="data.Tranche2amount_utilized" ng-disabled="true" class="form-control" name="Tranche2amount_utilized" type="number" min="0" max="{{data.Tranche2amount}}" />
-                <span style="font-size:small; color:red" ng-show="myForm.Tranche2amount_utilized.$error"><i>Higher than the amount released?</i></span>
-                <div ng-messages="myForm.Tranche2amount_utilized.$error">
-                    <div ng-message="required" class="error">*Amount Utilized required.</div>
-                </div>
-            </div>
-            
-        </div>
-
-
-
-
-
-
-        <div layout="row" layout-margin flex="100">
-            <div flex>
-                <md-checkbox ng-model="data.has_t3" aria-label="Checkbox 1" ng-disabled="true">
-                </md-checkbox>
-            </div>
-
-            <div flex>Third Tranche </div>
-            <div flex>
-               
-                <md-datepicker ng-disabled="true" ng-model="dt_Tranche3date"></md-datepicker>
-               
-                <div ng-messages="myForm.dt_Tranche3date.$error">
-                    <div ng-message="required" class="error">*Date  is required.</div>
-
-                </div>
-
-
-
-            </div>
-            <div flex>
-               
-                <input ng-model="data.Tranche3amount" ng-disabled="true" class="form-control" name="Tranche3amount" ng-required="data.has_t3" type="number" min="0" />{{data.Tranche3amount | currency:"₱"}}
-
-                <div ng-messages="myForm.Tranche3amount.$error">
-                    <div ng-message="required" class="error">*Tranche Amount required.</div>
-
-                </div>
-            </div>
-            
-            <div flex ng-show="data.modality_id ==7">
-                {{data.erfr_t3 | currency:"₱"}}
-            </div>
-
-            
-            <div flex>
-                <input ng-model="data.Tranche3amount_utilized" ng-disabled="true" class="form-control" name="Tranche3amount_utilized" type="number" min="0" max="{{data.Tranche3amount}}" />
-                <span style="font-size:small; color:red" ng-show="myForm.Tranche3amount_utilized.$error"><i>Higher than the amount released?</i></span>
-                <div ng-messages="myForm.Tranche3amount_utilized.$error">
-                    <div ng-message="required" class="error">*Amount Utilized required.</div>
-                </div>
-            </div>
-
-
-
-        </div>
-
-        <div layout="row" layout-margin flex="100">
-            <div flex>
-                <label>   Total Amount Released</label>
-            </div>
-
-            <div flex>  </div>
-
-            <div flex>
-
-            </div>
-
-            <div flex>
-                <label>{{data.Tranche1amount + data.Tranche2amount + data.Tranche3amount | currency:"₱"}}</label>
-            </div>
-
-            <div flex ng-show="data.modality_id == 7">
-                <label>{{data.erfr_t1 + data.erfr_t2 + data.erfr_t3 | currency:"₱"}}</label>
-            </div>
-
-            <div flex ng-show="data.modality_id == 7">
-                <label>{{data.Tranche1amount_utilized + data.Tranche2amount_utilized + data.Tranche3amount_utilized | currency:"₱"}}</label>
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-
-
-
-</div>*@
+    </div>*@

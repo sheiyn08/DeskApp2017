@@ -96,14 +96,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         if (ask == true) {
             $.post('/api/delete/barangay_profile?id=' + removeitem.brgy_profile_id).success(function (value) {
                 $scope.loading = false;
-
-
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
-
-
-                alert("Record removed!")
-
+                $scope.totalCount = $scope.totalCount - 1;
+                alert("Record removed!");
             }).error(function (data) {
 
                 alert(JSON.stringify(data));
@@ -613,7 +609,7 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
 
                     }).error(function (data) {
                         $scope.error = "An Error has occured while Uploading Data! ";
-                        $scope.isSearching = false;
+                        $scope.isSearching = false;                        
                     });
                     //end 
                 }).error(function (data) {
@@ -636,6 +632,7 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
             }).error(function (data) {
                 $scope.error = "An Error has occured while Uploading Data! ";
                 $scope.isSearching = false;
+                console.log(data);
             });
             //end 
         }

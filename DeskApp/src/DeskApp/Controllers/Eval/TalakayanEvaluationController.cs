@@ -17,8 +17,8 @@ namespace DeskApp.Controllers.Eval
     
     public class TalakayanEvaluationController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -28,19 +28,7 @@ namespace DeskApp.Controllers.Eval
             db = context;
         }
 
-        [HttpPost]
-        [Route("api/delete/talakayan_eval")]
-        public async Task<IActionResult> talakayan_eval(Guid id)
-        {
-            var record = db.talakayan_eval.FirstOrDefault(x => x.talakayan_evaluation_id == id);
-            record.is_deleted = true;
-            record.push_status_id = 3;
-
-            await db.SaveChangesAsync();
-
-            return Ok();
-
-        }
+        //api delete moved to DeleteController.cs 01-24-18
 
         public ActionResult Index()
         {
@@ -917,17 +905,10 @@ namespace DeskApp.Controllers.Eval
         [Route("api/offline/v1/talakayan_eval/save")]
         public async Task<IActionResult> Save(talakayan_eval model, bool? api)
         {
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
-
-            var record = db.talakayan_eval.AsNoTracking().FirstOrDefault(x => x.talakayan_evaluation_id == model.talakayan_evaluation_id);
+            var record = db.talakayan_eval.AsNoTracking().FirstOrDefault(x => x.talakayan_evaluation_id == model.talakayan_evaluation_id && x.is_deleted != true);
 
             if (record == null)
             {
-
                 if (api != true)
                 {
                     model.push_status_id = 2;
@@ -937,12 +918,9 @@ namespace DeskApp.Controllers.Eval
                     model.created_date = DateTime.Now;
                     model.is_deleted = false;
                 }
-
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
 
                 db.talakayan_eval.Add(model);
@@ -959,23 +937,22 @@ namespace DeskApp.Controllers.Eval
 
             }
 
-
             else
             {
-                model.push_date = null;
+                
 
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
                 }
 
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
-
+                
                 db.Entry(model).State = EntityState.Modified;
 
                 try
@@ -1030,39 +1007,26 @@ namespace DeskApp.Controllers.Eval
 
         [HttpPost]
         [Route("Sync/Get/talakayan_eval")]
-        public async Task<ActionResult> GetOnline(string username, string password, string city_code = null,
-           Guid? record_id = null)
-        {
-            
+        public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, Guid? record_id = null)
+        {            
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-                HttpResponseMessage response =
-                    client.GetAsync("api/offline/v1/talakayan_eval/get_mapped?city_code=" + city_code + "&id=" + record_id)
-                        .Result;
+                
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/talakayan_eval/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<talakayan_eval>>(responseJson.Result);
-
-                    //                    var all = Mapper.DynamicMap<List<person_profile_mapping>, List<person_profile>>(model);
-
+                    
                     foreach (var item in model.ToList())
                     {
                         await Save(item, true);
@@ -1127,15 +1091,12 @@ namespace DeskApp.Controllers.Eval
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                var items_preselected = db.talakayan_eval.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.talakayan_eval.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.talakayan_eval.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.talakayan_evaluation_id == record_id);
-                    }
+                    var items = db.talakayan_eval.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -1148,20 +1109,16 @@ namespace DeskApp.Controllers.Eval
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest(); 
                         }
                     }
                 }
                 else
                 {
-                    var items = db.talakayan_eval.Where(x => x.push_status_id == 5 && x.is_deleted == true);
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.talakayan_evaluation_id == record_id);
-                    }
+                    var items = db.talakayan_eval.Where(x => x.push_status_id == 5 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -1174,10 +1131,9 @@ namespace DeskApp.Controllers.Eval
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }

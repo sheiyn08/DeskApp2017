@@ -133,6 +133,112 @@ namespace DeskApp.Migrations
                     b.ToTable("act_report_other_activities");
                 });
 
+            modelBuilder.Entity("DeskApp.DataLayer.barangay_trasnfer_of_funds", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("account_number");
+
+                    b.Property<decimal?>("actual_amount_liquidated");
+
+                    b.Property<decimal?>("actual_amount_utilized");
+
+                    b.Property<decimal?>("amount_approved");
+
+                    b.Property<decimal?>("amount_request");
+
+                    b.Property<decimal?>("amount_utilized");
+
+                    b.Property<string>("batch_target");
+
+                    b.Property<string>("brgy_code");
+
+                    b.Property<int?>("budget_year_id");
+
+                    b.Property<string>("check_number");
+
+                    b.Property<string>("check_number_ipcdd");
+
+                    b.Property<string>("city_code");
+
+                    b.Property<string>("created_by");
+
+                    b.Property<DateTime>("created_date");
+
+                    b.Property<int?>("cycle_id");
+
+                    b.Property<DateTime?>("date_downloaded");
+
+                    b.Property<DateTime?>("date_requested");
+
+                    b.Property<DateTime?>("date_transferred");
+
+                    b.Property<string>("deleted_by");
+
+                    b.Property<DateTime?>("deleted_date");
+
+                    b.Property<int?>("erfr_project_id");
+
+                    b.Property<int?>("fund_source_id");
+
+                    b.Property<bool?>("is_deleted");
+
+                    b.Property<bool?>("is_incentive");
+
+                    b.Property<bool?>("is_lgu_led");
+
+                    b.Property<bool?>("is_savings");
+
+                    b.Property<bool?>("is_taf");
+
+                    b.Property<string>("last_updated_by");
+
+                    b.Property<DateTime?>("last_updated_date");
+
+                    b.Property<string>("last_updated_via_spi_by");
+
+                    b.Property<DateTime?>("last_updated_via_spi_date");
+
+                    b.Property<string>("lbp_branch");
+
+                    b.Property<int?>("modality_category_id");
+
+                    b.Property<int?>("modality_id");
+
+                    b.Property<DateTime?>("or_date");
+
+                    b.Property<string>("or_number");
+
+                    b.Property<string>("prov_code");
+
+                    b.Property<decimal?>("refunded_amount");
+
+                    b.Property<string>("region_code");
+
+                    b.Property<string>("remarks");
+
+                    b.Property<int?>("sub_project_id");
+
+                    b.Property<string>("title");
+
+                    b.Property<int?>("tranche_id");
+
+                    b.Property<int?>("type_of_refund_id");
+
+                    b.Property<bool?>("will_not_request_second_tranche");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("budget_year_id");
+
+                    b.HasIndex("tranche_id");
+
+                    b.HasIndex("type_of_refund_id");
+
+                    b.ToTable("barangay_trasnfer_of_funds");
+                });
+
             modelBuilder.Entity("DeskApp.DataLayer.brgy_assembly", b =>
                 {
                     b.Property<Guid>("brgy_assembly_id")
@@ -1383,6 +1489,22 @@ namespace DeskApp.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("approval_id");
+
+                    b.Property<int?>("bar_participant_female");
+
+                    b.Property<int?>("bar_participant_ip_female");
+
+                    b.Property<int?>("bar_participant_ip_male");
+
+                    b.Property<int?>("bar_participant_male");
+
+                    b.Property<int?>("bar_participant_pantawid_female");
+
+                    b.Property<int?>("bar_participant_pantawid_male");
+
+                    b.Property<int?>("bar_participant_slp_female");
+
+                    b.Property<int?>("bar_participant_slp_male");
 
                     b.Property<int?>("brgy_code");
 
@@ -3517,6 +3639,10 @@ namespace DeskApp.Migrations
 
                     b.Property<string>("ip_group_other");
 
+                    b.Property<bool?>("is_SharedACT");
+
+                    b.Property<bool?>("is_SharedRPMO");
+
                     b.Property<bool?>("is_anonymous");
 
                     b.Property<bool?>("is_central_office_level_only");
@@ -3772,6 +3898,66 @@ namespace DeskApp.Migrations
                     b.ToTable("grs_installation");
                 });
 
+            modelBuilder.Entity("DeskApp.DataLayer.lib_ancestral_domain", b =>
+                {
+                    b.Property<int>("ancestral_domain_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("name");
+
+                    b.HasKey("ancestral_domain_id");
+
+                    b.ToTable("lib_ancestral_domain");
+                });
+
+            modelBuilder.Entity("DeskApp.DataLayer.lib_ancestral_domain_coverage", b =>
+                {
+                    b.Property<int>("ad_coverage_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ancestral_domain_id");
+
+                    b.Property<string>("brgy_code");
+
+                    b.Property<string>("city_code");
+
+                    b.Property<string>("icc_tribe");
+
+                    b.Property<int?>("lib_brgybrgy_code");
+
+                    b.Property<int?>("lib_citycity_code");
+
+                    b.Property<int?>("lib_provinceprov_code");
+
+                    b.Property<int?>("lib_regionregion_code");
+
+                    b.Property<string>("prov_code");
+
+                    b.Property<string>("region_code");
+
+                    b.Property<string>("sitio");
+
+                    b.Property<int?>("target_year_id");
+
+                    b.Property<int?>("total_brgys");
+
+                    b.Property<int?>("type_of_barangay");
+
+                    b.HasKey("ad_coverage_id");
+
+                    b.HasIndex("ancestral_domain_id");
+
+                    b.HasIndex("lib_brgybrgy_code");
+
+                    b.HasIndex("lib_citycity_code");
+
+                    b.HasIndex("lib_provinceprov_code");
+
+                    b.HasIndex("lib_regionregion_code");
+
+                    b.ToTable("lib_ancestral_domain_coverage");
+                });
+
             modelBuilder.Entity("DeskApp.DataLayer.lib_approval", b =>
                 {
                     b.Property<int>("approval_id");
@@ -3815,6 +4001,18 @@ namespace DeskApp.Migrations
                     b.HasKey("brgy_code");
 
                     b.ToTable("lib_brgy");
+                });
+
+            modelBuilder.Entity("DeskApp.DataLayer.lib_budget_year", b =>
+                {
+                    b.Property<int>("budget_year_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("name");
+
+                    b.HasKey("budget_year_id");
+
+                    b.ToTable("lib_budget_year");
                 });
 
             modelBuilder.Entity("DeskApp.DataLayer.lib_city", b =>
@@ -4472,6 +4670,18 @@ namespace DeskApp.Migrations
                     b.ToTable("lib_training_category");
                 });
 
+            modelBuilder.Entity("DeskApp.DataLayer.lib_tranche", b =>
+                {
+                    b.Property<int>("tranche_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("name");
+
+                    b.HasKey("tranche_id");
+
+                    b.ToTable("lib_tranche");
+                });
+
             modelBuilder.Entity("DeskApp.DataLayer.lib_transpo_mode", b =>
                 {
                     b.Property<int>("transpo_mode_id");
@@ -4481,6 +4691,18 @@ namespace DeskApp.Migrations
                     b.HasKey("transpo_mode_id");
 
                     b.ToTable("lib_transpo_mode");
+                });
+
+            modelBuilder.Entity("DeskApp.DataLayer.lib_type_of_refund", b =>
+                {
+                    b.Property<int>("type_of_refund_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("name");
+
+                    b.HasKey("type_of_refund_id");
+
+                    b.ToTable("lib_type_of_refund");
                 });
 
             modelBuilder.Entity("DeskApp.DataLayer.lib_volunteer_committee", b =>
@@ -5729,6 +5951,162 @@ namespace DeskApp.Migrations
                     b.ToTable("psa_solution");
                 });
 
+            modelBuilder.Entity("DeskApp.DataLayer.sp_deskapp_others", b =>
+                {
+                    b.Property<Guid>("sp_deskapp_others_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("approval_id");
+
+                    b.Property<string>("community_formation_list");
+
+                    b.Property<int>("created_by");
+
+                    b.Property<DateTime>("created_date");
+
+                    b.Property<int?>("deleted_by");
+
+                    b.Property<DateTime?>("deleted_date");
+
+                    b.Property<bool?>("is_deleted");
+
+                    b.Property<int?>("last_modified_by");
+
+                    b.Property<DateTime?>("last_modified_date");
+
+                    b.Property<int?>("no_target_families");
+
+                    b.Property<int?>("no_target_female");
+
+                    b.Property<int?>("no_target_ip_families");
+
+                    b.Property<int?>("no_target_ip_households");
+
+                    b.Property<int?>("no_target_male");
+
+                    b.Property<int?>("no_target_pantawid_families");
+
+                    b.Property<int?>("no_target_pantawid_households");
+
+                    b.Property<int?>("no_target_slp_families");
+
+                    b.Property<int?>("no_target_slp_households");
+
+                    b.Property<DateTime?>("push_date");
+
+                    b.Property<int>("push_status_id");
+
+                    b.Property<string>("resume_order_list");
+
+                    b.Property<int>("sub_project_id");
+
+                    b.Property<Guid>("sub_project_unique_id");
+
+                    b.Property<string>("suspension_order_list");
+
+                    b.Property<int?>("target_female");
+
+                    b.Property<int?>("target_male");
+
+                    b.Property<string>("variation_order_list");
+
+                    b.HasKey("sp_deskapp_others_id");
+
+                    b.HasIndex("approval_id");
+
+                    b.ToTable("sp_deskapp_others");
+                });
+
+            modelBuilder.Entity("DeskApp.DataLayer.spi_ancestral_domain", b =>
+                {
+                    b.Property<int>("spi_ancestral_domain_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ancestral_domain_id");
+
+                    b.Property<string>("brgy_code");
+
+                    b.Property<string>("city_code");
+
+                    b.Property<string>("created_by");
+
+                    b.Property<DateTime>("created_date");
+
+                    b.Property<string>("deleted_by");
+
+                    b.Property<DateTime?>("deleted_date");
+
+                    b.Property<bool?>("is_deleted");
+
+                    b.Property<string>("last_updated_by");
+
+                    b.Property<DateTime?>("last_updated_date");
+
+                    b.Property<int?>("lib_ancestral_domain_coveragead_coverage_id");
+
+                    b.Property<string>("prov_code");
+
+                    b.Property<string>("region_code");
+
+                    b.Property<int?>("sub_project_id");
+
+                    b.HasKey("spi_ancestral_domain_id");
+
+                    b.HasIndex("lib_ancestral_domain_coveragead_coverage_id");
+
+                    b.ToTable("spi_ancestral_domain");
+                });
+
+            modelBuilder.Entity("DeskApp.DataLayer.spi_land_acquisition", b =>
+                {
+                    b.Property<int>("spi_land_acquisition_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("created_by");
+
+                    b.Property<DateTime>("created_date");
+
+                    b.Property<string>("deleted_by");
+
+                    b.Property<DateTime?>("deleted_date");
+
+                    b.Property<bool?>("is_deleted");
+
+                    b.Property<string>("last_updated_by");
+
+                    b.Property<DateTime?>("last_updated_date");
+
+                    b.Property<int?>("no_CNC");
+
+                    b.Property<int?>("no_ECC");
+
+                    b.Property<int?>("no_ESMP");
+
+                    b.Property<int?>("no_ESSC");
+
+                    b.Property<int?>("no_land_aq_blgu_resolution");
+
+                    b.Property<int?>("no_land_aq_deed_of_donation");
+
+                    b.Property<int?>("no_land_aq_deped_certification");
+
+                    b.Property<int?>("no_land_aq_other");
+
+                    b.Property<int?>("no_land_aq_unsfruct");
+
+                    b.Property<int?>("no_permit_to_construct_enter");
+
+                    b.Property<int?>("no_quit_claim");
+
+                    b.Property<int?>("no_right_of_way_agreement");
+
+                    b.Property<int>("sub_project_id");
+
+                    b.HasKey("spi_land_acquisition_id");
+
+                    b.ToTable("spi_land_acquisition");
+                });
+
             modelBuilder.Entity("DeskApp.DataLayer.spi_multiple_sp", b =>
                 {
                     b.Property<int>("spi_multiple_sp_id")
@@ -6500,6 +6878,8 @@ namespace DeskApp.Migrations
                     b.Property<double?>("set_sp_utilization");
 
                     b.Property<double?>("set_total_score");
+
+                    b.Property<string>("sitio");
 
                     b.Property<int>("sub_project_id");
 
@@ -7371,6 +7751,21 @@ namespace DeskApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("DeskApp.DataLayer.barangay_trasnfer_of_funds", b =>
+                {
+                    b.HasOne("DeskApp.DataLayer.lib_budget_year", "lib_budget_year")
+                        .WithMany()
+                        .HasForeignKey("budget_year_id");
+
+                    b.HasOne("DeskApp.DataLayer.lib_tranche", "lib_tranche")
+                        .WithMany()
+                        .HasForeignKey("tranche_id");
+
+                    b.HasOne("DeskApp.DataLayer.lib_type_of_refund", "lib_type_of_refund")
+                        .WithMany()
+                        .HasForeignKey("type_of_refund_id");
+                });
+
             modelBuilder.Entity("DeskApp.DataLayer.brgy_assembly", b =>
                 {
                     b.HasOne("DeskApp.DataLayer.lib_approval", "lib_approval")
@@ -8115,6 +8510,30 @@ namespace DeskApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("DeskApp.DataLayer.lib_ancestral_domain_coverage", b =>
+                {
+                    b.HasOne("DeskApp.DataLayer.lib_ancestral_domain", "lib_ancestral_domain")
+                        .WithMany()
+                        .HasForeignKey("ancestral_domain_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DeskApp.DataLayer.lib_brgy", "lib_brgy")
+                        .WithMany()
+                        .HasForeignKey("lib_brgybrgy_code");
+
+                    b.HasOne("DeskApp.DataLayer.lib_city", "lib_city")
+                        .WithMany()
+                        .HasForeignKey("lib_citycity_code");
+
+                    b.HasOne("DeskApp.DataLayer.lib_province", "lib_province")
+                        .WithMany()
+                        .HasForeignKey("lib_provinceprov_code");
+
+                    b.HasOne("DeskApp.DataLayer.lib_region", "lib_region")
+                        .WithMany()
+                        .HasForeignKey("lib_regionregion_code");
+                });
+
             modelBuilder.Entity("DeskApp.DataLayer.lib_cycle", b =>
                 {
                     b.HasOne("DeskApp.DataLayer.lib_fund_source", "lib_fund_source")
@@ -8531,6 +8950,20 @@ namespace DeskApp.Migrations
                     b.HasOne("DeskApp.DataLayer.lib_psa_solution_category", "lib_psa_solution_category")
                         .WithMany()
                         .HasForeignKey("psa_solution_category_id");
+                });
+
+            modelBuilder.Entity("DeskApp.DataLayer.sp_deskapp_others", b =>
+                {
+                    b.HasOne("DeskApp.DataLayer.lib_approval", "lib_approval")
+                        .WithMany()
+                        .HasForeignKey("approval_id");
+                });
+
+            modelBuilder.Entity("DeskApp.DataLayer.spi_ancestral_domain", b =>
+                {
+                    b.HasOne("DeskApp.DataLayer.lib_ancestral_domain_coverage", "lib_ancestral_domain_coverage")
+                        .WithMany()
+                        .HasForeignKey("lib_ancestral_domain_coveragead_coverage_id");
                 });
 
             modelBuilder.Entity("DeskApp.DataLayer.sub_project", b =>

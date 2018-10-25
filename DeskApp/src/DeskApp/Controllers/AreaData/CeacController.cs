@@ -21,8 +21,8 @@ namespace DeskApp.Controllers
 {
     public class CeacController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -208,9 +208,20 @@ namespace DeskApp.Controllers
         {
             #region query
 
+            var deleted_list = db.ceac_list.Where(x => x.is_deleted == true).ToList();
+            foreach (var d in deleted_list) {
+                var tracking = db.ceac_tracking.Where(x => x.ceac_list_id == d.ceac_list_id);
+                foreach (var t in tracking) {
+                    t.is_deleted = true;
+                    t.push_status_id = 3;
+                    t.deleted_by = 0;
+                    t.deleted_date = DateTime.Now;
+                }
+                db.SaveChangesAsync();               
+            }
 
             var model = db.ceac_tracking.Where(x => x.is_deleted != true);
-
+            
             if (item.record_id != null)
             {
 
@@ -278,15 +289,20 @@ namespace DeskApp.Controllers
 
                 activity_type = x.lib_training_category.name,
 
-                x.plan_start,
-                x.actual_start,
+                //x.plan_start,
+                //x.actual_start,
+                //x.plan_end,
+                //x.actual_end,
+                //x.catch_start,
+                //x.catch_end,
 
-                x.plan_end,
-                x.actual_end,
-
-
-                x.catch_start,
-                x.catch_end,
+                //4.2: format dates to dd/mm/yyyy
+                plan_start = x.plan_start == null ? "" : x.plan_start.Value.ToString("dd/MM/yyyy"),
+                actual_start = x.actual_start == null ? "" : x.actual_start.Value.ToString("dd/MM/yyyy"),
+                plan_end = x.plan_end == null ? "" : x.plan_end.Value.ToString("dd/MM/yyyy"),
+                actual_end = x.actual_end == null ? "" : x.actual_end.Value.ToString("dd/MM/yyyy"),
+                catch_start = x.catch_start == null ? "" : x.catch_start.Value.ToString("dd/MM/yyyy"),
+                catch_end = x.catch_end == null ? "" : x.catch_end.Value.ToString("dd/MM/yyyy"),
 
                 status = x.lib_implementation_status.name
 
@@ -530,7 +546,7 @@ namespace DeskApp.Controllers
                                lib_cycle_name = x.lib_cycle.name,
                                lib_fund_source_name = x.lib_fund_source.name,
                                lib_province_prov_name = x.lib_province.prov_name,
-                               lib_region_region_name = x.lib_region.region_nick,
+                               lib_region_region_name = x.lib_region.region_name,
                                lib_enrollment_name = x.lib_enrollment.name,
                                ceac_list_id = x.ceac_list_id,
                                push_status_id = x.push_status_id,
@@ -669,17 +685,15 @@ namespace DeskApp.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/offline/v1/ceac_tracking/get")]
-        public async Task<IActionResult> GetTracking(Guid id, int lgu_level_id, int? brgy_code)
+        public async Task<IActionResult> DisplayTracking(Guid id, int lgu_level_id, int? brgy_code)
         {
-            //var activities = db.ceac_tracking.Where(x => x.ceac_list_id == id && x.lgu_level_id == lgu_level_id).ToList();
-
             var model = db.ceac_list.FirstOrDefault(x => x.ceac_list_id == id);
-            if (lgu_level_id == 2)
-            {
 
+            if (lgu_level_id == 2) //municipal level
+            {
                 foreach (var item in db.lib_training_category.Where(x => x.muni_sort_order != null).ToList())
                 {
-                    if (db.ceac_tracking.Where(x => x.ceac_list_id == id && x.lgu_level_id == 2 && x.city_code == model.city_code && x.training_category_id == item.training_category_id).Count() == 0)
+                    if (db.ceac_tracking.Where(x => x.ceac_list_id == id && x.lgu_level_id == 2 && x.city_code == model.city_code && x.training_category_id == item.training_category_id && x.is_deleted != true).Count() == 0)
                     {
                         var o = new ceac_tracking
                         {
@@ -693,30 +707,17 @@ namespace DeskApp.Controllers
                             cycle_id = model.cycle_id,
                             enrollment_id = model.enrollment_id,
                             training_category_id = item.training_category_id,
-
-                            // reference_id = model.community_training_id,
-
                             push_status_id = 2,
                             created_by = 0,
                             created_date = DateTime.Now,
-
-
-                            //       actual_start = model.start_date,
-                            //     actual_end = model.end_date,
-
-                            //   plan_end = model.plan_date_end,
-                            // plan_start = model.plan_date_start,
-
                             implementation_status_id = 2,
                             ceac_tracking_id = Guid.NewGuid(),
-
                             lgu_level_id = lgu_level_id
                         };
 
                         db.ceac_tracking.Add(o);
                         await db.SaveChangesAsync();
                     }
-
                 }
             }
 
@@ -725,9 +726,7 @@ namespace DeskApp.Controllers
             {
                 foreach (var item in db.lib_training_category.Where(x => x.brgy_sort_order != null).ToList())
                 {
-
-
-                    if (db.ceac_tracking.Where(x => x.ceac_list_id == id && x.lgu_level_id == 1 && x.training_category_id == item.training_category_id && x.brgy_code == brgy_code && x.training_category_id == item.training_category_id && x.is_deleted != true).Count() == 0)
+                    if (db.ceac_tracking.Where(x => x.ceac_list_id == id && x.lgu_level_id == 1 && x.brgy_code == brgy_code && x.training_category_id == item.training_category_id && x.is_deleted != true).Count() == 0)
                     {
                         var o = new ceac_tracking
                         {
@@ -741,124 +740,83 @@ namespace DeskApp.Controllers
                             cycle_id = model.cycle_id,
                             enrollment_id = model.enrollment_id,
                             training_category_id = item.training_category_id,
-
-                            //reference_id = model.community_training_id,
-
                             push_status_id = 2,
                             created_by = 0,
                             created_date = DateTime.Now,
-
-
-                            //   actual_start = model.start_date,
-                            // actual_end = model.end_date,
-
-                            //plan_end = model.plan_date_end,
-                            // plan_start = model.plan_date_start,
-
                             implementation_status_id = 2,
                             ceac_tracking_id = Guid.NewGuid(),
-
                             lgu_level_id = lgu_level_id
                         };
 
                         db.ceac_tracking.Add(o);
                         await db.SaveChangesAsync();
-                    }
-
+                    }                    
                 }
             }
 
 
-
-            var items = db.ceac_tracking.Where(x => x.ceac_list_id == id &&
-                x.lgu_level_id == lgu_level_id && x.brgy_code == brgy_code)
-                .Include(x => x.lib_implementation_status)
-               .Include(x => x.lib_city)
-               .Include(x => x.lib_lgu_level)
-                .Include(x => x.lib_training_category)
-                .Where(x => x.is_deleted != true)
-
-            .Select(x =>
-                   new
-                   {
-
-
-                       ceac_tracking_id = x.ceac_tracking_id,
-                       ceac_list_id = x.ceac_list_id,
-                       //  ceac_list = x.ceac_list,
-                       old_id = x.old_id,
-                       ceac_activity_id = x.ceac_activity_id,
-                       plan_start = x.plan_start,
-                       plan_end = x.plan_end,
-                       actual_start = x.actual_start,
-                       actual_end = x.actual_end,
-                       catch_start = x.catch_start,
-                       catch_end = x.catch_end,
-                       training_category_id = x.training_category_id,
-
-                       reference_id = x.reference_id,
-
-                       // lib_training_category = x.lib_training_category,
-                       ///lib_lgu_level = x.lib_lgu_level,
-                       //lgu_level_id = x.lgu_level_id,
-                       lib_implementation_status_name = x.lib_implementation_status.name,
-                       //lib_city_city_name = x.lib_city.city_name,
-                       lib_training_category_name = x.lib_training_category.name,
-                       implementation_status_id = x.implementation_status_id,
-
-                       lgu_level_id = x.lgu_level_id,
-
-                       region_code = x.region_code,
-                       prov_code = x.prov_code,
-                       city_code = x.city_code,
-                       brgy_code = x.brgy_code,
-                       fund_source_id = x.fund_source_id,
-                       cycle_id = x.cycle_id,
-                       enrollment_id = x.enrollment_id,
-
-                       //   lib_brgy_brgy_name = x.brgy_code == null ? "" : x.lib_brgy.brgy_name,
-
-                       //   lib_province_prov_name = db.lib_province.First(c => c.prov_code == x.prov_code).prov_name,
-                       //   lib_region_region_name = db.lib_region.First(c => c.region_code == x.region_code).region_nick,
-                       //   lib_lgu_level_name = db.lib_lgu_level.First(c => c.lgu_level_id == x.lgu_level_id).name,
-
-
-                       // lib_fund_source_name = db.lib_fund_source.First(c => c.fund_source_id == x.fund_source_id).name,
-                       //  lib_cycle_name = db.lib_cycle.First(c => c.cycle_id == x.cycle_id).name,
-                       //  lib_enrollment_name = db.lib_enrollment.First(c => c.enrollment_id == x.enrollment_id).name,
-
-                       brgy_sort_order = x.lib_training_category.brgy_sort_order,
-
-                       muni_sort_order = x.lib_training_category.muni_sort_order,
-
-                       is_ceac_tracking_only = x.lib_training_category.is_ceac_tracking_only,
-
-
-                       created_by = x.created_by,
-                       created_date = x.created_date,
-                       last_modified_by = x.last_modified_by,
-                       last_modified_date = x.last_modified_date,
-                       is_deleted = x.is_deleted,
-                       deleted_by = x.deleted_by,
-                       deleted_date = x.deleted_date,
-
-                       // lib_push_status = x.lib_push_status,
-                       push_status_id = x.push_status_id,
-                       push_date = x.push_date,
-                       approval_id = x.approval_id,
-                       // lib_approval = x.lib_approval,
-
-
-                   });
+            //OLD -- with brgy_code in condition, removed this dahil may mga CEAC na may brgy_code na dapat wala.
+            //var items = db.ceac_tracking.Where(x => x.ceac_list_id == id &&
+            //    x.lgu_level_id == lgu_level_id && x.brgy_code == brgy_code)
+            //    .Include(x => x.lib_implementation_status)
+            //   .Include(x => x.lib_city)
+            //   .Include(x => x.lib_lgu_level)
+            //    .Include(x => x.lib_training_category)
+            //    .Where(x => x.is_deleted != true)
 
 
 
-
-
-
-
+            var items = db.ceac_tracking.Where(x => x.ceac_list_id == id && x.lgu_level_id == lgu_level_id && x.brgy_code == brgy_code)
+                                                    .Include(x => x.lib_implementation_status)
+                                                    .Include(x => x.lib_city)
+                                                    .Include(x => x.lib_lgu_level)
+                                                    .Include(x => x.lib_training_category)
+                                                    .Where(x => x.is_deleted != true)
+                                                    .Select(x => new
+                                                    {
+                                                        ceac_tracking_id = x.ceac_tracking_id,
+                                                        ceac_list_id = x.ceac_list_id,
+                                                        old_id = x.old_id,
+                                                        ceac_activity_id = x.ceac_activity_id,
+                                                        plan_start = x.plan_start,
+                                                        plan_end = x.plan_end,
+                                                        actual_start = x.actual_start,
+                                                        actual_end = x.actual_end,
+                                                        catch_start = x.catch_start,
+                                                        catch_end = x.catch_end,
+                                                        training_category_id = x.training_category_id,
+                                                        reference_id = x.reference_id,
+                                                        lib_implementation_status_name = x.lib_implementation_status.name,
+                                                        lib_training_category_name = x.lib_training_category.name,
+                                                        implementation_status_id = x.implementation_status_id,
+                                                        lgu_level_id = x.lgu_level_id,
+                                                        region_code = x.region_code,
+                                                        prov_code = x.prov_code,
+                                                        city_code = x.city_code,
+                                                        brgy_code = x.brgy_code,
+                                                        fund_source_id = x.fund_source_id,
+                                                        cycle_id = x.cycle_id,
+                                                        enrollment_id = x.enrollment_id,
+                                                        brgy_sort_order = x.lib_training_category.brgy_sort_order,
+                                                        muni_sort_order = x.lib_training_category.muni_sort_order,
+                                                        is_ceac_tracking_only = x.lib_training_category.is_ceac_tracking_only,
+                                                        created_by = x.created_by,
+                                                        created_date = x.created_date,
+                                                        last_modified_by = x.last_modified_by,
+                                                        last_modified_date = x.last_modified_date,
+                                                        is_deleted = x.is_deleted,
+                                                        deleted_by = x.deleted_by,
+                                                        deleted_date = x.deleted_date,
+                                                        push_status_id = x.push_status_id,
+                                                        push_date = x.push_date,
+                                                        approval_id = x.approval_id
+                                                    });
 
             return Ok(items);
+
+
+
+
 
         }
 
@@ -868,40 +826,38 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/ceac_list/save")]
         public async Task<IActionResult> Save(ceac_list model, bool? is_ba, bool? api)
         {
-
-
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            if (model.implementation_status_id == null) model.implementation_status_id = 2;
-
-
-
+            if (model.implementation_status_id == null) {
+                model.implementation_status_id = 2;
+            } 
+            
             var record = db.ceac_list.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code
-            && x.brgy_code == model.brgy_code
-            && x.fund_source_id == model.fund_source_id
-            && x.cycle_id == model.cycle_id
-            && x.enrollment_id == model.enrollment_id
-
-
-            );
+                                                                        && x.brgy_code == model.brgy_code
+                                                                        && x.fund_source_id == model.fund_source_id
+                                                                        && x.cycle_id == model.cycle_id
+                                                                        && x.enrollment_id == model.enrollment_id
+                                                                        && x.is_deleted != true);
 
             if (record == null)
             {
-
-
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.approval_id = 3;
-                model.is_deleted = false;
-                model.push_status_id = 2;
+                if (api != true) { //save using create button
+                    model.push_status_id = 2;
+                    model.push_date = null;
+                    model.approval_id = 3;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+                }
+                else { //save using sync download
+                    model.push_status_id = 1;
+                }
 
                 db.ceac_list.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -912,27 +868,29 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
+
             else
-            {
-                model.push_date = null;
-
-
-                if (api != true)
+            {            
+                if (api != true) //save using edit
                 {
+                    //v3.1 turnaround for ceac_list not accepted if there is an existing record with same city_code, brgy_code, fund_source_id, cycle_id, enrollment_id
+                    //putting this inside the condition
                     model.push_status_id = 3;
+                    model.push_date = null;
+                    model.ceac_list_id = record.ceac_list_id;
+                    model.created_by = record.created_by;
+                    model.created_date = record.created_date;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+
+                    db.Entry(model).State = EntityState.Modified;
                 }
 
-
-                model.ceac_list_id = record.ceac_list_id;
-
-                model.created_by = record.created_by;
-                model.created_date = record.created_date;
-
-
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
-
-                db.Entry(model).State = EntityState.Modified;
+                //v3.1 turnaround for ceac_list not accepted if there is an existing record with same city_code, brgy_code, fund_source_id, cycle_id, enrollment_id
+                //sync get, api is set to true
+                else {
+                    db.Entry(model).State = EntityState.Modified; //modified: 4-24-18
+                }                
 
                 try
                 {
@@ -951,18 +909,14 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/ceac_list/tracking/save")]
         public async Task<IActionResult> SaveTracking(ceac_tracking model, bool? is_ba, bool? api)
         {
-
-
-
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-
-
-            if (model.actual_end != null && model.actual_start != null) model.implementation_status_id = 1;
-
+            if (model.actual_end != null && model.actual_start != null) {
+                model.implementation_status_id = 1;
+            } 
 
             if (model.implementation_status_id == 1)
             {
@@ -972,51 +926,43 @@ namespace DeskApp.Controllers
                 }
             }
 
-            var record = db.ceac_tracking.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code
-            && x.brgy_code == model.brgy_code
-            && x.fund_source_id == model.fund_source_id
-            && x.cycle_id == model.cycle_id
-            && x.enrollment_id == model.enrollment_id
-            && x.training_category_id == model.training_category_id
+            //var record = db.ceac_tracking.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code
+            //                                                                && x.brgy_code == model.brgy_code
+            //                                                                && x.fund_source_id == model.fund_source_id
+            //                                                                && x.cycle_id == model.cycle_id
+            //                                                                && x.enrollment_id == model.enrollment_id
+            //                                                                && x.training_category_id == model.training_category_id
+            //                                                                && x.is_deleted != true);
 
-            );
+            //var ceac_list = db.ceac_list.FirstOrDefault(x => x.city_code == model.city_code
+            //                                                && x.cycle_id == model.cycle_id
+            //                                                && x.enrollment_id == model.enrollment_id
+            //                                                && x.is_deleted != true);
 
-            var ceac_list = db.ceac_list.FirstOrDefault(x => x.city_code == model.city_code
-                                                && x.cycle_id == model.cycle_id &&
-                                                x.enrollment_id == model.enrollment_id);
+            //4.1 Fix for dates (plan, catch up, actual, status) being saved on different ceac_list
+            var record = db.ceac_tracking.AsNoTracking().FirstOrDefault(x => x.ceac_tracking_id == model.ceac_tracking_id);
+            var ceac_list = db.ceac_list.FirstOrDefault(x => x.ceac_list_id == model.ceac_list_id);
 
             if (record == null)
             {
-
-
-
-
-
                 var training_cat = db.lib_training_category.FirstOrDefault(x => x.training_category_id == model.training_category_id);
-
-
 
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
-
+                    model.ceac_list_id = ceac_list.ceac_list_id;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.approval_id = 3;
+                    model.is_deleted = false;
                 }
-
-                model.ceac_list_id = ceac_list.ceac_list_id;
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.approval_id = 3;
-                model.is_deleted = false;
-
-
-
-
-
+                else {
+                    model.push_status_id = 1;
+                }                
+                
                 db.ceac_tracking.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -1029,29 +975,29 @@ namespace DeskApp.Controllers
             }
             else
             {
-                model.push_date = null;
-
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+
+                    //v3.1 any changes on ceac_tracking, main ceac_list should be updated as well
+                    ceac_list.push_status_id = 3;
+                    ceac_list.push_date = null;
+                    ceac_list.last_modified_by = 0;
+                    ceac_list.last_modified_date = DateTime.Now;
+                    db.Entry(ceac_list).State = EntityState.Modified;
                 }
 
-
+                //retaining old data whether edited or from sync download:
                 model.ceac_tracking_id = record.ceac_tracking_id;
                 model.ceac_list_id = record.ceac_list_id;
-
-                //
-
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-
-
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
-
+                
                 db.Entry(model).State = EntityState.Modified;
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -1069,14 +1015,8 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/ceac")]
         public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
@@ -1086,25 +1026,21 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
+                
 
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/ceac_list/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<ceac_list>>(responseJson.Result);
-
 
                     foreach (var item in model.ToList())
                     {
                         await Save(item, false, true);
-                    }
-
-
-                    GetTracking(username, password, city_code, record_id);
+                        record_id = item.ceac_list_id;
+                        GetTracking(username, password, city_code, record_id);
+                    }                    
 
                     return Ok();
                 }
@@ -1119,37 +1055,26 @@ namespace DeskApp.Controllers
 
 
 
-
+        [HttpPost]
+        [Route("Sync/Get/ceac_tracking")]
         public async Task<bool> GetTracking(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/ceac_list/tracking/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<ceac_tracking>>(responseJson.Result);
-
 
                     foreach (var item in model.ToList())
                     {
@@ -1200,58 +1125,121 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
                 
-                var items_preselected = db.ceac_list.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.ceac_list.Where(x => x.push_status_id == 5).ToList();
                 
                 if (!items_preselected.Any())
                 { 
-                    var items = db.ceac_list.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true)).ToList();
+                    var items = db.ceac_list.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true).ToList();
+
                     foreach (var item in items)
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-                        HttpResponseMessage response = client.PostAsync("api/offline/v1/ceac_list/save", data).Result;
+                        //HttpResponseMessage response = client.PostAsync("api/offline/v1/ceac_list/save", data).Result;
+                        HttpResponseMessage response = client.PostAsync("api/offline/v2/ceac_list/save", data).Result; //v4.3 changed api to v2 as per glenn's changes
 
                         if (response.IsSuccessStatusCode)
                         {
                             item.push_status_id = 1;
                             item.push_date = DateTime.Now;
+                            record_id = item.ceac_list_id;
+                            //deployed for 4.0
+                            //commented on v4.3
+                            //if (item.is_deleted != true) {
+                            //    PostOnlineTracking(username, password, record_id);
+                            //}                            
                             await db.SaveChangesAsync();
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
 
                 }
                 else {
-                    var items = db.ceac_list.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                    var items = db.ceac_list.Where(x => x.push_status_id == 5 || x.is_deleted == true).ToList();
                     
                     foreach (var item in items)
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-                        HttpResponseMessage response = client.PostAsync("api/offline/v1/ceac_list/save", data).Result;
+                        //HttpResponseMessage response = client.PostAsync("api/offline/v1/ceac_list/save", data).Result;
+                        HttpResponseMessage response = client.PostAsync("api/offline/v2/ceac_list/save", data).Result; //v4.3 changed api to v2 as per glenn's changes
 
                         if (response.IsSuccessStatusCode)
                         {
                             item.push_status_id = 1;
                             item.push_date = DateTime.Now;
+                            record_id = item.ceac_list_id;
+                            //deployed for 4.0
+                            //commented on v4.3
+                            //if (item.is_deleted != true)
+                            //{
+                            //    PostOnlineTracking(username, password, record_id);
+                            //}
                             await db.SaveChangesAsync();
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
 
             }
 
+            //v4.3 put PostOnlineTracking outside:
+            await PostOnlineTracking(username, password, record_id);
+
             return Ok();
+        }
+
+        public async Task<bool> PostOnlineTracking(string username, string password, Guid record_id)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                //setup client
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+                
+                //var items = db.ceac_tracking.Where(x => x.ceac_list_id == record_id || x.is_deleted == true).ToList();
+                var items = db.ceac_tracking.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1)).ToList(); //v4.3
+
+                foreach (var item in items)
+                {
+                    StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                    //HttpResponseMessage response = client.PostAsync("api/offline/v1/ceac_list/tracking/save", data).Result;
+                    HttpResponseMessage response = client.PostAsync("api/offline/v2/ceac_list/tracking/save", data).Result; //v4.3 changed api to v2 as per glenn's changes
+                    //response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        item.push_status_id = 1;
+                        item.push_date = DateTime.Now;
+                        await db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        item.push_status_id = 4;
+                        await db.SaveChangesAsync();
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
 
         ///-------------- ORIGINAL SYNC/POST ------------------///
-        
+
         //[HttpPost]
         //[Route("Sync/Post/ceac")]
         //public async Task<ActionResult> PostOnline(string username, string password, Guid record_id)

@@ -21,8 +21,8 @@ namespace DeskApp.Controllers
     public class SyncController : Controller
     {
 
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
         public static string geoUrl = @"http://geotagging.dswd.gov.ph";
 
         private readonly ApplicationDbContext db;
@@ -493,62 +493,60 @@ namespace DeskApp.Controllers
        
         public bool GetRegions(string username, string password)
         {
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/lib_region").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     dynamic model = JsonConvert.DeserializeObject(responseJson.Result);
-
-
+                    
                     foreach (var item in model)
                     {
-
                         var _items = new lib_region
                         {
                             region_code = item["region_code"],
                             region_nick = item["region_nick"],
-                            region_name = item["region_nick"],
+                            region_name = item["region_name"],
+                            psgc = item["psgc"]
                         };
 
                         if (db.lib_region.AsNoTracking().FirstOrDefault(x => x.region_code == _items.region_code) == null)
-
                         {
                             db.lib_region.Add(_items);
                             db.SaveChanges();
                         }
+                        else
+                        {
+                            db.Entry(_items).State = EntityState.Modified;
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+
+                            }
+                        }
+                        
                     }
-
-
                     return true;
                 }
+
                 else
                 {
                     return false;
                 }
-
-
             }
-
-            //  return key;
         }
 
         private void GetProvinces(string username, string password, int region_code)
@@ -591,6 +589,7 @@ namespace DeskApp.Controllers
                             region_code = region_code,
                             prov_code =  item["prov_code"] ,
                             prov_name = item["prov_name"],
+                            psgc = item["psgc"]
 
                         };
 
@@ -599,6 +598,17 @@ namespace DeskApp.Controllers
                         {
                             db.lib_province.Add(_items);
                             db.SaveChanges();
+                        }
+                        else {
+                            db.Entry(_items).State = EntityState.Modified;
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+
+                            }
                         }
                     }
                 }
@@ -653,6 +663,7 @@ namespace DeskApp.Controllers
                             prov_code = id,
                             city_code = item["city_code"] ,
                             city_name = item["city_name"],
+                            psgc = item["psgc"]
 
                         };
 
@@ -661,6 +672,18 @@ namespace DeskApp.Controllers
                         {
                             db.lib_city.Add(_items);
                             db.SaveChanges();
+                        }
+                        else
+                        {
+                            db.Entry(_items).State = EntityState.Modified;
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+
+                            }
                         }
                     }
                 }
@@ -709,21 +732,30 @@ namespace DeskApp.Controllers
 
                     foreach (var item in model)
                     {
-
                         var _items = new lib_brgy
                         {
-
                             city_code = id,
                             brgy_code =  item["brgy_code"] ,
                             brgy_name = item["brgy_name"],
-
+                            psgc = item["psgc"]
                         };
 
                         if (db.lib_brgy.AsNoTracking().FirstOrDefault(x => x.brgy_code == _items.brgy_code) == null)
-
                         {
                             db.lib_brgy.Add(_items);
                             db.SaveChanges();
+                        }
+                        else
+                        {
+                            db.Entry(_items).State = EntityState.Modified;
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+
+                            }
                         }
                     }
                 }
@@ -2479,60 +2511,107 @@ namespace DeskApp.Controllers
             }
         }
 
+        //public void lib_transpo_mode(string username, string password)
+        //{
+        //    string token = username + ":" + password;
+        //    byte[] toBytes = Encoding.ASCII.GetBytes(token);
+        //    string key = Convert.ToBase64String(toBytes);
 
-        public void lib_transpo_mode(string username, string password)
-        {
-            string token = username + ":" + password;
+        //    using (var client = new HttpClient())
+        //    {
+        //        client.BaseAddress = new Uri(url);
+        //        client.DefaultRequestHeaders.Accept.Clear();
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //        client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+        //        HttpResponseMessage response = client.GetAsync("api/offline/lib_transpo_mode").Result;
 
-            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var responseJson = response.Content.ReadAsStringAsync();
+        //            var model = JsonConvert.DeserializeObject<List<lib_transpo_mode>>(responseJson.Result);
+
+        //            foreach (var item in model)
+
+        //                if (db.lib_transpo_mode.AsNoTracking().FirstOrDefault(x => x.transpo_mode_id == item.transpo_mode_id) == null)
+        //                {
+        //                    db.lib_transpo_mode.Add(item);
+        //                    db.SaveChanges();
+        //                }
+        //                else
+        //                {
+        //                    db.Entry(item).State = EntityState.Modified;
+
+        //                    try
+        //                    {
+        //                        db.SaveChanges();
+        //                    }
+        //                    catch (DbUpdateConcurrencyException)
+        //                    {
+
+        //                    }
+        //                }
+
+        //        }
+        //        else
+        //        {
+
+        //        }
+        //    }
+        //}
+
+        //public void lib_transpo_mode(string username, string password)
+        //{
+        //    string token = username + ":" + password;
+
+        //    byte[] toBytes = Encoding.ASCII.GetBytes(token);
 
 
-            string key = Convert.ToBase64String(toBytes);
+        //    string key = Convert.ToBase64String(toBytes);
 
-            using (var client = new HttpClient())
-            {
-                //setup client
-                client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-                HttpResponseMessage response = client.GetAsync("api/offline/lib_transpo_mode").Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseJson = response.Content.ReadAsStringAsync();
+        //    using (var client = new HttpClient())
+        //    {
+        //        //setup client
+        //        client.BaseAddress = new Uri(url);
+        //        client.DefaultRequestHeaders.Accept.Clear();
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //        client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+        //        HttpResponseMessage response = client.GetAsync("api/offline/lib_transpo_mode").Result;
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var responseJson = response.Content.ReadAsStringAsync();
 
-                    var model = JsonConvert.DeserializeObject<List<lib_transpo_mode>>(responseJson.Result);
+        //            var model = JsonConvert.DeserializeObject<List<lib_transpo_mode>>(responseJson.Result);
 
-                    foreach (var item in model)
+        //            foreach (var item in model)
 
-                        if (db.lib_transpo_mode.AsNoTracking().FirstOrDefault(x => x.transpo_mode_id == item.transpo_mode_id) == null)
-                        {
-                            db.lib_transpo_mode.Add(item);
-                            db.SaveChanges();
+        //                if (db.lib_transpo_mode.AsNoTracking().FirstOrDefault(x => x.transpo_mode_id == item.transpo_mode_id) == null)
+        //                {
+        //                    db.lib_transpo_mode.Add(item);
+        //                    db.SaveChanges();
 
-                        }
-                        else
-                        {
+        //                }
+        //                else
+        //                {
 
-                            db.Entry(item).State = EntityState.Modified;
+        //                    db.Entry(item).State = EntityState.Modified;
 
-                            try
-                            {
-                                db.SaveChanges();
-                            }
-                            catch (DbUpdateConcurrencyException)
-                            {
+        //                    try
+        //                    {
+        //                        db.SaveChanges();
+        //                    }
+        //                    catch (DbUpdateConcurrencyException)
+        //                    {
 
-                            }
-                        }
+        //                    }
+        //                }
 
-                }
-                else
-                {
+        //        }
+        //        else
+        //        {
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
 
 
         public void lib_implementation_status(string username, string password)
@@ -2814,6 +2893,12 @@ namespace DeskApp.Controllers
             }
         }
 
+        //v4.0 new libraries:
+
+
+
+
+
         public ActionResult UpdateLibrary(string username, string password)
         {
             string token = username + ":" + password;
@@ -2907,7 +2992,9 @@ namespace DeskApp.Controllers
             lib_ers_current_work(username, password);
             lib_eca_type(username, password);
 
-            lib_transpo_mode(username, password);
+            //commenting this for 4.0 because of some issue.
+            //For fresh sqlites, populate the library first
+            //lib_transpo_mode(username, password);
 
             lib_implementation_status(username, password);
             lib_major_classification(username, password);

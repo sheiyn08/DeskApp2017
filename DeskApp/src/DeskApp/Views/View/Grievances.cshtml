@@ -23,7 +23,7 @@
 
         <md-content>
             <br />
-
+            @*Removing this for DeskApp X*@
             <div style="margin:25px">
                 <a class="btn btn-success" ng-click="createNew()"><i class="fa fa-plus"></i>&nbsp;&nbsp; New Record</a>
             </div>
@@ -46,7 +46,8 @@
                                 <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
                             </div>
                             <div class="col-md-3">
-                                <md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records tagged as <b>Unauthorized</b></md-checkbox>
+                                @*<md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records tagged as <b>Unauthorized</b></md-checkbox>*@
+                                <md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records <b>Failed to Upload</b></md-checkbox>
                             </div>
                         </div>
                     </div><br />
@@ -94,15 +95,11 @@
                                     <option ng-repeat="value in fund_source_id_options" value="{{value.Id}}">{{value.Name}}</option>
                                 </select>
                             </div>
-                        </div>
-                    </div> <br />
-                    <div class="row">
-                        <div class="col-md-12">
                             <div class="col-md-3">
-                                <label for="Region:_">Intake Level </label>
-                                <select ng-model="data.grs_intake_level_id" id="region_code" class="form-control"
-                                        ng-options="option.Id as option.Name for option in grs_intake_level_id_options">
-                                    <option value="">[Select Intake Level]</option>
+                                <label for="Region:_">Nature </label>
+                                <select ng-model="data.grs_nature_id" id="region_code" class="form-control"
+                                        ng-options="option.Id as option.Name for option in grs_nature_id_options">
+                                    <option value="">[Select Nature]</option>
                                 </select>
                                 <div id="validation_for_region_code"></div>
                             </div>
@@ -127,6 +124,26 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-3">
+                                <label for="Region:_">Intake Level </label>
+                                <select ng-model="data.grs_intake_level_id" id="region_code" class="form-control"
+                                        ng-options="option.Id as option.Name for option in grs_intake_level_id_options">
+                                    <option value="">[Select Intake Level]</option>
+                                </select>
+                                <div id="validation_for_region_code"></div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Region:_">Intake Date (From)</label>
+                                <md-datepicker ng-model="dt_intake_start_filterdate" md-placeholder="Enter Date" ng-change="data.intake_date_from = dt_intake_start_filterdate.toISOString()" md-max-date="today"></md-datepicker>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Region:_">Intake Date (To)          .</label>
+                                <md-datepicker ng-model="dt_intake_end_filterdate" md-placeholder="Enter Date" ng-change="data.intake_date_to = dt_intake_end_filterdate.toISOString()" md-min-date="dt_intake_start_filterdate" md-max-date="today"></md-datepicker>
+                            </div>
+                        </div>
+                    </div> <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
                                 <label for="Region:_">Resolution Status </label>
                                 <select ng-model="data.grs_resolution_status_id" id="region_code" class="form-control"
                                         ng-options="option.Id as option.Name for option in grs_resolution_status_id_options">
@@ -134,6 +151,15 @@
                                 </select>
                                 <div id="validation_for_region_code"></div>
                             </div>
+                            <div class="col-md-3" ng-show="data.grs_resolution_status_id == 1">
+                                <label for="Region:_">Resolution Date          .</label>
+                                <md-datepicker ng-model="dt_resolution_date" md-placeholder="Enter Date" ng-change="data.resolved_date = dt_resolution_date.toISOString()" md-max-date="today"></md-datepicker>
+                            </div>
+                        </div>
+                    </div> <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            
                             <div class="col-md-3">
                                 <label for="Province:_">Feedback </label>
                                 <select ng-model="data.grs_feedback_id" id="prov_code" class="form-control"
@@ -162,22 +188,8 @@
                     </div> <br />
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="col-md-3">
-                                <label for="Region:_">Nature </label>
-                                <select ng-model="data.grs_nature_id" id="region_code" class="form-control"
-                                        ng-options="option.Id as option.Name for option in grs_nature_id_options">
-                                    <option value="">[Select Nature]</option>
-                                </select>
-                                <div id="validation_for_region_code"></div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="Region:_">From </label>
-                                <md-datepicker ng-model="data.intake_date" md-placeholder="Enter date"></md-datepicker>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="Region:_">To </label>
-                                <md-datepicker ng-model="data.resolution_date" md-placeholder="Enter date" ng-disabled="data.intake_date == null"></md-datepicker>
-                            </div>
+                            
+                            
                         </div>
                     </div> <br />
                     <div class="row">
@@ -212,7 +224,11 @@
                 <a class="btn btn-warning" ng-click="clear()">
                     <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
                 </a>
+                @*Removing this for DeskApp X*@
                 @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+                <a class="btn btn-success" ng-click="updateDateIntake()" title='This function is to update Grievance records encoded thru Barangay Assembly or Trainings with no Date Intake'>
+                    <i class="fa fa-cogs fa-lg"></i>&nbsp;&nbsp; Update Date Intake
+                </a>
             </div>
             
         </md-content>

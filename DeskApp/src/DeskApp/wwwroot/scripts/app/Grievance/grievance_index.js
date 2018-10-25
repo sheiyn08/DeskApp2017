@@ -44,7 +44,9 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.data.spi_nature_work_id = '';
     $scope.grs_resolution_status_id;
 
-
+    $scope.minDate = new Date("07/01/2014");
+    $scope.today = new Date();
+    
     $scope.needToConfirm = false;
 
     $scope.list_of_selected_items = [];
@@ -140,6 +142,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
+                $scope.totalCount = $scope.totalCount - 1;
 
 
                 alert("Record removed!")
@@ -155,6 +158,23 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
         }
 
+    }
+
+    $scope.updateDateIntake = function () {
+        if (confirm("This function is to update Grievance records encoded thru Barangay Assembly or Trainings with no Date Intake.")) {
+            //alert(JSON.stringify("You pressed OK"));
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
+
+            $http.post('/api/offline/v1/grievances/update_date_intake').success(function (data) {                
+                alert("Records Updated!");
+                setTimeout($.unblockUI, 3);
+            }).error(function (data) {
+                $scope.error = "An Error has occured while Saving! " + data;
+                setTimeout($.unblockUI, 3);
+            });
+        }
+        else {
+        }
     }
 
 
@@ -246,7 +266,13 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
     });
 
+    $scope.clear = function () {
+        $scope.data = {};
+        $scope.search();
 
+        $scope.dt_intake_start_filterdate = '';
+        $scope.dt_intake_end_filterdate = '';
+    }
 
 
     $scope.search = function (page) {
@@ -256,6 +282,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
         $scope.isSearching = true;
         $scope.isSearching = true;
+
 
         if (($scope.data.filter_by_recent_edit) && (!$scope.data.filter_by_recent_add)) {
             $.post('/api/offline/v1/grievances/get_recently_edited', $scope.data).success(function (value) {

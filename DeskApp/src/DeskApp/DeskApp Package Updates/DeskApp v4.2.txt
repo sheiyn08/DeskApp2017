@@ -1,0 +1,44 @@
+
+=======================***** DeskApp v4.2 *****=======================
+Release Date: September 5, 2018
+
+This package release includes:
+
+1) CEAC Tracking
+	a. Fix on Sync Download and Upload issue
+	b. Fix on CEAC exported Excel reflecting deleted entries
+	c. Fix on Barangay Level Activity reflecting on Municipal tab of CEAC
+	d. Fix on BA and Training dates not reflecting on CEAC
+2) Barangay Profile
+	a. Fix for encoded Remarks in Environment section under Problems tab cannot be saved
+	b. Fix for encoded Reference in Nutrition section under Poverty Profile cannot be saved
+3) Municipal Profile
+	a. Fix on Sync Download and Upload issue
+4) Barangay Assembly
+	a. Fix on BA and Training dates not reflecting on CEAC
+	b. Fix on Sync Download and Upload issue
+5) Person Profile
+	a. Fix on Sync Download and Upload issue
+6) Training
+	a. Fix on Sync Download and Upload issue
+7) Sub Projects
+	a. Views aligned with Geotagging Webapp
+	b. Fix on Sync Download and Upload issue
+	c. Fix issue on Physical Status of SP not updating
+	d. Fix issue on date cannot be saved on OnM if encoded date is lower than July 1, 2014
+	e. Add new export for SPs with SET showing scores and other SET details
+8) PTA Integration Checklist
+	a. Fix on “Equipment” list not uploaded to Webapp
+9) MLCC
+	a. Fix on Sync Download and Upload issue
+10) MOVs
+	a. Add new filter for Module
+	b. Add new filter for Attachment Type
+	c. Clean up of push status on load of MOVs Index View
+	d. If uploading failed, set back push status to original state
+11) Export Downloads (applies to all applicable modules)
+	a. Standardize Date Formats to dd/mm/yyyy on all exports applicable on Downloads section
+
+=======================***** DeskApp v4.2 *****=======================
+
+

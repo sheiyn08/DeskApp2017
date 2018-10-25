@@ -1,0 +1,59 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo</title>
+    <style>
+        md-backdrop {
+            position: fixed;
+        }
+    </style>
+
+</head>
+
+<body layout="column">
+
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+
+        <md-toolbar md-scroll-shrink>
+            <h3 class="md-toolbar-tools">Update SP Others</h3>
+        </md-toolbar>
+
+        <md-content>
+            <br />            
+
+            <div style="margin:25px">
+                <p>
+                    Click the button below to start the update. <br /> <br>
+                    Note: Data to be copied to sp_deskapp_others table are ACTIVE SPs only.
+                </p>
+                <br />
+                <a class="btn btn-success" ng-click="udpateSPOthers()">
+                    <i class="fa fa-cogs fa-lg"></i>&nbsp;&nbsp; Update SP DeskApp other fields
+                </a>
+            </div>
+        </md-content>
+    </div>
+
+
+    <!--
+    Copyright 2016 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+    -->
+
+    @section Scripts {
+        <script src="~/scripts/alasql.min.js"></script>
+        <script src="~/scripts/xlsx.core.min.js"></script>
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+        <script src="~/scripts/app/SPI/sp_deskapp_others.js"></script>
+        <script src="~/scripts/directives/paging.js"></script>
+    }
+
+</body>
+
+
+
+

@@ -12,6 +12,8 @@ namespace DeskApp.DataLayer
     public class community_training
 
     {
+        [Key]
+        public Guid community_training_id { get; set; }
 
         public string speaker { get; set; }
         //sectors
@@ -29,8 +31,7 @@ namespace DeskApp.DataLayer
         public bool? is_sector_senior { get; set; }
         public bool? is_sector_women { get; set; }
         public bool? is_sector_youth { get; set; }
-        [Key]
-        public Guid community_training_id { get; set; }
+        
         public string old_id { get; set; }
 
         public int fund_source_id { get; set; }
@@ -58,6 +59,17 @@ namespace DeskApp.DataLayer
 
         public bool is_draft { get; set; }
         public int enrollment_id { get; set; }
+
+        //RDR06042018 New columns for BAR training category (4.0 release)
+        //Backlog item #786 - Do not require checking of participants, only input number of participants who attended
+        public int? bar_participant_male { get; set; }
+        public int? bar_participant_female { get; set; }
+        public int? bar_participant_ip_male { get; set; }
+        public int? bar_participant_ip_female { get; set; }
+        public int? bar_participant_pantawid_male { get; set; }
+        public int? bar_participant_pantawid_female { get; set; }
+        public int? bar_participant_slp_male { get; set; }
+        public int? bar_participant_slp_female { get; set; }
 
         [JsonIgnore]
 

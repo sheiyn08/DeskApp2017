@@ -21,8 +21,8 @@ namespace DeskApp.Controllers
 
     public class TrainingController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
 
         private readonly ApplicationDbContext db;
@@ -282,7 +282,7 @@ namespace DeskApp.Controllers
                     Training_Category = x.lib_training_category.name,
                     Training_Category_Id = x.training_category_id,
                     Training_Title = x.training_title,
-                    Date_Conducted = x.start_date + " - " + x.end_date
+                    Date_Conducted = x.start_date.Value.ToString("dd/MM/yyyy") + " - " + x.end_date.Value.ToString("dd/MM/yyyy")
                 })
                 .Where(x => x.Training_Category_Id == 17)
                 .ToList();
@@ -409,8 +409,8 @@ namespace DeskApp.Controllers
                     Training_Category = x.lib_training_category.name == null ? null : x.lib_training_category.name,
                     Reported_By = x.reported_by == null ? null : x.reported_by,
                     Venue = x.venue == null ? null : x.venue,
-                    Start_Date = x.start_date == null ? null : x.start_date,
-                    End_Date = x.end_date == null ? null : x.end_date,
+                    Start_Date = x.start_date == null ? null : x.start_date.Value.ToString("dd/MM/yyyy"),
+                    End_Date = x.end_date == null ? null : x.end_date.Value.ToString("dd/MM/yyyy"),
                     Is_Incentives = x.is_incentive == null || x.is_incentive == false ? null : "Yes",
                     From_Savings = x.is_savings == null || x.is_savings == false ? null : "Yes",
                     Is_LGU_Led = x.is_lgu_led == null || x.is_lgu_led == false ? null : "Yes",
@@ -511,8 +511,8 @@ namespace DeskApp.Controllers
                              training_category = s.lib_training_category.name,
                              lgu_level_id = s.lgu_level_id,
                              lgu_name = s.lib_lgu_level.name,
-                             s.start_date,
-                             s.end_date,
+                             start_date = s.start_date == null ? null : s.start_date.Value.ToString("dd/MM/yyyy"),
+                             end_date = s.end_date == null ? null : s.end_date.Value.ToString("dd/MM/yyyy"),
 
                              s.venue,
                              no_atn_female = db.person_training.Count(x => x.person_profile.sex != true && x.is_participant == true && x.community_training_id == s.community_training_id),
@@ -759,8 +759,7 @@ namespace DeskApp.Controllers
 
                          };
 
-
-            return Ok(result);
+            return Ok(result.Distinct());
         }
 
         private IQueryable<community_training> GetData(AngularFilterModel item)
@@ -1371,37 +1370,26 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/trainings/save")]
         public async Task<IActionResult> Save(community_training model, bool? api)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
-
-            var record = db.community_training.AsNoTracking().FirstOrDefault(x => x.community_training_id == model.community_training_id);
+            var record = db.community_training.AsNoTracking().FirstOrDefault(x => x.community_training_id == model.community_training_id && x.is_deleted != true);
 
             if (record == null)
-            {
-                
+            {                
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
-
                     model.created_by = 0;
                     model.created_date = DateTime.Now;
                     model.is_deleted = false;
                 }
-
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
 
                 db.community_training.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -1415,20 +1403,28 @@ namespace DeskApp.Controllers
                 
             }
             else
-            {
-                model.push_date = null;
-
-
+            {    
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
                 }
-                
+
+                model.push_date = null;
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
+
+                //v3.1 temporarily open cycle for editing. So when cycle is edited, grievance should also be updated
+                var grievance_record = db.grievance_record.Where(x => x.activity_source_id == model.community_training_id && x.is_deleted != true);
+                if (grievance_record != null) {
+                    foreach (var g in grievance_record.ToList())
+                    {
+                        g.cycle_id = model.cycle_id;
+                        g.push_status_id = 3;                        
+                    }
+                }                
 
                 db.Entry(model).State = EntityState.Modified;
 
@@ -1453,27 +1449,23 @@ namespace DeskApp.Controllers
 
         public async Task<bool> SaveTracking(community_training model, bool? api)
         {
-
-
-
             var record = db.ceac_tracking.FirstOrDefault(x => x.city_code == model.city_code
-            && x.brgy_code == model.brgy_code
-            && x.fund_source_id == model.fund_source_id
-            && x.cycle_id == model.cycle_id
-            && x.enrollment_id == model.enrollment_id
-            && x.training_category_id == model.training_category_id
+                                                            && x.brgy_code == model.brgy_code
+                                                            && x.fund_source_id == model.fund_source_id
+                                                            && x.cycle_id == model.cycle_id
+                                                            && x.enrollment_id == model.enrollment_id
+                                                            && x.training_category_id == model.training_category_id
+                                                            && x.is_deleted != true);
 
-            );
+            var ceac_list = db.ceac_list.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code 
+                                                                            && x.cycle_id == model.cycle_id 
+                                                                            && x.enrollment_id == model.enrollment_id 
+                                                                            && x.is_deleted != true);
 
-            var ceac_list = db.ceac_list.AsNoTracking().FirstOrDefault(x =>
-                                                x.city_code == model.city_code &&
-                                                x.cycle_id == model.cycle_id &&
-                                                x.enrollment_id == model.enrollment_id &&
-                                                x.is_deleted != true);
+            //var record = db.ceac_tracking.AsNoTracking().FirstOrDefault(x => x.ceac_list_id == ceac_list.ceac_list_id && x.training_category_id == model.training_category_id && x.is_deleted != true);
 
             Guid id = Guid.NewGuid();
-
-            
+                        
             if (ceac_list == null)
             {
                 var ceac = new ceac_list
@@ -1482,38 +1474,26 @@ namespace DeskApp.Controllers
                     region_code = model.region_code,
                     prov_code = model.prov_code,
                     city_code = model.city_code,
-
                     approval_id = model.approval_id,
                     fund_source_id = model.fund_source_id,
                     cycle_id = model.cycle_id,
-
-
                     enrollment_id = model.enrollment_id,
-
                     push_status_id = 2,
                     created_by = 0,
                     created_date = DateTime.Now,
-
                 };
 
                 db.ceac_list.Add(ceac);
                 await db.SaveChangesAsync();
-
             }
+
             else
             {
                 id = ceac_list.ceac_list_id;
-
-
             }
 
             if (record == null)
             {
-
-
-
-
-
                 var training_cat = db.lib_training_category.FirstOrDefault(x => x.training_category_id == model.training_category_id);
 
                 if (training_cat.is_ceac != true)
@@ -1521,12 +1501,10 @@ namespace DeskApp.Controllers
                     return true;
                 }
 
-
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
-
                 }
 
                 var ceac = new ceac_tracking()
@@ -1541,32 +1519,23 @@ namespace DeskApp.Controllers
                     cycle_id = model.cycle_id,
                     enrollment_id = model.enrollment_id,
                     training_category_id = model.training_category_id,
-
                     reference_id = model.community_training_id,
-
                     push_status_id = 2,
                     created_by = 0,
                     created_date = DateTime.Now,
-
-
                     actual_start = model.start_date,
                     actual_end = model.end_date,
-
                     plan_end = model.plan_date_end,
                     plan_start = model.plan_date_start,
-
                     implementation_status_id = 1, //conducted or not yet conducted
                     ceac_tracking_id = Guid.NewGuid(),
-
                     lgu_level_id = model.lgu_level_id
-
                 };
 
                 if (ceac.actual_end != null && ceac.actual_start != null)
                 {
                     ceac.implementation_status_id = 1;
                 } 
-
 
                 if (ceac.implementation_status_id == 1)
                 {
@@ -1576,11 +1545,8 @@ namespace DeskApp.Controllers
                     }
                 }
 
-
-
                 db.ceac_tracking.Add(ceac);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -1591,18 +1557,16 @@ namespace DeskApp.Controllers
                     return false;
                 }
             }
+
             else
             {
-                model.push_date = null;
-
+                
 
                 if (api != true)
                 {
                     model.push_status_id = 3;
+                    model.push_date = null;
                 }
-
-
-
 
                 record.actual_start = model.start_date;
                 record.actual_end = model.end_date;
@@ -1611,8 +1575,7 @@ namespace DeskApp.Controllers
 
                 if (record.actual_end != null && record.actual_start != null) {
                     record.implementation_status_id = 1;
-                }
-                
+                }                
 
                 if (record.implementation_status_id == 1)
                 {
@@ -1622,9 +1585,7 @@ namespace DeskApp.Controllers
                     }
                 }
 
-
-
-
+                db.Entry(record).State = EntityState.Modified;
 
                 try
                 {
@@ -1640,6 +1601,88 @@ namespace DeskApp.Controllers
 
 
 
+        #region 4.0 Fix for Filter of Participants added on training
+        private IQueryable<person_profile> GetParticipantData(AngularFilterModel item)
+
+        {
+            var model = db.person_profile
+                .Where(x => x.is_deleted != true)
+                .AsQueryable();
+            
+            //////FILTER FIELDS:
+           
+            //Name
+            if (!string.IsNullOrEmpty(item.name))
+            {
+                string converted_name = item.name.ToLower();
+                model = model.Where(x => x.first_name.ToLower().Contains(converted_name) || x.last_name.ToLower().Contains(converted_name));
+                //model = model.Where(x => x.first_name.Contains(item.name) || x.last_name.Contains(item.name));
+            }
+
+            //Brgy
+            if (item.brgy_code != null)
+            {
+                model = model.Where(m => m.brgy_code == item.brgy_code);
+            }
+
+            //Trained?
+            if (item.is_trained != null)
+            {
+                if (item.is_trained == true)
+                {
+                    model = from s in model
+                            where (from o in db.person_training.Where(x => x.is_participant == true && x.is_deleted != true && x.community_training_id == item.community_training_id)
+                                   select o.person_profile_id).Contains(s.person_profile_id)
+                            select s;                    
+                }
+
+                if (item.is_trained == false)
+                {
+                    model = from s in model
+                            where !(from o in db.person_training.Where(x => x.is_participant == true && x.is_deleted != true && x.community_training_id == item.community_training_id)
+                                    select o.person_profile_id).Contains(s.person_profile_id)
+                            select s;
+                }
+            }
+
+
+            return model;
+        }
+
+        [HttpPost]
+        [Route("api/offline/v1/participants/get_dto")]
+        public PagedCollection<person_profileDTO> GetParticipants(AngularFilterModel item)
+        {
+            var model = GetParticipantData(item);
+            var totalCount = model.Count();
+            int currPages = item.currPage ?? 0;
+            int size = item.pageSize ?? 10;
+            int person_training_count = db.person_training.Count(x => x.is_participant == true && x.community_training_id == item.community_training_id && x.is_deleted != true);
+
+            return new PagedCollection<person_profileDTO>()
+            {
+                Page = currPages,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((decimal)totalCount / size),
+                TotalCountParticipants = person_training_count,
+                Items = model
+                .Select(
+                    x => new person_profileDTO
+                    {
+                        person_profile_id = x.person_profile_id,
+                        first_name = x.first_name,
+                        middle_name = x.middle_name,
+                        last_name = x.last_name,
+                        sex = x.sex.Value,
+                        birthdate = x.birthdate,
+                        lib_brgy_brgy_name = x.brgy_code == null ? "" : db.lib_brgy.First(c => c.brgy_code == x.brgy_code).brgy_name,
+                        lib_city_city_name = x.lib_city.city_name,
+                        lib_province_prov_name = x.lib_province.prov_name,
+                        lib_region_region_name = x.lib_region.region_name,
+                    }).Skip(currPages * size).Take(size).ToList(),
+            };
+        }
+        #endregion
 
 
 
@@ -1699,6 +1742,14 @@ namespace DeskApp.Controllers
         }
 
 
+        //For MIBF Prio:
+        [Route("api/offline/v1/mibf_prio/get")]
+        public IActionResult GetPrioDetails(Guid id)
+        {
+            var model = db.mibf_prioritization.FirstOrDefault(x => x.mibf_prioritization_id == id);  
+            return Ok(model);
+        }
+
 
 
 
@@ -1707,9 +1758,6 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/trainings")]
         public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, Guid? record_id = null, bool? getPax = null)
         {
-
-
-
             var all = await ApiTrainingOutput.GetTrainings(username, password, city_code, record_id, getPax);
 
             foreach (var item in all.ToList())
@@ -1719,7 +1767,6 @@ namespace DeskApp.Controllers
 
             foreach (var t in db.community_training.Where(x => x.is_deleted != true).ToList())
             {
-
                 var participants = await ApiTrainingOutput.GetOnlineParticipants(username, password, t.community_training_id);
 
                 foreach (var p in participants.ToList())
@@ -1728,7 +1775,6 @@ namespace DeskApp.Controllers
                 }
             }
 
-
             foreach (var t in db.community_training.Where(x => x.is_deleted != true && x.training_category_id == 2).ToList())
             {
                 await GetOnlineProblem(username, password, t.community_training_id);
@@ -1736,35 +1782,20 @@ namespace DeskApp.Controllers
 
             foreach (var t in db.community_training.Where(x => x.is_deleted != true && x.training_category_id == 2).ToList())
             {
-
                 await GetOnlineSolutions(username, password, t.community_training_id);
-
             }
 
             foreach (var t in db.community_training.Where(x => x.is_deleted != true && x.training_category_id == 4).ToList())
             {
-
                 await GetOnlineCriteria(username, password, city_code, t.community_training_id);
-
             }
 
-            foreach (var t in db.community_training.Where(x => x.is_deleted != true && x.training_category_id == 11 || x.training_category_id
-            == 21 || x.training_category_id == 9).ToList())
+            foreach (var t in db.community_training.Where(x => x.is_deleted != true && x.training_category_id == 11 || x.training_category_id == 21 || x.training_category_id == 9).ToList())
             {
-
                 await GetOnlinePriority(username, password, city_code, t.community_training_id);
-
             }
 
-
-
-
-
-
-            return Ok();
-
-            
-
+            return Ok();   
 
         }
 
@@ -1805,13 +1836,8 @@ namespace DeskApp.Controllers
                 var items_preselected = db.community_training.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any()) {
-                    var items = db.community_training.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.community_training_id == record_id);
-                    }
-
+                    var items = db.community_training.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -1821,21 +1847,24 @@ namespace DeskApp.Controllers
                         {
                             item.push_status_id = 1;
                             item.push_date = DateTime.Now;
+                            record_id = item.community_training_id;
+                            //PostProblem(username, password, record_id);
+                            //PostCriteria(username, password, record_id);
+                            //PostPrio(username, password, record_id);
+                            //PostParticipants(username, password, record_id);
                             await db.SaveChangesAsync();
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
                 else {
-                    var items = db.community_training.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
-
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.community_training_id == record_id);
-                    }
+                    //var items = db.community_training.Where(x => x.push_status_id == 5);
+                    var items = db.community_training.Where(x => x.push_status_id == 5 || x.is_deleted == true);
 
                     foreach (var item in items.ToList())
                     {
@@ -1846,15 +1875,24 @@ namespace DeskApp.Controllers
                         {
                             item.push_status_id = 1;
                             item.push_date = DateTime.Now;
+                            record_id = item.community_training_id;
+                            //PostProblem(username, password, record_id);
+                            //PostCriteria(username, password, record_id);
+                            //PostPrio(username, password, record_id);
+                            //PostParticipants(username, password, record_id);
                             await db.SaveChangesAsync();
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }  
             }
+            //v3.1 ALL AWAITS ARE MOVED INSIDE FOREACH
+            //v4.3 put back awaits outside for each
             await PostProblem(username, password, record_id);
             await PostSolution(username, password, record_id);
             await PostCriteria(username, password, record_id);
@@ -1917,17 +1955,12 @@ namespace DeskApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var pt = db.person_training.AsNoTracking().FirstOrDefault(
-                   x =>
-                        x.person_training_id == model.person_training_id);
-
-
+            var pt = db.person_training.AsNoTracking().FirstOrDefault(x => x.person_training_id == model.person_training_id);
+            
             if (pt == null)
             {
-
                 db.person_training.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -1937,18 +1970,12 @@ namespace DeskApp.Controllers
                     string e = ex.ToString();
                     var person_training = model;
                 }
-
             }
 
             else
-
             {
-
                 // model.person_training_id = pt.person_training_id;
-
-
                 db.Entry(model).State = EntityState.Modified;
-
 
                 try
                 {
@@ -1960,8 +1987,6 @@ namespace DeskApp.Controllers
                     var person_training = model;
                 }
             }
-
-
             return Ok(new { url = "/View/profiles", id = model.person_profile_id });
         }
 
@@ -1989,7 +2014,6 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/trainings/SaveBeneficiaryTraining")]
         public ActionResult SaveBeneficiaryTraining(Guid person_profile_id, Guid community_training_id, bool is_participant, bool? api)
         {
-
             var training = db.community_training.FirstOrDefault(x => x.community_training_id == community_training_id);
 
             if (training == null)
@@ -1999,39 +2023,34 @@ namespace DeskApp.Controllers
 
             var model = db.person_training.FirstOrDefault(x => x.person_profile_id == person_profile_id && x.community_training_id == community_training_id);
 
-
             if (model != null)
             {
                 if (is_participant == true)
                 {
-
                     model.is_participant = true;
-
                 }
                 else
                 {
-
                     model.is_participant = false;
                 }
-
-
+                
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
                 }
 
-
+                //v3.1 any changes on participant, main training record should be updated as well
+                training.push_status_id = 3;
+                training.last_modified_by = 0;
+                training.last_modified_date = DateTime.Now;
+                db.Entry(training).State = EntityState.Modified;
 
                 db.SaveChanges();
-
             }
+
             else
             {
-
-
-
-
                 var item = new person_training
                 {
                     created_by = 1,
@@ -2053,8 +2072,13 @@ namespace DeskApp.Controllers
                     item.approval_id = 3;
                 }
 
-
+                //v3.1 any changes on participant, main training record should be updated as well
+                training.push_status_id = 3;
+                training.last_modified_by = 0;
+                training.last_modified_date = DateTime.Now;
+                
                 db.person_training.Add(item);
+                db.Entry(training).State = EntityState.Modified;
                 db.SaveChanges();
 
             }
@@ -2074,34 +2098,23 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/problem")]
         public async Task<bool> GetOnlineProblem(string username, string password, Guid? community_training_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/psa_problem/get_mapped?community_training_id=" + community_training_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<psa_problem>>(responseJson.Result);
-
 
                     foreach (var item in model.ToList())
                     {
@@ -2124,34 +2137,23 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/solution")]
         public async Task<bool> GetOnlineSolutions(string username, string password, Guid? community_training_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/psa_solution/get_mapped?community_training_id=" + community_training_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<psa_solution>>(responseJson.Result);
-
 
                     foreach (var item in model.ToList())
                     {
@@ -2173,36 +2175,24 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/Criteria")]
         public async Task<bool> GetOnlineCriteria(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
 
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/trainings/mibf/csw/get?community_training_id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<mibf_criteria>>(responseJson.Result);
-
-
-
+                    
                     foreach (var item in model.ToList())
                     {
                         await psa.SaveCriteria(item, true);
@@ -2223,35 +2213,23 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/Priority")]
         public async Task<bool> GetOnlinePriority(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/trainings/mibf/pra/get_mapped?community_training_id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<mibf_prioritization>>(responseJson.Result);
-
-
 
                     foreach (var item in model.ToList())
                     {
@@ -2265,8 +2243,6 @@ namespace DeskApp.Controllers
                     return false;
                 }
             }
-
-
         }
 
         #endregion
@@ -2274,335 +2250,194 @@ namespace DeskApp.Controllers
 
         public async Task<ActionResult> PostParticipants(string username, string password, Guid? record_id = null)
         {
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
-
-
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-
-                var items = db.person_training.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-
-                if (record_id != null)
-                {
-                    items = items.Where(x => x.community_training_id == record_id);
-                }
+                
+                //var items = db.person_training.Where(x => x.community_training_id == record_id || x.is_deleted == true);
+                var items = db.person_training.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1)); //v4.3 all pending items will be uploaded
 
                 foreach (var item in items.ToList())
                 {
-
-
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/person/trainings/save", data).Result;
-
-                    // response.EnsureSuccessStatusCode();
-
+                    
                     if (response.IsSuccessStatusCode)
                     {
-
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
-
                         await db.SaveChangesAsync();
-
                     }
                     else
                     {
-                        //item.push_status_id = 4;
-                        //item.push_date = DateTime.Now;
-                        //await db.SaveChangesAsync();
-                        return BadRequest();
+                        item.push_status_id = 4; //added 10-08-2018
+                        await db.SaveChangesAsync();
+                        //return BadRequest();
                     }
                 }
-
-
-
-
-
-
             }
-
             return Ok();
         }
 
-
-
         public async Task<ActionResult> PostProblem(string username, string password, Guid? record_id = null)
+        //old: public async Task<ActionResult>
         {
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
-
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                // var model = new auth_messages();
-
-
-                var items = db.psa_problem.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-
-                if (record_id != null)
-                {
-                    items = items.Where(x => x.community_training_id == record_id);
-                }
+                //var items = db.psa_problem.Where(x => x.community_training_id == record_id || x.is_deleted == true);
+                var items = db.psa_problem.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1)); //v4.3 all pending items will be uploaded
 
                 foreach (var item in items.ToList())
                 {
-
-
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/trainings/psa/problems/save", data).Result;
-
-                    // response.EnsureSuccessStatusCode();
-
+                    
                     if (response.IsSuccessStatusCode)
                     {
-
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
-
+                        record_id = item.psa_problem_id;
+                        //PostSolution(username, password, record_id);
                         await db.SaveChangesAsync();
 
                     }
                     else
                     {
-                        //item.push_status_id = 4;
-                        //item.push_date = DateTime.Now;
-                        //await db.SaveChangesAsync();
-                        return BadRequest();
+                        item.push_status_id = 4; //added 10-08-2018
+                        await db.SaveChangesAsync();
+                        //return BadRequest();
+                        //old: return BadRequest();
                     }
                 }
-
-
-
-
-
-
             }
-
+            //old: return Ok();
             return Ok();
         }
 
         public async Task<ActionResult> PostSolution(string username, string password, Guid? record_id = null)
         {
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
-
-
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-
-                var items = db.psa_solution.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-
-
-
+                
+                //var items = db.psa_solution.Where(x => x.psa_problem_id == record_id || x.is_deleted == true);
+                var items = db.psa_solution.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1)); //v4.3 all pending items will be uploaded
                 foreach (var item in items.ToList())
                 {
-
-
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/trainings/psa/solutions/save", data).Result;
-
-                    // response.EnsureSuccessStatusCode();
-
+                    
                     if (response.IsSuccessStatusCode)
                     {
-
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
-
                         await db.SaveChangesAsync();
-
                     }
                     else
                     {
-                        //item.push_status_id = 4;
-                        //item.push_date = DateTime.Now;
-                        //await db.SaveChangesAsync();
-                        return BadRequest();
+                        item.push_status_id = 4; //added 10-08-2018
+                        await db.SaveChangesAsync();
+                        //return BadRequest();
                     }
                 }
-
-
-
-
-
-
             }
-
             return Ok();
         }
 
 
         public async Task<ActionResult> PostCriteria(string username, string password, Guid? record_id = null)
         {
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
-
-
             using (var client = new HttpClient())
             {
                 //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-
-                var items = db.mibf_criteria.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-
-
+                
+                //var items = db.mibf_criteria.Where(x => x.community_training_id == record_id || x.is_deleted == true);
+                var items = db.mibf_criteria.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1)); //v4.3 all pending items will be uploaded
 
                 foreach (var item in items.ToList())
                 {
-
-
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/trainings/mibf/csw/save", data).Result;
-
-                    // response.EnsureSuccessStatusCode();
-
+                    
                     if (response.IsSuccessStatusCode)
                     {
-
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
-
                         await db.SaveChangesAsync();
-
                     }
                     else
                     {
-                        //item.push_status_id = 4;
-                        //item.push_date = DateTime.Now;
-                        //await db.SaveChangesAsync();
-                        return BadRequest();
+                        item.push_status_id = 4; //added 10-08-2018
+                        await db.SaveChangesAsync();
+                        //return BadRequest();
                     }
                 }
-
-
-
-
-
-
             }
-
             return Ok();
         }
 
         public async Task<ActionResult> PostPrio(string username, string password, Guid? record_id = null)
         {
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
-
-
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-
-                var items = db.mibf_prioritization.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-
-
+                
+                //var items = db.mibf_prioritization.Where(x => x.community_training_id == record_id);
+                var items = db.mibf_prioritization.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1)); //v4.3 all pending items will be uploaded
 
                 foreach (var item in items.ToList())
                 {
-
-
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/trainings/mibf/pra/save", data).Result;
-
-                    // response.EnsureSuccessStatusCode();
-
+                    
                     if (response.IsSuccessStatusCode)
                     {
-
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
-
                         await db.SaveChangesAsync();
-
                     }
                     else
                     {
-                        //item.push_status_id = 4;
-                        //item.push_date = DateTime.Now;
-                        //await db.SaveChangesAsync();
-                        return BadRequest();
+                        item.push_status_id = 4; //added 10-08-2018
+                        await db.SaveChangesAsync();
+                        //return BadRequest();
                     }
                 }
-
-
-
-
-
-
             }
-
             return Ok();
         }
 

@@ -141,7 +141,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
-
+                $scope.totalCount = $scope.totalCount - 1;
 
                 alert("Record removed!")
 
@@ -410,35 +410,23 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
 
 
-    $scope.exportXls = function (dlUrl, name) {
+     $scope.exportXls = function (dlUrl, name) {
 
-       
+         $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
 
-        $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
+         $.post(dlUrl, $scope.data).success(function (value) {
+             $scope.loading = false;
+             $scope.exported_data = value;
+             setTimeout($.unblockUI, 10);
+             alasql('SELECT * INTO XLSX("' + name + '.xlsx' + '",{headers:true}) FROM ?', [$scope.exported_data]);
+             $scope.isSearching = false;
+         }).error(function (data) {
+             alert(JSON.stringify(data));
+             $scope.error = "An Error has occured while Saving! " + data.statusText;
+             $scope.loading = false;
+         });
 
-        $.post(dlUrl, $scope.data).success(function (value) {
-            $scope.loading = false;
-
-           
-
-            $scope.exported_data = value;
-
-            setTimeout($.unblockUI, 10);
-
-            alasql('SELECT * INTO XLSX("' + name + '.xlsx' + '",{headers:true}) FROM ?', [$scope.exported_data]);
-
-            $scope.isSearching = false;
-
-        }).error(function (data) {
-
-            alert(JSON.stringify(data));
-
-
-            $scope.error = "An Error has occured while Saving! " + data.statusText;
-            $scope.loading = false;
-        });
-
-    }
+     };
 
    
 

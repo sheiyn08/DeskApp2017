@@ -16,8 +16,8 @@ namespace DeskApp.Controllers.Eval
 {
     public class MunicipalFinancialProfileController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -32,17 +32,7 @@ namespace DeskApp.Controllers.Eval
         }
 
 
-        [HttpPost]
-        [Route("api/delete/muni_financial_profile")]
-        public async Task<IActionResult> muni_financial_profile(Guid id)
-        {
-            var record = db.muni_financial_profile.FirstOrDefault(x => x.muni_financial_profile_id == id);
-            record.is_deleted = true;
-            record.push_status_id = 3;
-
-            await db.SaveChangesAsync();
-            return Ok();
-        }
+        //api delete moved to DeleteController.cs 01-24-18
 
         public IActionResult FinancialProfile(Guid? id = null)
         {
@@ -1017,9 +1007,8 @@ namespace DeskApp.Controllers.Eval
         #region SAVE FUNCTION
         [Route("api/offline/v1/muni_financial_profile/save")]
         public async Task<IActionResult> Save (muni_financial_profile model, bool? api)
-        {
-            
-            var record = db.muni_financial_profile.AsNoTracking().FirstOrDefault(x => x.muni_financial_profile_id == model.muni_financial_profile_id);
+        {            
+            var record = db.muni_financial_profile.AsNoTracking().FirstOrDefault(x => x.muni_financial_profile_id == model.muni_financial_profile_id && x.is_deleted != true);
             
             if (record == null)
             {
@@ -1032,12 +1021,9 @@ namespace DeskApp.Controllers.Eval
                     model.is_deleted = false;
                     model.approval_id = 3;
                 }
-
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
 
                 db.muni_financial_profile.Add(model);                
@@ -1053,21 +1039,19 @@ namespace DeskApp.Controllers.Eval
                 }
             }
 
-
             else
             {
-                model.push_date = null;
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
                 }
 
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                model.created_date = record.created_date;               
 
                 db.Entry(model).State = EntityState.Modified;
 
@@ -1187,15 +1171,12 @@ namespace DeskApp.Controllers.Eval
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                var items_preselected = db.muni_financial_profile.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.muni_financial_profile.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.muni_financial_profile.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.muni_financial_profile_id == record_id);
-                    }
+                    var items = db.muni_financial_profile.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -1208,20 +1189,16 @@ namespace DeskApp.Controllers.Eval
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
                 else
                 {
-                    var items = db.muni_financial_profile.Where(x => x.push_status_id == 5 && x.is_deleted != true);
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.muni_financial_profile_id == record_id);
-                    }
+                    var items = db.muni_financial_profile.Where(x => x.push_status_id == 5 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -1234,10 +1211,9 @@ namespace DeskApp.Controllers.Eval
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }

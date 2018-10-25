@@ -21,9 +21,9 @@ namespace DeskApp.Controllers
 
     public class SPIProfileController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
-        public static string geoUrl = @"http://geotagging.dswd.gov.ph";
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
+        public static string geoUrl = @"https://geotagging.dswd.gov.ph";
 
 
         private readonly ApplicationDbContext db;
@@ -80,10 +80,10 @@ namespace DeskApp.Controllers
                              no_of_household_beneficiaries_target = s.NoOfHH,
                              no_of_household_beneficiaries_actual = s.NoOfHHActual,
 
-                             Date_First_Download = s.Tranche1date,
-                             s.Date_Started,
-                             s.Date_of_Completion,
-                             s.PlannedDate_Completion,
+                             Date_First_Download = s.Tranche1date == null ? "" : s.Tranche1date.Value.ToString("dd/MM/yyyy"),
+                             Date_Started = s.Date_Started == null ? "" : s.Date_Started.Value.ToString("dd/MM/yyyy"),
+                             Date_of_Completion = s.Date_of_Completion == null ? "" : s.Date_of_Completion.Value.ToString("dd/MM/yyyy"),
+                             PlannedDate_Completion = s.PlannedDate_Completion == null ? "" : s.PlannedDate_Completion.Value.ToString("dd/MM/yyyy"),
 
                              physical_accomplishment_percentage = s.Phy_Perc_To_Date,
                              physical_status = s.lib_physical_status.name,
@@ -149,9 +149,9 @@ namespace DeskApp.Controllers
                              s.Tranche2amount,
                              s.Tranche3amount,
 
-                             s.Tranche1date,
-                             s.Tranche2date,
-                             s.Tranche3date,
+                             Tranche1date = s.Tranche1date == null ? "" : s.Tranche1date.Value.ToString("dd/MM/yyyy"),
+                             Tranche2date = s.Tranche2date == null ? "" : s.Tranche2date.Value.ToString("dd/MM/yyyy"),
+                             Tranche3date = s.Tranche3date == null ? "" : s.Tranche3date.Value.ToString("dd/MM/yyyy"),
 
                              with_ip_presence = s.has_ip_presence,// == true ? "Yes" : null,
                              with_esmp = s.has_sc_esmp,//== true ? "Yes" : null,
@@ -203,10 +203,10 @@ namespace DeskApp.Controllers
 
 
                              s.created_by,
-                             s.created_date,
+                             created_date = s.created_date == null ? null : s.created_date.ToString("dd/MM/yyyy"),
 
                              s.last_updated_by,
-                             s.last_updated_date,
+                             last_updated_date = s.last_updated_date == null ? null : s.last_updated_date.Value.ToString("dd/MM/yyyy"),
 
                              if_bub = s.bub_unique_id,
                              s.Remarks
@@ -266,82 +266,134 @@ namespace DeskApp.Controllers
         //    }
         //}
 
+
+        #region 4.2 export SET
+        [Route("api/export/sub_project/list_set")]
+        public IActionResult export_set(AngularFilterModel model)
+        {
+            var list = GetData(model);
+
+            //var sps_with_set = db.sub_project.Where(s => db.sub_project_set.Select(ss => ss.sub_project_id).Contains(s.sub_project_id));
+                
+            var model_set = db.sub_project_set.Where(x => x.is_deleted != true);
+
+            var result = from s in list
+                         select
+                         new
+                         {                             
+                             Region = s.lib_regions.region_name,
+                             Province = s.lib_provinces.prov_name,
+                             Municipality = s.lib_cities.city_name,
+                             Barangay = s.lib_brgy.brgy_name,
+                             SPID = s.sub_project_id,
+                             SP_Title = s.sub_project_name,
+                             SP_Type = s.lib_project_type.name,
+                             Cycle = s.lib_cycle.name,
+                             With_SET_encoded = db.sub_project_set.Select(ss => ss.sub_project_id).Contains(s.sub_project_id) ? "Yes" : "N/A"
+                         };
+
+            var convert_list = result.ToList();
+
+            var join = from x in convert_list
+                          join p in model_set
+                          on x.SPID equals p.sub_project_id into g
+                          from p in g.DefaultIfEmpty()
+                          orderby x.With_SET_encoded descending
+                          select new
+                          {
+                              x.Region,
+                              x.Province,
+                              x.Municipality,
+                              x.Barangay,
+                              x.SPID,
+                              x.SP_Title,
+                              x.SP_Type,
+                              x.Cycle,
+                              x.With_SET_encoded,
+                              Date_of_Evaluation = p?.set_date_eval != null ? p.set_date_eval.Value.Month + "/" + p.set_date_eval.Value.Day + "/" + p.set_date_eval.Value.Year : "",     
+                              Physical_Decription = p != null ? p.set_physical_description : "",
+                              SP_Utilization = p != null ? p.set_sp_utilization.ToString() : "",
+                              Organization = p != null ? p.set_organization.ToString() : "",
+                              Institutional_linkage = p != null ? p.set_institutional_linkage.ToString() : "",
+                              Financial = p != null ? p.set_financial.ToString() : "",
+                              Physical = p != null ? p.set_physical.ToString() : "",
+                              Total_score = p != null ? p.set_total_score.ToString() : "",
+                              Adjectival_Rating_for_Set =
+                                                          p?.set_total_score >= 5.1 ? "N/A" : p?.set_total_score >= 4.76 ? "Excellent" :
+                                                          p?.set_total_score >= 3.51 ? "Very Satisfactory" :
+                                                          p?.set_total_score >= 2.75 ? "Satisfactory" :
+                                                          p?.set_total_score >= 2.50 ? "Fair" :
+                                                          p?.set_total_score >= 0 ? "Poor" : "",
+                          };
+
+            return Ok(join);
+        }
+        #endregion
+
+
         private async Task<IActionResult> SaveSPPhotos(SPPhoto model, bool? api)
         {
-
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
-
-            var record = db.SPPhoto.AsNoTracking().FirstOrDefault(x => x.UniqueName == model.UniqueName);
+            //var record = db.SPPhoto.AsNoTracking().FirstOrDefault(x => x.UniqueName == model.UniqueName);
+            var record = db.SPPhoto.AsNoTracking().FirstOrDefault(x => x.Id == model.Id && x.is_deleted != true);
 
             if (record == null)
             {
+                //4.1 commenting this section:
 
-                //using (WebClient client = new WebClient())
-                //{
-                //    client.DownloadFileAsync(new Uri(url), @"c:\temp\image35.png");
-                //    client.DownloadFile(new Uri(url), @"c:\temp\image35.png");
-                //}
-                var path01 = PlatformServices.Default.Application.ApplicationBasePath;
-
-                string savePath = path01 + @"\wwwroot\SPPhotos\" + model.UniqueName.ToString() + ".jpeg";
-
-                string sub_project = db.sub_project.Find(model.sub_project_unique_id).region_code.ToString();
+                //var path01 = PlatformServices.Default.Application.ApplicationBasePath;
+                //string savePath = path01 + @"\wwwroot\SPPhotos\" + model.UniqueName.ToString() + ".jpeg";
+                //string sub_project = db.sub_project.Find(model.sub_project_unique_id).region_code.ToString();
                
-                if (sub_project.Length == 8)
-                {
-                    sub_project = "0" + sub_project;
-                }                   
+                //if (sub_project.Length == 8)
+                //{
+                //    sub_project = "0" + sub_project;
+                //}   
 
+                //string url = @"http://geotagging.dswd.gov.ph/" + "SPPhotos/thumbnails/" + sub_project + "/" + model.UniqueName + ".jpg";
+                //try
+                //{
+                //    using (var client = new HttpClient())
+                //    using (var request = new HttpRequestMessage(HttpMethod.Get, url))
+                //    using (
+                //        Stream contentStream = await (await client.SendAsync(request)).Content.ReadAsStreamAsync(),
+                //        stream = new FileStream(savePath, FileMode.Create, FileAccess.Write, FileShare.None, 3145728, true))
+                //    {
+                //        await contentStream.CopyToAsync(stream);
+                //    }
+                //}
+                //catch
+                //{
 
-                string url = @"http://geotagging.dswd.gov.ph/" + "SPPhotos/thumbnails/" + sub_project + "/" + model.UniqueName + ".jpg";
-                try
-                {
-                    using (var client = new HttpClient())
+                //}
 
-                    using (var request = new HttpRequestMessage(HttpMethod.Get, url))
-                    using (
-                        Stream contentStream = await (await client.SendAsync(request)).Content.ReadAsStreamAsync(),
-                        stream = new FileStream(savePath, FileMode.Create, FileAccess.Write, FileShare.None, 3145728, true))
-                    {
-                        await contentStream.CopyToAsync(stream);
-                    }
-                }
-                catch
-                {
-
+                //4.1 adding this section:
+                if (api == true) {
+                    model.Id = model.Id;
+                    model.UniqueName = model.UniqueName;
                 }
 
                 db.SPPhoto.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
-                    //return Ok(model);
-                    return Ok(); //modified June 2, 2017 
+                    return Ok(model);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
-
                     return BadRequest();
                 }
             }
+
             else
             {
-                //model.Id = record.Id; //commented June 2, 2017
-
+                model.Id = record.Id;
                 db.Entry(model).State = EntityState.Modified;
 
                 try
                 {
                     await db.SaveChangesAsync();
-                    //return Ok(model);
-                    return Ok(); //modified June 2, 2017 
+                    return Ok(model);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -349,6 +401,15 @@ namespace DeskApp.Controllers
                 }
             }
         }
+
+
+        //try:
+        //[Route("api/offline/get_spid")]
+        //public int get_spid(Guid? sp_unique_id)
+        //{
+        //    return db.sub_project.FirstOrDefault(x => x.sub_project_unique_id == sp_unique_id).sub_project_id;
+        //}
+
 
 
         #region SPCF v3.o
@@ -387,13 +448,12 @@ namespace DeskApp.Controllers
 
             return Ok(model);
 
-        }
-        
+        }        
 
         [Route("api/offline/v1/sub_projects/spcf/save")]
         public async Task<IActionResult> SaveSPCF(sub_project_spcf model, bool? api)
         {
-            var record = db.sub_project_spcf.AsNoTracking().FirstOrDefault(x => x.sub_project_spcf_id == model.sub_project_spcf_id);
+            var record = db.sub_project_spcf.AsNoTracking().FirstOrDefault(x => x.sub_project_spcf_id == model.sub_project_spcf_id && x.is_deleted != true);
 
             if (record == null)
             {
@@ -402,11 +462,14 @@ namespace DeskApp.Controllers
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
                 }
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.is_deleted = false;
+                else {
+                    model.push_status_id = 1;
+                }
+                
                 db.sub_project_spcf.Add(model);
 
                 try
@@ -422,19 +485,19 @@ namespace DeskApp.Controllers
 
             else
             {
-                model.push_date = null;
+                
 
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
                 }
 
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
-
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                model.created_date = record.created_date;               
 
                 db.Entry(model).State = EntityState.Modified;
 
@@ -451,6 +514,493 @@ namespace DeskApp.Controllers
         }
 
         #endregion
+
+        #region 4.0 updates
+
+        #region SP deskapp others
+        //Get the values for Other fields saved on sp_deskapp_others
+        [Route("api/offline/v1/sub_project/others/get")]
+        public IActionResult GetSPOtherDetails(Guid id)
+        {
+            var model = db.sp_deskapp_others.Select(sp_deskapp_others_DTO.SELECT).Where(x => x.sub_project_unique_id == id && x.is_deleted != true);
+            return Ok(model);
+        }
+
+        [Route("api/offline/v1/spi/others/get")]
+        public IActionResult GetSpiOthers(Guid id)
+        {
+            var model = db.sp_deskapp_others.FirstOrDefault(x => x.sub_project_unique_id == id && x.is_deleted != true);
+
+            if (model == null)
+            {
+                var item = new sp_deskapp_others();
+
+                item.sp_deskapp_others_id = id;
+                item.push_status_id = 3;
+                item.created_by = 0;
+                item.created_date = DateTime.Now;
+                item.approval_id = 3;
+                item.is_deleted = false;
+
+                model = item;
+            }
+            else
+            {
+                model.push_status_id = 3;
+                model.last_modified_by = 0;
+                model.last_modified_date = DateTime.Now;
+                model.approval_id = 3;
+            }
+
+            return Ok(model);
+
+        }
+
+        //Save inputted values to sp_deskapp_others table
+        [Route("api/offline/v1/sub_projects/others/save")]
+        public async Task<IActionResult> SaveSpOtherDetails(sp_deskapp_others model, bool? api)
+        {
+            var record = db.sp_deskapp_others.AsNoTracking().FirstOrDefault(x => x.sub_project_id == model.sub_project_id && x.is_deleted != true);
+
+            if (record == null)
+            {
+                if (api != true)
+                {
+                    model.push_status_id = 2;
+                    model.push_date = null;
+                    model.approval_id = 3;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+                }
+                else
+                {
+                    model.push_status_id = 1;
+                }
+
+                db.sp_deskapp_others.Add(model);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+
+            else
+            {
+                if (api != true)
+                {
+                    model.push_status_id = 3;
+                    model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+                }
+
+                model.created_by = record.created_by;
+                model.created_date = record.created_date;
+
+                db.Entry(model).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+        }
+        #endregion
+
+        #region SPI land acquisition
+        //Get the values for safeguard fields saved on spi_land_acquisition
+        [Route("api/sub_project/get/land_acquisition")]
+        public IActionResult GetSPLandAcquisition(int id)
+        {
+            var model = db.spi_land_acquisition.Select(spi_land_acquisitionDTO.SELECT).Where(x => x.sub_project_id == id && x.is_deleted != true);
+            return Ok(model);
+        }
+
+        [Route("api/offline/v1/spi/land_acquisition/get")]
+        public IActionResult GetSpiLandAcquisition(int id)
+        {
+            var model = db.spi_land_acquisition.FirstOrDefault(x => x.sub_project_id == id && x.is_deleted != true);
+
+            //if (model == null)
+            //{
+            //    var item = new spi_land_acquisition();
+
+            //    item.spi_land_acquisition_id = id;
+            //    item.created_by = "0";
+            //    item.created_date = DateTime.Now;
+            //    item.is_deleted = false;
+
+            //    model = item;
+            //}
+            //else
+            //{
+                
+            //}
+
+            return Ok(model);
+        }
+
+        //Save inputted values to spi_land_acquisition table
+        [Route("api/offline/v1/sub_projects/spi_land_acquisition/save")]
+        public async Task<IActionResult> SaveSPLandAcquisition(spi_land_acquisition model, bool? api)
+        {
+            var record = db.spi_land_acquisition.AsNoTracking().FirstOrDefault(x => x.sub_project_id == model.sub_project_id && x.spi_land_acquisition_id == model.spi_land_acquisition_id && x.is_deleted != true);
+           
+            if (record == null)
+            {
+                if (api != true)
+                {
+                    //model.push_status_id = 2;
+                    //model.push_date = null;
+                    //model.approval_id = 3;
+                    model.created_by = "0";
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+                }
+                else
+                {
+                    model.spi_land_acquisition_id = model.spi_land_acquisition_id;
+                }
+
+                db.spi_land_acquisition.Add(model);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+
+            else
+            {
+                //if (api != true)
+                //{
+                //    model.push_status_id = 3;
+                //    model.approval_id = 3;
+                //    model.push_date = null;
+                //    model.last_modified_by = 0;
+                //    model.last_modified_date = DateTime.Now;
+                //}
+
+                model.spi_land_acquisition_id = record.spi_land_acquisition_id;
+                model.created_by = record.created_by;
+                model.created_date = record.created_date;
+
+                db.Entry(model).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Other Barangays
+        //Get the list of Other Barangays and display it on View:
+        [Route("api/subproject/get/spi_ancestral_domain")]
+        public IActionResult GetOtherBrgys(int id)
+        {
+            var model = db.spi_ancestral_domain.Select(spi_ancestral_domainDTO.SELECT).Where(x => x.sub_project_id == id && x.is_deleted != true);
+            return Ok(model);
+        }
+
+        [Route("api/offline/v1/sub_projects/spi_ancestral_domain/save")]
+        public async Task<IActionResult> SaveOtherBrgys(spi_ancestral_domain model, bool? api)
+        {
+            var record = db.spi_ancestral_domain.AsNoTracking().FirstOrDefault(x => x.sub_project_id == model.sub_project_id && x.spi_ancestral_domain_id == model.spi_ancestral_domain_id && x.is_deleted != true);
+
+            if (record == null)
+            {
+                if (api != true)
+                {
+                    model.created_by = "0";
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+                }
+                else
+                {
+                    model.spi_ancestral_domain_id = model.spi_ancestral_domain_id;
+                }
+
+                db.spi_ancestral_domain.Add(model);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+
+            else
+            {
+                //if (api != true)
+                //{
+                //    model.push_status_id = 3;
+                //    model.approval_id = 3;
+                //    model.push_date = null;
+                //    model.last_modified_by = 0;
+                //    model.last_modified_date = DateTime.Now;
+                //}
+
+                model.spi_ancestral_domain_id = record.spi_ancestral_domain_id;
+                model.created_by = record.created_by;
+                model.created_date = record.created_date;
+
+                db.Entry(model).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+        }
+        #endregion
+
+        #region SPI multiple SP
+        //Get the list of SPI Multiple SP
+        [Route("api/subproject/get/spi_multiple_sp")]
+        public IActionResult GetSPIMultipleSP(int id)
+        {
+            var model = db.spi_multiple_sp.Select(spi_multiple_spDTO.SELECT).Where(x => x.sub_project_id == id && x.is_deleted != true);
+            return Ok(model);
+        }
+
+        [Route("api/offline/v1/sub_projects/spi_multiple_sp/save")]
+        public async Task<IActionResult> SaveMultipleSP(spi_multiple_sp model, bool? api)
+        {
+            var record = db.spi_multiple_sp.AsNoTracking().FirstOrDefault(x => x.sub_project_id == model.sub_project_id && x.spi_multiple_sp_id == model.spi_multiple_sp_id && x.is_deleted != true);
+
+            if (record == null)
+            {
+                if (api != true)
+                {
+                    model.created_by = "0";
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+                }
+                else
+                {
+                    model.spi_multiple_sp_id = model.spi_multiple_sp_id;
+                }
+
+                db.spi_multiple_sp.Add(model);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+
+            else
+            {
+                //if (api != true)
+                //{
+                //    model.push_status_id = 3;
+                //    model.approval_id = 3;
+                //    model.push_date = null;
+                //    model.last_modified_by = 0;
+                //    model.last_modified_date = DateTime.Now;
+                //}
+
+                model.spi_multiple_sp_id = record.spi_multiple_sp_id;
+                model.created_by = record.created_by;
+                model.created_date = record.created_date;
+
+                db.Entry(model).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+        }
+        #endregion
+
+        #region BTF
+        //Get the list of BTF
+        [Route("api/btf/get/tranche/releases")]
+        public IActionResult GetBTF(int id)
+        {
+            var model = db.barangay_trasnfer_of_funds.Select(btf_DTO.SELECT).Where(x => x.erfr_project_id == id && x.is_deleted != true);
+            return Ok(model);
+        }
+        
+        [Route("api/offline/v1/sub_projects/btf/save")]
+        public async Task<IActionResult> SaveBTF(barangay_trasnfer_of_funds model, bool? api)
+        {
+            var record = db.barangay_trasnfer_of_funds.AsNoTracking().FirstOrDefault(x => x.sub_project_id == model.sub_project_id && x.id == model.id && x.is_deleted != true);
+
+            if (record == null)
+            {
+                if (api != true)
+                {
+                    model.created_by = "0";
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+                }
+                else
+                {
+                    model.id = model.id;
+                }
+
+                db.barangay_trasnfer_of_funds.Add(model);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+
+            else
+            {
+                //if (api != true)
+                //{
+                //    model.push_status_id = 3;
+                //    model.approval_id = 3;
+                //    model.push_date = null;
+                //    model.last_modified_by = 0;
+                //    model.last_modified_date = DateTime.Now;
+                //}
+
+                model.id = record.id;
+                model.created_by = record.created_by;
+                model.created_date = record.created_date;
+
+                db.Entry(model).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+        }
+        #endregion
+
+        #region SPI multiple variation date
+        //Get the list of Multiple Variation Date
+        [Route("api/subproject/get/spi_multiple_variation_date")]
+        public IActionResult GetSPIMultipleVariationDate(int id)
+        {
+            var model = db.spi_multiple_variation_date.Select(spi_multiple_variation_date_DTO.SELECT).Where(x => x.sub_project_id == id && x.is_deleted != true);
+            return Ok(model);
+        }
+
+        [Route("api/offline/v1/sub_projects/spi_multiple_variation_date/save")]
+        public async Task<IActionResult> SaveMultipleVariationDate(spi_multiple_variation_date model, bool? api)
+        {
+            var record = db.spi_multiple_variation_date.AsNoTracking().FirstOrDefault(x => x.sub_project_id == model.sub_project_id && x.id == model.id && x.is_deleted != true);
+
+            if (record == null)
+            {
+                if (api != true)
+                {
+                    model.created_by = "0";
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+                }
+                else
+                {
+                    model.id = model.id;
+                }
+
+                db.spi_multiple_variation_date.Add(model);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+
+            else
+            {
+                //if (api != true)
+                //{
+                //    model.push_status_id = 3;
+                //    model.approval_id = 3;
+                //    model.push_date = null;
+                //    model.last_modified_by = 0;
+                //    model.last_modified_date = DateTime.Now;
+                //}
+
+                model.id = record.id;
+                model.created_by = record.created_by;
+                model.created_date = record.created_date;
+
+                db.Entry(model).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return BadRequest();
+                }
+            }
+        }
+        #endregion
+
+        #endregion
+
 
 
         #region Multiple SET
@@ -497,7 +1047,8 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/sub_projects/set/save")]
         public async Task<IActionResult> SaveSET(sub_project_set model, bool? api)
         {
-            var record = db.sub_project_set.AsNoTracking().FirstOrDefault(x => x.sub_project_set_id == model.sub_project_set_id);
+            var record = db.sub_project_set.AsNoTracking().FirstOrDefault(x => x.sub_project_set_id == model.sub_project_set_id && x.is_deleted != true);
+            var main_sp_record = db.sub_project.FirstOrDefault(x => x.sub_project_id == model.sub_project_id);
 
             if (record == null)
             {
@@ -506,11 +1057,18 @@ namespace DeskApp.Controllers
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
-                }
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
 
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.is_deleted = false;
+                    main_sp_record.push_status_id = 3;
+                    db.Entry(main_sp_record).State = EntityState.Modified;
+                }
+                else
+                {
+                    model.push_status_id = 1;
+                }
+                
                 db.sub_project_set.Add(model);
                 
                 try
@@ -526,19 +1084,20 @@ namespace DeskApp.Controllers
 
             else
             {
-                model.push_date = null;
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+
+                    main_sp_record.push_status_id = 3;
+                    db.Entry(main_sp_record).State = EntityState.Modified;
                 }
 
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
-
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                model.created_date = record.created_date;               
 
                 db.Entry(model).State = EntityState.Modified;
 
@@ -559,60 +1118,98 @@ namespace DeskApp.Controllers
         public async Task<IActionResult> sub_project_set(Guid id)
         {
             var record = db.sub_project_set.FirstOrDefault(x => x.sub_project_set_id == id);
+            var main_sp_record = db.sub_project.FirstOrDefault(x => x.sub_project_id == record.sub_project_id);
+
             record.is_deleted = true;
             record.push_status_id = 3;
+            main_sp_record.push_status_id = 3;
             await db.SaveChangesAsync();
             return Ok();
         }
 
         #endregion Multiple SET
 
-
         #region ERS
         [Route("api/offline/v1/sub_project/ers/get")]
         public IActionResult GetERS(Guid id)
         {
-
-            var model = db.sub_project_ers.Select(sub_project_ersDTO.SELECT)
-
-                .Where(x => x.sub_project_unique_id == id && x.is_deleted != true);
-
-
+            var model = db.sub_project_ers.Select(sub_project_ersDTO.SELECT).Where(x => x.sub_project_unique_id == id && x.is_deleted != true);
             return Ok(model);
+        }
+
+        //v3.2 get floating ers with the same brgy and cycle as the SP
+        [Route("api/offline/v1/sub_project/ers/get_floating_ers")]
+        public IActionResult GetFloatingERS(int brgy_code, int cycle_id)
+        {
+            if (brgy_code.ToString().Length == 8)
+            {
+                var floating_ers = db.sub_project_ers.Where(x => (x.brgy_code == "0" + brgy_code || x.brgy_code == "" + brgy_code) && x.cycle_id == cycle_id && x.sub_project_id == null && x.sub_project_unique_id == null && x.is_deleted != true);
+                return Ok(floating_ers);
+            }
+            else if (brgy_code.ToString().Length == 9)
+            {                
+                var converted_brgy_code = brgy_code.ToString();
+                var floating_ers = db.sub_project_ers.Where(x => (x.brgy_code == "" + brgy_code || x.brgy_code == converted_brgy_code.Substring(1)) && x.cycle_id == cycle_id && x.sub_project_id == null && x.sub_project_unique_id == null && x.is_deleted != true);
+                return Ok(floating_ers);
+            }
+            else {
+                return null;
+            }
+
+
+        }
+
+        //v3.2 match the checked floating ers to SP
+        [Route("api/offline/v1/sub_project/ers/match_floating_ers")]
+        public async Task<IActionResult> MatchFloatingERS(Guid id, int spid, Guid sp_unique_id)
+        {
+            var model = db.sub_project_ers.FirstOrDefault(x => x.sub_project_ers_id == id);
+
+            model.sub_project_id = spid;
+            model.sub_project_unique_id = sp_unique_id;
+
+            db.Entry(model).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+                return Ok(model);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
         }
 
 
         [Route("api/offline/v1/sub_projects/ers/save")]
         public async Task<IActionResult> SaveERS(sub_project_ers model, bool? api)
         {
-
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
-
-            var record = db.sub_project_ers.AsNoTracking().FirstOrDefault(x => x.sub_project_ers_id == model.sub_project_ers_id);
+            var record = db.sub_project_ers.AsNoTracking().FirstOrDefault(x => x.sub_project_ers_id == model.sub_project_ers_id && x.is_deleted != true);
+            var main_sp_record = db.sub_project.FirstOrDefault(x => x.sub_project_id == model.sub_project_id);
 
             if (record == null)
             {
-
-
                 if (api != true)
                 {
+                    //saved using the save button
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+
+                    main_sp_record.push_status_id = 3;
+                    db.Entry(main_sp_record).State = EntityState.Modified;
                 }
-
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-
-                model.is_deleted = false;
+                else {
+                    //saved using sync download because api is true in sync/get
+                    model.push_status_id = 1;
+                }
+                
                 db.sub_project_ers.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -623,25 +1220,28 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
+
             else
             {
-                model.push_date = null;
-                
                 if (api != true)
                 {
                     model.push_status_id = 3;
-                    //model.approval_id = 3;
+                    model.push_date = null;
+                    model.approval_id = 3;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+
+                    main_sp_record.push_status_id = 3;
+                    db.Entry(main_sp_record).State = EntityState.Modified;
                 }
-                
+
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
 
                 db.Entry(model).State = EntityState.Modified;
 
                 try
-                {
+                {                    
                     await db.SaveChangesAsync();
                     return Ok(model);
                 }
@@ -799,26 +1399,36 @@ namespace DeskApp.Controllers
         }
 
         //save for NEW record:
-        [Route("api/offline/v1/sub_projects/ers/new_worker/save")]
+        [Route("api/offline/v1/sub_projects/ers/worker/save")]
         public async Task<IActionResult> SaveERSWorker(person_ers_work model, bool? api)
         {
-            var record = db.person_ers_work.AsNoTracking().FirstOrDefault(x => x.person_ers_work_id == model.person_ers_work_id);
-
+            var record = db.person_ers_work.AsNoTracking().FirstOrDefault(x => x.person_ers_work_id == model.person_ers_work_id && x.is_deleted != true);
+            var ers_record = db.sub_project_ers.FirstOrDefault(x => x.sub_project_ers_id == model.sub_project_ers_id);
+            var main_sp_record = db.sub_project.FirstOrDefault(x => x.sub_project_id == ers_record.sub_project_id);
+            var person_profile_record = db.person_profile.FirstOrDefault(x => x.person_profile_id == model.person_profile_id);
+            
             //if saving a new record:
             if (record == null)
             {
-                //inner if
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
-                }
-                //end inner if
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
 
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.is_deleted = false;
+                    main_sp_record.push_status_id = 3;
+                    person_profile_record.is_worker = true;
+                    person_profile_record.push_status_id = 3;
+                }
+                else
+                {
+                    //saved using sync download because api is true in sync/get
+                    model.push_status_id = 1;
+                }
+
                 db.person_ers_work.Add(model);
 
                 try
@@ -828,7 +1438,7 @@ namespace DeskApp.Controllers
                     {
                         return Ok();
                     }
-
+                    
                     var person =
                         db.person_ers_work
                         .Include(x => x.lib_ers_current_work)
@@ -859,7 +1469,7 @@ namespace DeskApp.Controllers
                             s.person_ers_work_id,
                             s.person_profile.contact_no,
                         });
-
+                    
                     return Ok(person.FirstOrDefault());
                 }
                 catch (DbUpdateConcurrencyException)
@@ -867,8 +1477,7 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
 
-            } //end-if
-
+            }
 
             //else, saving existing record based on person_ers_work_id
             else
@@ -877,14 +1486,15 @@ namespace DeskApp.Controllers
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+                    model.push_date = null;
+
+                    main_sp_record.push_status_id = 3;
                 }
                 
-
-                model.push_date = null;
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                model.created_date = record.created_date;               
 
                 db.Entry(model).State = EntityState.Modified;
 
@@ -906,6 +1516,8 @@ namespace DeskApp.Controllers
         public async Task<IActionResult> SaveEditedERSWorker(person_ers_work model, bool? api)
         {
             var record = db.person_ers_work.AsNoTracking().FirstOrDefault(x => x.person_profile_id == model.person_profile_id && x.sub_project_ers_id == model.sub_project_ers_id && x.is_deleted != true);
+            var ers_record = db.sub_project_ers.FirstOrDefault(x => x.sub_project_ers_id == record.sub_project_ers_id);
+            var main_sp_record = db.sub_project.FirstOrDefault(x => x.sub_project_id == ers_record.sub_project_id);
 
             if (api != true)
             {
@@ -917,6 +1529,9 @@ namespace DeskApp.Controllers
             model.created_date = record.created_date;
             model.last_modified_by = 0;
             model.last_modified_date = DateTime.Now;
+
+            main_sp_record.push_status_id = 3;
+
             db.Entry(model).State = EntityState.Modified;
 
             try
@@ -1126,6 +1741,11 @@ namespace DeskApp.Controllers
                 }
             }
 
+            if (item.mode_id != null)
+            {
+                model = model.Where(m => m.mode_id == item.mode_id);
+            }
+
 
             return model;
         }
@@ -1296,7 +1916,84 @@ namespace DeskApp.Controllers
             };
         }
 
+        //v3.2 fix for ERS records with 0 region code or 0 sub_project_id
+        [Route("api/offline/v1/sub_projects/update_zero_values")]
+        public async Task<IActionResult> UpdateZeroValues()
+        {
+            var zero_spid = db.sub_project_ers.Where(s => s.sub_project_id == 0 || s.sub_project_id == null);
+            var zero_unique_id = db.sub_project_ers.Where(s => s.sub_project_unique_id == null);
+            var zero_region_code = db.sub_project_ers.Where(s => s.region_code == 0 || s.region_code == null);
 
+            foreach (var r in zero_spid)
+            {
+                if (r.sub_project_unique_id != null)
+                {
+                    var sp = db.sub_project.FirstOrDefault(x => x.sub_project_unique_id == r.sub_project_unique_id);
+                    if (sp != null)
+                    {
+                        r.sub_project_id = sp.sub_project_id;
+                    }
+                    else {
+
+                    }                 
+                }
+            }
+
+            foreach (var r in zero_unique_id)
+            {
+                if (r.sub_project_id != null && r.sub_project_id != 0)
+                {
+                    var sp = db.sub_project.FirstOrDefault(x => x.sub_project_id == r.sub_project_id);
+                    if (sp != null)
+                    {
+                        r.sub_project_unique_id = sp.sub_project_unique_id;
+                    }
+                    else {
+
+                    }                    
+                }
+            }
+
+            foreach (var r in zero_region_code)
+            {
+                if ((r.sub_project_id != 0 && r.sub_project_id != null) && r.sub_project_unique_id != null)
+                {
+                    var sp = db.sub_project.FirstOrDefault(x => x.sub_project_id == r.sub_project_id);
+                    if (sp != null)
+                    {
+                        r.region_code = sp.region_code;
+                    }
+                    else {
+
+                    }                    
+                }
+                else if ((r.sub_project_id != 0 && r.sub_project_id != null) && r.sub_project_unique_id == null)
+                {
+                    var sp = db.sub_project.FirstOrDefault(x => x.sub_project_id == r.sub_project_id);
+                    if (sp != null)
+                    {
+                        r.region_code = sp.region_code;
+                    }
+                    else {
+
+                    }
+                }
+                else if (r.sub_project_unique_id != null && (r.sub_project_id == 0 || r.sub_project_id == null))
+                {
+                    var sp = db.sub_project.FirstOrDefault(x => x.sub_project_unique_id == r.sub_project_unique_id);
+                    if (sp != null)
+                    {
+                        r.region_code = sp.region_code;
+                    }
+                    else {
+
+                    }
+                }
+            }
+
+            await db.SaveChangesAsync();
+            return Ok();
+        }
 
 
         [HttpPost]
@@ -1553,9 +2250,8 @@ namespace DeskApp.Controllers
             }
 
             //checking if record already exists using the sub_project_unique_id
-            var record = db.sub_project.AsNoTracking().FirstOrDefault(x => x.sub_project_unique_id == model.sub_project_unique_id);
+            var record = db.sub_project.AsNoTracking().FirstOrDefault(x => x.sub_project_unique_id == model.sub_project_unique_id && x.sub_project_id == model.sub_project_id && x.IsActive == true);
             
-
             if (record == null)
             {                
                 if (api != true)
@@ -1565,12 +2261,9 @@ namespace DeskApp.Controllers
                     model.created_date = DateTime.Now;
                     model.IsActive = true;
                 }
-
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                else
                 {
                     model.push_status_id = 1;
-                    model.IsActive = true;
                 }
 
                 db.sub_project.Add(model);
@@ -1587,18 +2280,24 @@ namespace DeskApp.Controllers
             }
             else
             {
-                //model.push_date = null; -- no push_date column for sub_project
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.last_updated_by = "";
+                    model.last_updated_date = DateTime.Now;
                 }
 
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;                
-                model.last_updated_by = "";
-                model.last_updated_date = DateTime.Now;
+                model.created_date = record.created_date;
+
+                //v3.1 temporarily open cycle for editing. So when cycle is changed thru sync download, cycle in ERS should also be updated
+                //commented on 4.2
+                //var ers_record = db.sub_project_ers.Where(x => x.sub_project_id == model.sub_project_id && x.is_deleted != true);
+                //foreach (var ers in ers_record.ToList())
+                //{
+                //    ers.cycle_id = model.cycle_id;
+                //}
 
                 db.Entry(model).State = EntityState.Modified;
                 
@@ -1617,21 +2316,21 @@ namespace DeskApp.Controllers
 
         //Test 09-27-17 save to reference table to be used for sync/get
         [Route("api/offline/v1/sub_project_reference/save")]
-        public async Task<IActionResult> SavetoReferenceTable(sub_project_reference_table model, bool? api)
+        public async Task<IActionResult> SavetoReferenceTable(sub_project_reference_table ref_model, bool? api)
         {
-            var record = db.sub_project_reference_table.AsNoTracking().FirstOrDefault(x => x.sub_project_id == model.sub_project_id);
+            var record = db.sub_project_reference_table.AsNoTracking().FirstOrDefault(x => x.sub_project_id == ref_model.sub_project_id);
 
             if (record == null)
             {
                 //because api is set to TRUE in sync/get
                 if (api == true)
                 {
-                    model.push_status_id = 1;
-                    model.IsActive = true;
-                    model.is_paired = false;
+                    ref_model.push_status_id = 1;
+                    ref_model.IsActive = true;
+                    ref_model.is_paired = false;
                 }
 
-                db.sub_project_reference_table.Add(model);
+                db.sub_project_reference_table.Add(ref_model);
 
                 try
                 {
@@ -1645,12 +2344,12 @@ namespace DeskApp.Controllers
             }
             else
             {
-                model.created_by = record.created_by;
-                model.created_date = record.created_date;
-                model.last_updated_by = "";
-                model.last_updated_date = DateTime.Now;
+                ref_model.created_by = record.created_by;
+                ref_model.created_date = record.created_date;
+                ref_model.is_paired = record.is_paired;
+                ref_model.paired_sp_unique_id = record.paired_sp_unique_id;
 
-                db.Entry(model).State = EntityState.Modified;
+                db.Entry(ref_model).State = EntityState.Modified;
 
                 try
                 {
@@ -1740,48 +2439,52 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/sub_project")]
         public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, int? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                // var model = new auth_messages();
+                //10-16-18 v4.3
+                //To solve issue on "A task was canceled" error because of occassional timeout due to bandwidth issue (when downloading too many SPs)
+                client.Timeout = TimeSpan.FromMinutes(10);
 
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/geo/projects/get_by_city_code?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<sub_project>>(responseJson.Result);
-
-                    //var all = Mapper.DynamicMap<List<sub_project_mapping>, List<sub_project>>(model);
+                    var ref_model = JsonConvert.DeserializeObject<List<sub_project_reference_table>>(responseJson.Result);
 
                     foreach (var item in model.ToList())
                     {
+                        record_id = item.sub_project_id;
                         await Save(item, true);
-                    }
-                    await GetOnlineERSList(username, password, city_code, record_id);
-                    await GetOnlineERSWorkers(username, password, city_code, record_id);
-                    await GetOnlinePhotos(username, password, city_code, record_id);
-                    await GetOnlineCoverage(username, password, city_code, record_id);
-                    await GetOnlineSET(username, password, city_code, record_id);
-                    await GetOnlineSPCF(username, password, city_code, record_id);
 
-                    await GetOnlineReferenceTable(username, password, city_code, record_id);
+                        GetOnlineSPCF(username, password, city_code, record_id);
+                        GetOnlineSET(username, password, city_code, record_id);
+                        GetOnlineERSList(username, password, city_code, record_id);
+                        GetOnlineCoverage(username, password, city_code, record_id);
+                        GetOnlineSPDeskAppOthers(username, password, record_id);
+                        GetOnlineSPILandAcquisition(username, password, record_id);
+                        GetOnlineSPIMultipleSP(username, password, record_id);
+                        GetOnlineSPIMultipleVariationDate(username, password, record_id);
+                        GetOnlineOtherBrgys(username, password, city_code, record_id);
+                    }
+
+                    foreach (var item in ref_model.ToList())
+                    {
+                        await SavetoReferenceTable(item, true);
+                    }
+
+                    GetOnlineBTF(username, password, city_code); //no values on geotagging for sub_project_id column, so city_code will be the reference
+                    GetOnlinePhotos(username, password, city_code, record_id); //will use the city_code as the reference
 
                     return Ok();
                 }
@@ -1796,39 +2499,29 @@ namespace DeskApp.Controllers
 
         public async Task<bool> GetOnlineERSList(string username, string password, string city_code = null, int? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/ers/mapping/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var all = JsonConvert.DeserializeObject<List<sub_project_ers>>(responseJson.Result);
-
-
 
                     foreach (var item in all.ToList())
                     {
+                        Guid? ers_record_id = item.sub_project_ers_id;
                         await SaveERS(item, true);
+                        await GetOnlineERSWorkers(username, password, city_code, ers_record_id);
                     }
 
                     return true;
@@ -1842,43 +2535,31 @@ namespace DeskApp.Controllers
 
         }
 
-        public async Task<bool> GetOnlineERSWorkers(string username, string password, string city_code = null, int? record_id = null)
+        public async Task<bool> GetOnlineERSWorkers(string username, string password, string city_code, Guid? ers_record_id)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-                HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/ers/workers/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
+                
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/ers/workers/get_mapped?city_code=" + city_code + "&id=" + ers_record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var all = JsonConvert.DeserializeObject<List<person_ers_work>>(responseJson.Result);
-
-
-
+                    
                     foreach (var item in all.ToList())
                     {
                         await SaveERSWorker(item, true);
+                        //await SaveERSWorker(item, true);
                     }
-
                     return true;
                 }
                 else
@@ -1938,40 +2619,29 @@ namespace DeskApp.Controllers
 
         //}
 
-        public async Task<bool> GetOnlinePhotos(string username, string password, string city_code = null, int? record_id = null)
+        public async Task<bool> GetOnlinePhotos(string username, string password, string city_code, int? record_id)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-                HttpResponseMessage response = client.GetAsync("api/offline/v1/geo/projects/photos/get_by_city_code?city_code=" + city_code + "&id=" + record_id).Result;
+                
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/geo/projects/photos/get_by_city_code?city_code=" + city_code + "&id=").Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var all = JsonConvert.DeserializeObject<List<SPPhoto>>(responseJson.Result);
-
-
-
+                    
                     foreach (var item in all.ToList())
                     {
+                        //SaveSPPhotos(item, true);
                         await SaveSPPhotos(item, true);
                     }
 
@@ -1988,46 +2658,31 @@ namespace DeskApp.Controllers
 
         public async Task<bool> GetOnlineCoverage(string username, string password, string city_code = null, int? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/geo/projects/coverage/get_by_city_code?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var all = JsonConvert.DeserializeObject<List<sub_project_coverage>>(responseJson.Result);
-
-
-
+                    
                     foreach (var item in all.ToList())
                     {
                         var record = db.sub_project_coverage.AsNoTracking().FirstOrDefault(x => x.sub_project_unique_id == item.sub_project_unique_id && x.brgy_code == item.brgy_code);
 
                         if (record == null)
                         {
-                            //item.push_status_id = 1;
-
                             db.sub_project_coverage.Add(item);
-
 
                             try
                             {
@@ -2041,10 +2696,9 @@ namespace DeskApp.Controllers
                         else
                         {
                             //Commented: June 2, 2017
-                            //item.id = record.id;
-                            //item.sub_project_id = record.sub_project_id;
- 
-
+                            //4.3 revert item.id = record.id to original code
+                            item.id = record.id;
+                            item.sub_project_id = record.sub_project_id;
                             db.Entry(item).State =  EntityState.Modified;
 
                             try
@@ -2090,8 +2744,10 @@ namespace DeskApp.Controllers
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
                     var all = JsonConvert.DeserializeObject<List<sub_project_set>>(responseJson.Result);
+
                     foreach (var item in all.ToList())
                     {
+                        //SaveSET(item, true);
                         await SaveSET(item, true);
                     }
                     return true;
@@ -2104,7 +2760,7 @@ namespace DeskApp.Controllers
         }
 
         //v3.0 Sync get for SPCF: 10-12-2017
-        public async Task<bool> GetOnlineSPCF(string username, string password, string city_code = null, int? record_id = null)
+        public async Task<bool>  GetOnlineSPCF(string username, string password, string city_code = null, int? record_id = null)
         {
             string token = username + ":" + password;
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
@@ -2125,6 +2781,7 @@ namespace DeskApp.Controllers
                     var all = JsonConvert.DeserializeObject<List<sub_project_spcf>>(responseJson.Result);
                     foreach (var item in all.ToList())
                     {
+                        //SaveSPCF(item, true);
                         await SaveSPCF(item, true);
                     }
                     return true;
@@ -2154,7 +2811,7 @@ namespace DeskApp.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-                    var ref_model = JsonConvert.DeserializeObject<List<sub_project_reference_table>>(responseJson.Result); //--testing 09-27-17
+                    var ref_model = JsonConvert.DeserializeObject<List<sub_project_reference_table>>(responseJson.Result); 
                     
                     foreach (var item in ref_model.ToList())
                     {
@@ -2392,9 +3049,303 @@ namespace DeskApp.Controllers
             return Ok();
         }
 
+        #region 4.0 Additional SYNC/GET for new tables
+        //SP DeskApp Others
+        public async Task<bool> GetOnlineSPDeskAppOthers(string username, string password, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
 
-        //new code:
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/sp_deskapp_others/mapping/get_mapped?id=" + record_id).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //---------4.2 change: to resolve issue on cannot deserialize json object to json array
+                    //---------4.3 revert back to original code, adjustment done on GetOnlineCoverage
+
+                    var responseJson = response.Content.ReadAsStringAsync();
+                    var all = JsonConvert.DeserializeObject<List<sp_deskapp_others>>(responseJson.Result); //-- ORIGINAL CODE
+                    //var all = JsonConvert.DeserializeObject<sp_deskapp_others>(responseJson.Result);
+
+                    if (all.ToList() != null)
+                    {
+                        //-- ORIGINAL CODE
+                        foreach (var item in all.ToList())
+                        {
+                            await SaveSpOtherDetails(item, true);
+                        }
+                    }
+                    //await SaveSpOtherDetails(all, true);
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //SPI Land Acquisition
+        public async Task<bool> GetOnlineSPILandAcquisition(string username, string password, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/spi_land_acquisition/mapping/get_mapped?id=" + record_id).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+                    var all = JsonConvert.DeserializeObject<List<spi_land_acquisition>>(responseJson.Result);
+                    foreach (var item in all.ToList())
+                    {
+                        //SaveSPLandAcquisition(item, true);
+                        await SaveSPLandAcquisition(item, true);
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //GetOnlineOtherBrgys
+        public async Task<bool> GetOnlineOtherBrgys(string username, string password, string city_code = null, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/spi_ancestral_domain/mapping/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+                    var all = JsonConvert.DeserializeObject<List<spi_ancestral_domain>>(responseJson.Result);
+                    foreach (var item in all.ToList())
+                    {
+                        //SaveOtherBrgys(item, true);
+                        await SaveOtherBrgys(item, true);
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //GetOnlineSPIMultipleSP
+        public async Task<bool> GetOnlineSPIMultipleSP(string username, string password, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/spi_multiple_sp/mapping/get_mapped?id=" + record_id).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+                    var all = JsonConvert.DeserializeObject<List<spi_multiple_sp>>(responseJson.Result);
+                    foreach (var item in all.ToList())
+                    {
+                        //SaveMultipleSP(item, true);
+                        await SaveMultipleSP(item, true);
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //GetOnlineBTF
+        public async Task<bool> GetOnlineBTF(string username, string password, string city_code = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/barangay_trasnfer_of_funds/mapping/get_mapped?city_code=" + city_code + "&id=").Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+                    var all = JsonConvert.DeserializeObject<List<barangay_trasnfer_of_funds>>(responseJson.Result);
+                    foreach (var item in all.ToList())
+                    {
+                        //SaveBTF(item, true);
+                        await SaveBTF(item, true);
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //GetOnlineSPIMultipleVariationDate
+        public async Task<bool> GetOnlineSPIMultipleVariationDate(string username, string password, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                HttpResponseMessage response = client.GetAsync("api/offline/v1/spi/spi_multiple_variation_date/mapping/get_mapped?id=" + record_id).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = response.Content.ReadAsStringAsync();
+                    var all = JsonConvert.DeserializeObject<List<spi_multiple_variation_date>>(responseJson.Result);
+                    foreach (var item in all.ToList())
+                    {
+                        //SaveMultipleVariationDate(item, true);
+                        await SaveMultipleVariationDate(item, true);
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        #endregion
+
+
+        //old code: version 3.3 to lower version
+        //[HttpPost]
+        //[Route("Sync/Post/sub_project")]
+        //public async Task<ActionResult> PostOnline(string username, string password, int? record_id = null)
+        //{
+        //    string token = username + ":" + password;
+        //    byte[] toBytes = Encoding.ASCII.GetBytes(token);
+        //    string key = Convert.ToBase64String(toBytes);
+
+        //    using (var client = new HttpClient())
+        //    {
+        //        client.BaseAddress = new Uri(url);
+        //        client.DefaultRequestHeaders.Accept.Clear();
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //        client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+        //        var items_preselected = db.sub_project.Where(x => x.push_status_id == 5).ToList();
+
+        //        if (!items_preselected.Any())
+        //        {
+        //            var items = db.sub_project.Where(x => x.push_status_id == 2 || x.push_status_id == 3);
+
+        //            foreach (var item in items.ToList())
+        //            {
+        //                StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+        //                HttpResponseMessage response = client.PostAsync("api/offline/v1/sub_project/save", data).Result;
+        //                if (response.IsSuccessStatusCode)
+        //                {
+        //                    item.push_status_id = 1;
+        //                    record_id = item.sub_project_id;
+        //                    PostOnlineERS(username, password, record_id);
+        //                    PostOnlineSet(username, password, record_id);
+        //                    PostOnlineSPCF(username, password, record_id);
+
+        //                    db.SaveChangesAsync();
+        //                }
+        //                else
+        //                {
+        //                    item.push_status_id = 4;
+        //                    await db.SaveChangesAsync();
+        //                    //return BadRequest();
+        //                }
+        //            }
+        //        }
+        //        else {
+        //            var items = db.sub_project.Where(x => x.push_status_id == 5);
+
+        //            foreach (var item in items.ToList())
+        //            {
+        //                StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+        //                HttpResponseMessage response = client.PostAsync("api/offline/v1/sub_project/save", data).Result;
+
+        //                if (response.IsSuccessStatusCode)
+        //                {
+        //                    item.push_status_id = 1;
+        //                    record_id = item.sub_project_id;
+        //                    PostOnlineERS(username, password, record_id);
+        //                    PostOnlineSet(username, password, record_id);
+        //                    PostOnlineSPCF(username, password, record_id);
+        //                    db.SaveChangesAsync();
+        //                }
+        //                else
+        //                {
+        //                    item.push_status_id = 4;
+        //                    await db.SaveChangesAsync();
+        //                    //return BadRequest();
+        //                }
+        //            }
+        //        }               
+
+        //    }
+        //    //ALL AWAITS ARE MOVED INSIDE FOREACH: v3.1
+        //    //await PostOnlineERS(username, password, record_id);
+        //    //await PostOnlineERSWorker(username, password, record_id);
+        //    //await PostOnlineSet(username, password, record_id);
+        //    //await PostOnlineSPCF(username, password, record_id);
+        //    return Ok();
+        //}
+
+        #region 4.0 NEW CODE FOR SYNC UPLOAD. Details to upload are the fields only encoded in DeskApp
         [HttpPost]
         [Route("Sync/Post/sub_project")]
         public async Task<ActionResult> PostOnline(string username, string password, int? record_id = null)
@@ -2409,44 +3360,39 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
+                
                 var items_preselected = db.sub_project.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.sub_project.Where(x => x.push_status_id != 1 && (x.push_status_id != 4));
-
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.sub_project_id == record_id);
-                    }
+                    var items = db.sub_project.Where(x => x.push_status_id == 2 || x.push_status_id == 3);
 
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                         HttpResponseMessage response = client.PostAsync("api/offline/v1/sub_project/save", data).Result;
-
                         if (response.IsSuccessStatusCode)
                         {
                             item.push_status_id = 1;
-                            await db.SaveChangesAsync();
+                            record_id = item.sub_project_id;
+                            PostOnlineSPDeskappOthers(username, password, record_id);
+                            PostOnlineSPCF(username, password, record_id);
+                            PostOnlineSet(username, password, record_id);
+                            //PostOnlineERS(username, password, record_id); //v4.3                                           
+                            
+                            db.SaveChangesAsync();
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
                         }
                     }
                 }
-                else {
-                    var items = db.sub_project.Where(x => x.push_status_id == 5);
 
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.sub_project_id == record_id);
-                    }
+                else
+                {
+                    var items = db.sub_project.Where(x => x.push_status_id == 5);
 
                     foreach (var item in items.ToList())
                     {
@@ -2456,212 +3402,103 @@ namespace DeskApp.Controllers
                         if (response.IsSuccessStatusCode)
                         {
                             item.push_status_id = 1;
-                            await db.SaveChangesAsync();
+                            record_id = item.sub_project_id;
+                            PostOnlineSPDeskappOthers(username, password, record_id);
+                            PostOnlineSPCF(username, password, record_id);
+                            PostOnlineSet(username, password, record_id);
+                            //PostOnlineERS(username, password, record_id); //v4.3                           
+                            
+                            db.SaveChangesAsync();
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
                         }
                     }
-                }               
+                }
 
             }
+
             await PostOnlineERS(username, password, record_id);
             await PostOnlineERSWorker(username, password, record_id);
-            await PostOnlineSet(username, password, record_id);
-            await PostOnlineSPCF(username, password, record_id);
+
             return Ok();
         }
-
-
-        //old:
-
-        //[HttpPost]
-        //[Route("Sync/Post/sub_project")]
-        //public async Task<ActionResult> PostOnline(string username, string password, int? record_id = null)
-        //{
-        //    string token = username + ":" + password;
-        //    byte[] toBytes = Encoding.ASCII.GetBytes(token);
-        //    string key = Convert.ToBase64String(toBytes);
-
-        //    using (var client = new HttpClient())
-        //    {
-        //        //setup client
-        //        client.BaseAddress = new Uri(url);
-        //        client.DefaultRequestHeaders.Accept.Clear();
-        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        //        client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-        //        // var model = new auth_messages();
-
-        //        var items = db.sub_project.AsEnumerable(); //.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
-
-        //        if (record_id != null)
-        //        {
-        //            items = items.Where(x => x.sub_project_id == record_id);
-        //        }
-
-        //        foreach (var item in items.ToList())
-        //        {
-        //            // var push = Mapper.DynamicMap<sub_project, sub_project_mapping>(item);
-        //            StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-
-        //            HttpResponseMessage response = client.PostAsync("api/offline/v1/sub_project/save", data).Result;
-
-        //            // response.EnsureSuccessStatusCode();
-
-        //            if (response.IsSuccessStatusCode)
-        //            {
-
-        //                item.push_status_id = 1;
-        //                //    item.push_date = DateTime.Now;
-
-        //                await db.SaveChangesAsync();
-
-        //            }
-        //            else
-        //            {
-        //                item.push_status_id = 4;
-        //                // item.push_date = DateTime.Now;
-        //                await db.SaveChangesAsync();
-        //            }
-        //        }
-
-        //    }
-
-
-        //    await PostOnlineERS(username, password, record_id);
-
-        //    await PostOnlineERSWorker(username, password, record_id);
-
-        //    return Ok();
-        //}
-
-        public async Task<bool> PostOnlineERS(string username, string password, int? record_id = null)
+        #endregion
+        
+        public async Task<bool> PostOnlineERS(string username, string password, int? record_id)
         {
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
-
-
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-
-                var items = db.sub_project_ers.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
-
-                if (record_id != null)
-                {
-                    items = items.Where(x => x.sub_project_id == record_id);
-                }
+                
+                //var items = db.sub_project_ers.Where(x => x.sub_project_id == record_id || x.is_deleted == true);
+                var items = db.sub_project_ers.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1));
 
                 foreach (var item in items.ToList())
                 {
-
-                    // var push = Mapper.DynamicMap<sub_project, sub_project_mapping>(item);
-
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/spi/ers/list/save", data).Result;
-
-                    // response.EnsureSuccessStatusCode();
-
+                    
                     if (response.IsSuccessStatusCode)
                     {
-
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
-
+                        Guid? ers_id = item.sub_project_ers_id;
+                        //PostOnlineERSWorker(username, password, ers_id);
                         await db.SaveChangesAsync();
-
                     }
                     else
                     {
-                        //item.push_status_id = 4;
-                        //item.push_date = DateTime.Now;
-                        //await db.SaveChangesAsync();
                         return false;
                     }
                 }
-
             }
-
+            
             return true;
         }
 
-        public async Task<bool> PostOnlineERSWorker(string username, string password, int? record_id = null)
+        public async Task<bool> PostOnlineERSWorker(string username, string password, int? record_id)
         {
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
-
-
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                // var model = new auth_messages();
-
-
-                var items = db.person_ers_work.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
-
-              
+                //var items = db.person_ers_work.Where(x => x.sub_project_ers_id == record_id || x.is_deleted == true);
+                var items = db.person_ers_work.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1));
 
                 foreach (var item in items.ToList())
                 {
-
-                    // var push = Mapper.DynamicMap<sub_project, sub_project_mapping>(item);
-
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/person/ers/save", data).Result;
-
-                    // response.EnsureSuccessStatusCode();
-
+                    
                     if (response.IsSuccessStatusCode)
                     {
-
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
-
                         await db.SaveChangesAsync();
-
                     }
                     else
                     {
-                        //item.push_status_id = 4;
-                        //item.push_date = DateTime.Now;
-                        //await db.SaveChangesAsync();
-                        return false;
+                        item.push_status_id = 4;
+                        await db.SaveChangesAsync();
+                        //return false;
                     }
                 }
-
             }
-
             return true;
         }
 
@@ -2676,32 +3513,25 @@ namespace DeskApp.Controllers
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
                 
-                var items = db.sub_project_set.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
-
-                if (record_id != null)
-                {
-                    items = items.Where(x => x.sub_project_id == record_id);
-                }
-
+                var items = db.sub_project_set.Where(x => x.sub_project_id == record_id || x.is_deleted == true);
+                
                 foreach (var item in items.ToList())
                 {
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/spi/set/list/save", data).Result;
-
                     if (response.IsSuccessStatusCode)
                     {
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
                         await db.SaveChangesAsync();
-
                     }
-                    else {
+                    else
+                    {
                         return false;
                     }
                 }
@@ -2720,19 +3550,13 @@ namespace DeskApp.Controllers
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                var items = db.sub_project_spcf.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted == true));
-
-                if (record_id != null)
-                {
-                    items = items.Where(x => x.sub_project_id == record_id);
-                }
-
+                var items = db.sub_project_spcf.Where(x => x.sub_project_id == record_id || x.is_deleted == true);
+                
                 foreach (var item in items.ToList())
                 {
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -2743,15 +3567,53 @@ namespace DeskApp.Controllers
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
                         await db.SaveChangesAsync();
-
                     }
-                    else {
+                    else
+                    {
                         return false;
                     }
                 }
             }
             return true;
         }
+
+
+        #region 4.0 Post APIs for fields encoded in DeskApp
+        public async Task<bool> PostOnlineSPDeskappOthers(string username, string password, int? record_id = null)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+
+                var items = db.sp_deskapp_others.Where(x => x.sub_project_id == record_id || x.is_deleted == true);
+
+                foreach (var item in items.ToList())
+                {
+                    StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = client.PostAsync("api/offline/v1/sp_deskapp_others/save", data).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        item.push_status_id = 1;
+                        item.push_date = DateTime.Now;
+                        await db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        #endregion
 
 
 
@@ -2926,87 +3788,79 @@ namespace DeskApp.Controllers
             return true;
         }
 
+        
+        //For Developer's use: 07-03-18
+        [Route("api/offline/v1/sub_project/update_sp_deskapp_others")]
+        public async Task<IActionResult> UpdateSPOthers()
+        {
+            var sp_model = db.sub_project.Where(x => x.IsActive == true);            
+            
+            foreach (var item in sp_model.ToList())
+            {
+                //await SaveUpdateToSPOthers(item);
+                var record_in_sp_others = db.sp_deskapp_others.AsNoTracking().FirstOrDefault(x => x.sub_project_id == item.sub_project_id && x.sub_project_unique_id == item.sub_project_unique_id);
 
-        #region ERS
+                if (record_in_sp_others == null)
+                {
+                    var model = new sp_deskapp_others();
 
-        //[Route("api/offline/v1/sub_projects/save")]
-        //public async Task<IActionResult> SaveERSList(sub_project_ers model, bool? api)
-        //{
+                    model.sub_project_id = item.sub_project_id;
+                    model.sub_project_unique_id = item.sub_project_unique_id;
 
+                    model.no_target_families = item.no_target_families;
+                    model.no_target_pantawid_households = item.no_target_pantawid_households;
+                    model.no_target_pantawid_families = item.no_target_pantawid_families;
+                    model.no_target_slp_households = item.no_target_slp_households;
+                    model.no_target_slp_families = item.no_target_slp_families;
+                    model.no_target_ip_households = item.no_target_ip_households;
+                    model.no_target_ip_families = item.no_target_ip_families;
+                    model.no_target_male = item.no_target_male;
+                    model.no_target_female = item.no_target_female;
+                    model.target_male = item.target_male;
+                    model.target_female = item.target_female;
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest();
-        //    }
+                    model.suspension_order_list = item.suspension_order_list;
+                    model.resume_order_list = item.resume_order_list;
+                    model.variation_order_list = item.variation_order_list;
+                    model.community_formation_list = item.community_formation_list;
 
-        //    var record = db.sub_project_ers.AsNoTracking().FirstOrDefault(x => x.sub_project_ers_id == model.sub_project_ers_id);
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.is_deleted = false;
+                    model.push_status_id = 2;
+                    model.approval_id = 3;
 
-        //    if (record == null)
-        //    {
+                    db.sp_deskapp_others.Add(model);
 
+                    try
+                    {
+                        await db.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        return BadRequest();
+                    }
+                }
+                else
+                {
+                    record_in_sp_others.last_modified_date = DateTime.Now;
+                    record_in_sp_others.push_status_id = 3;
 
-        //        if (api != true)
-        //        {
-        //            //   model.push_status_id = 2;
-        //            //  model.push_date = null;
-        //            model.approval_id = 3;
-        //        }
+                    db.Entry(record_in_sp_others).State = EntityState.Modified;
 
+                    try
+                    {
+                        await db.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        return BadRequest();
+                    }
+                }
+            }
 
-        //        model.created_by = "";
-        //        model.created_date = DateTime.Now;
-
-        //        model.IsActive = true;
-        //        db.sub_project.Add(model);
-
-
-        //        try
-        //        {
-        //            await db.SaveChangesAsync();
-        //            return Ok();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-
-
-        //            return BadRequest();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // model.push_date = null;
-
-
-        //        if (api != true)
-        //        {
-        //            //   model.push_status_id = 3;
-        //            model.approval_id = 3;
-        //        }
-
-
-
-        //        model.created_by = record.created_by;
-        //        model.created_date = record.created_date;
-
-
-        //        model.last_updated_by = "";
-        //        model.last_updated_date = DateTime.Now;
-
-        //        db.Entry(model).State = EntityState.Modified;
-
-        //        try
-        //        {
-        //            await db.SaveChangesAsync();
-        //            return Ok();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            return BadRequest();
-        //        }
-        //    }
-        //}
-
-        #endregion
-
+            return Ok();
+        }
+        
     }
 }

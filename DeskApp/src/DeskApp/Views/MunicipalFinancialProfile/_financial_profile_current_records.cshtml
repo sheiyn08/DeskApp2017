@@ -37,6 +37,7 @@
     <table class="table zui-table zui-table-horizontal zui-table-highlight" id="MunicipalFinancialRecords">
         <thead class="thead-inverse">
             <tr>
+                @*Removing this for DeskApp X*@
                 <th style="text-align:center; vertical-align:middle">
                     {{data.check_all == true ? "Un-select All" : "Select All"}}
                     <br /><br />
@@ -62,11 +63,13 @@
 
         <tbody>
             <tr ng-repeat="item in Items">
+                @*Removing this for DeskApp X*@
                 <td style="text-align:center; vertical-align:middle">
                     <md-checkbox ng-model="item.is_item_selected" ng-change="itemSelectedforSync(item)" aria-label="false"></md-checkbox> {{item.is_item_selected == true ? "Selected" : ""}}
                 </td>
                 <td style="vertical-align:middle">
                     <a ng-href="/MunicipalFinancialProfile/FinancialProfile?id={{item.muni_financial_profile_id}}" title='Edit Record' class="btn btn-info"><i class="fa fa-edit"></i></a>
+                    @*Removing this for DeskApp X*@
                     <a ng-click="delete(item)" title='Delete Record' class="btn btn-danger"><i class="fa fa-trash"></i></a>
                 </td>
                 <td style="vertical-align:middle">

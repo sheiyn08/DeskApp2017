@@ -1,5 +1,8 @@
 
 
+<div class="panel panel-danger" ng-show="with_duplicate">
+    <div class="panel-heading"><i>There are Projects with <strong>same Rank number</strong>, please edit and correct it using the edit button.</i></div>
+</div>
 
  <div class="panel panel-info">
 
@@ -8,7 +11,7 @@
              
 
 
-  <p>Please Encode <strong>According to Rank Order (First - Last)</strong></p>
+  <p>Please Encode <strong>according to Rank Order (First - Last)</strong></p>
             </div>
  
 
@@ -70,7 +73,8 @@
                 </td>
 
                 <td>
-                 {{new_pra_record.rank}}
+                 @*{{new_pra_record.rank}}*@
+                    <input ng-model="new_pra_record.rank" class="form-control" type="number" name="Rank" />
                 </td>
                 <td>
                     @*<input ng-model="new_pra_record.project_name" class="form-control" ng-required="new_pra" name="Project Name" />*@
@@ -173,7 +177,7 @@
 
                 <md-radio-group ng-model="item.is_priority" disabled>
                     <md-radio-button data-ng-value="true" class="md-primary" disabled>Yes</md-radio-button>
-                    <md-radio-button data-ng-value="false" disabled> No </md-radio-button>
+                    <md-radio-button data-ng-value="false" class="md-primary" disabled> No </md-radio-button>
 
                 </md-radio-group>
 
@@ -186,11 +190,11 @@
                 </select>
             </td>
             <td>
-                {{item.kc_amount}}
+                {{item.kc_amount | currency:"P"}}
 
             </td>
             <td>
-                {{item.lcc_amount}}
+                {{item.lcc_amount | currency:"P"}}
             </td>
 
 
@@ -213,8 +217,8 @@
 
 
             <td>
-                {{selected_pra.rank}}
-                 
+                @*{{selected_pra.rank}}*@
+                <input ng-model="selected_pra.rank" class="form-control" ng-required="edit_pra" type="number" name="Rank" />
             </td>
             <td>
                    
@@ -244,7 +248,7 @@
 
                 <md-radio-group ng-model="selected_pra.is_priority" ng-required="edit_pra" name="Is Prioritized">
                     <md-radio-button data-ng-value="true" class="md-primary">Yes</md-radio-button>
-                    <md-radio-button data-ng-value="false"> No </md-radio-button>
+                    <md-radio-button data-ng-value="false" class="md-primary"> No </md-radio-button>
 
                 </md-radio-group>
 

@@ -233,6 +233,12 @@ namespace DeskApp.DataLayer
         public DateTime? intake_date { get; set; }
         public DateTime? resolved_date { get; set; }
 
+        //additional for Intake Date and Resolution Date range
+        public DateTime? intake_date_from { get; set; }
+        public DateTime? intake_date_to { get; set; }
+        public DateTime? resolved_date_from { get; set; }
+        public DateTime? resolved_date_to { get; set; }
+
         //Worker
         public int? spi_nature_work_id { get; set; }
 
@@ -318,6 +324,12 @@ namespace DeskApp.DataLayer
         //revised, to remove using of separate api for filter:
         public bool? is_recently_added { get; set; }
         public bool? is_recently_edited { get; set; }
+
+        //additional:
+        public int? mode_id { get; set; }
+
+        //MOV module additional filter, filter by module name
+        public int? module_id { get; set; }
 
     }
 }

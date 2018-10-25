@@ -16,8 +16,8 @@ namespace DeskApp.Controllers
 {
     public class PerceptionSurveyController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -27,19 +27,9 @@ namespace DeskApp.Controllers
             db = context;
 
         }
-        [HttpPost]
-        [Route("api/delete/perception_survey")]
-        public async Task<IActionResult> perception_survey(Guid id)
-        {
-            var record = db.perception_survey.FirstOrDefault(x => x.perception_survey_id == id);
-            record.is_deleted = true;
-            record.push_status_id = 3;
+        
+        //api delete moved to DeleteController.cs 01-24-18
 
-            await db.SaveChangesAsync();
-
-            return Ok();
-
-        }
         public ActionResult Index()
         {
             return View();
@@ -5172,8 +5162,8 @@ namespace DeskApp.Controllers
                     is_pantawid = x.is_pantawid,
                     is_slp = x.is_slp,
 
-                    talakayan_date_from = x.talakayan_date_from,
-                    date_of_survey = x.survey_date_from,
+                    talakayan_date_from = x.talakayan_date_from == null ? "" : x.talakayan_date_from.Value.ToString("dd/MM/yyyy"),
+                    date_of_survey = x.survey_date_from == null ? "" : x.survey_date_from.Value.ToString("dd/MM/yyyy"),
 
                     //question = e.item,
                     
@@ -5486,8 +5476,8 @@ namespace DeskApp.Controllers
                     is_pantawid = x.is_pantawid,
                     is_slp = x.is_slp,
 
-                    talakayan_date_from = x.talakayan_date_from,
-                    date_of_survey = x.survey_date_from,
+                    talakayan_date_from = x.talakayan_date_from == null ? "" : x.talakayan_date_from.Value.ToString("dd/MM/yyyy"),
+                    date_of_survey = x.survey_date_from == null ? "" : x.survey_date_from.Value.ToString("dd/MM/yyyy"),
 
                     //question = e.item,
 
@@ -5545,12 +5535,7 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/perception_survey/save")]
         public async Task<IActionResult> Save(perception_survey model, bool? api)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
-
-            var record = db.perception_survey.AsNoTracking().FirstOrDefault(x => x.perception_survey_id == model.perception_survey_id);
+            var record = db.perception_survey.AsNoTracking().FirstOrDefault(x => x.perception_survey_id == model.perception_survey_id && x.is_deleted != true);
 
             if (record == null)
             {
@@ -5563,12 +5548,9 @@ namespace DeskApp.Controllers
                     model.created_date = DateTime.Now;
                     model.is_deleted = false;
                 }
-
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
 
                 db.perception_survey.Add(model);
@@ -5583,20 +5565,22 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
+
             else
             {
-                model.push_date = null;
+                
 
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
                 }
 
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                model.created_date = record.created_date;               
 
                 db.Entry(model).State = EntityState.Modified;
 
@@ -5640,6 +5624,14 @@ namespace DeskApp.Controllers
             }
             return Ok(model);
         }
+        [Route("api/offline/v1/perception_survey/get_details")]
+        public IActionResult GetDetails(Guid id)
+        {
+            var model = db.perception_survey.FirstOrDefault(x => x.perception_survey_id == id);
+            
+            return Ok(model);
+        }
+
 
         #region API GET / POST
 
@@ -5653,22 +5645,17 @@ namespace DeskApp.Controllers
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/perception_survey/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
                     var model = JsonConvert.DeserializeObject<List<perception_survey>>(responseJson.Result);
-
-                    //                    var all = Mapper.DynamicMap<List<person_profile_mapping>, List<person_profile>>(model);
 
                     foreach (var item in model.ToList())
                     {
@@ -5719,15 +5706,12 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
 
-                var items_preselected = db.perception_survey.Where(x => x.push_status_id == 5 && x.is_deleted != true).ToList();
+                var items_preselected = db.perception_survey.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.perception_survey.Where(x => x.push_status_id != 1 && !(x.push_status_id == 2 && x.is_deleted != true));
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.perception_survey_id == record_id);
-                    }
+                    var items = db.perception_survey.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -5740,20 +5724,16 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
                 else
                 {
-                    var items = db.perception_survey.Where(x => x.push_status_id == 5 && x.is_deleted != true);
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.perception_survey_id == record_id);
-                    }
+                    var items = db.perception_survey.Where(x => x.push_status_id == 5 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -5766,10 +5746,9 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }                

@@ -172,9 +172,17 @@
                         </div>
 
                         <div flex flex-sm="100">
-
-                            <select name="Cycle" ng-model="data.cycle_id" id="cycle_id" class="form-control"
+                            @*----------------- v3.1 temporarily allowed editing of cycle (OLD) ------------------------*@
+                            @*<select name="cycle" ng-model="data.cycle_id" id="cycle_id" class="form-control"
                                     ng-disabled="status"
+                                    required
+                                    ng-options="option.id as option.name for option in cycle_id_options">
+                                <option value="">[select cycle]</option>
+                            </select>*@
+
+                            @*----------------- v3.1 temporarily allowed editing of cycle (NEW) ------------------------*@
+                            <select name="Cycle" ng-model="data.cycle_id" id="cycle_id" class="form-control"
+                                    ng-disabled="data.cycle_id != 54 && status"
                                     required
                                     ng-options="option.Id as option.Name for option in cycle_id_options">
                                 <option value="">[Select Cycle]</option>
@@ -378,13 +386,14 @@
             </li>
         </ul>
 
-
+        @*Removing this for DeskApp X*@
         <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid">
             Save
         </md-button>
 
         <md-button class="md-warn md-raised" ng-click="cancel()">
-            Cancel
+            @*Cancel*@
+            Back to List
         </md-button>
 
 
@@ -585,6 +594,28 @@
                      })
 
                  });
+
+              $scope.viewMov = function (item) {
+                  var base = window.location.origin;
+
+                  $http.get('/api/mov/get/module_form_name?id=' + item.attached_document_id).then(function (response) {
+                      $scope.pdf_details = response.data;
+
+                      if ($scope.pdf_details.mov_list_id == 20) {
+                          item.url = base + "/MOVs/" + "GI_GRSInstallationChecklistMunicipal_" + item.attached_document_id + ".pdf";
+                      }
+                      else if ($scope.pdf_details.mov_list_id == 21) {
+                          item.url = base + "/MOVs/" + "GI_GRSInstallationChecklistBrgy_" + item.attached_document_id + ".pdf";
+                      }
+                      else {
+                          alert("Attachment not found");
+                      }
+
+                      var newtab = window.open(item.url, '_blank');
+                      newtab.focus();
+
+                  });
+              };
 
               $scope.deleteMov = function (removeitem) {
 

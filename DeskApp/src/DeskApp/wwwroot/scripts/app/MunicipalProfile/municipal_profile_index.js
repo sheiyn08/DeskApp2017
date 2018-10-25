@@ -96,14 +96,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         if (ask === true) {
             $.post('/api/delete/municipal_profile?id=' + removeitem.muni_profile_id).success(function (value) {
                 $scope.loading = false;
-
-
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
-
-
+                $scope.totalCount = $scope.totalCount - 1;
                 alert("Record removed!");
-
             }).error(function (data) {
 
                 alert(JSON.stringify(data));

@@ -12,7 +12,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
     $scope.data.city_code = '';
     $scope.data.brgy_code = '';
     $scope.data.fund_source_id = '';
-    $scope.data.cycle_id = '';
+    $scope.data.cycle_id = '';  
     $scope.data.enrollment_id = '';
     $scope.data.is_male = '';
     $scope.data.is_ip = '';
@@ -95,14 +95,10 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         if (ask == true) {
             $.post('/api/delete/person_profile?id=' + removeitem.person_profile_id).success(function (value) {
                 $scope.loading = false;
-
-
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
-
-
+                $scope.totalCount = $scope.totalCount - 1;
                 alert("Record removed!")
-
             }).error(function (data) {
 
                 alert(JSON.stringify(data));
@@ -115,6 +111,23 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
         }
 
     }
+
+    $scope.updateWorkerVolunteerStatus = function () {
+        if (confirm("This function is to update Worker and Volunteer status of Person not tagged as worker and/or volunteer")) {
+            $.blockUI({ message: '<h1><img src="@Url.Content("~/Images/kc_logo-copy.png")" /></h1> Processing...' });
+
+            $http.post('/api/offline/v1/profiles/update_person_status').success(function (data) {
+                alert("Records Updated!");
+                setTimeout($.unblockUI, 3);
+            }).error(function (data) {
+                $scope.error = "An Error has occured while Saving! " + data;
+                setTimeout($.unblockUI, 3);
+            });
+        }
+        else {
+        }
+    }
+
 
     $http.get('/api/online/lib_region')
 .then(function (response) { $scope.region_code_options = response.data; });
@@ -130,10 +143,7 @@ angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 
 
     $http.get('/api/lib_volunteer_committee_position')
 .then(function (response) { $scope.volunteer_committee_position_id_options = response.data; });
-
-    $http.get('/api/lib_enrollment')
-.then(function (response) { $scope.enrollment_id_options = response.data; });
-
+    
     $http.get('/api/lib_training_category')
 .then(function (response) { $scope.training_category_id_options = response.data; });
 
@@ -593,16 +603,20 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
 
                 $http.post(url).success(function (data) {
                     $scope.isAddingItem = false;
+                    
                     //inner http.post -- actual sync:
                     $http.post('/sync/post/profiles?username=' + username + "&password=" + password + "&record_id=").success(function (data) {
                         $scope.needToConfirm = false;
                         $scope.false = true;
+                        //$scope.hideProgressBar = true;
                         $scope.isSearching = false;
                         location.reload();
                         $mdDialog.cancel();
                     }).error(function (data) {
                         $scope.error = "An Error has occured while Uploading Data! ";
+                        //$scope.isFailed = true;
                         $scope.isSearching = false;
+                        //$scope.hideProgressBar = true;
                     });
                     //end 
                 }).error(function (data) {
@@ -618,12 +632,15 @@ function DialogController($scope, $mdDialog, $http, items_selected) {
             $http.post('/sync/post/profiles?username=' + username + "&password=" + password + "&record_id=").success(function (data) {
                 $scope.needToConfirm = false;
                 $scope.false = true;
+                //$scope.hideProgressBar = true;
                 $scope.isSearching = false;
                 location.reload();
                 $mdDialog.cancel();
             }).error(function (data) {
                 $scope.error = "An Error has occured while Uploading Data! ";
+                //$scope.isFailed = true;
                 $scope.isSearching = false;
+                //$scope.hideProgressBar = true;
             });
             //end 
         }

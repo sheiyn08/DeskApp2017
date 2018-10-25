@@ -13,7 +13,7 @@ namespace DeskApp.Services
     public static class ApiTrainingOutput
     {
 
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
 
 
         public static async Task<List<community_training>> GetTrainings(string username, string password, string city_code = null, Guid? record_id = null, bool? getPax = null)

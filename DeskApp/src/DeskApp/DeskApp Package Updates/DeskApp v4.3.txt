@@ -1,0 +1,32 @@
+
+=======================***** DeskApp v4.3 *****=======================
+Release Date: October 16, 2018
+
+This package release includes:
+
+1) CEAC Tracking
+	a. Fix on Sync Upload issue
+2) Training
+	a. Fix MIBF-PRA Upload issue
+	b. Fix PSA Upload issue
+3) Grievances
+	a. Fix filter on Intake Date (from and to)
+	b. Add new filter on Resolution Date
+4) Sub Projects
+	a. Fix on Sync Download issue
+	b. Fix page navigation on Reference List tab
+5) Community Organization
+	a. Fix filter on Barangay field
+6) Export Downloads 
+	a. Fix error received when exporting Excel on Downloads section
+
+Developer's Notes:
+
+1) On Sync/Post/, upload not only sub-tables related to the selected item but also all pending items for uploading
+2) On Sync/Post/, await methods are revert back outside foreach
+3) CEAC sync/post: new API used
+4) SPIProfileController: add this line --> client.Timeout = TimeSpan.FromMinutes(10);
+
+=======================***** DeskApp v4.3 *****=======================
+
+

@@ -1,0 +1,12 @@
+
+=======================***** DeskApp v4.1 *****=======================
+Release Date: July 20, 2018
+
+This package release includes:
+1) Fix for Person Profile Sync Download and Upload issue
+2) Fix for Sub Project Sync Download issue
+3) Fix issue on encoding O&M in Sub Project Module
+4) Fix issue on encoding ERS (Hauling - Actual Output)
+5) Fix issue on Dates encoded on CEAC not saving
+
+=======================***** DeskApp v4.1 *****=======================

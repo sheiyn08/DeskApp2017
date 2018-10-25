@@ -56,7 +56,7 @@
         </div>
             <div class="col-md-2" show-errors='{showSuccess: true}'>  
                 <label>Date of Survey&emsp;</label>              
-                <md-datepicker name="Date of Survey" ng-model="dt_survey_start_date" ng-disabled="!data.talakayan_yr_id || data.talakayan_yr_id == 4 || data.talakayan_yr_id == 5" md-placeholder="Enter date" ng-change="data.survey_date_from = dt_survey_start_date.toISOString()" md-min-date="maxStartDate" md-max-date="maxEndDate" ng-required="true"></md-datepicker>
+                <md-datepicker name="Date of Survey" ng-model="dt_survey_start_date" ng-disabled="!data.talakayan_yr_id || data.talakayan_yr_id == 5" md-placeholder="Enter date" ng-change="data.survey_date_from = dt_survey_start_date.toISOString()" md-min-date="maxStartDate" md-max-date="maxEndDate" ng-required="true"></md-datepicker>
             </div>
             <div class="col-md-2">
 

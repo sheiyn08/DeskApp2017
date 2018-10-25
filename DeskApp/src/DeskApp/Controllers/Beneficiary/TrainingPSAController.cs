@@ -18,8 +18,8 @@ namespace DeskApp.Controllers
     {
 
 
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
         private readonly IPSARepository psa;
@@ -84,6 +84,7 @@ namespace DeskApp.Controllers
             //return Ok(i);
 
             var record = db.psa_problem.AsNoTracking().FirstOrDefault(x => x.psa_problem_id == model.psa_problem_id);
+            var main_record = db.community_training.FirstOrDefault(x => x.community_training_id == model.community_training_id);
 
             if (record == null)
             {
@@ -99,17 +100,19 @@ namespace DeskApp.Controllers
 
                     int rank = db.psa_problem.Where(x => x.community_training_id == model.community_training_id && x.is_deleted != true).Count();
                     model.rank = rank + 1;
-                }
 
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                    //v3.1 any changes on problem, main training record should be updated as well
+                    main_record.push_status_id = 3;
+                    main_record.last_modified_by = 0;
+                    main_record.last_modified_date = DateTime.Now;
+                    db.Entry(main_record).State = EntityState.Modified;
+                }                
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
-
-                db.psa_problem.Add(model);
-
+                
+                db.psa_problem.Add(model);                
 
                 try
                 {
@@ -123,21 +126,25 @@ namespace DeskApp.Controllers
             }
             else
             {
-                model.push_date = null;
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
-                }
-                
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+
+                    //v3.1 any changes on problem, main training record should be updated as well
+                    main_record.push_status_id = 3;
+                    main_record.last_modified_by = 0;
+                    main_record.last_modified_date = DateTime.Now;
+                    db.Entry(main_record).State = EntityState.Modified;
+                }                
 
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
-
-                db.Entry(model).State = EntityState.Modified;
+                
+                db.Entry(model).State = EntityState.Modified;                
 
                 try
                 {
@@ -156,7 +163,9 @@ namespace DeskApp.Controllers
         public async Task<IActionResult> SaveSolution(psa_solution model, bool? api)
         {
             var record = db.psa_solution.AsNoTracking().FirstOrDefault(x => x.psa_solution_id == model.psa_solution_id);
-
+            var problem = db.psa_problem.FirstOrDefault(x => x.psa_problem_id == model.psa_problem_id);
+            var main_record = db.community_training.FirstOrDefault(x => x.community_training_id == problem.community_training_id);
+            
             if (record == null)
             {
                 if (api != true)
@@ -168,17 +177,27 @@ namespace DeskApp.Controllers
                     model.created_date = DateTime.Now;
                     model.is_deleted = false;
                     model.psa_solution_id = Guid.NewGuid();
-                }
 
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                    //v3.1 any changes on problem and solution, main training record should be updated as well
+                    main_record.push_status_id = 3;
+                    main_record.last_modified_by = 0;
+                    main_record.last_modified_date = DateTime.Now;
+
+                    //v3.1 any changes on solution, problem should be updated as well
+                    problem.push_status_id = 3;
+                    problem.last_modified_by = 0;
+                    problem.last_modified_date = DateTime.Now;
+
+                    db.Entry(problem).State = EntityState.Modified;
+                    db.Entry(main_record).State = EntityState.Modified;
+                }
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
-                }                
-
-                db.psa_solution.Add(model);
+                }               
                 
+                db.psa_solution.Add(model);                
+
                 try
                 {
                     await db.SaveChangesAsync();
@@ -189,22 +208,35 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
+
             else
             {
-                model.push_date = null;
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
+
+                    //v3.1 any changes on solution, problem should be updated as well
+                    problem.push_status_id = 3;
+                    problem.last_modified_by = 0;
+                    problem.last_modified_date = DateTime.Now;
+
+                    //v3.1 any changes on problem and solution, main training record should be updated as well
+                    main_record.push_status_id = 3;
+                    main_record.last_modified_by = 0;
+                    main_record.last_modified_date = DateTime.Now;
+
+                    db.Entry(problem).State = EntityState.Modified;
+                    db.Entry(main_record).State = EntityState.Modified;
                 }
                 
                 model.created_by = record.created_by;
                 model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
-
-                db.Entry(model).State = EntityState.Modified;
+                
+                db.Entry(model).State = EntityState.Modified;                
 
                 try
                 {
@@ -226,14 +258,24 @@ namespace DeskApp.Controllers
         {
             var record = db.psa_problem.FirstOrDefault(x => x.psa_problem_id == id);
             var solutions = db.psa_solution.Where(x => x.psa_problem_id == id);
+            var main_record = db.community_training.FirstOrDefault(x => x.community_training_id == record.community_training_id);
 
             record.is_deleted = true;
             record.push_status_id = 3;
+            record.deleted_by = 0;
+            record.deleted_date = DateTime.Now;
+
+            //v3.1 when problem is deleted, main training record should be updated
+            main_record.push_status_id = 3;
+            main_record.last_modified_by = 0;
+            main_record.last_modified_date = DateTime.Now;
 
             foreach (var sol in solutions)
             {
                 sol.is_deleted = true;
                 sol.push_status_id = 3;
+                sol.deleted_by = 0;
+                sol.deleted_date = DateTime.Now;
             }
             
             await db.SaveChangesAsync();
@@ -246,9 +288,24 @@ namespace DeskApp.Controllers
         public async Task<IActionResult> DeleteSolution(Guid id)
         {
             var record = db.psa_solution.FirstOrDefault(x => x.psa_solution_id == id);
+            var problem = db.psa_problem.FirstOrDefault(x => x.psa_problem_id == record.psa_problem_id);
+            var main_record = db.community_training.FirstOrDefault(x => x.community_training_id == problem.community_training_id);
 
             record.is_deleted = true;
             record.push_status_id = 3;
+            record.deleted_by = 0;
+            record.deleted_date = DateTime.Now;
+
+            //v3.1 once deleted, problem should be updated as well
+            problem.push_status_id = 3;
+            problem.last_modified_by = 0;
+            problem.last_modified_date = DateTime.Now;
+
+            //v3.1 once deleted, main training record should be updated as well
+            main_record.push_status_id = 3;
+            main_record.last_modified_by = 0;
+            main_record.last_modified_date = DateTime.Now;
+
             await db.SaveChangesAsync();
             return Ok();
         }

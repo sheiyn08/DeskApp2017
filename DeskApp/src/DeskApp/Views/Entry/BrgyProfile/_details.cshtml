@@ -115,9 +115,18 @@
                 <div flex="25" flex-sm="100">
                     <label for="Province:_">Cycle </label>
 
-                    <select name="Cycle" ng-model="data.cycle_id" id="brgy_code" class="form-control"
+                    @*----------------- v3.1 temporarily allowed editing of cycle (OLD) ------------------------*@
+                    @*<select name="Cycle" ng-model="data.cycle_id" id="brgy_code" class="form-control"
                             ng-required="true"
                             ng-disabled="status"
+                            ng-options="option.Id as option.Name for option in cycle_id_options">
+                        <option value="">[Select Cycle]</option>
+                    </select>*@
+
+                    @*----------------- v3.1 temporarily allowed editing of cycle (NEW) ------------------------*@
+                    <select name="Cycle" ng-model="data.cycle_id" id="brgy_code" class="form-control"
+                            ng-disabled="data.cycle_id != 54 && status"
+                            ng-required="true"
                             ng-options="option.Id as option.Name for option in cycle_id_options">
                         <option value="">[Select Cycle]</option>
                     </select>

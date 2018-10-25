@@ -87,7 +87,7 @@ namespace DeskApp.DataLayer
         public Guid? community_training_id { get; set; }
         public Guid mibf_prioritization_id { get; set; }
         
-        /// SPCR
+        /// SPCF
         public int? no_target_families { get; set; }
         public int? no_target_pantawid_families { get; set; }
         public int? no_target_slp_families { get; set; }
@@ -136,6 +136,7 @@ namespace DeskApp.DataLayer
         public bool? has_t2 { get; set; }
         public bool? has_t3 { get; set; }
 
+       
         //erfr
         public decimal? erfr_t1 { get; set; }
         public decimal? erfr_t2 { get; set; }
@@ -429,6 +430,11 @@ namespace DeskApp.DataLayer
         public bool? is_eligible_fin_second_tranche { get; set; }
         public bool? is_eligible_fin_third_tranche { get; set; }
         #endregion
+
+        #region June 16, 2018 additional column to match Geotagging (4.0 release)
+        public string sitio { get; set; }
+        #endregion
+
     }
 
     /// ---------------------------------- Table name : SUB_PROJECT_COVERAGE ---------------------------------- ///  
@@ -870,6 +876,190 @@ namespace DeskApp.DataLayer
         public string deleted_by { get; set; }
         public DateTime? deleted_date { get; set; }
         public bool? is_deleted { get; set; }
+    }
+
+    /// ---------------------------------- Table name : SP_DESKAPP_OTHERS [06-18-2018] 4.0 release ---------------------------------- ///
+    public class sp_deskapp_others
+    {
+        [Key]
+        public Guid sp_deskapp_others_id { get; set; }
+
+        public int sub_project_id { get; set; }
+        public Guid sub_project_unique_id { get; set; }
+
+        //SPCF Tab > Project Beneficiaries (Target)
+        public int? no_target_families { get; set; }
+        public int? no_target_pantawid_households { get; set; }
+        public int? no_target_pantawid_families { get; set; }
+        public int? no_target_slp_households { get; set; }
+        public int? no_target_slp_families { get; set; }
+        public int? no_target_ip_households { get; set; }
+        public int? no_target_ip_families { get; set; }
+        public int? no_target_male { get; set; }
+        public int? no_target_female { get; set; }
+        public int? target_male { get; set; }
+        public int? target_female { get; set; }
+
+        //Orders Tab 
+        public string suspension_order_list { get; set; }
+        public string resume_order_list { get; set; }
+        public string variation_order_list { get; set; }
+
+        //O&M Tab > Community Association Formation Tracking
+        public string community_formation_list { get; set; }
+
+        public int created_by { get; set; }
+        public DateTime created_date { get; set; }
+        public int? last_modified_by { get; set; }
+        public DateTime? last_modified_date { get; set; }
+        public bool? is_deleted { get; set; }
+        public int? deleted_by { get; set; }
+        public DateTime? deleted_date { get; set; }
+        public int push_status_id { get; set; }
+        public DateTime? push_date { get; set; }
+        public int? approval_id { get; set; }
+
+        [JsonIgnore]
+        public virtual lib_approval lib_approval { get; set; }
+
+    }
+
+    /// .---------------------------------- Table name : SPI_LAND_ACQUISITION [06-18-2018] 4.0 release ---------------------------------- ///
+    public class spi_land_acquisition
+    {
+        [Key]
+        public int spi_land_acquisition_id { get; set; }
+
+        public int sub_project_id { get; set; }
+
+        public int? no_ESSC { get; set; }
+        public int? no_ESMP { get; set; }
+        public int? no_ECC { get; set; }
+        public int? no_CNC { get; set; }
+        public int? no_land_aq_deed_of_donation { get; set; }
+        public int? no_land_aq_unsfruct { get; set; }
+        public int? no_right_of_way_agreement { get; set; }
+        public int? no_permit_to_construct_enter { get; set; }
+        public int? no_quit_claim { get; set; }
+        public int? no_land_aq_blgu_resolution { get; set; }
+        public int? no_land_aq_deped_certification { get; set; }
+        public int? no_land_aq_other { get; set; }
+
+        //Audit
+        public string created_by { get; set; }
+        public DateTime created_date { get; set; }
+        public string last_updated_by { get; set; }
+        public DateTime? last_updated_date { get; set; }
+        public string deleted_by { get; set; }
+        public DateTime? deleted_date { get; set; }
+        public bool? is_deleted { get; set; }
+    }
+
+    /// ---------------------------------- Table name : SPI_ANCESTRAL_DOMAIN [06-18-2018] 4.0 release ---------------------------------- ///
+    public class spi_ancestral_domain
+    {
+        [Key]
+        public int spi_ancestral_domain_id { get; set; }
+
+        public int? sub_project_id { get; set; }
+        public int? ancestral_domain_id { get; set; }
+        public string region_code { get; set; }
+        public string prov_code { get; set; }
+        public string city_code { get; set; }
+        public string brgy_code { get; set; }
+
+        //Audit
+        public string created_by { get; set; }
+        public DateTime created_date { get; set; }
+        public string last_updated_by { get; set; }
+        public DateTime? last_updated_date { get; set; }
+        public string deleted_by { get; set; }
+        public DateTime? deleted_date { get; set; }
+        public bool? is_deleted { get; set; }
+        
+        public virtual lib_ancestral_domain_coverage lib_ancestral_domain_coverage { get; set; }
+    }
+
+    /// ---------------------------------- Table name : BARANGAY TRANSFER OF FUNDS [06-19-2018] 4.0 release ---------------------------------- ///
+    public class barangay_trasnfer_of_funds
+    {
+        [Key]
+        public int id { get; set; }
+
+        public string region_code { get; set; }
+        public string prov_code { get; set; }
+        public string city_code { get; set; }
+        public string brgy_code { get; set; }
+        public string batch_target { get; set; }
+        public int? modality_id { get; set; }
+        public int? cycle_id { get; set; }
+        public int? modality_category_id { get; set; }
+        public int? erfr_project_id { get; set; }
+        public int? budget_year_id { get; set; }
+        public int? tranche_id { get; set; }
+        public string check_number { get; set; }
+        public DateTime? date_transferred { get; set; }
+        public DateTime? date_requested { get; set; }
+        public DateTime? date_downloaded { get; set; }
+        public string account_number { get; set; }
+        public string lbp_branch { get; set; }
+        public decimal? amount_request { get; set; }
+        public decimal? amount_approved { get; set; }
+        public string title { get; set; }
+        public int? fund_source_id { get; set; }
+        //used in sub_project input
+        public decimal? amount_utilized { get; set; }
+        //pending soon to be used
+        public decimal? actual_amount_utilized { get; set; }
+        //pending soon to be used
+        public decimal? actual_amount_liquidated { get; set; }
+        public bool? is_taf { get; set; }
+        public bool? is_savings { get; set; }
+        public bool? is_incentive { get; set; }
+        public bool? is_lgu_led { get; set; }
+        public string remarks { get; set; }
+
+        public int? sub_project_id { get; set; }
+        public decimal? refunded_amount { get; set; }
+        public int? type_of_refund_id { get; set; }
+        public string check_number_ipcdd { get; set; }
+        public string or_number { get; set; }
+        public DateTime? or_date { get; set; }
+        public bool? will_not_request_second_tranche { get; set; }
+
+        public string last_updated_via_spi_by { get; set; }
+        public DateTime? last_updated_via_spi_date { get; set; }
+        public string created_by { get; set; }
+        public DateTime created_date { get; set; }
+        public string last_updated_by { get; set; }
+        public DateTime? last_updated_date { get; set; }
+        public string deleted_by { get; set; }
+        public DateTime? deleted_date { get; set; }
+        public bool? is_deleted { get; set; }
+
+        [JsonIgnore]
+        public virtual lib_tranche lib_tranche { get; set; }
+        [JsonIgnore]
+        public virtual lib_budget_year lib_budget_year { get; set; }
+        [JsonIgnore]
+        public virtual lib_type_of_refund lib_type_of_refund { get; set; }
+
+        //[JsonIgnore]
+        //public virtual lib_modality_category lib_modality_category { get; set; }
+        //[JsonIgnore]
+        //public virtual lib_modality lib_modality { get; set; }
+        //[JsonIgnore]
+        //public virtual lib_regions lib_regions { get; set; }
+        //[JsonIgnore]
+        //public virtual lib_provinces lib_provinces { get; set; }
+        //[JsonIgnore]
+        //public virtual lib_cities lib_cities { get; set; }
+        //[JsonIgnore]
+        //public virtual lib_brgy lib_brgy { get; set; }
+        //[JsonIgnore]
+        //public virtual lib_fund_source lib_fund_source { get; set; }
+        //[JsonIgnore]
+        //public virtual lib_cycle lib_cycle { get; set; }
     }
 
     #region ------------- NOT CREATED ON SQLITE -----------------------------

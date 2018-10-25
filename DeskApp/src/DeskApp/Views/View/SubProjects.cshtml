@@ -48,7 +48,8 @@
                                 <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
                             </div>
                             <div class="col-md-3">
-                                <md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records tagged as <b>Unauthorized</b></md-checkbox>
+                                @*<md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records tagged as <b>Unauthorized</b></md-checkbox>*@
+                                <md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records <b>Failed to Upload</b></md-checkbox>
                             </div>
                         </div>
                     </div><br />
@@ -105,9 +106,9 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="Province:_">KC Mode </label>
-                                <select class='form-control' ng-model="data.enrollment_id">
+                                <select class='form-control' ng-model="data.mode_id">
                                     <option value=''>[Select KC Mode]</option>
-                                    <option ng-repeat="value in enrollment_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                    <option ng-repeat="value in mode_id_options" value="{{value.Id}}">{{value.Name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -162,7 +163,11 @@
                 <a class="btn btn-warning" ng-click="clear()">
                     <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
                 </a>
+                @*Removing this for DeskApp X*@
                 @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
+                <a class="btn btn-success" ng-click="updateZeroValues()" title='This function is to update ERS records with 0 SPID or 0 region code'>
+                    <i class="fa fa-cogs fa-lg"></i>&nbsp;&nbsp; ERS: Update Zero Values
+                </a>
             </div>
 
         </md-content>

@@ -14,9 +14,68 @@
 
     </div>
 
+    <div class="panel panel-danger" ng-show="with_floating_ers" style="margin:20px">
+        <div class="panel panel-heading">
+            <h4><b>Floating ERS Records</b></h4>
+            <i>We have detected floating ERS record/s with no matching Sub Project. Please tick the checkbox to include the selected floating ERS to this Sub Project (SubProject ID: {{data.sub_project_id}})</i>
+        </div>
+        <div layout="row" layout-margin flex="100">
+            <div flex>
+            </div>
+            <div flex>
+                <label>Date Reported </label>
+            </div>
+            <div flex>
+                <label>Date Started </label>
+            </div>
+            <div flex>
+                <label>Date Ended </label>
+            </div>
+            <div flex>
+                <label>Mode </label>
+            </div>   
+            <div flex>
+
+            </div>
+            <div flex>
+
+            </div>          
+        </div>
+        <div ng-repeat="floating in list_floating">
+            <div layout="row" layout-margin flex="100">
+                <div flex>
+                    <md-checkbox ng-model="floating.match_ers" style="vertical-align:middle" aria-label="Checkbox 1" ng-change="matchFloatingERS(floating)"></md-checkbox>
+                </div>
+                <div flex>
+                    {{floating.date_reported |  date:'MM/dd/yyyy'}}
+                </div>
+                <div flex>
+                    {{floating.date_started |  date:'MM/dd/yyyy'}}
+                </div>
+                <div flex>
+                    {{floating.date_ended |  date:'MM/dd/yyyy'}}
+                </div>
+                <div flex>
+                    <select name="ERS Delivery Mode" ng-model="floating.ers_delivery_mode_id" class="form-control"
+                            ng-disabled="true"
+                            ng-options="option.Id as option.Name for option in ers_delivery_mode_id_options">
+                        <option value="">[Select Mode]</option>
+                    </select>
+                </div>
+                <div flex>
+
+                </div>
+                <div flex>
+                    <a ng-click="show_floating_worker($event, floating)" class="btn btn-success" title='View workers added in this ERS'><i class="fa fa-eye"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     @*INDEX:*@
-    <md-content ng-show="!selected_ers_list">
+    <md-content ng-show="!selected_ers_list" style="margin:40px">
 
         <div layout="row" layout-margin flex="100">
 
@@ -166,3 +225,337 @@
     </md-content>
 
 </div>
+
+
+@*DIALOG TO SHOW WORKERS ADDED IN FLOATING ERS:*@
+<script type="text/ng-template" id="floatingers.tmpl.html">
+    <md-dialog aria-label="Mango (Fruit)">
+        <form ng-cloak>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Workers added in this ERS ({{floating.ers_delivery_mode_id == 1 ? "CFA" : floating.ers_delivery_mode_id == 2 ? "Pakyaw" : floating.ers_delivery_mode_id == 3 ? "Hauling" : ""}})</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="cancelDialog()">
+                        <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+                <div class="md-dialog-content">
+                    @*------------------------------ CFA ------------------------------*@
+                    <md-table-container ng-show="floating.ers_delivery_mode_id==1">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td rowspan="2"></td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Last Name</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>First Name</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Middle Name</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Birthdate</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Sex</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Current Work</b>
+                                    </td>
+                                    <td colspan="2" style="vertical-align:middle">
+                                        <b>Rate Per</b>
+                                    </td>
+                                    <td colspan="2" style="vertical-align:middle">
+                                        <b>No. of Working</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Total Labor</b>
+                                    </td>
+                                    <td colspan="2" style="vertical-align:middle">
+                                        <b>Actual Payment</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align:middle">
+                                        <b>Day</b>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <b>Hour</b>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <b>Actual Days</b>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <b>Actual Hours</b>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <b>Cash</b>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <b>In-Kind</b>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in floating_workers">
+                                    <td>
+                                        {{$index+1}}
+                                    </td>
+                                    <td>
+                                        {{ item.last_name }}
+                                    </td>
+                                    <td>
+                                        {{ item.first_name }}
+                                    </td>
+                                    <td>
+                                        {{ item.middle_name }}
+                                    </td>
+                                    <td>
+                                        {{ item.birthdate |  date:'MM/dd/yyyy' }}
+                                    </td>
+                                    <td>
+                                        {{ item.sex == true? "Male" : "Female" }}
+                                    </td>
+                                    <td>
+                                        {{item.ers_current_work_name}}
+                                    </td>
+                                    <td>
+                                        {{item.rate_day | currency:"₱"}}
+                                    </td>
+                                    <td>
+                                        {{item.rate_hour | currency:"₱"}}
+                                    </td>
+                                    <td>
+                                        {{item.work_days}}
+                                    </td>
+                                    <td>
+                                        {{item.work_hours}}
+                                    </td>
+                                    <td>
+                                        {{(item.rate_day * item.work_days) + (item.rate_hour * item.work_hours) | currency:"₱"}}
+                                    </td>
+                                    <td>
+                                        {{ item.actual_cash | currency:"₱" }}
+                                    </td>
+
+                                    <td>
+                                        {{ item.actual_lcc | currency:"₱" }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>    
+                    </md-table-container>
+
+                    @*--------------------------- PAKYAW -----------------------------*@
+                    <md-table-container ng-show="floating.ers_delivery_mode_id==2">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td rowspan="2"></td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Last Name</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>First Name</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Middle Name</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Birthdate</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Sex</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Current Work</b>
+                                    </td>
+                                    <td colspan="2" style="vertical-align:middle">
+                                        <b>Rate Per Contract Price</b>
+                                    </td>
+                                    <td colspan="2" rowspan="2" style="vertical-align:middle">
+                                        <b>Actual Output (Percentage of Work Accomplishment)</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Total Labor</b>
+                                    </td>
+                                    <td colspan="2" style="vertical-align:middle">
+                                        <b>Actual Payment</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align:middle">
+                                        <b>Amount</b>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <b>Unit/Item</b>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <b>Cash</b>
+                                    </td>
+                                    <td>
+                                        <b>In-Kind</b>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in floating_workers">
+                                    <td>
+                                        {{$index+1}}
+                                    </td>
+                                    <td>
+                                        {{ item.last_name }}
+                                    </td>
+                                    <td>
+                                        {{ item.first_name }}
+                                    </td>
+                                    <td>
+                                        {{ item.middle_name }}
+                                    </td>
+                                    <td>
+                                        {{ item.birthdate  |  date:'MM/dd/yyyy'}}
+                                    </td>
+                                    <td>
+                                        {{ item.sex == true? "Male" : "Female" }}
+                                    </td>
+                                    <td>
+                                        {{item.ers_current_work_name}}
+                                    </td>
+                                    <td>
+                                        {{item.rate_day | currency:"₱"}}
+                                    </td>
+                                    <td>
+                                        per worker
+                                    </td>
+                                    <td colspan="2">
+                                        {{item.percent}}%
+                                    </td>
+                                    <td>
+                                        {{(item.rate_day * item.percent) / 100  | currency:"₱"}}
+                                    </td>
+                                    <td>
+                                        {{ item.actual_cash  | currency:"₱"}}
+                                    </td>
+                                    <td>
+                                        {{ item.actual_lcc  | currency:"₱"}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+
+                    @*------------------------------ HAULING ------------------------------*@
+                    <md-table-container ng-show="floating.ers_delivery_mode_id==3">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td rowspan="2"></td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Last Name</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>First Name</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Middle Name</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Birthdate</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Sex</b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Current Work</b>
+                                    </td>
+                                    <td colspan="2" style="vertical-align:middle">
+                                        <b>Rate Per Quantity</b>
+                                    </td>
+                                    <td colspan="2" rowspan="2" style="vertical-align:middle">
+                                        <b>Actual Output  </b>
+                                    </td>
+                                    <td rowspan="2" style="vertical-align:middle">
+                                        <b>Total Labor</b>
+                                    </td>
+                                    <td colspan="2"style="vertical-align:middle">
+                                        <b>Actual Payment</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align:middle">
+                                        <b>Amount</b>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <b>Unit/Item</b>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <b>Cash</b>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <b>In-Kind</b>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in floating_workers">
+                                    <td>
+                                        {{$index+1}}
+                                    </td>
+                                    <td>
+                                        {{ item.last_name }}
+                                    </td>
+                                    <td>
+                                        {{ item.first_name }}
+                                    </td>
+                                    <td>
+                                        {{ item.middle_name }}
+                                    </td>
+                                    <td>
+                                        {{ item.birthdate |  date:'MM/dd/yyyy' }}
+                                    </td>
+                                    <td>
+                                        {{ item.sex == true? "Male" : "Female" }}
+                                    </td>
+                                    <td>
+                                        {{item.ers_current_work_name}}
+                                    </td>
+                                    <td>
+                                        {{item.rate_hauling | currency:"₱"}}
+                                    </td>
+                                    <td>
+                                        {{item.unit_hauling}}
+                                    </td>
+                                    <td colspan="2">
+                                        {{item.work_hauling}}
+                                    </td>
+                                    <td>
+                                        {{(item.rate_hauling * item.work_hauling) | number:2 | currency:"₱"}}
+                                    </td>
+                                    <td>
+                                        {{ item.actual_cash  | currency:"₱"}}
+                                    </td>
+                                    <td>
+                                        {{ item.actual_lcc  | currency:"₱"}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>                        
+                    </md-table-container>
+
+                </div>
+
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button ng-click="cancelDialog()">
+                    Close
+                </md-button>
+            </md-dialog-actions>
+        </form>
+    </md-dialog>
+</script>

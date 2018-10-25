@@ -1,0 +1,262 @@
+﻿<style>
+    mark.uploaded {
+        background-color: deepskyblue;
+        color: white;
+        font-style: italic;
+    }
+</style>
+
+
+<!--test-->
+<body layout="column">
+    <div ng-controller="AppCtrl" style="padding: 40px;" ng-cloak="" class="datepickerdemoBasicUsage" ng-app="MyApp">
+        
+        <md-toolbar>
+            <div class="md-toolbar-tools">MOVs</div>
+        </md-toolbar>
+
+        <md-content>
+            <br />
+
+            <div class="panel panel-success" style="margin:25px">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <h4><b>FILTER RECORDS BY:</b></h4>
+                            </div>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="Region:_">Region </label>
+                                <select name="region_code" ng-model="data.region_code" id="region_code" class="form-control"
+                                        ng-options="option.Id as option.Name for option in region_code_options">
+                                    <option value="">[Select Region]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Province:_">Province </label>
+                                <select name="prov_code" ng-model="data.prov_code" id="prov_code" class="form-control"
+                                        ng-disabled="data.region_code == null"
+                                        ng-options="option.Id as option.Name for option in prov_code_options">
+                                    <option value="">[Select Province]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Municipality:_">Municipality </label>
+                                <select name="city_cide" ng-model="data.city_code" id="city_code" class="form-control"
+                                        ng-disabled="data.prov_code == null"
+                                        ng-options="option.Id as option.Name for option in city_code_options">
+                                    <option value="">[Select Municipality]</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Barangay:_">Barangay </label>
+                                <select name="brgy_code" ng-model="data.brgy_code" id="brgy_code" class="form-control"
+                                        ng-disabled="data.city_code == null"
+                                        ng-options="option.Id as option.Name for option in brgy_code_options">
+                                    <option value="">[Select Barangay]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="Fund Source:_">Project </label>
+                                <select class="form-control" ng-model="data.fund_source_id">
+                                    <option value=''>[Select Project]</option>
+                                    <option ng-repeat="value in fund_source_id_options" value="{{value.Id}}">{{value.Name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Province:_">Cycle </label>
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="cycle_id" ng-model="data.cycle_id" id="brgy_code" class="form-control"
+                                            ng-required="true"
+                                            ng-options="option.Id as option.Name for option in cycle_id_options">
+                                        <option value="">[Select Cycle]</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Municipality:_">KC Mode </label>
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="enrollment_id" ng-model="data.enrollment_id" id="brgy_code" class="form-control"
+                                            ng-required="true"
+                                            ng-options="option.Id as option.Name for option in enrollment_id_options">
+                                        <option value="">[Select KC Mode]</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label>Module</label>
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="module_id" ng-model="data.module_id" id="module_id" class="form-control"
+                                            ng-options="option.Id as option.Name for option in module_id_options">
+                                        <option value="">[Select Module]</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Attachment Type</label>
+                                <div class="form-group" show-errors='{showSuccess: true}'>
+                                    <select name="mov_list_id" ng-model="data.mov_list_id" id="mov_list_id" class="form-control"
+                                            ng-options="option.Id as option.Name for option in mov_list_id_options">
+                                        <option value="">[Select Type]</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br />
+                </div>
+            </div>
+
+            <div flex="100" layout="row" layout-margin layout-sm="column" style="margin:20px">
+                <a class="btn btn-primary" ng-click="search()">
+                    <i class="fa fa-filter fa-lg"></i>&nbsp;&nbsp; Filter
+                </a>
+                <a class="btn btn-warning" ng-click="clear()">
+                    <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
+                </a>
+                @*<a class="btn btn-primary" ng-click="showAlert()">
+                    <i class="fa fa-cloud fa-lg"></i>&nbsp;&nbsp; Synchronize
+                </a>*@
+                @*@Html.Partial("~/Views/Shared/_sync_dialog.cshtml")*@
+            </div>
+
+        </md-content>
+
+        <br />
+
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="List">
+                    <md-content class="md-padding">
+                        <md-content>
+                            @Html.Partial("~/Views/Shared/_pagination.cshtml")
+                        </md-content>
+                        <md-content>
+                            <div class="panel panel-body" ng-show="!isSearching">
+                                <table class="table zui-table zui-table-horizontal zui-table-highlight">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                Region
+                                            </th>
+                                            <th>
+                                                Province
+                                            </th>
+                                            <th>
+                                                City
+                                            </th>
+                                            <th>
+                                                Barangay
+                                            </th>
+                                            <th>
+                                                Project
+                                            </th>
+                                            <th>
+                                                Cycle
+                                            </th>
+                                            <th>
+                                                Mode
+                                            </th>
+                                            <th>
+                                                Module
+                                            </th>
+                                            <th>
+                                                Attachment Type
+                                            </th>
+                                            <th>
+                                                Record ID
+                                            </th>
+                                            @*New feature for v4.0*@
+                                            <th>
+                                                Status
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in Items">
+                                            <td>     
+                                                @*New feature for v4.0*@
+                                                @*Removing this for DeskApp X*@
+                                                @Html.Partial("~/Views/Mov/_mov_upload_dialog.cshtml") 
+                                                <a href={{item.url}} target="_blank" title='View MOV' class="btn btn-success"><i class="fa fa-file-pdf-o"></i></a>
+                                                @*Removing this for DeskApp X*@
+                                                <a ng-click="delete(item)" title='Delete MOV' class="btn btn-danger"><i class="fa fa-trash"></i></a>                                             
+                                            </td>
+                                            <td>
+                                                {{item.lib_region_region_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_province_prov_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_city_city_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_brgy_brgy_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_fund_source_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_cycle_name}}
+                                            </td>
+                                            <td>
+                                                {{item.lib_enrollment_name}}
+                                            </td>
+                                            <td>
+                                                {{item.module}}
+                                            </td>
+                                            <td>
+                                                {{item.attachment}}
+                                            </td>
+                                            <td>
+                                                {{item.record_id}}
+                                            </td>
+                                            @*New feature for v4.0*@
+                                            <td>
+                                                <mark class="uploaded" ng-show="item.push_date!=null && item.push_status_id==1">Uploaded : {{item.push_date | date:'MM/dd/yyyy'}}</mark>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </md-content>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+
+    </div>
+
+    <!--
+    Copyright 2016 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+    -->
+
+
+
+</body>
+
+
+@section Scripts {
+    <script src="~/scripts/alasql.min.js"></script>
+    <script src="~/scripts/xlsx.core.min.js"></script>
+
+    <script src="~/bower_components/BlockUI/jquery.toDictionary.js"></script>
+    <script src="~/bower_components/BlockUI/jquery.blockUI.js"></script>
+<script src="~/scripts/app/MOV/_index.js"></script>
+    
+    <script src="~/scripts/directives/paging.js"></script>
+}

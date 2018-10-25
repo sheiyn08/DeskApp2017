@@ -119,6 +119,7 @@ $scope.delete = function (removeitem) {
 
                 var index = $scope.Items.indexOf(removeitem);
                 $scope.Items.splice(index, 1);
+                $scope.totalCount = $scope.totalCount - 1;
 
 
                 alert("Record removed!")

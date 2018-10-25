@@ -33,12 +33,10 @@
 
 
     <form name="praForm" ng-show="!show_all">
-
+        
         <div class="md-whiteframe-1dp" layout-margin flex="100">
 
-
-
-            <table class="table table-responsive">
+            <table class="table table-bordered">
 
                 <thead>
 
@@ -48,21 +46,19 @@
                         <th>
 
                         </th>
-                        <th rowspan="2">
+                        <th rowspan="2" class="text-center" style="vertical-align:middle">
                             Activity
                         </th>
-                        <th colspan="2">
-                            Target Date
+                        <th colspan="2" class="text-center" style="vertical-align:middle">
+                            Target Date <span class="notbold">(mm/dd/yyyy)</span>
                         </th>
-
-                        <th colspan="2">
-                            Catch Up Date
+                        <th colspan="2" class="text-center" style="vertical-align:middle">
+                            Catch Up Date <span class="notbold">(mm/dd/yyyy)</span>
                         </th>
-                        <th colspan="2">
-                            Actual Date
+                        <th colspan="2" class="text-center" style="vertical-align:middle">
+                            Actual Date <span class="notbold">(mm/dd/yyyy)</span>
                         </th>
-
-                        <th rowspan="2">
+                        <th rowspan="2" class="text-center" style="vertical-align:middle">
                             Status
                         </th>
                     </tr>
@@ -142,13 +138,13 @@
 
 
                 <td>
-                    <md-datepicker ng-disabled="selected_bra.plan_start != null" name="Plan Start" md-min-date="min_start_date" ng-model="selected_bra.dt_plan_start" ng-change="selected_bra.plan_start = selected_bra.dt_plan_start.toISOString()"></md-datepicker>
+                    <md-datepicker ng-disabled="item.plan_start != null" name="Plan Start" md-min-date="min_start_date" ng-model="selected_bra.dt_plan_start" ng-change="selected_bra.plan_start = selected_bra.dt_plan_start.toISOString()"></md-datepicker>
 
 
                 </td>
                 <td>
 
-                    <md-datepicker ng-disabled="selected_bra.plan_end != null"  name="Plan End" md-min-date="selected_bra.dt_plan_start" ng-model="selected_bra.dt_plan_end" ng-change="selected_bra.plan_end = selected_bra.dt_plan_end.toISOString()"></md-datepicker>
+                    <md-datepicker ng-disabled="item.plan_end != null"  name="Plan End" md-min-date="selected_bra.dt_plan_start" ng-model="selected_bra.dt_plan_end" ng-change="selected_bra.plan_end = selected_bra.dt_plan_end.toISOString()"></md-datepicker>
 
                 </td>
 

@@ -232,12 +232,14 @@
             <md-container layout="row">
 
                 <div flex="100" layout="row" layout-margin layout-sm="column">
-                    <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || !popForm.$valid  || !areaForm.$valid">
+                    @*Update for DeskApp X*@
+                    <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!myForm.$valid || !popForm.$valid  || !areaForm.$valid" @*ng-hide="data.fund_source_id != 16"*@>
                         Save
                     </md-button>
 
                     <md-button class="md-warn md-raised" href="/View/BarangayProfiles">
-                        Cancel
+                        @*Cancel*@
+                        Back to List
                     </md-button>
 
                 </div>
@@ -481,6 +483,25 @@
                          item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
                      })
                  });
+
+              $scope.viewMov = function (item) {
+                  var base = window.location.origin;
+
+                  $http.get('/api/mov/get/module_form_name?id=' + item.attached_document_id).then(function (response) {
+                      $scope.pdf_details = response.data;
+
+                      if ($scope.pdf_details.mov_list_id == 3) {
+                          item.url = base + "/MOVs/" + "BP_BrgyProfileForm_" + item.attached_document_id + ".pdf";
+                      }
+                      else {
+                          alert("Attachment not found");
+                      }
+
+                      var newtab = window.open(item.url, '_blank');
+                      newtab.focus();
+
+                  });
+              };
 
               $scope.deleteMov = function (removeitem) {
                   var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");

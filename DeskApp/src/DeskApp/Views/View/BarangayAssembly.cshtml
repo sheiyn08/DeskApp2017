@@ -9,7 +9,7 @@
 
         <md-content>
             <br />
-
+            @*Removing this for DeskApp X*@
             <div style="margin:25px">
                 <a class="btn btn-success" ng-click="createNew()">
                     <i class="fa fa-plus"></i>&nbsp;&nbsp; New Record
@@ -34,7 +34,8 @@
                                 <md-checkbox ng-model="data.filter_by_recent_add" aria-label="Checkbox 1" ng-click="recently_edited_is_checked=true">Recently <b>Added</b> record</md-checkbox>
                             </div>
                             <div class="col-md-3">
-                                <md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records tagged as <b>Unauthorized</b></md-checkbox>
+                                @*<md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records tagged as <b>Unauthorized</b></md-checkbox>*@
+                                <md-checkbox ng-model="data.is_unauthorized" aria-label="Checkbox 1" class="md-primary">Records <b>Failed to Upload</b></md-checkbox>
                             </div>
                         </div>
                     </div><br />
@@ -143,6 +144,7 @@
                 <a class="btn btn-warning" ng-click="clear()">
                     <i class="fa fa-recycle fa-lg"></i>&nbsp;&nbsp; Clear
                 </a>
+                @*Removing this for DeskApp X*@
                 @Html.Partial("~/Views/Shared/_sync_dialog.cshtml")
             </div>
 

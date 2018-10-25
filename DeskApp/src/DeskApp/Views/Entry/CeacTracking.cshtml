@@ -38,6 +38,10 @@
             color: #c60008;
         }
 
+        .notbold {
+            font-weight:normal
+        }
+
 
         /*
         Copyright 2016 Google Inc. All Rights Reserved.
@@ -89,11 +93,13 @@
 
         <md-container layout="row">
             <div flex="100" layout="row" layout-margin layout-sm="column">
+                @*Removing this for DeskApp X*@
                 <md-button class="md-primary md-raised" ng-click="save_main()" ng-disabled="!ceacForm.$valid">
                     Save
                 </md-button>
                 <md-button class="md-warn md-raised" href="/View/CeacTracking">
-                    Cancel
+                    @*Cancel*@
+                    Back to List
                 </md-button>
             </div>
         </md-container>
@@ -288,13 +294,10 @@
 
                         $scope.save_pra = function (idx) {
 
-
-
                             $.post('/api/offline/v1/ceac_list/tracking/save', $scope.selected_pra)
                                 .success(function (data) {
 
-                                    $scope.selected_pra
-                                        .lib_implementation_status_name = data.lib_implementation_status_name;
+                                    $scope.selected_pra.lib_implementation_status_name = data.lib_implementation_status_name;
 
                                     $mdToast.show(
                                         $mdToast.simple()
@@ -302,6 +305,8 @@
                                         .position("top right")
                                         .hideDelay(3000)
                                     );
+
+                                    $scope.get_muni_ceac();
                                 })
                                 .error(function (data) {
 
@@ -474,8 +479,7 @@
                                     $scope.loading = true;
 
                                     $scope.data_brgy = response.data; // = response.data;
-
-
+                                    
                                     angular.forEach($scope.data_brgy,
                                         function (todo) {
 

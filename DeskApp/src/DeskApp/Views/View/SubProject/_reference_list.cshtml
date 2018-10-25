@@ -33,31 +33,65 @@
 </style>
 
 
-@{Layout = null;}
+@*<md-content>
+    @{Layout = null;}
 
-<md-container layout="row">
-    <div flex="100" layout="row" layout-margin layout-sm="column">
-        <div flex="50" flex-sm="100">
-            <h3 style="color:dodgerblue">Official Sub Project Records from Geotagging</h3>            
-            <br />
-            <div flex="50">
-                <h4>Page {{ref_page + 1}} of {{ref_pagesCount}} || {{ref_totalCount}} Records</h4>
-                <select name="quarter" ng-model="ref_pageSize" ng-options="obj.value as obj.text for obj in [{'value':5,'text':'5'},{'value':10,'text':'10'},{'value':20,'text':'20'},{'value':50,'text':'50'},{'value':100,'text':'100'}]" ng-selected="ref_pageSize" class="form-control" ng-change="load_reference()">
-                    <option value="">[Records to Show]</option>
-                </select>
+    <md-container layout="row">
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+            <div flex="50" flex-sm="100">
+                <h3 style="color:dodgerblue">Official Sub Project Records from Geotagging</h3>
+                <br />
+                <div flex="50">
+                    <h4>Page {{ref_page + 1}} of {{ref_pagesCount}} || {{ref_totalCount}} Records</h4>
+                    <select name="quarter" ng-model="ref_pageSize" ng-options="obj.value as obj.text for obj in [{'value':5,'text':'5'},{'value':10,'text':'10'},{'value':20,'text':'20'},{'value':50,'text':'50'},{'value':100,'text':'100'}]" ng-selected="ref_pageSize" class="form-control" ng-change="load_reference()">
+                        <option value="">[Records to Show]</option>
+                    </select>
+                </div>
+                <br />
             </div>
-            <br />
+            <div flex="50" flex-sm="100" layout-align="end start">
+                <demo-pager page="{{ref_page}}" pages-count="{{ref_pagesCount}}" total-count="{{ref_totalCount}}" search-func="load_reference(ref_page)" layout-align="end start">
+                </demo-pager>
+            </div>
         </div>
-        <div flex="50" flex-sm="100" layout-align="end start">
-            <demo-pager page="{{ref_page}}" pages-count="{{ref_pagesCount}}" total-count="{{ref_totalCount}}" search-func="load_reference(ref_page)" layout-align="end start">
-            </demo-pager>
-        </div>
-    </div>
-</md-container>
+    </md-container>
 
-<div ng-show="isSearching">
-    <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
-</div>
+    <div ng-show="isSearching">
+        <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+    </div>
+
+</md-content>*@
+
+<md-content>
+    @{Layout = null;}
+
+    <md-container layout="row">
+        <div flex="100" layout="row" layout-margin layout-sm="column">
+            <div flex="50" flex-sm="100">
+                <h3 style="color:dodgerblue">Official Sub Project Records from Geotagging</h3>
+                <br />
+                <div flex="50">
+                    <h4>Page {{ref_page + 1}} of {{ref_pagesCount}} || {{ref_totalCount}} Records</h4>
+                    <select name="quarter" ng-model="ref_pageSize" ng-options="obj.value as obj.text for obj in [{'value':5,'text':'5'},{'value':10,'text':'10'},{'value':20,'text':'20'},{'value':50,'text':'50'},{'value':100,'text':'100'}]" ng-selected="ref_pageSize" class="form-control" ng-change="load_reference()">
+                        <option value="">[Records to Show]</option>
+                    </select>
+                </div>
+                <br />
+            </div>
+            <div flex="50" flex-sm="100" layout-align="end start">
+                <demo-pager page="{{ref_page}}" pages-count="{{ref_pagesCount}}" total-count="{{ref_totalCount}}" search-func="load_reference(page)" layout-align="end start">
+                </demo-pager>
+            </div>
+        </div>
+    </md-container>
+
+    <div ng-show="isSearching">
+        <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
+    </div>
+
+</md-content>
+
+
 
 
 <md-content>

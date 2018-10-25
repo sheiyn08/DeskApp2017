@@ -31,7 +31,7 @@ namespace DeskApp.DataLayer
         public System.String first_name { get; set; }
         public System.String middle_name { get; set; }
         public System.DateTime? birthdate { get; set; }
-        public System.Boolean sex { get; set; }
+        public System.Boolean? sex { get; set; }
         public System.Int32? civil_status_id { get; set; }
         public System.Int32? no_children { get; set; }
         public System.String contact_no { get; set; }
@@ -114,4 +114,5 @@ namespace DeskApp.DataLayer
             };
 
     }
+    
 }

@@ -18,8 +18,8 @@ namespace DeskApp.Controllers
 
     public class MunicipalProfileController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -296,34 +296,24 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/municipal_profile/save")]
         public async Task<IActionResult> Save(muni_profile model, bool? api)
         {
-
- 
-
-            var record = db.muni_profile.AsNoTracking().FirstOrDefault(x => x.muni_profile_id == model.muni_profile_id);
-
-            //if record is not existing:
+            var record = db.muni_profile.AsNoTracking().FirstOrDefault(x => x.muni_profile_id == model.muni_profile_id && x.is_deleted != true);
+            
             if (record == null)
             {
-                //because api is not set (null) in save from script:
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
-
                     model.created_by = 0;
                     model.created_date = DateTime.Now;
                     model.approval_id = 3;
                     model.is_deleted = false;
                 }
-
-                //because api is set to TRUE in sync/get
-                if (api == true) {
+                else {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
                 
                 db.muni_profile.Add(model);
-
 
                 try
                 {
@@ -335,26 +325,19 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
-
-            //if record already exists, meaning this is saving on edit:
+            
             else
             {
-                model.push_date = null;
-
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
                 }
-
-
-
+                
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
-
-
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                model.created_date = record.created_date;               
 
                 db.Entry(model).State = EntityState.Modified;
 
@@ -375,35 +358,22 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/municipal_profile")]
         public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/municipal_profile/get_mapped?city_code=" + city_code + "&record_id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<muni_profile>>(responseJson.Result);
-
-               //     var all = Mapper.DynamicMap<List<muni_profile_mapping>, List<muni_profile>>(model);
 
                     foreach (var item in model.ToList())
                     {
@@ -417,8 +387,6 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
-
-
         }
 
 
@@ -461,13 +429,8 @@ namespace DeskApp.Controllers
 
                 if (!items_preselected.Any())
                 { 
-                    var items = db.muni_profile.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.muni_profile_id == record_id);
-                    }
-
+                    var items = db.muni_profile.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -480,17 +443,15 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
                 else
                 {
-                    var items = db.muni_profile.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.muni_profile_id == record_id);
-                    }
+                    var items = db.muni_profile.Where(x => x.push_status_id == 5 || x.is_deleted == true);
 
                     foreach (var item in items.ToList())
                     {
@@ -505,7 +466,9 @@ namespace DeskApp.Controllers
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }                

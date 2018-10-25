@@ -377,13 +377,14 @@
         <md-container layout="row">
 
             <div flex="100" layout="row" layout-margin layout-sm="column">
-
+                @*Removing this for DeskApp X*@
                 <md-button class="md-primary md-raised" ng-click="save()" ng-disabled="!praForm.$valid || !highlightsForm.$valid || !attendanceForm.$valid || !hhForm.$valid ">
                     Save
                 </md-button>
 
                 <md-button class="md-warn md-raised" href="/View/BarangayAssembly">
-                    Cancel
+                    @*Cancel*@
+                    Back to List
                 </md-button>
 
             </div>
@@ -438,7 +439,7 @@
                             $scope.loading = true;
 
                             $scope.data = response.data;
-                            
+
                             $scope.dt_start_date = response.data.date_start == undefined ? null : new Date(response.data.date_start);
                             $scope.dt_end_date = response.data.date_end == undefined ? null : new Date(response.data.date_end);
 
@@ -469,11 +470,11 @@
                             if ($scope.data.ip_leader != null) {
                                 $scope.data.ip_leaders = JSON.parse($scope.data.ip_leader);
                             }
-                            
+
 
                             $scope.maxDate = new Date($scope.dt_start_date);
 
-                            
+
                             $scope.$watch('dt_start_date',
                                 function (newValue, oldValue) {
                                     $scope.maxDate = new Date(newValue);
@@ -502,6 +503,7 @@
                             });
 
                             $scope.attached_documents = [];
+                            $scope.pdf_details = [];
                             $scope.attachment = {};
                             $scope.attachment.mov_list_id = null;
 
@@ -549,7 +551,6 @@
                                     data: data,
                                     success: function (message) {
                                         var base = window.location.origin;
-
                                         message.url = base + "/MOVs/" + message.attached_document_id + ".pdf";
                                         $scope.attached_documents.push(message);
                                         $scope.attachment = {};
@@ -561,15 +562,66 @@
                                     }
                                 });
                             };
-
+                                                        
                             $.post('/api/mov/get/uploaded?id=' + '@ViewBag.id')
                                .success(function (value) {
                                    $scope.attached_documents = value;
-                                   angular.forEach($scope.attached_documents, function (item) {
+                                   angular.forEach($scope.attached_documents, function (item) {                                       
                                        var base = window.location.origin;
-                                       item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
+                                       //item.url = base + "/MOVs/" + item.attached_document_id + ".pdf";
+                                       $http.get('/api/mov/get/module_form_name?id=' + item.attached_document_id).then(function (response) {
+                                           $scope.pdf_details = response.data;
+                                           //alert(JSON.stringify(response.data));
+                                           //alert(JSON.stringify(response));
+                                           //var base = window.location.origin;
+
+                                           if ($scope.pdf_details.mov_list_id == 4) {
+                                               item.url = base + "/MOVs/" + "BA_BrgyActivityMinutesForm_" + item.attached_document_id + ".pdf";
+                                           }
+                                           else if ($scope.pdf_details.mov_list_id == 5) {
+                                               item.url = base + "/MOVs/" + "BA_BAHouseholdParticipation_" + item.attached_document_id + ".pdf";
+                                           }
+                                           else if ($scope.pdf_details.mov_list_id == 6) {
+                                               item.url = base + "/MOVs/" + "BA_BAAttendanceSheet_" + item.attached_document_id + ".pdf";
+                                           }
+                                           else if ($scope.pdf_details.mov_list_id == 52) {
+                                               item.url = base + "/MOVs/" + "BA_BrgyResolution_" + item.attached_document_id + ".pdf";
+                                           }
+                                           else {
+                                               alert("No condition passed");
+                                           }
+
+                                       });
                                     })
                                });
+
+                            $scope.viewMov = function (item) {
+                                var base = window.location.origin;
+                                
+                                $http.get('/api/mov/get/module_form_name?id=' + item.attached_document_id).then(function (response) {
+                                    $scope.pdf_details = response.data;
+
+                                    if ($scope.pdf_details.mov_list_id == 4) {
+                                        item.url = base + "/MOVs/" + "BA_BrgyActivityMinutesForm_" + item.attached_document_id + ".pdf";
+                                    }
+                                    else if ($scope.pdf_details.mov_list_id == 5) {
+                                        item.url = base + "/MOVs/" + "BA_BAHouseholdParticipation_" + item.attached_document_id + ".pdf";
+                                    }
+                                    else if ($scope.pdf_details.mov_list_id == 6) {
+                                        item.url = base + "/MOVs/" + "BA_BAAttendanceSheet_" + item.attached_document_id + ".pdf";
+                                    }
+                                    else if ($scope.pdf_details.mov_list_id == 52) {
+                                        item.url = base + "/MOVs/" + "BA_BrgyResolution_" + item.attached_document_id + ".pdf";
+                                    }
+                                    else {
+                                        alert("Attachment not found");
+                                    }
+
+                                    var newtab = window.open(item.url, '_blank');
+                                    newtab.focus();
+
+                                });
+                            };
 
                             $scope.deleteMov = function (removeitem) {
                                 var ask = confirm("Are you sure you want to Delete attachment? This will also be deleted on the MOVs folder.");
@@ -622,7 +674,7 @@
                                 function (newValue, oldValue) {
                                     $scope.maxDate = new Date(newValue);
                                 });
-                            
+
                             $scope.$watch('data.is_ip',
                                 function (newValue, oldValue) {
                                     if (newValue != true) {
@@ -762,7 +814,7 @@
                             }
                             ///END PINCOS
 
-                            
+
 
                             //$scope.addIpGroup = function () {
                             //    $scope.data.ip_leaders.push($scope.groups);
@@ -784,7 +836,7 @@
                                 $scope.leader.birth_date = new Date($scope.leader.birth_date);
 
                                 $scope.data.ip_leaders.push($scope.leader);
-                                $scope.leader = {}; 
+                                $scope.leader = {};
                             };
 
                             $scope.removeIPLeader = function (leader) {
@@ -856,16 +908,12 @@
 
 
 
-
+                            //dito ako nag-park, dapat maupdate din yung brgy_assembly if may added na sector represented
 
 
                             $scope.SaveCoverage = function (member) {
 
-
-                                var url = '/api/offline/v1/barangay_assembly/post/represented_ip?ip_group_id=' +
-                                    member.ip_group_id +
-                                    "&id=" +
-                                    '@ViewBag.id';
+                                var url = '/api/offline/v1/barangay_assembly/post/represented_ip?ip_group_id=' + member.ip_group_id + "&id=" + $scope.data.brgy_assembly_id;
 
 
                                 $http.post(url)
@@ -921,7 +969,7 @@
                                 //       alert(JSON.stringify($scope.data));
 
                                 //'/api/v1/grievances/save'
-                                
+
                                 $scope.data.ip_leader = JSON.stringify($scope.data.ip_leaders);
 
                                 $.post('/api/offline/v1/barangay_assembly/save', $scope.data)

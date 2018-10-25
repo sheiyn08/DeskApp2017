@@ -18,19 +18,6 @@
 </md-toolbar>
  
 
-@*<md-card>
-        <div layout="row" layout-wrap>
-            Place a check on the left most corner to indicate that the person is a participant of the selected training
-        </div>
-        <div ng-show="isAddingPax">Wait a moment.....saving participant in database.</div>
-
-        <div ng-show="isAddingPax">
-
-            <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
-        </div>
-    </md-card>*@
-
-
 <div ng-show="isSearching">
 
     <md-progress-linear flex="" md-mode="indeterminate" value="33"></md-progress-linear>
@@ -39,12 +26,13 @@
 @*--------------------------- CFA -----------------------------*@
 <md-table-container ng-show="!new_worker && selected_ers_delivery_mode ==1">
 
+    @*/////// NEW RECORD MODE:*@
     <form name="ersWorkerName">
+
         <table class="table table-bordered" ng-show="!isSearching">
             <thead>
                 <tr>
                     <td rowspan="2"></td>
-
                     <td rowspan="2">
                         Last Name
                     </td>
@@ -63,31 +51,21 @@
                     <td rowspan="2">
                         Current Work
                     </td>
-
                     <td colspan="2">
                         <small>Rate Per</small>
                     </td>
                     <td colspan="2">
                         <small>No. of Working</small>
                     </td>
-
-
                     <td rowspan="2">
                         Total Labor
                     </td>
-
                     <td colspan="2">
-
-
                         Actual Payment
                     </td>
-
-
                     <td></td>
                 </tr>
                 <tr>
-
-
                     <td>
                         <small>  Day</small>
                     </td>
@@ -100,43 +78,25 @@
                     <td>
                         <small>Actual Hours</small>
                     </td>
-
-
-
                     <td>
-
                         Cash
                     </td>
                     <td>
                         In-Kind
                     </td>
-
-
                     <td></td>
                 </tr>
-
-
             </thead>
-
-
+            
             <tbody>
                 <tr ng-repeat="item in members" ng-include="getTemplate(item)"></tr>
             </tbody>
 
-
-
             <tr ng-show="new_worker_">
-
                 <td>
-
                     <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="saveNewWorker()" ng-disabled="!ersWorkerName.$valid || !equal_ers_total_new()"><i class="fa fa-save"></i></a>
-
                     <a class="btn btn-warning btn-sm" style="margin-right: 5px" ng-click="reset()"><i class="fa fa-close"></i></a>
-
-
-
                 </td>
-
                 <td>
                     {{ selected_worker_details.last_name }}
                 </td>
@@ -153,69 +113,40 @@
                     {{ selected_worker_details.sex == true? "Male" : "Female" }}
                 </td>
                 <td>
-
                     <select ng-show="selected_ers_delivery_mode == 1" name="ERS Current Work" ng-model="new_worker_record.ers_current_work_id" id="region_code" class="form-control"
                             ng-required="new_worker_"
                             ng-options="option.Id as option.Name for option in ers_current_work_id_options"
                             ng-change="selected.ers_current_work_name = option.Name">
                         <option value="">[Select Current Work]</option>
                     </select>
-
-                    <md-radio-group ng-model="new_worker_record.ers_current_work_id" ng-show="selected_ers_delivery_mode != 1" ng-required="new_worker_">
-                        <md-radio-button data-ng-value="4" class="md-primary">Unskilled</md-radio-button>
-                        <md-radio-button data-ng-value="5" ng-disabled="selected_ers_delivery_mode ==3"> Skilled </md-radio-button>
-
-                    </md-radio-group>
-
-
-
                 </td>
                 <td>
-
-                    <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="new_worker_record.rate_day" class="form-control" ng-required="new_worker_" />
+                    <input name="Rate Per Day" type="number" min="0" ng-model="new_worker_record.rate_day" class="form-control" ng-required="new_worker_" />
                     {{new_worker_record.rate_day | currency:"₱"}}
                 </td>
                 <td>
-
-                    <input name="Rate Per Hour" min="0" max="50000" ng-model="new_worker_record.rate_hour" class="form-control" ng-required="new_worker_" />
+                    <input name="Rate Per Hour" min="0" ng-model="new_worker_record.rate_hour" class="form-control" ng-required="new_worker_" />
                     {{new_worker_record.rate_hour | currency:"₱"}}
-
                 </td>
                 <td>
-
-                    <input name="Work Days" type="number" min="0" max="50000" ng-model="new_worker_record.work_days" class="form-control" ng-required="new_worker_" />
-
+                    <input name="Work Days" type="number" min="0" ng-model="new_worker_record.work_days" class="form-control" ng-required="new_worker_" />
                 </td>
                 <td>
-                    <input name="Work Hours" type="number" min="0" max="50000" ng-model="new_worker_record.work_hours" class="form-control" ng-required="new_worker_" />
-
+                    <input name="Work Hours" type="number" min="0" ng-model="new_worker_record.work_hours" class="form-control" ng-required="new_worker_" />
                 </td>
                 <td>
                     {{(new_worker_record.rate_day * new_worker_record.work_days) + (new_worker_record.rate_hour * new_worker_record.work_hours) | currency:"₱"}}
                 </td>
                 <td>
-                    <input name="Actual Cash" type="number" min="0" max="50000" ng-model="new_worker_record.actual_cash" class="form-control" ng-required="new_worker_" />
+                    <input name="Actual Cash" type="number" min="0" ng-model="new_worker_record.actual_cash" class="form-control" ng-required="new_worker_" />
                     {{new_worker_record.actual_cash | currency:"₱"}}
-
-
                 </td>
-
                 <td>
-                    <input name="Actual LCC" type="number" min="0" max="50000" ng-model="new_worker_record.actual_lcc" class="form-control" ng-required="new_worker_" />
+                    <input name="Actual LCC" type="number" min="0" ng-model="new_worker_record.actual_lcc" class="form-control" ng-required="new_worker_" />
                     {{new_worker_record.actual_lcc | currency:"₱"}}
-
-
-
                 </td>
-
                 <td></td>
-
             </tr>
-
-
-
-
-
 
         </table>
 
@@ -227,15 +158,13 @@
                 </ul>
             </li>
         </ul>
+
+        @*/////// DISPLAY LIST MODE:*@
         <script type="text/ng-template" id="displayWorker" ng-show="selected_ers_delivery_mode ==1">
             <td>
-
                 <a class="btn btn-info btn-sm" style="margin-right:5px" ng-click="edit_worker(item)"><i class="fa fa-edit"></i></a>
-
                 <a class="btn btn-danger btn-sm" style="margin-right:5px" ng-click="remove_worker(item,$index)"><i class="fa fa-remove"></i></a>
-
             </td>
-
             <td>
                 {{ item.last_name }}
             </td>
@@ -272,33 +201,20 @@
             <td>
                 {{ item.actual_cash | currency:"₱" }}
             </td>
-
             <td>
                 {{ item.actual_lcc | currency:"₱" }}
             </td>
-
-
-
             <td>
                 <a class="btn btn-info btn-sm" style="margin-right:5px" href="/Entry/Profiles?id={{item.person_profile_id}}"><i class="fa fa-edit"></i></a>
-
-
-
             </td>
         </script>
 
-
+        @*/////// EDIT MODE:*@
         <script type="text/ng-template" id="editWorker" ng-show="selected_ers_delivery_mode ==1">
             <td>
-
                 <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="saveWorker($index)" ng-disabled="!ersWorkerName.$valid|| !equal_ers_total()"><i class="fa fa-save"></i></a>
-
                 <a class="btn btn-warning btn-sm" style="margin-right: 5px" ng-click="reset()"><i class="fa fa-close"></i></a>
-
-
-
             </td>
-
             <td>
                 {{ selected.last_name }}
             </td>
@@ -315,83 +231,57 @@
                 {{ selected.sex == true? "Male" : "Female" }}
             </td>
             <td>
-
                 <select ng-show="selected_ers_delivery_mode == 1" name="ERS Current Work" ng-model="selected.ers_current_work_id" id="region_code" class="form-control"
                         ng-required="edit_worker_"
                         ng-options="option.Id as option.Name for option in ers_current_work_id_options"
                         ng-change="selected.ers_current_work_name = option.Name">
                     <option value="">[Select Current Work]</option>
                 </select>
-
-                <md-radio-group name="ERS Current Work" ng-model="selected.ers_current_work_id" ng-show="selected_ers_delivery_mode != 1" ng-required="edit_worker_">
-                    <md-radio-button data-ng-value="4" class="md-primary">Unskilled</md-radio-button>
-                    <md-radio-button data-ng-value="5" ng-disabled="selected_ers_delivery_mode ==3"> Skilled </md-radio-button>
-
-                </md-radio-group>
-
-
-
             </td>
             <td>
-
-                <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="selected.rate_day" class="form-control" ng-required="edit_worker_" />
+                <input name="Rate Per Day" type="number" min="0" ng-model="selected.rate_day" class="form-control" ng-required="edit_worker_" />
                 {{selected.rate_day | currency:"₱" }}
             </td>
             <td>
-
-                <input name="Rate Per Hour" min="0" max="50000" ng-model="selected.rate_hour" class="form-control" ng-required="edit_worker_" />
+                <input name="Rate Per Hour" min="0" ng-model="selected.rate_hour" class="form-control" ng-required="edit_worker_" />
                 {{selected.rate_hour | currency:"₱" }}
-
             </td>
             <td>
-
-                <input name="Work Days" type="number" min="0" max="50000" ng-model="selected.work_days" class="form-control" ng-required="edit_worker_" />
-
+                <input name="Work Days" type="number" min="0" ng-model="selected.work_days" class="form-control" ng-required="edit_worker_" />
             </td>
             <td>
-                <input name="Work Hours" type="number" min="0" max="50000" ng-model="selected.work_hours" class="form-control" ng-required="edit_worker_" />
-
+                <input name="Work Hours" type="number" min="0" ng-model="selected.work_hours" class="form-control" ng-required="edit_worker_" />
             </td>
             <td>
                 {{(selected.rate_day * selected.work_days) + (selected.rate_hour * selected.work_hours) | number:2 | currency:"₱"}}
             </td>
             <td>
-                <input name="Actual Cash" type="number" min="0" max="50000" ng-model="selected.actual_cash" class="form-control" ng-required="edit_worker_" />
+                <input name="Actual Cash" type="number" min="0" ng-model="selected.actual_cash" class="form-control" ng-required="edit_worker_" />
                 {{selected.actual_cash | currency:"₱" }}
-
-
             </td>
-
             <td>
-                <input name="Actual LCC" type="number" min="0" max="50000" ng-model="selected.actual_lcc" class="form-control" ng-required="edit_worker_" />
+                <input name="Actual LCC" type="number" min="0" ng-model="selected.actual_lcc" class="form-control" ng-required="edit_worker_" />
                 {{selected.actual_lcc | currency:"₱" }}
-
-
-
             </td>
-
             <td></td>
-
-
         </script>
 
     </form>
-
-
 
 </md-table-container>
 
 
 
 @*--------------------------- PAKYAW -----------------------------*@
-<md-table-container ng-show="!new_worker && selected_ers_delivery_mode ==2">
+<md-table-container ng-show="!new_worker && selected_ers_delivery_mode == 2">
 
+    @*/////// NEW RECORD MODE:*@
     <form name="pakyawWorkerName">
+
         <table class="table table-bordered" ng-show="!isSearching">
             <thead>
                 <tr>
                     <td rowspan="2"></td>
-
                     <td rowspan="2">
                         Last Name
                     </td>
@@ -410,75 +300,46 @@
                     <td rowspan="2">
                         Current Work
                     </td>
-
                     <td colspan="2">
                         <small>Rate Per Contract Price</small>
                     </td>
                     <td colspan="2" rowspan="2">
                         <small>Actual Output (Percentage of Work Accomplishment)</small>
                     </td>
-
-
                     <td rowspan="2">
                         Total Labor
                     </td>
-
                     <td colspan="2">
-
-
                         Actual Payment
                     </td>
-
-
                     <td></td>
                 </tr>
                 <tr>
-
-
                     <td>
                         <small>  Amount</small>
                     </td>
                     <td>
                         <small> Unit / Item</small>
                     </td>
-
-
-
-
                     <td>
-
                         Cash
                     </td>
                     <td>
                         In-Kind
                     </td>
-
-
                     <td></td>
                 </tr>
-
-
             </thead>
-
 
             <tbody>
                 <tr ng-repeat="item in members" ng-include="getTemplate(item)"></tr>
             </tbody>
 
-
-
             <tr ng-show="new_worker_">
-
                 <td>
-
-                    <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="saveNewWorker()" ng-disabled="!pakyawWorkerName.$valid || !equal_ers_total_new()"><i class="fa fa-save"></i></a>
-
+                    <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="saveNewWorker()" ng-disabled="!pakyawWorkerName.$valid || equal_ers_total_new()"><i class="fa fa-save"></i></a>
                     <a class="btn btn-warning btn-sm" style="margin-right: 5px" ng-click="reset()"><i class="fa fa-close"></i></a>
-
-
-
                 </td>
-
                 <td>
                     {{ selected_worker_details.last_name }}
                 </td>
@@ -495,67 +356,35 @@
                     {{ selected_worker_details.sex == true? "Male" : "Female" }}
                 </td>
                 <td>
-
-                    <select ng-show="selected_ers_delivery_mode == 1" name="ERS Current Work" ng-model="new_worker_record.ers_current_work_id" id="region_code" class="form-control"
-                            ng-required="new_worker_"
-                            ng-options="option.Id as option.Name for option in ers_current_work_id_options"
-                            ng-change="selected.ers_current_work_name = option.Name">
-                        <option value="">[Select Current Work]</option>
-                    </select>
-
-                    <md-radio-group ng-model="new_worker_record.ers_current_work_id" ng-show="selected_ers_delivery_mode != 1" ng-required="new_worker_">
+                    <md-radio-group name="Current Work" ng-model="new_worker_record.ers_current_work_id" ng-required="new_worker_">
                         <md-radio-button data-ng-value="4" class="md-primary">Unskilled</md-radio-button>
-                        <md-radio-button data-ng-value="5" ng-disabled="selected_ers_delivery_mode ==3"> Skilled </md-radio-button>
-
+                        <md-radio-button data-ng-value="5" class="md-primary"> Skilled </md-radio-button>
+                        <md-radio-button data-ng-value="11" class="md-primary"> Not Specified </md-radio-button>
                     </md-radio-group>
-
-
-
                 </td>
                 <td>
-
-                    <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="new_worker_record.rate_day" class="form-control" ng-required="new_worker_" />
+                    <input name="Rate Per Contract Price" type="number" min="0" ng-model="new_worker_record.rate_day" class="form-control" ng-required="new_worker_" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"/>
                     {{new_worker_record.rate_day | currency:"₱"}}
-
                 </td>
                 <td>
-
                     per worker
-
                 </td>
                 <td colspan="2">
-
                     <input name="Percent Accomplished" type="number" min="0" max="100" ng-model="new_worker_record.percent" class="form-control" ng-required="new_worker_" />
-
-                </td>
-
-                <td>
-                    {{(new_worker_record.percent * new_worker_record.rate_day) / 100 | currency:"₱"}}
                 </td>
                 <td>
-                    <input name="Actual Cash" type="number" min="0" max="50000" ng-model="new_worker_record.actual_cash" class="form-control" ng-required="new_worker_" />
+                    {{(new_worker_record.rate_day * (new_worker_record.percent / 100)) | currency:"₱"}}
+                </td>
+                <td>
+                    <input name="Actual Cash" type="number" min="0" ng-model="new_worker_record.actual_cash" class="form-control" ng-required="new_worker_" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"/>
                     {{new_worker_record.actual_cash | currency:"₱"}}
-
-
                 </td>
-
                 <td>
-                    <input name="Actual LCC" type="number" min="0" max="50000" ng-model="new_worker_record.actual_lcc" class="form-control" ng-required="new_worker_" />
+                    <input name="Actual LCC" type="number" min="0" ng-model="new_worker_record.actual_lcc" class="form-control" ng-required="new_worker_" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"/>
                     {{new_worker_record.actual_lcc | currency:"₱"}}
-
-
-
                 </td>
-
                 <td></td>
-
             </tr>
-
-
-
-
-
-
         </table>
 
         <ul>
@@ -567,15 +396,12 @@
             </li>
         </ul>
 
+        @*/////// DISPLAY LIST MODE:*@
         <script type="text/ng-template" id="displayPakyawWorker" ng-show="selected_ers_delivery_mode ==2">
             <td>
-
                 <a class="btn btn-info btn-sm" style="margin-right:5px" ng-click="edit_worker(item)"><i class="fa fa-edit"></i></a>
-
                 <a class="btn btn-danger btn-sm" style="margin-right:5px" ng-click="remove_worker(item,$index)"><i class="fa fa-remove"></i></a>
-
             </td>
-
             <td>
                 {{ item.last_name }}
             </td>
@@ -603,40 +429,26 @@
             <td colspan="2">
                 {{item.percent}}%
             </td>
-
             <td>
-                {{(item.rate_day * item.percent) / 100  | currency:"₱"}}
+                {{(item.rate_day * (item.percent / 100))  | currency:"₱"}}
             </td>
             <td>
                 {{ item.actual_cash  | currency:"₱"}}
             </td>
-
             <td>
                 {{ item.actual_lcc  | currency:"₱"}}
             </td>
-
-
-
             <td>
                 <a class="btn btn-info btn-sm" style="margin-right:5px" href="/Entry/Profiles?id={{item.person_profile_id}}"><i class="fa fa-edit"></i></a>
-
-
-
             </td>
         </script>
 
-
+        @*/////// EDIT MODE:*@
         <script type="text/ng-template" id="editPakyawWorker" ng-show="selected_ers_delivery_mode ==2">
             <td>
-
-                <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="saveWorker($index)" ng-disabled="!pakyawWorkerName.$valid || !equal_ers_total()"><i class="fa fa-save"></i></a>
-
+                <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="saveWorker($index)" ng-disabled="!pakyawWorkerName.$valid || equal_ers_total()"><i class="fa fa-save"></i></a>
                 <a class="btn btn-warning btn-sm" style="margin-right: 5px" ng-click="reset()"><i class="fa fa-close"></i></a>
-
-
-
             </td>
-
             <td>
                 {{ selected.last_name }}
             </td>
@@ -653,69 +465,39 @@
                 {{ selected.sex == true? "Male" : "Female" }}
             </td>
             <td>
-
-                <select ng-show="selected_ers_delivery_mode < 3" name="ERS Current Work" ng-model="selected.ers_current_work_id" id="region_code" class="form-control"
-                        ng-required="edit_worker_"
-                        ng-options="option.Id as option.Name for option in ers_current_work_id_options"
-                        ng-change="selected.ers_current_work_name = option.Name">
-                    <option value="">[Select Current Work]</option>
-                </select>
-
-                <md-radio-group name="ERS Current Work" ng-model="selected.ers_current_work_id" ng-show="selected_ers_delivery_mode == 3" ng-required="edit_worker_">
+                <md-radio-group name="ERS Current Work" ng-model="selected.ers_current_work_id" ng-required="edit_worker_">
                     <md-radio-button data-ng-value="4" class="md-primary">Unskilled</md-radio-button>
-                    <md-radio-button data-ng-value="5" ng-disabled="selected_ers_delivery_mode ==3"> Skilled </md-radio-button>
-
+                    <md-radio-button data-ng-value="5" class="md-primary"> Skilled </md-radio-button>
+                    <md-radio-button data-ng-value="11" class="md-primary"> Not Specified </md-radio-button>
                 </md-radio-group>
-
-
-
             </td>
             <td>
-
-                <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="selected.rate_day" class="form-control" ng-required="edit_worker_" />
+                <input name="Rate Per Day" type="number" min="0" ng-model="selected.rate_day" class="form-control" ng-required="edit_worker_" />
                 {{selected.rate_day | currency:"₱"}}
             </td>
             <td>
-
                 per worker
-
-
             </td>
             <td colspan="2">
-
                 <input name="Percent Accomplished" type="number" min="0" max="100" ng-model="selected.percent" class="form-control" ng-required="edit_worker_" />
-
-            </td>
-
-            <td>
-                {{(selected.rate_day * selected.percent)/100 | currency:"₱"}}
             </td>
             <td>
-                <input name="Actual Cash" type="number" min="0" max="50000" ng-model="selected.actual_cash" class="form-control" ng-required="edit_worker_" />
+                {{(selected.rate_day * (selected.percent / 100)) | currency:"₱"}}
+            </td>
+            <td>
+                <input name="Actual Cash" type="number" min="0" ng-model="selected.actual_cash" class="form-control" ng-required="edit_worker_" />
                 {{selected.actual_cash | currency:"₱"}}
-
-
             </td>
-
             <td>
-                <input name="Actual LCC" type="number" min="0" max="50000" ng-model="selected.actual_lcc" class="form-control" ng-required="edit_worker_" />
+                <input name="Actual LCC" type="number" min="0" ng-model="selected.actual_lcc" class="form-control" ng-required="edit_worker_" />
                 {{selected.actual_lcc | currency:"₱"}}
-
-
-
             </td>
-
             <td></td>
-
-
         </script>
 
     </form>
 
-
-
 </md-table-container>
-
 
 
 
@@ -724,95 +506,76 @@
 <md-table-container ng-show="!new_worker && selected_ers_delivery_mode ==3">
 
     <form name="haulingWorkerName">
+
+        @*/////// NEW RECORD MODE:*@
         <table class="table table-bordered" ng-show="!isSearching">
             <thead>
                 <tr>
                     <td rowspan="2"></td>
-                    <td rowspan="2">
+                    <td rowspan="2" align="center" style="vertical-align:middle">
                         Last Name
                     </td>
-                    <td rowspan="2">
+                    <td rowspan="2" align="center" style="vertical-align:middle">
                         First Name
                     </td>
-                    <td rowspan="2">
+                    <td rowspan="2" align="center" style="vertical-align:middle">
                         Middle Name
                     </td>
-                    <td rowspan="2">
+                    <td rowspan="2" align="center" style="vertical-align:middle">
                         Birthdate
                     </td>
-                    <td rowspan="2">
+                    <td rowspan="2" align="center" style="vertical-align:middle">
                         Sex
                     </td>
-                    <td rowspan="2">
+                    <td rowspan="2" align="center" style="vertical-align:middle">
                         Current Work
                     </td>
-
-                    <td colspan="2">
-                        <small>Rate Per Quantity</small>
+                    <td colspan="2" align="center" style="vertical-align:middle">
+                        Rate Per Quantity
                     </td>
-                    <td colspan="2" rowspan="2">
-                        <small>Actual Output  </small>
+                    <td colspan="2" align="center" style="vertical-align:middle">
+                        Actual Output
                     </td>
-
-
-                    <td rowspan="2">
-                        Total Labor
+                    <td rowspan="2" align="center" style="vertical-align:middle">
+                        TOTAL
                     </td>
-
-                    <td colspan="2">
-
-
+                    <td colspan="2" align="center" style="vertical-align:middle">
                         Actual Payment
                     </td>
-
-
                     <td></td>
                 </tr>
                 <tr>
-
-
-                    <td>
-                        <small>  Amount</small>
+                    <td align="center" style="vertical-align:middle">
+                        <small>Amount</small>
                     </td>
-                    <td>
+                    <td align="center" style="vertical-align:middle">
                         <small> Unit / Item</small>
                     </td>
-
-
-
-
-                    <td>
-
+                    <td align="center" style="vertical-align:middle">
+                        <small>Quantity</small>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
+                        <small> Unit / Item</small>
+                    </td>
+                    <td align="center" style="vertical-align:middle">
                         Cash
                     </td>
-                    <td>
+                    <td align="center" style="vertical-align:middle">
                         In-Kind
                     </td>
-
-
                     <td></td>
                 </tr>
-
-
             </thead>
-
 
             <tbody>
                 <tr ng-repeat="item in members" ng-include="getTemplate(item)"></tr>
             </tbody>
 
-
-
             <tr ng-show="new_worker_">
-
                 <td>
-
                     <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="saveNewWorker()" ng-disabled="!haulingWorkerName.$valid || !equal_ers_total_new()"><i class="fa fa-save"></i></a>
-
                     <a class="btn btn-warning btn-sm" style="margin-right: 5px" ng-click="reset()"><i class="fa fa-close"></i></a>
-
                 </td>
-
                 <td>
                     {{ selected_worker_details.last_name }}
                 </td>
@@ -829,66 +592,37 @@
                     {{ selected_worker_details.sex == true? "Male" : "Female" }}
                 </td>
                 <td>
-
-                    <select ng-show="selected_ers_delivery_mode == 1" name="ERS Current Work" ng-model="new_worker_record.ers_current_work_id" id="region_code" class="form-control"
-                            ng-required="new_worker_"
-                            ng-options="option.Id as option.Name for option in ers_current_work_id_options"
-                            ng-change="selected.ers_current_work_name = option.Name">
-                        <option value="">[Select Current Work]</option>
-                    </select>
-
-                    <md-radio-group ng-model="new_worker_record.ers_current_work_id" ng-show="selected_ers_delivery_mode != 1" ng-required="new_worker_">
+                    <md-radio-group ng-model="new_worker_record.ers_current_work_id" ng-required="new_worker_">
                         <md-radio-button data-ng-value="4" class="md-primary">Unskilled</md-radio-button>
-                        <md-radio-button data-ng-value="5" ng-disabled="selected_ers_delivery_mode ==3"> Skilled </md-radio-button>
-
+                        <md-radio-button data-ng-value="5" class="md-primary" ng-disabled="selected_ers_delivery_mode == 3"> Skilled </md-radio-button>
                     </md-radio-group>
-
-
-
                 </td>
                 <td>
-
-                    <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="new_worker_record.rate_hauling" class="form-control" ng-required="new_worker_" />
+                    <input name="Rate Per Quantity" type="number" min="0" ng-model="new_worker_record.rate_hauling" class="form-control" ng-required="new_worker_" />
                     {{new_worker_record.rate_hauling | currency:"₱"}}
                 </td>
                 <td>
-
                     <input type="text" class="form-control" ng-model="new_worker_record.unit_hauling" ng-required="new_worker_" />
-
-                </td>
-                <td colspan="2">
-
-                    <input name="Actual Accomplished" type="number" min="0" max="1000" ng-model="new_worker_record.work_hauling" class="form-control" ng-required="new_worker_" />
-
-                </td>
-
-                <td>
-                    {{(new_worker_record.rate_hauling * new_worker_record.work_hauling) | number:2 | currency:"₱"}}
                 </td>
                 <td>
-                    <input name="Actual Cash" type="number" min="0" max="50000" ng-model="new_worker_record.actual_cash" class="form-control" ng-required="new_worker_" />
+                    <input name="Actual Accomplished" type="number" min="0" ng-model="new_worker_record.work_hauling" class="form-control" ng-required="new_worker_" />
+                </td>
+                <td>
+                    {{new_worker_record.unit_hauling}}
+                </td>
+                <td>
+                    {{new_worker_record.rate_hauling * new_worker_record.work_hauling | currency:"₱"}}
+                </td>
+                <td>
+                    <input name="Actual Cash" type="number" min="0" ng-model="new_worker_record.actual_cash" class="form-control" ng-required="new_worker_" />
                     {{new_worker_record.actual_cash | currency:"₱"}}
-
-
                 </td>
-
                 <td>
-                    <input name="Actual LCC" type="number" min="0" max="50000" ng-model="new_worker_record.actual_lcc" class="form-control" ng-required="new_worker_" />
+                    <input name="Actual LCC" type="number" min="0" ng-model="new_worker_record.actual_lcc" class="form-control" ng-required="new_worker_" />
                     {{new_worker_record.actual_lcc | currency:"₱"}}
-
-
-
                 </td>
-
                 <td></td>
-
             </tr>
-
-
-
-
-
-
         </table>
 
         <ul>
@@ -900,15 +634,12 @@
             </li>
         </ul>
 
+        @*/////// DISPLAY LIST MODE:*@
         <script type="text/ng-template" id="displayHaulingWorker" ng-show="selected_ers_delivery_mode ==3">
             <td>
-
                 <a class="btn btn-info btn-sm" style="margin-right:5px" ng-click="edit_worker(item)"><i class="fa fa-edit"></i></a>
-
                 <a class="btn btn-danger btn-sm" style="margin-right:5px" ng-click="remove_worker(item,$index)"><i class="fa fa-remove"></i></a>
-
             </td>
-
             <td>
                 {{ item.last_name }}
             </td>
@@ -933,43 +664,32 @@
             <td>
                 {{item.unit_hauling}}
             </td>
-            <td colspan="2">
+            <td>
                 {{item.work_hauling}}
             </td>
-
             <td>
-                {{(item.rate_hauling * item.work_hauling) | number:2 | currency:"₱"}}
+                {{item.unit_hauling}}
+            </td>
+            <td>
+                {{(item.rate_hauling * item.work_hauling) | currency:"₱"}}
             </td>
             <td>
                 {{ item.actual_cash  | currency:"₱"}}
             </td>
-
             <td>
                 {{ item.actual_lcc  | currency:"₱"}}
             </td>
-
-
-
             <td>
                 <a class="btn btn-info btn-sm" style="margin-right:5px" href="/Entry/Profiles?id={{item.person_profile_id}}"><i class="fa fa-edit"></i></a>
-
-
-
             </td>
         </script>
-
-
+        
+        @*/////// EDIT MODE:*@
         <script type="text/ng-template" id="editHaulingWorker" ng-show="selected_ers_delivery_mode ==3">
             <td>
-
                 <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="saveWorker($index)" ng-disabled="!haulingWorkerName.$valid || !equal_ers_total()"><i class="fa fa-save"></i></a>
-
                 <a class="btn btn-warning btn-sm" style="margin-right: 5px" ng-click="reset()"><i class="fa fa-close"></i></a>
-
-
-
             </td>
-
             <td>
                 {{ selected.last_name }}
             </td>
@@ -986,62 +706,36 @@
                 {{ selected.sex == true? "Male" : "Female" }}
             </td>
             <td>
-
-                <select ng-show="selected_ers_delivery_mode < 3" name="ERS Current Work" ng-model="selected.ers_current_work_id" id="region_code" class="form-control"
-                        ng-required="edit_worker_"
-                        ng-options="option.Id as option.Name for option in ers_current_work_id_options"
-                        ng-change="selected.ers_current_work_name = option.Name">
-                    <option value="">[Select Current Work]</option>
-                </select>
-
-                <md-radio-group name="ERS Current Work" ng-model="selected.ers_current_work_id" ng-show="selected_ers_delivery_mode ==3" ng-required="edit_worker_">
+                <md-radio-group name="ERS Current Work" ng-model="selected.ers_current_work_id" ng-required="edit_worker_">
                     <md-radio-button data-ng-value="4" class="md-primary">Unskilled</md-radio-button>
-                    <md-radio-button data-ng-value="5" ng-disabled="selected_ers_delivery_mode ==3"> Skilled </md-radio-button>
-
+                    <md-radio-button data-ng-value="5" class="md-primary" ng-disabled="selected_ers_delivery_mode == 3"> Skilled </md-radio-button>
                 </md-radio-group>
-
-
-
             </td>
             <td>
-
-                <input name="Rate Per Day" type="number" min="0" max="50000" ng-model="selected.rate_hauling" class="form-control" ng-required="edit_worker_" />
+                <input name="Rate Per Day" type="number" min="0" ng-model="selected.rate_hauling" class="form-control" ng-required="edit_worker_" />
                 {{selected.rate_hauling | currency:"₱"}}
             </td>
             <td>
-
                 <input name="Unit" type="text" ng-model="selected.unit_hauling" class="form-control" ng-required="edit_worker_" />
-
-
-
-            </td>
-            <td colspan="2">
-
-                <input name="Actual Output" type="number" min="0" max="100" ng-model="selected.work_hauling" class="form-control" ng-required="edit_worker_" />
-
-            </td>
-
-            <td>
-                {{(selected.rate_hauling * selected.work_hauling) | number: 2 | currency:"₱"}}
             </td>
             <td>
-                <input name="Actual Cash" type="number" min="0" max="50000" ng-model="selected.actual_cash" class="form-control" ng-required="edit_worker_" />
+                <input name="Actual Output" type="number" min="0" ng-model="selected.work_hauling" class="form-control" ng-required="edit_worker_" />
+            </td>
+            <td>
+                {{selected.unit_hauling}}
+            </td>
+            <td>
+                {{(selected.rate_hauling * selected.work_hauling) | currency:"₱"}}
+            </td>
+            <td>
+                <input name="Actual Cash" type="number" min="0" ng-model="selected.actual_cash" class="form-control" ng-required="edit_worker_" />
                 {{selected.actual_cash | currency:"₱"}}
-
-
             </td>
-
             <td>
-                <input name="Actual LCC" type="number" min="0" max="50000" ng-model="selected.actual_lcc" class="form-control" ng-required="edit_worker_" />
+                <input name="Actual LCC" type="number" min="0" ng-model="selected.actual_lcc" class="form-control" ng-required="edit_worker_" />
                 {{selected.actual_lcc | currency:"₱"}}
-
-
-
             </td>
-
             <td></td>
-
-
         </script>
 
     </form>
@@ -1049,8 +743,6 @@
 
 
 </md-table-container>
-
-
 
 
 

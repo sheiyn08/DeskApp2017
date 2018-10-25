@@ -18,8 +18,8 @@ namespace DeskApp.Controllers
 {
     public class BarangayAssemblyAPIController : Controller
     {
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -53,21 +53,22 @@ namespace DeskApp.Controllers
                     training_category_id = 43;
                     break;
             }
+            
+            var record = db.ceac_tracking.AsNoTracking().FirstOrDefault(x => x.city_code == model.city_code
+                                                                            && x.brgy_code == model.brgy_code
+                                                                            && x.fund_source_id == model.fund_source_id
+                                                                            && x.cycle_id == model.cycle_id
+                                                                            && x.enrollment_id == model.enrollment_id
+                                                                            && x.training_category_id == training_category_id
+                                                                            && x.reference_id == model.brgy_assembly_id //additional for 4.2
+                                                                            && x.is_deleted != true);
 
-            var record = db.ceac_tracking.FirstOrDefault(x => x.city_code == model.city_code
-            && x.brgy_code == model.brgy_code
-            && x.fund_source_id == model.fund_source_id
-            && x.cycle_id == model.cycle_id
-            && x.enrollment_id == model.enrollment_id
-            && x.training_category_id == training_category_id
+            var ceac_list = db.ceac_list.FirstOrDefault(x => x.city_code == model.city_code
+                                                            && x.cycle_id == model.cycle_id
+                                                            && x.enrollment_id == model.enrollment_id
+                                                            && x.is_deleted != true);
 
-            );
-
-            var ceac_list = db.ceac_list.AsNoTracking().FirstOrDefault(x =>
-                                                x.city_code == model.city_code
-                                                &&
-                                                x.cycle_id == model.cycle_id &&
-                                                x.enrollment_id == model.enrollment_id);
+            //var record = db.ceac_tracking.AsNoTracking().FirstOrDefault(x => x.ceac_list_id == ceac_list.ceac_list_id && x.training_category_id == training_category_id  && x.is_deleted != true);            
 
             Guid id = Guid.NewGuid();
 
@@ -79,23 +80,16 @@ namespace DeskApp.Controllers
                     region_code = model.region_code,
                     prov_code = model.prov_code,
                     city_code = model.city_code,
-
                     approval_id = model.approval_id,
                     fund_source_id = model.fund_source_id,
                     cycle_id = model.cycle_id,
-
-
                     enrollment_id = model.enrollment_id,
-
                     push_status_id = 2,
                     created_by = 0,
-                    created_date = DateTime.Now,
-
+                    created_date = DateTime.Now
                 };
-
                 db.ceac_list.Add(ceac);
                 await db.SaveChangesAsync();
-
             }
             else
             {
@@ -111,16 +105,6 @@ namespace DeskApp.Controllers
                     return true;
                 }
 
-
-                //if (api != true)
-                //{
-                //    model.push_status_id = 2;
-                //    model.push_date = null;
-
-                //}
-
-
-
                 var ceac = new ceac_tracking()
                 {
                     ceac_list_id = id,
@@ -133,31 +117,23 @@ namespace DeskApp.Controllers
                     cycle_id = model.cycle_id,
                     enrollment_id = model.enrollment_id,
                     training_category_id = training_category_id,
-
                     reference_id = model.brgy_assembly_id,
-
                     push_status_id = 2,
                     created_by = 0,
                     created_date = DateTime.Now,
-
-
                     actual_start = model.date_start,
                     actual_end = model.date_end,
-
                     plan_end = model.plan_date_end,
                     plan_start = model.plan_date_start,
-
                     implementation_status_id = 1,
                     ceac_tracking_id = Guid.NewGuid(),
-
                     lgu_level_id = 1
-
                 };
 
-
-
-                if (ceac.actual_end != null && ceac.actual_start != null) ceac.implementation_status_id = 1;
-
+                if (ceac.actual_end != null && ceac.actual_start != null)
+                {
+                    ceac.implementation_status_id = 1;
+                } 
 
                 if (ceac.implementation_status_id == 1)
                 {
@@ -167,10 +143,8 @@ namespace DeskApp.Controllers
                     }
                 }
 
-
                 db.ceac_tracking.Add(ceac);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
@@ -181,22 +155,17 @@ namespace DeskApp.Controllers
                     return false;
                 }
             }
+
             else
             {
-                //model.push_date = null;
-
-
-                //if (api != true)
-                //{
-                //    model.push_status_id = 3;
-                //}
-
                 record.actual_start = model.date_start;
                 record.actual_end = model.date_end;
+                record.reference_id = model.brgy_assembly_id;
 
-
-                if (record.actual_end != null && record.actual_start != null) record.implementation_status_id = 1;
-
+                if (record.actual_end != null && record.actual_start != null)
+                {
+                    record.implementation_status_id = 1;
+                }
 
                 if (record.implementation_status_id == 1)
                 {
@@ -206,12 +175,7 @@ namespace DeskApp.Controllers
                     }
                 }
 
-
-
-
-
-
-
+                db.Entry(record).State = EntityState.Modified;
 
                 try
                 {
@@ -495,32 +459,25 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/barangay_assembly/save")]
         public async Task<IActionResult> Save(brgy_assembly model, bool? api)
         {
-            var record = db.brgy_assembly.AsNoTracking().FirstOrDefault(x => x.brgy_assembly_id == model.brgy_assembly_id);
+            var record = db.brgy_assembly.AsNoTracking().FirstOrDefault(x => x.brgy_assembly_id == model.brgy_assembly_id && x.is_deleted != true);
 
             if (record == null)
-            {
-                
+            {                
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
-
                     model.created_by = 0;
                     model.created_date = DateTime.Now;
                     model.approval_id = 3;
                     model.is_deleted = false;
                 }
-
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
 
-
                 db.brgy_assembly.Add(model);
-
 
                 try
                 {
@@ -534,23 +491,28 @@ namespace DeskApp.Controllers
                 }
             }
             else
-            {
-                model.push_date = null;
-
-
+            {      
                 if (api != true)
                 {
                     model.push_status_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
                 }
-
-
-
+                
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
+                model.created_date = record.created_date;                
 
-
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
+                //v3.1 temporarily open cycle for editing. So when cycle is edited, grievance should also be updated
+                var grievance_record = db.grievance_record.Where(x => x.activity_source_id == model.brgy_assembly_id && x.is_deleted != true);
+                if (grievance_record != null)
+                {
+                    foreach (var g in grievance_record.ToList())
+                    {
+                        g.cycle_id = model.cycle_id;
+                        g.push_status_id = 3;
+                    }
+                }
 
                 db.Entry(model).State = EntityState.Modified;
 
@@ -570,42 +532,33 @@ namespace DeskApp.Controllers
 
         public async Task<IActionResult> SaveRepresentedIP(brgy_assembly_ip model, bool? api)
         {
-
-
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var record = db.brgy_assembly_ip.AsNoTracking().FirstOrDefault(x => x.brgy_assembly_ip_id == model.brgy_assembly_ip_id);
+            var record = db.brgy_assembly_ip.AsNoTracking().FirstOrDefault(x => x.brgy_assembly_ip_id == model.brgy_assembly_ip_id && x.is_deleted != true);
 
             if (record == null)
             {
-
-
-
-
                 if (api != true)
                 {
                     model.push_status_id = 2;
                     model.push_date = null;
-
+                    model.created_by = 0;
+                    model.created_date = DateTime.Now;
+                    model.approval_id = 3;
+                    model.is_deleted = false;
                 }
-
-
-                model.created_by = 0;
-                model.created_date = DateTime.Now;
-                model.approval_id = 3;
-                model.is_deleted = false;
+                else {
+                    model.push_status_id = 1;
+                }                
 
                 db.brgy_assembly_ip.Add(model);
-
-
+                
                 try
                 {
                     await db.SaveChangesAsync();
-
-
                     return Ok(model);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -613,33 +566,24 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
+
             else
             {
-                model.push_date = null;
-
-
                 if (api != true)
                 {
                     model.push_status_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
                 }
 
-
-
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
-
-
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
-
+                model.created_date = record.created_date;                
                 db.Entry(model).State = EntityState.Modified;
 
                 try
                 {
                     await db.SaveChangesAsync();
-
-
-
                     return Ok();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -660,23 +604,17 @@ namespace DeskApp.Controllers
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/barangay_assembly/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<brgy_assembly>>(responseJson.Result);
-
-
 
                     foreach (var item in model.ToList())
                     {
@@ -692,42 +630,28 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
-
-
         }
 
 
         public async Task<ActionResult> GetOnlineRepresentedIP(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
 
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/barangay_assembly/represented_ip/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<brgy_assembly_ip>>(responseJson.Result);
-
-
 
                     foreach (var item in model.ToList())
                     {
@@ -741,8 +665,6 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
-
-
         }
 
         [Route("api/offline/v1/barangay_assembly/post/selected_items_to_sync")]
@@ -761,6 +683,8 @@ namespace DeskApp.Controllers
             return Ok();
         }
 
+
+        //updated for version 3.1 -- only selected BA items and its IPs represented will be uploaded.
         [HttpPost]
         [Route("Sync/Post/barangay_assembly")]
         public async Task<ActionResult> PostOnline(string username, string password, Guid record_id)
@@ -775,13 +699,13 @@ namespace DeskApp.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                
+                                
                 var items_preselected = db.brgy_assembly.Where(x => x.push_status_id == 5).ToList();
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.brgy_assembly.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true)).ToList();
+                    var items = db.brgy_assembly.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true).ToList();
+
                     foreach (var item in items)
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -790,15 +714,20 @@ namespace DeskApp.Controllers
                         {
                             item.push_status_id = 1;
                             item.push_date = DateTime.Now;
+                            record_id = item.brgy_assembly_id;
+                            //PostRepresentedIp(username, password, record_id); //put back outside 10-08-2018 v4.3
+                            PostPincosGrievances(username, password, record_id);
                             await db.SaveChangesAsync();
                         }
                         else {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
                 else {
-                    var items = db.brgy_assembly.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true)).ToList();
+                    var items = db.brgy_assembly.Where(x => x.push_status_id == 5 || x.is_deleted == true).ToList();
                     foreach (var item in items)
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -807,19 +736,25 @@ namespace DeskApp.Controllers
                         {
                             item.push_status_id = 1;
                             item.push_date = DateTime.Now;
+                            record_id = item.brgy_assembly_id;
+                            //PostRepresentedIp(username, password, record_id); //put back outside 10-08-2018 v4.3
+                            PostPincosGrievances(username, password, record_id);
                             await db.SaveChangesAsync();
                         }
                         else
                         {
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
             }
-            await PostRepresentedIp(username, password, record_id);
+
+            //await PostRepresentedIp(username, password, record_id); -- put this inside- foreach 01-22-18 v3.1
+            await PostRepresentedIp(username, password, record_id); //put back outside 10-08-2018 v4.3
             return Ok();
         }
-
 
         
         public async Task<bool> PostRepresentedIp(string username, string password, Guid record_id)
@@ -830,20 +765,19 @@ namespace DeskApp.Controllers
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+                
+                //var items = db.brgy_assembly_ip.Where(x => x.brgy_assembly_id == record_id || x.is_deleted == true).ToList();
+                var items = db.brgy_assembly_ip.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1)).ToList(); // v4.3
 
-                // var model = new auth_messages();
-
-                var items = db.brgy_assembly_ip.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true)).ToList();
                 foreach (var item in items)
                 {
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.PostAsync("api/offline/v1/barangay_assembly/represented_ip/save", data).Result;
-                    // response.EnsureSuccessStatusCode();
+                    //response.EnsureSuccessStatusCode();
                     if (response.IsSuccessStatusCode)
                     {
                         item.push_status_id = 1;
@@ -852,6 +786,9 @@ namespace DeskApp.Controllers
                     }
                     else
                     {
+                        //v4.3 update: assign push_status_id to 4 when upload fails
+                        item.push_status_id = 4;
+                        await db.SaveChangesAsync();
                         return false;
                     }
                 }
@@ -859,6 +796,43 @@ namespace DeskApp.Controllers
             return true;
         }
 
+        //012518 additional await on v3.1 sync upload of PINCOS/Grievances encoded through BA:
+        //v4.3 update: assign push_status_id to 4 when upload fails
+        public async Task<bool> PostPincosGrievances(string username, string password, Guid record_id)
+        {
+            string token = username + ":" + password;
+            byte[] toBytes = Encoding.ASCII.GetBytes(token);
+            string key = Convert.ToBase64String(toBytes);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
+                
+                var items = db.grievance_record.Where(x => x.activity_source_id == record_id).ToList();
+                foreach (var item in items)
+                {
+                    StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = client.PostAsync("api/offline/v1/grievances/save", data).Result;
+                    //response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        item.push_status_id = 1;
+                        item.push_date = DateTime.Now;
+                        await db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        item.push_status_id = 4;
+                        await db.SaveChangesAsync();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
 
         [HttpPost]
         [Route("/api/export/barangay_assembly/list")]
@@ -871,30 +845,26 @@ namespace DeskApp.Controllers
                          select new
                          {
                              s.brgy_assembly_id,
-
                              s.lib_region.region_name,
                              s.lib_province.prov_name,
                              s.lib_city.city_name,
                              s.lib_brgy.brgy_name,
-
                              s.brgy_code,
-
                              fund_source = s.lib_fund_source.name,
                              cycle = s.lib_cycle.name,
                              kc_mode = s.lib_enrollment.name,
                              ba_purpose = s.lib_barangay_assembly_purpose.name,
 
-                             ba_start = s.date_start,
-                             ba_end = s.date_end,
+                             //ba_start = s.date_start,
+                             //ba_end = s.date_end,
+
+                             //4.2: format dates to dd/mm/yyyy
+                             ba_start = s.date_start == null ? "" : s.date_start.Value.ToString("dd/MM/yyyy"),
+                             ba_end = s.date_end == null ? "" : s.date_end.Value.ToString("dd/MM/yyyy"),
+
                              ba_venue = s.venue,
-
                              highlights = @s.highlights,
-
-
-
-                             //s.no_families,
                              s.no_household,
-
                              s.no_atn_male,
                              s.no_atn_female,
                              s.no_ip_male,
@@ -903,16 +873,11 @@ namespace DeskApp.Controllers
                              s.no_old_female,
                              s.no_pantawid_household,
                              s.no_pantawid_family,
-
                              s.no_slp_household,
                              s.no_slp_family,
-
                              s.no_ip_household,
                              s.no_ip_family,
-
                              s.total_household_in_barangay,
-                             //s.total_families_in_barangay,
-
                              is_sector_academe = s.is_sector_academe != null ? "Yes" : "",
                              is_sector_business = s.is_sector_business != null ? "Yes" : "",
                              is_sector_pwd = s.is_sector_pwd != null ? "Yes" : "",
@@ -1379,12 +1344,12 @@ namespace DeskApp.Controllers
                     Cycle = x.Key.lib_cycle.name,
                     KC_Mode = x.Key.lib_enrollment.name,
                     BA_Target_Count = x.Key.lib_enrollment.enrollment_id == 1 ? 3 : 5,
-                    BA_Actual_Count = x.Count(),
-                    no_of_first_ba = x.Count(c => c.barangay_assembly_purpose_id == 1),
-                    no_of_second_ba = x.Count(c => c.barangay_assembly_purpose_id == 2),
-                    no_of_third_ba = x.Count(c => c.barangay_assembly_purpose_id == 3),
-                    no_of_fourth_ba = x.Count(c => c.barangay_assembly_purpose_id == 4),
-                    no_of_fifth_ba = x.Count(c => c.barangay_assembly_purpose_id == 5),
+                    BA_Actual_Count = x.Where(c => c.is_deleted != true).Count(),
+                    no_of_first_ba = x.Count(c => c.barangay_assembly_purpose_id == 1 && c.is_deleted != true),
+                    no_of_second_ba = x.Count(c => c.barangay_assembly_purpose_id == 2 && c.is_deleted != true),
+                    no_of_third_ba = x.Count(c => c.barangay_assembly_purpose_id == 3 && c.is_deleted != true),
+                    no_of_fourth_ba = x.Count(c => c.barangay_assembly_purpose_id == 4 && c.is_deleted != true),
+                    no_of_fifth_ba = x.Count(c => c.barangay_assembly_purpose_id == 5 && c.is_deleted != true),
                 }).ToList();
 
             var export = result
@@ -1767,64 +1732,48 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/barangay_assembly/post/represented_ip")]
         public bool post_location_coverage(int ip_group_id, Guid id)
         {
-
             string Area = null;
-
-
-            //if (brgy_code.Length != 9)
-            //{
-            //    brgy_code = "0" + brgy_code;
-            //}
-
             Area = db.lib_ip_group.SingleOrDefault(x => x.ip_group_id == ip_group_id).name;
 
             var access = db.brgy_assembly_ip.FirstOrDefault(x => x.brgy_assembly_id == id && x.ip_group_id == ip_group_id);
+            var ba_record = db.brgy_assembly.FirstOrDefault(x => x.brgy_assembly_id == id);
 
             if (access != null)
             {
-
-
                 access.Selected = false;
 
-
+                //v3.1 any changes on ceac_tracking, main ceac_list should be updated as well
+                ba_record.push_status_id = 3;
+                ba_record.last_modified_by = 0;
+                ba_record.last_modified_date = DateTime.Now;
+                db.Entry(ba_record).State = EntityState.Modified;
                 db.SaveChanges();
-
-
-
             }
 
             else
             {
-
-
                 var item = new brgy_assembly_ip
                 {
                     brgy_assembly_id = id,
-
                     ip_group_id = ip_group_id,
-
                     Selected = true,
-
                     ip_group_name = Area,
-
                     created_by = 0,
                     created_date = DateTime.Now,
                     approval_id = 3,
                     push_status_id = 2,
                     brgy_assembly_ip_id = Guid.NewGuid(),
-
                 };
+
+                //v3.1 any changes on ceac_tracking, main ceac_list should be updated as well
+                ba_record.push_status_id = 3;
+                ba_record.last_modified_by = 0;
+                ba_record.last_modified_date = DateTime.Now;
+
                 db.brgy_assembly_ip.Add(item);
+                db.Entry(ba_record).State = EntityState.Modified;
                 db.SaveChanges();
-
-
             }
-
-
-
-
-
-
             return true;
         }
 

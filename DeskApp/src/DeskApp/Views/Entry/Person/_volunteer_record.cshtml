@@ -1,36 +1,31 @@
+
+
+
 <div class="panel panel-info">
 
-
-
-
-
-<div class="panel-heading">
-    <h4>Volunteer Information</h4>
-
-</div>
-
+    <div class="panel-heading">
+        <h4>Volunteer Information</h4>
+    </div>
 
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <label for="Region:_">Date of First Appointment</label>
                 </div>
                 <div class="col-md-4">
                     <md-datepicker name="Appointment Date" ng-model="dt_date_appointment" md-placeholder="Enter date" ng-change="data.date_appointment = dt_date_appointment.toISOString()" md-min-date="minDateAppointment" md-max-date="maxDateAppointment"></md-datepicker>
                 </div>
-
-
             </div>
         </div>
     </div>
-<div class="panel-body">
+
+    <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-
-
                 <form name="volunteerForm">
                     <table class="table table-bordered">
+
                         <thead>
                             <tr>
                                 <th></th>
@@ -55,108 +50,72 @@
                                     Date End
                                 </th>
                             </tr>
-
                         </thead>
 
                         <tbody>
                             <tr ng-repeat="item in list_volunteer" ng-include="getVolunteerTemplate(item)"></tr>
                         </tbody>
 
-
                         <tr ng-show="new_volunteer">
                             <td>
-
                                 <a class="btn btn-success btn-sm" style="margin-right: 5px" ng-click="add_volunteer()" ng-disabled="!volunteerForm.$valid"><i class="fa fa-plus"></i></a>
-
                                 <a class="btn btn-danger btn-sm" style="margin-right: 5px" ng-click="reset_volunteer()"><i class="fa fa-close"></i></a>
-
-
-
                             </td>
-
-
                             <td>
-
                                 <select name="Project " class="form-control" ng-model="new_volunteer_record.fund_source_id"
                                         ng-required="new_volunteer">
                                     <option ng-repeat="value in fund_source_id_options" value="{{value.Id}}">{{value.Name}}</option>
                                     <option value=''>[Select Project]</option>
                                 </select>
-
                             </td>
-
                             <td>
-
                                 <select name="Cycle" ng-model="new_volunteer_record.cycle_id" id="brgy_code" class="form-control"
                                         ng-required="new_volunteer"
                                         ng-options="option.Id as option.Name for option in new_volunteer_record.cycle_id_options">
                                     <option value="">[Select Cycle]</option>
                                 </select>
                             </td>
-
-
                             <td>
                                 <select class='form-control' ng-required="new_volunteer" ng-model="new_volunteer_record.enrollment_id" name="KC Mode">
                                     <option value=''>[Select KC Mode]</option>
                                     <option ng-repeat="value in enrollment_id_options" value="{{value.Id}}">{{value.Name}}</option>
-
                                 </select>
                             </td>
                             <td>
-
                                 <select class="form-control" name="Committee" ng-required="new_volunteer" ng-model="new_volunteer_record.volunteer_committee_id">
                                     <option value=''>[Select Committee]</option>
                                     <option ng-repeat="value in volunteer_committee_id_options" value="{{value.Id}}">{{value.Name}}</option>
-
                                 </select>
-
                             </td>
                             <td>
-
                                 <select class='form-control' name="Position" ng-required="new_volunteer" ng-model="new_volunteer_record.volunteer_committee_position_id" ng-disabled="disable_position"
                                         ng-options="option.Id as option.Name for option in new_volunteer_record.volunteer_committee_position_id_options">
                                     <option value="">[Select Position]</option>
                                 </select>
-
-                                @*<select name="Cycle" ng-model="new_volunteer_record.cycle_id" id="brgy_code" class="form-control"
-                                        ng-required="new_volunteer"
-                                        ng-options="option.Id as option.Name for option in new_volunteer_record.cycle_id_options">
-                                    <option value="">[Select Cycle]</option>
-                                </select>*@
                             </td>
-
-
                             <td>
-                                <md-datepicker
-                                               name="Start of Term" 
-                                               ng-required="new_volunteer" 
-                                               ng-model="new_volunteer_record.dt_start_date" 
-                                               md-placeholder="Enter date" 
+                                <md-datepicker name="Start of Term"
+                                               ng-required="new_volunteer"
+                                               ng-model="new_volunteer_record.dt_start_date"
+                                               md-placeholder="Enter date"
                                                ng-change="new_volunteer_record.start_date = new_volunteer_record.dt_start_date.toISOString()"
-                                               md-min-date="vol_min_start_date" 
+                                               md-min-date="vol_min_start_date"
                                                md-max-date="maxEndDate_today">
                                 </md-datepicker>
                             </td>
-
                             @*removed end of term required*@
                             <td>
                                 <md-datepicker name="End of Term"
-                                               ng-model="new_volunteer_record.dt_end_date" 
+                                               ng-model="new_volunteer_record.dt_end_date"
                                                md-placeholder="Enter date"
                                                ng-change="new_volunteer_record.end_date = new_volunteer_record.dt_end_date.toISOString()"
                                                md-min-date="new_volunteer_record.dt_start_date">
                                 </md-datepicker>
                             </td>
-
-
-
                         </tr>
 
-
-                      
-
-
                     </table>
+
                     <ul>
                         <li ng-repeat="(key, errors) in volunteerForm.$error track by $index">
                             <strong>{{ key }}</strong> Validation errors
@@ -167,139 +126,82 @@
                         </li>
                     </ul>
 
-
-              
-                <md-button class="md-primary md-raised" ng-click="addVolunteer()" ng-show="!new_volunteer" ng-disabled="edt_pra && data.date_appointment != null">
+                    <md-button class="md-primary md-raised" ng-click="addVolunteer()" ng-show="!new_volunteer" ng-disabled="edt_pra && data.date_appointment != null">
                         Add New Volunteer Record
                     </md-button>
+                    
 
-                <script type="text/ng-template" id="displayVolunteerTemplate">
+
+                    <script type="text/ng-template" id="displayVolunteerTemplate">
                         <td>
-
                             <a class="btn btn-info btn-sm" style="margin-right:5px" ng-click="editVolunteer(item)"><i class="fa fa-edit"></i></a>
-                            
                             <a class="btn btn-danger btn-sm" style="margin-right:5px" ng-click="remove_volunteer(item, $index)"><i class="fa fa-trash"></i></a>
-                            
-
-
                         </td>
-
-
-
-
-
                         <td>
-
                             {{item.lib_fund_source_name}}
-
                         </td>
-
                         <td>
-
                             {{item.lib_cycle_name}}
-
                         </td>
                         <td>
-
                             {{item.lib_enrollment_name}}
-
                         </td>
                         <td>
-
                             {{item.lib_volunteer_committee_name}}
-
                         </td>
                         <td>
-
                             {{item.lib_volunteer_committee_position_name}}
-
                         </td>
-
-
                         <td>
-
                             {{item.start_date | date:'MM/dd/yyyy'}}
-
                         </td>
-
                         <td>
-
                             {{item.end_date | date:'MM/dd/yyyy'}}
-
                         </td>
-
-
-
                     </script>
+                    
 
 
                     <script type="text/ng-template" id="editVolunteerTemplate">
-
                         <td>
-
                             <a class="btn btn-success btn-sm" style="margin-right:5px" ng-click="save_volunteer($index)" ng-disabled="!volunteerForm.$valid"><i class="fa fa-check"></i></a>
-
                             <a class="btn btn-danger btn-sm" style="margin-right:5px" ng-click="reset_volunteer()"><i class="fa fa-close"></i></a>
-
-
-
                         </td>
-
-
                         <td>
-
                             {{item.lib_fund_source_name}}
-
                         </td>
-
-                        <td>
-
+                        @*----------------- v3.1 temporarily allowed editing of cycle (OLD) ------------------------*@
+                        @*<td>
+                                {{item.lib_cycle_name}}
+                            </td>*@
+                        @*----------------- v3.1 temporarily allowed editing of cycle (NEW) ------------------------*@
+                        <td ng-show="item.cycle_id != 54">
                             {{item.lib_cycle_name}}
-
+                        </td>
+                        <td ng-show="item.cycle_id == 54">
+                            <select name="Cycle" ng-model="selected_volunteer.cycle_id" class="form-control"
+                                    ng-required="edit_volunteer"
+                                    ng-options="option.Id as option.Name for option in selected_volunteer.cycle_id_options">
+                                <option value="">[Select Cycle]</option>
+                            </select>
                         </td>
                         <td>
-
                             {{item.lib_enrollment_name}}
-
                         </td>
                         <td>
-
                             {{item.lib_volunteer_committee_name}}
-
                         </td>
                         <td>
-
                             {{item.lib_volunteer_committee_position_name}}
-
                         </td>
-
-
                         <td>
-
-
-                            <md-datepicker name="Start of Term"md-min-date="vol_min_start_date" md-max-date="maxEndDate_today" ng-required="edit_volunteer" ng-model="selected_volunteer.dt_start_date" ng-change="selected_volunteer.start_date = selected_volunteer.dt_start_date.toISOString()"></md-datepicker>
-
-
-
-
+                            <md-datepicker name="Start of Term" md-min-date="vol_min_start_date" md-max-date="maxEndDate_today" ng-required="edit_volunteer" ng-model="selected_volunteer.dt_start_date" ng-change="selected_volunteer.start_date = selected_volunteer.dt_start_date.toISOString()"></md-datepicker>
                         </td>
-
                         <td>
-
-                            <md-datepicker name="End of Term" md-min-date="selected_volunteer.dt_start_date"  ng-model="selected_volunteer.dt_end_date" ng-change="selected_volunteer.end_date = selected_volunteer.dt_end_date.toISOString()"></md-datepicker>
-
-
+                            <md-datepicker name="End of Term" md-min-date="selected_volunteer.dt_start_date" ng-model="selected_volunteer.dt_end_date" ng-change="selected_volunteer.end_date = selected_volunteer.dt_end_date.toISOString()"></md-datepicker>
                         </td>
-
-
-
-
-
-
-
-
-
                     </script>
+
 
                 </form>
 

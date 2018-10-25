@@ -12,8 +12,8 @@ namespace DeskApp.Controllers
     {
         private readonly ApplicationDbContext db;
 
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         public GraphsController(ApplicationDbContext context)
         {

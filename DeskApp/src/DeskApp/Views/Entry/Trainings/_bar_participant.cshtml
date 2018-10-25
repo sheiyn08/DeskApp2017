@@ -1,0 +1,73 @@
+﻿
+@{Layout = null; }
+
+
+<div class="panel panel-info">
+
+    <div class="panel-heading">
+        <h4>Training Participants (BAR)</h4>
+    </div>
+
+    <md-list-item layout-margin flex="100" class="md-padding">
+        <div flex="25"><b>Attendees</b></div>
+        <div flex="25">Male</div>
+        <div flex="25">Female</div>
+        <div flex="25">Total</div>
+    </md-list-item>
+
+    <md-list-item layout-margin flex="100" class="md-padding">
+        <div flex="25">No of. Person</div>
+        <div flex="25">
+            <input name="Male Attendance" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.bar_participant_male" placeholder="Male Attendees" />
+        </div>
+        <div flex="25">
+            <input name="Female Attendance" required type="number" min="0" ng-pattern="/^[0-9]{1,7}$/" class="form-control" ng-model="data.bar_participant_female" placeholder="Female Attendees" />
+        </div>
+        <div flex="25"> {{data.bar_participant_male + data.bar_participant_female}}</div>
+    </md-list-item>
+    
+    <br />
+    <md-divider></md-divider>
+
+    <md-list-item layout-margin flex="100" class="md-padding">
+        <div flex="25"><b>Breakdown of Attendees</b></div>
+        <div flex="25"></div>
+        <div flex="25"></div>
+        <div flex="25"></div>
+    </md-list-item>
+
+    <md-list-item layout-margin flex="100" class="md-padding">
+        <div flex="25">No of. IP</div>
+        <div flex="25">
+            <input placeholder="Male IP" name="Male IP" type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" min="0" ng-max="data.bar_participant_male" ng-model="data.bar_participant_ip_male" />
+        </div>
+        <div flex="25">
+            <input placeholder="Female IP" name="Female IP" type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" min="0" ng-max="data.bar_participant_female" ng-model="data.bar_participant_ip_female" />
+        </div>
+        <div flex="25"> {{data.bar_participant_ip_male + data.bar_participant_ip_female}}</div>
+    </md-list-item>
+
+    <md-list-item layout-margin flex="100" class="md-padding">
+        <div flex="25">No of. Pantawid</div>
+        <div flex="25">
+            <input placeholder="Male Pantawid" name="Male Pantawid" type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" min="0" ng-max="data.bar_participant_male" ng-model="data.bar_participant_pantawid_male" />
+        </div>
+        <div flex="25">
+            <input placeholder="Female Pantawid" name="Female Pantawid" type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" min="0" ng-max="data.bar_participant_female" ng-model="data.bar_participant_pantawid_female" />
+        </div>
+        <div flex="25"> {{data.bar_participant_pantawid_male + data.bar_participant_pantawid_female}}</div>
+    </md-list-item>
+    
+    <md-list-item layout-margin flex="100" class="md-padding">
+        <div flex="25">No of. SLP</div>
+        <div flex="25">
+            <input placeholder="Male SLP" name="Male SLP" type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" min="0" ng-max="data.bar_participant_male" ng-model="data.bar_participant_slp_male" />
+        </div>
+        <div flex="25">
+            <input placeholder="Female SLP" name="Female SLP" type="number" ng-pattern="/^[0-9]{1,7}$/" class="form-control" min="0" ng-max="data.bar_participant_female" ng-model="data.bar_participant_slp_female" />
+        </div>
+        <div flex="25"> {{data.bar_participant_slp_male + data.bar_participant_slp_female}}</div>
+    </md-list-item>
+
+
+</div>

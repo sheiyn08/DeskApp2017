@@ -43,6 +43,9 @@ namespace DeskApp.DataLayer
 
         public bool? is_individual { get; set; }
 
+        //RDR06042018 Additional columns to match WebApp (4.0 release)
+        public bool? is_SharedRPMO { get; set; }
+        public bool? is_SharedACT { get; set; }
 
 
         public int grs_form_id { get; set; }

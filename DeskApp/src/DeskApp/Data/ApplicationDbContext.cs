@@ -305,6 +305,19 @@ namespace DeskApp.Data
 
         //    //  base.OnModelCreating(builder);
         //}
+
+        #region 4.0 tables
+        public DbSet<lib_ancestral_domain> lib_ancestral_domain { get; set; }
+        public DbSet<lib_ancestral_domain_coverage> lib_ancestral_domain_coverage { get; set; }
+        public DbSet<sp_deskapp_others> sp_deskapp_others { get; set; }
+        public DbSet<spi_land_acquisition> spi_land_acquisition { get; set; }
+        public DbSet<spi_ancestral_domain> spi_ancestral_domain { get; set; }
+        public DbSet<lib_tranche> lib_tranche { get; set; }
+        public DbSet<lib_budget_year> lib_budget_year { get; set; }
+        public DbSet<lib_type_of_refund> lib_type_of_refund { get; set; }
+        public DbSet<barangay_trasnfer_of_funds> barangay_trasnfer_of_funds { get; set; }
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

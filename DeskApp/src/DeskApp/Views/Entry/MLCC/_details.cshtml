@@ -66,8 +66,16 @@
 
         <div flex="25" flex-sm="100">
             <label for="Province:_">Cycle </label>
-            <select name="Cycle" ng-model="data.cycle_id" id="Cycle" class="form-control"
+            @*----------------- v3.1 temporarily allowed editing of cycle (OLD) ------------------------*@
+            @*<select name="Cycle" ng-model="data.cycle_id" id="Cycle" class="form-control"
                     ng-disabled="status"
+                    required
+                    ng-options="option.Id as option.Name for option in cycle_id_options">
+                <option value="">[Select Cycle]</option>
+            </select>*@
+            @*----------------- v3.1 temporarily allowed editing of cycle (NEW) ------------------------*@
+            <select name="Cycle" ng-model="data.cycle_id" id="Cycle" class="form-control"
+                    ng-disabled="data.cycle_id != 54 && status"
                     required
                     ng-options="option.Id as option.Name for option in cycle_id_options">
                 <option value="">[Select Cycle]</option>
@@ -157,7 +165,7 @@
             <input type="number" name="Cash (Actual)" min="0" ng-model="data.actual_cash" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
         </div>
         <div flex="25" >
-            {{data.planned_cash - data.actual_cash}}
+            {{data.planned_cash - data.actual_cash | currency:"₱"}}
         </div>
     </div>
 
@@ -173,7 +181,7 @@
             <input type="number" min="0" name="In-kind (Actual)" ng-model="data.actual_inkind" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"/>
         </div>
         <div flex="25" >
-            {{data.planned_inkind - data.actual_inkind}}
+            {{data.planned_inkind - data.actual_inkind | currency:"₱"}}
         </div>
     </div>
 
@@ -182,13 +190,13 @@
            TOTAL
         </div>
         <div flex="25">
-          {{data.planned_inkind +data.planned_cash}}
+          {{data.planned_inkind + data.planned_cash | currency:"₱"}}
         </div>
         <div flex="25">
-            {{data.actual_cash +data.actual_inkind}}
+            {{data.actual_cash + data.actual_inkind | currency:"₱"}}
         </div>
         <div flex="25">
-            {{(data.planned_inkind + data.planned_cash) - (data.actual_cash + data.actual_inkind)}}
+            {{(data.planned_inkind + data.planned_cash) - (data.actual_cash + data.actual_inkind) | currency:"₱"}}
         </div>
     </div>
 

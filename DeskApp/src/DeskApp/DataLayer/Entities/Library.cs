@@ -283,6 +283,62 @@ namespace DeskApp.DataLayer
 
     #endregion
 
+    #region 4.0 SP additional library
+    public class lib_ancestral_domain
+    {
+        [Key]
+        public int ancestral_domain_id { get; set; }
+        public string name { get; set; }
+    }
+
+    public class lib_ancestral_domain_coverage
+    {
+        [Key]
+        public int ad_coverage_id { get; set; }
+        public int ancestral_domain_id { get; set; }
+        public string region_code { get; set; }
+        public string prov_code { get; set; }
+        public string city_code { get; set; }
+        public string brgy_code { get; set; }
+        public string sitio { get; set; }
+        //json array list for multiple tribe in one barangay maybe 
+        public string icc_tribe { get; set; }
+        public int? type_of_barangay { get; set; }
+        public int? total_brgys { get; set; }
+        //foreign key for future reference and create lib_target_year
+        public int? target_year_id { get; set; }
+
+        public virtual lib_ancestral_domain lib_ancestral_domain { get; set; }
+        public virtual lib_region lib_region { get; set; }
+        public virtual lib_province lib_province { get; set; }
+        public virtual lib_city lib_city { get; set; }
+        public virtual lib_brgy lib_brgy { get; set; }
+    }
+
+    public class lib_tranche
+    {
+        [Key]
+        public int tranche_id { get; set; }
+        public string name { get; set; }
+    }
+
+    public class lib_budget_year
+    {
+        [Key]
+        public int budget_year_id { get; set; }
+        public string name { get; set; }
+    }
+
+    public class lib_type_of_refund
+    {
+        [Key]
+        public int type_of_refund_id { get; set; }
+        public string name { get; set; }
+    }
+
+    #endregion
+
+
     public class lib_training_category
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]

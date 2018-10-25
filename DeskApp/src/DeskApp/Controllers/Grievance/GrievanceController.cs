@@ -31,8 +31,8 @@ namespace DeskApp.Controllers
     public class GrievanceController : Controller
     {
 
-        public static string url = @"http://ncddpdb.dswd.gov.ph";
-        //public static string url = @"http://10.10.10.157:8079"; //---- to be used for testing
+        public static string url = @"https://ncddpdb.dswd.gov.ph";
+        //public static string url = @"http://10.10.10.157:9999"; //---- to be used for testing
 
         private readonly ApplicationDbContext db;
 
@@ -221,9 +221,11 @@ namespace DeskApp.Controllers
                          select new
                          {
                              s.grievance_record_id,
-                             s.date_intake,
+                             //s.date_intake,
+                             date_intake = s.date_intake == null ? "" : s.date_intake.Value.ToString("dd/MM/yyyy"), /*System.Globalization.CultureInfo.InvariantCulture),*/
                              resolution_status = s.lib_grs_resolution_status.name,
-                             s.resolution_date,
+                             //s.resolution_date,
+                             resolution_date = s.resolution_date == null ? "" : s.resolution_date.Value.ToString("dd/MM/yyyy"), /*System.Globalization.CultureInfo.InvariantCulture),*/
                              feedback = s.lib_grs_feedback.name,
                              grs_form = s.lib_grs_form.name,
                              intake_level = s.lib_grs_intake_level.name,
@@ -241,8 +243,6 @@ namespace DeskApp.Controllers
                              s.sender_name,
                              sender_organization = s.sender_organization,
                              is_ip = s.is_ip == true ? "IP" : "Non-IP",
-
-
                              ip_group = s.is_ip == true ? db.lib_ip_group.FirstOrDefault(x => x.ip_group_id == s.ip_group_id).name : "",
                              sender_sex = s.lib_sex.name,
                              sender_designation = s.lib_grs_sender_designation.name,
@@ -260,8 +260,11 @@ namespace DeskApp.Controllers
                              s.intake_officer,
                              intake_officer_designation = (s.grs_intake_officer_id == null ? db.lib_grs_intake_officer.FirstOrDefault(x => x.grs_intake_officer_id == s.grs_intake_officer_id).name : ""),
                              old_intake_officer_designation_from_desktop = s.intake_officer_designation,
-                             date_intake_formatted = s.date_intake != null ? s.date_intake.ToString() : "",
-                             date_resolved_formatted = s.resolution_date != null ? s.resolution_date.ToString() : ""
+                             //date_intake_formatted = s.date_intake != null ? s.date_intake.ToString() : "",
+                             //date_resolved_formatted = s.resolution_date != null ? s.resolution_date.ToString() : "",
+
+                             
+
                          };
 
             return Ok(result);
@@ -394,7 +397,7 @@ namespace DeskApp.Controllers
 
 
 
-            if (model.grs_resolution_status_id != null)
+            if (model.grs_resolution_status_id == 2 || model.grs_resolution_status_id == 3)
             {
                 list = list.Where(x => x.grs_resolution_status_id == model.grs_resolution_status_id);
             }
@@ -427,17 +430,36 @@ namespace DeskApp.Controllers
                 list = list.Where(x => x.ip_group_id == model.ip_group_id);
             }
 
+            //original filter:
+            //if (model.intake_date != null)
+            //{
+            //    list = list.Where(x => x.date_intake >= model.intake_date);
 
-            if (model.intake_date != null)
+            //    if (model.resolved_date != null)
+            //    {
+            //        list = list.Where(x => x.resolution_date <= model.resolved_date);
+            //    }
+            //}
+
+            //4.2.1 range of dates filter
+            if (model.intake_date_from != null)
             {
-                list = list.Where(x => x.date_intake >= model.intake_date);
-
-                if (model.resolved_date != null)
-                {
-                    list = list.Where(x => x.resolution_date <= model.resolved_date);
-                }
+                list = list.Where(x => x.date_intake >= model.intake_date_from);
+            }
+            if (model.intake_date_to != null)
+            {
+                list = list.Where(x => x.date_intake <= model.intake_date_to);
             }
 
+            //4.2.1
+            if (model.grs_resolution_status_id == 1 && model.resolved_date != null)
+            {
+                list = list.Where(x => x.resolution_date == model.resolved_date);
+            }
+            if (model.grs_resolution_status_id == 1 && model.resolved_date == null)
+            {
+                list = list.Where(x => x.grs_resolution_status_id == 1);
+            }
 
             //v3.0 additional filters:
             if (model.is_incentive != null)
@@ -493,8 +515,43 @@ namespace DeskApp.Controllers
         }
 
 
+        //v3.1 fix for Grievance records not able to get the start date from BA or Trainings
+        [Route("api/offline/v1/grievances/update_date_intake")]
+        public async Task<IActionResult> UpdateIntake()
+        {
+            var records = db.grievance_record.Where(g => (g.grs_filling_mode_id == 8 && g.date_intake == null && g.activity_source_id != null) || (g.grs_filling_mode_id == 9 && g.date_intake == null && g.activity_source_id != null));
 
-
+            foreach (var r in records) {                
+                if (r.grs_filling_mode_id == 8) {
+                    var ba = db.brgy_assembly.FirstOrDefault(x => x.brgy_assembly_id == r.activity_source_id);
+                    if (ba != null)
+                    {
+                        r.date_intake = ba.date_start;
+                        r.push_status_id = 3;
+                    }
+                    else {
+                        r.date_intake = null;
+                        r.push_status_id = 3;
+                    }                    
+                }
+                else {
+                    var ct = db.community_training.FirstOrDefault(x => x.community_training_id == r.activity_source_id);
+                    if (ct != null)
+                    {
+                        r.date_intake = ct.start_date;
+                        r.push_status_id = 3;
+                    }
+                    else
+                    {
+                        r.date_intake = null;
+                        r.push_status_id = 3;
+                    }
+                }                                
+            }
+            
+            await db.SaveChangesAsync();
+            return Ok();
+        }
 
 
 
@@ -678,20 +735,12 @@ namespace DeskApp.Controllers
         [Route("api/offline/v1/grievances/save")]
         public async Task<IActionResult> Save(grievance_record model, bool? api)
         {
-
-            //return Ok(model);
-
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
-
             var record = db.grievance_record.AsNoTracking().FirstOrDefault(x => x.grievance_record_id == model.grievance_record_id);
+            var training_record = db.community_training.FirstOrDefault(x => x.community_training_id == model.activity_source_id);
+            var ba_record = db.brgy_assembly.FirstOrDefault(x => x.brgy_assembly_id == model.activity_source_id);
 
             if (record == null)
             {
-
                 if (model.grievance_record_id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
                 {
                     model.grievance_record_id = Guid.NewGuid();
@@ -702,18 +751,30 @@ namespace DeskApp.Controllers
                     model.push_status_id = 2;
                     model.push_date = null;
                     model.approval_id = 3;
-
                     model.created_by = 0;
                     model.created_date = DateTime.Now;
                     model.is_deleted = false;
                 }
-
-                //because api is set to TRUE in sync/get
-                if (api == true)
+                else
                 {
                     model.push_status_id = 1;
-                    model.is_deleted = false;
                 }
+
+                if (training_record != null) {
+                    //v3.1 if new PINCOs/Grievance is added in Trainings, update training record as well
+                    training_record.push_status_id = 3;
+                    training_record.last_modified_by = 0;
+                    training_record.last_modified_date = DateTime.Now;
+                    db.Entry(training_record).State = EntityState.Modified;
+                }
+
+                if (ba_record != null) {
+                    //v3.1 if new PINCOs/Grievance is added in BA, update training record as well
+                    ba_record.push_status_id = 3;
+                    ba_record.last_modified_by = 0;
+                    ba_record.last_modified_date = DateTime.Now;
+                    db.Entry(ba_record).State = EntityState.Modified;
+                }               
 
                 //pincos work around
                 model.grs_intake_officer_id = 5;
@@ -721,7 +782,6 @@ namespace DeskApp.Controllers
                
                 db.grievance_record.Add(model);
                 
-
                 try
                 {
                     await db.SaveChangesAsync();
@@ -733,23 +793,19 @@ namespace DeskApp.Controllers
                 }
             }
 
-
             else
-            {
-                model.push_date = null;
-
-
+            {       
                 if (api != true)
                 {
                     model.push_status_id = 3;
                     model.approval_id = 3;
+                    model.push_date = null;
+                    model.last_modified_by = 0;
+                    model.last_modified_date = DateTime.Now;
                 }
-
+                                
                 model.created_by = record.created_by;
-                model.created_date = record.created_date;
-                model.last_modified_by = 0;
-                model.last_modified_date = DateTime.Now;
-
+                model.created_date = record.created_date;  
                 db.Entry(model).State = EntityState.Modified;
 
                 try
@@ -796,11 +852,21 @@ namespace DeskApp.Controllers
             else
             {
 
+                if (model.grs_filling_mode_id == 8 && model.date_intake == null) {
+                    model.date_intake = db.brgy_assembly.FirstOrDefault(x => x.brgy_assembly_id == model.activity_source_id && x.is_deleted != true).date_start;
+                    UpdateDateIntake(model);
+                }
+
+                if (model.grs_filling_mode_id == 9 && model.date_intake == null)
+                {
+                    model.date_intake = db.community_training.FirstOrDefault(x => x.community_training_id == model.activity_source_id && x.is_deleted != true).start_date;
+                    UpdateDateIntake(model);
+                }
+
                 model.push_status_id = 3;
                 model.last_modified_by = 0;
                 model.last_modified_date = DateTime.Now;
-                model.approval_id = 3;
-
+                model.approval_id = 3;                
 
             }
 
@@ -808,7 +874,23 @@ namespace DeskApp.Controllers
         }
 
 
+        public void UpdateDateIntake(grievance_record model) {
 
+            var record_to_be_updated = db.grievance_record.FirstOrDefault(x => x.grievance_record_id == model.grievance_record_id);
+
+            
+
+            try
+            {
+                db.Entry(record_to_be_updated).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+            catch (Exception e) {
+                throw e;
+            }
+            
+        }
 
 
 
@@ -833,14 +915,7 @@ namespace DeskApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveDiscussion([FromBody]grievance_record_discussion model)
         {
-
-
-
-
-
-            //  model.created_by_name = OnlineUser.FirstName + " " + OnlineUser.LastName;
-            // model.position = OnlineUser.Position;
-
+            var main_record = db.grievance_record.FirstOrDefault(x => x.grievance_record_id == model.grievance_record_id);
 
             if (!ModelState.IsValid)
             {
@@ -851,18 +926,18 @@ namespace DeskApp.Controllers
             if (!record_exists(model.grievance_record_id))
             {
                 return BadRequest("Incomplete");
-
-
             }
 
-            if (
-                db.grievance_record_discussion.Count(
-                    x => x.grievance_record_discussion_id == model.grievance_record_discussion_id) == 0)
+            if (db.grievance_record_discussion.Count(x => x.grievance_record_discussion_id == model.grievance_record_discussion_id) == 0)
             {
+                //if discussion is added, update grievance record
+                main_record.push_status_id = 3;
+                db.Entry(main_record).State = EntityState.Modified;
+
                 db.grievance_record_discussion.Add(model);
                 await db.SaveChangesAsync();
             }
-
+            
             return Json(new { success = true, message = "Saved Details" });
         }
 
@@ -873,36 +948,24 @@ namespace DeskApp.Controllers
         [Route("Sync/Get/grievances")]
         public async Task<ActionResult> GetOnline(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/grievances/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<grievance_record>>(responseJson.Result);
-
-                    //     var all = Mapper.DynamicMap<List<grievance_record_mapping>, List<grievance_record>>(model);
-
+                    
                     foreach (var item in model.ToList())
                     {
                         await Save(item, true);
@@ -923,43 +986,28 @@ namespace DeskApp.Controllers
 
         public async Task<ActionResult> GetOnlineDiscussion(string username, string password, string city_code = null, Guid? record_id = null)
         {
-
-
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
+                
                 HttpResponseMessage response = client.GetAsync("api/offline/v1/grievances/discussion/get_mapped?city_code=" + city_code + "&id=" + record_id).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseJson = response.Content.ReadAsStringAsync();
-
                     var model = JsonConvert.DeserializeObject<List<grievance_record_discussion>>(responseJson.Result);
-
-                    //     var all = Mapper.DynamicMap<List<grievance_record_mapping>, List<grievance_record>>(model);
 
                     foreach (var item in model.ToList())
                     {
                         await SaveDiscussion(item);
                     }
-
-
-
                     return Ok();
                 }
                 else
@@ -967,8 +1015,6 @@ namespace DeskApp.Controllers
                     return BadRequest();
                 }
             }
-
-
         }
 
 
@@ -1007,13 +1053,8 @@ namespace DeskApp.Controllers
 
                 if (!items_preselected.Any())
                 {
-                    var items = db.grievance_record.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.grievance_record_id == record_id);
-                    }
-
+                    var items = db.grievance_record.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -1023,25 +1064,21 @@ namespace DeskApp.Controllers
                         {
                             item.push_status_id = 1;
                             item.push_date = DateTime.Now;
+                            record_id = item.grievance_record_id;
+                            //PostOnlineDiscussion(username, password, record_id);
                             await db.SaveChangesAsync();
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
                 else {
-                    var items = db.grievance_record.Where(x => x.push_status_id == 5 || (x.push_status_id == 3 && x.is_deleted == true));
-
-                    if (record_id != null)
-                    {
-                        items = items.Where(x => x.grievance_record_id == record_id);
-                    }
-
+                    var items = db.grievance_record.Where(x => x.push_status_id == 5 || x.is_deleted == true);
+                    
                     foreach (var item in items.ToList())
                     {
                         StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
@@ -1051,21 +1088,21 @@ namespace DeskApp.Controllers
                         {
                             item.push_status_id = 1;
                             item.push_date = DateTime.Now;
+                            record_id = item.grievance_record_id;
+                            //PostOnlineDiscussion(username, password, record_id);
                             await db.SaveChangesAsync();
                         }
                         else
                         {
-                            //item.push_status_id = 4;
-                            //item.push_date = DateTime.Now;
-                            //await db.SaveChangesAsync();
-                            return BadRequest();
+                            item.push_status_id = 4;
+                            await db.SaveChangesAsync();
+                            //return BadRequest();
                         }
                     }
                 }
                 
             }
-
-            await PostOnlineDiscussion(username, password, record_id);
+            await PostOnlineDiscussion(username, password, record_id); //-- v4.3 put back outside foreach
             return Ok();
         }
 
@@ -1144,64 +1181,39 @@ namespace DeskApp.Controllers
 
         public async Task<ActionResult> PostOnlineDiscussion(string username, string password, Guid? record_id = null)
         {
-
             string token = username + ":" + password;
-
             byte[] toBytes = Encoding.ASCII.GetBytes(token);
-
-
             string key = Convert.ToBase64String(toBytes);
-
 
             using (var client = new HttpClient())
             {
-                //setup client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + key);
-
-                // var model = new auth_messages();
-
-
-                var items = db.grievance_record_discussion.Where(x => x.push_status_id == 2 || x.push_status_id == 3 || (x.push_status_id == 3 && x.is_deleted == true));
-
-                if (record_id != null)
-                {
-                    items = items.Where(x => x.grievance_record_id == record_id);
-                }
+                
+                //var items = db.grievance_record_discussion.Where(x => x.grievance_record_id == record_id || x.is_deleted == true);
+                var items = db.grievance_record_discussion.Where(x => x.push_status_id != 1 || (x.is_deleted == true && x.push_status_id != 1));
 
                 foreach (var item in items.ToList())
                 {
-
-                    //        var push = Mapper.DynamicMap<grievance_record, grievance_record_mapping>(item);
-
                     StringContent data = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-
                     HttpResponseMessage response = client.PostAsync("api/v1/offline/grievances/save_discussion", data).Result;
-
-                    // response.EnsureSuccessStatusCode();
-
+                    
                     if (response.IsSuccessStatusCode)
                     {
-
                         item.push_status_id = 1;
                         item.push_date = DateTime.Now;
-
                         await db.SaveChangesAsync();
-
                     }
                     else
                     {
-                        //item.push_status_id = 4;
-                        //item.push_date = DateTime.Now;
-                        //await db.SaveChangesAsync();
+                        item.push_status_id = 4;
+                        await db.SaveChangesAsync();
+                        //return BadRequest();
                     }
                 }
-
             }
-
             return Ok();
         }
 
